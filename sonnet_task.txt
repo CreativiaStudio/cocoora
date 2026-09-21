@@ -1,0 +1,105 @@
+Tu sei Claude Sonnet 5, il Senior Design Engineer e Luxury Frontend Architect incaricato da Antigravity per trasformare il portale web di Cocoora Studio Medico Polispecialistico (Milano) in un capolavoro visivo ed editoriale "Swiss / Milan Luxury Medical Clinic" di livello assoluto.
+
+DIRECTORY DI LAVORO:
+C:\Users\mario\Progetti Antigravity\Cocoora
+
+LINEE GUIDA VISIVE & BRAND TOKENS:
+- Palette: #1C4A5C (Teal Primario), #03354B (Dark Navy nobile), #80A1B2 (Slate Accent / Grigio Polvere), #3D3D3C (Charcoal testi), #FAFCFD (Canvas morbido), #FFFFFF.
+- Tipografia: Serif Garamond per H1/H2 e citazioni d'autore (`font-serif`), Sans-serif Inter pulito e minimale per UI e dati clinici (`font-sans`).
+- Fotografia di altissima qualità già presente in `public/images/`:
+  - `/images/hero-clinic.jpg`: Grand reception clinica moderna e luminosa
+  - `/images/doctor-consultation.jpg`: Consulto medico empatico ("Amico Medico")
+  - `/images/invisalign-smile.jpg`: Sorriso radioso odontoiatria estetica
+  - `/images/aesthetic-skin.jpg`: Texture pelle perfetta, medicina estetica
+  - `/images/dental-operatory.jpg`: Poltrona odontoiatrica tecnologica 3D
+  - `/images/laser-technology.jpg`: Piattaforma laser dermatologica multifunzione
+  - `/images/diagnostics-lab.jpg`: Diagnostica cardiologica e strumentale
+  - `/images/dna-genomics.jpg`: Doppia elica genomica e test predittivi
+  - `/images/body-wellness.jpg`: Rimodellamento corporeo e nutrizione
+  - `/images/pediatric-family.jpg`: Visita pediatrica e famiglia
+  - `/images/clinic-lounge.jpg`: Salotto d'attesa lounge premium con boiserie e poltrone
+- Loghi già pronti in `public/`:
+  - `/cocoora-logo-transparent.png` per navbar su sfondo chiaro (già gestito da `<Logo variant="dark" />`)
+  - `/cocoora-logo-white.png` per footer e sfondi navy (già gestito da `<Logo variant="white" />`)
+
+DATI GIÀ PRONTI DA IMPORTARE:
+- `@/lib/site`: SITE, NAV_NODES, NAV_LINKS, TRUST_METRICS, MANIFESTO, INSTAGRAM_POSTS
+- `@/lib/clinic`: PRINCIPLES, CLINIC_GALLERY, SHOWROOM_TILES, LEADERSHIP
+- `@/lib/diagnostics`: SPECIALTIES (Cardiologia, Senologia, Radiologia, Oculistica, Pediatria, Ginecologia)
+- `@/lib/precision`: PRECISION_PROGRAMS (Skin, Nutri, Donna), DNA_COMBOS (7 pacchetti), MICROBIOTA_KITS (3 kit)
+- `@/lib/content`: getTreatmentsByCategory, getAllTreatments
+- `@/components/providers`: useCms(), useShop()
+- Componenti UI: Container, Badge, Button, ButtonLink, SectionLabel da `@/components/ui`, Logo da `@/components/logo`
+- Client drawer: useShop().openDiscover(), useShop().openCart(tier)
+
+IL TUO COMPITO:
+Aggiorna o crea i seguenti 7 file con standard di lusso, codice TypeScript impeccabile, mobile-first, zero warning e zero errori di compilazione:
+
+1. `src/components/navbar.tsx`:
+   - Navbar sticky con backdrop-blur elegante (`glass bg-white/90 border-b border-teal-900/10`).
+   - Usa `<Logo variant="dark" />` per il logo ufficiale ad alta risoluzione.
+   - Desktop Navigation con Dropdown Menu animati per:
+     * "Servizi" (mostra i 3 sotto-link: Odontoiatria Digitale, Medicina Estetica Avanzata, Diagnostica & Poliambulatorio con mini-descrizione ed eventuale icona/tag)
+     * "Ecosistema" (Chi Siamo & Metodo, Tutti i Trattamenti)
+     * "Club & Percorsi" (Cocoora Club, Cocoora Precision)
+     * Link diretto: "Contatti"
+   - Mobile menu a tendina o slide-over curatissimo con accordion o lista navigabile per tutti i sotto-servizi.
+   - Bottone CTA a destra: "Prenota Visita" (apre `#contatti` o `useShop().openDiscover()`).
+
+2. `src/components/footer.tsx`:
+   - Footer monumentale su sfondo dark navy (`#03354B` / `bg-dark-navy`) con texture noise e bordi raffinati.
+   - Usa `<Logo variant="white" />` per il logo bianco puro ad alto contrasto.
+   - Badge "Poliambulatorio Polispecialistico Autorizzato ATS — Direzione Sanitaria Specialistica".
+   - 4 Colonne editoriali:
+     1. Brand Mission & Valori Cocoora, Claim "Connessi alla tua salute", orari di apertura e indirizzo Milano.
+     2. "Dipartimenti Clinici": Odontoiatria Digitale & Invisalign, Medicina Estetica & Rigenerativa, Diagnostica per Immagini & Cardiologia, Senologia & Ginecologia, Pediatria.
+     3. "Ecosistema & Prevenzione": Cocoora Club Memberships, Cocoora Precision (DNA & Microbiota), Cartella Clinica Digitale h24, Il Concetto di Amico Medico.
+     4. "Contatti & Prenotazioni": Telefono diretto +39 02 0000 0000, email prenotazioni hello@cocoora.it, form rapido, orari Lun–Ven 8:00–20:00 / Sab 9:00–14:00.
+   - Bottom bar con copyright, link a Privacy Policy, Cookie Policy, Termini, e link discreto per l'agenzia `/admin`.
+
+3. `src/app/page.tsx`:
+   - La Homepage ammiraglia di Cocoora Studio Medico:
+     - HERO DI LUSSO: Layout split o con hero photography `/images/hero-clinic.jpg`, badge "Studio Medico Polispecialistico d'Eccellenza — Milano", H1 "Connessi alla tua salute.", call to action primarie ("Inizia gratis con il Club" e "Prenota Visita"), metriche di fiducia con card in vetro satinato.
+     - SEZIONE "L'AMICO MEDICO" & MANIFESTO: Layout editoriale con foto `/images/doctor-consultation.jpg` affiancata dal manifesto "Il tuo benessere senza ostacoli". Evidenzia come Cocoora abbatta la burocrazia e ripristini il vero rapporto fiduciario medico-paziente.
+     - I 3 GRANDI PILASTRI CLINICI (Cards fotografiche con zoom hover e link alle pagine dedicate):
+       * 1. Odontoiatria Digitale & Invisalign (`/images/invisalign-smile.jpg` -> `/servizi/odontoiatria`)
+       * 2. Medicina Estetica Rigenerativa (`/images/aesthetic-skin.jpg` -> `/servizi/medicina-estetica`)
+       * 3. Poliambulatorio & Diagnostica Rapida (`/images/diagnostics-lab.jpg` -> `/servizi/diagnostica`)
+     - TECNOLOGIE & SHOWROOM: Griglia moderna che visualizza le tecnologie di punta (`SHOWROOM_TILES` da `@/lib/clinic`: Invisalign, Cryoliposculpt, Laser Quadri-Manipolo, Genomica NGS).
+     - ANTEPRIMA COCOORA CLUB & PRECISION: Banner sofisticato che introduce i piani Club (da Discover 0€ a Signature Longevity) e la diagnostica genomica predittiva con `/images/dna-genomics.jpg`.
+     - SEZIONE REELS VERTICALI SILVIA & INSTAGRAM: Componenti già presenti (`ReelsSection`) e griglia Instagram con foto curate.
+     - SEZIONE FAQ CLINICA CON SCHEMA.ORG FAQ JSON-LD per posizionamento Google GEO/AI Search.
+     - CTA FINALE A FONDO PAGINA per prenotare il primo check-up.
+
+4. `src/app/chi-siamo/page.tsx`:
+   - Pagina "Chi Siamo & Il Metodo Cocoora":
+     - Hero con `/images/clinic-lounge.jpg`, badge "La Nostra Visione", H1 "La medicina come dovrebbe essere: umana, immediata, predittiva."
+     - I 4 Principi Fondamentali (`PRINCIPLES` da `@/lib/clinic`: Amico Medico, Zero Burocrazia, Sinergia Multidisciplinare, Appropriatezza & Medicina Rigenerativa).
+     - Virtual Tour & Galleria Fotografica dello Studio (`CLINIC_GALLERY` da `@/lib/clinic`).
+     - Governance & Direzione Medica (`LEADERSHIP` da `@/lib/clinic`).
+     - Box CTA finale per prenotare una consulenza orientativa o una visita.
+
+5. `src/app/servizi/diagnostica/page.tsx`:
+   - Pagina "Diagnostica & Poliambulatorio":
+     - Hero con `/images/diagnostics-lab.jpg`, badge "Poliambulatorio Specialistico", H1 "Diagnostica rapida, refertazione digitale e specialisti dedicati."
+     - Presentazione delle 6 Specialità con elenco esami clinici (`SPECIALTIES` da `@/lib/diagnostics`): Cardiologia, Senologia, Ecografia, Oculistica, Pediatria, Ginecologia.
+     - Focus "La Salute della Famiglia" con `/images/pediatric-family.jpg`.
+     - CTA per prenotare esami diagnostici senza lista d'attesa.
+
+6. `src/app/precision/page.tsx`:
+   - Pagina "Cocoora Precision — Genomica, Microbiota & Longevità":
+     - Hero con `/images/dna-genomics.jpg`, badge "Medicina Predittiva e Longevity", H1 "Conosci il tuo codice biologico, progetta il tuo futuro in salute."
+     - I 3 Percorsi Clinici Integrati (`PRECISION_PROGRAMS` da `@/lib/precision`: Skin Precision, Nutri Precision, Donna Precision) con opzioni, prezzi e dettaglio prestazioni.
+     - I 7 Profili DNA 5 (`DNA_COMBOS` da `@/lib/precision`).
+     - I 3 Kit Microbiota NGS (`MICROBIOTA_KITS` da `@/lib/precision`).
+     - Pulsanti per richiedere kit o prenotare con `useShop().openDiscover()` o drawer.
+
+7. `src/app/contatti/page.tsx`:
+   - Pagina "Contatti & Prenotazioni":
+     - Hero accogliente con foto o mappa stilizzata.
+     - Informazioni cliniche chiare: Indirizzo Milano, telefono, email, orari dettagliati, indicazioni su metropolitana/parcheggi convenzionati.
+     - Form interattivo di richiesta prenotazione (Nome, Cognome, Telefono, Email, Servizio desiderato, Messaggio, Checkbox consenso privacy) con stato di invio simulato e feedback positivo per l'utente.
+     - Box per emergenze odontoiatriche e contatti rapidi WhatsApp.
+
+Assicurati che tutti i file compilino perfettamente, usino Next.js 15 App Router (`"use client"` quando ci sono hook o interazioni) e mantengano intatta l'integrazione con il context `useCms()` e `useShop()`.
+Scrivi direttamente i file su disco nella cartella di lavoro `C:\Users\mario\Progetti Antigravity\Cocoora`.

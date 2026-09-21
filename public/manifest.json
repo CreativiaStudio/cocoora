@@ -1,0 +1,28 @@
+{
+  "name": "Cocoora Studio Medico Polispecialistico",
+  "short_name": "Cocoora",
+  "description": "Connessi alla tua salute. Studio medico polispecialistico — prenota, consulta e gestisci il tuo percorso di salute in un click.",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FAFCFD",
+  "theme_color": "#1C4A5C",
+  "lang": "it-IT",
+  "categories": ["health", "medical"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
