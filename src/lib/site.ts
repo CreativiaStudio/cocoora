@@ -6,7 +6,7 @@ export const SITE = {
   claim: "Connessi alla tua salute.",
   phone: "+39 02 0000 0000",
   email: "hello@cocoora.it",
-  address: "Milano — Italia",
+  address: "Napoli — Italia",
   instagram: "https://www.instagram.com/",
   hours: "Lun–Ven · 8:00–20:00 — Sab · 9:00–14:00",
 };
@@ -36,7 +36,7 @@ export const NAV_NODES: NavNode[] = [
     ],
   },
   {
-    label: "Ecosistema",
+    label: "Studio",
     children: [
       {
         label: "Chi Siamo & Metodo",
@@ -76,7 +76,7 @@ export const NAV_NODES: NavNode[] = [
 
 export const NAV_LINKS = [
   { label: "Servizi", href: "/#servizi" },
-  { label: "Ecosistema", href: "/#ecosistema" },
+  { label: "Studio", href: "/chi-siamo" },
   { label: "Cocoora Club", href: "/club" },
   { label: "Trattamenti", href: "/#trattamenti" },
   { label: "Contatti", href: "/contatti" },

@@ -85,16 +85,43 @@ export function Navbar() {
 
                 <div
                   className={cn(
-                    "absolute left-1/2 top-full z-40 w-[min(640px,90vw)] -translate-x-1/2 pt-3 transition-all duration-200",
+                    "absolute left-1/2 top-full z-40 w-[min(800px,90vw)] -translate-x-1/2 pt-4 transition-all duration-200",
                     openDesktop === node.label
                       ? "pointer-events-auto translate-y-0 opacity-100"
                       : "pointer-events-none translate-y-2 opacity-0"
                   )}
                 >
-                  <div className="grid gap-1 rounded-3xl border border-teal-900/10 bg-white/95 p-3 shadow-[0_30px_70px_-24px_rgba(3,53,75,0.35)] backdrop-blur-xl sm:grid-cols-2">
-                    {node.children.map((child) => (
-                      <DropdownItem key={child.href} child={child} onClick={closeAll} />
-                    ))}
+                  <div className="overflow-hidden rounded-[1.75rem] border border-slate-200/60 bg-white shadow-[0_40px_100px_-30px_rgba(3,53,75,0.30)] backdrop-blur-xl">
+                    {/* Header categoria */}
+                    <div className="border-b border-teal-50 px-6 py-3">
+                      <span className="text-xs font-semibold uppercase tracking-widest text-slate-accent">
+                        {node.label}
+                      </span>
+                    </div>
+                    <div className="flex">
+                      {/* Colonna sinistra — voci */}
+                      <div className="flex-1 p-4">
+                        <div className="grid gap-1">
+                          {node.children.map((child) => (
+                            <DropdownItem key={child.href} child={child} onClick={closeAll} />
+                          ))}
+                        </div>
+                        {/* CTA footer */}
+                        <div className="mt-3 border-t border-teal-50 pt-3">
+                          <Link
+                            href={node.children[0]?.href ?? "#"}
+                            onClick={closeAll}
+                            className="flex items-center gap-1.5 text-xs font-medium text-teal-600 transition-colors hover:text-dark-navy"
+                          >
+                            Scopri tutto &rarr;
+                          </Link>
+                        </div>
+                      </div>
+                      {/* Colonna destra — panel editoriale (solo se almeno un child ha immagine) */}
+                      {node.children.some((c) => c.image) && (
+                        <EditorialPanel node={node} onClose={closeAll} />
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -240,32 +267,60 @@ function DropdownItem({
     <Link
       href={child.href}
       onClick={onClick}
-      className="group flex items-center gap-4 rounded-2xl p-3 transition-colors hover:bg-teal-50"
+      className="group relative flex items-center gap-4 rounded-xl px-4 py-3 transition-colors hover:bg-teal-50/70"
     >
-      {child.image ? (
-        <span className="relative block h-16 w-20 shrink-0 overflow-hidden rounded-xl">
-          <Image
-            src={child.image}
-            alt={child.label}
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-110"
-          />
-        </span>
-      ) : (
-        <span className="flex h-16 w-20 shrink-0 items-center justify-center rounded-xl bg-teal-50">
-          <span className="h-2 w-2 rounded-full bg-teal-500" />
-        </span>
-      )}
+      {/* Accent bar sinistra */}
+      <span className="absolute left-0 top-3 bottom-3 w-0.5 origin-center scale-y-0 rounded-full bg-teal-600 transition-transform duration-200 group-hover:scale-y-100" />
       <span className="min-w-0">
-        <span className="block font-serif text-base font-semibold leading-tight text-teal-900 transition-colors group-hover:text-dark-navy">
+        <span className="block font-serif text-[15px] font-semibold leading-tight text-teal-900 transition-colors group-hover:text-dark-navy">
           {child.label}
         </span>
         {child.description && (
-          <span className="mt-1 block text-xs leading-relaxed text-charcoal/60">
+          <span className="mt-0.5 block text-xs leading-relaxed text-charcoal/55">
             {child.description}
           </span>
         )}
       </span>
     </Link>
+  );
+}
+
+function EditorialPanel({
+  node,
+  onClose,
+}: {
+  node: NavNode;
+  onClose: () => void;
+}) {
+  // Prende il primo child con immagine come immagine principale del panel
+  const featured = node.children?.find((c) => c.image);
+  if (!featured?.image) return null;
+
+  return (
+    <div className="relative w-56 shrink-0 overflow-hidden bg-gradient-to-br from-teal-900 to-dark-navy">
+      <Image
+        src={featured.image}
+        alt={featured.label}
+        fill
+        sizes="224px"
+        className="object-cover opacity-40 transition-opacity duration-500 group-hover:opacity-50"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-dark-navy/90 via-dark-navy/40 to-transparent" />
+      <div className="relative flex h-full flex-col justify-end p-5">
+        <p className="font-serif text-lg font-semibold leading-tight text-white">
+          {node.label}
+        </p>
+        <p className="mt-1.5 text-xs leading-relaxed text-teal-200/80">
+          {featured.description}
+        </p>
+        <Link
+          href={featured.href}
+          onClick={onClose}
+          className="mt-4 inline-flex items-center gap-1.5 text-xs font-medium text-teal-300 transition-colors hover:text-white"
+        >
+          Scopri di più &rarr;
+        </Link>
+      </div>
+    </div>
   );
 }

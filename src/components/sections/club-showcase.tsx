@@ -80,6 +80,22 @@ export function ClubShowcase() {
   );
 }
 
+// Gradienti premium per ogni tier (dark variant)
+const TIER_GRADIENTS: Record<string, string> = {
+  discover:
+    "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(128,161,178,0.10) 100%)",
+  access:
+    "linear-gradient(145deg, rgba(28,74,92,0.10) 0%, rgba(3,53,75,0.18) 100%)",
+  care:
+    "linear-gradient(145deg, rgba(3,53,75,0.12) 0%, rgba(28,74,92,0.22) 100%)",
+  experience:
+    "linear-gradient(145deg, rgba(28,74,92,0.16) 0%, rgba(3,53,75,0.28) 100%)",
+  signature:
+    "linear-gradient(145deg, rgba(128,161,178,0.12) 0%, rgba(28,74,92,0.30) 50%, rgba(3,53,75,0.35) 100%)",
+  "signature-longevity":
+    "linear-gradient(145deg, rgba(128,161,178,0.15) 0%, rgba(28,74,92,0.32) 50%, rgba(3,53,75,0.42) 100%)",
+};
+
 export function TierCard({
   tier,
   gender,
@@ -93,17 +109,31 @@ export function TierCard({
 }) {
   const dark = variant === "dark";
   const name = gender && tier.genderToggle ? `${tier.name} ${gender === "uomo" ? "Uomo" : "Donna"}` : tier.name;
+  const gradient = dark ? (TIER_GRADIENTS[tier.id] ?? TIER_GRADIENTS["access"]) : undefined;
 
   return (
     <div
       className={cn(
-        "group relative flex flex-col rounded-3xl p-7 transition-all duration-300 hover:-translate-y-1.5",
+        "group relative flex flex-col rounded-3xl p-7 transition-all duration-300 hover:-translate-y-2",
         dark
-          ? "border border-white/10 bg-white/[0.04] backdrop-blur-sm hover:border-white/20"
+          ? "border border-white/20 backdrop-blur-sm hover:border-white/35 hover:shadow-[0_32px_80px_-24px_rgba(3,53,75,0.5)]"
           : "border border-teal-100 bg-white shadow-[0_20px_50px_-24px_rgba(3,53,75,0.25)] hover:shadow-[0_30px_70px_-24px_rgba(3,53,75,0.35)]",
-        tier.badge && (dark ? "border-slate-accent/40" : "border-teal-500")
+        tier.badge && (dark ? "border-slate-accent/50" : "border-teal-500")
       )}
+      style={
+        dark
+          ? {
+              background: gradient,
+              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.10), 0 24px 60px -24px rgba(3,53,75,0.4)",
+            }
+          : undefined
+      }
     >
+      {/* Shimmer line top per le card premium */}
+      {dark && (
+        <div className="absolute inset-x-0 top-0 h-px rounded-t-3xl bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+      )}
+
       {tier.badge && (
         <Badge className="absolute -top-3 left-6 bg-teal-500 text-white">
           {tier.badge}

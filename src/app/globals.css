@@ -78,11 +78,8 @@
     color: transparent;
   }
 
-  .hero-mesh {
-    background:
-      radial-gradient(1200px 600px at 85% -10%, rgba(128, 161, 178, 0.32) 0%, transparent 55%),
-      radial-gradient(900px 500px at -10% 20%, rgba(28, 74, 92, 0.18) 0%, transparent 50%),
-      linear-gradient(180deg, #fafcfd 0%, #f2f7f9 100%);
+  .section-alt {
+    background-color: #eef4f7;
   }
 
   .noise {
@@ -116,6 +113,35 @@
 
 .animate-fade-in {
   animation: fadeIn 0.4s ease both;
+}
+
+@keyframes kenBurns {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.06) translate(-1%, -1%);
+  }
+  100% {
+    transform: scale(1.1) translate(1%, 0.5%);
+  }
+}
+
+.animate-ken-burns {
+  animation: kenBurns 8s ease-in-out forwards;
+}
+
+@keyframes heroFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-hero-fade-in {
+  animation: heroFadeIn 1s ease forwards;
 }
 
 @keyframes slideInRight {

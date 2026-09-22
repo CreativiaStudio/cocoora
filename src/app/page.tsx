@@ -6,7 +6,6 @@ import {
   ArrowRight,
   CalendarDays,
   FileText,
-  HeartHandshake,
   Instagram,
   Plus,
   ShieldCheck,
@@ -19,12 +18,12 @@ import {
   INSTAGRAM_POSTS,
   MANIFESTO,
   NAV_NODES,
-  TRUST_METRICS,
 } from "@/lib/site";
 import { SHOWROOM_TILES } from "@/lib/clinic";
 import { Badge, Button, ButtonLink, Container, SectionLabel } from "@/components/ui";
 import { ClubShowcase } from "@/components/sections/club-showcase";
 import { ReelsSection } from "@/components/sections/reels";
+import { HeroCarousel } from "@/components/hero-carousel";
 
 const ECOSYSTEM_FEATURES = [
   {
@@ -59,129 +58,56 @@ export default function HomePage() {
 
   return (
     <>
-      {/* ── Hero ─────────────────────────────────────────────────────── */}
-      <section className="hero-mesh relative overflow-hidden pb-16 pt-32 sm:pt-36 lg:pb-24">
-        <div className="noise pointer-events-none absolute inset-0" />
-        <Container className="relative">
-          <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
-            <div className="text-center lg:text-left">
-              <Badge className="lg:mx-0 mx-auto">
-                Studio Medico Polispecialistico d&apos;Eccellenza — Milano
-              </Badge>
-              <h1 className="mt-6 font-serif text-5xl font-semibold leading-[1.05] tracking-tight text-dark-navy sm:text-6xl lg:text-6xl xl:text-7xl">
-                {home?.h1 ?? "Connessi alla tua salute."}
-              </h1>
-              <p className="mx-auto mt-7 max-w-xl text-lg leading-relaxed text-charcoal/75 lg:mx-0">
-                Abbiamo azzerato attese, burocrazia e complessità per permetterti di
-                vivere un percorso di salute fluido e immediato. La tua salute merita
-                attenzione, dedizione e, soprattutto, nessun ostacolo.
-              </p>
-              <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start">
-                <Button size="lg" onClick={openDiscover}>
-                  Inizia gratis con il Club <Plus className="h-4 w-4" />
-                </Button>
-                <ButtonLink href="/contatti" variant="secondary" size="lg">
-                  Prenota Visita
-                </ButtonLink>
-              </div>
-
-              <div className="mx-auto mt-14 grid max-w-lg grid-cols-3 gap-3 sm:gap-4 lg:mx-0">
-                {TRUST_METRICS.map((m) => (
-                  <div
-                    key={m.label}
-                    className="glass rounded-2xl border border-white/60 px-4 py-5 shadow-[0_16px_40px_-24px_rgba(3,53,75,0.4)]"
-                  >
-                    <p className="font-serif text-2xl font-semibold text-teal-800 sm:text-3xl">
-                      {m.value}
-                    </p>
-                    <p className="mt-1 text-xs font-medium uppercase tracking-wider text-charcoal/60">
-                      {m.label}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="relative mx-auto w-full max-w-xl lg:mx-0">
-              <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[2.5rem] shadow-[0_40px_90px_-30px_rgba(3,53,75,0.45)]">
-                <Image
-                  src="/images/hero-clinic.jpg"
-                  alt="Reception della clinica Cocoora a Milano"
-                  fill
-                  priority
-                  sizes="(min-width: 1024px) 560px, 90vw"
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-dark-navy/30 via-transparent to-transparent" />
-              </div>
-              <div className="glass absolute -bottom-6 -left-6 hidden max-w-[240px] rounded-2xl border border-white/60 p-5 shadow-[0_24px_60px_-24px_rgba(3,53,75,0.4)] sm:block">
-                <div className="flex items-center gap-2.5">
-                  <HeartHandshake className="h-5 w-5 text-teal-700" />
-                  <p className="text-sm font-semibold text-teal-900">Amico Medico</p>
-                </div>
-                <p className="mt-2 text-xs leading-relaxed text-charcoal/65">
-                  Un punto di riferimento fidato, dalla prima visita a ogni fase del
-                  tuo percorso di salute.
-                </p>
-              </div>
-            </div>
-          </div>
-        </Container>
-      </section>
+      {/* ── Hero Carousel ─────────────────────────────────────────────── */}
+      <HeroCarousel h1={home?.h1} openDiscover={openDiscover} />
 
       {/* ── L'Amico Medico & Manifesto ───────────────────────────────── */}
       <section className="bg-canvas py-24">
         <Container>
-          <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
-            <div className="relative order-1 aspect-[4/5] w-full overflow-hidden rounded-[2.5rem] shadow-[0_30px_70px_-28px_rgba(3,53,75,0.35)] lg:order-none">
-              <Image
-                src="/images/doctor-consultation.jpg"
-                alt="Consulto medico empatico a Cocoora — l'Amico Medico"
-                fill
-                sizes="(min-width: 1024px) 560px, 90vw"
-                className="object-cover"
-              />
-            </div>
-            <div>
+          <div className="mx-auto max-w-3xl">
+            {/* Accent bar decorativa */}
+            <div className="mb-10 flex items-center gap-5">
+              <div className="h-px flex-1 bg-gradient-to-r from-transparent to-teal-200" />
               <SectionLabel>L&apos;Amico Medico</SectionLabel>
-              <h2 className="font-serif text-4xl font-semibold leading-tight text-teal-900 sm:text-5xl">
-                {home?.h2 ?? MANIFESTO.h2}
-              </h2>
-              <div className="mt-6 space-y-5">
-                {MANIFESTO.paragraphs.map((p, i) => (
-                  <p
-                    key={i}
-                    className={
-                      i === MANIFESTO.paragraphs.length - 1
-                        ? "border-l-2 border-teal-600 pl-5 font-serif text-xl italic leading-relaxed text-teal-800"
-                        : "text-base leading-relaxed text-charcoal/75"
-                    }
-                  >
-                    {p}
-                  </p>
-                ))}
-              </div>
-              <div className="mt-8">
-                <ButtonLink href="/chi-siamo" variant="secondary">
-                  Scopri il Metodo Cocoora <ArrowRight className="h-4 w-4" />
-                </ButtonLink>
-              </div>
+              <div className="h-px flex-1 bg-gradient-to-l from-transparent to-teal-200" />
+            </div>
+            <h2 className="text-center font-serif text-4xl font-semibold leading-tight text-teal-900 sm:text-5xl">
+              {home?.h2 ?? MANIFESTO.h2}
+            </h2>
+            <div className="mt-8 space-y-5">
+              {MANIFESTO.paragraphs.map((p, i) => (
+                <p
+                  key={i}
+                  className={
+                    i === MANIFESTO.paragraphs.length - 1
+                      ? "border-l-2 border-teal-600 pl-5 font-serif text-xl italic leading-relaxed text-teal-800"
+                      : "text-base leading-relaxed text-charcoal/75"
+                  }
+                >
+                  {p}
+                </p>
+              ))}
+            </div>
+            <div className="mt-8 flex justify-center">
+              <ButtonLink href="/chi-siamo" variant="secondary">
+                Scopri il Metodo Cocoora <ArrowRight className="h-4 w-4" />
+              </ButtonLink>
             </div>
           </div>
         </Container>
       </section>
 
-      {/* ── Ecosistema Digitale ──────────────────────────────────────── */}
-      <section id="ecosistema" className="relative overflow-hidden bg-teal-50/60 py-24">
+      {/* ── Entra in Cocoora Club ─────────────────────────────────────── */}
+      <section id="cocoora-club" className="section-alt relative overflow-hidden py-24">
         <Container>
           <div className="mx-auto max-w-2xl text-center">
-            <SectionLabel>Ecosistema Digitale</SectionLabel>
+            <SectionLabel>Entra in Cocoora Club</SectionLabel>
             <h2 className="font-serif text-4xl font-semibold leading-tight text-teal-900 sm:text-5xl">
               Il tuo tempo, la nostra priorità
             </h2>
             <p className="mt-4 text-base leading-relaxed text-charcoal/70">
-              Prenota, consulta, gestisci in un click. Il nostro ecosistema
-              digitale trasforma il modo di accedere alle cure.
+              Prenota, consulta, gestisci in un click. La tua salute digitale,
+              sempre con te.
             </p>
           </div>
 
@@ -259,7 +185,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Tecnologie & Showroom ─────────────────────────────────────── */}
-      <section className="bg-teal-50/60 py-24">
+      <section className="section-alt py-24">
         <Container>
           <div className="mx-auto max-w-2xl text-center">
             <SectionLabel>Tecnologie & Showroom</SectionLabel>

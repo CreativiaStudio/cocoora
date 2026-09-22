@@ -93,7 +93,7 @@ export default function OdontoiatriaPage() {
             <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl shadow-[0_24px_60px_-24px_rgba(0,0,0,0.5)]">
               <Image
                 src="/images/dental-operatory.jpg"
-                alt="Suite odontoiatrica digitale Cocoora Milano"
+                alt="Suite odontoiatrica digitale Cocoora Napoli"
                 fill
                 sizes="(min-width: 1024px) 560px, 90vw"
                 className="object-cover"

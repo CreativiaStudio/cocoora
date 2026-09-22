@@ -115,7 +115,7 @@ function buildDefaultPages(): SeoPage[] {
       id: "page_chi_siamo",
       path: "/chi-siamo",
       label: "Chi Siamo",
-      title: "Chi Siamo — Il Metodo Cocoora | Studio Medico Polispecialistico Milano",
+      title: "Chi Siamo — Il Metodo Cocoora | Studio Medico Polispecialistico Napoli",
       metaDescription:
         "La visione clinica di Cocoora: Amico Medico, zero burocrazia, sinergia multidisciplinare e medicina rigenerativa. Scopri gli spazi e la direzione sanitaria.",
       h1: "La medicina come dovrebbe essere: umana, immediata, predittiva.",
@@ -136,7 +136,7 @@ function buildDefaultPages(): SeoPage[] {
       id: "page_diagnostica",
       path: "/servizi/diagnostica",
       label: "Diagnostica",
-      title: "Diagnostica & Poliambulatorio a Cocoora | Milano",
+      title: "Diagnostica & Poliambulatorio a Cocoora | Napoli",
       metaDescription:
         "Cardiologia, senologia, ecografia, oculistica, pediatria e ginecologia: diagnostica rapida, refertazione digitale e specialisti dedicati, senza liste d'attesa.",
       h1: "Diagnostica rapida, refertazione digitale e specialisti dedicati.",
@@ -178,9 +178,9 @@ function buildDefaultPages(): SeoPage[] {
       id: "page_contatti",
       path: "/contatti",
       label: "Contatti",
-      title: "Contatti & Prenotazioni — Cocoora Studio Medico Milano",
+      title: "Contatti & Prenotazioni — Cocoora Studio Medico Napoli",
       metaDescription:
-        "Prenota la tua visita a Cocoora: indirizzo Milano, telefono, email, orari di apertura e form di richiesta prenotazione. Rispondiamo in meno di 2 minuti.",
+        "Prenota la tua visita a Cocoora: indirizzo Napoli, telefono, email, orari di apertura e form di richiesta prenotazione. Rispondiamo in meno di 2 minuti.",
       h1: "Prenota la tua visita in meno di 2 minuti.",
       h2: "Contatti & Prenotazioni",
       faq: [
@@ -209,8 +209,20 @@ export function buildInitialState(): CmsState {
 // Snapshot stabile per il server (usato anche durante l'hydration lato client).
 const SERVER_SNAPSHOT: CmsState = buildInitialState();
 
+function isLocalStorageAvailable(): boolean {
+  try {
+    return (
+      typeof window !== "undefined" &&
+      typeof window.localStorage !== "undefined" &&
+      typeof window.localStorage.getItem === "function"
+    );
+  } catch {
+    return false;
+  }
+}
+
 function loadStoredState(): CmsState | null {
-  if (typeof window === "undefined") return null;
+  if (!isLocalStorageAvailable()) return null;
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
@@ -246,7 +258,7 @@ class CmsStore {
   }
 
   hydrate() {
-    if (this.hydrated || typeof window === "undefined") return;
+    if (this.hydrated || !isLocalStorageAvailable()) return;
     this.hydrated = true;
     const stored = loadStoredState();
     if (stored) {
@@ -257,7 +269,7 @@ class CmsStore {
 
   private setState(next: CmsState) {
     this.state = next;
-    if (typeof window !== "undefined") {
+    if (isLocalStorageAvailable()) {
       try {
         window.localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
       } catch {

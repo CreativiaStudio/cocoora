@@ -41,7 +41,7 @@ export function Footer() {
 
         <div className="mt-12 grid gap-12 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">
           <div>
-            <Logo variant="white" />
+            <Logo variant="white" className="h-16 w-auto" />
             <p className="mt-6 max-w-sm font-serif text-xl italic leading-relaxed text-white/90">
               &ldquo;{SITE.claim}&rdquo;
             </p>
