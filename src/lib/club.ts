@@ -8,7 +8,7 @@ export const CLUB_TIERS: ClubTier[] = [
     price: 0,
     priceLabel: "Free",
     description:
-      "Il piano gratuito per accedere all'ecosistema Cocoora e iniziare il tuo percorso digitale.",
+      "Il piano gratuito per entrare in Cocoora Club e iniziare il tuo percorso digitale.",
     features: [
       "Registrazione app Cocoora",
       "Profilo sanitario digitale",

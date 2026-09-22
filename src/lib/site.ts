@@ -52,6 +52,27 @@ export const NAV_NODES: NavNode[] = [
     ],
   },
   {
+    label: "Medici",
+    children: [
+      {
+        label: "Tutti gli Specialisti",
+        href: "/medici",
+        description: "Zero liste d'attesa: la rete di medici con convenzione universitaria e ospedaliera.",
+        image: "/images/doctor-consultation.jpg",
+      },
+      {
+        label: "Odontoiatria & Invisalign",
+        href: "/servizi/odontoiatria",
+        description: "Ortodonzia digitale e chirurgia guidata con specialisti Invisalign Diamond Provider.",
+      },
+      {
+        label: "Cardiologia & Diagnostica",
+        href: "/servizi/diagnostica",
+        description: "Cardiologi, senologi e radiologi con affiliazioni Federico II, Vanvitelli e Cardarelli.",
+      },
+    ],
+  },
+  {
     label: "Club & Percorsi",
     children: [
       {
@@ -96,30 +117,6 @@ export const MANIFESTO = {
     "La tua salute merita attenzione, dedizione e, soprattutto, nessun ostacolo.",
   ],
 };
-
-export const ECOSYSTEM_FEATURES = [
-  {
-    id: "registrazione",
-    icon: "user",
-    title: "Registrazione in 2 min",
-    description:
-      "Crea il tuo profilo sanitario digitale in pochi minuti, direttamente dall'app Cocoora.",
-  },
-  {
-    id: "prenotazione",
-    icon: "calendar",
-    title: "Specialista, sede e orario",
-    description:
-      "Scegli lo specialista, la sede e l'orario più comodi per te, in un unico click.",
-  },
-  {
-    id: "referti",
-    icon: "file",
-    title: "Referti digitali sempre con te",
-    description:
-      "Consulta referti e documenti in un'area riservata sicura, disponibile 24/7.",
-  },
-];
 
 export const SERVICE_AREAS: ServiceArea[] = [
   {

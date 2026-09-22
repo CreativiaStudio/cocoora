@@ -162,6 +162,39 @@ export type CmsState = {
   pages: SeoPage[];
 };
 
+export type Doctor = {
+  slug: string;
+  name: string;
+  title: string;
+  branca: string;
+  affiliation: string;
+  badge?: string;
+  image: string;
+  bio: string;
+  approach: string;
+  curriculum: string[];
+  servizi: string[];
+  treatmentSlugs?: string[];
+  specialtyId?: string;
+  clubTierIds: string[];
+  tariffaVisita: number;
+};
+
+export type ClubExamItem = { label: string; value: number };
+
+export type ClubTierDetail = {
+  tierId: string;
+  installmentCount?: number;
+  installmentProviders?: string[];
+  commonExams: ClubExamItem[];
+  genderExams?: {
+    uomo: ClubExamItem[];
+    donna: ClubExamItem[];
+  };
+  doctorSlugs: string[];
+  perks: string[];
+};
+
 export type ConsentState = {
   ad_storage: "granted" | "denied";
   analytics_storage: "granted" | "denied";

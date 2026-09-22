@@ -193,7 +193,7 @@ export const MICROBIOTA_KITS: MicrobiotaKit[] = [
   {
     id: "microbiota-intestinale",
     name: "Microbiota Intestinale NGS",
-    description: "Sequenziamento genetico dell'ecosistema batterico intestinale. Identifica disbiosi, biodiversità, ceppi protettivi e batteri infiammatori.",
+    description: "Sequenziamento genetico della flora batterica intestinale. Identifica disbiosi, biodiversità, ceppi protettivi e batteri infiammatori.",
     includes: [
       "Kit prelievo a domicilio non invasivo",
       "Spedizione refrigerata tracciata al laboratorio partner",
@@ -214,7 +214,7 @@ export const MICROBIOTA_KITS: MicrobiotaKit[] = [
   {
     id: "microbiota-vaginale",
     name: "Microbiota Vaginale",
-    description: "Valutazione dell'ecosistema vaginale e dei lattobacilli per cistiti o vaginiti ricorrenti, fertilità e benessere pelvico.",
+    description: "Valutazione della flora vaginale e dei lattobacilli per cistiti o vaginiti ricorrenti, fertilità e benessere pelvico.",
     includes: [
       "Kit tampone domiciliare semplice e indolore",
       "Valutazione del profilo di protezione naturale",

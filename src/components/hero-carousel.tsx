@@ -144,8 +144,8 @@ export function HeroCarousel({
         <div className="grid grid-cols-3 gap-3 w-full max-w-lg">
           {[
             { value: "15+", label: "Specialità Mediche" },
-            { value: "2 min", label: "Prenota Online" },
-            { value: "0€", label: "Inizio Gratuito" },
+            { value: "2 min", label: "Prenotazione" },
+            { value: "0€", label: "Discover" },
           ].map((m) => (
             <div
               key={m.label}

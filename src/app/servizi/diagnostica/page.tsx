@@ -13,7 +13,20 @@ import {
 } from "lucide-react";
 import { useCms, useShop } from "@/components/providers";
 import { SPECIALTIES } from "@/lib/diagnostics";
+import { DOCTORS } from "@/lib/doctors";
+import { CLUB_TIERS, FAMILY_ADDONS } from "@/lib/club";
+import { DoctorsReferenceSection, ClubPackagesSection } from "@/components/sections/servizi-cross-links";
 import { Badge, Button, ButtonLink, Container, SectionLabel } from "@/components/ui";
+
+const DIAGNOSTICA_DOCTORS = DOCTORS.filter((d) =>
+  ["cardiologia", "senologia", "radiologia-ecografie", "oculistica", "pediatria", "ginecologia"].includes(
+    d.specialtyId ?? ""
+  )
+);
+const DIAGNOSTICA_PACKAGES = [
+  ...CLUB_TIERS.filter((t) => ["care", "experience", "signature"].includes(t.id)),
+  FAMILY_ADDONS[0],
+];
 
 const iconMap: Record<string, LucideIcon> = {
   Heart,
@@ -177,6 +190,9 @@ export default function DiagnosticaPage() {
           </div>
         </Container>
       </section>
+
+      <DoctorsReferenceSection doctors={DIAGNOSTICA_DOCTORS} />
+      <ClubPackagesSection tiers={DIAGNOSTICA_PACKAGES} />
 
       <FaqSection faq={page?.faq ?? []} />
     </>

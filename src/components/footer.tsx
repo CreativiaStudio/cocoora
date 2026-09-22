@@ -18,7 +18,8 @@ const dipartimenti = [
   { label: "Pediatria", href: "/servizi/diagnostica" },
 ];
 
-const ecosistema = [
+const percorsiClub = [
+  { label: "I Nostri Medici", href: "/medici" },
   { label: "Cocoora Club Memberships", href: "/club" },
   { label: "Cocoora Precision (DNA & Microbiota)", href: "/precision" },
   { label: "Cartella Clinica Digitale h24", href: "/chi-siamo" },
@@ -72,7 +73,7 @@ export function Footer() {
           </div>
 
           <FooterColumn title="Dipartimenti Clinici" links={dipartimenti} />
-          <FooterColumn title="Ecosistema & Prevenzione" links={ecosistema} />
+          <FooterColumn title="Il Tuo Percorso" links={percorsiClub} />
 
           <div>
             <h4 className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-slate-accent">

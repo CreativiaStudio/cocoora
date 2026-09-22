@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { ArrowRight, Check } from "lucide-react";
 import { CLUB_TIERS, FAMILY_ADDONS } from "@/lib/club";
@@ -181,6 +182,17 @@ export function TierCard({
         {tier.free ? "Inizia gratis" : "Scegli"}
         <ArrowRight className="h-4 w-4" />
       </Button>
+      {!tier.family && (
+        <Link
+          href={`/club/${tier.id}`}
+          className={cn(
+            "mt-3 text-center text-xs font-medium underline-offset-4 transition-colors hover:underline",
+            dark ? "text-teal-200/70 hover:text-white" : "text-teal-700 hover:text-dark-navy"
+          )}
+        >
+          Vedi dettagli e scomposizione clinica
+        </Link>
+      )}
     </div>
   );
 }

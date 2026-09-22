@@ -5,7 +5,13 @@ import Link from "next/link";
 import { ArrowRight, Award, Check, Sparkles } from "lucide-react";
 import { useCms } from "@/components/providers";
 import { getTreatmentsByCategory } from "@/lib/content";
+import { DOCTORS } from "@/lib/doctors";
+import { CLUB_TIERS } from "@/lib/club";
+import { DoctorsReferenceSection, ClubPackagesSection } from "@/components/sections/servizi-cross-links";
 import { Badge, ButtonLink, Container, SectionLabel } from "@/components/ui";
+
+const ODONTO_DOCTORS = DOCTORS.filter((d) => d.branca.includes("Odontoiatria"));
+const ODONTO_PACKAGES = CLUB_TIERS.filter((t) => ["access", "care"].includes(t.id));
 
 const PILLARS = [
   { title: "Diagnosi prima del trattamento", text: "Valutiamo denti, gengive, occlusione, profilo del sorriso e obiettivi." },
@@ -134,6 +140,9 @@ export default function OdontoiatriaPage() {
           </div>
         </Container>
       </section>
+
+      <DoctorsReferenceSection doctors={ODONTO_DOCTORS} />
+      <ClubPackagesSection tiers={ODONTO_PACKAGES} />
 
       <FaqSection faq={page?.faq ?? []} />
     </>

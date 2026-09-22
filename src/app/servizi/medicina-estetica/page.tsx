@@ -5,7 +5,13 @@ import Link from "next/link";
 import { ArrowRight, Check, Sparkles } from "lucide-react";
 import { useCms } from "@/components/providers";
 import { getTreatmentsByCategory } from "@/lib/content";
+import { DOCTORS } from "@/lib/doctors";
+import { CLUB_TIERS } from "@/lib/club";
+import { DoctorsReferenceSection, ClubPackagesSection } from "@/components/sections/servizi-cross-links";
 import { Badge, ButtonLink, Container, SectionLabel } from "@/components/ui";
+
+const ESTETICA_DOCTORS = DOCTORS.filter((d) => d.branca.includes("Medicina Estetica"));
+const ESTETICA_PACKAGES = CLUB_TIERS.filter((t) => ["access", "care", "experience"].includes(t.id));
 
 const KEY_POINTS = [
   { title: "Valutazione medica preliminare", text: "Ogni trattamento viene indicato solo dopo la valutazione di un medico specialista." },
@@ -129,6 +135,9 @@ export default function MedicinaEsteticaPage() {
           </div>
         </Container>
       </section>
+
+      <DoctorsReferenceSection doctors={ESTETICA_DOCTORS} />
+      <ClubPackagesSection tiers={ESTETICA_PACKAGES} />
 
       <FaqSection faq={page?.faq ?? []} />
     </>

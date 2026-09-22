@@ -1,11 +1,15 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useState, type FormEvent } from "react";
-import { ArrowLeft, ArrowRight, Check, Cpu } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Cpu, GraduationCap, Sparkles } from "lucide-react";
 import { useCms } from "@/components/providers";
+import { getDoctorsByTreatment } from "@/lib/doctors";
+import { CLUB_TIERS } from "@/lib/club";
 import type { Treatment } from "@/lib/types";
 import { trackLead } from "@/lib/tracking";
+import { formatPrice } from "@/lib/utils";
 import { Badge, Button, ButtonLink, Container, SectionLabel } from "@/components/ui";
 import { Logo } from "@/components/logo";
 
@@ -114,6 +118,8 @@ function TreatmentBody({
         </Container>
       </section>
 
+      <DoctorAndClubBox treatment={treatment} />
+
       <LeadSection />
       <FaqSection faq={faq} />
       <div className="bg-canvas pb-20">
@@ -159,9 +165,79 @@ function CanvasContent({
         ))}
       </div>
 
+      <DoctorAndClubBox treatment={treatment} />
       <LeadSection />
       <FaqSection faq={faq} />
     </main>
+  );
+}
+
+function DoctorAndClubBox({ treatment }: { treatment: Treatment }) {
+  const doctors = getDoctorsByTreatment(treatment.slug);
+  const doctor = doctors[0];
+  const recommendedTierId = doctor?.clubTierIds.find((id) => id !== "discover");
+  const recommendedTier = recommendedTierId
+    ? CLUB_TIERS.find((t) => t.id === recommendedTierId)
+    : undefined;
+
+  if (!doctor && !recommendedTier) return null;
+
+  return (
+    <section className="bg-teal-50/60 py-16">
+      <Container>
+        <div className="grid gap-6 lg:grid-cols-2">
+          {doctor && (
+            <Link
+              href={`/medici/${doctor.slug}`}
+              className="group flex items-center gap-5 rounded-3xl border border-teal-100 bg-white p-6 shadow-[0_16px_40px_-28px_rgba(3,53,75,0.3)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_28px_60px_-24px_rgba(3,53,75,0.4)]"
+            >
+              <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-2xl">
+                <Image src={doctor.image} alt={doctor.name} fill sizes="80px" className="object-cover" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-accent">
+                  Specialista consigliato
+                </p>
+                <p className="mt-1 font-serif text-lg font-semibold leading-tight text-teal-900">
+                  {doctor.name}
+                </p>
+                <p className="mt-1 flex items-center gap-1.5 text-xs text-charcoal/60">
+                  <GraduationCap className="h-3.5 w-3.5 shrink-0 text-slate-accent" /> {doctor.branca}
+                </p>
+                <span className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-teal-700 transition-colors group-hover:text-dark-navy">
+                  Vedi profilo <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </span>
+              </div>
+            </Link>
+          )}
+
+          {recommendedTier && (
+            <Link
+              href={`/club/${recommendedTier.id}`}
+              className="group flex items-center gap-5 rounded-3xl border border-teal-200 bg-dark-navy p-6 text-white shadow-[0_16px_40px_-28px_rgba(3,53,75,0.5)] transition-all duration-300 hover:-translate-y-1"
+            >
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-slate-accent">
+                <Sparkles className="h-6 w-6" />
+              </div>
+              <div className="min-w-0">
+                <p className="text-xs font-semibold uppercase tracking-wide text-slate-accent">
+                  Vantaggio Cocoora Club
+                </p>
+                <p className="mt-1 font-serif text-lg font-semibold leading-tight">
+                  Compreso o scontato con {recommendedTier.name}
+                </p>
+                <p className="mt-1 text-xs text-teal-200/80">
+                  Da {formatPrice(recommendedTier.price)}/anno — continuità di cura senza attese
+                </p>
+                <span className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-white transition-all group-hover:gap-2.5">
+                  Scopri il pacchetto <ArrowRight className="h-4 w-4" />
+                </span>
+              </div>
+            </Link>
+          )}
+        </div>
+      </Container>
+    </section>
   );
 }
 

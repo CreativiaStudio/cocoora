@@ -1,0 +1,62 @@
+Tu sei Claude Sonnet 5, il Senior Design Engineer e Luxury Frontend Architect incaricato da Antigravity per portare il portale web di Cocoora Studio Medico Polispecialistico (Napoli) al massimo livello estetico, funzionale ed architetturale ("Swiss / Milan Luxury Medical Clinic").
+
+DIRECTORY DI LAVORO:
+C:\Users\mario\Progetti Antigravity\Cocoora
+
+CONTESTO E BRIEFING STRATEGICO:
+Mario Pepe (founder Creativia Studio) ha svolto una call con il team Cocoora (Valentina Mercurio e Alessandra Grasso) in vista della presentazione ufficiale a Simone Papagno.
+Abbiamo delineato il piano di eccellenza basato su due assi fondamentali:
+1. PERFEZIONAMENTO UI & LOOK & FEEL (da mostrare a Simone):
+   - Hero Section: hero full-screen fluida con effetto Ken Burns (zoom-in lento ed elegante che dia la sensazione dinamica di un video cinematografico), testi fissi con tipografia Garamond d'autore, overlay scuri sfumati per leggibilità perfetta, trust metrics glass in overlay (15+ Specialità, 2 min Prenotazione, 0€ Discover).
+   - Sfondi e profondità visiva: stop ai grigi piatti; alternanza armonica di sezioni su canvas chiaro (`#fafcfd`) e sezioni su azzurrino chiarissimo luminoso (`.section-alt` = `#eef4f7` o `rgba(128,161,178,0.12)`).
+   - Sezione "Amico Medico": niente foto generiche o volti che fissano. Layout monumentale, raffinato, tipografico con manifesto d'autore.
+   - Mega Menù Navbar: dropdown desktop da 800px a due colonne (a sinistra voci cliniche con hover accent-bar animata, a destra panel editoriale fotografico con claim e link diretto); mobile slide-over impeccabile.
+   - Card Abbonamenti Cocoora Club: card con gradienti scuri profondi, shimmer superiore, massima percezione di lusso, badge "Più Scelto", senza elementi estranei.
+   - REGOLA ASSOLUTA: La parola "Ecosistema" è stata bocciata categoricamente da Simone. Va eradicata al 100% da qualsiasi testo, etichetta o commento visibile, sostituendola con "Entra in Cocoora Club", "Il tuo percorso", "Studio" o "Servizi".
+
+2. ARCHITETTURA A 4 LAYER CONVERGENTI (FUNNEL AD IMBUTO):
+   Il sito deve avere molteplici porte d'ingresso (SEO, Google Ads, ricerca del medico, ricerca della patologia), ma tutte devono convergere verso l'Abbonamento Annuale Cocoora Club (conversione primaria) o verso la Prenotazione della Visita Singola (conversione secondaria):
+   
+   • LAYER 1: I MEDICI (`/medici` e `/medici/[slug]`):
+     - Creare `src/lib/doctors.ts`: un database accurato di specialisti di punta (convenzioni universitarie e ospedaliere napoletane: Policlinico Federico II, Vanvitelli, Cardarelli) che garantiscono visite immediate SENZA liste d'attesa.
+       Ogni medico deve avere: slug, nome, titolo/cattedra, branca/specializzazione, affiliazione ospedaliera/universitaria, bio clinica, carriera/curriculum accademico, foto (usare le immagini cliniche già presenti in `public/images/`), lista prestazioni/servizi erogati, id dei pacchetti Club che lo includono, tariffa indicativa visita singola.
+     - Creare `src/app/medici/page.tsx`: pagina panoramica di tutti i medici con filtri interattivi per branca specialistica, badge "Zero Liste d'Attesa — Convenzione Universitaria", schede eleganti con link alla pagina del medico.
+     - Creare `src/app/medici/[slug]/page.tsx`: pagina singola del medico studiata per battere "MioDottore":
+       * Hero accademica con foto, qualifiche, convenzione universitaria.
+       * Curriculum e approccio clinico "Amico Medico".
+       * Prestazioni erogate nello studio.
+       * SEZIONE STRATEGICA UP-SELL: "Questo specialista è incluso nei percorsi Cocoora Club". Mostra i pacchetti annuali che includono visite e controlli con questo medico, evidenziando il vantaggio economico e la continuità di cura rispetto alla visita isolata.
+       * Doppia CTA: "Attiva Abbonamento con questo Medico" (primaria) e "Prenota Visita Singola" (secondaria).
+   
+   • LAYER 2: LE SPECIALIZZAZIONI (`/servizi/[slug]`):
+     - Arricchire `/servizi/odontoiatria`, `/servizi/medicina-estetica`, `/servizi/diagnostica`:
+       * Sezione "Medici di Riferimento": card dei medici collegati a quella branca (con link a `/medici/[slug]`).
+       * Sezione "Pacchetti Dedicati": card dei percorsi Club pertinenti (con link a `/club/[slug]`).
+       * Spiegazione dell'azzeramento burocratico e delle convenzioni universitarie.
+   
+   • LAYER 3: PACCHETTI COCOORA CLUB — PAGINE MONOGRAFICHE DI LUSSO (`/club/[slug]`):
+     - Creare `src/app/club/[slug]/page.tsx` (con `generateStaticParams` per: `discover`, `access`, `care`, `experience`, `signature`, `signature-longevity`):
+       * Landing page e-commerce luxury per ogni livello di membership.
+       * Prezzo annuale in grande + **FORTE EVIDENZA RATEIZZAZIONE** (es. "O in 3 rate da €116/mese con Klarna / Scalapay / PayPal a tasso zero").
+       * Scomposizione clinica approfondita: lista minuziosa di esami del sangue, check-up strumentali, visite specialistiche, diagnostica avanzata (radiologia, ecografie, dermatoscopia, genomica se prevista).
+       * Tabella comparativa: "Pacchetto Club vs Singole Prestazioni" con calcolo del risparmio effettivo (es. "Valore totale esami singoli €680 — Con il Club risparmi oltre il 45% ed elimini le attese").
+       * Medici dedicati inclusi nel percorso.
+       * Toggle Uomo/Donna per Care ed Experience con esami specifici differenziati.
+       * Pulsante di acquisto/adesione che attiva il checkout drawer o l'onboarding Discover.
+   
+   • LAYER 4: I TRATTAMENTI (`/trattamenti/[slug]`):
+     - Arricchire il template dei trattamenti:
+       * Mostrare il medico specialista consigliato che esegue il trattamento con link alla sua scheda.
+       * Box persuasivo: "Questo trattamento è compreso / scontato con Cocoora Club" con link al pacchetto correlato.
+
+   • NAVIGAZIONE E STRUTTURA:
+     - Aggiornare `NAV_NODES` in `src/lib/site.ts` e la `Navbar` per includere la voce "Medici" tra le sezioni principali.
+     - Aggiornare il `Footer` con i link ai medici e alle nuove pagine.
+
+REQUISITI TECNICI:
+- Framework: Next.js 15 (App Router), React 19, TypeScript, Tailwind CSS v4.
+- Palette: `#1C4A5C` (Teal), `#03354B` (Navy), `#80A1B2` (Slate), `#3D3D3C` (Charcoal), `#FAFCFD` (Canvas), `#EEF4F7` (Section Alt).
+- Tutte le rotte dinamiche devono esportare `generateStaticParams` per il pre-rendering statico SSG.
+- Codice modulare, pulito, zero errori TypeScript (`npm run build` deve terminare con Exit Code 0).
+
+Inizia subito a implementare e modificare i file necessari. Al termine, assicurati che la build compili con successo.

@@ -8,7 +8,7 @@ const STORAGE_KEY = "cocoora_cms_v1";
 const HOME_FAQ: Faq[] = [
   {
     q: "Cosa offre Cocoora Studio Medico Polispecialistico?",
-    a: "Un unico hub multidisciplinare con specialisti d'eccellenza, dalla prevenzione quotidiana alla diagnostica avanzata, in un ecosistema digitale fluido e immediato.",
+    a: "Un unico hub multidisciplinare con specialisti d'eccellenza, dalla prevenzione quotidiana alla diagnostica avanzata, in un percorso digitale fluido e immediato.",
   },
   {
     q: "Come funziona la prenotazione?",

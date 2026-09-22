@@ -25,7 +25,7 @@ import { ClubShowcase } from "@/components/sections/club-showcase";
 import { ReelsSection } from "@/components/sections/reels";
 import { HeroCarousel } from "@/components/hero-carousel";
 
-const ECOSYSTEM_FEATURES = [
+const CLUB_ENTRY_FEATURES = [
   {
     id: "registrazione",
     icon: UserRound,
@@ -112,7 +112,7 @@ export default function HomePage() {
           </div>
 
           <div className="mt-14 grid gap-6 md:grid-cols-3">
-            {ECOSYSTEM_FEATURES.map((f, i) => {
+            {CLUB_ENTRY_FEATURES.map((f, i) => {
               const Icon: LucideIcon = f.icon;
               return (
                 <div

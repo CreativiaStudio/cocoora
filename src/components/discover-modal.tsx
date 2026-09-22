@@ -60,8 +60,8 @@ export function DiscoverModal() {
               Inizia gratis
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-charcoal/75">
-              Crea il tuo profilo sanitario digitale in 2 minuti e accedi
-              all'ecosistema Cocoora con il piano Discover (€0).
+              Crea il tuo profilo sanitario digitale in 2 minuti e entra in
+              Cocoora Club con il piano Discover (€0).
             </p>
             <form onSubmit={submit} className="mt-5 space-y-4">
               <label className="block">
