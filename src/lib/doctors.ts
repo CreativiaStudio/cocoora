@@ -16,7 +16,7 @@ export const DOCTORS: Doctor[] = [
     branca: "Odontoiatria & Ortodonzia Digitale",
     affiliation: "Docente a contratto — Università degli Studi di Napoli \"Federico II\"",
     badge: ZERO_ATTESA_BADGE,
-    image: "/images/dental-operatory.jpg",
+    image: "/images/doctors/antonio-sorrentino.jpg",
     bio: "Il Dr. Sorrentino affianca alla pratica clinica quotidiana l'attività didattica universitaria, portando in studio i protocolli più aggiornati di ortodonzia digitale e chirurgia implantare guidata. Certificato Invisalign Diamond Provider, ha costruito il proprio percorso professionale sull'idea che la tecnologia debba semplificare, non complicare, il rapporto tra medico e paziente.",
     approach:
       "Non esistono due sorrisi identici: ogni piano di trattamento nasce da una diagnosi digitale accurata e viene condiviso con il paziente prima di iniziare, senza sorprese e senza tempi morti.",
@@ -53,7 +53,7 @@ export const DOCTORS: Doctor[] = [
     branca: "Medicina Estetica Avanzata",
     affiliation: "Già Dirigente Medico — A.O.U. Vanvitelli, U.O.C. Dermatologia",
     badge: ZERO_ATTESA_BADGE,
-    image: "/images/aesthetic-skin.jpg",
+    image: "/images/doctors/chiara-del-prete.jpg",
     bio: "La Dr.ssa Del Prete unisce la formazione dermatologica ospedaliera a un approccio estetico rigenerativo, fondato sull'appropriatezza clinica prima che sull'esecuzione del trattamento. Ogni percorso viene costruito partendo dalla qualità biologica della pelle, non dal singolo protocollo isolato.",
     approach:
       "Il mio obiettivo non è trasformare, ma valorizzare: prima la diagnosi medica, poi la tecnologia più adatta a ottenere un risultato naturale e coerente con l'identità della persona.",
@@ -88,7 +88,7 @@ export const DOCTORS: Doctor[] = [
     branca: "Cardiologia & Prevenzione Cardiovascolare",
     affiliation: "Già Dirigente Medico I livello — A.O.R.N. \"Antonio Cardarelli\", U.O.C. Cardiologia",
     badge: ZERO_ATTESA_BADGE,
-    image: "/images/diagnostics-lab.jpg",
+    image: "/images/doctors/ferdinando-esposito.jpg",
     bio: "Dopo anni di attività in ambito ospedaliero d'urgenza, il Dr. Esposito ha scelto di dedicarsi alla prevenzione cardiovascolare ambulatoriale, portando a Cocoora la stessa attenzione clinica riservata ai casi acuti. Crede che la vera cardiologia si faccia prima che il problema si manifesti.",
     approach:
       "La prevenzione cardiovascolare funziona solo se è costante e senza attriti: per questo affianco ogni paziente con controlli regolari e un dialogo diretto, senza filtri burocratici.",
@@ -117,7 +117,7 @@ export const DOCTORS: Doctor[] = [
     branca: "Senologia & Prevenzione Donna",
     affiliation: "Consulente senologa — Policlinico Universitario \"Federico II\"",
     badge: ZERO_ATTESA_BADGE,
-    image: "/images/doctor-consultation.jpg",
+    image: "/images/doctors/marianna-coppola.jpg",
     bio: "La Dr.ssa Coppola ha costruito la propria carriera intorno a un principio semplice: la prevenzione senologica deve essere accessibile, empatica e priva di ansia da attesa. Il suo approccio multidisciplinare integra la valutazione clinica con il supporto psicologico del percorso.",
     approach:
       "Ogni visita senologica è un momento delicato: il mio compito è trasformarlo in un'occasione di chiarezza e serenità, non di preoccupazione.",
@@ -145,7 +145,7 @@ export const DOCTORS: Doctor[] = [
     branca: "Ecografia & Diagnostica per Immagini",
     affiliation: "Già Dirigente Medico — A.O.R.N. \"Antonio Cardarelli\", U.O.C. Radiologia",
     badge: ZERO_ATTESA_BADGE,
-    image: "/images/laser-technology.jpg",
+    image: "/images/doctors/gennaro-iovine.jpg",
     bio: "Il Dr. Iovine porta a Cocoora un'esperienza maturata su migliaia di esami ecografici in ambito ospedaliero, applicata oggi a un contesto ambulatoriale rapido e senza liste d'attesa. La sua diagnostica per immagini è il punto di riferimento trasversale a più branche cliniche dello studio.",
     approach:
       "Un'immagine diagnostica di qualità vale quanto il tempo dedicato a leggerla: referto accurato, spiegato chiaramente, disponibile subito nella tua area digitale.",
@@ -174,7 +174,7 @@ export const DOCTORS: Doctor[] = [
     branca: "Oculistica & Salute della Vista",
     affiliation: "Consulente oculista — A.O.U. Vanvitelli, U.O.C. Oculistica",
     badge: ZERO_ATTESA_BADGE,
-    image: "/images/clinic-lounge.jpg",
+    image: "/images/doctors/ilaria-russo.jpg",
     bio: "La Dr.ssa Russo si dedica alla prevenzione oculistica per tutte le età, dallo screening pediatrico ai controlli di routine per l'adulto. Predilige un approccio informativo, spiegando ogni esame in modo che il paziente comprenda davvero lo stato di salute della propria vista.",
     approach:
       "La vista si tutela con controlli regolari, non con interventi tardivi: per questo rendo ogni visita un momento di educazione oltre che di diagnosi.",
@@ -202,7 +202,7 @@ export const DOCTORS: Doctor[] = [
     branca: "Pediatria & Cura della Crescita",
     affiliation: "Consulente pediatra — Policlinico Universitario \"Federico II\"",
     badge: ZERO_ATTESA_BADGE,
-    image: "/images/pediatric-family.jpg",
+    image: "/images/doctors/teresa-amato.jpg",
     bio: "La Dr.ssa Amato ha scelto la pediatria ambulatoriale per costruire un rapporto continuativo con le famiglie, in un ambiente pensato per mettere a proprio agio i più piccoli. Coordina inoltre i percorsi di ortodonzia intercettiva con l'équipe odontoiatrica.",
     approach:
       "Un bambino sereno è un bambino che collabora: dedico tempo a costruire fiducia, prima ancora che a eseguire la visita.",
@@ -230,7 +230,7 @@ export const DOCTORS: Doctor[] = [
     branca: "Ginecologia & Benessere Intimo",
     affiliation: "Consulente ginecologa — A.O.U. Vanvitelli, U.O.C. Ginecologia e Ostetricia",
     badge: ZERO_ATTESA_BADGE,
-    image: "/images/aesthetic-skin.jpg",
+    image: "/images/doctors/federica-caputo.jpg",
     bio: "La Dr.ssa Caputo accompagna le pazienti in ogni fase della vita, dalla prevenzione di routine alla gestione del climaterio, con un'attenzione particolare all'equilibrio ormonale e al microbiota intimo. Lavora a stretto contatto con l'équipe di Donna Precision.",
     approach:
       "La salute della donna cambia nel tempo: il mio compito è adattare il percorso di prevenzione a ogni fase, senza schemi standardizzati.",
@@ -258,7 +258,7 @@ export const DOCTORS: Doctor[] = [
     branca: "Nutrizione Clinica & Metabolismo",
     affiliation: "Docente a contratto — Università degli Studi di Napoli \"Federico II\"",
     badge: ZERO_ATTESA_BADGE,
-    image: "/images/body-wellness.jpg",
+    image: "/images/doctors/luca-marino.jpg",
     bio: "Il Dr. Marino applica un approccio nutrizionale basato su dati clinici e biologia individuale, integrando quando indicato il profilo genetico e il microbiota intestinale nella costruzione dei piani alimentari. Nessuna dieta generica: solo protocolli personalizzati.",
     approach:
       "La nutrizione di precisione parte dai dati, non dalle mode: analizzo la risposta biologica individuale per costruire un piano che funzioni davvero, nel tempo.",
