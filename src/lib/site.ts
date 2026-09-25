@@ -18,93 +18,104 @@ export const SITE = {
 
 export const NAV_NODES: NavNode[] = [
   {
-    label: "Servizi",
+    label: "Visite & Trattamenti",
     children: [
       {
-        label: "Odontoiatria Digitale",
+        label: "Odontoiatria & Ortodonzia Digitale",
         href: "/servizi/odontoiatria",
-        description: "Invisalign Diamond Provider, implantologia guidata e chirurgia piezoelettrica.",
+        description: "Invisalign Diamond Provider, implantologia guidata e salute orale senza attese.",
         image: "/images/invisalign-smile.jpg",
       },
       {
-        label: "Medicina Estetica Avanzata",
+        label: "Medicina Estetica & Rigenerativa",
         href: "/servizi/medicina-estetica",
-        description: "Protocolli rigenerativi, biostimolazione e laserterapia per viso e corpo.",
+        description: "Laser medicali, iniettivi naturali, Cryoliposculpt e protocolli su misura per viso e corpo.",
         image: "/images/aesthetic-skin.jpg",
       },
       {
-        label: "Diagnostica & Poliambulatorio",
+        label: "Poliambulatorio & Diagnostica Rapida",
         href: "/servizi/diagnostica",
-        description: "Visite specialistiche, ecografie, cardiologia, ginecologia e senologia senza attese.",
+        description: "Cardiologia, Senologia, Ecografia, Ginecologia, Pediatria e Oculistica con visite entro 72h.",
         image: "/images/diagnostics-lab.jpg",
       },
-    ],
-  },
-  {
-    label: "Studio",
-    children: [
       {
-        label: "Chi Siamo & Metodo",
-        href: "/chi-siamo",
-        description: "La visione clinica, gli ambienti accoglienti e l'approccio Amico Medico.",
-        image: "/images/clinic-lounge.jpg",
-      },
-      {
-        label: "Tutti i Trattamenti",
+        label: "Tutti i Trattamenti Specialistici",
         href: "/#trattamenti",
-        description: "Panoramica clinica completa di tutte le prestazioni erogate.",
+        description: "Panoramica di tutti i 19 trattamenti specialistici disponibili nel nostro centro.",
       },
     ],
   },
   {
-    label: "Medici",
+    label: "I Medici",
     children: [
       {
-        label: "Tutti gli Specialisti",
+        label: "Tutta l'Équipe Specialistica",
         href: "/medici",
-        description: "Zero liste d'attesa: la rete di medici con convenzione universitaria e ospedaliera.",
+        description: "Medici con cattedre universitarie e convenzioni ospedaliere a Napoli (Federico II, Vanvitelli, Cardarelli).",
         image: "/images/doctor-consultation.jpg",
       },
       {
-        label: "Odontoiatria & Invisalign",
-        href: "/servizi/odontoiatria",
-        description: "Ortodonzia digitale e chirurgia guidata con specialisti Invisalign Diamond Provider.",
+        label: "Zero Liste d'Attesa",
+        href: "/medici",
+        description: "Visite specialistiche garantite entro 72 ore con i massimi docenti universitari, senza le attese del SSN.",
       },
       {
-        label: "Cardiologia & Diagnostica",
-        href: "/servizi/diagnostica",
-        description: "Cardiologi, senologi e radiologi con affiliazioni Federico II, Vanvitelli e Cardarelli.",
+        label: "Il Metodo «Amico Medico»",
+        href: "/chi-siamo",
+        description: "Tempo dedicato alla persona, ascolto clinico empatico e un unico punto di riferimento per la tua salute.",
       },
     ],
   },
   {
-    label: "Club & Percorsi",
+    label: "Lo Studio",
     children: [
       {
-        label: "Cocoora Club",
+        label: "Chi Siamo & La Visione",
+        href: "/chi-siamo",
+        description: "Il nostro polo polispecialistico a Napoli: standard di clinica svizzera, privacy e zero burocrazia.",
+        image: "/images/clinic-lounge.jpg",
+      },
+      {
+        label: "La Sede di Napoli (Via De Bonis 81)",
+        href: "/contatti",
+        description: "Posillipo / Fuorigrotta: ambienti moderni, accoglienza riservata, orari comodi e facilità di parcheggio.",
+      },
+      {
+        label: "Tecnologie 3D & Laser Medicali",
+        href: "/servizi/diagnostica",
+        description: "Scanner intraorale iTero, ecografia HD, piattaforma laser multi-lunghezza d'onda.",
+      },
+    ],
+  },
+  {
+    label: "Piani Salute",
+    children: [
+      {
+        label: "Cocoora Club (Membership Annuali)",
         href: "/club",
-        description: "Membership annuali di prevenzione: Discover, Access, Care, Experience, Signature, Longevity.",
+        description: "Discover 0€, Access, Care da 29€/mese e Signature: visite e check-up inclusi tutto l'anno.",
         image: "/images/hero-clinic.jpg",
       },
       {
-        label: "Cocoora Precision",
+        label: "Cocoora Precision (Genomica & Longevità)",
         href: "/precision",
-        description: "Genomica predittiva, test DNA 5 e sequenziamento microbiota per una longevità attiva.",
+        description: "Test DNA 5 predittivo e sequenziamento del microbiota intestinale per una longevità attiva.",
         image: "/images/dna-genomics.jpg",
       },
+      {
+        label: "Family Care & Minori",
+        href: "/club",
+        description: "Piani integrati di prevenzione per bambini e ragazzi con ortodonzia e visite pediatriche.",
+      },
     ],
-  },
-  {
-    label: "Contatti",
-    href: "/contatti",
   },
 ];
 
 export const NAV_LINKS = [
-  { label: "Servizi", href: "/#servizi" },
-  { label: "Studio", href: "/chi-siamo" },
-  { label: "Cocoora Club", href: "/club" },
-  { label: "Trattamenti", href: "/#trattamenti" },
+  { label: "Visite & Trattamenti", href: "/#servizi" },
+  { label: "I Medici", href: "/medici" },
+  { label: "Lo Studio", href: "/chi-siamo" },
+  { label: "Piani Salute", href: "/club" },
   { label: "Contatti", href: "/contatti" },
 ];
 
