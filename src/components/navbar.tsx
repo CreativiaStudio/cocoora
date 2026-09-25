@@ -389,32 +389,32 @@ function MegamenuVisiteTrattamenti({
           </h4>
           <ul className="space-y-2 text-xs">
             <li>
-              <Link href="/servizi/diagnostica" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
+              <Link href="/servizi/diagnostica#cardiologia" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
                 Cardiologia & ECG
               </Link>
             </li>
             <li>
-              <Link href="/servizi/diagnostica" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
+              <Link href="/servizi/diagnostica#senologia" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
                 Senologia & Prevenzione Donna
               </Link>
             </li>
             <li>
-              <Link href="/servizi/diagnostica" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
+              <Link href="/servizi/diagnostica#radiologia-ecografie" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
                 Ecografie & Diagnostica Rapida
               </Link>
             </li>
             <li>
-              <Link href="/servizi/diagnostica" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
+              <Link href="/servizi/diagnostica#pediatria" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
                 Pediatria & Cura della Crescita
               </Link>
             </li>
             <li>
-              <Link href="/servizi/diagnostica" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
+              <Link href="/servizi/diagnostica#ginecologia" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
                 Ginecologia & Benessere Intimo
               </Link>
             </li>
             <li>
-              <Link href="/servizi/diagnostica" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
+              <Link href="/servizi/diagnostica#oculistica" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
                 Oculistica & Salute della Vista
               </Link>
             </li>
@@ -428,29 +428,29 @@ function MegamenuVisiteTrattamenti({
           </h4>
           <ul className="space-y-2 text-xs">
             <li>
-              <Link href="/servizi/odontoiatria" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700 flex items-center gap-1">
+              <Link href="/trattamenti/invisalign-adulti" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700 flex items-center gap-1">
                 <span>Invisalign Diamond</span>
                 <span className="text-[9px] bg-teal-100 text-teal-900 px-1.5 py-0.5 rounded-full font-bold">TOP</span>
               </Link>
             </li>
             <li>
-              <Link href="/servizi/odontoiatria" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
-                Ortodonzia Adulti & Bambini
+              <Link href="/trattamenti/invisalign-adolescenti" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
+                Ortodonzia Bambini & Ragazzi
               </Link>
             </li>
             <li>
-              <Link href="/servizi/odontoiatria" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
+              <Link href="/trattamenti/implantologia" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
                 Implantologia & Chirurgia 3D
               </Link>
             </li>
             <li>
-              <Link href="/servizi/odontoiatria" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
+              <Link href="/trattamenti/estetica-dentale" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
                 Estetica Dentale & Sbiancamento
               </Link>
             </li>
             <li>
-              <Link href="/servizi/odontoiatria" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
-                Igiene Orale & Prevenzione Carie
+              <Link href="/trattamenti/igiene" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
+                Igiene Orale & Prevenzione
               </Link>
             </li>
           </ul>
@@ -463,27 +463,27 @@ function MegamenuVisiteTrattamenti({
           </h4>
           <ul className="space-y-2 text-xs">
             <li>
-              <Link href="/servizi/medicina-estetica" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
-                Ringiovanimento Viso Naturale
+              <Link href="/trattamenti/filler-acido-ialuronico" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
+                Ringiovanimento Viso & Filler
               </Link>
             </li>
             <li>
-              <Link href="/servizi/medicina-estetica" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
+              <Link href="/trattamenti/piattaforma-laser" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
                 Laserterapia & Macchie Cutanee
               </Link>
             </li>
             <li>
-              <Link href="/servizi/medicina-estetica" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
-                Cryoliposculpt & Rimodellamento
+              <Link href="/trattamenti/cryoliposculpt" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
+                Cryoliposculpt Rimodellamento
               </Link>
             </li>
             <li>
-              <Link href="/servizi/medicina-estetica" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
+              <Link href="/trattamenti/biorivitalizzazione" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
                 Biorivitalizzazione & Peeling
               </Link>
             </li>
             <li>
-              <Link href="/servizi/medicina-estetica" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
+              <Link href="/trattamenti/carbossiterapia" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
                 Carbossiterapia Medicale
               </Link>
             </li>

@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-type ButtonVariant = "primary" | "secondary" | "ghost" | "white" | "outline-dark";
+type ButtonVariant = "primary" | "secondary" | "ghost" | "white" | "outline-dark" | "outline";
 
 const base =
   "inline-flex items-center justify-center gap-2 rounded-full font-sans text-sm font-medium tracking-tight transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/40 disabled:cursor-not-allowed disabled:opacity-50";
@@ -17,6 +17,8 @@ const variants: Record<ButtonVariant, string> = {
     "bg-white text-teal-800 shadow-[0_10px_30px_-12px_rgba(3,53,75,0.4)] hover:bg-teal-50 hover:-translate-y-0.5",
   "outline-dark":
     "border border-white/30 text-white hover:bg-white/10 hover:-translate-y-0.5",
+  outline:
+    "border border-amber-200/40 text-amber-200 hover:bg-amber-200/10 hover:border-amber-200 hover:-translate-y-0.5",
 };
 
 const sizes = {
@@ -86,9 +88,20 @@ export function Badge({
   );
 }
 
-export function SectionLabel({ children }: { children: ReactNode }) {
+export function SectionLabel({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
   return (
-    <p className="mb-4 font-sans text-xs font-semibold uppercase tracking-[0.24em] text-slate-accent">
+    <p
+      className={cn(
+        "mb-4 font-sans text-xs font-semibold uppercase tracking-[0.24em] text-slate-accent",
+        className
+      )}
+    >
       {children}
     </p>
   );

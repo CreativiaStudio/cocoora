@@ -86,7 +86,8 @@ export default function DiagnosticaPage() {
               return (
                 <div
                   key={s.id}
-                  className="grid gap-0 overflow-hidden rounded-[2rem] border border-teal-100 bg-white shadow-[0_20px_50px_-28px_rgba(3,53,75,0.3)] lg:grid-cols-2"
+                  id={s.id}
+                  className="scroll-mt-32 grid gap-0 overflow-hidden rounded-[2rem] border border-teal-100 bg-white shadow-[0_20px_50px_-28px_rgba(3,53,75,0.3)] lg:grid-cols-2"
                 >
                   <div
                     className={`relative aspect-[16/10] w-full lg:aspect-auto ${

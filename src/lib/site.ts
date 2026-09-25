@@ -40,7 +40,7 @@ export const NAV_NODES: NavNode[] = [
       },
       {
         label: "Tutti i Trattamenti Specialistici",
-        href: "/#trattamenti",
+        href: "/trattamenti",
         description: "Panoramica di tutti i 19 trattamenti specialistici disponibili nel nostro centro.",
       },
     ],
