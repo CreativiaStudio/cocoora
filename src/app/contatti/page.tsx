@@ -169,7 +169,7 @@ export default function ContattiPage() {
                     <Phone className="h-4 w-4" /> Chiama ora
                   </a>
                   <a
-                    href="https://wa.me/390200000000"
+                    href={SITE.whatsapp}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex flex-1 items-center justify-center gap-2 rounded-full border border-teal-200 px-5 py-3 text-sm font-medium text-teal-800 transition-colors hover:border-teal-400 hover:bg-teal-50"
@@ -186,7 +186,7 @@ export default function ContattiPage() {
                 <div className="relative flex flex-col items-center text-center text-white">
                   <MapPin className="h-8 w-8 text-slate-accent" />
                   <p className="mt-3 font-serif text-lg font-semibold">Cocoora Studio Medico</p>
-                  <p className="mt-1 text-sm text-teal-200/80">{SITE.address}</p>
+                  <p className="mt-1 text-sm text-teal-200/80">{SITE.fullAddress}</p>
                 </div>
               </div>
             </div>

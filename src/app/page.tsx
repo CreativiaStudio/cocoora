@@ -6,7 +6,9 @@ import {
   ArrowRight,
   CalendarDays,
   FileText,
+  Heart,
   Instagram,
+  MessageCircle,
   Plus,
   ShieldCheck,
   Sparkles,
@@ -299,13 +301,46 @@ export default function HomePage() {
                 href="https://www.instagram.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative aspect-square overflow-hidden rounded-2xl bg-gradient-to-br from-teal-200 via-teal-400 to-teal-700"
+                className="group relative aspect-square overflow-hidden rounded-2xl border border-teal-100/60 bg-teal-50"
               >
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  <Instagram className="h-7 w-7 text-white" />
+                <Image
+                  src={post.image}
+                  alt={post.caption}
+                  fill
+                  sizes="(min-width: 1024px) 220px, (min-width: 640px) 33vw, 50vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+
+                {/* Badge Instagram */}
+                <div className="absolute right-3 top-3 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-dark-navy/40 text-white backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-0">
+                  <Instagram className="h-3.5 w-3.5" />
                 </div>
-                <div className="absolute inset-x-0 bottom-0 translate-y-full bg-dark-navy/80 p-3 text-xs text-white backdrop-blur-sm transition-transform duration-300 group-hover:translate-y-0">
-                  {post.caption}
+
+                {/* Overlay hover */}
+                <div className="absolute inset-0 flex flex-col justify-between bg-gradient-to-t from-dark-navy/90 via-dark-navy/50 to-transparent p-4 opacity-0 transition-all duration-300 group-hover:opacity-100">
+                  <div className="flex items-center justify-between">
+                    <span className="rounded-full bg-white/15 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.14em] text-white backdrop-blur-sm">
+                      {post.tag}
+                    </span>
+                    <Instagram className="h-4 w-4 text-white/80" />
+                  </div>
+
+                  <div className="flex items-center justify-center gap-5 text-white">
+                    <span className="inline-flex items-center gap-1.5 text-sm font-semibold">
+                      <Heart className="h-4 w-4 fill-current" />
+                      {post.likes}
+                    </span>
+                    {typeof post.comments === "number" && (
+                      <span className="inline-flex items-center gap-1.5 text-sm font-semibold">
+                        <MessageCircle className="h-4 w-4" />
+                        {post.comments}
+                      </span>
+                    )}
+                  </div>
+
+                  <p className="line-clamp-2 text-xs font-medium leading-snug text-white/95">
+                    {post.caption}
+                  </p>
                 </div>
               </a>
             ))}

@@ -2,7 +2,7 @@
 
 @theme {
   --color-primary-teal: #1c4a5c;
-  --color-dark-navy: #03354b;
+  --color-dark-navy: #00344b;
   --color-slate-accent: #80a1b2;
   --color-charcoal: #3d3d3c;
   --color-canvas: #fafcfd;
@@ -16,7 +16,7 @@
   --color-teal-600: #1c4a5c;
   --color-teal-700: #143a49;
   --color-teal-800: #0c2e3b;
-  --color-teal-900: #03354b;
+  --color-teal-900: #00344b;
 
   --font-serif: var(--font-cormorant), "Garamond", "Cormorant Garamond", serif;
   --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;

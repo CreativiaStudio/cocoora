@@ -11,24 +11,24 @@ export function Logo({
   if (variant === "light" || variant === "white") {
     return (
       <Image
-        src="/cocoora-logo-white.png"
+        src="/cocoora-logo-horizontal-white.png"
         alt="Cocoora Studio Medico Polispecialistico"
-        width={360}
-        height={156}
+        width={749}
+        height={190}
         priority
-        className={cn("h-9 w-auto object-contain", className)}
+        className={cn("h-9 sm:h-10 w-auto object-contain", className)}
       />
     );
   }
 
   return (
     <Image
-      src="/cocoora-logo-transparent.png"
+      src="/cocoora-logo-horizontal.png"
       alt="Cocoora Studio Medico Polispecialistico"
-      width={360}
-      height={156}
+      width={749}
+      height={190}
       priority
-      className={cn("h-9 w-auto object-contain", className)}
+      className={cn("h-9 sm:h-10 w-auto object-contain", className)}
     />
   );
 }

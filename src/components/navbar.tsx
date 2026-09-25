@@ -52,9 +52,8 @@ export function Navbar() {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-300",
-        scrolled || mobileOpen
-          ? "glass border-b border-teal-900/10 shadow-[0_8px_40px_-20px_rgba(3,53,75,0.28)]"
-          : "border-b border-transparent bg-transparent"
+        "bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-[0_4px_25px_-10px_rgba(0,52,75,0.12)]",
+        scrolled && "shadow-[0_8px_30px_-15px_rgba(0,52,75,0.20)]"
       )}
     >
       <div className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10">

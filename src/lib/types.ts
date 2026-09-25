@@ -134,6 +134,15 @@ export type ServiceArea = {
   items: string[];
 };
 
+export type InstagramPost = {
+  id: number;
+  image: string;
+  caption: string;
+  likes: number;
+  comments?: number;
+  tag?: string;
+};
+
 export type VideoItem = {
   id: string;
   type: "instagram" | "mp4";

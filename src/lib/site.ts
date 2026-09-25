@@ -1,12 +1,17 @@
-import type { NavNode, ServiceArea, VideoItem } from "./types";
+import type { InstagramPost, NavNode, ServiceArea, VideoItem } from "./types";
 
 export const SITE = {
   name: "Cocoora",
   fullName: "Cocoora Studio Medico Polispecialistico",
   claim: "Connessi alla tua salute.",
-  phone: "+39 02 0000 0000",
+  phone: "081 18182091",
+  phoneRaw: "08118182091",
   email: "hello@cocoora.it",
-  address: "Napoli — Italia",
+  address: "Via Generale Giovanni De Bonis, 81",
+  zip: "80123",
+  city: "Napoli",
+  fullAddress: "Via Generale Giovanni De Bonis, 81 - 80123 Napoli",
+  whatsapp: "https://wa.me/3908118182091",
   instagram: "https://www.instagram.com/",
   hours: "Lun–Ven · 8:00–20:00 — Sab · 9:00–14:00",
 };
@@ -186,11 +191,59 @@ export const DEFAULT_VIDEOS: VideoItem[] = [
   },
 ];
 
-export const INSTAGRAM_POSTS = [
-  { id: 1, caption: "Il tuo sorriso, il nostro impegno", likes: 128 },
-  { id: 2, caption: "Prevenzione che fa la differenza", likes: 96 },
-  { id: 3, caption: "Tecnologia al servizio della salute", likes: 154 },
-  { id: 4, caption: "Cocoora Club: la salute come stile di vita", likes: 210 },
-  { id: 5, caption: "Il tuo percorso, in un click", likes: 87 },
-  { id: 6, caption: "Benessere senza ostacoli", likes: 143 },
+export const INSTAGRAM_POSTS: InstagramPost[] = [
+  {
+    id: 1,
+    image: "/images/clinic-lounge.jpg",
+    caption:
+      "Benvenuti nello Studio. Luce, materiali naturali e silenzio: il tuo benessere inizia dall'accoglienza. #CocooraClinic #AmicoMedico",
+    likes: 184,
+    comments: 14,
+    tag: "Studio",
+  },
+  {
+    id: 2,
+    image: "/images/invisalign-smile.jpg",
+    caption:
+      "Il tuo sorriso, progettato in digitale. Invisalign Diamond Provider per percorsi invisibili ed eleganti. #InvisalignDiamond #CocooraSmile",
+    likes: 242,
+    comments: 19,
+    tag: "Odontoiatria",
+  },
+  {
+    id: 3,
+    image: "/images/aesthetic-skin.jpg",
+    caption:
+      "Medicina estetica naturale: valorizzare senza trasformare, con protocolli su misura. #MedicinaEstetica #CocooraBeauty",
+    likes: 310,
+    comments: 27,
+    tag: "Medicina Estetica",
+  },
+  {
+    id: 4,
+    image: "/images/doctor-consultation.jpg",
+    caption:
+      "Il tempo che dedichiamo a te è il farmaco più prezioso. Il metodo Cocoora, un medico sempre al tuo fianco. #AmicoMedico #CocooraCare",
+    likes: 198,
+    comments: 16,
+    tag: "Amico Medico",
+  },
+  {
+    id: 5,
+    image: "/images/laser-technology.jpg",
+    caption:
+      "Tecnologia di precisione al servizio della pelle. Trattamenti laser medicali per risultati armoniosi e sicuri. #CocooraTech #LaserMedicale",
+    likes: 156,
+    comments: 11,
+    tag: "Tecnologia",
+  },
+  {
+    id: 6,
+    image: "/images/dna-genomics.jpg",
+    caption:
+      "La prevenzione diventa predittiva. DNA 5 e microbiota per leggere il tuo futuro e proteggerti prima. #CocooraPrecision #Longevità",
+    likes: 275,
+    comments: 23,
+    tag: "Precision",
+  },
 ];

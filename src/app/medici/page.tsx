@@ -3,19 +3,54 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { ArrowRight, GraduationCap, ShieldCheck } from "lucide-react";
+import { ArrowRight, GraduationCap, Search, ShieldCheck, UserCheck, X } from "lucide-react";
 import { BRANCHE, DOCTORS } from "@/lib/doctors";
 import { formatPrice } from "@/lib/utils";
 import { cn } from "@/lib/utils";
-import { Badge, ButtonLink, Container, SectionLabel } from "@/components/ui";
+import { Badge, Button, ButtonLink, Container, SectionLabel } from "@/components/ui";
+
+// Mappatura etichette brevi per una UI più pulita ed elegante
+const BRANCA_SHORT_LABELS: Record<string, string> = {
+  "Tutte": "Tutti gli Specialisti",
+  "Odontoiatria & Ortodonzia Digitale": "Odontoiatria & Ortodonzia",
+  "Medicina Estetica Avanzata": "Medicina Estetica",
+  "Cardiologia & Prevenzione Cardiovascolare": "Cardiologia",
+  "Senologia & Prevenzione Donna": "Senologia",
+  "Ecografia & Diagnostica per Immagini": "Ecografia & Diagnostica",
+  "Oculistica & Salute della Vista": "Oculistica",
+  "Pediatria & Cura della Crescita": "Pediatria",
+  "Ginecologia & Benessere Intimo": "Ginecologia",
+  "Nutrizione Clinica & Metabolismo": "Nutrizione Clinica",
+};
 
 export default function MediciPage() {
   const [filter, setFilter] = useState<string>("Tutte");
+  const [search, setSearch] = useState<string>("");
 
   const filtered = useMemo(() => {
-    if (filter === "Tutte") return DOCTORS;
-    return DOCTORS.filter((d) => d.branca === filter);
-  }, [filter]);
+    const q = search.trim().toLowerCase();
+    return DOCTORS.filter((d) => {
+      // Filtro per branca
+      const matchesBranch = filter === "Tutte" || d.branca === filter;
+      if (!matchesBranch) return false;
+
+      // Filtro per testo di ricerca
+      if (!q) return true;
+      const matchName = d.name.toLowerCase().includes(q);
+      const matchTitle = d.title.toLowerCase().includes(q);
+      const matchBranch = d.branca.toLowerCase().includes(q);
+      const matchServices = d.servizi.some((s) => s.toLowerCase().includes(q));
+      const matchApproach = d.approach.toLowerCase().includes(q);
+      const matchAffiliation = d.affiliation.toLowerCase().includes(q);
+
+      return matchName || matchTitle || matchBranch || matchServices || matchApproach || matchAffiliation;
+    });
+  }, [filter, search]);
+
+  const resetFilters = () => {
+    setFilter("Tutte");
+    setSearch("");
+  };
 
   return (
     <>
@@ -54,87 +89,166 @@ export default function MediciPage() {
         </div>
       </section>
 
-      {/* ── Filtri per Branca Specialistica ───────────────────────────── */}
-      <section className="bg-canvas border-b border-teal-100/60 py-6 sm:py-8">
+      {/* ── Sezione Ricerca & Filtri per Branca Specialistica ──────────── */}
+      <section className="bg-canvas border-b border-teal-100/70 py-6 sm:py-8 sticky top-16 sm:top-20 z-20 backdrop-blur-md bg-canvas/95 shadow-xs">
         <Container>
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-2.5">
-            {["Tutte", ...BRANCHE].map((b) => (
-              <button
-                key={b}
-                type="button"
-                onClick={() => setFilter(b)}
-                className={cn(
-                  "rounded-full border px-4 py-2 sm:px-5 sm:py-2.5 text-xs sm:text-sm font-medium transition-all duration-200",
-                  filter === b
-                    ? "border-teal-700 bg-teal-700 text-white shadow-[0_8px_24px_-10px_rgba(28,74,92,0.55)] scale-[1.02]"
-                    : "border-teal-200 bg-white text-charcoal/70 hover:border-teal-400 hover:text-teal-900 shadow-xs"
+          <div className="mx-auto max-w-4xl space-y-4">
+            {/* Barra di ricerca principale */}
+            <div className="relative flex items-center">
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-teal-800/60">
+                <Search className="h-5 w-5" />
+              </div>
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Cerca per medico, prestazione o branca (es. Sorrentino, Invisalign, Cuore, Ecografia)..."
+                className="w-full rounded-2xl border border-teal-200/90 bg-white py-3.5 pl-12 pr-12 text-sm sm:text-base text-charcoal placeholder:text-charcoal/45 shadow-[0_4px_20px_-4px_rgba(0,52,75,0.08)] transition-all focus:border-teal-700 focus:outline-none focus:ring-3 focus:ring-teal-700/15"
+              />
+              {search && (
+                <button
+                  type="button"
+                  onClick={() => setSearch("")}
+                  className="absolute inset-y-0 right-0 flex items-center pr-4 text-charcoal/40 hover:text-charcoal transition-colors"
+                  title="Cancella ricerca"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              )}
+            </div>
+
+            {/* Pillole categorie/branche mediche */}
+            <div className="flex items-center gap-2 overflow-x-auto pb-1.5 pt-1 scrollbar-none sm:flex-wrap sm:justify-center">
+              {["Tutte", ...BRANCHE].map((b) => {
+                const label = BRANCA_SHORT_LABELS[b] || b;
+                const isSelected = filter === b;
+                return (
+                  <button
+                    key={b}
+                    type="button"
+                    onClick={() => setFilter(b)}
+                    className={cn(
+                      "shrink-0 rounded-full border px-3.5 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium transition-all duration-200",
+                      isSelected
+                        ? "border-teal-900 bg-teal-900 text-white shadow-[0_4px_16px_-4px_rgba(0,52,75,0.4)] scale-[1.02]"
+                        : "border-teal-200/80 bg-white text-charcoal/70 hover:border-teal-400 hover:text-teal-950 shadow-xs"
+                    )}
+                  >
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Riepilogo e contatore risultati */}
+            <div className="flex items-center justify-between text-xs sm:text-sm text-charcoal/65 px-1 pt-1">
+              <span>
+                {filtered.length === 1
+                  ? "1 specialista disponibile"
+                  : `${filtered.length} specialisti disponibili`}
+                {(search || filter !== "Tutte") && (
+                  <span className="font-medium text-teal-900 ml-1.5">
+                    {filter !== "Tutte" && `in ${BRANCA_SHORT_LABELS[filter] || filter}`}
+                    {search && ` per «${search}»`}
+                  </span>
                 )}
-              >
-                {b}
-              </button>
-            ))}
+              </span>
+
+              {(search || filter !== "Tutte") && (
+                <button
+                  type="button"
+                  onClick={resetFilters}
+                  className="text-xs font-semibold text-teal-800 hover:text-dark-navy underline underline-offset-2 transition-colors"
+                >
+                  Reimposta filtri
+                </button>
+              )}
+            </div>
           </div>
         </Container>
       </section>
 
       {/* ── Griglia Specialisti ───────────────────────────────────────── */}
-      <section className="bg-canvas py-12 sm:py-16 pb-24">
+      <section className="bg-canvas py-10 sm:py-14 pb-24">
         <Container>
-          <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((doctor) => (
-              <Link
-                key={doctor.slug}
-                href={`/medici/${doctor.slug}`}
-                className="group flex flex-col overflow-hidden rounded-[2rem] border border-teal-100/80 bg-white shadow-[0_20px_50px_-28px_rgba(3,53,75,0.22)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_32px_70px_-24px_rgba(3,53,75,0.35)] hover:border-teal-300"
-              >
-                {/* Ritratto medico in formato verticale (3:4) con focus volto */}
-                <div className="relative aspect-[3/4] w-full overflow-hidden bg-teal-50">
-                  <Image
-                    src={doctor.image}
-                    alt={doctor.name}
-                    fill
-                    sizes="(min-width: 1024px) 400px, 90vw"
-                    className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-dark-navy/90 via-dark-navy/20 to-transparent" />
-                  
-                  {/* Badge superiore */}
-                  <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-teal-900 shadow-sm backdrop-blur-sm">
-                    <ShieldCheck className="h-3 w-3 text-teal-600" /> Zero Attese
-                  </span>
-
-                  {/* Nome e Branca in overlay inferiore sul ritratto */}
-                  <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
-                    <p className="font-serif text-xl sm:text-2xl font-semibold leading-snug text-white drop-shadow-sm">
-                      {doctor.name}
-                    </p>
-                    <p className="mt-1 text-xs font-medium uppercase tracking-wide text-teal-200">
-                      {doctor.branca}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Dati Clinici e Approccio */}
-                <div className="flex flex-1 flex-col p-6">
-                  <p className="flex items-start gap-2 text-xs leading-relaxed text-charcoal/65">
-                    <GraduationCap className="mt-0.5 h-4 w-4 shrink-0 text-slate-accent" />
-                    <span>{doctor.affiliation}</span>
-                  </p>
-                  <p className="mt-3.5 flex-1 text-sm leading-relaxed text-charcoal/75 line-clamp-3">
-                    {doctor.approach}
-                  </p>
-                  <div className="mt-5 flex items-center justify-between border-t border-teal-50 pt-4">
-                    <span className="text-xs text-charcoal/60">
-                      Visita da <strong className="text-teal-900 text-sm font-semibold">{formatPrice(doctor.tariffaVisita)}</strong>
+          {filtered.length > 0 ? (
+            <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+              {filtered.map((doctor) => (
+                <Link
+                  key={doctor.slug}
+                  href={`/medici/${doctor.slug}`}
+                  className="group flex flex-col overflow-hidden rounded-[2rem] border border-teal-100/80 bg-white shadow-[0_20px_50px_-28px_rgba(3,53,75,0.22)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_32px_70px_-24px_rgba(3,53,75,0.35)] hover:border-teal-300"
+                >
+                  {/* Ritratto medico in formato verticale (3:4) con focus volto */}
+                  <div className="relative aspect-[3/4] w-full overflow-hidden bg-teal-50">
+                    <Image
+                      src={doctor.image}
+                      alt={doctor.name}
+                      fill
+                      sizes="(min-width: 1024px) 400px, 90vw"
+                      className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-dark-navy/90 via-dark-navy/20 to-transparent" />
+                    
+                    {/* Badge superiore */}
+                    <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-teal-900 shadow-sm backdrop-blur-sm">
+                      <ShieldCheck className="h-3 w-3 text-teal-600" /> Zero Attese
                     </span>
-                    <span className="inline-flex items-center gap-1.5 text-sm font-medium text-teal-700 transition-colors group-hover:text-dark-navy">
-                      Scopri profilo <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                    </span>
+
+                    {/* Nome e Branca in overlay inferiore sul ritratto */}
+                    <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
+                      <p className="font-serif text-xl sm:text-2xl font-semibold leading-snug text-white drop-shadow-sm">
+                        {doctor.name}
+                      </p>
+                      <p className="mt-1 text-xs font-medium uppercase tracking-wide text-teal-200">
+                        {doctor.branca}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ))}
-          </div>
+
+                  {/* Dati Clinici e Approccio */}
+                  <div className="flex flex-1 flex-col p-6">
+                    <p className="flex items-start gap-2 text-xs leading-relaxed text-charcoal/65">
+                      <GraduationCap className="mt-0.5 h-4 w-4 shrink-0 text-slate-accent" />
+                      <span>{doctor.affiliation}</span>
+                    </p>
+                    <p className="mt-3.5 flex-1 text-sm leading-relaxed text-charcoal/75 line-clamp-3">
+                      {doctor.approach}
+                    </p>
+                    <div className="mt-5 flex items-center justify-between border-t border-teal-50 pt-4">
+                      <span className="text-xs text-charcoal/60">
+                        Visita da <strong className="text-teal-900 text-sm font-semibold">{formatPrice(doctor.tariffaVisita)}</strong>
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 text-sm font-medium text-teal-700 transition-colors group-hover:text-dark-navy">
+                        Scopri profilo <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            /* Empty state se nessun medico corrisponde ai filtri */
+            <div className="mx-auto max-w-xl rounded-3xl border border-teal-100 bg-white p-8 sm:p-12 text-center shadow-md">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-teal-50 text-teal-800 mb-5">
+                <Search className="h-8 w-8 text-teal-800" />
+              </div>
+              <h3 className="font-serif text-2xl font-semibold text-dark-navy">
+                Nessuno specialista trovato
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-charcoal/70">
+                Non abbiamo trovato medici corrispondenti a <strong className="text-teal-900">«{search || filter}»</strong>. La nostra équipe accoglie continuamente nuovi docenti universitari e specialisti ospedalieri.
+              </p>
+              <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3">
+                <Button onClick={resetFilters} variant="primary">
+                  Mostra tutti gli specialisti
+                </Button>
+                <ButtonLink href="tel:08118182091" variant="secondary">
+                  Chiama la segreteria (081 18182091)
+                </ButtonLink>
+              </div>
+            </div>
+          )}
         </Container>
       </section>
 

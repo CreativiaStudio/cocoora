@@ -211,11 +211,12 @@ const SERVER_SNAPSHOT: CmsState = buildInitialState();
 
 function isLocalStorageAvailable(): boolean {
   try {
-    return (
-      typeof window !== "undefined" &&
-      typeof window.localStorage !== "undefined" &&
-      typeof window.localStorage.getItem === "function"
-    );
+    if (typeof window === "undefined") return false;
+    if (!window.localStorage) return false;
+    const test = "__test__";
+    window.localStorage.setItem(test, test);
+    window.localStorage.removeItem(test);
+    return true;
   } catch {
     return false;
   }
