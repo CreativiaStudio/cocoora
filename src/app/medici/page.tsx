@@ -55,7 +55,7 @@ export default function MediciPage() {
   return (
     <>
       {/* ── Banner Fullwidth compatto sotto al menu ───────────────────── */}
-      <section className="relative w-full overflow-hidden bg-dark-navy pt-20 sm:pt-24">
+      <section className="relative w-full overflow-hidden bg-dark-navy pt-24 sm:pt-28">
         <div className="relative h-[260px] sm:h-[300px] lg:h-[340px] w-full overflow-hidden">
           <Image
             src="/images/medici-hero-banner.jpg"

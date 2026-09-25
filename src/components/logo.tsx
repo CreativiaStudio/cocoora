@@ -8,28 +8,16 @@ export function Logo({
   variant?: "dark" | "light" | "white";
   className?: string;
 }) {
-  if (variant === "light" || variant === "white") {
-    return (
-      <Image
-        src="/cocoora-logo-horizontal-white.png"
-        alt="Cocoora Studio Medico Polispecialistico"
-        width={749}
-        height={190}
-        priority
-        className={cn("h-9 sm:h-10 w-auto object-contain", className)}
-      />
-    );
-  }
+  const isWhite = variant === "light" || variant === "white";
 
   return (
     <Image
-      src="/cocoora-logo-horizontal.png"
+      src={isWhite ? "/cocoora-logo-horizontal-white.png" : "/cocoora-logo-horizontal.png"}
       alt="Cocoora Studio Medico Polispecialistico"
       width={749}
       height={190}
       priority
-      className={cn("h-9 sm:h-10 w-auto object-contain", className)}
+      className={cn("w-auto object-contain transition-all duration-300 ease-in-out", className ?? "h-10 sm:h-12")}
     />
   );
 }
-
