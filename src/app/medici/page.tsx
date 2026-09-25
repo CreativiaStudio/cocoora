@@ -55,8 +55,8 @@ export default function MediciPage() {
   return (
     <>
       {/* ── Banner Fullwidth compatto sotto al menu ───────────────────── */}
-      <section className="relative w-full overflow-hidden bg-dark-navy pt-24 sm:pt-28">
-        <div className="relative h-[260px] sm:h-[300px] lg:h-[340px] w-full overflow-hidden">
+      <section className="relative w-full overflow-hidden bg-dark-navy pt-20 sm:pt-24">
+        <div className="relative h-[180px] sm:h-[210px] lg:h-[230px] w-full overflow-hidden">
           <Image
             src="/images/medici-hero-banner.jpg"
             alt="Équipe medica e clinica Cocoora a Napoli"
@@ -74,14 +74,14 @@ export default function MediciPage() {
           <div className="relative z-10 flex h-full items-center">
             <Container>
               <div className="max-w-3xl">
-                <Badge className="bg-white/15 text-white border-white/20 backdrop-blur-sm">
-                  <ShieldCheck className="h-3.5 w-3.5 text-teal-300" /> Zero Liste d&apos;Attesa — Convenzione Universitaria
+                <Badge className="bg-white/15 text-white border-white/20 backdrop-blur-sm text-[11px] py-0.5">
+                  <ShieldCheck className="h-3 w-3 text-teal-300" /> Prima visita garantita entro 72h · Federico II & Vanvitelli
                 </Badge>
-                <h1 className="mt-3.5 font-serif text-3xl font-semibold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl">
+                <h1 className="mt-2 font-serif text-2xl font-semibold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
                   I nostri specialisti
                 </h1>
-                <p className="mt-3 max-w-2xl text-sm leading-relaxed text-teal-100/90 sm:text-base">
-                  Una rete di medici con cattedre universitarie e convenzioni ospedaliere a Napoli (Federico II, Vanvitelli, Cardarelli). Visite immediate, senza liste d&apos;attesa e con approccio Amico Medico.
+                <p className="mt-1.5 max-w-2xl text-xs sm:text-sm leading-relaxed text-teal-100/90 line-clamp-2">
+                  Medici con cattedre universitarie e convenzioni ospedaliere a Napoli. Visite immediate senza attese e approccio Amico Medico.
                 </p>
               </div>
             </Container>
@@ -89,36 +89,54 @@ export default function MediciPage() {
         </div>
       </section>
 
-      {/* ── Sezione Ricerca & Filtri per Branca Specialistica ──────────── */}
-      <section className="bg-canvas border-b border-teal-100/70 py-6 sm:py-8 sticky top-16 sm:top-20 z-20 backdrop-blur-md bg-canvas/95 shadow-xs">
+      {/* ── Sezione Ricerca & Filtri per Branca Specialistica (Compatta) ─ */}
+      <section className="bg-canvas/95 border-b border-teal-100/70 py-3 sm:py-3.5 sticky top-14 sm:top-16 z-20 backdrop-blur-md shadow-xs transition-all">
         <Container>
-          <div className="mx-auto max-w-4xl space-y-4">
-            {/* Barra di ricerca principale */}
-            <div className="relative flex items-center">
-              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4 text-teal-800/60">
-                <Search className="h-5 w-5" />
+          <div className="mx-auto max-w-5xl space-y-2">
+            {/* Riga 1: Barra di ricerca snella + Contatore e reset */}
+            <div className="flex items-center gap-2.5">
+              <div className="relative flex-1">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3.5 text-teal-800/60">
+                  <Search className="h-4 w-4" />
+                </div>
+                <input
+                  type="text"
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Cerca per medico, prestazione o branca (es. Sorrentino, Invisalign, Cuore, Ecografia)..."
+                  className="w-full rounded-xl border border-teal-200/80 bg-white py-2 pl-9 pr-9 text-xs sm:text-sm text-charcoal placeholder:text-charcoal/45 shadow-xs transition-all focus:border-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-700/15"
+                />
+                {search && (
+                  <button
+                    type="button"
+                    onClick={() => setSearch("")}
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-charcoal/40 hover:text-charcoal transition-colors"
+                    title="Cancella ricerca"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                )}
               </div>
-              <input
-                type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Cerca per medico, prestazione o branca (es. Sorrentino, Invisalign, Cuore, Ecografia)..."
-                className="w-full rounded-2xl border border-teal-200/90 bg-white py-3.5 pl-12 pr-12 text-sm sm:text-base text-charcoal placeholder:text-charcoal/45 shadow-[0_4px_20px_-4px_rgba(0,52,75,0.08)] transition-all focus:border-teal-700 focus:outline-none focus:ring-3 focus:ring-teal-700/15"
-              />
-              {search && (
-                <button
-                  type="button"
-                  onClick={() => setSearch("")}
-                  className="absolute inset-y-0 right-0 flex items-center pr-4 text-charcoal/40 hover:text-charcoal transition-colors"
-                  title="Cancella ricerca"
-                >
-                  <X className="h-5 w-5" />
-                </button>
-              )}
+
+              <div className="flex items-center gap-2 shrink-0">
+                <span className="text-[11px] font-semibold text-teal-900 bg-white px-2.5 py-1.5 rounded-lg border border-teal-200/70 shadow-xs whitespace-nowrap">
+                  {filtered.length} {filtered.length === 1 ? "medico" : "specialisti"}
+                </span>
+
+                {(search || filter !== "Tutte") && (
+                  <button
+                    type="button"
+                    onClick={resetFilters}
+                    className="text-[11px] font-semibold text-teal-800 hover:text-dark-navy underline underline-offset-2 whitespace-nowrap transition-colors"
+                  >
+                    Azzera
+                  </button>
+                )}
+              </div>
             </div>
 
-            {/* Pillole categorie/branche mediche */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-1.5 pt-1 scrollbar-none sm:flex-wrap sm:justify-center">
+            {/* Riga 2: Pillole orizzontali monoriga a scorrimento senza wrap */}
+            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 pt-0.5 scrollbar-none flex-nowrap">
               {["Tutte", ...BRANCHE].map((b) => {
                 const label = BRANCA_SHORT_LABELS[b] || b;
                 const isSelected = filter === b;
@@ -128,41 +146,16 @@ export default function MediciPage() {
                     type="button"
                     onClick={() => setFilter(b)}
                     className={cn(
-                      "shrink-0 rounded-full border px-3.5 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium transition-all duration-200",
+                      "shrink-0 rounded-full border px-3 py-1 text-[11px] sm:text-xs font-medium transition-all duration-150 whitespace-nowrap",
                       isSelected
-                        ? "border-teal-900 bg-teal-900 text-white shadow-[0_4px_16px_-4px_rgba(0,52,75,0.4)] scale-[1.02]"
-                        : "border-teal-200/80 bg-white text-charcoal/70 hover:border-teal-400 hover:text-teal-950 shadow-xs"
+                        ? "border-teal-900 bg-teal-900 text-white shadow-xs font-semibold"
+                        : "border-teal-200/70 bg-white text-charcoal/70 hover:border-teal-400 hover:text-teal-950"
                     )}
                   >
                     {label}
                   </button>
                 );
               })}
-            </div>
-
-            {/* Riepilogo e contatore risultati */}
-            <div className="flex items-center justify-between text-xs sm:text-sm text-charcoal/65 px-1 pt-1">
-              <span>
-                {filtered.length === 1
-                  ? "1 specialista disponibile"
-                  : `${filtered.length} specialisti disponibili`}
-                {(search || filter !== "Tutte") && (
-                  <span className="font-medium text-teal-900 ml-1.5">
-                    {filter !== "Tutte" && `in ${BRANCA_SHORT_LABELS[filter] || filter}`}
-                    {search && ` per «${search}»`}
-                  </span>
-                )}
-              </span>
-
-              {(search || filter !== "Tutte") && (
-                <button
-                  type="button"
-                  onClick={resetFilters}
-                  className="text-xs font-semibold text-teal-800 hover:text-dark-navy underline underline-offset-2 transition-colors"
-                >
-                  Reimposta filtri
-                </button>
-              )}
             </div>
           </div>
         </Container>
