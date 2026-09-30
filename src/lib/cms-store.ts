@@ -212,10 +212,15 @@ const SERVER_SNAPSHOT: CmsState = buildInitialState();
 function isLocalStorageAvailable(): boolean {
   try {
     if (typeof window === "undefined") return false;
-    if (!window.localStorage) return false;
+    const ls = window.localStorage;
+    if (!ls) return false;
+    // Guard esplicita: in alcuni ambienti Node (es. con --localstorage-file)
+    // localStorage esiste come oggetto ma i metodi non sono funzioni native.
+    if (typeof ls.getItem !== "function") return false;
+    if (typeof ls.setItem !== "function") return false;
     const test = "__test__";
-    window.localStorage.setItem(test, test);
-    window.localStorage.removeItem(test);
+    ls.setItem(test, test);
+    ls.removeItem(test);
     return true;
   } catch {
     return false;
@@ -229,8 +234,12 @@ function loadStoredState(): CmsState | null {
     if (!raw) return null;
     const parsed = JSON.parse(raw) as Partial<CmsState>;
     const initial = buildInitialState();
+    const storedVideos = parsed.videos?.map((v) => {
+      const fallback = initial.videos.find((d) => d.id === v.id);
+      return fallback && !v.url ? { ...fallback, visible: v.visible } : v;
+    });
     return {
-      videos: parsed.videos ?? initial.videos,
+      videos: storedVideos ?? initial.videos,
       pages: parsed.pages ?? initial.pages,
     };
   } catch {

@@ -147,6 +147,7 @@ export type VideoItem = {
   id: string;
   type: "instagram" | "mp4";
   url: string;
+  poster?: string;
   title: string;
   caption: string;
   ctaLabel?: string;

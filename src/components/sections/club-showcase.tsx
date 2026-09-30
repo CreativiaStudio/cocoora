@@ -5,7 +5,7 @@ import { useState } from "react";
 import { ArrowRight, Check } from "lucide-react";
 import { CLUB_TIERS, FAMILY_ADDONS } from "@/lib/club";
 import type { ClubTier } from "@/lib/types";
-import { cn, formatPrice } from "@/lib/utils";
+import { cn, formatPrice, formatPricePlain } from "@/lib/utils";
 import { useShop } from "../providers";
 import { Badge, Button, SectionLabel } from "../ui";
 
@@ -22,9 +22,24 @@ export function ClubShowcase() {
   };
 
   return (
-    <section id="club" className="relative bg-dark-navy py-24 text-white">
+    <section id="club" className="relative overflow-hidden bg-dark-navy py-24 text-white">
       <div className="noise pointer-events-none absolute inset-0" />
-      <div className="mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10">
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <div
+          className="absolute -left-40 top-24 h-[34rem] w-[34rem] rounded-full blur-3xl"
+          style={{ background: "radial-gradient(circle, rgba(93,132,151,0.35) 0%, rgba(93,132,151,0) 70%)" }}
+        />
+        <div
+          className="absolute left-1/2 top-[42%] h-[40rem] w-[40rem] -translate-x-1/2 rounded-full blur-3xl"
+          style={{ background: "radial-gradient(circle, rgba(128,161,178,0.22) 0%, rgba(128,161,178,0) 70%)" }}
+        />
+        <div
+          className="absolute -right-44 top-[38%] h-[36rem] w-[36rem] rounded-full blur-3xl"
+          style={{ background: "radial-gradient(circle, rgba(159,194,207,0.25) 0%, rgba(93,132,151,0.10) 45%, rgba(93,132,151,0) 70%)" }}
+        />
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/15 to-transparent" />
+      </div>
+      <div className="relative mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10">
         <div className="mx-auto max-w-2xl text-center">
           <SectionLabel>Cocoora Club</SectionLabel>
           <h2 className="font-serif text-4xl font-semibold leading-tight sm:text-5xl">
@@ -84,18 +99,19 @@ export function ClubShowcase() {
 // Gradienti premium per ogni tier (dark variant)
 const TIER_GRADIENTS: Record<string, string> = {
   discover:
-    "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(128,161,178,0.10) 100%)",
+    "linear-gradient(160deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.03) 100%)",
   access:
-    "linear-gradient(145deg, rgba(28,74,92,0.10) 0%, rgba(3,53,75,0.18) 100%)",
+    "linear-gradient(160deg, rgba(255,255,255,0.08) 0%, rgba(128,161,178,0.07) 100%)",
   care:
-    "linear-gradient(145deg, rgba(3,53,75,0.12) 0%, rgba(28,74,92,0.22) 100%)",
+    "linear-gradient(180deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.03) 100%)",
   experience:
-    "linear-gradient(145deg, rgba(28,74,92,0.16) 0%, rgba(3,53,75,0.28) 100%)",
+    "linear-gradient(160deg, rgba(255,255,255,0.08) 0%, rgba(93,132,151,0.12) 100%)",
   signature:
-    "linear-gradient(145deg, rgba(128,161,178,0.12) 0%, rgba(28,74,92,0.30) 50%, rgba(3,53,75,0.35) 100%)",
+    "linear-gradient(160deg, rgba(255,255,255,0.09) 0%, rgba(93,132,151,0.16) 60%, rgba(3,53,75,0.20) 100%)",
   "signature-longevity":
-    "linear-gradient(145deg, rgba(128,161,178,0.15) 0%, rgba(28,74,92,0.32) 50%, rgba(3,53,75,0.42) 100%)",
+    "linear-gradient(160deg, rgba(255,255,255,0.10) 0%, rgba(128,161,178,0.16) 55%, rgba(3,53,75,0.24) 100%)",
 };
+
 
 export function TierCard({
   tier,
@@ -111,32 +127,46 @@ export function TierCard({
   const dark = variant === "dark";
   const name = gender && tier.genderToggle ? `${tier.name} ${gender === "uomo" ? "Uomo" : "Donna"}` : tier.name;
   const gradient = dark ? (TIER_GRADIENTS[tier.id] ?? TIER_GRADIENTS["access"]) : undefined;
+  const featured = dark && !!tier.badge;
+  const priceValue = tier.free ? 0 : tier.price;
 
   return (
     <div
       className={cn(
-        "group relative flex flex-col rounded-3xl p-7 transition-all duration-300 hover:-translate-y-2",
+        "group relative flex flex-col rounded-3xl p-7 transition-all duration-500 ease-out hover:-translate-y-2.5",
         dark
-          ? "border border-white/20 backdrop-blur-sm hover:border-white/35 hover:shadow-[0_32px_80px_-24px_rgba(3,53,75,0.5)]"
+          ? "border border-white/15 shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.22),inset_0_-1px_1px_0_rgba(0,0,0,0.3),0_20px_50px_-20px_rgba(0,0,0,0.5)] backdrop-blur-xl hover:border-white/40 hover:shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.3),inset_0_-1px_1px_0_rgba(0,0,0,0.3),0_32px_70px_-20px_rgba(0,0,0,0.6),0_0_40px_-10px_rgba(128,161,178,0.3)]"
           : "border border-teal-100 bg-white shadow-[0_20px_50px_-24px_rgba(3,53,75,0.25)] hover:shadow-[0_30px_70px_-24px_rgba(3,53,75,0.35)]",
-        tier.badge && (dark ? "border-slate-accent/50" : "border-teal-500")
+        featured &&
+          "border-slate-accent/50 shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.3),inset_0_-1px_1px_0_rgba(0,0,0,0.3),0_20px_60px_-15px_rgba(128,161,178,0.25)] hover:border-slate-accent/80 hover:shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.35),inset_0_-1px_1px_0_rgba(0,0,0,0.3),0_36px_80px_-15px_rgba(128,161,178,0.45)] xl:scale-[1.03]",
+        !dark && tier.badge && "border-teal-500"
       )}
-      style={
-        dark
-          ? {
-              background: gradient,
-              boxShadow: "inset 0 1px 0 rgba(255,255,255,0.10), 0 24px 60px -24px rgba(3,53,75,0.4)",
-            }
-          : undefined
-      }
+      style={dark ? { background: gradient } : undefined}
     >
-      {/* Shimmer line top per le card premium */}
       {dark && (
-        <div className="absolute inset-x-0 top-0 h-px rounded-t-3xl bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+        <>
+          <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
+          <div
+            className="pointer-events-none absolute inset-x-0 top-0 h-32 rounded-t-3xl opacity-70 transition-opacity duration-500 group-hover:opacity-100"
+            style={{
+              background: `radial-gradient(120% 100% at 50% 0%, rgba(255,255,255,${featured ? 0.14 : 0.08}) 0%, rgba(255,255,255,0) 70%)`,
+            }}
+          />
+        </>
       )}
 
       {tier.badge && (
-        <Badge className="absolute -top-3 left-6 bg-teal-500 text-white">
+        <Badge
+          className={cn(
+            "absolute -top-3.5 left-6 gap-2 px-4 py-1.5 text-[11px]",
+            dark
+              ? "border border-teal-300/60 bg-dark-navy/60 text-white shadow-[0_0_20px_-2px_rgba(159,194,207,0.55),inset_0_1px_0_rgba(255,255,255,0.25)] backdrop-blur-md"
+              : "bg-teal-500 text-white"
+          )}
+        >
+          {dark && (
+            <span className="h-1.5 w-1.5 rounded-full bg-teal-300 shadow-[0_0_8px_2px_rgba(159,194,207,0.8)]" />
+          )}
           {tier.badge}
         </Badge>
       )}
@@ -147,19 +177,32 @@ export function TierCard({
         </h3>
       </div>
 
-      <div className="mt-4 flex items-baseline gap-2">
-        <span className={cn("font-serif text-4xl font-semibold", dark ? "text-white" : "text-teal-900")}>
-          {tier.free ? "€0" : formatPrice(tier.price)}
+      <div className="mt-5 flex flex-wrap items-baseline gap-x-2 gap-y-1">
+        <span
+          className={cn(
+            "flex items-baseline font-serif font-semibold tracking-tight",
+            dark ? "text-white" : "text-teal-900"
+          )}
+        >
+          <span className={cn("mr-1 text-2xl font-medium", dark ? "text-teal-300" : "text-teal-600")}>€</span>
+          <span className="text-5xl leading-none">{formatPricePlain(priceValue)}</span>
         </span>
         {tier.listPrice && (
           <span className="text-lg text-slate-accent line-through">
             {formatPrice(tier.listPrice)}
           </span>
         )}
-        <span className={cn("text-sm", dark ? "text-teal-200/70" : "text-charcoal/60")}>
+        <span
+          className={cn(
+            "text-sm font-medium uppercase tracking-[0.12em]",
+            dark ? "text-teal-200/70" : "text-charcoal/60"
+          )}
+        >
           {tier.free ? "Free" : "/ anno"}
         </span>
       </div>
+
+      {dark && <div className="mt-5 h-px w-full bg-gradient-to-r from-white/25 via-white/10 to-transparent" />}
 
       <p className={cn("mt-3 text-sm leading-relaxed", dark ? "text-teal-200/80" : "text-charcoal/70")}>
         {tier.description}
@@ -168,7 +211,16 @@ export function TierCard({
       <ul className="mt-6 flex-1 space-y-3">
         {tier.features.map((f) => (
           <li key={f} className="flex items-start gap-2.5 text-sm">
-            <Check className={cn("mt-0.5 h-4 w-4 shrink-0", dark ? "text-slate-accent" : "text-teal-600")} />
+            <span
+              className={cn(
+                "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full",
+                dark
+                  ? "bg-teal-500/20 text-teal-300 ring-1 ring-teal-300/20"
+                  : "bg-teal-500/10 text-teal-600"
+              )}
+            >
+              <Check className="h-3 w-3" strokeWidth={3} />
+            </span>
             <span className={dark ? "text-teal-100/90" : "text-charcoal/80"}>{f}</span>
           </li>
         ))}

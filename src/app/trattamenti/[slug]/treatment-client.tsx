@@ -39,12 +39,28 @@ export function TreatmentClient({ treatment }: { treatment: Treatment }) {
     );
   }
 
+  const heroImage =
+    treatment.category === "odontoiatria" ? "/images/dental-operatory.jpg" : "/images/aesthetic-skin.jpg";
+
   return (
     <>
-      <section className="hero-mesh relative overflow-hidden pb-16 pt-32 sm:pt-36">
+      <div className="relative z-10 h-72 w-full overflow-hidden rounded-b-[2.5rem] border-b border-slate-200/80 shadow-xl shadow-dark-navy/10 sm:h-80 md:h-96">
+        <Image
+          src={heroImage}
+          alt={treatment.title}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+        {/* Velo scuro leggero in alto per la leggibilità della navbar */}
+        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-dark-navy/60 via-dark-navy/15 to-transparent" />
+      </div>
+
+      <section className="hero-mesh relative overflow-hidden pb-16 pt-8 sm:pt-12">
         <Container className="relative">
           <div className="mx-auto max-w-3xl text-center">
-            <Badge className="mx-auto">
+            <Badge className="mx-auto shadow-sm">
               {treatment.category === "odontoiatria" ? "Odontoiatria" : "Medicina Estetica"}
             </Badge>
             <h1 className="mt-6 font-serif text-5xl font-semibold leading-[1.05] tracking-tight text-dark-navy sm:text-6xl">

@@ -51,7 +51,9 @@ const CLUB_ENTRY_FEATURES = [
   },
 ];
 
-const PILLARS = NAV_NODES.find((n) => n.label === "Servizi")?.children ?? [];
+const PILLARS = (
+  NAV_NODES.find((n) => n.label === "Visite & Trattamenti")?.children ?? []
+).slice(0, 3);
 
 export default function HomePage() {
   const { pages } = useCms();

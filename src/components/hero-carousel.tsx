@@ -96,29 +96,57 @@ export function HeroCarousel({
       })}
 
       {/* ── Overlay gradients ── */}
-      <div className="absolute inset-0 z-10 bg-gradient-to-t from-dark-navy/70 via-dark-navy/25 to-dark-navy/10" />
-      <div className="absolute inset-0 z-10 bg-gradient-to-r from-dark-navy/40 via-transparent to-transparent" />
+      {/* Localized scrim: foto luminosa, contrasto solo dove serve */}
+      {/* Velo uniforme leggerissimo */}
+      <div className="absolute inset-0 z-10 bg-dark-navy/20" />
+      {/* Top: stacca la navbar */}
+      <div className="absolute inset-0 z-10 bg-gradient-to-b from-dark-navy/50 via-transparent to-transparent" />
+      {/* Bottom: appoggio per le card metriche */}
+      <div className="absolute inset-0 z-10 bg-gradient-to-b from-transparent via-transparent to-dark-navy/70" />
+      {/* Centro: velo radiale soffuso dietro il blocco di testo */}
+      <div
+        className="absolute inset-0 z-10"
+        style={{
+          background:
+            "radial-gradient(ellipse 65% 50% at 50% 48%, rgba(3,53,75,0.38) 0%, transparent 75%)",
+        }}
+      />
 
       {/* ── Content ── */}
       <div className="relative z-20 flex h-full flex-col items-center justify-center px-5 text-center sm:px-8 lg:px-10">
         <div className="mx-auto max-w-4xl">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-medium uppercase tracking-widest text-white/90 backdrop-blur-sm animate-fade-up">
+          <div
+            className="inline-flex items-center gap-3 rounded-full border border-white/30 bg-dark-navy/60 px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-white backdrop-blur-md animate-fade-up sm:text-xs"
+            style={{
+              boxShadow:
+                "0 8px 24px -8px rgba(1,24,36,0.6), inset 0 1px 0 rgba(255,255,255,0.18)",
+            }}
+          >
+            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-slate-accent shadow-[0_0_8px_2px_rgba(128,161,178,0.7)]" />
             Studio Medico Polispecialistico d&apos;Eccellenza — Napoli
           </div>
 
           {/* H1 */}
           <h1
-            className="mt-6 font-serif text-5xl font-semibold leading-[1.05] tracking-tight text-white animate-fade-up sm:text-6xl lg:text-7xl xl:text-8xl"
-            style={{ animationDelay: "100ms" }}
+            className="mt-7 font-serif text-5xl font-semibold leading-[1.05] tracking-tight text-white animate-fade-up sm:text-6xl lg:text-7xl xl:text-8xl"
+            style={{
+              animationDelay: "100ms",
+              textShadow:
+                "0 2px 14px rgba(3,53,75,0.8), 0 4px 30px rgba(0,0,0,0.5), 0 1px 2px rgba(1,24,36,0.6)",
+            }}
           >
             {h1 ?? "Connessi alla tua salute."}
           </h1>
 
           {/* Sottotitolo */}
           <p
-            className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/80 animate-fade-up sm:text-lg"
-            style={{ animationDelay: "200ms" }}
+            className="mx-auto mt-6 max-w-2xl text-base font-medium leading-relaxed text-white animate-fade-up sm:text-lg"
+            style={{
+              animationDelay: "200ms",
+              textShadow:
+                "0 1px 3px rgba(1,24,36,0.8), 0 2px 14px rgba(3,53,75,0.85), 0 4px 26px rgba(0,0,0,0.5)",
+            }}
           >
             Abbiamo azzerato attese, burocrazia e complessità per permetterti di
             vivere un percorso di salute fluido, immediato e senza ostacoli.
@@ -149,12 +177,21 @@ export function HeroCarousel({
           ].map((m) => (
             <div
               key={m.label}
-              className="glass rounded-2xl border border-white/30 px-4 py-4 text-center shadow-[0_16px_40px_-24px_rgba(3,53,75,0.4)]"
+              className="rounded-2xl border border-white/25 bg-dark-navy/55 px-4 py-4 text-center backdrop-blur-xl"
+              style={{
+                WebkitBackdropFilter: "blur(20px) saturate(140%)",
+                backdropFilter: "blur(20px) saturate(140%)",
+                boxShadow:
+                  "0 20px 40px -20px rgba(1,24,36,0.7), inset 0 1px 0 rgba(255,255,255,0.2)",
+              }}
             >
-              <p className="font-serif text-2xl font-semibold text-white sm:text-3xl">
+              <p
+                className="font-serif text-2xl font-semibold text-white sm:text-3xl"
+                style={{ textShadow: "0 1px 6px rgba(1,24,36,0.5)" }}
+              >
                 {m.value}
               </p>
-              <p className="mt-0.5 text-xs font-medium uppercase tracking-wider text-white/70">
+              <p className="mt-0.5 text-[11px] font-semibold uppercase tracking-wider text-white/90 sm:text-xs">
                 {m.label}
               </p>
             </div>

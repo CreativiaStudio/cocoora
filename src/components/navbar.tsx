@@ -32,7 +32,8 @@ import { NAV_NODES, SITE } from "@/lib/site";
 import type { NavNode } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { Logo } from "./logo";
-import { ButtonLink } from "./ui";
+import { Button } from "./ui";
+import { useShop } from "./providers";
 
 function getCategoryIcon(label: string, href: string): LucideIcon {
   const l = label.toLowerCase();
@@ -51,6 +52,7 @@ function getCategoryIcon(label: string, href: string): LucideIcon {
 }
 
 export function Navbar() {
+  const { openBooking } = useShop();
   const [scrolled, setScrolled] = useState(false);
   const [openDesktop, setOpenDesktop] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -216,9 +218,9 @@ export function Navbar() {
 
           {/* CTA Permanente Destra */}
           <div className="hidden lg:flex items-center gap-3">
-            <ButtonLink href="/contatti" size="md">
+            <Button onClick={() => openBooking()} size="md">
               Prenota Visita
-            </ButtonLink>
+            </Button>
           </div>
 
           {/* Pulsante Menu Mobile */}
@@ -325,9 +327,16 @@ export function Navbar() {
 
           {/* Bottom Bar Mobile Azioni Rapide */}
           <div className="border-t border-teal-100 p-5 space-y-2.5 bg-slate-50/70">
-            <ButtonLink href="/contatti" className="w-full" size="md">
+            <Button
+              onClick={() => {
+                closeAll();
+                openBooking();
+              }}
+              className="w-full"
+              size="md"
+            >
               Prenota Visita
-            </ButtonLink>
+            </Button>
             <div className="grid grid-cols-2 gap-2">
               <a
                 href="tel:08118182091"
@@ -389,33 +398,38 @@ function MegamenuVisiteTrattamenti({
           </h4>
           <ul className="space-y-2 text-xs">
             <li>
-              <Link href="/servizi/diagnostica#cardiologia" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
+              <Link href="/visite/cardiologia" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
                 Cardiologia & ECG
               </Link>
             </li>
             <li>
-              <Link href="/servizi/diagnostica#senologia" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
+              <Link href="/visite/senologia" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
                 Senologia & Prevenzione Donna
               </Link>
             </li>
             <li>
-              <Link href="/servizi/diagnostica#radiologia-ecografie" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
+              <Link href="/visite/ecografia" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
                 Ecografie & Diagnostica Rapida
               </Link>
             </li>
             <li>
-              <Link href="/servizi/diagnostica#pediatria" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
+              <Link href="/visite/pediatria" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
                 Pediatria & Cura della Crescita
               </Link>
             </li>
             <li>
-              <Link href="/servizi/diagnostica#ginecologia" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
+              <Link href="/visite/ginecologia" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
                 Ginecologia & Benessere Intimo
               </Link>
             </li>
             <li>
-              <Link href="/servizi/diagnostica#oculistica" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
+              <Link href="/visite/oculistica" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
                 Oculistica & Salute della Vista
+              </Link>
+            </li>
+            <li className="pt-1 border-t border-slate-100">
+              <Link href="/visite" onClick={onClose} className="mt-2 inline-flex items-center gap-1 font-semibold text-teal-800 hover:text-dark-navy">
+                Tutte le Visite <ArrowRight className="h-3 w-3" />
               </Link>
             </li>
           </ul>
@@ -672,21 +686,13 @@ function MegamenuStudio({ onClose }: { onClose: () => void }) {
             </div>
           </div>
 
-          <div className="flex items-center gap-3 pt-4 border-t border-slate-100">
+          <div className="pt-4 border-t border-slate-100">
             <Link
               href="/chi-siamo"
               onClick={onClose}
-              className="text-xs font-semibold text-dark-navy hover:text-teal-700 transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-teal-800 hover:text-dark-navy transition-colors"
             >
-              Scopri la visione clinica &rarr;
-            </Link>
-            <span className="text-slate-300">•</span>
-            <Link
-              href="/contatti"
-              onClick={onClose}
-              className="text-xs font-semibold text-teal-800 hover:text-dark-navy transition-colors"
-            >
-              Indicazioni stradali & parcheggio &rarr;
+              Scopri Cocoora <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
         </div>

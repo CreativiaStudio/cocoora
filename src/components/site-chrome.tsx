@@ -8,6 +8,7 @@ import { Footer } from "./footer";
 import { CookieBanner } from "./cookie-banner";
 import { CheckoutDrawer } from "./checkout-drawer";
 import { DiscoverModal } from "./discover-modal";
+import { BookingModal } from "./booking-modal";
 import { SeoHead } from "./seo-head";
 
 export function SiteChrome({ children }: { children: ReactNode }) {
@@ -25,6 +26,7 @@ export function SiteChrome({ children }: { children: ReactNode }) {
       <CookieBanner />
       <CheckoutDrawer />
       <DiscoverModal />
+      <BookingModal />
     </>
   );
 }

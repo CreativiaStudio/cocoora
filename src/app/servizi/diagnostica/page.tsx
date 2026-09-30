@@ -44,12 +44,26 @@ export default function DiagnosticaPage() {
 
   return (
     <>
+      {/* ── Banner Hero ──────────────────────────────────────────────── */}
+      <div className="relative z-10 h-72 w-full overflow-hidden rounded-b-[2.5rem] border-b border-slate-200/80 shadow-xl shadow-dark-navy/10 sm:h-80 md:h-96">
+        <Image
+          src="/images/diagnostics-lab.jpg"
+          alt="Laboratorio diagnostico e poliambulatorio specialistico Cocoora Napoli"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+        {/* Velo scuro leggero in alto per la leggibilità della navbar */}
+        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-dark-navy/60 via-dark-navy/15 to-transparent" />
+      </div>
+
       {/* ── Hero ─────────────────────────────────────────────────────── */}
-      <section className="hero-mesh relative overflow-hidden pb-20 pt-32 sm:pt-36">
+      <section className="hero-mesh relative overflow-hidden pb-20 pt-8 sm:pt-12">
         <div className="noise pointer-events-none absolute inset-0" />
         <Container className="relative">
           <div className="mx-auto max-w-3xl text-center">
-            <Badge className="mx-auto">Poliambulatorio Specialistico</Badge>
+            <Badge className="mx-auto shadow-sm">Poliambulatorio Specialistico</Badge>
             <h1 className="mt-6 font-serif text-5xl font-semibold leading-[1.05] tracking-tight text-dark-navy sm:text-6xl">
               {page?.h1 ?? "Diagnostica rapida, refertazione digitale e specialisti dedicati."}
             </h1>

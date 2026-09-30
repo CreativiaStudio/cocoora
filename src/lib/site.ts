@@ -33,9 +33,9 @@ export const NAV_NODES: NavNode[] = [
         image: "/images/aesthetic-skin.jpg",
       },
       {
-        label: "Poliambulatorio & Diagnostica Rapida",
-        href: "/servizi/diagnostica",
-        description: "Cardiologia, Senologia, Ecografia, Ginecologia, Pediatria e Oculistica con visite entro 72h.",
+        label: "Poliambulatorio & Visite Specialistiche",
+        href: "/visite",
+        description: "Cardiologia, Ginecologia, Senologia, Ecografia, Pediatria e Oculistica — prima visita entro 72h.",
         image: "/images/diagnostics-lab.jpg",
       },
       {
@@ -172,8 +172,9 @@ export const SERVICE_AREAS: ServiceArea[] = [
 export const DEFAULT_VIDEOS: VideoItem[] = [
   {
     id: "video_1",
-    type: "instagram",
-    url: "",
+    type: "mp4",
+    url: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+    poster: "/images/invisalign-smile.jpg",
     title: "Il tuo sorriso, in digitale",
     caption: "Percorsi Invisalign Diamond Provider, dalla diagnosi alla simulazione 3D.",
     ctaLabel: "Scopri l'Odontoiatria",
@@ -182,8 +183,9 @@ export const DEFAULT_VIDEOS: VideoItem[] = [
   },
   {
     id: "video_2",
-    type: "instagram",
-    url: "",
+    type: "mp4",
+    url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+    poster: "/images/aesthetic-skin.jpg",
     title: "Medicina estetica naturale",
     caption: "Tecnologie medicali e protocolli personalizzati per valorizzare viso e corpo.",
     ctaLabel: "Scopri la Medicina Estetica",
@@ -192,8 +194,9 @@ export const DEFAULT_VIDEOS: VideoItem[] = [
   },
   {
     id: "video_3",
-    type: "instagram",
-    url: "",
+    type: "mp4",
+    url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+    poster: "/images/doctor-consultation.jpg",
     title: "La prevenzione è il tuo stile",
     caption: "Cocoora Club: check-up dedicati e vantaggi per tutta la famiglia.",
     ctaLabel: "Entra nel Club",

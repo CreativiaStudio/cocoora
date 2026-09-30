@@ -27,12 +27,25 @@ export default function MedicinaEsteticaPage() {
 
   return (
     <>
-      <section className="hero-mesh relative overflow-hidden pb-16 pt-32 sm:pt-36 lg:pb-24">
+      <div className="relative z-10 h-72 w-full overflow-hidden rounded-b-[2.5rem] border-b border-slate-200/80 shadow-xl shadow-dark-navy/10 sm:h-80 md:h-96">
+        <Image
+          src="/images/aesthetic-skin.jpg"
+          alt="Medicina estetica avanzata e trattamenti rigenerativi a Cocoora Napoli"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+        {/* Velo scuro leggero in alto per la leggibilità della navbar */}
+        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-dark-navy/60 via-dark-navy/15 to-transparent" />
+      </div>
+
+      <section className="hero-mesh relative overflow-hidden pb-16 pt-8 sm:pt-12 lg:pb-24">
         <div className="noise pointer-events-none absolute inset-0" />
         <Container className="relative">
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
             <div className="text-center lg:text-left">
-              <Badge className="lg:mx-0 mx-auto">Medicina Estetica Avanzata</Badge>
+              <Badge className="lg:mx-0 mx-auto shadow-sm">Medicina Estetica Avanzata</Badge>
               <h1 className="mt-6 font-serif text-5xl font-semibold leading-[1.05] tracking-tight text-dark-navy sm:text-6xl">
                 {page?.h1 ?? "Medicina estetica a Cocoora"}
               </h1>

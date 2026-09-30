@@ -49,6 +49,10 @@ type ShopState = {
   closeCheckout: () => void;
   openDiscover: () => void;
   closeDiscover: () => void;
+  bookingOpen: boolean;
+  bookingSpecialty?: string;
+  openBooking: (specialty?: string) => void;
+  closeBooking: () => void;
 };
 
 const ShopContext = createContext<ShopState | null>(null);
@@ -65,7 +69,23 @@ export function ShopProvider({ children }: { children: ReactNode }) {
   const openDiscover = useCallback(() => setDiscoverOpen(true), []);
   const closeDiscover = useCallback(() => setDiscoverOpen(false), []);
 
+  const [bookingOpen, setBookingOpen] = useState(false);
+  const [bookingSpecialty, setBookingSpecialty] = useState<string | undefined>(undefined);
+
+  const openBooking = useCallback((specialty?: string) => {
+    setBookingSpecialty(specialty);
+    setBookingOpen(true);
+  }, []);
+  const closeBooking = useCallback(() => {
+    setBookingOpen(false);
+    setBookingSpecialty(undefined);
+  }, []);
+
   const value: ShopState = {
+    bookingOpen,
+    bookingSpecialty,
+    openBooking,
+    closeBooking,
     checkoutItem,
     discoverOpen,
     openCheckout,
