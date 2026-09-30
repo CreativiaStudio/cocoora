@@ -104,7 +104,7 @@ export function DiscoverModal() {
               {profileId}
             </div>
             <p className="mt-4 text-xs text-charcoal/60">
-              Scarica l'app Cocoora e accedi con la tua email per iniziare.
+              Scarica l&apos;app Cocoora e accedi con la tua email per iniziare.
             </p>
             <Button className="mt-6" onClick={reset}>
               Chiudi

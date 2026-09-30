@@ -55,7 +55,7 @@ export default function MedicinaEsteticaPage() {
               </p>
               <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-charcoal/70 lg:mx-0">
                 A Cocoora la medicina estetica nasce da una valutazione medica attenta.
-                L'obiettivo non è modificare i tratti, ma accompagnare ogni paziente verso
+                L&apos;obiettivo non è modificare i tratti, ma accompagnare ogni paziente verso
                 un miglioramento naturale e coerente con la propria identità.
               </p>
               <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start">
@@ -87,7 +87,7 @@ export default function MedicinaEsteticaPage() {
         <Container>
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
             <div>
-              <SectionLabel>L'approccio Cocoora</SectionLabel>
+              <SectionLabel>L&apos;approccio Cocoora</SectionLabel>
               <h2 className="font-serif text-4xl font-semibold leading-tight text-teal-900">
                 {page?.h2 ?? "Un percorso estetico costruito sulla persona"}
               </h2>

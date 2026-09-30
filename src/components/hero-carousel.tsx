@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Plus } from "lucide-react";
 import { Button, ButtonLink } from "@/components/ui";
-import { useShop } from "@/components/providers";
 
 const SLIDES = [
   {

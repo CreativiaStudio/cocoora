@@ -124,7 +124,7 @@ export function CheckoutDrawer() {
             <form onSubmit={submitLead} className="space-y-4">
               <p className="text-sm leading-relaxed text-charcoal/80">
                 Lascia i tuoi dati: il nostro team ti ricontatterà per completare
-                l'attivazione del percorso {tier.name}.
+                l&apos;attivazione del percorso {tier.name}.
               </p>
               <Field label="Nome *" value={lead.nome} onChange={(v) => setLead({ ...lead, nome: v })} />
               <Field label="Cognome" value={lead.cognome} onChange={(v) => setLead({ ...lead, cognome: v })} />

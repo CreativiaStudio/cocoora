@@ -25,7 +25,7 @@ export default function AdminPage() {
               Gestione contenuti
             </h1>
             <p className="mt-1 text-sm text-charcoal/60">
-              Area riservata per l'agenzia — Silvia &amp; Marco
+              Area riservata per l&apos;agenzia — Silvia &amp; Marco
             </p>
           </div>
           <div className="flex items-center gap-3">

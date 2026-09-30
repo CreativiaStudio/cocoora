@@ -65,7 +65,7 @@ export function CookieBanner() {
           <div className="flex-1">
             <p className="text-sm font-semibold text-teal-900">La tua privacy, la nostra priorità</p>
             <p className="mt-1 text-sm leading-relaxed text-charcoal/80">
-              Utilizziamo i cookie per migliorare l'esperienza, analizzare il traffico e
+              Utilizziamo i cookie per migliorare l&apos;esperienza, analizzare il traffico e
               personalizzare i contenuti. Puoi accettare tutti i cookie o scegliere le tue preferenze.
             </p>
             <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center">

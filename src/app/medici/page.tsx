@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { ArrowRight, GraduationCap, Search, ShieldCheck, UserCheck, X } from "lucide-react";
+import { ArrowRight, GraduationCap, Search, ShieldCheck, X } from "lucide-react";
 import { BRANCHE, DOCTORS } from "@/lib/doctors";
 import { formatPrice } from "@/lib/utils";
 import { cn } from "@/lib/utils";

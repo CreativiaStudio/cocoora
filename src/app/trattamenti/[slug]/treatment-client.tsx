@@ -10,7 +10,7 @@ import { CLUB_TIERS } from "@/lib/club";
 import type { Treatment } from "@/lib/types";
 import { trackLead } from "@/lib/tracking";
 import { formatPrice } from "@/lib/utils";
-import { Badge, Button, ButtonLink, Container, SectionLabel } from "@/components/ui";
+import { Badge, Button, Container, SectionLabel } from "@/components/ui";
 import { Logo } from "@/components/logo";
 
 export function TreatmentClient({ treatment }: { treatment: Treatment }) {

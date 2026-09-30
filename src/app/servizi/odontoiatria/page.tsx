@@ -91,7 +91,7 @@ export default function OdontoiatriaPage() {
                 {page?.h2 ?? "Cocoora è Invisalign Diamond Provider"}
               </h2>
               <p className="mt-4 text-base leading-relaxed text-teal-200/85">
-                Un riconoscimento che valorizza l'esperienza maturata con il sistema
+                Un riconoscimento che valorizza l&apos;esperienza maturata con il sistema
                 Invisalign e che per il paziente rappresenta un elemento di fiducia
                 nella gestione del percorso. La differenza non è solo nella tecnologia,
                 ma nel modo in cui il percorso viene progettato, seguito e controllato.

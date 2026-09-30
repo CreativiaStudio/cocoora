@@ -83,7 +83,7 @@ function PageEditor({ page }: { page: SeoPage }) {
               <div>
                 <h3 className="font-medium text-amber-900">Policy Shield · Canvas / No-Menu Mode</h3>
                 <p className="mt-1 text-sm text-amber-800/80">
-                  Quando attivo, la pagina non renderizza l'header e il menu principale,
+                  Quando attivo, la pagina non renderizza l&apos;header e il menu principale,
                   così i crawler di Google Ads non leggono parole sensibili presenti nel menu.
                 </p>
               </div>

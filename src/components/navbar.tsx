@@ -4,16 +4,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import {
-  Activity,
   ArrowRight,
-  Building2,
-  Calendar,
   CheckCircle2,
   ChevronDown,
   Clock,
-  Dna,
-  GraduationCap,
-  HeartPulse,
   Lock,
   MapPin,
   Menu,
@@ -24,32 +18,13 @@ import {
   Smile,
   Sparkles,
   Stethoscope,
-  Users,
   X,
-  type LucideIcon,
 } from "lucide-react";
 import { NAV_NODES, SITE } from "@/lib/site";
-import type { NavNode } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { Logo } from "./logo";
 import { Button } from "./ui";
 import { useShop } from "./providers";
-
-function getCategoryIcon(label: string, href: string): LucideIcon {
-  const l = label.toLowerCase();
-  const h = href.toLowerCase();
-
-  if (l.includes("odontoiatria") || l.includes("invisalign") || l.includes("sorriso")) return Smile;
-  if (l.includes("estetica") || l.includes("rigenerativa")) return Sparkles;
-  if (l.includes("diagnostica") || l.includes("cardiologia") || l.includes("ecografia")) return HeartPulse;
-  if (l.includes("specialisti") || l.includes("medici") || h.includes("/medici")) return GraduationCap;
-  if (l.includes("club") || l.includes("piani") || l.includes("salute") || h.includes("/club")) return ShieldCheck;
-  if (l.includes("precision") || l.includes("dna") || l.includes("microbiota") || h.includes("/precision")) return Dna;
-  if (l.includes("chi siamo") || l.includes("studio") || l.includes("metodo") || l.includes("sede")) return Building2;
-  if (l.includes("trattamenti")) return Activity;
-
-  return Stethoscope;
-}
 
 export function Navbar() {
   const { openBooking } = useShop();
