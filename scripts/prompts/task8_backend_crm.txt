@@ -1,0 +1,21 @@
+TASK SPECIFICA CHIRURGICA COCOORA: Sviluppo Backend Relazionale, Schema Supabase & Gestionale CRM Receptionist
+
+CLIENT: Cocoora Studio Medico Polispecialistico (Napoli)
+TARGET FILE: supabase/migrations/20261016_cocoora_crm_schema.sql e docs/backend_crm_architecture.md
+
+OBIETTIVI ARCHITETTURALI E LOGICHE DI BUSINESS:
+1. Schema Relazionale PostgreSQL (Supabase):
+   - doctors: anagrafica medici, branche, orari/sale (Studio 1/2/3).
+   - medical_services: catalogo prestazioni (Odontoiatria, Estetica, Visite Specialistiche, Precision).
+   - symptoms_attributes: matrice sintomi/inestetismi (per filtro "Trova il tuo percorso").
+   - health_paths: i 9 Percorsi Salute Cocoora Club con servizi inclusi.
+   - patient_profiles: pazienti con multi-anagrafica (fino a 2-3 pazienti con stessa email ma patient_id univoco).
+   - patient_treatment_plans: piani terapeutici pluriennali (€900 - €3.000) con totale, acconti pagati, saldo residuo e stato.
+   - treatment_installments: rate e acconti singoli con metodo pagamento (contanti, POS, Stripe, Klarna, PayPal).
+   - fatture_in_cloud_sync: tracciamento sincronizzazione API Fatture in Cloud (emissione ad ogni acconto o a saldo/fine percorso per rimborso assicurativo).
+
+2. RLS & Sicurezza:
+   - Politiche Row Level Security (RLS) per Receptionist, Medici, Pazienti e Admin Creativia.
+
+3. Documentazione Architettura CRM:
+   - Diagramma concettuale ed esempi di chiamate API per Reception e sync Fatture in Cloud.
