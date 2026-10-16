@@ -9,6 +9,7 @@ import {
   Heart,
   Instagram,
   MessageCircle,
+  Play,
   Plus,
   ShieldCheck,
   Sparkles,
@@ -21,9 +22,10 @@ import {
   MANIFESTO,
   NAV_NODES,
 } from "@/lib/site";
-import { SHOWROOM_TILES } from "@/lib/clinic";
+import { CLUB_TIERS } from "@/lib/club";
+import type { ClubTier, NavChild } from "@/lib/types";
 import { Badge, Button, ButtonLink, Container, SectionLabel } from "@/components/ui";
-import { ClubShowcase } from "@/components/sections/club-showcase";
+import { TierCard } from "@/components/sections/club-showcase";
 import { ReelsSection } from "@/components/sections/reels";
 import { HeroCarousel } from "@/components/hero-carousel";
 
@@ -31,7 +33,7 @@ const CLUB_ENTRY_FEATURES = [
   {
     id: "registrazione",
     icon: UserRound,
-    title: "Registrazione in 2 min",
+    title: "Profilo sanitario digitale",
     description:
       "Crea il tuo profilo sanitario digitale in pochi minuti, direttamente dall'app Cocoora.",
   },
@@ -51,28 +53,79 @@ const CLUB_ENTRY_FEATURES = [
   },
 ];
 
-const PILLARS = (
-  NAV_NODES.find((n) => n.label === "Aree Mediche")?.children ?? []
-).slice(0, 3);
+// Aree Mediche in evidenza — ordine tassativo:
+// 1° Medicina Estetica & Rigenerativa · 2° Odontoiatria e Ortodonzia · 3° Visite Specialistiche
+const AREE_MEDICHE_ORDER = [
+  "/servizi/medicina-estetica",
+  "/servizi/odontoiatria",
+  "/visite",
+];
+
+const AREE_MEDICHE: NavChild[] = AREE_MEDICHE_ORDER.map((href) =>
+  (NAV_NODES.find((n) => n.label === "Aree Mediche")?.children ?? []).find(
+    (c) => c.href === href
+  )
+).filter((c): c is NavChild => Boolean(c));
 
 export default function HomePage() {
   const { pages } = useCms();
-  const { openDiscover } = useShop();
+  const { openDiscover, openCheckout } = useShop();
   const home = pages.find((p) => p.path === "/");
+
+  const chooseTier = (tier: ClubTier) => {
+    if (tier.free) {
+      openDiscover();
+      return;
+    }
+    openCheckout(tier);
+  };
 
   return (
     <>
       {/* ── Hero Carousel ─────────────────────────────────────────────── */}
       <HeroCarousel h1={home?.h1} openDiscover={openDiscover} />
 
-      {/* ── L'Amico Medico & Manifesto ───────────────────────────────── */}
+      {/* ── Video Istituzionale 16:9 (placeholder — shooting 18-24 ottobre) ── */}
+      <section className="bg-canvas pt-16 sm:pt-20">
+        <Container>
+          <div className="relative aspect-video w-full overflow-hidden rounded-[2rem] border border-teal-100/80 bg-dark-navy shadow-xl">
+            <Image
+              src="/images/hero-clinic.jpg"
+              alt="Anteprima del video istituzionale Cocoora"
+              fill
+              sizes="(min-width: 1024px) 1200px, 100vw"
+              className="object-cover opacity-55"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-dark-navy/90 via-dark-navy/45 to-dark-navy/25" />
+            <div className="noise pointer-events-none absolute inset-0" />
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-5 px-6 text-center">
+              <span className="flex h-16 w-16 items-center justify-center rounded-full border border-white/25 bg-white/10 backdrop-blur-md">
+                <Play className="ml-1 h-6 w-6 text-white" />
+              </span>
+              <div>
+                <p className="font-serif text-xl font-semibold text-white sm:text-2xl">
+                  Il nostro centro si racconta
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-teal-100/80">
+                  Il video istituzionale sarà presto online.
+                </p>
+              </div>
+              <span className="rounded-full border border-white/20 bg-dark-navy/50 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-teal-200 backdrop-blur-sm">
+                Video Istituzionale
+              </span>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* ── Manifesto ────────────────────────────────────────────────── */}
       <section className="bg-canvas py-24">
         <Container>
           <div className="mx-auto max-w-3xl">
             {/* Accent bar decorativa */}
             <div className="mb-10 flex items-center gap-5">
               <div className="h-px flex-1 bg-gradient-to-r from-transparent to-teal-200" />
-              <SectionLabel>L&apos;Amico Medico</SectionLabel>
+              <SectionLabel>La nostra filosofia</SectionLabel>
               <div className="h-px flex-1 bg-gradient-to-l from-transparent to-teal-200" />
             </div>
             <h2 className="text-center font-serif text-4xl font-semibold leading-tight text-teal-900 sm:text-5xl">
@@ -140,22 +193,22 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* ── I 3 Grandi Pilastri Clinici ──────────────────────────────── */}
+      {/* ── Aree Mediche in Evidenza ─────────────────────────────────── */}
       <section id="servizi" className="bg-canvas py-24">
         <Container>
           <div className="mx-auto max-w-2xl text-center">
-            <SectionLabel>Le Nostre Aree</SectionLabel>
+            <SectionLabel>Aree Mediche in Evidenza</SectionLabel>
             <h2 className="font-serif text-4xl font-semibold leading-tight text-teal-900 sm:text-5xl">
-              I 3 Pilastri Clinici Cocoora
+              Le Nostre Aree Mediche
             </h2>
             <p className="mt-4 text-base leading-relaxed text-charcoal/70">
-              Una rete di professionisti d&apos;eccellenza pronta a rispondere a ogni
-              tua esigenza, dalla prevenzione quotidiana alla diagnostica avanzata.
+              Una rete di professionisti pronta a rispondere a ogni tua esigenza,
+              dalla prevenzione quotidiana alla diagnostica avanzata.
             </p>
           </div>
 
           <div className="mt-14 grid gap-6 lg:grid-cols-3">
-            {PILLARS.map((pillar) => (
+            {AREE_MEDICHE.map((pillar) => (
               <Link
                 key={pillar.href}
                 href={pillar.href}
@@ -183,49 +236,6 @@ export default function HomePage() {
                   </span>
                 </div>
               </Link>
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      {/* ── Tecnologie & Showroom ─────────────────────────────────────── */}
-      <section className="section-alt py-24">
-        <Container>
-          <div className="mx-auto max-w-2xl text-center">
-            <SectionLabel>Tecnologie & Showroom</SectionLabel>
-            <h2 className="font-serif text-4xl font-semibold leading-tight text-teal-900 sm:text-5xl">
-              Le tecnologie di punta Cocoora
-            </h2>
-            <p className="mt-4 text-base leading-relaxed text-charcoal/70">
-              Ogni strumento è selezionato per garantire appropriatezza clinica,
-              precisione diagnostica e risultati estetici armoniosi.
-            </p>
-          </div>
-
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {SHOWROOM_TILES.map((tile) => (
-              <div
-                key={tile.id}
-                className="group relative flex flex-col overflow-hidden rounded-3xl bg-white shadow-[0_16px_40px_-28px_rgba(3,53,75,0.3)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_30px_60px_-24px_rgba(3,53,75,0.4)]"
-              >
-                <div className="relative aspect-[4/3] w-full overflow-hidden">
-                  <Image
-                    src={tile.image}
-                    alt={tile.title}
-                    fill
-                    sizes="(min-width: 1024px) 280px, 90vw"
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="font-serif text-lg font-semibold leading-snug text-teal-900">
-                    {tile.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-charcoal/65">
-                    {tile.text}
-                  </p>
-                </div>
-              </div>
             ))}
           </div>
         </Container>
@@ -270,14 +280,77 @@ export default function HomePage() {
         </Container>
       </section>
 
-      {/* ── Reels Verticali ──────────────────────────────────────────── */}
+      {/* ── Percorsi Salute (canvas bianco, carosello su mobile) ─────── */}
+      <section id="percorsi" className="bg-white py-24">
+        <Container>
+          <div className="mx-auto max-w-2xl text-center">
+            <SectionLabel>Percorsi Salute</SectionLabel>
+            <h2 className="font-serif text-4xl font-semibold leading-tight text-teal-900 sm:text-5xl">
+              La salute come stile di vita
+            </h2>
+            <p className="mt-4 text-base leading-relaxed text-charcoal/70">
+              Un percorso annuale dedicato a chi sceglie la prevenzione costante:
+              check-up, accesso prioritario e vantaggi per tutta la famiglia.
+            </p>
+          </div>
+
+          {/* Mobile: scroll orizzontale a scorrimento · Desktop: griglia */}
+          <div className="mt-14 flex snap-x snap-mandatory gap-5 overflow-x-auto pt-6 pb-4 scrollbar-none lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:pb-0">
+            {CLUB_TIERS.map((tier) => (
+              <div
+                key={tier.id}
+                className="w-[82%] shrink-0 snap-center sm:w-[56%] lg:w-auto"
+              >
+                <TierCard tier={tier} onChoose={chooseTier} variant="light" />
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-12 flex justify-center">
+            <ButtonLink href="/club" variant="secondary" size="lg">
+              Scopri tutti i Percorsi Salute <ArrowRight className="h-4 w-4" />
+            </ButtonLink>
+          </div>
+        </Container>
+      </section>
+
+      {/* ── FAQ Clinica ──────────────────────────────────────────────── */}
+      <FaqSection faq={home?.faq ?? []} />
+
+      {/* ── CTA Finale ───────────────────────────────────────────────── */}
+      <section id="contatti" className="bg-canvas pb-28">
+        <Container>
+          <div className="relative overflow-hidden rounded-[2.5rem] bg-dark-navy px-8 py-16 text-center text-white sm:px-16">
+            <div className="noise pointer-events-none absolute inset-0" />
+            <div className="relative mx-auto max-w-2xl">
+              <Badge className="bg-white/15 text-white">
+                <ShieldCheck className="h-3.5 w-3.5" /> Prenotazione senza attese
+              </Badge>
+              <h2 className="mt-5 font-serif text-4xl font-semibold leading-tight sm:text-5xl">
+                Prenota il tuo primo check-up
+              </h2>
+              <p className="mt-4 text-base leading-relaxed text-teal-200/85">
+                In meno di 2 minuti, senza attese e senza burocrazia. Il tuo
+                percorso di salute inizia qui.
+              </p>
+              <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+                <Button size="lg" onClick={openDiscover}>
+                  Inizia gratis <Plus className="h-4 w-4" />
+                </Button>
+                <ButtonLink href="/contatti" variant="outline-dark" size="lg">
+                  Prenota Visita
+                </ButtonLink>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* ── Pre-Footer · Reels Verticali 9:16 ────────────────────────── */}
       <ReelsSection />
 
-      {/* ── Cocoora Club Showcase ────────────────────────────────────── */}
-      <ClubShowcase />
-
-      {/* ── Instagram Feed ───────────────────────────────────────────── */}
-      <section className="bg-canvas py-24">
+      {/* ── Pre-Footer · Instagram Feed ──────────────────────────────── */}
+      <section className="bg-canvas pb-24">
         <Container>
           <div className="mb-10 flex items-end justify-between">
             <div>
@@ -346,38 +419,6 @@ export default function HomePage() {
                 </div>
               </a>
             ))}
-          </div>
-        </Container>
-      </section>
-
-      {/* ── FAQ Clinica ──────────────────────────────────────────────── */}
-      <FaqSection faq={home?.faq ?? []} />
-
-      {/* ── CTA Finale ───────────────────────────────────────────────── */}
-      <section id="contatti" className="bg-canvas pb-28">
-        <Container>
-          <div className="relative overflow-hidden rounded-[2.5rem] bg-dark-navy px-8 py-16 text-center text-white sm:px-16">
-            <div className="noise pointer-events-none absolute inset-0" />
-            <div className="relative mx-auto max-w-2xl">
-              <Badge className="bg-white/15 text-white">
-                <ShieldCheck className="h-3.5 w-3.5" /> Prenotazione senza attese
-              </Badge>
-              <h2 className="mt-5 font-serif text-4xl font-semibold leading-tight sm:text-5xl">
-                Prenota il tuo primo check-up
-              </h2>
-              <p className="mt-4 text-base leading-relaxed text-teal-200/85">
-                In meno di 2 minuti, senza attese e senza burocrazia. Il tuo
-                percorso di salute inizia qui.
-              </p>
-              <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                <Button size="lg" onClick={openDiscover}>
-                  Inizia gratis <Plus className="h-4 w-4" />
-                </Button>
-                <ButtonLink href="/contatti" variant="outline-dark" size="lg">
-                  Prenota Visita
-                </ButtonLink>
-              </div>
-            </div>
           </div>
         </Container>
       </section>

@@ -1,12 +1,10 @@
 import type { Doctor } from "./types";
 
 // ─────────────────────────────────────────────────────────────────────────
-// Database Specialisti Cocoora — Layer 1 del funnel ad imbuto.
+// Database Specialisti Cocoora.
 // Ogni medico ha convenzioni con le principali strutture universitarie e
-// ospedaliere napoletane e garantisce visite immediate senza liste d'attesa.
+// ospedaliere napoletane e opera in modo coordinato nel nostro centro.
 // ─────────────────────────────────────────────────────────────────────────
-
-export const ZERO_ATTESA_BADGE = "Zero Liste d'Attesa — Convenzione Universitaria";
 
 export const DOCTORS: Doctor[] = [
   {
@@ -15,7 +13,6 @@ export const DOCTORS: Doctor[] = [
     title: "Specialista in Odontoiatria e Ortognatodonzia",
     branca: "Odontoiatria & Ortodonzia Digitale",
     affiliation: "Docente a contratto — Università degli Studi di Napoli \"Federico II\"",
-    badge: ZERO_ATTESA_BADGE,
     image: "/images/doctors/antonio-sorrentino.jpg",
     bio: "Il Dr. Sorrentino affianca alla pratica clinica quotidiana l'attività didattica universitaria, portando in studio i protocolli più aggiornati di ortodonzia digitale e chirurgia implantare guidata. Certificato Invisalign Diamond Provider, ha costruito il proprio percorso professionale sull'idea che la tecnologia debba semplificare, non complicare, il rapporto tra medico e paziente.",
     approach:
@@ -52,7 +49,6 @@ export const DOCTORS: Doctor[] = [
     title: "Specialista in Dermatologia e Medicina Estetica",
     branca: "Medicina Estetica Avanzata",
     affiliation: "Già Dirigente Medico — A.O.U. Vanvitelli, U.O.C. Dermatologia",
-    badge: ZERO_ATTESA_BADGE,
     image: "/images/doctors/chiara-del-prete.jpg",
     bio: "La Dr.ssa Del Prete unisce la formazione dermatologica ospedaliera a un approccio estetico rigenerativo, fondato sull'appropriatezza clinica prima che sull'esecuzione del trattamento. Ogni percorso viene costruito partendo dalla qualità biologica della pelle, non dal singolo protocollo isolato.",
     approach:
@@ -87,9 +83,8 @@ export const DOCTORS: Doctor[] = [
     title: "Specialista in Cardiologia e Diagnostica Vascolare",
     branca: "Cardiologia & Prevenzione Cardiovascolare",
     affiliation: "Già Dirigente Medico I livello — A.O.R.N. \"Antonio Cardarelli\", U.O.C. Cardiologia",
-    badge: ZERO_ATTESA_BADGE,
     image: "/images/doctors/ferdinando-esposito.jpg",
-    bio: "Dopo anni di attività in ambito ospedaliero d'urgenza, il Dr. Esposito ha scelto di dedicarsi alla prevenzione cardiovascolare ambulatoriale, portando a Cocoora la stessa attenzione clinica riservata ai casi acuti. Crede che la vera cardiologia si faccia prima che il problema si manifesti.",
+    bio: "Dopo anni di attività in ambito ospedaliero d'urgenza, il Dr. Esposito ha scelto di dedicarsi alla prevenzione cardiovascolare ambulatoriale, portando nel nostro centro la stessa attenzione clinica riservata ai casi acuti. Crede che la vera cardiologia si faccia prima che il problema si manifesti.",
     approach:
       "La prevenzione cardiovascolare funziona solo se è costante e senza attriti: per questo affianco ogni paziente con controlli regolari e un dialogo diretto, senza filtri burocratici.",
     curriculum: [
@@ -116,7 +111,6 @@ export const DOCTORS: Doctor[] = [
     title: "Specialista in Senologia",
     branca: "Senologia & Prevenzione Donna",
     affiliation: "Consulente senologa — Policlinico Universitario \"Federico II\"",
-    badge: ZERO_ATTESA_BADGE,
     image: "/images/doctors/marianna-coppola.jpg",
     bio: "La Dr.ssa Coppola ha costruito la propria carriera intorno a un principio semplice: la prevenzione senologica deve essere accessibile, empatica e priva di ansia da attesa. Il suo approccio multidisciplinare integra la valutazione clinica con il supporto psicologico del percorso.",
     approach:
@@ -144,9 +138,8 @@ export const DOCTORS: Doctor[] = [
     title: "Specialista in Radiodiagnostica",
     branca: "Ecografia & Diagnostica per Immagini",
     affiliation: "Già Dirigente Medico — A.O.R.N. \"Antonio Cardarelli\", U.O.C. Radiologia",
-    badge: ZERO_ATTESA_BADGE,
     image: "/images/doctors/gennaro-iovine.jpg",
-    bio: "Il Dr. Iovine porta a Cocoora un'esperienza maturata su migliaia di esami ecografici in ambito ospedaliero, applicata oggi a un contesto ambulatoriale rapido e senza liste d'attesa. La sua diagnostica per immagini è il punto di riferimento trasversale a più branche cliniche dello studio.",
+    bio: "Il Dr. Iovine porta nel nostro centro un'esperienza maturata su migliaia di esami ecografici in ambito ospedaliero, applicata oggi a un contesto ambulatoriale rapido e ben organizzato. La sua diagnostica per immagini è il punto di riferimento trasversale a più branche cliniche dello studio.",
     approach:
       "Un'immagine diagnostica di qualità vale quanto il tempo dedicato a leggerla: referto accurato, spiegato chiaramente, disponibile subito nella tua area digitale.",
     curriculum: [
@@ -173,7 +166,6 @@ export const DOCTORS: Doctor[] = [
     title: "Specialista in Oftalmologia",
     branca: "Oculistica & Salute della Vista",
     affiliation: "Consulente oculista — A.O.U. Vanvitelli, U.O.C. Oculistica",
-    badge: ZERO_ATTESA_BADGE,
     image: "/images/doctors/ilaria-russo.jpg",
     bio: "La Dr.ssa Russo si dedica alla prevenzione oculistica per tutte le età, dallo screening pediatrico ai controlli di routine per l'adulto. Predilige un approccio informativo, spiegando ogni esame in modo che il paziente comprenda davvero lo stato di salute della propria vista.",
     approach:
@@ -201,7 +193,6 @@ export const DOCTORS: Doctor[] = [
     title: "Specialista in Pediatria",
     branca: "Pediatria & Cura della Crescita",
     affiliation: "Consulente pediatra — Policlinico Universitario \"Federico II\"",
-    badge: ZERO_ATTESA_BADGE,
     image: "/images/doctors/teresa-amato.jpg",
     bio: "La Dr.ssa Amato ha scelto la pediatria ambulatoriale per costruire un rapporto continuativo con le famiglie, in un ambiente pensato per mettere a proprio agio i più piccoli. Coordina inoltre i percorsi di ortodonzia intercettiva con l'équipe odontoiatrica.",
     approach:
@@ -229,7 +220,6 @@ export const DOCTORS: Doctor[] = [
     title: "Specialista in Ginecologia e Ostetricia",
     branca: "Ginecologia & Benessere Intimo",
     affiliation: "Consulente ginecologa — A.O.U. Vanvitelli, U.O.C. Ginecologia e Ostetricia",
-    badge: ZERO_ATTESA_BADGE,
     image: "/images/doctors/federica-caputo.jpg",
     bio: "La Dr.ssa Caputo accompagna le pazienti in ogni fase della vita, dalla prevenzione di routine alla gestione del climaterio, con un'attenzione particolare all'equilibrio ormonale e al microbiota intimo. Lavora a stretto contatto con l'équipe di Donna Precision.",
     approach:
@@ -257,7 +247,6 @@ export const DOCTORS: Doctor[] = [
     title: "Specialista in Scienza dell'Alimentazione",
     branca: "Nutrizione Clinica & Metabolismo",
     affiliation: "Docente a contratto — Università degli Studi di Napoli \"Federico II\"",
-    badge: ZERO_ATTESA_BADGE,
     image: "/images/doctors/luca-marino.jpg",
     bio: "Il Dr. Marino applica un approccio nutrizionale basato su dati clinici e biologia individuale, integrando quando indicato il profilo genetico e il microbiota intestinale nella costruzione dei piani alimentari. Nessuna dieta generica: solo protocolli personalizzati.",
     approach:

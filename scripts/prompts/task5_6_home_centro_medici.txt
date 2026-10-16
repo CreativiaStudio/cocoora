@@ -1,0 +1,40 @@
+TASK SPECIFICA CHIRURGICA COCOORA: Snellimento Homepage, Sezione Aree Mediche, Pagina Il Centro e Pulizia Medici
+
+CLIENT: Cocoora Studio Medico Polispecialistico (Napoli)
+FILES DA MODIFICARE:
+1. src/app/page.tsx
+2. src/app/chi-siamo/page.tsx
+3. src/app/medici/page.tsx
+4. src/lib/doctors.ts
+
+OBIETTIVI CHIRURGICI E REGOLE INVIOLABILI BRAND VAULT:
+1. Homepage (src/app/page.tsx):
+   - Hero:
+     * Rimuovere il badge "Studio Medico Polispecialistico d'Eccellenza".
+     * Rimuovere i 3 box numerici con le metriche (15+ / 2 min / 0€).
+     * Unificare il claim intro: "Connessi alla tua salute."
+     * Predisporre il container per il video 16:9 con placeholder elegante (in vista dello shooting del 18-24 ottobre).
+   - Aree Mediche in Evidenza:
+     * Sostituire "I 3 Pilastri Clinici" e rimuovere "Le tecnologie di punta" dalla Home.
+     * Mostrare le 3 Aree Mediche nel seguente ordine tassativo:
+       1° Medicina Estetica & Rigenerativa
+       2° Odontoiatria e Ortodonzia
+       3° Visite Specialistiche
+   - Sezione Percorsi Salute:
+     * Ricostruire le card dei Percorsi Salute su sfondo BIANCO (canvas pulito, niente sfondo scuro pesante) con layout ottimizzato e carosello/scroll orizzontale su mobile.
+   - Pre-Footer:
+     * Spostare la sezione Reels 9:16 + Feed Instagram in posizione pre-footer, subito prima del footer del sito.
+
+2. Pagina Il Centro (src/app/chi-siamo/page.tsx):
+   - Rimuovere completamente la dicitura "Quattro pilastri di cura" (sostituire con "La nostra filosofia", senza icone kitsch).
+   - Rimuovere "Architettura Sanitaria Sartoriale".
+   - Rimuovere la dicitura "Private Lounge" e le descrizioni romanzate ("Area Relax con Infusi Biologici", "Poltrona riscaldata"); mostrare solo la galleria reale degli ambienti con i titoli: "Studio 1", "Studio 2", "Studio 3".
+   - Inserire la visione e presentazione della Direttrice Sanitaria Dott.ssa Elisa Russo (Odontoiatra e Specialista in Ortodonzia).
+   - Sostituire qualsiasi calco "A Cocoora" con "Nel nostro centro".
+   - Orari ufficiali: Lun–Ven 8:00–20:00 (Orario continuato), Sab 9:00–14:00.
+
+3. Pagina Medici (src/app/medici/page.tsx e src/lib/doctors.ts):
+   - Rimuovere dalle card dei medici i badge provvisori "Zero Attese", "72h", "approccio Amico Medico".
+   - Rimuovere i prezzi provvisori ("Visita da €90", "Visita da €120") dalle card, mantenendo solo i collegamenti ai Percorsi Salute e le specialità.
+
+4. Verificare TypeScript e build pulita.

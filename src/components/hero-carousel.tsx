@@ -13,12 +13,12 @@ const SLIDES = [
   },
   {
     src: "/images/doctor-consultation.jpg",
-    alt: "Visita medica personalizzata da un Amico Medico Cocoora",
+    alt: "Visita medica personalizzata con uno specialista Cocoora",
     position: "object-top",
   },
   {
     src: "/images/aesthetic-skin.jpg",
-    alt: "Medicina estetica avanzata con tecnologie di punta a Napoli",
+    alt: "Medicina estetica avanzata e rigenerativa a Napoli",
     position: "object-center",
   },
   {
@@ -114,21 +114,9 @@ export function HeroCarousel({
       {/* ── Content ── */}
       <div className="relative z-20 flex h-full flex-col items-center justify-center px-5 text-center sm:px-8 lg:px-10">
         <div className="mx-auto max-w-4xl">
-          {/* Badge */}
-          <div
-            className="inline-flex items-center gap-3 rounded-full border border-white/30 bg-dark-navy/60 px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-white backdrop-blur-md animate-fade-up sm:text-xs"
-            style={{
-              boxShadow:
-                "0 8px 24px -8px rgba(1,24,36,0.6), inset 0 1px 0 rgba(255,255,255,0.18)",
-            }}
-          >
-            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-slate-accent shadow-[0_0_8px_2px_rgba(128,161,178,0.7)]" />
-            Studio Medico Polispecialistico d&apos;Eccellenza — Napoli
-          </div>
-
-          {/* H1 */}
+          {/* H1 — claim unificato */}
           <h1
-            className="mt-7 font-serif text-5xl font-semibold leading-[1.05] tracking-tight text-white animate-fade-up sm:text-6xl lg:text-7xl xl:text-8xl"
+            className="font-serif text-5xl font-semibold leading-[1.05] tracking-tight text-white animate-fade-up sm:text-6xl lg:text-7xl xl:text-8xl"
             style={{
               animationDelay: "100ms",
               textShadow:
@@ -147,8 +135,9 @@ export function HeroCarousel({
                 "0 1px 3px rgba(1,24,36,0.8), 0 2px 14px rgba(3,53,75,0.85), 0 4px 26px rgba(0,0,0,0.5)",
             }}
           >
-            Abbiamo azzerato attese, burocrazia e complessità per permetterti di
-            vivere un percorso di salute fluido, immediato e senza ostacoli.
+            Un polo sanitario multispecialistico a Napoli: prevenzione, diagnosi
+            e cura in un unico centro, con specialisti e docenti universitari e
+            tecnologie di ultima generazione.
           </p>
 
           {/* CTA */}
@@ -163,38 +152,6 @@ export function HeroCarousel({
               Prenota Visita
             </ButtonLink>
           </div>
-        </div>
-      </div>
-
-      {/* ── Trust Metrics overlay ── */}
-      <div className="absolute bottom-10 left-0 right-0 z-20 flex justify-center px-5 sm:px-8">
-        <div className="grid grid-cols-3 gap-3 w-full max-w-lg">
-          {[
-            { value: "15+", label: "Specialità Mediche" },
-            { value: "2 min", label: "Prenotazione" },
-            { value: "0€", label: "Discover" },
-          ].map((m) => (
-            <div
-              key={m.label}
-              className="rounded-2xl border border-white/25 bg-dark-navy/55 px-4 py-4 text-center backdrop-blur-xl"
-              style={{
-                WebkitBackdropFilter: "blur(20px) saturate(140%)",
-                backdropFilter: "blur(20px) saturate(140%)",
-                boxShadow:
-                  "0 20px 40px -20px rgba(1,24,36,0.7), inset 0 1px 0 rgba(255,255,255,0.2)",
-              }}
-            >
-              <p
-                className="font-serif text-2xl font-semibold text-white sm:text-3xl"
-                style={{ textShadow: "0 1px 6px rgba(1,24,36,0.5)" }}
-              >
-                {m.value}
-              </p>
-              <p className="mt-0.5 text-[11px] font-semibold uppercase tracking-wider text-white/90 sm:text-xs">
-                {m.label}
-              </p>
-            </div>
-          ))}
         </div>
       </div>
 

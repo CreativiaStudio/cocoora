@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Check, GraduationCap, ShieldCheck, Stethoscope } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, GraduationCap, Stethoscope } from "lucide-react";
 import { useShop } from "@/components/providers";
 import { CLUB_TIERS, FAMILY_ADDONS } from "@/lib/club";
 import { computeSavings, getTierDetail } from "@/lib/club-details";
@@ -60,11 +60,6 @@ export function DoctorClient({ doctor }: { doctor: Doctor }) {
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-dark-navy/70 via-transparent to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-6">
-                <Badge className="bg-white/90 text-teal-800">
-                  <ShieldCheck className="h-3.5 w-3.5" /> {doctor.badge}
-                </Badge>
-              </div>
             </div>
 
             <div className="text-center lg:text-left">
@@ -96,7 +91,7 @@ export function DoctorClient({ doctor }: { doctor: Doctor }) {
         </Container>
       </section>
 
-      {/* ── Curriculum & Approccio Amico Medico ─────────────────────── */}
+      {/* ── Curriculum & Carriera Accademica ────────────────────────── */}
       <section className="bg-canvas py-20">
         <Container>
           <div className="grid gap-12 lg:grid-cols-2">

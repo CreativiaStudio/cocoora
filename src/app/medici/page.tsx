@@ -3,11 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { ArrowRight, GraduationCap, Search, ShieldCheck, X } from "lucide-react";
+import { ArrowRight, GraduationCap, Search, X } from "lucide-react";
 import { BRANCHE, DOCTORS } from "@/lib/doctors";
-import { formatPrice } from "@/lib/utils";
 import { cn } from "@/lib/utils";
-import { Badge, Button, ButtonLink, Container, SectionLabel } from "@/components/ui";
+import { Button, ButtonLink, Container, SectionLabel } from "@/components/ui";
 
 // Mappatura etichette brevi per una UI più pulita ed elegante
 const BRANCA_SHORT_LABELS: Record<string, string> = {
@@ -74,14 +73,12 @@ export default function MediciPage() {
           <div className="relative z-10 flex h-full items-center">
             <Container>
               <div className="max-w-3xl">
-                <Badge className="bg-white/15 text-white border-white/20 backdrop-blur-sm text-[11px] py-0.5">
-                  <ShieldCheck className="h-3 w-3 text-teal-300" /> Prima visita garantita entro 72h · Federico II & Vanvitelli
-                </Badge>
-                <h1 className="mt-2 font-serif text-2xl font-semibold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
+                <h1 className="font-serif text-2xl font-semibold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
                   I nostri specialisti
                 </h1>
                 <p className="mt-1.5 max-w-2xl text-xs sm:text-sm leading-relaxed text-teal-100/90 line-clamp-2">
-                  Medici con cattedre universitarie e convenzioni ospedaliere a Napoli. Visite immediate senza attese e approccio Amico Medico.
+                  Medici con cattedre universitarie e convenzioni ospedaliere a Napoli,
+                  per un percorso clinico multidisciplinare e coordinato.
                 </p>
               </div>
             </Container>
@@ -182,11 +179,6 @@ export default function MediciPage() {
                       className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-dark-navy/90 via-dark-navy/20 to-transparent" />
-                    
-                    {/* Badge superiore */}
-                    <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-teal-900 shadow-sm backdrop-blur-sm">
-                      <ShieldCheck className="h-3 w-3 text-teal-600" /> Zero Attese
-                    </span>
 
                     {/* Nome e Branca in overlay inferiore sul ritratto */}
                     <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
@@ -208,9 +200,9 @@ export default function MediciPage() {
                     <p className="mt-3.5 flex-1 text-sm leading-relaxed text-charcoal/75 line-clamp-3">
                       {doctor.approach}
                     </p>
-                    <div className="mt-5 flex items-center justify-between border-t border-teal-50 pt-4">
-                      <span className="text-xs text-charcoal/60">
-                        Visita da <strong className="text-teal-900 text-sm font-semibold">{formatPrice(doctor.tariffaVisita)}</strong>
+                    <div className="mt-5 flex items-center justify-between gap-3 border-t border-teal-50 pt-4">
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-teal-50 px-3 py-1 text-[11px] font-semibold text-teal-800">
+                        Percorsi Salute
                       </span>
                       <span className="inline-flex items-center gap-1.5 text-sm font-medium text-teal-700 transition-colors group-hover:text-dark-navy">
                         Scopri profilo <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />

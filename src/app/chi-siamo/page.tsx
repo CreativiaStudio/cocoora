@@ -5,17 +5,12 @@ import Image from "next/image";
 import { ButtonLink, Badge } from "@/components/ui";
 import {
   Sparkles,
-  HeartHandshake,
-  ShieldCheck,
   Clock,
-  ScanLine,
-  Dna,
   GraduationCap,
   MapPin,
   Phone,
   ArrowRight,
   Quote,
-  Sofa,
   Scan,
   Activity,
   Zap,
@@ -25,77 +20,53 @@ import {
 
 const principles = [
   {
-    icon: ScanLine,
     title: "Precisione Clinica",
     text: "Diagnostica digitale di ultima generazione, scanner 3D e protocolli validati a supporto di ogni decisione terapeutica.",
   },
   {
-    icon: HeartHandshake,
     title: "Ascolto Autentico",
     text: "Nessun consulto affrettato. Ogni visita inizia con il dialogo: raccogliamo la tua storia clinica e personale prima di ogni diagnosi.",
   },
   {
-    icon: ShieldCheck,
     title: "Prevenzione Reale",
     text: "Un approccio predittivo multidisciplinare per intercettare i bisogni prima della comparsa del sintomo. La longevità attiva.",
   },
   {
-    icon: Clock,
     title: "Il Tempo Giusto",
-    text: "Agende con tempi dedicati dilatati per consentire visite approfondite e spiegazioni chiare. Zero attese snervanti in sala.",
+    text: "Agende con tempi dedicati e dilatati per consentire visite approfondite e spiegazioni chiare, nel pieno rispetto del tuo tempo.",
   },
 ];
 
 const rooms = [
   {
     number: "01",
-    title: "Reception & Private Lounge",
-    subtitle: "L'accoglienza come primo atto di cura",
+    title: "Studio 1",
+    subtitle: "Odontoiatria Digitale & Ortodonzia",
     description:
-      "Materiali naturali, essenze delicate, luce soffusa e una saletta riservata per consulenze e preventivi in totale privacy. L'atmosfera che allontana l'ansia clinica.",
-    equipment: ["Saletta Privacy Dedicata", "Consulenza Personalizzata", "Area Relax con Infusi Biologici"],
-    image: "/images/clinic-lounge.jpg",
-    icon: Sofa,
-  },
-  {
-    number: "02",
-    title: "Studio 1 — Odontoiatria Digitale & Ortodonzia",
-    subtitle: "Precisione millimetrica per il tuo sorriso",
-    description:
-      "Postazione chirurgica ergonomica, scanner intraorale 3D iTero di ultima generazione e diagnostica radiologica integrata. Lo spazio di riferimento per i trattamenti Invisalign Diamond.",
+      "Postazione clinica ergonomica con scanner intraorale 3D e diagnostica radiologica digitale integrata. Lo spazio di riferimento per i trattamenti di ortodonzia digitale e implantologia guidata.",
     equipment: ["Scanner 3D iTero Element 5D", "Ortopanoramica Digitale HD", "Simulazione Digitale Sorriso"],
     image: "/images/dental-operatory.jpg",
     icon: Scan,
   },
   {
-    number: "03",
-    title: "Studio 2 — Medicina Estetica & Laserterapia",
-    subtitle: "Tecnologie d'avanguardia e luce naturale",
+    number: "02",
+    title: "Studio 2",
+    subtitle: "Medicina Estetica & Laserterapia",
     description:
-      "Poltrona anatomica riscaldata, piattaforma laser combinata viso-corpo e tecnologia Cryoliposculpt in un ambiente luminoso, pensato per esaltare l'armonia naturale.",
-    equipment: ["Piattaforma Laser Multi-Manipolo", "Cryoliposculpt Corpo", "Poltrona Anatomica Ergonomica"],
+      "Ambiente luminoso dedicato ai percorsi di medicina estetica rigenerativa, con piattaforma laser combinata viso-corpo e tecnologie di rimodellamento non invasivo.",
+    equipment: ["Piattaforma Laser Multi-Manipolo", "Cryoliposculpt Corpo", "Biostimolazione Rigenerativa"],
     image: "/images/laser-technology.jpg",
     icon: Zap,
   },
   {
-    number: "04",
-    title: "Studio 3 — Poliambulatorio & Diagnostica Rapida",
-    subtitle: "Diagnosi specialistica in un'unica seduta",
+    number: "03",
+    title: "Studio 3",
+    subtitle: "Poliambulatorio & Diagnostica",
     description:
-      "Ambulatorio cardiologico, ecografico e ginecologico dotato di ecografo HD multidisciplinare, dedicato alle visite con i nostri specialisti e docenti universitari.",
-    equipment: ["Ecografo HD Multidisciplinare", "Elettrocardiografo Digitale", "Studio Docenti Universitari"],
+      "Ambulatorio multidisciplinare dotato di ecografo HD ed elettrocardiografo digitale, dedicato alle visite specialistiche con i nostri medici e docenti universitari.",
+    equipment: ["Ecografo HD Multidisciplinare", "Elettrocardiografo Digitale", "Refertazione Digitale Integrata"],
     image: "/images/diagnostics-lab.jpg",
     icon: Activity,
-  },
-  {
-    number: "05",
-    title: "Stanza Consulenza & Longevità Clinica",
-    subtitle: "La medicina predittiva e lo stile di vita",
-    description:
-      "Lo spazio dedicato ai percorsi Cocoora Precision: interpretazione congiunta dei test genomici DNA 5, sequenziamento del microbiota e piani nutrizionali sartoriali.",
-    equipment: ["Postazione Consulenza Genomica", "Analisi Bioimpedenziometrica", "Refertazione Multidisciplinare"],
-    image: "/images/doctor-consultation.jpg",
-    icon: Dna,
   },
 ];
 
@@ -104,7 +75,7 @@ const universities = [
     name: "Università degli Studi di Napoli Federico II",
     role: "Collaborazione Clinico-Scientifica",
     detail:
-      "Docenti universitari e specialisti ospedalieri convenzionati operano regolarmente presso Cocoora, garantendo protocolli diagnostici all'apice della ricerca medica contemporanea.",
+      "Docenti universitari e specialisti ospedalieri convenzionati operano regolarmente nel nostro centro, garantendo protocolli diagnostici all'apice della ricerca medica contemporanea.",
     badge: "Docenti & Ricerca Clinica",
   },
   {
@@ -148,7 +119,7 @@ export default function ChiSiamoPage() {
           </h1>
 
           <p className="mt-8 max-w-2xl text-lg leading-[1.75] text-teal-100/85 sm:text-xl">
-            A Napoli, in via Giovanni De Bonis 81, Cocoora nasce per ridefinire l&apos;esperienza sanitaria:
+            A Napoli, in via Giovanni De Bonis 81, il nostro centro nasce per ridefinire l&apos;esperienza sanitaria:
             eccellenza clinica multispecialistica, docenti universitari e un&apos;accoglienza calda e riservata
             ispirata ai più alti standard europei.
           </p>
@@ -159,7 +130,7 @@ export default function ChiSiamoPage() {
               size="lg"
               className="bg-white px-8 text-dark-navy hover:bg-teal-50"
             >
-              Esplora i 5 Ambienti
+              Esplora gli Ambienti
               <ArrowRight className="h-4 w-4" />
             </ButtonLink>
             <ButtonLink
@@ -174,12 +145,12 @@ export default function ChiSiamoPage() {
         </div>
       </section>
 
-      {/* ============ METODO & 4 PRINCIPI ============ */}
+      {/* ============ LA NOSTRA FILOSOFIA ============ */}
       <section className="mx-auto max-w-6xl px-6 py-28 sm:px-10">
         <div className="mx-auto mb-16 max-w-2xl text-center">
-          <SectionEyebrow>La Filosofia Clinica</SectionEyebrow>
+          <SectionEyebrow>Il Metodo</SectionEyebrow>
           <h2 className="font-serif text-4xl font-semibold leading-[1.1] text-teal-900 sm:text-5xl">
-            Quattro pilastri di cura
+            La nostra filosofia
           </h2>
           <p className="mt-6 text-base leading-[1.8] text-charcoal/70 sm:text-lg">
             Un metodo di cura che unisce rigore scientifico e sensibilità umana,
@@ -188,32 +159,24 @@ export default function ChiSiamoPage() {
         </div>
 
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {principles.map((p, idx) => {
-            const Icon = p.icon;
-            return (
-              <div
-                key={p.title}
-                className="group flex flex-col rounded-3xl border border-teal-100 bg-white p-8 shadow-[0_18px_50px_-28px_rgba(3,53,75,0.28)] transition-all duration-300 hover:-translate-y-1.5 hover:border-teal-200 hover:shadow-[0_30px_70px_-24px_rgba(3,53,75,0.32)]"
-              >
-                <div className="mb-8 flex items-center justify-between">
-                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-teal-100 bg-teal-50 transition-colors group-hover:border-teal-200 group-hover:bg-teal-100">
-                    <Icon className="h-6 w-6 text-teal-800" strokeWidth={1.5} />
-                  </div>
-                  <span className="font-serif text-2xl font-semibold text-slate-accent/60">
-                    {String(idx + 1).padStart(2, "0")}
-                  </span>
-                </div>
-                <h3 className="mb-3 font-serif text-2xl font-semibold leading-tight text-teal-900">
-                  {p.title}
-                </h3>
-                <p className="text-[15px] leading-[1.75] text-charcoal/70">{p.text}</p>
-              </div>
-            );
-          })}
+          {principles.map((p, idx) => (
+            <div
+              key={p.title}
+              className="group flex flex-col rounded-3xl border border-teal-100 bg-white p-8 shadow-[0_18px_50px_-28px_rgba(3,53,75,0.28)] transition-all duration-300 hover:-translate-y-1.5 hover:border-teal-200 hover:shadow-[0_30px_70px_-24px_rgba(3,53,75,0.32)]"
+            >
+              <span className="mb-8 font-serif text-3xl font-semibold text-slate-accent/60">
+                {String(idx + 1).padStart(2, "0")}
+              </span>
+              <h3 className="mb-3 font-serif text-2xl font-semibold leading-tight text-teal-900">
+                {p.title}
+              </h3>
+              <p className="text-[15px] leading-[1.75] text-charcoal/70">{p.text}</p>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* ============ GLI SPAZI DI COCOORA ============ */}
+      {/* ============ GLI SPAZI DEL CENTRO ============ */}
       <section id="stanze" className="relative overflow-hidden bg-dark-navy py-28">
         <div className="pointer-events-none absolute -left-40 top-20 h-[28rem] w-[28rem] rounded-full bg-teal-500/15 blur-3xl" />
         <div className="pointer-events-none absolute -right-40 top-1/2 h-[30rem] w-[30rem] rounded-full bg-slate-accent/15 blur-3xl" />
@@ -221,12 +184,12 @@ export default function ChiSiamoPage() {
 
         <div className="relative mx-auto max-w-6xl px-6 sm:px-10">
           <div className="mx-auto mb-20 max-w-2xl text-center">
-            <SectionEyebrow tone="dark">Architettura Sanitaria Sartoriale</SectionEyebrow>
+            <SectionEyebrow tone="dark">I Nostri Ambienti</SectionEyebrow>
             <h2 className="font-serif text-4xl font-semibold leading-[1.1] text-white sm:text-5xl">
               Gli Spazi di Cocoora
             </h2>
             <p className="mt-6 text-base leading-[1.8] text-teal-100/80 sm:text-lg">
-              Cinque ambienti indipendenti, ciascuno progettato con una specifica vocazione clinica
+              Tre ambienti clinici indipendenti, ciascuno progettato con una specifica vocazione specialistica
               e curato nei materiali, nell&apos;insonorizzazione e nell&apos;illuminazione naturale per il massimo comfort.
             </p>
           </div>
@@ -299,7 +262,7 @@ export default function ChiSiamoPage() {
           <Quote className="mx-auto mb-8 h-10 w-10 text-slate-accent" strokeWidth={1.2} />
           <p className="font-serif text-3xl font-medium italic leading-[1.5] text-teal-900 sm:text-4xl">
             &ldquo;La medicina deve ritrovare il suo tempo. Il tempo di ascoltare,
-            di osservare, di comprendere prima di agire. A Cocoora abbiamo costruito
+            di osservare, di comprendere prima di agire. Nel nostro centro abbiamo costruito
             uno spazio dove la tecnologia più avanzata convive con la lentezza
             necessaria a prendersi davvero cura di una persona.&rdquo;
           </p>
@@ -315,17 +278,85 @@ export default function ChiSiamoPage() {
         </div>
       </section>
 
-      {/* ============ GOVERNANCE & CATTEDRE UNIVERSITARIE ============ */}
+      {/* ============ DIREZIONE SANITARIA — DOTT.SSA ELISA RUSSO ============ */}
+      <section className="mx-auto max-w-6xl px-6 py-28 sm:px-10">
+        <div className="mx-auto mb-16 max-w-2xl text-center">
+          <SectionEyebrow>La Direzione Sanitaria</SectionEyebrow>
+          <h2 className="font-serif text-4xl font-semibold leading-[1.1] text-teal-900 sm:text-5xl">
+            Dott.ssa Elisa Russo
+          </h2>
+          <p className="mt-4 text-sm font-semibold uppercase tracking-[0.18em] text-slate-accent">
+            Odontoiatra e Specialista in Ortodonzia — Direttrice Sanitaria
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+          {/* Monogramma istituzionale */}
+          <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-[2.5rem] bg-dark-navy shadow-[0_35px_80px_-30px_rgba(3,53,75,0.55)]">
+            <div className="pointer-events-none absolute -left-20 -top-20 h-56 w-56 rounded-full bg-teal-500/25 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 -right-16 h-56 w-56 rounded-full bg-slate-accent/25 blur-3xl" />
+            <div className="relative flex h-full flex-col items-center justify-center gap-5">
+              <span className="font-serif text-7xl font-semibold tracking-tight text-teal-200">
+                ER
+              </span>
+              <div className="h-px w-14 bg-white/25" />
+              <span className="px-8 text-center text-xs font-semibold uppercase tracking-[0.24em] text-teal-100/75">
+                Direzione Sanitaria
+              </span>
+            </div>
+          </div>
+
+          {/* Visione e presentazione */}
+          <div>
+            <Quote className="mb-6 h-8 w-8 text-slate-accent" strokeWidth={1.4} />
+            <p className="font-serif text-2xl font-medium italic leading-[1.5] text-teal-900 sm:text-[1.7rem]">
+              &ldquo;Curare significa prima di tutto prendersi una responsabilità: verso la
+              persona che abbiamo di fronte, verso l&apos;équipe che coordino e verso la
+              qualità di ogni decisione clinica.&rdquo;
+            </p>
+            <div className="mt-8 space-y-5">
+              <p className="text-base leading-[1.8] text-charcoal/70">
+                Odontoiatra e Specialista in Ortodonzia, la Dott.ssa Elisa Russo ricopre il ruolo di
+                Direttrice Sanitaria: garantisce il rispetto dei protocolli clinici, l&apos;appropriatezza
+                delle prescrizioni e la qualità di ogni percorso di cura offerto nel nostro centro.
+              </p>
+              <p className="text-base leading-[1.8] text-charcoal/70">
+                Sotto la sua direzione, l&apos;équipe multidisciplinare lavora in modo coordinato:
+                ogni piano terapeutico nasce dal confronto tra specialisti e viene condiviso con il
+                paziente in modo chiaro e trasparente, nel segno del rigore clinico e dell&apos;etica medica.
+              </p>
+            </div>
+            <ul className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {[
+                "Rigore clinico e protocolli validati",
+                "Etica medica e appropriatezza prescrittiva",
+                "Coordinamento multidisciplinare dell'équipe",
+                "Attenzione autentica alla persona",
+              ].map((item) => (
+                <li
+                  key={item}
+                  className="flex items-start gap-2.5 text-sm font-medium text-charcoal/80"
+                >
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-slate-accent" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ CATTEDRE UNIVERSITARIE ============ */}
       <section className="mx-auto max-w-6xl px-6 py-28 sm:px-10">
         <div className="mx-auto mb-16 max-w-2xl text-center">
           <SectionEyebrow>Governance Clinica</SectionEyebrow>
           <h2 className="font-serif text-4xl font-semibold leading-[1.1] text-teal-900 sm:text-5xl">
-            Direzione Sanitaria &amp; Docenti Universitari
+            Docenti Universitari &amp; Ricerca Clinica
           </h2>
           <p className="mt-6 text-base leading-[1.8] text-charcoal/70 sm:text-lg">
-            La qualità clinica di Cocoora nasce da una direzione sanitaria rigorosa e
-            dal legame diretto con le cattedre universitarie campane, garanzia di aggiornamento
-            costante, seconda opinione qualificata e sicurezza terapeutica.
+            La qualità clinica del nostro centro si fonda sul legame diretto con le cattedre
+            universitarie campane, garanzia di aggiornamento costante, seconda opinione
+            qualificata e sicurezza terapeutica.
           </p>
         </div>
 
@@ -367,7 +398,7 @@ export default function ChiSiamoPage() {
                 Uno studio facilmente raggiungibile, nel cuore della città
               </h2>
               <p className="mt-6 text-base leading-[1.8] text-charcoal/70 sm:text-lg">
-                Cocoora si trova in <strong className="font-semibold text-teal-900">Via Giovanni De Bonis 81</strong>, in una
+                Il nostro centro si trova in <strong className="font-semibold text-teal-900">Via Giovanni De Bonis 81</strong>, in una
                 posizione riservata e strategica tra Posillipo e Chiaia. Un ambiente esclusivo ma comodo da
                 raggiungere da ogni zona di Napoli.
               </p>
@@ -384,7 +415,7 @@ export default function ChiSiamoPage() {
                   · Risposta tempestiva per appuntamenti ed emergenze
                 </ContactRow>
                 <ContactRow icon={Clock} title="Orari di Apertura">
-                  Lunedì – Venerdì: 09:00 – 19:30 · Sabato: su appuntamento per urgenze e prime visite
+                  Lun–Ven 8:00–20:00 (Orario continuato), Sab 9:00–14:00
                 </ContactRow>
               </div>
             </div>
@@ -394,7 +425,7 @@ export default function ChiSiamoPage() {
               <div className="pointer-events-none absolute -bottom-24 -left-16 h-64 w-64 rounded-full bg-slate-accent/20 blur-3xl" />
               <div className="relative">
                 <span className="text-xs font-semibold uppercase tracking-[0.24em] text-teal-200">
-                  Prima Visita Senza Attese
+                  Prenotazioni &amp; Accoglienza
                 </span>
                 <h3 className="mt-4 font-serif text-3xl font-semibold leading-[1.15] sm:text-4xl">
                   Vivi l&apos;esperienza Cocoora
@@ -410,7 +441,7 @@ export default function ChiSiamoPage() {
                     size="md"
                     className="bg-white text-dark-navy hover:bg-teal-50"
                   >
-                    Prenota Visita Entro 72h
+                    Prenota una Visita
                   </ButtonLink>
                   <ButtonLink
                     href="/club"
@@ -423,7 +454,8 @@ export default function ChiSiamoPage() {
                 </div>
 
                 <div className="mt-9 border-t border-white/10 pt-5 text-xs leading-relaxed text-teal-100/60">
-                  * Garanzia di appuntamento entro 72 ore lavorative per ogni prima visita medica o diagnostica.
+                  * Orario continuato: Lun–Ven 8:00–20:00 · Sab 9:00–14:00. Il nostro team
+                  risponde tempestivamente a ogni richiesta di appuntamento.
                 </div>
               </div>
             </div>
