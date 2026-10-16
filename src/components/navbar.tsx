@@ -1,11 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
-  CheckCircle2,
   ChevronDown,
   Clock,
   Lock,
@@ -13,11 +11,6 @@ import {
   Menu,
   MessageCircle,
   Phone,
-  Search,
-  ShieldCheck,
-  Smile,
-  Sparkles,
-  Stethoscope,
   X,
 } from "lucide-react";
 import { NAV_NODES, SITE } from "@/lib/site";
@@ -26,13 +19,76 @@ import { Logo } from "./logo";
 import { Button } from "./ui";
 import { useShop } from "./providers";
 
+// ── Dati condivisi Megamenu / Drawer "Aree Mediche" ─────────────────────────
+type MegamenuLink = { label: string; href: string };
+type MegamenuGroup = { heading?: string; links: MegamenuLink[] };
+type AreeColumn = { title: string; href: string; groups: MegamenuGroup[] };
+
+const TOPBAR_HOURS = "Lun–Ven 8:00–20:00 · Sab 9:00–14:00";
+
+const AREE_MEDICHE_COLUMNS: AreeColumn[] = [
+  {
+    title: "Medicina Estetica & Rigenerativa",
+    href: "/servizi/medicina-estetica",
+    groups: [
+      {
+        heading: "Viso",
+        links: [
+          { label: "Biostimolazione", href: "/servizi/medicina-estetica" },
+          { label: "Filler", href: "/servizi/medicina-estetica" },
+          { label: "Tossina botulinica", href: "/servizi/medicina-estetica" },
+        ],
+      },
+      {
+        heading: "Corpo",
+        links: [
+          { label: "Criolipolisi", href: "/trattamenti/cryoliposculpt" },
+          { label: "Ultrasuoni CFU", href: "/servizi/medicina-estetica" },
+          { label: "Laser medicali", href: "/servizi/medicina-estetica" },
+        ],
+      },
+    ],
+  },
+  {
+    title: "Odontoiatria & Ortodonzia",
+    href: "/servizi/odontoiatria",
+    groups: [
+      {
+        links: [
+          { label: "Allineatori Trasparenti", href: "/servizi/odontoiatria" },
+          { label: "Ortodonzia Specialistica", href: "/servizi/odontoiatria" },
+          { label: "Estetica del Sorriso", href: "/servizi/odontoiatria" },
+          { label: "Igiene & Prevenzione", href: "/servizi/odontoiatria" },
+        ],
+      },
+    ],
+  },
+  {
+    title: "Visite Specialistiche",
+    href: "/visite",
+    groups: [
+      {
+        links: [
+          { label: "Cardiologia", href: "/visite" },
+          { label: "Ginecologia", href: "/visite" },
+          { label: "Senologia", href: "/visite" },
+          { label: "Ecografia", href: "/visite" },
+          { label: "Oculistica", href: "/visite" },
+          { label: "Pediatria", href: "/visite" },
+          { label: "Psicologia", href: "/visite" },
+          { label: "Medicina dello Sport", href: "/visite" },
+        ],
+      },
+    ],
+  },
+];
+
 export function Navbar() {
   const { openBooking } = useShop();
   const [scrolled, setScrolled] = useState(false);
   const [openDesktop, setOpenDesktop] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileAccordion, setMobileAccordion] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState("");
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -68,23 +124,23 @@ export function Navbar() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 transition-all duration-300">
-      {/* ── 1. Top Bar di Garanzia & Accesso Rapido ────────────────────── */}
+      {/* ── 1. Top Bar Istituzionale & Accesso Rapido ───────────────────── */}
       <div className="bg-dark-navy border-b border-white/10 text-[11px] sm:text-xs text-teal-100/90 py-1.5 px-4 sm:px-8 lg:px-10 transition-all duration-300">
-        <div className="mx-auto flex max-w-7xl items-center justify-between">
-          {/* Promessa clinica tangibile */}
-          <div className="flex items-center gap-3">
-            <span className="inline-flex items-center gap-1.5 font-medium text-emerald-300">
-              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-              Prima visita garantita entro 72h
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
+          {/* Docenti universitari e orari */}
+          <div className="flex items-center gap-3 min-w-0">
+            <span className="font-medium text-teal-200/90 truncate">
+              Docenti Università Federico II &amp; Vanvitelli a Napoli
             </span>
             <span className="hidden md:inline text-white/30">•</span>
-            <span className="hidden md:inline text-teal-200/75">
-              Docenti Università Federico II & Vanvitelli a Napoli
+            <span className="hidden md:inline-flex items-center gap-1.5 text-teal-200/75 whitespace-nowrap">
+              <Clock className="h-3 w-3 text-slate-accent" />
+              {TOPBAR_HOURS}
             </span>
           </div>
 
           {/* Contatti diretti e Area Paziente */}
-          <div className="flex items-center gap-4 sm:gap-6">
+          <div className="flex shrink-0 items-center gap-4 sm:gap-6">
             <a
               href="tel:08118182091"
               className="flex items-center gap-1.5 hover:text-white transition-colors"
@@ -104,7 +160,7 @@ export function Navbar() {
             <Link
               href="/club/discover"
               onClick={closeAll}
-              className="flex items-center gap-1.5 font-medium text-slate-accent hover:text-white transition-colors"
+              className="hidden sm:flex items-center gap-1.5 font-medium text-slate-accent hover:text-white transition-colors"
             >
               <Lock className="h-3 w-3" />
               <span>Area Paziente</span>
@@ -126,18 +182,18 @@ export function Navbar() {
             scrolled ? "h-16" : "h-20 sm:h-22"
           )}
         >
-          {/* Logo Brand con claim leggibile */}
+          {/* Logo Brand ingrandito, senza payoff */}
           <Link href="/" aria-label="Cocoora — Home" onClick={closeAll} className="shrink-0 flex items-center">
             <Logo
               variant="dark"
               className={cn(
                 "w-auto transition-all duration-300 ease-in-out",
-                scrolled ? "h-8 sm:h-9" : "h-10 sm:h-12"
+                scrolled ? "h-9 sm:h-10" : "h-11 sm:h-13"
               )}
             />
           </Link>
 
-          {/* ── Desktop Navigation a 4 Macro-Pilastri ──────────────────── */}
+          {/* ── Desktop Navigation a 4 Voci Principali ─────────────────── */}
           <nav className="hidden items-center gap-1 lg:flex" onMouseLeave={scheduleClose}>
             {NAV_NODES.map((node) => (
               <div key={node.label} className="relative" onMouseEnter={() => openMenu(node.label)}>
@@ -145,16 +201,11 @@ export function Navbar() {
                   type="button"
                   className={cn(
                     "flex items-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-medium transition-all duration-200",
-                    node.label === "Piani Salute"
-                      ? "text-teal-900 bg-teal-50/80 border border-teal-200/70 hover:bg-teal-100/70"
-                      : "text-charcoal/80 hover:text-dark-navy hover:bg-slate-50/90",
+                    "text-charcoal/85 hover:text-dark-navy hover:bg-slate-50/90",
                     openDesktop === node.label && "bg-slate-100 text-dark-navy font-semibold shadow-xs"
                   )}
                   aria-expanded={openDesktop === node.label}
                 >
-                  {node.label === "Piani Salute" && (
-                    <ShieldCheck className="h-3.5 w-3.5 text-teal-700" />
-                  )}
                   {node.label}
                   <ChevronDown
                     className={cn(
@@ -167,7 +218,8 @@ export function Navbar() {
                 {/* ── Megamenu Pannello a Schermo Ampio ─────────────────── */}
                 <div
                   className={cn(
-                    "absolute left-1/2 top-full z-40 w-[min(960px,94vw)] -translate-x-1/2 pt-3 transition-all duration-250 ease-out",
+                    "absolute left-1/2 top-full z-40 -translate-x-1/2 pt-3 transition-all duration-250 ease-out",
+                    node.label === "Aree Mediche" ? "w-[min(1080px,95vw)]" : "w-[min(960px,94vw)]",
                     openDesktop === node.label
                       ? "pointer-events-auto translate-y-0 opacity-100 scale-100"
                       : "pointer-events-none translate-y-3 opacity-0 scale-[0.98]"
@@ -175,16 +227,10 @@ export function Navbar() {
                 >
                   <div className="overflow-hidden rounded-[2.25rem] border border-slate-200/90 bg-white shadow-[0_35px_100px_-25px_rgba(0,52,75,0.28)] backdrop-blur-2xl">
                     {/* Render Megamenu specifico in base alla sezione */}
-                    {node.label === "Visite & Trattamenti" && (
-                      <MegamenuVisiteTrattamenti
-                        searchTerm={searchTerm}
-                        setSearchTerm={setSearchTerm}
-                        onClose={closeAll}
-                      />
-                    )}
+                    {node.label === "Aree Mediche" && <MegamenuAreeMediche onClose={closeAll} />}
                     {node.label === "I Medici" && <MegamenuMedici onClose={closeAll} />}
-                    {node.label === "Lo Studio" && <MegamenuStudio onClose={closeAll} />}
-                    {node.label === "Piani Salute" && <MegamenuPianiSalute onClose={closeAll} />}
+                    {node.label === "Il Centro" && <MegamenuCentro onClose={closeAll} />}
+                    {node.label === "Percorsi Salute" && <MegamenuPercorsiSalute onClose={closeAll} />}
                   </div>
                 </div>
               </div>
@@ -226,7 +272,7 @@ export function Navbar() {
         >
           {/* Header Mobile */}
           <div className="flex items-center justify-between border-b border-teal-100 px-6 py-5">
-            <Logo variant="dark" className="h-9 w-auto" />
+            <Logo variant="dark" className="h-10 w-auto" />
             <button
               type="button"
               aria-label="Chiudi menu"
@@ -237,10 +283,9 @@ export function Navbar() {
             </button>
           </div>
 
-          {/* Banner Rassicurazione Mobile */}
-          <div className="bg-teal-50/70 border-b border-teal-100/70 px-6 py-2.5 text-xs text-teal-900 flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span>Prima visita garantita entro 72 ore a Napoli</span>
+          {/* Recapito Istituzionale Mobile */}
+          <div className="bg-teal-50/70 border-b border-teal-100/70 px-6 py-2.5 text-xs text-teal-900">
+            Docenti Università Federico II &amp; Vanvitelli · {TOPBAR_HOURS}
           </div>
 
           {/* Elenco Pagine Accordion */}
@@ -255,12 +300,7 @@ export function Navbar() {
                     }
                     className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-base font-medium text-dark-navy transition-colors hover:bg-teal-50"
                   >
-                    <span className="flex items-center gap-2.5">
-                      {node.label === "Piani Salute" && (
-                        <ShieldCheck className="h-4 w-4 text-teal-600" />
-                      )}
-                      {node.label}
-                    </span>
+                    <span>{node.label}</span>
                     <ChevronDown
                       className={cn(
                         "h-4 w-4 text-slate-accent transition-transform duration-300",
@@ -277,22 +317,89 @@ export function Navbar() {
                         : "grid-rows-[0fr] opacity-0"
                     )}
                   >
-                    <div className="flex flex-col gap-1 overflow-hidden pl-2">
-                      {node.children?.map((child) => (
-                        <Link
-                          key={child.href}
-                          href={child.href}
-                          onClick={closeAll}
-                          className="rounded-xl px-4 py-2.5 text-sm font-medium text-charcoal/80 transition-colors hover:bg-teal-50 hover:text-teal-900"
-                        >
-                          {child.label}
-                          {child.description && (
-                            <span className="mt-0.5 block text-xs font-normal text-charcoal/50">
-                              {child.description}
-                            </span>
-                          )}
-                        </Link>
-                      ))}
+                    <div className="overflow-hidden pl-2">
+                      {node.label === "Aree Mediche" ? (
+                        <div className="flex flex-col gap-2">
+                          {AREE_MEDICHE_COLUMNS.map((column) => (
+                            <div key={column.title} className="rounded-xl bg-slate-50/80 px-3 py-2.5">
+                              <Link
+                                href={column.href}
+                                onClick={closeAll}
+                                className="text-sm font-semibold text-dark-navy hover:text-teal-800"
+                              >
+                                {column.title}
+                              </Link>
+                              <div className="mt-1.5 flex flex-col gap-1">
+                                {column.groups.flatMap((group) =>
+                                  group.links.map((link) => (
+                                    <Link
+                                      key={link.label}
+                                      href={link.href}
+                                      onClick={closeAll}
+                                      className="rounded-lg px-2 py-1.5 text-sm font-medium text-charcoal/80 transition-colors hover:bg-teal-50 hover:text-teal-900"
+                                    >
+                                      {link.label}
+                                    </Link>
+                                  ))
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                          <div className="rounded-xl bg-dark-navy px-3 py-2.5 text-white">
+                            <p className="text-[10px] font-bold uppercase tracking-wider text-teal-200">
+                              Medicina del Futuro &amp; Percorsi
+                            </p>
+                            <Link
+                              href="/precision"
+                              onClick={closeAll}
+                              className="mt-1.5 block text-sm font-semibold hover:text-teal-200"
+                            >
+                              Cocoora Precision (Genomica &amp; Longevità)
+                            </Link>
+                            <div className="mt-1.5 flex flex-wrap gap-1.5">
+                              <Link
+                                href="/precision"
+                                onClick={closeAll}
+                                className="rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-medium hover:bg-white/20"
+                              >
+                                DNA 5
+                              </Link>
+                              <Link
+                                href="/precision"
+                                onClick={closeAll}
+                                className="rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-medium hover:bg-white/20"
+                              >
+                                Kit Microbiota
+                              </Link>
+                            </div>
+                            <Link
+                              href="/club"
+                              onClick={closeAll}
+                              className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-teal-400 px-4 py-2 text-xs font-bold text-dark-navy hover:bg-teal-300 transition-colors"
+                            >
+                              Trova il tuo percorso <ArrowRight className="h-3.5 w-3.5" />
+                            </Link>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="flex flex-col gap-1">
+                          {node.children?.map((child) => (
+                            <Link
+                              key={child.href}
+                              href={child.href}
+                              onClick={closeAll}
+                              className="rounded-xl px-4 py-2.5 text-sm font-medium text-charcoal/80 transition-colors hover:bg-teal-50 hover:text-teal-900"
+                            >
+                              {child.label}
+                              {child.description && (
+                                <span className="mt-0.5 block text-xs font-normal text-charcoal/50">
+                                  {child.description}
+                                </span>
+                              )}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </li>
@@ -335,185 +442,86 @@ export function Navbar() {
   );
 }
 
-// ── MEGAMENU 1: VISITE & TRATTAMENTI ────────────────────────────────────────
-function MegamenuVisiteTrattamenti({
-  searchTerm,
-  setSearchTerm,
-  onClose,
-}: {
-  searchTerm: string;
-  setSearchTerm: (v: string) => void;
-  onClose: () => void;
-}) {
+// ── MEGAMENU 1: AREE MEDICHE (4 Colonne) ────────────────────────────────────
+function MegamenuAreeMediche({ onClose }: { onClose: () => void }) {
   return (
-    <div className="flex flex-col">
-      {/* Barra di ricerca per sintomo in cima */}
-      <div className="border-b border-slate-100 bg-slate-50/70 px-7 py-3 flex items-center justify-between gap-4">
-        <div className="relative flex-1 max-w-md">
-          <Search className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-charcoal/40" />
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Cosa ti serve? Es. mal di schiena, invisalign, cardiologo, filler..."
-            className="w-full rounded-full border border-teal-200/70 bg-white py-1.5 pl-9 pr-4 text-xs text-charcoal placeholder:text-charcoal/45 focus:border-teal-700 focus:outline-none"
-          />
-        </div>
-        <span className="text-[11px] font-semibold text-slate-accent tracking-wider uppercase hidden sm:inline">
-          Poliambulatorio & Chirurgia Digitale
-        </span>
-      </div>
-
-      {/* 4 Colonne per Ambito Clinico */}
-      <div className="grid grid-cols-4 gap-6 p-7">
-        {/* Colonna 1: Visite Specialistiche */}
-        <div>
-          <h4 className="text-xs font-bold uppercase tracking-wider text-slate-accent mb-3 flex items-center gap-1.5">
-            <Stethoscope className="h-3.5 w-3.5 text-teal-700" /> Visite Specialistiche
-          </h4>
-          <ul className="space-y-2 text-xs">
-            <li>
-              <Link href="/visite/cardiologia" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
-                Cardiologia & ECG
-              </Link>
-            </li>
-            <li>
-              <Link href="/visite/senologia" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
-                Senologia & Prevenzione Donna
-              </Link>
-            </li>
-            <li>
-              <Link href="/visite/ecografia" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
-                Ecografie & Diagnostica Rapida
-              </Link>
-            </li>
-            <li>
-              <Link href="/visite/pediatria" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
-                Pediatria & Cura della Crescita
-              </Link>
-            </li>
-            <li>
-              <Link href="/visite/ginecologia" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
-                Ginecologia & Benessere Intimo
-              </Link>
-            </li>
-            <li>
-              <Link href="/visite/oculistica" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
-                Oculistica & Salute della Vista
-              </Link>
-            </li>
-            <li className="pt-1 border-t border-slate-100">
-              <Link href="/visite" onClick={onClose} className="mt-2 inline-flex items-center gap-1 font-semibold text-teal-800 hover:text-dark-navy">
-                Tutte le Visite <ArrowRight className="h-3 w-3" />
-              </Link>
-            </li>
-          </ul>
-        </div>
-
-        {/* Colonna 2: Sorriso & Ortodonzia */}
-        <div>
-          <h4 className="text-xs font-bold uppercase tracking-wider text-slate-accent mb-3 flex items-center gap-1.5">
-            <Smile className="h-3.5 w-3.5 text-teal-700" /> Sorriso & Odontoiatria
-          </h4>
-          <ul className="space-y-2 text-xs">
-            <li>
-              <Link href="/trattamenti/invisalign-adulti" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700 flex items-center gap-1">
-                <span>Invisalign Diamond</span>
-                <span className="text-[9px] bg-teal-100 text-teal-900 px-1.5 py-0.5 rounded-full font-bold">TOP</span>
-              </Link>
-            </li>
-            <li>
-              <Link href="/trattamenti/invisalign-adolescenti" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
-                Ortodonzia Bambini & Ragazzi
-              </Link>
-            </li>
-            <li>
-              <Link href="/trattamenti/implantologia" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
-                Implantologia & Chirurgia 3D
-              </Link>
-            </li>
-            <li>
-              <Link href="/trattamenti/estetica-dentale" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
-                Estetica Dentale & Sbiancamento
-              </Link>
-            </li>
-            <li>
-              <Link href="/trattamenti/igiene" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
-                Igiene Orale & Prevenzione
-              </Link>
-            </li>
-          </ul>
-        </div>
-
-        {/* Colonna 3: Medicina Estetica */}
-        <div>
-          <h4 className="text-xs font-bold uppercase tracking-wider text-slate-accent mb-3 flex items-center gap-1.5">
-            <Sparkles className="h-3.5 w-3.5 text-teal-700" /> Estetica & Rigenerativa
-          </h4>
-          <ul className="space-y-2 text-xs">
-            <li>
-              <Link href="/trattamenti/filler-acido-ialuronico" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
-                Ringiovanimento Viso & Filler
-              </Link>
-            </li>
-            <li>
-              <Link href="/trattamenti/piattaforma-laser" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
-                Laserterapia & Macchie Cutanee
-              </Link>
-            </li>
-            <li>
-              <Link href="/trattamenti/cryoliposculpt" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
-                Cryoliposculpt Rimodellamento
-              </Link>
-            </li>
-            <li>
-              <Link href="/trattamenti/biorivitalizzazione" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
-                Biorivitalizzazione & Peeling
-              </Link>
-            </li>
-            <li>
-              <Link href="/trattamenti/carbossiterapia" onClick={onClose} className="font-medium text-dark-navy hover:text-teal-700">
-                Carbossiterapia Medicale
-              </Link>
-            </li>
-          </ul>
-        </div>
-
-        {/* Colonna 4: Per Obiettivo & Precision */}
-        <div className="bg-slate-50/80 rounded-2xl p-4 border border-slate-200/60 flex flex-col justify-between">
-          <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-teal-800 bg-white px-2 py-0.5 rounded-full border border-teal-200/60 shadow-xs">
-              Medicina del Futuro
-            </span>
-            <h5 className="font-serif text-sm font-semibold text-dark-navy mt-2.5">
-              Cocoora Precision
-            </h5>
-            <p className="text-[11px] text-charcoal/65 mt-1 leading-relaxed">
-              Test DNA 5 predittivo e sequenziamento microbiota per una longevità attiva.
-            </p>
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 p-7 lg:p-8">
+      {/* Colonne 1–3: Aree cliniche con sottovoci */}
+      {AREE_MEDICHE_COLUMNS.map((column) => (
+        <div key={column.title}>
+          <Link
+            href={column.href}
+            onClick={onClose}
+            className="text-xs font-bold uppercase tracking-wider text-slate-accent hover:text-teal-800 transition-colors"
+          >
+            {column.title}
+          </Link>
+          <div className="mt-3 space-y-3">
+            {column.groups.map((group, groupIndex) => (
+              <div key={groupIndex}>
+                {group.heading && (
+                  <p className="mb-1.5 text-[10px] font-bold uppercase tracking-wider text-teal-800">
+                    {group.heading}
+                  </p>
+                )}
+                <ul className="space-y-2 text-xs">
+                  {group.links.map((link) => (
+                    <li key={link.label}>
+                      <Link
+                        href={link.href}
+                        onClick={onClose}
+                        className="font-medium text-dark-navy hover:text-teal-700 transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
+        </div>
+      ))}
+
+      {/* Colonna 4: Medicina del Futuro & Percorsi */}
+      <div className="bg-dark-navy text-white rounded-2xl p-5 flex flex-col justify-between">
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-wider text-teal-200">
+            Medicina del Futuro &amp; Percorsi
+          </p>
           <Link
             href="/precision"
             onClick={onClose}
-            className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-teal-800 hover:text-dark-navy"
+            className="mt-2.5 block font-serif text-sm font-semibold leading-snug hover:text-teal-200 transition-colors"
           >
-            Scopri Precision <ArrowRight className="h-3 w-3" />
+            Cocoora Precision (Genomica &amp; Longevità)
           </Link>
+          <p className="mt-2 text-[11px] leading-relaxed text-teal-100/70">
+            Medicina predittiva e longevità attiva, guidata dai dati.
+          </p>
+          <div className="mt-3 flex flex-wrap gap-1.5">
+            <Link
+              href="/precision"
+              onClick={onClose}
+              className="rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-medium hover:bg-white/20 transition-colors"
+            >
+              DNA 5
+            </Link>
+            <Link
+              href="/precision"
+              onClick={onClose}
+              className="rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-medium hover:bg-white/20 transition-colors"
+            >
+              Kit Microbiota
+            </Link>
+          </div>
         </div>
-      </div>
-
-      {/* Ponte di Conversione Inferiore */}
-      <div className="border-t border-slate-100 bg-slate-50/90 px-7 py-3 flex items-center justify-between text-xs text-charcoal/75">
-        <span className="flex items-center gap-2">
-          <ShieldCheck className="h-4 w-4 text-teal-700" />
-          <span>Molte di queste prestazioni sono <strong>già incluse</strong> nei nostri Piani Salute annuali.</span>
-        </span>
         <Link
           href="/club"
           onClick={onClose}
-          className="font-semibold text-teal-900 hover:text-dark-navy flex items-center gap-1"
+          className="mt-4 inline-flex items-center justify-between gap-2 rounded-xl bg-teal-400 px-4 py-2.5 text-xs font-bold text-dark-navy hover:bg-teal-300 transition-colors"
         >
-          Calcola quanto risparmi col Club <ArrowRight className="h-3 w-3" />
+          Trova il tuo percorso <ArrowRight className="h-3.5 w-3.5" />
         </Link>
       </div>
     </div>
@@ -523,303 +531,192 @@ function MegamenuVisiteTrattamenti({
 // ── MEGAMENU 2: I MEDICI ───────────────────────────────────────────────────
 function MegamenuMedici({ onClose }: { onClose: () => void }) {
   return (
-    <div className="p-7">
-      <div className="grid grid-cols-12 gap-7">
-        {/* Colonna Sinistra: Filosofia e Filtri */}
-        <div className="col-span-5 flex flex-col justify-between">
-          <div>
-            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-accent">
-              Docenti & Specialisti Universitari
-            </span>
-            <h3 className="font-serif text-xl font-semibold text-dark-navy mt-1">
-              Zero Liste d&apos;Attesa, Massimo Rigore Clinico
-            </h3>
-            <p className="mt-2 text-xs leading-relaxed text-charcoal/70">
-              Abbiamo stretto convenzioni con i docenti delle cattedre dell&apos;Università Federico II, Vanvitelli e dell&apos;Ospedale Cardarelli per garantirti una visita specialistica immediata, senza le attese del sistema pubblico.
-            </p>
-            <div className="mt-4 space-y-2 text-xs text-charcoal/80">
-              <p className="flex items-center gap-2">
-                <CheckCircle2 className="h-3.5 w-3.5 text-teal-700" />
-                <span>Prima visita garantita entro 72 ore</span>
-              </p>
-              <p className="flex items-center gap-2">
-                <CheckCircle2 className="h-3.5 w-3.5 text-teal-700" />
-                <span>Rapporto empatico e continuità terapeutica</span>
-              </p>
-            </div>
-          </div>
+    <div className="p-7 lg:p-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <Link
+          href="/medici"
+          onClick={onClose}
+          className="group rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm transition-all hover:border-teal-400 hover:shadow-md hover:-translate-y-0.5"
+        >
+          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-accent">
+            Il Team Clinico
+          </span>
+          <h4 className="mt-2 font-serif text-lg font-semibold text-dark-navy group-hover:text-teal-800 transition-colors">
+            L&apos;Équipe Specialistica
+          </h4>
+          <p className="mt-2 text-xs leading-relaxed text-charcoal/70">
+            Specialisti di riferimento per un percorso clinico multidisciplinare e
+            coordinato a Napoli.
+          </p>
+          <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-teal-800 group-hover:gap-2.5 transition-all">
+            Scopri l&apos;équipe <ArrowRight className="h-3.5 w-3.5" />
+          </span>
+        </Link>
 
-          <Link
-            href="/medici"
-            onClick={onClose}
-            className="mt-5 inline-flex items-center justify-between rounded-xl bg-dark-navy text-white px-5 py-3 text-xs font-semibold shadow-md hover:bg-teal-900 transition-colors"
-          >
-            <span>Esplora tutti gli specialisti</span>
-            <ArrowRight className="h-3.5 w-3.5" />
-          </Link>
-        </div>
-
-        {/* Colonna Destra: 2 Medici in Evidenza */}
-        <div className="col-span-7 grid grid-cols-2 gap-4">
-          {/* Card 1: Ortodonzia */}
-          <Link
-            href="/medici/antonio-sorrentino"
-            onClick={onClose}
-            className="group relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm hover:shadow-md transition-all hover:-translate-y-1"
-          >
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-teal-50">
-              <Image
-                src="/images/doctors/antonio-sorrentino.jpg"
-                alt="Dr. Antonio Sorrentino"
-                fill
-                sizes="200px"
-                className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-              />
-              <span className="absolute top-2 left-2 rounded-full bg-white/95 px-2 py-0.5 text-[10px] font-bold text-teal-900 shadow-xs">
-                Invisalign Diamond
-              </span>
-            </div>
-            <h5 className="font-serif text-sm font-semibold text-dark-navy mt-3">
-              Dr. Antonio Sorrentino
-            </h5>
-            <p className="text-[11px] text-teal-700 font-medium">Ortodonzia & Chirurgia Guidata</p>
-            <p className="text-[10px] text-charcoal/50 mt-1">Docente Master Ortodonzia</p>
-          </Link>
-
-          {/* Card 2: Cardiologia */}
-          <Link
-            href="/medici/chiara-del-prete"
-            onClick={onClose}
-            className="group relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-4 shadow-sm hover:shadow-md transition-all hover:-translate-y-1"
-          >
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-teal-50">
-              <Image
-                src="/images/doctors/chiara-del-prete.jpg"
-                alt="Dr.ssa Chiara Del Prete"
-                fill
-                sizes="200px"
-                className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-              />
-              <span className="absolute top-2 left-2 rounded-full bg-white/95 px-2 py-0.5 text-[10px] font-bold text-emerald-800 shadow-xs">
-                Disponibile giovedì
-              </span>
-            </div>
-            <h5 className="font-serif text-sm font-semibold text-dark-navy mt-3">
-              Dr.ssa Chiara Del Prete
-            </h5>
-            <p className="text-[11px] text-teal-700 font-medium">Cardiologia & Prevenzione</p>
-            <p className="text-[10px] text-charcoal/50 mt-1">Specialista Università Federico II</p>
-          </Link>
-        </div>
+        <Link
+          href="/medici#docenti"
+          onClick={onClose}
+          className="group rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm transition-all hover:border-teal-400 hover:shadow-md hover:-translate-y-0.5"
+        >
+          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-accent">
+            Eccellenza Accademica
+          </span>
+          <h4 className="mt-2 font-serif text-lg font-semibold text-dark-navy group-hover:text-teal-800 transition-colors">
+            Docenti Universitari e Ospedalieri
+          </h4>
+          <p className="mt-2 text-xs leading-relaxed text-charcoal/70">
+            Professori e dirigenti medici delle Università Federico II, Vanvitelli e
+            dei principali poli ospedalieri.
+          </p>
+          <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-teal-800 group-hover:gap-2.5 transition-all">
+            Conosci i docenti <ArrowRight className="h-3.5 w-3.5" />
+          </span>
+        </Link>
       </div>
     </div>
   );
 }
 
-// ── MEGAMENU 3: LO STUDIO ──────────────────────────────────────────────────
-function MegamenuStudio({ onClose }: { onClose: () => void }) {
-  return (
-    <div className="p-7">
-      <div className="grid grid-cols-12 gap-7">
-        <div className="col-span-5">
-          <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-slate-200/80 shadow-sm">
-            <Image
-              src="/images/clinic-lounge.jpg"
-              alt="Lounge Cocoora Napoli"
-              fill
-              sizes="340px"
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-dark-navy/80 via-transparent to-transparent" />
-            <div className="absolute bottom-3 left-3 text-white">
-              <p className="text-[10px] font-bold uppercase tracking-wider text-teal-200">
-                Poliambulatorio Privato
-              </p>
-              <p className="font-serif text-sm font-semibold">Via G. De Bonis 81, Napoli</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="col-span-7 flex flex-col justify-between">
-          <div className="space-y-3">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-accent">
-              Standard di Clinica Svizzera a Napoli
-            </span>
-            <h4 className="font-serif text-lg font-semibold text-dark-navy">
-              L&apos;Accoglienza dell&apos;Amico Medico
-            </h4>
-            <p className="text-xs leading-relaxed text-charcoal/70">
-              Abbiamo creato uno spazio dove la medicina ritrova il suo tempo. Zero code, zero burocrazia, ambienti insonorizzati con luce naturale e le più evolute tecnologie diagnostiche e laser.
-            </p>
-            <div className="grid grid-cols-2 gap-2 pt-1 text-xs text-charcoal/80">
-              <span className="flex items-center gap-1.5">
-                <MapPin className="h-3.5 w-3.5 text-teal-700" /> Posillipo / Fuorigrotta
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Clock className="h-3.5 w-3.5 text-teal-700" /> Lun–Ven 8–20, Sab 9–14
-              </span>
-            </div>
-          </div>
-
-          <div className="pt-4 border-t border-slate-100">
-            <Link
-              href="/chi-siamo"
-              onClick={onClose}
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-teal-800 hover:text-dark-navy transition-colors"
-            >
-              Scopri Cocoora <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ── MEGAMENU 4: PIANI SALUTE (COCOORA CLUB & PRECISION) ─────────────────────
-function MegamenuPianiSalute({ onClose }: { onClose: () => void }) {
+// ── MEGAMENU 3: IL CENTRO ──────────────────────────────────────────────────
+function MegamenuCentro({ onClose }: { onClose: () => void }) {
   return (
     <div className="flex flex-col">
-      {/* Top Banner del Club con il claim potente */}
-      <div className="border-b border-teal-100/70 bg-gradient-to-r from-teal-50/80 via-white to-teal-50/50 px-7 py-3 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="relative h-6 w-6">
-            <Image
-              src="/brand/cocoora azzurro.webp"
-              alt="Simbolo Cocoora"
-              fill
-              className="object-contain"
-            />
-          </div>
-          <div>
-            <span className="font-serif text-sm font-semibold text-dark-navy">
-              Cocoora Club: il tuo medico di fiducia, tutto l&apos;anno.
-            </span>
-            <span className="hidden sm:inline text-xs text-charcoal/60 ml-2">
-              Senza attese, a quota annuale fissa o a rate.
-            </span>
-          </div>
-        </div>
-        <span className="text-xs font-bold text-teal-800 bg-white px-3 py-1 rounded-full border border-teal-200/60 shadow-xs">
-          Zero Vincoli Nascosti
-        </span>
-      </div>
-
-      {/* 4 Card dei Piani Annuali con gli asset grafici di Alessandra */}
-      <div className="grid grid-cols-4 gap-4 p-7">
-        {/* Piano 1: Discover */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 p-7 lg:p-8">
         <Link
-          href="/club/discover"
+          href="/chi-siamo"
           onClick={onClose}
-          className="group relative rounded-2xl border border-slate-200/80 bg-white p-4 transition-all hover:border-teal-400 hover:shadow-sm"
+          className="group rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm transition-all hover:border-teal-400 hover:shadow-md hover:-translate-y-0.5"
         >
-          <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-accent">
-              Gratis
-            </span>
-            <div className="relative h-4 w-4 opacity-75">
-              <Image src="/brand/cocoora azzurro.webp" alt="Discover" fill className="object-contain" />
-            </div>
-          </div>
-          <h5 className="font-serif text-base font-semibold text-dark-navy mt-1">Discover</h5>
-          <p className="text-lg font-bold text-teal-900 mt-1">0€ <span className="text-xs font-normal text-charcoal/50">/anno</span></p>
-          <p className="text-[11px] text-charcoal/60 mt-1.5 leading-relaxed">
-            Profilo sanitario digitale, referti h24 in App e catalogo visite.
+          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-accent">
+            Chi Siamo
+          </span>
+          <h4 className="mt-2 font-serif text-lg font-semibold text-dark-navy group-hover:text-teal-800 transition-colors">
+            La Filosofia del Centro
+          </h4>
+          <p className="mt-2 text-xs leading-relaxed text-charcoal/70">
+            Eccellenza clinica, tecnologie diagnostiche avanzate e accoglienza
+            riservata in Via De Bonis 81 a Napoli.
           </p>
-          <span className="mt-3 inline-block text-[11px] font-semibold text-teal-700 group-hover:underline">
-            Inizia gratis &rarr;
+          <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-teal-800 group-hover:gap-2.5 transition-all">
+            Scopri la filosofia <ArrowRight className="h-3.5 w-3.5" />
           </span>
         </Link>
 
-        {/* Piano 2: Access */}
         <Link
-          href="/club/access"
+          href="/chi-siamo#spazi"
           onClick={onClose}
-          className="group relative rounded-2xl border border-slate-200/80 bg-white p-4 transition-all hover:border-teal-400 hover:shadow-sm"
+          className="group rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm transition-all hover:border-teal-400 hover:shadow-md hover:-translate-y-0.5"
         >
-          <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-teal-800">
-              Essenziale
-            </span>
-            <div className="relative h-4 w-4 opacity-75">
-              <Image src="/brand/cocoora verde.webp" alt="Access" fill className="object-contain" />
-            </div>
-          </div>
-          <h5 className="font-serif text-base font-semibold text-dark-navy mt-1">Access</h5>
-          <p className="text-lg font-bold text-teal-900 mt-1">99€ <span className="text-xs font-normal text-charcoal/50">/anno</span></p>
-          <p className="text-[11px] text-charcoal/60 mt-1.5 leading-relaxed">
-            Visita specialistica di ingresso e prima diagnostica preventiva.
-          </p>
-          <span className="mt-3 inline-block text-[11px] font-semibold text-teal-700 group-hover:underline">
-            Dettagli piano &rarr;
+          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-accent">
+            Gli Ambienti
           </span>
-        </Link>
-
-        {/* Piano 3: Care (PIÙ SCELTO) */}
-        <Link
-          href="/club/care"
-          onClick={onClose}
-          className="group relative rounded-2xl border-2 border-teal-700 bg-gradient-to-b from-teal-50/50 to-white p-4 shadow-sm transition-all hover:shadow-md"
-        >
-          <div className="flex items-center justify-between">
-            <span className="text-[9px] font-bold uppercase tracking-wider bg-teal-800 text-white px-2 py-0.5 rounded-full">
-              ★ Più Scelto
-            </span>
-            <div className="relative h-4 w-4">
-              <Image src="/brand/Risorsa 2.webp" alt="Care" fill className="object-contain" />
-            </div>
-          </div>
-          <h5 className="font-serif text-base font-semibold text-dark-navy mt-1">Care</h5>
-          <p className="text-lg font-bold text-teal-900 mt-1">
-            da 29€ <span className="text-xs font-normal text-charcoal/50">/mese</span>
+          <h4 className="mt-2 font-serif text-lg font-semibold text-dark-navy group-hover:text-teal-800 transition-colors">
+            Gli Spazi Clinici: Studio 1, 2, 3
+          </h4>
+          <p className="mt-2 text-xs leading-relaxed text-charcoal/70">
+            Ambienti clinici dedicati per odontoiatria, medicina estetica,
+            diagnostica e visite specialistiche.
           </p>
-          <p className="text-[11px] text-charcoal/70 mt-1.5 leading-relaxed">
-            Check-up completo, visite specialistiche e igiene dentale incluse.
-          </p>
-          <span className="mt-3 inline-block text-[11px] font-bold text-teal-800 group-hover:underline">
-            Scegli il piano &rarr;
-          </span>
-        </Link>
-
-        {/* Piano 4: Precision / Signature */}
-        <Link
-          href="/precision"
-          onClick={onClose}
-          className="group relative rounded-2xl border border-slate-200/80 bg-white p-4 transition-all hover:border-teal-400 hover:shadow-sm"
-        >
-          <div className="flex items-center justify-between">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-purple-800">
-              Genomica
-            </span>
-            <div className="relative h-4 w-4 opacity-75">
-              <Image src="/brand/cocoora rosa.webp" alt="Precision" fill className="object-contain" />
-            </div>
-          </div>
-          <h5 className="font-serif text-base font-semibold text-dark-navy mt-1">Precision</h5>
-          <p className="text-lg font-bold text-dark-navy mt-1">DNA 5</p>
-          <p className="text-[11px] text-charcoal/60 mt-1.5 leading-relaxed">
-            Test DNA 5 e sequenziamento microbiota per longevità e prevenzione.
-          </p>
-          <span className="mt-3 inline-block text-[11px] font-semibold text-teal-700 group-hover:underline">
-            Scopri Precision &rarr;
+          <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-teal-800 group-hover:gap-2.5 transition-all">
+            Esplora gli spazi <ArrowRight className="h-3.5 w-3.5" />
           </span>
         </Link>
       </div>
 
-      {/* Ponte di Conversione Decisivo di Opus 5.5 */}
-      <div className="border-t border-teal-100/80 bg-teal-50/60 px-7 py-3 flex items-center justify-between text-xs text-teal-950">
+      {/* Recapito Sede */}
+      <div className="border-t border-slate-100 bg-slate-50/90 px-7 lg:px-8 py-3 flex items-center justify-between gap-4 text-xs text-charcoal/75">
         <span className="flex items-center gap-2">
-          <CheckCircle2 className="h-4 w-4 text-teal-700 shrink-0" />
-          <span><strong>La prima visita vale come acconto:</strong> fai la visita e scala l&apos;importo se ti iscrivi al Club entro 30 giorni.</span>
+          <MapPin className="h-4 w-4 text-teal-700 shrink-0" />
+          <span>
+            Sede: <strong className="text-dark-navy">Via Generale Giovanni De Bonis 81, Napoli</strong>
+          </span>
         </span>
-        <a
-          href={SITE.whatsapp}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="font-bold text-teal-900 hover:underline flex items-center gap-1"
+        <Link
+          href="/contatti"
+          onClick={onClose}
+          className="font-semibold text-teal-900 hover:text-dark-navy flex items-center gap-1 whitespace-nowrap"
         >
-          Hai dubbi? Chiedi su WhatsApp <MessageCircle className="h-3.5 w-3.5 text-emerald-600" />
-        </a>
+          Come raggiungerci <ArrowRight className="h-3 w-3" />
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+// ── MEGAMENU 4: PERCORSI SALUTE (COCOORA CLUB) ──────────────────────────────
+function MegamenuPercorsiSalute({ onClose }: { onClose: () => void }) {
+  const percorsi = [
+    {
+      label: "Discover",
+      href: "/club#discover",
+      description: "Il primo passo per entrare nel mondo della prevenzione Cocoora.",
+    },
+    {
+      label: "Access",
+      href: "/club#access",
+      description: "Accesso strutturato alle prestazioni specialistiche e diagnostiche del centro.",
+    },
+    {
+      label: "Care",
+      href: "/club#care",
+      description: "Prevenzione periodica e continuità assistenziale durante tutto l'anno.",
+    },
+    {
+      label: "Experience",
+      href: "/club#experience",
+      description: "Percorso avanzato multidisciplinare per il benessere completo.",
+    },
+    {
+      label: "Signature",
+      href: "/club#signature",
+      description: "Il percorso esclusivo e onnicomprensivo di longevità e salute dedicata.",
+    },
+  ];
+
+  return (
+    <div className="flex flex-col">
+      {/* Intestazione con panoramica */}
+      <div className="border-b border-teal-100/70 bg-gradient-to-r from-teal-50/80 via-white to-teal-50/50 px-7 lg:px-8 py-4 flex items-center justify-between gap-4">
+        <div>
+          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-accent">
+            Percorsi Salute Cocoora
+          </span>
+          <h4 className="font-serif text-base font-semibold text-dark-navy mt-0.5">
+            Panoramica Percorsi
+          </h4>
+          <p className="text-xs text-charcoal/65 mt-1">
+            I percorsi annuali dedicati alla prevenzione continua per singoli e famiglie.
+          </p>
+        </div>
+        <Link
+          href="/club"
+          onClick={onClose}
+          className="shrink-0 inline-flex items-center gap-1.5 rounded-full bg-dark-navy px-5 py-2.5 text-xs font-semibold text-white shadow-md hover:bg-teal-900 transition-colors"
+        >
+          Scopri il Club <ArrowRight className="h-3.5 w-3.5" />
+        </Link>
+      </div>
+
+      {/* Le 5 tappe del percorso */}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 p-7 lg:p-8">
+        {percorsi.map((percorso) => (
+          <Link
+            key={percorso.href}
+            href={percorso.href}
+            onClick={onClose}
+            className="group rounded-2xl border border-slate-200/80 bg-white p-4 transition-all hover:border-teal-400 hover:shadow-sm"
+          >
+            <h5 className="font-serif text-sm font-semibold text-dark-navy group-hover:text-teal-800 transition-colors">
+              {percorso.label}
+            </h5>
+            <p className="mt-1.5 text-[11px] leading-relaxed text-charcoal/60">
+              {percorso.description}
+            </p>
+            <span className="mt-3 inline-flex items-center gap-1 text-[11px] font-semibold text-teal-700 group-hover:gap-2 transition-all">
+              Scopri <ArrowRight className="h-3 w-3" />
+            </span>
+          </Link>
+        ))}
       </div>
     </div>
   );

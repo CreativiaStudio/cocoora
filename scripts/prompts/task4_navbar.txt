@@ -1,0 +1,46 @@
+TASK SPECIFICA CHIRURGICA COCOORA: Rifacimento Header, Top Bar e Megamenu a 4 Voci
+
+CLIENT: Cocoora Studio Medico Polispecialistico (Napoli)
+FILES DA MODIFICARE:
+1. src/components/navbar.tsx
+2. src/lib/site.ts
+
+OBIETTIVI CHIRURGICI E REGOLE INVIOLABILI BRAND VAULT:
+1. Top Bar:
+   - RIMUOVERE ASSOLUTAMENTE "Prima visita garantita entro 72h" (e qualsiasi indicatore pulsante o promessa 72h).
+   - Mantenere nella Top Bar: "Docenti Università Federico II & Vanvitelli a Napoli", telefono "081 18182091", link WhatsApp e orari "Lun–Ven 8:00–20:00 · Sab 9:00–14:00".
+
+2. Logo & Header:
+   - Ingrandire il logo/pittogramma Cocoora nella Navbar (usando altezza adeguata es. h-10 sm:h-12 / h-11 sm:h-13, pulito senza payoff sottostante). Il payoff resta solo nel footer.
+
+3. Voci Principali di Navigazione (Navbar Desktop & Mobile):
+   - Le voci di menu devono essere ESATTAMENTE 4 (senza icone/badge/scudi ridondanti):
+     1. "Aree Mediche" (VIETATO usare "Visite & Trattamenti")
+     2. "I Medici"
+     3. "Il Centro" (VIETATO usare "Lo Studio")
+     4. "Percorsi Salute" (VIETATO usare "Piani Salute", "Piani" o "Abbonamenti")
+   - Accanto alle 4 voci, mantenere la CTA "Prenota Visita" che apre il booking modal.
+
+4. Megamenu a 4 Colonne per "Aree Mediche":
+   - Colonna 1: Medicina Estetica & Rigenerativa (href: "/servizi/medicina-estetica")
+     - Sottovoci / trattamenti in evidenza: Viso (Biostimolazione, Filler, Tossina botulinica), Corpo con voce "Criolipolisi" (href: "/trattamenti/cryoliposculpt" - VIETATO usare Cryoliposculpt come nome primario del menu, usare "Criolipolisi"), Ultrasuoni CFU, Laser medicali.
+   - Colonna 2: Odontoiatria & Ortodonzia (href: "/servizi/odontoiatria")
+     - Sottovoci: Allineatori Trasparenti (VIETATO usare "Invisalign" come nome del servizio), Ortodonzia Specialistica, Estetica del Sorriso, Igiene & Prevenzione.
+   - Colonna 3: Visite Specialistiche (href: "/visite" - VIETATO usare "Poliambulatorio & Chirurgia Digitale")
+     - Sottovoci: Cardiologia, Ginecologia, Senologia, Ecografia, Oculistica, Pediatria, Psicologia, Medicina dello Sport.
+   - Colonna 4: Medicina del Futuro & Percorsi
+     - Box evidenza: Cocoora Precision (Genomica & Longevità - href: "/precision"), DNA 5, Kit Microbiota, e CTA prominente "Trova il tuo percorso" -> "/club".
+
+5. Voci "I Medici":
+   - Link a /medici ("L'Équipe Specialistica"), /medici#docenti ("Docenti Universitari e Ospedalieri").
+   - RIMUOVERE qualsiasi riferimento a "Zero Liste d'Attesa" o "72 ore" o "Amico Medico".
+
+6. Voci "Il Centro":
+   - Link a /chi-siamo ("La Filosofia del Centro", "Gli Spazi Clinici: Studio 1, 2, 3").
+   - VIETATO usare "Lo Studio", "Architettura Sanitaria Sartoriale", "Private Lounge".
+
+7. Voci "Percorsi Salute":
+   - Link a /club ("Panoramica Percorsi"), /club#discover ("Discover"), /club#access ("Access"), /club#care ("Care"), /club#experience ("Experience"), /club#signature ("Signature").
+   - VIETATO usare la parola "Piani" o "Abbonamenti".
+
+8. Verificare compilazione TypeScript e rispetto di types.ts. Non rompere nessun import o componente esistente.

@@ -52,7 +52,7 @@ const CLUB_ENTRY_FEATURES = [
 ];
 
 const PILLARS = (
-  NAV_NODES.find((n) => n.label === "Visite & Trattamenti")?.children ?? []
+  NAV_NODES.find((n) => n.label === "Aree Mediche")?.children ?? []
 ).slice(0, 3);
 
 export default function HomePage() {

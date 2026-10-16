@@ -18,30 +18,35 @@ export const SITE = {
 
 export const NAV_NODES: NavNode[] = [
   {
-    label: "Visite & Trattamenti",
+    label: "Aree Mediche",
     children: [
-      {
-        label: "Odontoiatria & Ortodonzia Digitale",
-        href: "/servizi/odontoiatria",
-        description: "Invisalign Diamond Provider, implantologia guidata e salute orale senza attese.",
-        image: "/images/invisalign-smile.jpg",
-      },
       {
         label: "Medicina Estetica & Rigenerativa",
         href: "/servizi/medicina-estetica",
-        description: "Laser medicali, iniettivi naturali, Cryoliposculpt e protocolli su misura per viso e corpo.",
+        description:
+          "Viso (Biostimolazione, Filler, Tossina botulinica), Corpo (Criolipolisi, Ultrasuoni CFU) e Laser medicali.",
         image: "/images/aesthetic-skin.jpg",
       },
       {
-        label: "Poliambulatorio & Visite Specialistiche",
+        label: "Odontoiatria & Ortodonzia",
+        href: "/servizi/odontoiatria",
+        description:
+          "Allineatori Trasparenti, Ortodonzia Specialistica, Estetica del Sorriso, Igiene & Prevenzione.",
+        image: "/images/invisalign-smile.jpg",
+      },
+      {
+        label: "Visite Specialistiche",
         href: "/visite",
-        description: "Cardiologia, Ginecologia, Senologia, Ecografia, Pediatria e Oculistica — prima visita entro 72h.",
+        description:
+          "Cardiologia, Ginecologia, Senologia, Ecografia, Oculistica, Pediatria, Psicologia e Medicina dello Sport.",
         image: "/images/diagnostics-lab.jpg",
       },
       {
-        label: "Tutti i Trattamenti Specialistici",
-        href: "/trattamenti",
-        description: "Panoramica di tutti i 19 trattamenti specialistici disponibili nel nostro centro.",
+        label: "Cocoora Precision (Genomica & Longevità)",
+        href: "/precision",
+        description:
+          "Medicina del Futuro & Percorsi: test DNA 5, Kit Microbiota e longevità attiva.",
+        image: "/images/dna-genomics.jpg",
       },
     ],
   },
@@ -49,73 +54,85 @@ export const NAV_NODES: NavNode[] = [
     label: "I Medici",
     children: [
       {
-        label: "Tutta l'Équipe Specialistica",
+        label: "L'Équipe Specialistica",
         href: "/medici",
-        description: "Medici con cattedre universitarie e convenzioni ospedaliere a Napoli (Federico II, Vanvitelli, Cardarelli).",
+        description:
+          "Specialisti di riferimento per un percorso clinico multidisciplinare e coordinato a Napoli.",
         image: "/images/doctor-consultation.jpg",
       },
       {
-        label: "Zero Liste d'Attesa",
-        href: "/medici",
-        description: "Visite specialistiche garantite entro 72 ore con i massimi docenti universitari, senza le attese del SSN.",
-      },
-      {
-        label: "Il Metodo «Amico Medico»",
-        href: "/chi-siamo",
-        description: "Tempo dedicato alla persona, ascolto clinico empatico e un unico punto di riferimento per la tua salute.",
+        label: "Docenti Universitari e Ospedalieri",
+        href: "/medici#docenti",
+        description:
+          "Professori e dirigenti medici delle Università Federico II, Vanvitelli e dei principali poli ospedalieri.",
       },
     ],
   },
   {
-    label: "Lo Studio",
+    label: "Il Centro",
     children: [
       {
-        label: "Chi Siamo & La Visione",
+        label: "La Filosofia del Centro",
         href: "/chi-siamo",
-        description: "Il nostro polo polispecialistico a Napoli: standard di clinica svizzera, privacy e zero burocrazia.",
+        description:
+          "Eccellenza clinica, tecnologie diagnostiche avanzate e accoglienza riservata in Via De Bonis 81 a Napoli.",
         image: "/images/clinic-lounge.jpg",
       },
       {
-        label: "La Sede di Napoli (Via De Bonis 81)",
-        href: "/contatti",
-        description: "Posillipo / Fuorigrotta: ambienti moderni, accoglienza riservata, orari comodi e facilità di parcheggio.",
-      },
-      {
-        label: "Tecnologie 3D & Laser Medicali",
-        href: "/servizi/diagnostica",
-        description: "Scanner intraorale iTero, ecografia HD, piattaforma laser multi-lunghezza d'onda.",
+        label: "Gli Spazi Clinici: Studio 1, 2, 3",
+        href: "/chi-siamo#spazi",
+        description:
+          "Ambienti clinici dedicati per odontoiatria, medicina estetica, diagnostica e visite specialistiche.",
       },
     ],
   },
   {
-    label: "Piani Salute",
+    label: "Percorsi Salute",
     children: [
       {
-        label: "Cocoora Club (Membership Annuali)",
+        label: "Panoramica Percorsi",
         href: "/club",
-        description: "Discover 0€, Access, Care da 29€/mese e Signature: visite e check-up inclusi tutto l'anno.",
+        description:
+          "I percorsi annuali dedicati alla prevenzione continua per singoli e famiglie.",
         image: "/images/hero-clinic.jpg",
       },
       {
-        label: "Cocoora Precision (Genomica & Longevità)",
-        href: "/precision",
-        description: "Test DNA 5 predittivo e sequenziamento del microbiota intestinale per una longevità attiva.",
-        image: "/images/dna-genomics.jpg",
+        label: "Discover",
+        href: "/club#discover",
+        description: "Il primo passo per entrare nel mondo della prevenzione Cocoora.",
       },
       {
-        label: "Family Care & Minori",
-        href: "/club",
-        description: "Piani integrati di prevenzione per bambini e ragazzi con ortodonzia e visite pediatriche.",
+        label: "Access",
+        href: "/club#access",
+        description:
+          "Accesso strutturato alle prestazioni specialistiche e diagnostiche del centro.",
+      },
+      {
+        label: "Care",
+        href: "/club#care",
+        description:
+          "Prevenzione periodica e continuità assistenziale durante tutto l'anno.",
+      },
+      {
+        label: "Experience",
+        href: "/club#experience",
+        description: "Percorso avanzato multidisciplinare per il benessere completo.",
+      },
+      {
+        label: "Signature",
+        href: "/club#signature",
+        description:
+          "Il percorso esclusivo e onnicomprensivo di longevità e salute dedicata.",
       },
     ],
   },
 ];
 
 export const NAV_LINKS = [
-  { label: "Visite & Trattamenti", href: "/#servizi" },
+  { label: "Aree Mediche", href: "/#servizi" },
   { label: "I Medici", href: "/medici" },
-  { label: "Lo Studio", href: "/chi-siamo" },
-  { label: "Piani Salute", href: "/club" },
+  { label: "Il Centro", href: "/chi-siamo" },
+  { label: "Percorsi Salute", href: "/club" },
   { label: "Contatti", href: "/contatti" },
 ];
 
