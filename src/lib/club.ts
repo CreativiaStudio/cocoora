@@ -8,7 +8,7 @@ export const CLUB_TIERS: ClubTier[] = [
     price: 0,
     priceLabel: "Free",
     description:
-      "Il piano gratuito per entrare in Cocoora Club e iniziare il tuo percorso digitale.",
+      "Il percorso gratuito per entrare in Cocoora Club e iniziare il tuo percorso digitale.",
     features: [
       "Registrazione app Cocoora",
       "Profilo sanitario digitale",
@@ -86,8 +86,8 @@ export const CLUB_TIERS: ClubTier[] = [
     features: [
       "Tutto il percorso Experience",
       "Valutazione multidisciplinare",
-      "Piano di salute personalizzato",
-      "Visite specialistiche illimitate*",
+      "Percorso di salute personalizzato",
+      "Una singola consulenza per ciascuna specialità inclusa",
       "Refertazione prioritaria",
     ],
   },
@@ -117,7 +117,8 @@ export const FAMILY_ADDONS: ClubTier[] = [
     shortName: "Basic",
     price: 149,
     priceLabel: "€149 / anno",
-    description: "Copertura essenziale per i minori collegati a una membership adulta.",
+    description:
+      "Copertura essenziale per i minori collegati a un Percorso Salute adulto (attivabile su percorsi da €99 / anno in su, escluso Discover Free).",
     features: ["Visite pediatriche di base", "Check-up essenziale", "Referti digitali"],
     family: true,
   },
@@ -127,18 +128,9 @@ export const FAMILY_ADDONS: ClubTier[] = [
     shortName: "Elite",
     price: 199,
     priceLabel: "€199 / anno",
-    description: "Copertura completa per la salute dei più piccoli, tutto l'anno.",
+    description:
+      "Copertura completa tutto l'anno per la salute dei più piccoli, riservata ai titolari di percorsi con quota pari o superiore ad Access (€99+ / anno).",
     features: ["Visite pediatriche estese", "Check-up completo", "Priorità di prenotazione"],
-    family: true,
-  },
-  {
-    id: "family-senior",
-    name: "Family Senior",
-    shortName: "Senior",
-    price: 0,
-    priceLabel: "Su misura",
-    description: "Percorso dedicato ai familiari senior, costruito sulle esigenze specifiche.",
-    features: ["Valutazione geriatrica", "Piano di monitoraggio", "Assistenza dedicata"],
     family: true,
   },
 ];

@@ -29,6 +29,10 @@ const TIER_IMAGES: Record<string, string> = {
   "signature-longevity": "/images/dna-genomics.jpg",
 };
 
+// Feature flag: oscura il Calcolatore del Risparmio sul sito pubblico.
+// Il codice della sezione resta intatto per future landing page dedicate.
+const SHOW_SAVINGS_CALCULATOR = false;
+
 export function ClubTierClient({ tier }: { tier: ClubTier }) {
   const { openCheckout, openDiscover } = useShop();
   const [gender, setGender] = useState<"uomo" | "donna">("uomo");
@@ -119,10 +123,16 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
                     {detail?.installmentProviders?.join(" / ")} a tasso zero
                   </p>
                 )}
-                {savings > 0 && (
+                {SHOW_SAVINGS_CALCULATOR && savings > 0 && (
                   <p className="mt-3 flex items-center gap-2 text-sm font-medium text-charcoal/70">
                     <TrendingDown className="h-4 w-4 shrink-0 text-teal-600" />
                     Valore prestazioni singole: {formatPrice(totalValue)} — risparmi il {savingsPercent}%
+                  </p>
+                )}
+                {!SHOW_SAVINGS_CALCULATOR && !tier.free && (
+                  <p className="mt-3 flex items-center gap-2 text-sm font-medium text-charcoal/70">
+                    <ShieldCheck className="h-4 w-4 shrink-0 text-teal-600" />
+                    Percorso Annuale di Prevenzione Continua
                   </p>
                 )}
               </div>
@@ -191,7 +201,7 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
       )}
 
       {/* ── Tabella Comparativa: Club vs Singole Prestazioni ────────────── */}
-      {totalValue > 0 && (
+      {SHOW_SAVINGS_CALCULATOR && totalValue > 0 && (
         <section className="section-alt py-20">
           <Container>
             <div className="mx-auto max-w-3xl overflow-hidden rounded-[2rem] border border-teal-100 bg-white shadow-[0_24px_60px_-28px_rgba(3,53,75,0.35)]">
@@ -232,8 +242,9 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
               </div>
               <div className="border-t border-teal-100 bg-white p-6 text-center">
                 <p className="text-sm text-charcoal/65">
-                  Oltre al risparmio economico, elimini le liste d&apos;attesa e
-                  costruisci un percorso di prevenzione continuativo nel tempo.
+                  Oltre al vantaggio economico, hai accesso prioritario alla
+                  clinica e costruisci un percorso di prevenzione continuativo
+                  nel tempo.
                 </p>
               </div>
             </div>
@@ -307,7 +318,8 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
             </h2>
             <p className="mt-4 text-base leading-relaxed text-teal-200/85">
               Onboarding immediato, kit di benvenuto digitale e primo
-              appuntamento entro pochi giorni, senza liste d&apos;attesa.
+              appuntamento entro pochi giorni, con accesso prioritario alla
+              clinica.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Button size="lg" variant="white" onClick={handleActivate}>

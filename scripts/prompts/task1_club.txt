@@ -1,0 +1,38 @@
+TASK SPECIFICA CHIRURGICA COCOORA: Allineamento Percorsi Salute Cocoora Club, Rimozione Visite Illimitate/Family Senior & Oscuramento Calcolatore Risparmio
+
+CLIENT: Cocoora Studio Medico Polispecialistico (Napoli)
+FILES DA MODIFICARE:
+1. src/lib/club.ts
+2. src/lib/club-details.ts
+3. src/app/club/page.tsx
+4. src/app/club/[slug]/club-tier-client.tsx
+5. src/components/sections/club-showcase.tsx
+
+OBIETTIVI CHIRURGICI E REGOLE INVIOLABILI BRAND VAULT:
+1. Terminologia Obbligatoria & Don'ts:
+   - VIETATO usare "Piani Salute", "Piani", "Abbonamenti": usare sempre "Percorsi Salute" o "Percorsi".
+   - VIETATO scrivere "Visite specialistiche illimitate*" in Signature (o ovunque). Sostituire con: "Una singola consulenza per ciascuna specialità inclusa".
+   - VIETATO usare la dicitura "La prima visita vale come acconto" o "Zero vincoli nascosti".
+   - VIETATO usare l'espressione "Amico Medico" in club-details.ts (sostituire con "équipe medica Cocoora").
+   - VIETATO usare "Zero liste d'attesa" o "elimini le liste d'attesa" nei testi o nei perks (sostituire con "Accesso prioritario alla clinica").
+
+2. Pacchetti e Add-on:
+   - In src/lib/club.ts:
+     * RIMUOVERE completamente "Family Senior" dall'array FAMILY_ADDONS (non esiste).
+     * Mantenere solo Family Care Basic (€149) e Family Care Elite (€199).
+     * Nei testi descrittivi di Family Care, specificare che l'attivazione di Family Care è riservata ai titolari di percorsi con quota pari o superiore ad Access (€99+ / anno), non attivabile su Discover (Free).
+     * In Signature: correggere la feature da "Visite specialistiche illimitate*" a "Una singola consulenza per ciascuna specialità inclusa".
+   - In src/lib/club-details.ts:
+     * In Signature (tierId: "signature"): sostituire il perk "Visite specialistiche illimitate*" con "Una singola consulenza per ciascuna specialità".
+     * In Signature Longevity (tierId: "signature-longevity"): correggere "Follow-up continuo trimestrale con l'Amico Medico" in "Follow-up continuo trimestrale con l'équipe medica Cocoora".
+     * In Access (tierId: "access"): sostituire "Zero liste d'attesa" con "Accesso prioritario alla clinica".
+
+3. Oscuramento Calcolatore Risparmio sul Sito Pubblico:
+   - In src/app/club/[slug]/club-tier-client.tsx:
+     * La sezione "Quanto risparmi davvero" (lines 195-242) deve essere oscurata sul sito pubblico: impostare `const SHOW_SAVINGS_CALCULATOR = false;` e renderizzare la sezione solo se `SHOW_SAVINGS_CALCULATOR === true`, preservando il codice per future landing page.
+     * Rimuovere o commentare la dicitura "risparmi il {savingsPercent}%" dal banner di riepilogo in cima se presente, sostituendola con "Percorso Annuale di Prevenzione Continua".
+   - In src/app/club/page.tsx e src/components/sections/club-showcase.tsx:
+     * Verificare che non compaiano riferimenti a Family Senior.
+     * Assicurarsi che i percorsi vengano presentati come "Percorsi Salute".
+
+4. Verificare tipi TypeScript, build e coerenza con types.ts. Non rompere nessun import o componente.

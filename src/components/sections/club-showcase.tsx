@@ -85,7 +85,7 @@ export function ClubShowcase() {
             </h3>
             <div className="h-px flex-1 bg-white/10" />
           </div>
-          <div className="grid gap-6 sm:grid-cols-3">
+          <div className="mx-auto mt-10 grid max-w-4xl gap-6 sm:grid-cols-2">
             {FAMILY_ADDONS.map((tier) => (
               <FamilyCard key={tier.id} tier={tier} onChoose={handleChoose} />
             ))}

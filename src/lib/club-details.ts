@@ -53,7 +53,7 @@ export const CLUB_TIER_DETAILS: ClubTierDetail[] = [
       { label: "Visita di medicina estetica", value: 80 },
     ],
     doctorSlugs: CORE_DOCTORS,
-    perks: ["Zero liste d'attesa", "Sconto 5% su tutti i servizi", "Referti digitali h24"],
+    perks: ["Accesso prioritario alla clinica", "Sconto 5% su tutti i servizi", "Referti digitali h24"],
   },
   {
     tierId: "care",
@@ -92,7 +92,7 @@ export const CLUB_TIER_DETAILS: ClubTierDetail[] = [
       { label: "Refertazione prioritaria e assistenza dedicata", value: 80 },
     ],
     doctorSlugs: EXPERIENCE_DOCTORS,
-    perks: ["Visite specialistiche illimitate*", "Piano di salute personalizzato", "Refertazione prioritaria"],
+    perks: ["Una singola consulenza per ciascuna specialità", "Percorso di salute personalizzato", "Refertazione prioritaria"],
   },
   {
     tierId: "signature-longevity",
@@ -108,7 +108,7 @@ export const CLUB_TIER_DETAILS: ClubTierDetail[] = [
       { label: "Pannello Longevity Biomarkers avanzato (infiammazione, stress ossidativo, ormonale)", value: 280 },
       { label: "Test Microbiota Intestinale NGS", value: 200 },
       { label: "Piano nutrizionale di precisione con 3 follow-up dedicati", value: 180 },
-      { label: "Follow-up continuo trimestrale con l'Amico Medico", value: 150 },
+      { label: "Follow-up continuo trimestrale con l'équipe medica Cocoora", value: 150 },
     ],
     doctorSlugs: EXPERIENCE_DOCTORS,
     perks: ["Protocollo Longevity dedicato", "Test genetici e biomarcatori", "Follow-up continuo"],

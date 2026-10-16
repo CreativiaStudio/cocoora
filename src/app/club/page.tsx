@@ -48,7 +48,7 @@ export default function ClubPage() {
       <section className="bg-canvas py-20">
         <Container>
           <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
-            <SectionLabel>Membership Annuali</SectionLabel>
+            <SectionLabel>Percorsi Salute Annuali</SectionLabel>
             <h2 className="font-serif text-4xl font-semibold text-teal-900">Scegli il tuo percorso</h2>
             <div className="mt-8 inline-flex items-center rounded-full border border-teal-200 bg-white p-1">
               {(["uomo", "donna"] as const).map((g) => (
@@ -88,8 +88,13 @@ export default function ClubPage() {
             <h2 className="font-serif text-3xl font-semibold text-teal-900 sm:text-4xl">
               Copertura per tutta la famiglia
             </h2>
+            <p className="mx-auto mt-3 max-w-2xl text-sm text-charcoal/70">
+              Attivabili esclusivamente in abbinamento a un Percorso Salute con
+              quota pari o superiore ad Access (€99 / anno). Non attivabili su
+              profilo Discover Free.
+            </p>
           </div>
-          <div className="mt-10 grid gap-6 sm:grid-cols-3">
+          <div className="mx-auto mt-10 grid max-w-4xl gap-6 sm:grid-cols-2">
             {FAMILY_ADDONS.map((tier) => (
               <div key={tier.id} className="rounded-3xl border border-teal-100 bg-white p-7 shadow-[0_16px_40px_-28px_rgba(3,53,75,0.35)]">
                 <h3 className="font-serif text-xl font-semibold text-teal-900">{tier.name}</h3>
