@@ -1,0 +1,37 @@
+TASK SPECIFICA CHIRURGICA COCOORA: Sostituzione Integrale Testi Odontoiatria e Ortodonzia Validati dalla Dott.ssa Elisa Russo
+
+CLIENT: Cocoora Studio Medico Polispecialistico (Napoli)
+FILES DA MODIFICARE:
+1. src/lib/treatments-odontoiatria.ts
+2. src/app/servizi/odontoiatria/page.tsx
+
+FONTE TESTUALE UFFICIALE STEP 3:
+- Leggere integralmente: docs_step3_md/ortodonzia_elisa.md
+
+REGOLE INVIOLABILI BRAND VAULT & DIRETTIVE CLINICHE:
+1. Titoli e Denominazione Servizi:
+   - VIETATO usare il brand "Invisalign" come nome del servizio/trattamento!
+   - Rinominare i servizi in:
+     * "Allineatori Trasparenti Adulti" (slug: invisalign-adulti o allineatori-adulti, mantenere slug compatibili)
+     * "Allineatori Trasparenti Adolescenti"
+     * "Ortodonzia Intercettiva Bambini" (valutazione a partire dai 7 anni)
+   - Badge / dicitura Diamond Provider: inserire la nota prudenziale obbligatoria:
+     "Invisalign Diamond Provider — dicitura soggetta a verifica dello status in corso"
+   - Simulazione 3D: riportare la dicitura esatta di Elisa Russo:
+     "La simulazione 3D mostra il progetto terapeutico: è una rappresentazione digitale, non una garanzia del risultato finale."
+   - Bite gnatologici / disturbi ATM: inserire nota di cautela clinica.
+
+2. Revisione src/app/servizi/odontoiatria/page.tsx:
+   - Hero e Claim: "Il tuo sorriso, la nostra visione. La bellezza si riconosce. La competenza si sente. La salute si costruisce nel tempo."
+   - Sottotitolo / Intro: "Un sorriso che ti rappresenta. Un percorso di cura pensato per te."
+   - Rimuovere la parola "PILLARS" e calchi come "a Cocoora" (usare "Nel nostro centro").
+   - Sezione 01 - La Filosofia Cocoora: "La bellezza parte dalla salute." -> Ascoltare. Comprendere. Progettare. Approccio integrato.
+   - Sezione 02 - Il Nostro Tratto Distintivo: "Ortodonzia: la differenza è nello specialista." (eseguita da specialisti in ortodonzia).
+   - Sezione 03 - Allineatori Trasparenti: "Discreti nell'aspetto. Specialistici nel progetto."
+   - CTA: "Prenota una visita specialistica" / "Scopri gli Allineatori Trasparenti".
+
+3. Revisione src/lib/treatments-odontoiatria.ts:
+   - Aggiornare titoli, tagline, description, steps e faq attingendo fedelmente da ortodonzia_elisa.md.
+   - Trattamenti: Allineatori Trasparenti Adulti, Allineatori Trasparenti Adolescenti, Ortodonzia Intercettiva Bambini, Igiene & Prevenzione, Odontoiatria Conservativa, Endodonzia, Protesi & Estetica.
+
+4. Verificare tipi TypeScript, conformità a types.ts e compilazione senza warning.
