@@ -95,7 +95,8 @@ export default function TrattamentiIndexPage() {
                     : "bg-stone-100 text-stone-600 hover:bg-stone-200"
                 )}
               >
-                <Smile className="h-3.5 w-3.5" /> Sorriso & Odontoiatria (10)
+                <Smile className="h-3.5 w-3.5" /> Sorriso & Odontoiatria (
+                {TREATMENTS.filter((t) => t.category === "odontoiatria").length})
               </button>
               <button
                 type="button"
@@ -107,7 +108,8 @@ export default function TrattamentiIndexPage() {
                     : "bg-stone-100 text-stone-600 hover:bg-stone-200"
                 )}
               >
-                <Sparkles className="h-3.5 w-3.5" /> Medicina Estetica (9)
+                <Sparkles className="h-3.5 w-3.5" /> Medicina Estetica (
+                {TREATMENTS.filter((t) => t.category === "medicina-estetica").length})
               </button>
               <button
                 type="button"

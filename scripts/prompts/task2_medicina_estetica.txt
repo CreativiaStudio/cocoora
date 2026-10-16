@@ -1,0 +1,45 @@
+TASK SPECIFICA CHIRURGICA COCOORA: Aggiornamento Catalogo Medicina Estetica (Step 3) & Nuovo Layout Pagine Trattamento Silvia (#lead + WhatsApp)
+
+CLIENT: Cocoora Studio Medico Polispecialistico (Napoli)
+FILES DA MODIFICARE:
+1. src/lib/treatments-medicina.ts
+2. src/app/servizi/medicina-estetica/page.tsx
+3. src/app/trattamenti/[slug]/treatment-client.tsx
+4. src/app/trattamenti/[slug]/page.tsx
+
+FONTE TESTUALE STEP 3:
+- Leggere: docs_step3_md/medicina_estetica.md
+
+REGOLE INVIOLABILI BRAND VAULT:
+1. Catalogo Medicina Estetica (src/lib/treatments-medicina.ts):
+   - Integrare e aggiornare tutti i trattamenti di Step 3:
+     * Biorivitalizzazione / Biostimolazione
+     * Biorigenerazione
+     * Bioristrutturazione con Biostimolatori (Acido Polilattico e Idrossiapatite di Calcio)
+     * Filler di Acido Ialuronico
+     * Tossina Botulinica (VIETATO usare "Botox" come titolo o nei menu/Ads, usare "Tossina Botulinica")
+     * Medicina Rigenerativa
+     * Peeling Medicali
+     * PRX (Biostimolazione senza aghi)
+     * Criolipolisi / Cryoliposculpt (nome visibile primario "Criolipolisi")
+     * Carbossiterapia
+     * Mesoterapia
+     * Intralipoterapia
+     * Ultrasuoni CFU
+     * Piattaforma Laser (QS NPP, Erbium:YAG, CPL, Laser CO2)
+     * Box multidisciplinare Lipedema e Linfedema
+   - Sottotitolo e Payoff: "La tua bellezza valorizzata nella sua forma più autentica — Naturally You."
+
+2. Layout Silvia Monticelli su src/app/trattamenti/[slug]/treatment-client.tsx:
+   - Hero split 50/50: colonna testo + colonna foto/media
+   - 4 Card H2 Problema / Inestetismo affrontato
+   - Modulo Form #lead con:
+     * Input: Nome, Cognome, Telefono, Email
+     * Radio buttons preferenza contatto: "Email", "WhatsApp", "Telefono"
+     * Checkbox Privacy Policy obbligatoria
+     * Checkbox consenso marketing WhatsApp: "Desidero ricevere comunicazioni e aggiornamenti personalizzati su WhatsApp da Cocoora"
+     * Pulsante di invio con feedback
+   - Sezione H2 Locale Napoli in fondo: es. "Medicina Estetica di precisione a Napoli — Via De Bonis 81 (Posillipo/Fuorigrotta)"
+   - Barra CTA sticky mobile: bottone fisso in basso su mobile "Richiedi Informazioni" con smooth scroll all'ancora `#lead`.
+
+3. Verificare tipi TypeScript, rotte generate da generateStaticParams in page.tsx (devono coprire tutti gli slug aggiunti/modificati) e compilazione Next.js pulita.

@@ -1,153 +1,260 @@
 import type { Treatment } from "./types";
 
+/**
+ * Alias slug legacy → slug canonico.
+ * Garantisce che nessun link esistente (menu, medici, CMS) vada in 404.
+ */
+export const TREATMENT_SLUG_ALIASES: Record<string, string> = {
+  criolipolisi: "cryoliposculpt",
+};
+
+export function resolveTreatmentSlug(slug: string): string {
+  return TREATMENT_SLUG_ALIASES[slug] ?? slug;
+}
+
 export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
   {
-    slug: "cryoliposculpt",
-    title: "Cryoliposculpt",
-    category: "medicina-estetica",
-    tagline: "Riduzione non invasiva delle adiposità localizzate",
-    description:
-      "Cryoliposculpt è un trattamento non invasivo che agisce sulle adiposità localizzate resistenti a dieta ed esercizio. Attraverso il raffreddamento controllato dei tessuti, favorisce la riduzione progressiva dello spessore del pannicolo adiposo, rispettando i tessuti circostanti.",
-    steps: [
-      { title: "Valutazione medica", description: "Analisi delle aree da trattare e definizione del piano personalizzato." },
-      { title: "Applicazione", description: "La manipola viene posizionata sull'area, con raffreddamento controllato e confortevole." },
-      { title: "Risultato progressivo", description: "I risultati si manifestano gradualmente nelle settimane successive al trattamento." },
-    ],
-    machines: ["Cryoliposculpt", "Manipole dedicate"],
-    faq: [
-      { q: "Il trattamento è doloroso?", a: "No, durante la seduta si avverte una sensazione di freddo intenso iniziale che si attenua in pochi minuti." },
-      { q: "Quante sedute sono necessarie?", a: "Dipende dall'area e dagli obiettivi: in genere una o due sedute per area, da valutare in visita medica." },
-    ],
-  },
-  {
-    slug: "ultrasuoni-cfu",
-    title: "Ultrasuoni CFU",
-    category: "medicina-estetica",
-    tagline: "Tightening e ridefinizione di mandibola e collo",
-    description:
-      "Gli ultrasuoni focalizzati (CFU) stimolano il collagene in profondità per un effetto di tightening e ridefinizione del profilo di mandibola e collo, senza interventi chirurgici.",
-    steps: [
-      { title: "Valutazione", description: "Studio del profilo e delle aree da ridefinire." },
-      { title: "Seduta", description: "Emissione di ultrasuoni focalizzati in profondità con effetto lifting progressivo." },
-      { title: "Risultato", description: "Miglioramento del tono e del contorno nelle settimane successive." },
-    ],
-    machines: ["Ultrasuoni focalizzati CFU"],
-    faq: [
-      { q: "Quanto dura l'effetto?", a: "L'effetto tightening è progressivo e può durare molti mesi, con eventuali sedute di mantenimento." },
-    ],
-  },
-  {
-    slug: "piattaforma-laser",
-    title: "Piattaforma Laser",
-    category: "medicina-estetica",
-    tagline: "QS NPP, Erbium, CPL e CO2 per viso e corpo",
-    description:
-      "La piattaforma laser integra tecnologie QS NPP, Erbium, CPL e CO2 per trattare macchie cutanee, texture irregolare, cicatrici e ringiovanimento del viso.",
-    steps: [
-      { title: "Diagnosi cutanea", description: "Identificazione del tipo di cute e delle problematiche da trattare." },
-      { title: "Protocollo laser", description: "Scelta della tecnologia più adatta al singolo caso." },
-      { title: "Follow-up", description: "Monitoraggio dei risultati e pianificazione delle sedute successive." },
-    ],
-    machines: ["Laser QS NPP", "Laser Erbium", "Luce pulsata CPL", "Laser CO2"],
-    faq: [
-      { q: "Quali problematiche tratta?", a: "Macchie cutanee, texture irregolare, cicatrici, rughe sottili e segni del fotoinvecchiamento." },
-    ],
-  },
-  {
-    slug: "filler-acido-ialuronico",
-    title: "Filler Acido Ialuronico",
-    category: "medicina-estetica",
-    tagline: "Restauro dei volumi e armonizzazione del viso",
-    description:
-      "Il filler a base di acido ialuronico restituisce volume e definizione al viso, correggendo i segni del tempo con un risultato naturale e armonico.",
-    steps: [
-      { title: "Consulenza", description: "Valutazione dei volumi e degli obiettivi estetici." },
-      { title: "Trattamento", description: "Iniezione di acido ialuronico con tecnica minimamente invasiva." },
-      { title: "Controllo", description: "Verifica del risultato e follow-up programmato." },
-    ],
-    faq: [
-      { q: "Il risultato è naturale?", a: "Sì, l'obiettivo è valorizzare i tratti in modo armonico, senza trasformarli." },
-      { q: "Quanto dura?", a: "La durata varia in base al prodotto e all'area, generalmente da 6 a 18 mesi." },
-    ],
-  },
-  {
     slug: "biorivitalizzazione",
-    title: "Biorivitalizzazione",
+    title: "Biorivitalizzazione / Biostimolazione",
     category: "medicina-estetica",
-    tagline: "Idratazione profonda e luminosità della pelle",
+    tagline: "Idratazione profonda, luminosità ed elasticità cutanea",
     description:
-      "La biorivitalizzazione idrata in profondità la pelle, migliorando elasticità, luminosità e compattezza con micro-iniezioni di sostanze biocompatibili.",
+      "Per stimolare i naturali processi cutanei, migliorando idratazione, luminosità, elasticità e qualità della pelle attraverso protocolli medici personalizzati.",
     steps: [
-      { title: "Valutazione cutanea", description: "Analisi del grado di idratazione e delle esigenze della cute." },
-      { title: "Micro-iniezioni", description: "Trattamento di stimolazione e idratazione profonda." },
-      { title: "Ciclo consigliato", description: "In genere un ciclo di più sedute ravvicinate per un risultato ottimale." },
+      { title: "Valutazione medica", description: "Analisi del grado di idratazione, della qualità cutanea e degli obiettivi della persona." },
+      { title: "Seduta / Protocollo", description: "Micro-iniezioni superficiali di sostanze biocompatibili nelle aree da trattare, secondo il protocollo definito dal medico." },
+      { title: "Risultato e follow-up", description: "Pelle progressivamente più idratata e luminosa; il medico pianifica il ciclo di sedute e i controlli successivi." },
     ],
     faq: [
-      { q: "Serve anestesia?", a: "No, il trattamento è ben tollerato e minimamente invasivo." },
+      { q: "Serve anestesia?", a: "No, il trattamento è minimamente invasivo e ben tollerato dalla maggior parte delle persone." },
+      { q: "Quante sedute sono consigliate?", a: "In genere un ciclo di più sedute ravvicinate, definito dal medico in base alle caratteristiche della cute." },
+      { q: "Posso tornare subito alle mie attività?", a: "Sì, salvo diverse indicazioni mediche; possono comparire piccoli pomfi o arrossamenti transitori." },
     ],
   },
   {
-    slug: "prx",
-    title: "PRX",
+    slug: "biorigenerazione",
+    title: "Biorigenerazione",
     category: "medicina-estetica",
-    tagline: "Biostimolazione senza aghi",
+    tagline: "Rigenerazione e vitalità dei tessuti cutanei",
     description:
-      "Il PRX è un trattamento di biostimolazione cutanea che migliora tono e texture della pelle senza utilizzo di aghi, ideale per un effetto rigenerativo delicato.",
+      "Trattamento dedicato alla rigenerazione e al miglioramento della qualità dei tessuti, con un approccio orientato alla salute e alla vitalità cutanea.",
     steps: [
-      { title: "Applicazione", description: "Applicazione della soluzione biostimolante sulla cute." },
-      { title: "Stimolazione", description: "Attivazione dei processi rigenerativi della pelle." },
-      { title: "Risultato", description: "Pelle più luminosa, tonica e compatta nel tempo." },
+      { title: "Valutazione medica", description: "Studio della qualità dei tessuti e definizione degli obiettivi di rigenerazione cutanea." },
+      { title: "Seduta / Protocollo", description: "Protocollo biorigenerante personalizzato sulle aree indicate dal medico." },
+      { title: "Risultato e follow-up", description: "Miglioramento progressivo della vitalità dei tessuti, monitorato nelle sedute di controllo." },
     ],
     faq: [
-      { q: "È adatto a tutti?", a: "È indicato per la maggior parte delle pelli; la valutazione medica preliminare conferma l'idoneità." },
+      { q: "Per chi è indicata?", a: "Per chi desidera migliorare la qualità e la vitalità dei tessuti cutanei, previa valutazione medica." },
+      { q: "Qual è la differenza con la biorivitalizzazione?", a: "La biorigenerazione è orientata al miglioramento strutturale dei tessuti; il medico indica il percorso più appropriato al singolo caso." },
     ],
   },
   {
     slug: "acido-polilattico",
-    title: "Acido Polilattico",
+    title: "Bioristrutturazione con Biostimolatori",
     category: "medicina-estetica",
-    tagline: "Biostimolazione volumetrica progressiva",
+    tagline: "Acido Polilattico e Idrossiapatite di Calcio per il sostegno dei tessuti",
     description:
-      "L'acido polilattico è un biostimolatore che agisce in profondità stimolando la produzione di collagene per un effetto di rimpolpamento progressivo e naturale.",
+      "Protocolli con biostimolatori come acido polilattico e idrossiapatite di calcio, indicati per favorire la produzione di collagene, migliorare il sostegno dei tessuti e contrastare progressivamente i segni di lassità.",
     steps: [
-      { title: "Valutazione", description: "Definizione delle aree e del numero di sedute." },
-      { title: "Trattamento", description: "Iniezioni di acido polilattico nelle aree da stimolare." },
-      { title: "Risultato graduale", description: "L'effetto si sviluppa gradualmente nell'arco di alcune settimane." },
+      { title: "Valutazione medica", description: "Analisi del grado di lassità, dei tessuti e delle aree da sostenere." },
+      { title: "Seduta / Protocollo", description: "Infiltrazione del biostimolatore selezionato dal medico (acido polilattico o idrossiapatite di calcio) secondo un piano personalizzato." },
+      { title: "Risultato e follow-up", description: "Effetto di sostegno progressivo nelle settimane successive, con controlli programmati." },
     ],
     faq: [
-      { q: "Quante sedute servono?", a: "In genere un ciclo di 2-3 sedute distanziate, da personalizzare in base agli obiettivi." },
+      { q: "Quante sedute servono?", a: "In genere un ciclo di 2-3 sedute distanziate, da personalizzare in base agli obiettivi e alla risposta dei tessuti." },
+      { q: "Il risultato è immediato?", a: "Il miglioramento si sviluppa progressivamente grazie alla stimolazione della produzione di collagene." },
+    ],
+  },
+  {
+    slug: "filler-acido-ialuronico",
+    title: "Filler di Acido Ialuronico",
+    category: "medicina-estetica",
+    tagline: "Ripristino dei volumi e armonizzazione delle proporzioni del volto",
+    description:
+      "Per ripristinare o armonizzare i volumi, ridefinire i contorni e valorizzare le proporzioni del volto nel pieno rispetto dell’armonia naturale.",
+    steps: [
+      { title: "Valutazione medica", description: "Studio dell'anatomia del volto, dei volumi e delle proporzioni da valorizzare." },
+      { title: "Seduta / Protocollo", description: "Iniezione di acido ialuronico con tecnica minimamente invasiva nelle aree pianificate." },
+      { title: "Risultato e follow-up", description: "Verifica del risultato e controllo programmato per valutare l'armonia del volto." },
+    ],
+    faq: [
+      { q: "Il risultato è naturale?", a: "Sì, l'obiettivo è valorizzare i tratti e le proporzioni in modo armonico, senza trasformarli." },
+      { q: "Quanto dura?", a: "La durata varia in base al prodotto e all'area trattata, generalmente da 6 a 18 mesi." },
     ],
   },
   {
     slug: "tossina-botulinica",
     title: "Tossina Botulinica",
     category: "medicina-estetica",
-    tagline: "Trattamento delle rughe d'espressione",
+    tagline: "Attenuazione delle rughe dinamiche con naturalezza ed espressività",
     description:
-      "Il trattamento con tossina botulinica distende le rughe d'espressione, donando un aspetto riposato e naturale, con una tecnica medica attenta all'armonia del viso.",
+      "Trattamento medico mirato ad attenuare le rughe dinamiche d’espressione mantenendo intatta la naturalezza e l’espressività del volto.",
     steps: [
-      { title: "Consulto medico", description: "Analisi delle rughe d'espressione e delle aspettative." },
-      { title: "Trattamento", description: "Micro-iniezioni mirate nelle aree da distendere." },
-      { title: "Risultato", description: "Effetto visibile in pochi giorni, mantenuto per alcuni mesi." },
+      { title: "Valutazione medica", description: "Analisi delle rughe dinamiche, della mimica facciale e delle aspettative della persona." },
+      { title: "Seduta / Protocollo", description: "Micro-iniezioni mirate nei distretti muscolari selezionati dal medico." },
+      { title: "Risultato e follow-up", description: "Effetto visibile in alcuni giorni e mantenuto per alcuni mesi, con controllo programmato." },
     ],
     faq: [
-      { q: "Il viso resta espressivo?", a: "Sì, l'obiettivo è un risultato naturale che preserva l'espressività." },
+      { q: "Il viso resta espressivo?", a: "Sì, il trattamento è calibrato per attenuare le rughe dinamiche preservando naturalezza ed espressività." },
+      { q: "Quanto dura l'effetto?", a: "La durata varia in base alla persona e all'area trattata; il follow-up medico definisce i tempi di eventuali richiami." },
+    ],
+  },
+  {
+    slug: "medicina-rigenerativa",
+    title: "Medicina Rigenerativa",
+    category: "medicina-estetica",
+    tagline: "Protocolli medici per i processi fisiologici di rigenerazione",
+    description:
+      "Protocolli medici avanzati studiati per sostenere i processi fisiologici di rigenerazione e il miglioramento globale della qualità dei tessuti.",
+    steps: [
+      { title: "Valutazione medica", description: "Inquadramento clinico dei tessuti e definizione degli obiettivi di rigenerazione." },
+      { title: "Seduta / Protocollo", description: "Applicazione del protocollo rigenerativo personalizzato selezionato dal medico." },
+      { title: "Risultato e follow-up", description: "Monitoraggio del miglioramento della qualità dei tessuti nelle visite di controllo." },
+    ],
+    faq: [
+      { q: "A chi si rivolge?", a: "A chi desidera sostenere i processi fisiologici di rigenerazione dei tessuti, previa valutazione medica specialistica." },
+      { q: "È combinabile con altri trattamenti?", a: "Sì, il medico può integrare la medicina rigenerativa in un percorso multidisciplinare personalizzato." },
+    ],
+  },
+  {
+    slug: "peeling-medicali",
+    title: "Peeling Medicali",
+    category: "medicina-estetica",
+    tagline: "Esfoliazione controllata per texture, luminosità e discromie",
+    description:
+      "Trattamenti esfolianti selezionati dal medico per intervenire su texture, luminosità, discromie, imperfezioni e segni del fotoinvecchiamento.",
+    steps: [
+      { title: "Valutazione medica", description: "Analisi del tipo di pelle, delle discromie e delle imperfezioni da trattare." },
+      { title: "Seduta / Protocollo", description: "Applicazione del peeling selezionato dal medico con esfoliazione controllata." },
+      { title: "Risultato e follow-up", description: "Miglioramento progressivo di texture e luminosità, con fotoprotezione rigorosa e controlli programmati." },
+    ],
+    faq: [
+      { q: "Quali problematiche tratta?", a: "Texture irregolare, discromie, imperfezioni e segni del fotoinvecchiamento, secondo indicazione medica." },
+      { q: "Cosa aspettarsi dopo la seduta?", a: "I tempi di recupero variano in base all'intensità del peeling; è sempre richiesta una fotoprotezione rigorosa nei giorni successivi." },
+    ],
+  },
+  {
+    slug: "prx",
+    title: "PRX — Biostimolazione senza aghi",
+    category: "medicina-estetica",
+    tagline: "Biostimolazione cutanea senza aghi per luminosità e compattezza",
+    description:
+      "Biostimolazione cutanea senza aghi indicata per migliorare luminosità, texture e compattezza della pelle in modo delicato e non invasivo.",
+    steps: [
+      { title: "Valutazione medica", description: "Verifica dell'idoneità della cute e definizione delle aree da biostimolare." },
+      { title: "Seduta / Protocollo", description: "Applicazione della soluzione biostimolante senza aghi, con massaggio delicato." },
+      { title: "Risultato e follow-up", description: "Pelle progressivamente più luminosa e compatta; il medico definisce il ciclo di sedute." },
+    ],
+    faq: [
+      { q: "È adatto a tutti?", a: "È indicato per la maggior parte delle pelli; la valutazione medica preliminare conferma l'idoneità." },
+      { q: "Si può fare in ogni stagione?", a: "Sì, previa indicazione medica e con un'adeguata fotoprotezione." },
+    ],
+  },
+  {
+    slug: "cryoliposculpt",
+    title: "Criolipolisi (Cryoliposculpt)",
+    category: "medicina-estetica",
+    tagline: "Riduzione non invasiva degli accumuli adiposi localizzati",
+    description:
+      "Trattamento medico non invasivo (Cryoliposculpt) dedicato a ridurre gli accumuli adiposi localizzati e ridefinire il profilo corporeo su addome, fianchi, culotte de cheval, interno coscia e area sottoglutea/banana roll.",
+    steps: [
+      { title: "Valutazione medica", description: "Analisi delle aree adipose, della qualità dei tessuti e definizione del piano personalizzato." },
+      { title: "Seduta / Protocollo", description: "Posizionamento della manipola dedicata sull'area, con raffreddamento controllato dei tessuti." },
+      { title: "Risultato e follow-up", description: "Riduzione progressiva nelle settimane successive, monitorata nelle visite di controllo." },
+    ],
+    machines: ["Cryoliposculpt", "Manipole dedicate"],
+    faq: [
+      { q: "Il trattamento è doloroso?", a: "No, durante la seduta si avverte una sensazione di freddo intenso iniziale che si attenua in pochi minuti." },
+      { q: "Quante sedute sono necessarie?", a: "Dipende dall'area e dagli obiettivi: in genere una o due sedute per area, da valutare in visita medica." },
+      { q: "Quali zone si possono trattare?", a: "Addome, fianchi, culotte de cheval, interno coscia, area sottoglutea/banana roll e altre aree selezionate dopo valutazione medica." },
     ],
   },
   {
     slug: "carbossiterapia",
     title: "Carbossiterapia",
     category: "medicina-estetica",
-    tagline: "Microcircolo, tono e ossigenazione dei tessuti",
+    tagline: "Anidride carbonica medicale per microcircolo, cellulite e qualità dei tessuti",
     description:
-      "La carbossiterapia utilizza micro-iniezioni di anidride carbonica medicale per migliorare microcircolo, tono e ossigenazione dei tessuti, utile su corpo e viso.",
+      "Trattamento medico che utilizza anidride carbonica medicale per migliorare l’aspetto della cellulite e la qualità dei tessuti, favorendo il microcircolo nelle aree trattate.",
     steps: [
-      { title: "Valutazione", description: "Individuazione delle aree da trattare." },
-      { title: "Seduta", description: "Somministrazione controllata di CO2 medicale." },
-      { title: "Ciclo", description: "Un ciclo di sedute per risultati progressivi e duraturi." },
+      { title: "Valutazione medica", description: "Individuazione delle aree da trattare e degli obiettivi del protocollo." },
+      { title: "Seduta / Protocollo", description: "Somministrazione controllata di anidride carbonica medicale nelle aree selezionate." },
+      { title: "Risultato e follow-up", description: "Miglioramento progressivo nell'arco di un ciclo di sedute, con controlli programmati." },
     ],
     faq: [
-      { q: "È sicura?", a: "Sì, utilizza anidride carbonica medicale e viene eseguita da personale qualificato." },
+      { q: "È sicura?", a: "Sì, utilizza anidride carbonica medicale ed è eseguita da personale medico qualificato." },
+      { q: "Su quali inestetismi agisce?", a: "Può essere inserita in protocolli dedicati a cellulite, microcircolo e qualità dei tessuti." },
+    ],
+  },
+  {
+    slug: "mesoterapia",
+    title: "Mesoterapia",
+    category: "medicina-estetica",
+    tagline: "Microiniezioni superficiali per microcircolo, cellulite e texture",
+    description:
+      "Trattamento medico iniettivo mediante microiniezioni superficiali mirato al miglioramento del microcircolo, della cellulite e della texture cutanea.",
+    steps: [
+      { title: "Valutazione medica", description: "Analisi delle aree interessate da cellulite o ritenzione e definizione del protocollo." },
+      { title: "Seduta / Protocollo", description: "Microiniezioni superficiali di sostanze selezionate dal medico nelle aree da trattare." },
+      { title: "Risultato e follow-up", description: "Risultati progressivi nell'arco del ciclo di sedute, con monitoraggio medico." },
+    ],
+    faq: [
+      { q: "Il trattamento è doloroso?", a: "Le microiniezioni superficiali sono generalmente ben tollerate; la percezione varia da persona a persona." },
+      { q: "Quante sedute servono?", a: "Il ciclo viene personalizzato dal medico in base all'entità dell'inestetismo e alla risposta dei tessuti." },
+    ],
+  },
+  {
+    slug: "intralipoterapia",
+    title: "Intralipoterapia",
+    category: "medicina-estetica",
+    tagline: "Riduzione mirata di adiposità localizzate selezionate",
+    description:
+      "Trattamento medico iniettivo indicato per la riduzione non chirurgica di adiposità localizzate accuratamente selezionate in sede di visita.",
+    steps: [
+      { title: "Valutazione medica", description: "Selezione accurata delle adiposità localizzate trattabili e definizione del piano." },
+      { title: "Seduta / Protocollo", description: "Micro-infiltrazioni nelle aree adipose selezionate dal medico." },
+      { title: "Risultato e follow-up", description: "Riduzione progressiva nelle settimane successive, con controlli programmati." },
+    ],
+    faq: [
+      { q: "Per chi è indicata?", a: "Per chi presenta adiposità localizzate accuratamente selezionate in sede di visita medica." },
+      { q: "È un'alternativa alla chirurgia?", a: "È un trattamento medico non chirurgico; l'idoneità e gli obiettivi vengono valutati esclusivamente in visita." },
+    ],
+  },
+  {
+    slug: "ultrasuoni-cfu",
+    title: "Ultrasuoni CFU",
+    category: "medicina-estetica",
+    tagline: "Controlled Focalized Ultrasound per tono, compattezza e definizione",
+    description:
+      "La nuova frontiera degli ultrasuoni focalizzati (Controlled Focalized Ultrasound): agisce a profondità selezionate su viso, collo, sottomento, profilo mandibolare e aree corporee per stimolare il rimodellamento del collagene e contrastare la lassità lieve o moderata.",
+    steps: [
+      { title: "Valutazione medica", description: "Studio del grado di lassità, delle aree da ridefinire e dell'idoneità al trattamento." },
+      { title: "Seduta / Protocollo", description: "Emissione di ultrasuoni focalizzati a profondità selezionate, con stimolazione controllata dei tessuti." },
+      { title: "Risultato e follow-up", description: "Miglioramento progressivo di tono e compattezza, con tempi ed entità variabili in base alla risposta individuale dei tessuti." },
+    ],
+    machines: ["Ultrasuoni CFU (Controlled Focalized Ultrasound)"],
+    faq: [
+      { q: "A cosa serve?", a: "A migliorare tono, compattezza e definizione su viso, collo, sottomento, profilo mandibolare e aree corporee selezionate." },
+      { q: "Per chi è indicato?", a: "Per chi presenta lassità lieve o moderata e desidera un approccio non chirurgico." },
+      { q: "Cosa aspettarsi?", a: "Un miglioramento progressivo, con tempi ed entità del risultato variabili in base alla risposta individuale dei tessuti." },
+    ],
+  },
+  {
+    slug: "piattaforma-laser",
+    title: "Piattaforma Laser",
+    category: "medicina-estetica",
+    tagline: "QS NPP, Erbium:YAG, CPL e Laser CO₂ per viso e corpo",
+    description:
+      "Tecnologie laser e sorgenti luminose selezionate dal medico: QS NPP (macchie e discromie), Erbium:YAG (texture e resurfacing superficiale), CPL (rossori e fotodanneggiamento) e Laser CO₂ (cicatrici da acne, rughe e resurfacing profondo).",
+    steps: [
+      { title: "Valutazione medica", description: "Diagnosi cutanea con identificazione del tipo di pelle e delle problematiche da trattare." },
+      { title: "Seduta / Protocollo", description: "Scelta della tecnologia più adatta al singolo caso tra QS NPP, Erbium:YAG, CPL e Laser CO₂." },
+      { title: "Risultato e follow-up", description: "Monitoraggio dei risultati, fotoprotezione rigorosa e pianificazione delle sedute successive." },
+    ],
+    machines: ["Laser QS NPP", "Laser Erbium:YAG", "Luce pulsata CPL", "Laser CO₂"],
+    faq: [
+      { q: "Quali problematiche tratta?", a: "Macchie e discromie (QS NPP), texture e rughe sottili (Erbium:YAG), rossori e fotodanneggiamento (CPL), cicatrici da acne e resurfacing profondo (Laser CO₂)." },
+      { q: "Cosa aspettarsi dopo la seduta?", a: "I tempi di recupero variano in base all'intensità del trattamento scelto; è sempre richiesta una fotoprotezione rigorosa nei giorni successivi." },
     ],
   },
 ];

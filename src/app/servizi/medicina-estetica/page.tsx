@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Check, Sparkles } from "lucide-react";
+import { Activity, ArrowRight, Check, Droplets, Sparkles } from "lucide-react";
 import { useCms } from "@/components/providers";
 import { getTreatmentsByCategory } from "@/lib/content";
 import { DOCTORS } from "@/lib/doctors";
@@ -49,9 +49,13 @@ export default function MedicinaEsteticaPage() {
               <h1 className="mt-6 font-serif text-5xl font-semibold leading-[1.05] tracking-tight text-dark-navy sm:text-6xl">
                 {page?.h1 ?? "Medicina estetica a Cocoora"}
               </h1>
+              <p className="mt-3 font-serif text-lg italic text-teal-800">
+                La tua bellezza valorizzata nella sua forma più autentica — Naturally You.
+              </p>
               <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-charcoal/75 lg:mx-0">
-                Tecnologie medicali, trattamenti rigenerativi e protocolli personalizzati
-                per valorizzare il viso e il corpo in modo armonico.
+                La medicina estetica, per noi, comincia dall&apos;ascolto. Competenza medica,
+                tecnologie selezionate e percorsi personalizzati per valorizzare la persona
+                nel rispetto della sua armonia naturale.
               </p>
               <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-charcoal/70 lg:mx-0">
                 A Cocoora la medicina estetica nasce da una valutazione medica attenta.
@@ -145,6 +149,70 @@ export default function MedicinaEsteticaPage() {
                 </span>
               </Link>
             ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* Box multidisciplinare — Lipedema e Linfedema */}
+      <section className="bg-canvas py-20">
+        <Container>
+          <div className="rounded-[2rem] border border-teal-100 bg-teal-50/60 p-8 sm:p-12">
+            <div className="mx-auto max-w-3xl text-center">
+              <SectionLabel>Box Multidisciplinare</SectionLabel>
+              <h2 className="font-serif text-3xl font-semibold text-teal-900 sm:text-4xl">
+                Valutazione Specialistica per Lipedema e Linfedema
+              </h2>
+              <p className="mt-3 font-serif text-lg italic text-teal-800">
+                Un percorso medico integrato e personalizzato.
+              </p>
+              <p className="mt-5 text-base leading-relaxed text-charcoal/75">
+                Il lipedema e il linfedema sono condizioni complesse che richiedono un
+                corretto inquadramento specialistico. Nel nostro centro è possibile
+                effettuare una valutazione clinica dedicata, per individuare le
+                caratteristiche della condizione e orientare la persona verso il percorso
+                più appropriato, anche con un approccio multidisciplinare.
+              </p>
+            </div>
+            <div className="mt-10 grid gap-6 sm:grid-cols-2">
+              <div className="flex h-full flex-col rounded-3xl border border-teal-100 bg-white p-7 shadow-[0_16px_40px_-28px_rgba(3,53,75,0.35)]">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-teal-600/10 text-teal-700">
+                  <Activity className="h-5 w-5" />
+                </div>
+                <h3 className="mt-5 font-serif text-xl font-semibold text-teal-900">Lipedema</h3>
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-charcoal/65">
+                  Condizione cronica con un&apos;alterata distribuzione del tessuto adiposo,
+                  prevalentemente agli arti inferiori e, in alcuni casi, agli arti superiori.
+                </p>
+              </div>
+              <div className="flex h-full flex-col rounded-3xl border border-teal-100 bg-white p-7 shadow-[0_16px_40px_-28px_rgba(3,53,75,0.35)]">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-teal-600/10 text-teal-700">
+                  <Droplets className="h-5 w-5" />
+                </div>
+                <h3 className="mt-5 font-serif text-xl font-semibold text-teal-900">Linfedema</h3>
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-charcoal/65">
+                  Accumulo di liquido linfatico nei tessuti, che può determinare gonfiore
+                  persistente e aumento di volume dell&apos;area interessata.
+                </p>
+              </div>
+            </div>
+            <div className="mt-10 text-center">
+              <ButtonLink href="/contatti" size="lg">
+                Richiedi una valutazione specialistica <ArrowRight className="h-4 w-4" />
+              </ButtonLink>
+            </div>
+          </div>
+
+          {/* Zone trattabili corpo */}
+          <div className="mt-10 rounded-3xl border border-teal-100 bg-white p-7 text-center shadow-[0_16px_40px_-28px_rgba(3,53,75,0.35)]">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-accent">
+              Zone Trattabili — Corpo
+            </p>
+            <p className="mx-auto mt-3 max-w-3xl text-sm leading-relaxed text-charcoal/70">
+              Addome, fianchi, culotte de cheval, interno coscia, area sottoglutea/banana
+              roll e altre aree selezionate dopo valutazione medica in base
+              all&apos;anatomia, alla qualità dei tessuti e alle esigenze specifiche del
+              paziente.
+            </p>
           </div>
         </Container>
       </section>
