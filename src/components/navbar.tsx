@@ -32,19 +32,32 @@ const AREE_MEDICHE_COLUMNS: AreeColumn[] = [
     href: "/servizi/medicina-estetica",
     groups: [
       {
-        heading: "Viso",
+        heading: "Viso & Rigenerazione",
         links: [
-          { label: "Biostimolazione", href: "/servizi/medicina-estetica" },
-          { label: "Filler", href: "/servizi/medicina-estetica" },
-          { label: "Tossina botulinica", href: "/servizi/medicina-estetica" },
+          { label: "Filler acido ialuronico", href: "/trattamenti/filler-acido-ialuronico" },
+          { label: "Tossina botulinica", href: "/trattamenti/tossina-botulinica" },
+          { label: "Biorivitalizzazione", href: "/trattamenti/biorivitalizzazione" },
+          { label: "Biostimolatori (Polilattico)", href: "/trattamenti/acido-polilattico" },
+          { label: "Peeling chimico", href: "/trattamenti/peeling-chimico" },
+          { label: "PRX senza aghi", href: "/trattamenti/prx" },
         ],
       },
       {
-        heading: "Corpo",
+        heading: "Corpo & Silhouette",
         links: [
           { label: "Criolipolisi", href: "/trattamenti/cryoliposculpt" },
-          { label: "Ultrasuoni CFU", href: "/servizi/medicina-estetica" },
-          { label: "Laser medicali", href: "/servizi/medicina-estetica" },
+          { label: "Carbossiterapia", href: "/trattamenti/carbossiterapia" },
+          { label: "Mesoterapia", href: "/trattamenti/mesoterapia" },
+          { label: "Intralipoterapia", href: "/trattamenti/intralipoterapia" },
+          { label: "Valutazione Lipedema & Linfedema", href: "/servizi/medicina-estetica#lipedema" },
+        ],
+      },
+      {
+        heading: "Laser & Tecnologie",
+        links: [
+          { label: "Laser & Luce Pulsata", href: "/trattamenti/piattaforma-laser" },
+          { label: "Laser Resurfacing & Cicatrici", href: "/trattamenti/piattaforma-laser" },
+          { label: "Ultrasuoni CFU", href: "/trattamenti/ultrasuoni-cfu" },
         ],
       },
     ],
@@ -54,11 +67,21 @@ const AREE_MEDICHE_COLUMNS: AreeColumn[] = [
     href: "/servizi/odontoiatria",
     groups: [
       {
+        heading: "Ortodonzia Invisibile & Sviluppo",
         links: [
-          { label: "Allineatori Trasparenti", href: "/servizi/odontoiatria" },
-          { label: "Ortodonzia Specialistica", href: "/servizi/odontoiatria" },
-          { label: "Estetica del Sorriso", href: "/servizi/odontoiatria" },
-          { label: "Igiene & Prevenzione", href: "/servizi/odontoiatria" },
+          { label: "Allineatori Trasparenti Adulti", href: "/trattamenti/invisalign-adulti" },
+          { label: "Allineatori Adolescenti", href: "/trattamenti/invisalign-adolescenti" },
+          { label: "Ortodonzia Intercettiva Bambini", href: "/trattamenti/invisalign-bambini" },
+        ],
+      },
+      {
+        heading: "Clinica Dentale & Estetica",
+        links: [
+          { label: "Estetica del Sorriso & Faccette", href: "/trattamenti/estetica-dentale" },
+          { label: "Igiene & Prevenzione", href: "/trattamenti/igiene" },
+          { label: "Implantologia a Carico Immediato", href: "/trattamenti/implantologia" },
+          { label: "Gnatologia, Bruxismo & Bite", href: "/trattamenti/gnatologia-bruxismo-bite" },
+          { label: "Conservativa & Endodonzia", href: "/trattamenti/conservativa" },
         ],
       },
     ],
@@ -68,14 +91,15 @@ const AREE_MEDICHE_COLUMNS: AreeColumn[] = [
     href: "/visite",
     groups: [
       {
+        heading: "Specialistiche per la Famiglia",
         links: [
-          { label: "Cardiologia", href: "/visite" },
-          { label: "Ginecologia", href: "/visite" },
-          { label: "Senologia", href: "/visite" },
-          { label: "Ecografia", href: "/visite" },
-          { label: "Oculistica", href: "/visite" },
-          { label: "Pediatria", href: "/visite" },
-          { label: "Psicologia", href: "/visite" },
+          { label: "Cardiologia & ECG", href: "/visite/cardiologia" },
+          { label: "Ginecologia & Ostetricia", href: "/visite/ginecologia" },
+          { label: "Senologia & Prevenzione", href: "/visite/senologia" },
+          { label: "Ecografia Clinica Avanzata", href: "/visite/ecografia" },
+          { label: "Oculistica Specialistica", href: "/visite/oculistica" },
+          { label: "Pediatria Generale", href: "/visite/pediatria" },
+          { label: "Psicologia & Benessere", href: "/visite" },
           { label: "Medicina dello Sport", href: "/visite" },
         ],
       },
@@ -219,13 +243,19 @@ export function Navbar() {
                 <div
                   className={cn(
                     "absolute left-1/2 top-full z-40 -translate-x-1/2 pt-3 transition-all duration-250 ease-out",
-                    node.label === "Aree Mediche" ? "w-[min(1080px,95vw)]" : "w-[min(960px,94vw)]",
+                    node.label === "Aree Mediche" ? "w-[min(1240px,96vw)]" : "w-[min(960px,94vw)]",
                     openDesktop === node.label
                       ? "pointer-events-auto translate-y-0 opacity-100 scale-100"
                       : "pointer-events-none translate-y-3 opacity-0 scale-[0.98]"
                   )}
                 >
-                  <div className="overflow-hidden rounded-[2.25rem] border border-slate-200/90 bg-white shadow-[0_35px_100px_-25px_rgba(0,52,75,0.28)] backdrop-blur-2xl">
+                  <div
+                    className={cn(
+                      node.label === "Aree Mediche"
+                        ? "bg-white/92 backdrop-blur-2xl border border-white/80 shadow-[0_40px_120px_-20px_rgba(3,53,75,0.32)] ring-1 ring-teal-950/5 rounded-[2.5rem] overflow-hidden"
+                        : "overflow-hidden rounded-[2.25rem] border border-slate-200/90 bg-white shadow-[0_35px_100px_-25px_rgba(0,52,75,0.28)] backdrop-blur-2xl"
+                    )}
+                  >
                     {/* Render Megamenu specifico in base alla sezione */}
                     {node.label === "Aree Mediche" && <MegamenuAreeMediche onClose={closeAll} />}
                     {node.label === "I Medici" && <MegamenuMedici onClose={closeAll} />}
@@ -330,18 +360,25 @@ export function Navbar() {
                                 {column.title}
                               </Link>
                               <div className="mt-1.5 flex flex-col gap-1">
-                                {column.groups.flatMap((group) =>
-                                  group.links.map((link) => (
-                                    <Link
-                                      key={link.label}
-                                      href={link.href}
-                                      onClick={closeAll}
-                                      className="rounded-lg px-2 py-1.5 text-sm font-medium text-charcoal/80 transition-colors hover:bg-teal-50 hover:text-teal-900"
-                                    >
-                                      {link.label}
-                                    </Link>
-                                  ))
-                                )}
+                                {column.groups.map((group, groupIndex) => (
+                                  <div key={groupIndex} className="flex flex-col gap-1">
+                                    {group.heading && (
+                                      <p className="mt-1 px-2 text-[10px] font-bold uppercase tracking-wider text-teal-800/80">
+                                        {group.heading}
+                                      </p>
+                                    )}
+                                    {group.links.map((link) => (
+                                      <Link
+                                        key={`${group.heading ?? column.title}-${link.label}`}
+                                        href={link.href}
+                                        onClick={closeAll}
+                                        className="rounded-lg px-2 py-1.5 text-sm font-medium text-charcoal/80 transition-colors hover:bg-teal-50 hover:text-teal-900"
+                                      >
+                                        {link.label}
+                                      </Link>
+                                    ))}
+                                  </div>
+                                ))}
                               </div>
                             </div>
                           ))}
@@ -445,83 +482,105 @@ export function Navbar() {
 // ── MEGAMENU 1: AREE MEDICHE (4 Colonne) ────────────────────────────────────
 function MegamenuAreeMediche({ onClose }: { onClose: () => void }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 p-7 lg:p-8">
-      {/* Colonne 1–3: Aree cliniche con sottovoci */}
-      {AREE_MEDICHE_COLUMNS.map((column) => (
-        <div key={column.title}>
-          <Link
-            href={column.href}
-            onClick={onClose}
-            className="text-xs font-bold uppercase tracking-wider text-slate-accent hover:text-teal-800 transition-colors"
-          >
-            {column.title}
-          </Link>
-          <div className="mt-3 space-y-3">
-            {column.groups.map((group, groupIndex) => (
-              <div key={groupIndex}>
-                {group.heading && (
-                  <p className="mb-1.5 text-[10px] font-bold uppercase tracking-wider text-teal-800">
-                    {group.heading}
-                  </p>
-                )}
-                <ul className="space-y-2 text-xs">
-                  {group.links.map((link) => (
-                    <li key={link.label}>
-                      <Link
-                        href={link.href}
-                        onClick={onClose}
-                        className="font-medium text-dark-navy hover:text-teal-700 transition-colors"
-                      >
-                        {link.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+    <div className="flex flex-col">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-8 p-8 lg:p-10">
+        {/* Colonne 1–3: Aree cliniche con sottovoci */}
+        {AREE_MEDICHE_COLUMNS.map((column) => (
+          <div key={column.title}>
+            <Link
+              href={column.href}
+              onClick={onClose}
+              className="font-bold text-xs uppercase tracking-wider text-slate-accent hover:text-teal-800 flex items-center gap-1.5 transition-colors"
+            >
+              {column.title}
+              <ArrowRight className="h-3 w-3 shrink-0" />
+            </Link>
+            <div className="flex flex-col">
+              {column.groups.map((group, groupIndex) => (
+                <div key={groupIndex}>
+                  {group.heading && (
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-teal-800/90 pb-1 border-b border-teal-100/50 mt-3">
+                      {group.heading}
+                    </p>
+                  )}
+                  <ul className="mt-1.5">
+                    {group.links.map((link) => (
+                      <li key={`${group.heading ?? column.title}-${link.label}`}>
+                        <Link
+                          href={link.href}
+                          onClick={onClose}
+                          className="text-[13px] text-dark-navy/90 hover:text-teal-700 hover:translate-x-1 transition-all flex items-center justify-between py-0.5 group"
+                        >
+                          <span>{link.label}</span>
+                          <ArrowRight className="h-3 w-3 shrink-0 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-teal-600" />
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
 
-      {/* Colonna 4: Medicina del Futuro & Percorsi */}
-      <div className="bg-dark-navy text-white rounded-2xl p-5 flex flex-col justify-between">
-        <div>
-          <p className="text-[10px] font-bold uppercase tracking-wider text-teal-200">
-            Medicina del Futuro &amp; Percorsi
-          </p>
-          <Link
-            href="/precision"
-            onClick={onClose}
-            className="mt-2.5 block font-serif text-sm font-semibold leading-snug hover:text-teal-200 transition-colors"
-          >
-            Cocoora Precision (Genomica &amp; Longevità)
-          </Link>
-          <p className="mt-2 text-[11px] leading-relaxed text-teal-100/70">
-            Medicina predittiva e longevità attiva, guidata dai dati.
-          </p>
-          <div className="mt-3 flex flex-wrap gap-1.5">
+        {/* Colonna 4: Dark Luxury Glass — Cocoora Precision */}
+        <div className="bg-gradient-to-br from-dark-navy to-teal-950 text-white rounded-3xl p-6 shadow-xl border border-teal-500/20 backdrop-blur-md flex flex-col justify-between">
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-wider text-teal-200">
+              Medicina del Futuro &amp; Percorsi
+            </p>
             <Link
               href="/precision"
               onClick={onClose}
-              className="rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-medium hover:bg-white/20 transition-colors"
+              className="mt-2.5 block font-serif text-sm font-semibold leading-snug hover:text-teal-200 transition-colors"
             >
-              DNA 5
+              Cocoora Precision (Genomica &amp; Longevità)
             </Link>
-            <Link
-              href="/precision"
-              onClick={onClose}
-              className="rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-medium hover:bg-white/20 transition-colors"
-            >
-              Kit Microbiota
-            </Link>
+            <p className="mt-2 text-[11px] leading-relaxed text-teal-100/70">
+              Medicina predittiva e longevità attiva, guidata dai dati.
+            </p>
+            <div className="mt-3 flex flex-wrap gap-1.5">
+              <Link
+                href="/precision"
+                onClick={onClose}
+                className="rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-medium hover:bg-white/20 transition-colors"
+              >
+                DNA 5
+              </Link>
+              <Link
+                href="/precision"
+                onClick={onClose}
+                className="rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-medium hover:bg-white/20 transition-colors"
+              >
+                Kit Microbiota
+              </Link>
+            </div>
           </div>
+          <Link
+            href="/club"
+            onClick={onClose}
+            className="mt-4 inline-flex items-center justify-between gap-2 rounded-xl bg-teal-400 px-4 py-2.5 text-xs font-bold text-dark-navy hover:bg-teal-300 transition-colors"
+          >
+            Trova il tuo percorso <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
         </div>
+      </div>
+
+      {/* Barra inferiore istituzionale */}
+      <div className="border-t border-slate-100/80 bg-slate-50/70 backdrop-blur-md px-8 py-3.5 flex items-center justify-between text-xs">
+        <span className="flex items-center gap-2 text-charcoal/75">
+          <Clock className="h-3.5 w-3.5 text-teal-700 shrink-0" />
+          <span>
+            <strong className="font-semibold text-dark-navy">Connessi alla tua salute.</strong>{" "}
+            Un unico hub multidisciplinare a Napoli · Direzione Sanitaria Dott.ssa Elisa Russo
+          </span>
+        </span>
         <Link
           href="/club"
           onClick={onClose}
-          className="mt-4 inline-flex items-center justify-between gap-2 rounded-xl bg-teal-400 px-4 py-2.5 text-xs font-bold text-dark-navy hover:bg-teal-300 transition-colors"
+          className="font-semibold text-teal-900 hover:text-dark-navy flex items-center gap-1 whitespace-nowrap transition-colors"
         >
-          Trova il tuo percorso <ArrowRight className="h-3.5 w-3.5" />
+          Cocoora — Il tuo Percorso di Salute <ArrowRight className="h-3 w-3" />
         </Link>
       </div>
     </div>
