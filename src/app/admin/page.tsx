@@ -2,16 +2,27 @@
 
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
-import { ArrowLeft, Film, LayoutList, RotateCcw } from "lucide-react";
+import {
+  ArrowLeft,
+  Calendar,
+  DoorOpen,
+  Film,
+  LayoutList,
+  RotateCcw,
+  Stethoscope,
+} from "lucide-react";
 import { cmsStore } from "@/lib/cms-store";
 import { VideosManager } from "@/components/admin/videos-manager";
 import { SeoManager } from "@/components/admin/seo-manager";
+import { DoctorsManager } from "@/components/admin/doctors-manager";
+import { RoomsManager } from "@/components/admin/rooms-manager";
+import { CalendarMatrix } from "@/components/admin/calendar-matrix";
 import { cn } from "@/lib/utils";
 
-type Tab = "videos" | "seo";
+type Tab = "calendar" | "doctors" | "rooms" | "videos" | "seo";
 
 export default function AdminPage() {
-  const [tab, setTab] = useState<Tab>("videos");
+  const [tab, setTab] = useState<Tab>("calendar");
 
   return (
     <div className="min-h-screen bg-canvas pt-24">
@@ -19,27 +30,16 @@ export default function AdminPage() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-accent">
-              CMS Interno
+              Gestionale CRM &amp; Piattaforma Clinica
             </p>
             <h1 className="mt-1 font-serif text-3xl font-semibold text-teal-900">
-              Gestione contenuti
+              Pannello di Controllo Cocoora
             </h1>
             <p className="mt-1 text-sm text-charcoal/60">
-              Area riservata per l&apos;agenzia — Silvia &amp; Marco
+              Gestione Medici, Stanze, Calendario Visite e Contenuti Digitali
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => {
-                if (confirm("Ripristinare tutti i contenuti ai valori predefiniti?")) {
-                  cmsStore.reset();
-                }
-              }}
-              className="inline-flex items-center gap-2 rounded-full border border-teal-200 px-4 py-2 text-sm font-medium text-teal-700 transition-colors hover:bg-teal-50"
-            >
-              <RotateCcw className="h-4 w-4" /> Ripristina
-            </button>
             <Link
               href="/"
               className="inline-flex items-center gap-2 rounded-full bg-primary-teal px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-dark-navy"
@@ -49,7 +49,29 @@ export default function AdminPage() {
           </div>
         </div>
 
-        <div className="mt-8 inline-flex rounded-full border border-teal-100 bg-white p-1 shadow-sm">
+        {/* Tab Switcher */}
+        <div className="mt-8 flex flex-wrap gap-1.5 rounded-2xl sm:rounded-full border border-teal-100 bg-white p-1.5 shadow-sm">
+          <TabButton
+            active={tab === "calendar"}
+            onClick={() => setTab("calendar")}
+            icon={<Calendar className="h-4 w-4" />}
+          >
+            Calendario &amp; Incrocio
+          </TabButton>
+          <TabButton
+            active={tab === "doctors"}
+            onClick={() => setTab("doctors")}
+            icon={<Stethoscope className="h-4 w-4" />}
+          >
+            Medici &amp; Presenze
+          </TabButton>
+          <TabButton
+            active={tab === "rooms"}
+            onClick={() => setTab("rooms")}
+            icon={<DoorOpen className="h-4 w-4" />}
+          >
+            Stanze &amp; Spazi
+          </TabButton>
           <TabButton
             active={tab === "videos"}
             onClick={() => setTab("videos")}
@@ -66,7 +88,14 @@ export default function AdminPage() {
           </TabButton>
         </div>
 
-        <div className="mt-8">{tab === "videos" ? <VideosManager /> : <SeoManager />}</div>
+        {/* Contenuto Tab */}
+        <div className="mt-8">
+          {tab === "calendar" && <CalendarMatrix />}
+          {tab === "doctors" && <DoctorsManager />}
+          {tab === "rooms" && <RoomsManager />}
+          {tab === "videos" && <VideosManager />}
+          {tab === "seo" && <SeoManager />}
+        </div>
       </div>
     </div>
   );

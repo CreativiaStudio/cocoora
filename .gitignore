@@ -36,3 +36,5 @@ next-env.d.ts
 # static export (generated)
 /out
 .vercel-static/
+supabase/.temp/
+.temp/

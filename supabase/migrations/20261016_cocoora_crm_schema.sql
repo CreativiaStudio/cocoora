@@ -1171,7 +1171,7 @@ select v.slug, v.name, v.description, v.ord
 from (values
   ('odontoiatria',            'Odontoiatria & Ortodonzia Digitale', 'Prevenzione, ortodonzia, implantologia e cura del sorriso.', 10),
   ('medicina-estetica',       'Medicina Estetica & Rigenerativa',   'Qualità della pelle, armonizzazione del volto e rimodellamento corporeo.', 20),
-  ('visite-specialistiche',   'Visite Specialistiche & Diagnostica', 'Poliambulatorio multidisciplinare e diagnostica rapida.', 30),
+  ('visite-specialistiche',   'Visite Specialistiche & Diagnostica', 'Centro specialistico multidisciplinare e diagnostica rapida.', 30),
   ('precision',               'Cocoora Precision',                 'Genomica, microbiota e medicina predittiva.', 40),
   ('nutrizione',              'Nutrizione Clinica & Metabolismo',  'Piani nutrizionali personalizzati su base clinica.', 50)
 ) as v(slug, name, description, ord)
@@ -1198,7 +1198,7 @@ from (values
   ('opt-ortopantomografia','ODO-002','Ortopantomografia (OPT)','odontoiatria','odontoiatria','Radiografia panoramica delle arcate dentarie.',15,60,true,false,20),
   ('igiene-orale','ODO-003','Igiene orale professionale','igiene_prevenzione','odontoiatria','Rimozione professionale di placca e tartaro.',45,90,true,false,30),
   ('sbiancamento-professionale','ODO-004','Sbiancamento professionale','odontoiatria','odontoiatria','Sbiancamento dentale in studio.',60,250,false,false,40),
-  ('ortodonzia-invisalign','ODO-005','Ortodonzia invisibile Invisalign','odontoiatria','odontoiatria','Percorso ortodontico con allineatori trasparenti.',45,150,false,false,50),
+  ('ortodonzia-allineatori','ODO-005','Ortodonzia con allineatori trasparenti','odontoiatria','odontoiatria','Percorso ortodontico con allineatori trasparenti.',45,150,false,false,50),
   ('implantologia','ODO-006','Implantologia guidata 3D','odontoiatria','odontoiatria','Riabilitazione implantare con chirurgia guidata.',90,1200,false,false,60),
   ('conservativa','ODO-007','Odontoiatria conservativa','odontoiatria','odontoiatria','Restauri estetici e recupero della struttura dentale.',45,120,false,false,70),
   ('endodonzia','ODO-008','Endodonzia','odontoiatria','odontoiatria','Trattamento canalare per conservare il dente.',60,250,false,false,80),
@@ -1458,7 +1458,7 @@ from (values
   ('cryoliposculpt','adiposita-localizzata',1.0),
   ('carbossiterapia','cellulite',1.0),
   ('ultrasuoni-cfu','lassita-corporea',1.0), ('ultrasuoni-cfu','lassita-viso',0.6),
-  ('ortodonzia-invisalign','denti-disallineati',1.0), ('ortodonzia-invisalign','spazi-tra-denti',0.9),
+  ('ortodonzia-allineatori','denti-disallineati',1.0), ('ortodonzia-allineatori','spazi-tra-denti',0.9),
   ('sbiancamento-professionale','denti-macchiati',1.0),
   ('implantologia','mancanza-denti',1.0),
   ('igiene-orale','gengive-sanguinanti',1.0),

@@ -23,9 +23,9 @@ const dipartimenti = [
 
 const percorsiClub = [
   { label: "I Nostri Medici", href: "/medici" },
+  { label: "Area Paziente & Calendario", href: "/area-paziente" },
   { label: "Cocoora Club Memberships", href: "/club" },
   { label: "Cocoora Precision (DNA & Microbiota)", href: "/precision" },
-  { label: "Cartella Clinica Digitale h24", href: "/chi-siamo" },
   { label: "La Filosofia Cocoora", href: "/chi-siamo" },
 ];
 

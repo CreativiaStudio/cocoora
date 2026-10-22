@@ -182,7 +182,7 @@ export function Navbar() {
               <span>WhatsApp</span>
             </a>
             <Link
-              href="/club/discover"
+              href="/area-paziente"
               onClick={closeAll}
               className="hidden sm:flex items-center gap-1.5 font-medium text-slate-accent hover:text-white transition-colors"
             >
