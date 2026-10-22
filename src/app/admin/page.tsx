@@ -17,9 +17,10 @@ import { SeoManager } from "@/components/admin/seo-manager";
 import { DoctorsManager } from "@/components/admin/doctors-manager";
 import { RoomsManager } from "@/components/admin/rooms-manager";
 import { CalendarMatrix } from "@/components/admin/calendar-matrix";
+import { PatientsCrmAdmin } from "@/components/admin/patients-crm-admin";
 import { cn } from "@/lib/utils";
 
-type Tab = "calendar" | "doctors" | "rooms" | "videos" | "seo";
+type Tab = "calendar" | "doctors" | "rooms" | "crm" | "videos" | "seo";
 
 export default function AdminPage() {
   const [tab, setTab] = useState<Tab>("calendar");
@@ -39,7 +40,19 @@ export default function AdminPage() {
               Gestione Medici, Stanze, Calendario Visite e Contenuti Digitali
             </p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex flex-wrap items-center gap-2.5">
+            <Link
+              href="/segreteria"
+              className="inline-flex items-center gap-1.5 rounded-full border border-sky-300 bg-sky-50 px-3.5 py-1.5 text-xs font-semibold text-sky-800 hover:bg-sky-100 transition-colors"
+            >
+              <span>Vista Segreteria →</span>
+            </Link>
+            <Link
+              href="/area-paziente"
+              className="inline-flex items-center gap-1.5 rounded-full border border-teal-300 bg-teal-50 px-3.5 py-1.5 text-xs font-semibold text-teal-800 hover:bg-teal-100 transition-colors"
+            >
+              <span>Vista Paziente →</span>
+            </Link>
             <Link
               href="/"
               className="inline-flex items-center gap-2 rounded-full bg-primary-teal px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-dark-navy"
@@ -73,6 +86,13 @@ export default function AdminPage() {
             Stanze &amp; Spazi
           </TabButton>
           <TabButton
+            active={tab === "crm"}
+            onClick={() => setTab("crm")}
+            icon={<LayoutList className="h-4 w-4" />}
+          >
+            Pazienti &amp; Fascicoli CRM
+          </TabButton>
+          <TabButton
             active={tab === "videos"}
             onClick={() => setTab("videos")}
             icon={<Film className="h-4 w-4" />}
@@ -93,6 +113,7 @@ export default function AdminPage() {
           {tab === "calendar" && <CalendarMatrix />}
           {tab === "doctors" && <DoctorsManager />}
           {tab === "rooms" && <RoomsManager />}
+          {tab === "crm" && <PatientsCrmAdmin />}
           {tab === "videos" && <VideosManager />}
           {tab === "seo" && <SeoManager />}
         </div>

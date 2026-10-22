@@ -10,6 +10,7 @@ import { CheckoutDrawer } from "./checkout-drawer";
 import { DiscoverModal } from "./discover-modal";
 import { BookingModal } from "./booking-modal";
 import { SeoHead } from "./seo-head";
+import { DemoRoleSwitcher } from "./role-switcher/demo-role-switcher";
 
 export function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -27,6 +28,7 @@ export function SiteChrome({ children }: { children: ReactNode }) {
       <CheckoutDrawer />
       <DiscoverModal />
       <BookingModal />
+      <DemoRoleSwitcher />
     </>
   );
 }
