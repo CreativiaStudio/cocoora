@@ -75,7 +75,7 @@ export default function OdontoiatriaPage() {
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
             <div className="text-center lg:text-left">
               <Badge className="lg:mx-0 mx-auto shadow-sm">
-                Invisalign Diamond Provider — dicitura soggetta a verifica dello status in corso
+                Ortodonzia Specialistica &amp; Allineatori Trasparenti
               </Badge>
               <p className="mt-4 text-xs font-semibold uppercase tracking-[0.2em] text-teal-800">
                 Odontoiatria · Ortodonzia Specialistica · Estetica del Sorriso
@@ -160,7 +160,7 @@ export default function OdontoiatriaPage() {
                 Non cerchiamo sorrisi tutti uguali. Cerchiamo il percorso giusto per ogni persona.
               </p>
               <p className="mt-2 text-xs text-teal-200/70">
-                Invisalign Diamond Provider — dicitura soggetta a verifica dello status in corso.
+                Protocolli clinici avanzati per allineatori trasparenti supervisionati da specialisti in ortodonzia.
               </p>
             </div>
 
@@ -178,7 +178,6 @@ export default function OdontoiatriaPage() {
       </section>
 
       <section id="allineatori" className="bg-teal-50/60 py-20">
-        <div id="invisalign" className="sr-only" aria-hidden="true" />
         <Container>
           <div className="mx-auto max-w-2xl text-center">
             <SectionLabel>03 · Allineatori Trasparenti</SectionLabel>

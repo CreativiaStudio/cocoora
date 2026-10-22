@@ -23,7 +23,7 @@ const SLIDES = [
   },
   {
     src: "/images/invisalign-smile.jpg",
-    alt: "Sorriso perfetto con Invisalign Diamond Provider — odontoiatria Cocoora",
+    alt: "Sorriso armonico con allineatori trasparenti — odontoiatria Cocoora",
     position: "object-center",
   },
 ];

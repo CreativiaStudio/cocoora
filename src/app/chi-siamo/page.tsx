@@ -61,7 +61,7 @@ const rooms = [
   {
     number: "03",
     title: "Studio 3",
-    subtitle: "Poliambulatorio & Diagnostica",
+    subtitle: "Visite Specialistiche & Diagnostica",
     description:
       "Ambulatorio multidisciplinare dotato di ecografo HD ed elettrocardiografo digitale, dedicato alle visite specialistiche con i nostri medici e docenti universitari.",
     equipment: ["Ecografo HD Multidisciplinare", "Elettrocardiografo Digitale", "Refertazione Digitale Integrata"],
@@ -95,7 +95,7 @@ export default function ChiSiamoPage() {
         <div className="absolute inset-0">
           <Image
             src="/images/clinic-lounge.jpg"
-            alt="Interno Cocoora Studio Medico Polispecialistico"
+            alt="Interno Cocoora Centro Medico"
             fill
             priority
             sizes="100vw"
@@ -272,7 +272,7 @@ export default function ChiSiamoPage() {
               Manifesto Clinico
             </span>
             <span className="text-xs font-medium uppercase tracking-[0.2em] text-charcoal/60">
-              Équipe Medica &amp; Governance — Cocoora Studio Medico Polispecialistico
+              Équipe Medica &amp; Governance — Cocoora Centro Medico
             </span>
           </div>
         </div>

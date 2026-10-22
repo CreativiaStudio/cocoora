@@ -7,6 +7,12 @@ import type { Treatment } from "./types";
 export const TREATMENT_SLUG_ALIASES: Record<string, string> = {
   criolipolisi: "cryoliposculpt",
   "peeling-chimico": "peeling-medicali",
+  "allineatori-adulti": "invisalign-adulti",
+  "allineatori-trasparenti-adulti": "invisalign-adulti",
+  "allineatori-adolescenti": "invisalign-adolescenti",
+  "allineatori-trasparenti-adolescenti": "invisalign-adolescenti",
+  "ortodonzia-intercettiva-bambini": "invisalign-bambini",
+  "ortodonzia-intercettiva": "invisalign-bambini",
 };
 
 export function resolveTreatmentSlug(slug: string): string {

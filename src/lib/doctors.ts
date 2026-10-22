@@ -14,18 +14,18 @@ export const DOCTORS: Doctor[] = [
     branca: "Odontoiatria & Ortodonzia Digitale",
     affiliation: "Docente a contratto — Università degli Studi di Napoli \"Federico II\"",
     image: "/images/doctors/antonio-sorrentino.jpg",
-    bio: "Il Dr. Sorrentino affianca alla pratica clinica quotidiana l'attività didattica universitaria, portando in studio i protocolli più aggiornati di ortodonzia digitale e chirurgia implantare guidata. Certificato Invisalign Diamond Provider, ha costruito il proprio percorso professionale sull'idea che la tecnologia debba semplificare, non complicare, il rapporto tra medico e paziente.",
+    bio: "Il Dr. Sorrentino affianca alla pratica clinica quotidiana l'attività didattica universitaria, portando in studio i protocolli più aggiornati di ortodonzia digitale e chirurgia implantare guidata. Specialista in ortodonzia con allineatori trasparenti e tecnologie digitali 3D, ha costruito il proprio percorso professionale sull'idea che la tecnologia debba semplificare, non complicare, il rapporto tra medico e paziente.",
     approach:
       "Non esistono due sorrisi identici: ogni piano di trattamento nasce da una diagnosi digitale accurata e viene condiviso con il paziente prima di iniziare, senza sorprese e senza tempi morti.",
     curriculum: [
       "Laurea in Odontoiatria e Protesi Dentaria — Università degli Studi di Napoli \"Federico II\"",
       "Specializzazione in Ortognatodonzia — Seconda Università di Napoli (oggi Vanvitelli)",
-      "Certificazione Invisalign Diamond Provider",
+      "Perfezionamento in Ortodonzia Digitale con Allineatori Trasparenti",
       "Perfezionamento in Chirurgia Implantare Guidata e Piezoelettrica",
       "Relatore in convegni nazionali di odontoiatria digitale",
     ],
     servizi: [
-      "Ortodonzia invisibile Invisalign (adulti, adolescenti, bambini)",
+      "Ortodonzia con Allineatori Trasparenti (adulti, adolescenti, bambini)",
       "Implantologia a carico immediato e chirurgia guidata 3D",
       "Igiene dentale professionale e prevenzione parodontale",
       "Endodonzia e conservativa estetica",

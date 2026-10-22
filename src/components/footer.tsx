@@ -14,11 +14,11 @@ const legalLinks = [
 ];
 
 const dipartimenti = [
-  { label: "Odontoiatria Digitale & Invisalign", href: "/servizi/odontoiatria" },
+  { label: "Odontoiatria & Ortodonzia", href: "/servizi/odontoiatria" },
   { label: "Medicina Estetica & Rigenerativa", href: "/servizi/medicina-estetica" },
-  { label: "Diagnostica per Immagini & Cardiologia", href: "/servizi/diagnostica" },
-  { label: "Senologia & Ginecologia", href: "/servizi/diagnostica" },
-  { label: "Pediatria", href: "/servizi/diagnostica" },
+  { label: "Visite Specialistiche & Diagnostica", href: "/servizi/diagnostica" },
+  { label: "Senologia & Ginecologia", href: "/visite/senologia" },
+  { label: "Cardiologia & Ecografia", href: "/visite/cardiologia" },
 ];
 
 const percorsiClub = [
@@ -26,7 +26,7 @@ const percorsiClub = [
   { label: "Cocoora Club Memberships", href: "/club" },
   { label: "Cocoora Precision (DNA & Microbiota)", href: "/precision" },
   { label: "Cartella Clinica Digitale h24", href: "/chi-siamo" },
-  { label: "Il Concetto di Amico Medico", href: "/chi-siamo" },
+  { label: "La Filosofia Cocoora", href: "/chi-siamo" },
 ];
 
 export function Footer() {
@@ -58,7 +58,7 @@ export function Footer() {
             }}
           >
             <ShieldCheck className="h-4 w-4 shrink-0 text-slate-accent" />
-            Poliambulatorio Polispecialistico Autorizzato ATS — Direzione Sanitaria Specialistica
+            Centro Medico Autorizzato — Direzione Sanitaria Specialistica
           </span>
           <span className="hidden h-px flex-1 bg-gradient-to-l from-transparent to-white/20 sm:block" />
         </div>
@@ -137,7 +137,7 @@ export function Footer() {
         </div>
 
         <div className="mt-16 flex flex-col gap-4 border-t border-white/10 pt-8 text-xs text-teal-200/60 md:flex-row md:items-center md:justify-between">
-          <p>© {new Date().getFullYear()} Cocoora Studio Medico Polispecialistico. Tutti i diritti riservati.</p>
+          <p>© {new Date().getFullYear()} Cocoora Centro Medico. Tutti i diritti riservati.</p>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
             {legalLinks.map((l) => (
               <Link key={l.label} href={l.href} className="transition-colors hover:text-white">

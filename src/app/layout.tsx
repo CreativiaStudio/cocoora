@@ -22,11 +22,11 @@ const inter = Inter({
 export const metadata: Metadata = {
   applicationName: "Cocoora",
   title: {
-    default: "Cocoora — Studio Medico Polispecialistico | Connessi alla tua salute",
+    default: "Cocoora — Centro Medico | Connessi alla tua salute",
     template: "%s | Cocoora",
   },
   description:
-    "Cocoora è lo studio medico polispecialistico che azzera attese, burocrazia e complessità. Prenota in meno di 2 minuti, consulta referti 24/7 e vivi un percorso di salute fluido.",
+    "Cocoora è il centro medico che azzera attese, burocrazia e complessità. Prenota in meno di 2 minuti, consulta referti 24/7 e vivi un percorso di salute fluido.",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "it_IT",
     siteName: "Cocoora",
-    title: "Cocoora — Studio Medico Polispecialistico",
+    title: "Cocoora — Centro Medico",
     description:
       "Connessi alla tua salute. Il tuo benessere senza ostacoli, in un unico hub multidisciplinare.",
   },

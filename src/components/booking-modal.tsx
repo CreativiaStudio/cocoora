@@ -22,7 +22,7 @@ import { Button } from "./ui";
 type Specialty = { id: string; label: string; doctor: string };
 
 const SPECIALTIES: Specialty[] = [
-  { id: "odontoiatria", label: "Odontoiatria & Invisalign", doctor: "Dr. Sorrentino" },
+  { id: "odontoiatria", label: "Odontoiatria & Allineatori", doctor: "Dr. Sorrentino" },
   { id: "cardiologia", label: "Cardiologia & ECG", doctor: "Dr. Esposito" },
   { id: "medicina-estetica", label: "Medicina Estetica", doctor: "Dr.ssa Del Prete" },
   { id: "ginecologia", label: "Ginecologia & Pelvica", doctor: "Dr.ssa Caputo" },

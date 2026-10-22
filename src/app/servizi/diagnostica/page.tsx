@@ -48,7 +48,7 @@ export default function DiagnosticaPage() {
       <div className="relative z-10 h-72 w-full overflow-hidden rounded-b-[2.5rem] border-b border-slate-200/80 shadow-xl shadow-dark-navy/10 sm:h-80 md:h-96">
         <Image
           src="/images/diagnostics-lab.jpg"
-          alt="Laboratorio diagnostico e poliambulatorio specialistico Cocoora Napoli"
+          alt="Laboratorio diagnostico e centro specialistico Cocoora Napoli"
           fill
           priority
           sizes="100vw"
@@ -63,7 +63,7 @@ export default function DiagnosticaPage() {
         <div className="noise pointer-events-none absolute inset-0" />
         <Container className="relative">
           <div className="mx-auto max-w-3xl text-center">
-            <Badge className="mx-auto shadow-sm">Poliambulatorio Specialistico</Badge>
+            <Badge className="mx-auto shadow-sm">Visite Specialistiche</Badge>
             <h1 className="mt-6 font-serif text-5xl font-semibold leading-[1.05] tracking-tight text-dark-navy sm:text-6xl">
               {page?.h1 ?? "Diagnostica rapida, refertazione digitale e specialisti dedicati."}
             </h1>
@@ -89,7 +89,7 @@ export default function DiagnosticaPage() {
           <div className="mx-auto max-w-2xl text-center">
             <SectionLabel>Le Nostre Specialità</SectionLabel>
             <h2 className="font-serif text-4xl font-semibold leading-tight text-teal-900 sm:text-5xl">
-              Un poliambulatorio, sei branche specialistiche
+              Un unico centro, sei branche specialistiche
             </h2>
           </div>
 

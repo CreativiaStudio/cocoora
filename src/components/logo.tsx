@@ -13,7 +13,7 @@ export function Logo({
   return (
     <Image
       src={isWhite ? "/cocoora-logo-horizontal-white.png" : "/cocoora-logo-horizontal.png"}
-      alt="Cocoora Studio Medico Polispecialistico"
+      alt="Cocoora Centro Medico"
       width={749}
       height={190}
       priority

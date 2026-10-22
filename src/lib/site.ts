@@ -2,7 +2,7 @@ import type { InstagramPost, NavNode, ServiceArea, VideoItem } from "./types";
 
 export const SITE = {
   name: "Cocoora",
-  fullName: "Cocoora Studio Medico Polispecialistico",
+  fullName: "Cocoora Centro Medico",
   claim: "Connessi alla tua salute.",
   phone: "081 18182091",
   phoneRaw: "08118182091",
@@ -193,7 +193,7 @@ export const DEFAULT_VIDEOS: VideoItem[] = [
     url: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
     poster: "/images/invisalign-smile.jpg",
     title: "Il tuo sorriso, in digitale",
-    caption: "Percorsi Invisalign Diamond Provider, dalla diagnosi alla simulazione 3D.",
+    caption: "Percorsi con allineatori trasparenti, dalla diagnosi alla simulazione 3D.",
     ctaLabel: "Scopri l'Odontoiatria",
     ctaLink: "/servizi/odontoiatria",
     visible: true,
@@ -227,16 +227,16 @@ export const INSTAGRAM_POSTS: InstagramPost[] = [
     id: 1,
     image: "/images/clinic-lounge.jpg",
     caption:
-      "Benvenuti nello Studio. Luce, materiali naturali e silenzio: il tuo benessere inizia dall'accoglienza. #CocooraClinic #AmicoMedico",
+      "Benvenuti nel Centro. Luce, materiali naturali e silenzio: il tuo benessere inizia dall'accoglienza. #CocooraClinic #CentroMedico",
     likes: 184,
     comments: 14,
-    tag: "Studio",
+    tag: "Il Centro",
   },
   {
     id: 2,
     image: "/images/invisalign-smile.jpg",
     caption:
-      "Il tuo sorriso, progettato in digitale. Invisalign Diamond Provider per percorsi invisibili ed eleganti. #InvisalignDiamond #CocooraSmile",
+      "Il tuo sorriso, progettato in digitale. Allineatori trasparenti per percorsi discreti ed efficaci. #AllineatoriTrasparenti #CocooraSmile",
     likes: 242,
     comments: 19,
     tag: "Odontoiatria",
@@ -254,10 +254,10 @@ export const INSTAGRAM_POSTS: InstagramPost[] = [
     id: 4,
     image: "/images/doctor-consultation.jpg",
     caption:
-      "Il tempo che dedichiamo a te è il farmaco più prezioso. Il metodo Cocoora, un medico sempre al tuo fianco. #AmicoMedico #CocooraCare",
+      "Il tempo che dedichiamo a te è il farmaco più prezioso. Il metodo Cocoora, la salute al centro del tuo tempo. #CocooraCare #SaluteIntegrata",
     likes: 198,
     comments: 16,
-    tag: "Amico Medico",
+    tag: "Filosofia Clinica",
   },
   {
     id: 5,

@@ -2,9 +2,9 @@ import type { GalleryItem, Leader, Principle, ShowroomTile } from "./types";
 
 export const PRINCIPLES: Principle[] = [
   {
-    id: "amico-medico",
-    title: "Il Concetto di 'Amico Medico'",
-    text: "Un punto di riferimento competente e fidato che ti ascolta, ti orienta e ti accompagna nel tempo, eliminando l'ansia e la frammentazione tipica della sanità tradizionale.",
+    id: "filosofia",
+    title: "La Filosofia Cocoora",
+    text: "Un centro medico integrato che ti ascolta, ti orienta e ti accompagna nel tempo, eliminando l'ansia e la frammentazione tipica della sanità tradizionale.",
     icon: "HeartHandshake",
   },
   {
@@ -62,9 +62,9 @@ export const CLINIC_GALLERY: GalleryItem[] = [
 
 export const SHOWROOM_TILES: ShowroomTile[] = [
   {
-    id: "invisalign",
-    title: "Invisalign Diamond Provider",
-    text: "Scansione digitale 3D e pianificazione ClinCheck per allineare il sorriso con mascherine trasparenti invisibili.",
+    id: "allineatori",
+    title: "Allineatori Trasparenti",
+    text: "Scansione digitale 3D e pianificazione ortodontica specialistica per allineare il sorriso con mascherine trasparenti rimovibili.",
     image: "/images/invisalign-smile.jpg",
   },
   {

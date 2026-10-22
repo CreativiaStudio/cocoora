@@ -100,7 +100,7 @@ export default function MediciPage() {
                   type="text"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Cerca per medico, prestazione o branca (es. Sorrentino, Invisalign, Cuore, Ecografia)..."
+                  placeholder="Cerca per medico, prestazione o branca (es. Sorrentino, Allineatori, Cuore, Ecografia)..."
                   className="w-full rounded-xl border border-teal-200/80 bg-white py-2 pl-9 pr-9 text-xs sm:text-sm text-charcoal placeholder:text-charcoal/45 shadow-xs transition-all focus:border-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-700/15"
                 />
                 {search && (

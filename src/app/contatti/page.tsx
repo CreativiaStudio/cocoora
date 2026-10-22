@@ -17,9 +17,9 @@ import { trackLead } from "@/lib/tracking";
 import { Badge, Button, Container, SectionLabel } from "@/components/ui";
 
 const SERVICES = [
-  "Odontoiatria Digitale & Invisalign",
+  "Odontoiatria & Ortodonzia",
   "Medicina Estetica & Rigenerativa",
-  "Diagnostica & Poliambulatorio",
+  "Visite Specialistiche & Diagnostica",
   "Cocoora Club",
   "Cocoora Precision",
   "Altro / Non lo so ancora",

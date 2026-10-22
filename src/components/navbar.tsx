@@ -202,9 +202,10 @@ export function Navbar() {
       >
         <div
           className={cn(
-            "mx-auto flex w-full max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10 transition-all duration-300 ease-in-out",
+            "relative mx-auto flex w-full max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-10 transition-all duration-300 ease-in-out",
             scrolled ? "h-16" : "h-20 sm:h-22"
           )}
+          onMouseLeave={scheduleClose}
         >
           {/* Logo Brand ingrandito, senza payoff */}
           <Link href="/" aria-label="Cocoora — Home" onClick={closeAll} className="shrink-0 flex items-center">
@@ -218,11 +219,18 @@ export function Navbar() {
           </Link>
 
           {/* ── Desktop Navigation a 4 Voci Principali ─────────────────── */}
-          <nav className="hidden items-center gap-1 lg:flex" onMouseLeave={scheduleClose}>
+          <nav className="hidden items-center gap-1 lg:flex">
             {NAV_NODES.map((node) => (
-              <div key={node.label} className="relative" onMouseEnter={() => openMenu(node.label)}>
+              <div key={node.label} onMouseEnter={() => openMenu(node.label)}>
                 <button
                   type="button"
+                  onClick={() => {
+                    if (openDesktop === node.label) {
+                      setOpenDesktop(null);
+                    } else {
+                      openMenu(node.label);
+                    }
+                  }}
                   className={cn(
                     "flex items-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-medium transition-all duration-200",
                     "text-charcoal/85 hover:text-dark-navy hover:bg-slate-50/90",
@@ -238,31 +246,6 @@ export function Navbar() {
                     )}
                   />
                 </button>
-
-                {/* ── Megamenu Pannello a Schermo Ampio ─────────────────── */}
-                <div
-                  className={cn(
-                    "absolute left-1/2 top-full z-40 -translate-x-1/2 pt-3 transition-all duration-250 ease-out",
-                    node.label === "Aree Mediche" ? "w-[min(1240px,96vw)]" : "w-[min(960px,94vw)]",
-                    openDesktop === node.label
-                      ? "pointer-events-auto translate-y-0 opacity-100 scale-100"
-                      : "pointer-events-none translate-y-3 opacity-0 scale-[0.98]"
-                  )}
-                >
-                  <div
-                    className={cn(
-                      node.label === "Aree Mediche"
-                        ? "bg-white/92 backdrop-blur-2xl border border-white/80 shadow-[0_40px_120px_-20px_rgba(3,53,75,0.32)] ring-1 ring-teal-950/5 rounded-[2.5rem] overflow-hidden"
-                        : "overflow-hidden rounded-[2.25rem] border border-slate-200/90 bg-white shadow-[0_35px_100px_-25px_rgba(0,52,75,0.28)] backdrop-blur-2xl"
-                    )}
-                  >
-                    {/* Render Megamenu specifico in base alla sezione */}
-                    {node.label === "Aree Mediche" && <MegamenuAreeMediche onClose={closeAll} />}
-                    {node.label === "I Medici" && <MegamenuMedici onClose={closeAll} />}
-                    {node.label === "Il Centro" && <MegamenuCentro onClose={closeAll} />}
-                    {node.label === "Percorsi Salute" && <MegamenuPercorsiSalute onClose={closeAll} />}
-                  </div>
-                </div>
               </div>
             ))}
           </nav>
@@ -272,6 +255,28 @@ export function Navbar() {
             <Button onClick={() => openBooking()} size="md">
               Prenota Visita
             </Button>
+          </div>
+
+          {/* ── MEGAMENU DESKTOP UNIFICATO ───────────────────────────── */}
+          {/* Posizionato esattamente dall'inizio del logo (left-5/8/10) alla fine del tasto Prenota Visita (right-5/8/10) */}
+          <div
+            onMouseEnter={() => {
+              if (closeTimer.current) clearTimeout(closeTimer.current);
+            }}
+            onMouseLeave={scheduleClose}
+            className={cn(
+              "hidden lg:block absolute left-5 sm:left-8 lg:left-10 right-5 sm:right-8 lg:right-10 top-full z-40 pt-2 transition-all duration-200 ease-out",
+              openDesktop
+                ? "pointer-events-auto translate-y-0 opacity-100 scale-100"
+                : "pointer-events-none translate-y-2 opacity-0 scale-[0.99]"
+            )}
+          >
+            <div className="overflow-hidden rounded-[2.25rem] border border-white/80 bg-white/95 backdrop-blur-2xl shadow-[0_40px_120px_-20px_rgba(3,53,75,0.28)] ring-1 ring-teal-950/5">
+              {openDesktop === "Aree Mediche" && <MegamenuAreeMediche onClose={closeAll} />}
+              {openDesktop === "I Medici" && <MegamenuMedici onClose={closeAll} onOpenBooking={openBooking} />}
+              {openDesktop === "Il Centro" && <MegamenuCentro onClose={closeAll} />}
+              {openDesktop === "Percorsi Salute" && <MegamenuPercorsiSalute onClose={closeAll} />}
+            </div>
           </div>
 
           {/* Pulsante Menu Mobile */}
@@ -588,48 +593,124 @@ function MegamenuAreeMediche({ onClose }: { onClose: () => void }) {
 }
 
 // ── MEGAMENU 2: I MEDICI ───────────────────────────────────────────────────
-function MegamenuMedici({ onClose }: { onClose: () => void }) {
+function MegamenuMedici({
+  onClose,
+  onOpenBooking,
+}: {
+  onClose: () => void;
+  onOpenBooking: () => void;
+}) {
   return (
-    <div className="p-7 lg:p-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+    <div className="flex flex-col">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-7 lg:p-8">
         <Link
           href="/medici"
           onClick={onClose}
-          className="group rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm transition-all hover:border-teal-400 hover:shadow-md hover:-translate-y-0.5"
+          className="group rounded-2xl border border-slate-200/80 bg-white p-6 shadow-xs transition-all hover:border-teal-400 hover:shadow-md hover:-translate-y-0.5 flex flex-col justify-between"
         >
-          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-accent">
-            Il Team Clinico
-          </span>
-          <h4 className="mt-2 font-serif text-lg font-semibold text-dark-navy group-hover:text-teal-800 transition-colors">
-            L&apos;Équipe Specialistica
-          </h4>
-          <p className="mt-2 text-xs leading-relaxed text-charcoal/70">
-            Specialisti di riferimento per un percorso clinico multidisciplinare e
-            coordinato a Napoli.
-          </p>
-          <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-teal-800 group-hover:gap-2.5 transition-all">
-            Scopri l&apos;équipe <ArrowRight className="h-3.5 w-3.5" />
+          <div>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-accent">
+              Il Team Clinico
+            </span>
+            <h4 className="mt-2 font-serif text-lg font-semibold text-dark-navy group-hover:text-teal-800 transition-colors">
+              L&apos;Équipe Specialistica
+            </h4>
+            <p className="mt-2 text-xs leading-relaxed text-charcoal/70">
+              Oltre 17 medici e chirurghi coordinati per un percorso clinico multidisciplinare e integrato.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-1.5">
+              <span className="rounded-full bg-teal-50 px-2.5 py-1 text-[11px] font-medium text-teal-800">
+                Odontoiatria
+              </span>
+              <span className="rounded-full bg-teal-50 px-2.5 py-1 text-[11px] font-medium text-teal-800">
+                Medicina Estetica
+              </span>
+              <span className="rounded-full bg-teal-50 px-2.5 py-1 text-[11px] font-medium text-teal-800">
+                Cardiologia & Specialistiche
+              </span>
+            </div>
+          </div>
+          <span className="mt-5 inline-flex items-center gap-1.5 text-xs font-semibold text-teal-800 group-hover:gap-2.5 transition-all">
+            Scopri l&apos;équipe completa <ArrowRight className="h-3.5 w-3.5" />
           </span>
         </Link>
 
         <Link
           href="/medici#docenti"
           onClick={onClose}
-          className="group rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm transition-all hover:border-teal-400 hover:shadow-md hover:-translate-y-0.5"
+          className="group rounded-2xl border border-slate-200/80 bg-white p-6 shadow-xs transition-all hover:border-teal-400 hover:shadow-md hover:-translate-y-0.5 flex flex-col justify-between"
         >
-          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-accent">
-            Eccellenza Accademica
-          </span>
-          <h4 className="mt-2 font-serif text-lg font-semibold text-dark-navy group-hover:text-teal-800 transition-colors">
-            Docenti Universitari e Ospedalieri
-          </h4>
-          <p className="mt-2 text-xs leading-relaxed text-charcoal/70">
-            Professori e dirigenti medici delle Università Federico II, Vanvitelli e
-            dei principali poli ospedalieri.
-          </p>
-          <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-teal-800 group-hover:gap-2.5 transition-all">
+          <div>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-accent">
+              Eccellenza Accademica
+            </span>
+            <h4 className="mt-2 font-serif text-lg font-semibold text-dark-navy group-hover:text-teal-800 transition-colors">
+              Docenti Universitari &amp; Ospedalieri
+            </h4>
+            <p className="mt-2 text-xs leading-relaxed text-charcoal/70">
+              Professori e dirigenti medici delle Università Federico II, Luigi Vanvitelli e dei principali presidi campani.
+            </p>
+            <div className="mt-4 flex flex-wrap gap-1.5">
+              <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-medium text-dark-navy">
+                Univ. Federico II
+              </span>
+              <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-medium text-dark-navy">
+                Univ. Vanvitelli
+              </span>
+              <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-medium text-dark-navy">
+                Poli Ospedalieri
+              </span>
+            </div>
+          </div>
+          <span className="mt-5 inline-flex items-center gap-1.5 text-xs font-semibold text-teal-800 group-hover:gap-2.5 transition-all">
             Conosci i docenti <ArrowRight className="h-3.5 w-3.5" />
           </span>
+        </Link>
+
+        <div className="rounded-2xl bg-gradient-to-br from-dark-navy to-teal-950 p-6 text-white shadow-md flex flex-col justify-between">
+          <div>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-teal-300">
+              Direzione Sanitaria
+            </span>
+            <h4 className="mt-2 font-serif text-base font-semibold text-white">
+              Dott.ssa Elisa Russo
+            </h4>
+            <p className="mt-2 text-xs leading-relaxed text-teal-100/75">
+              Presa in carico personalizzata e supervisione di ogni piano terapeutico nel centro.
+            </p>
+          </div>
+          <div className="mt-5 space-y-2">
+            <button
+              type="button"
+              onClick={() => {
+                onClose();
+                onOpenBooking();
+              }}
+              className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-teal-400 px-4 py-2.5 text-xs font-bold text-dark-navy hover:bg-teal-300 transition-colors"
+            >
+              Prenota con uno Specialista <ArrowRight className="h-3.5 w-3.5" />
+            </button>
+            <a
+              href="tel:08118182091"
+              className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-white/10 px-4 py-2 text-xs font-semibold text-white hover:bg-white/20 transition-colors"
+            >
+              <Phone className="h-3.5 w-3.5 text-teal-300" /> Centralino 081 18182091
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div className="border-t border-slate-100/80 bg-slate-50/70 backdrop-blur-md px-8 py-3.5 flex items-center justify-between text-xs text-charcoal/75">
+        <span className="flex items-center gap-2">
+          <Clock className="h-3.5 w-3.5 text-teal-700 shrink-0" />
+          <span>Ricevimento su appuntamento: <strong className="text-dark-navy">Lun–Ven 8:00–20:00 · Sab 9:00–14:00</strong></span>
+        </span>
+        <Link
+          href="/medici"
+          onClick={onClose}
+          className="font-semibold text-teal-900 hover:text-dark-navy flex items-center gap-1 transition-colors"
+        >
+          Visualizza tutti i medici <ArrowRight className="h-3 w-3" />
         </Link>
       </div>
     </div>
@@ -640,23 +721,24 @@ function MegamenuMedici({ onClose }: { onClose: () => void }) {
 function MegamenuCentro({ onClose }: { onClose: () => void }) {
   return (
     <div className="flex flex-col">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 p-7 lg:p-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-7 lg:p-8">
         <Link
           href="/chi-siamo"
           onClick={onClose}
-          className="group rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm transition-all hover:border-teal-400 hover:shadow-md hover:-translate-y-0.5"
+          className="group rounded-2xl border border-slate-200/80 bg-white p-6 shadow-xs transition-all hover:border-teal-400 hover:shadow-md hover:-translate-y-0.5 flex flex-col justify-between"
         >
-          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-accent">
-            Chi Siamo
-          </span>
-          <h4 className="mt-2 font-serif text-lg font-semibold text-dark-navy group-hover:text-teal-800 transition-colors">
-            La Filosofia del Centro
-          </h4>
-          <p className="mt-2 text-xs leading-relaxed text-charcoal/70">
-            Eccellenza clinica, tecnologie diagnostiche avanzate e accoglienza
-            riservata in Via De Bonis 81 a Napoli.
-          </p>
-          <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-teal-800 group-hover:gap-2.5 transition-all">
+          <div>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-accent">
+              Chi Siamo
+            </span>
+            <h4 className="mt-2 font-serif text-lg font-semibold text-dark-navy group-hover:text-teal-800 transition-colors">
+              La Filosofia del Centro
+            </h4>
+            <p className="mt-2 text-xs leading-relaxed text-charcoal/70">
+              Uno spazio medico integrato a Napoli pensato per offrire prevenzione, diagnosi e trattamenti in totale serenità.
+            </p>
+          </div>
+          <span className="mt-5 inline-flex items-center gap-1.5 text-xs font-semibold text-teal-800 group-hover:gap-2.5 transition-all">
             Scopri la filosofia <ArrowRight className="h-3.5 w-3.5" />
           </span>
         </Link>
@@ -664,36 +746,58 @@ function MegamenuCentro({ onClose }: { onClose: () => void }) {
         <Link
           href="/chi-siamo#spazi"
           onClick={onClose}
-          className="group rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm transition-all hover:border-teal-400 hover:shadow-md hover:-translate-y-0.5"
+          className="group rounded-2xl border border-slate-200/80 bg-white p-6 shadow-xs transition-all hover:border-teal-400 hover:shadow-md hover:-translate-y-0.5 flex flex-col justify-between"
         >
-          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-accent">
-            Gli Ambienti
-          </span>
-          <h4 className="mt-2 font-serif text-lg font-semibold text-dark-navy group-hover:text-teal-800 transition-colors">
-            Gli Spazi Clinici: Studio 1, 2, 3
-          </h4>
-          <p className="mt-2 text-xs leading-relaxed text-charcoal/70">
-            Ambienti clinici dedicati per odontoiatria, medicina estetica,
-            diagnostica e visite specialistiche.
-          </p>
-          <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-semibold text-teal-800 group-hover:gap-2.5 transition-all">
+          <div>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-accent">
+              Gli Ambienti
+            </span>
+            <h4 className="mt-2 font-serif text-lg font-semibold text-dark-navy group-hover:text-teal-800 transition-colors">
+              Gli Spazi Clinici: Studio 1, 2, 3
+            </h4>
+            <p className="mt-2 text-xs leading-relaxed text-charcoal/70">
+              Unità operative dedicate per odontoiatria avanzata, medicina estetica e studi diagnostici specialistici.
+            </p>
+          </div>
+          <span className="mt-5 inline-flex items-center gap-1.5 text-xs font-semibold text-teal-800 group-hover:gap-2.5 transition-all">
             Esplora gli spazi <ArrowRight className="h-3.5 w-3.5" />
+          </span>
+        </Link>
+
+        <Link
+          href="/contatti"
+          onClick={onClose}
+          className="group rounded-2xl border border-slate-200/80 bg-white p-6 shadow-xs transition-all hover:border-teal-400 hover:shadow-md hover:-translate-y-0.5 flex flex-col justify-between"
+        >
+          <div>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-accent">
+              Sede &amp; Accoglienza
+            </span>
+            <h4 className="mt-2 font-serif text-lg font-semibold text-dark-navy group-hover:text-teal-800 transition-colors">
+              Via De Bonis 81, Napoli
+            </h4>
+            <p className="mt-2 text-xs leading-relaxed text-charcoal/70">
+              Facilmente raggiungibile da Fuorigrotta, Posillipo e Vomero. Accesso riservato e standard clinici elevati.
+            </p>
+          </div>
+          <span className="mt-5 inline-flex items-center gap-1.5 text-xs font-semibold text-teal-800 group-hover:gap-2.5 transition-all">
+            Indicazioni &amp; Mappa <ArrowRight className="h-3.5 w-3.5" />
           </span>
         </Link>
       </div>
 
       {/* Recapito Sede */}
-      <div className="border-t border-slate-100 bg-slate-50/90 px-7 lg:px-8 py-3 flex items-center justify-between gap-4 text-xs text-charcoal/75">
+      <div className="border-t border-slate-100/80 bg-slate-50/70 backdrop-blur-md px-8 py-3.5 flex items-center justify-between gap-4 text-xs text-charcoal/75">
         <span className="flex items-center gap-2">
           <MapPin className="h-4 w-4 text-teal-700 shrink-0" />
           <span>
-            Sede: <strong className="text-dark-navy">Via Generale Giovanni De Bonis 81, Napoli</strong>
+            Sede: <strong className="text-dark-navy">Via Generale Giovanni De Bonis 81, Napoli</strong> (Cavalleggeri / Fuorigrotta)
           </span>
         </span>
         <Link
           href="/contatti"
           onClick={onClose}
-          className="font-semibold text-teal-900 hover:text-dark-navy flex items-center gap-1 whitespace-nowrap"
+          className="font-semibold text-teal-900 hover:text-dark-navy flex items-center gap-1 whitespace-nowrap transition-colors"
         >
           Come raggiungerci <ArrowRight className="h-3 w-3" />
         </Link>

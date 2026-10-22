@@ -121,7 +121,7 @@ export default function TrattamentiIndexPage() {
                     : "bg-stone-100 text-stone-600 hover:bg-stone-200"
                 )}
               >
-                <Stethoscope className="h-3.5 w-3.5" /> Poliambulatorio (6)
+                <Stethoscope className="h-3.5 w-3.5" /> Visite Specialistiche (6)
               </button>
             </div>
 
@@ -144,7 +144,7 @@ export default function TrattamentiIndexPage() {
       <Container className="pt-12">
         <div className="mb-6 flex items-center justify-between">
           <h2 style={serif} className="text-2xl font-medium text-emerald-950 sm:text-3xl">
-            {activeCategory === "diagnostica" ? "Branche Specialistiche del Poliambulatorio" : "Schede Trattamenti Clinici"}
+            {activeCategory === "diagnostica" ? "Branche delle Visite Specialistiche" : "Schede Trattamenti Clinici"}
           </h2>
           <span className="text-xs text-stone-500 font-light">
             {filteredTreatments.length + (showSpecialties ? filteredSpecialties.length : 0)} risultati disponibili
@@ -172,8 +172,8 @@ export default function TrattamentiIndexPage() {
                       {t.category === "odontoiatria" ? "Sorriso & Denti" : "Medicina Estetica"}
                     </span>
                     {t.slug.includes("invisalign") && (
-                      <span className="text-[10px] bg-amber-100 text-amber-900 font-bold px-2 py-0.5 rounded-full">
-                        DIAMOND
+                      <span className="text-[10px] bg-teal-100 text-teal-900 font-bold px-2 py-0.5 rounded-full">
+                        ALLINEATORI
                       </span>
                     )}
                   </div>
@@ -202,15 +202,15 @@ export default function TrattamentiIndexPage() {
           </div>
         )}
 
-        {/* ── Sezione Poliambulatorio & Visite ────────────────────────── */}
+        {/* ── Sezione Visite Specialistiche ────────────────────────────── */}
         {showSpecialties && (
           <div className="mt-16">
             <div className="mb-6 border-t border-stone-200 pt-10">
               <h2 style={serif} className="text-2xl font-medium text-emerald-950 sm:text-3xl">
-                Visite Specialistiche & Diagnostica Rapida
+                Visite Specialistiche &amp; Diagnostica Rapida
               </h2>
               <p className="mt-1 text-xs text-stone-500 font-light">
-                Consulti multidisciplinari con docenti universitari e specialisti ospedalieri garantiti entro 72 ore.
+                Consulti multidisciplinari con docenti universitari e specialisti dedicati.
               </p>
             </div>
 

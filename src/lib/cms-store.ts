@@ -3,11 +3,11 @@ import { TREATMENTS } from "./content";
 import type { CmsState, Faq, SeoPage, VideoItem } from "./types";
 import { uid } from "./utils";
 
-const STORAGE_KEY = "cocoora_cms_v1";
+const STORAGE_KEY = "cocoora_cms_v3_clean";
 
 const HOME_FAQ: Faq[] = [
   {
-    q: "Cosa offre Cocoora Studio Medico Polispecialistico?",
+    q: "Cosa offre Cocoora Centro Medico?",
     a: "Un unico hub multidisciplinare con specialisti d'eccellenza, dalla prevenzione quotidiana alla diagnostica avanzata, in un percorso digitale fluido e immediato.",
   },
   {
@@ -25,7 +25,7 @@ function buildTreatmentPages(): SeoPage[] {
     id: `page_trattamento_${t.slug}`,
     path: `/trattamenti/${t.slug}`,
     label: `Trattamento · ${t.title}`,
-    title: `${t.title} a Cocoora | ${t.tagline}`,
+    title: `${t.title} a Napoli | ${t.tagline}`,
     metaDescription: t.description.slice(0, 155),
     h1: t.title,
     h2: t.tagline,
@@ -40,9 +40,9 @@ function buildDefaultPages(): SeoPage[] {
       id: "page_home",
       path: "/",
       label: "Homepage",
-      title: "Cocoora — Studio Medico Polispecialistico | Connessi alla tua salute",
+      title: "Cocoora — Centro Medico | Connessi alla tua salute",
       metaDescription:
-        "Cocoora è lo studio medico polispecialistico che azzera attese, burocrazia e complessità. Prenota in meno di 2 minuti, consulta referti 24/7 e vivi un percorso di salute fluido e immediato.",
+        "Cocoora è il centro medico che azzera attese, burocrazia e complessità. Prenota in meno di 2 minuti, consulta referti 24/7 e vivi un percorso di salute fluido e immediato.",
       h1: "Connessi alla tua salute.",
       h2: "Il tuo benessere senza ostacoli",
       faq: HOME_FAQ.map((f) => ({ q: f.q, a: f.a })),
@@ -73,19 +73,19 @@ function buildDefaultPages(): SeoPage[] {
       id: "page_odontoiatria",
       path: "/servizi/odontoiatria",
       label: "Odontoiatria",
-      title: "Odontoiatria e Ortodonzia a Cocoora | Invisalign Diamond Provider",
+      title: "Odontoiatria e Ortodonzia a Cocoora | Allineatori Trasparenti",
       metaDescription:
-        "Cura, prevenzione e allineamento del sorriso con un approccio digitale. Cocoora è Invisalign Diamond Provider.",
+        "Cura, prevenzione e allineamento del sorriso con un approccio digitale e specialistico a Napoli.",
       h1: "Odontoiatria e ortodonzia a Cocoora",
-      h2: "Cocoora è Invisalign Diamond Provider",
+      h2: "Ortodonzia Digitale & Allineatori Trasparenti",
       faq: [
         {
-          q: "Cosa significa essere Invisalign Diamond Provider?",
-          a: "Significa avere un'esperienza consolidata nella pianificazione e gestione dei percorsi di allineamento con la tecnologia Invisalign.",
+          q: "Come funzionano gli allineatori trasparenti?",
+          a: "Gli allineatori sono mascherine invisibili rimovibili realizzate su misura a partire da una scansione digitale 3D, progettate dallo specialista in ortodonzia per allineare i denti in modo graduale e confortevole.",
         },
         {
           q: "Quali servizi odontoiatrici offrite?",
-          a: "Igiene, conservativa, endodonzia, parodontologia, estetica dentale, implantologia, gnatologia e ortodonzia Invisalign per adulti, adolescenti e bambini.",
+          a: "Igiene, conservativa, endodonzia, parodontologia, estetica dentale, implantologia, gnatologia e ortodonzia con allineatori trasparenti per adulti, adolescenti e bambini.",
         },
       ],
       canvasMode: false,
@@ -115,15 +115,15 @@ function buildDefaultPages(): SeoPage[] {
       id: "page_chi_siamo",
       path: "/chi-siamo",
       label: "Chi Siamo",
-      title: "Chi Siamo — Il Metodo Cocoora | Studio Medico Polispecialistico Napoli",
+      title: "Chi Siamo — La Filosofia Cocoora | Centro Medico Napoli",
       metaDescription:
-        "La visione clinica di Cocoora: Amico Medico, zero burocrazia, sinergia multidisciplinare e medicina rigenerativa. Scopri gli spazi e la direzione sanitaria.",
+        "La visione clinica di Cocoora: ascolto empatico, zero burocrazia, sinergia multidisciplinare e medicina rigenerativa. Scopri gli spazi e la direzione sanitaria.",
       h1: "La medicina come dovrebbe essere: umana, immediata, predittiva.",
-      h2: "Il Metodo Cocoora",
+      h2: "La Filosofia Cocoora",
       faq: [
         {
-          q: "Cos'è il concetto di 'Amico Medico'?",
-          a: "È il punto di riferimento fidato che ti ascolta, ti orienta e ti accompagna nel tempo, eliminando l'ansia e la frammentazione della sanità tradizionale.",
+          q: "Cos'è la filosofia del Centro Cocoora?",
+          a: "È il nostro modello di presa in carico integrata: un centro multidisciplinare che ti ascolta, ti orienta e ti accompagna nel tempo, eliminando l'ansia e la frammentazione della sanità tradizionale.",
         },
         {
           q: "Come garantite la qualità clinica?",
@@ -136,11 +136,11 @@ function buildDefaultPages(): SeoPage[] {
       id: "page_diagnostica",
       path: "/servizi/diagnostica",
       label: "Diagnostica",
-      title: "Diagnostica & Poliambulatorio a Cocoora | Napoli",
+      title: "Visite Specialistiche & Diagnostica a Cocoora | Napoli",
       metaDescription:
         "Cardiologia, senologia, ecografia, oculistica, pediatria e ginecologia: diagnostica rapida, refertazione digitale e specialisti dedicati, senza liste d'attesa.",
       h1: "Diagnostica rapida, refertazione digitale e specialisti dedicati.",
-      h2: "Poliambulatorio Specialistico",
+      h2: "Visite Specialistiche e Diagnostica",
       faq: [
         {
           q: "Serve l'impegnativa del medico di base per prenotare?",

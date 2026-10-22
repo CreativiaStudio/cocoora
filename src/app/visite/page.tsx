@@ -46,7 +46,7 @@ export default function VisitePage() {
       <div className="relative z-10 h-64 w-full overflow-hidden rounded-b-[2.5rem] border-b border-slate-200/80 shadow-xl shadow-dark-navy/10 sm:h-72">
         <Image
           src="/images/diagnostics-lab.jpg"
-          alt="Poliambulatorio e visite specialistiche Cocoora Napoli"
+          alt="Centro medico e visite specialistiche Cocoora Napoli"
           fill
           priority
           sizes="100vw"

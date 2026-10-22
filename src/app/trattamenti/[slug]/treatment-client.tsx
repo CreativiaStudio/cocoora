@@ -299,9 +299,11 @@ export function TreatmentClient({ treatment }: { treatment: Treatment }) {
   const page = pages.find((p) => p.path === `/trattamenti/${treatment.slug}`);
   const canvasMode = page?.canvasMode ?? false;
 
-  const h1 = page?.h1 ?? treatment.title;
-  const intro = page?.h2 ?? treatment.tagline ?? treatment.description;
-  const faq = page?.faq?.length ? page.faq : treatment.faq;
+  // Il titolo clinico ufficiale proviene sempre dalla scheda validata dalla Direzione Sanitaria (treatment.title)
+  // per prevenire residui o override obsoleti da cache locale.
+  const h1 = treatment.title;
+  const intro = treatment.tagline ?? page?.h2 ?? treatment.description;
+  const faq = treatment.faq?.length ? treatment.faq : page?.faq ?? [];
 
   if (canvasMode) {
     // Modalità Canvas No-Menu per Google Ads: nessun menu di navigazione globale,
