@@ -6,6 +6,7 @@ import type { Treatment } from "./types";
  */
 export const TREATMENT_SLUG_ALIASES: Record<string, string> = {
   criolipolisi: "cryoliposculpt",
+  "peeling-chimico": "peeling-medicali",
 };
 
 export function resolveTreatmentSlug(slug: string): string {
@@ -118,9 +119,10 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
   },
   {
     slug: "peeling-medicali",
-    title: "Peeling Medicali",
+    title: "Peeling chimico",
     category: "medicina-estetica",
-    tagline: "Esfoliazione controllata per texture, luminosità e discromie",
+    tagline:
+      "Un trattamento di medicina estetica che favorisce il rinnovamento della pelle, contribuendo a migliorare la texture, l'uniformità dell'incarnato e alcune imperfezioni cutanee.",
     description:
       "Trattamenti esfolianti selezionati dal medico per intervenire su texture, luminosità, discromie, imperfezioni e segni del fotoinvecchiamento.",
     steps: [
@@ -129,9 +131,124 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       { title: "Risultato e follow-up", description: "Miglioramento progressivo di texture e luminosità, con fotoprotezione rigorosa e controlli programmati." },
     ],
     faq: [
-      { q: "Quali problematiche tratta?", a: "Texture irregolare, discromie, imperfezioni e segni del fotoinvecchiamento, secondo indicazione medica." },
-      { q: "Cosa aspettarsi dopo la seduta?", a: "I tempi di recupero variano in base all'intensità del peeling; è sempre richiesta una fotoprotezione rigorosa nei giorni successivi." },
+      {
+        q: "Quante sedute sono necessarie?",
+        a: "Il numero di sedute dipende dal tipo di peeling, dalle condizioni della pelle e dagli obiettivi del percorso. In alcuni casi può essere sufficiente un singolo trattamento, in altri il medico indica un ciclo di più sedute distanziate.",
+      },
+      {
+        q: "Il peeling chimico fa male?",
+        a: "Durante l'applicazione si può avvertire una sensazione di bruciore o pizzicore, generalmente transitoria. L'intensità varia in base al tipo di peeling e alla sensibilità individuale: il medico modula il protocollo in base alla tolleranza.",
+      },
+      {
+        q: "La pelle si spella sempre?",
+        a: "Non sempre. L'entità della desquamazione dipende dalla profondità del peeling: i peeling superficiali possono provocare una desquamazione lieve, mentre quelli più intensi richiedono tempi di recupero più lunghi. Il medico spiega cosa aspettarsi prima del trattamento.",
+      },
+      {
+        q: "Si può fare in estate?",
+        a: "L'esposizione solare aumenta il rischio di discromie dopo il peeling. Per questo il periodo dell'anno e il grado di esposizione vengono valutati in visita; in alcuni casi il medico consiglia di programmare il trattamento in un periodo di minore esposizione solare, mantenendo sempre una fotoprotezione rigorosa.",
+      },
+      {
+        q: "È indicato per le macchie?",
+        a: "Può essere inserito in protocolli dedicati alle discromie, ma l'indicazione dipende dal tipo di macchia e dalla sua origine. La valutazione medica è necessaria per distinguere le diverse forme e scegliere il trattamento più adeguato.",
+      },
+      {
+        q: "Qual è la differenza rispetto alla biorivitalizzazione?",
+        a: "La biorivitalizzazione agisce attraverso micro-iniezioni di sostanze biocompatibili per migliorare idratazione e qualità della pelle. Il peeling chimico utilizza sostanze esfolianti applicate sulla superficie cutanea per favorire il rinnovamento degli strati superficiali. Sono approcci diversi e possono essere integrati in un percorso definito dal medico.",
+      },
+      {
+        q: "Quali sono i tempi di recupero?",
+        a: "Dipende dalla profondità del peeling: dopo un peeling superficiale possono comparire arrossamento e desquamazione lieve per alcuni giorni, mentre i peeling più intensi richiedono tempi più lunghi. Il medico fornisce indicazioni specifiche per il singolo caso.",
+      },
+      {
+        q: "Ci sono controindicazioni?",
+        a: "Sì, il peeling chimico non è indicato in alcune condizioni, come dermatiti attive, infezioni cutanee, esposizione solare recente e, per specifiche sostanze, gravidanza e allattamento. La valutazione medica e l'anamnesi permettono di verificare l'idoneità al trattamento.",
+      },
     ],
+    heroImage: "/images/aesthetic-skin.jpg",
+    heroQuickSpecialist: { title: "Medico specialista", subtitle: "Da associare" },
+    heroQuickTier: { title: "Percorsi Salute", subtitle: "Da verificare" },
+    whatIs: {
+      overline: "MEDICINA ESTETICA",
+      title: "Che cos'è il peeling chimico e come funziona?",
+      description:
+        "Il peeling chimico è un trattamento medico che prevede l'applicazione controllata sulla pelle di sostanze esfolianti, selezionate in base alle caratteristiche cutanee e agli obiettivi da raggiungere.",
+      paragraphs: [
+        "Il peeling chimico è un trattamento medico che prevede l'applicazione controllata sulla pelle di sostanze esfolianti, selezionate in base alle caratteristiche cutanee e agli obiettivi da raggiungere.",
+        "La sua azione favorisce il distacco e il rinnovamento degli strati superficiali della pelle, contribuendo a migliorare l'aspetto dell'incarnato e alcune alterazioni cutanee, come macchie, texture irregolare e linee sottili.",
+      ],
+      callout:
+        "Esistono peeling superficiali, medi e profondi, che si distinguono per intensità e profondità d'azione. La scelta dipende dalle condizioni della pelle, dall'inestetismo da trattare e dalla valutazione medica.",
+      image: "/images/laser-technology.jpg",
+    },
+    problemsGrid: [
+      {
+        title: "Macchie e discromie",
+        description:
+          "Alterazioni del tono cutaneo e iperpigmentazioni, inquadrate dal medico per definirne tipologia e indicazione al trattamento.",
+      },
+      {
+        title: "Acne e imperfezioni",
+        description:
+          "Texture irregolare e imperfezioni cutanee, da valutare clinicamente prima di impostare il percorso più adeguato.",
+      },
+      {
+        title: "Pelle spenta e texture irregolare",
+        description:
+          "Aspetto opaco e superficie non uniforme, per cui il peeling può favorire il rinnovamento degli strati superficiali.",
+      },
+      {
+        title: "Primi segni dell'invecchiamento",
+        description:
+          "Linee sottili e perdita di luminosità, affrontate con un protocollo personalizzato sulla base della valutazione medica.",
+      },
+    ],
+    timelineSteps: [
+      {
+        stepNumber: "01",
+        title: "Valutazione medica",
+        description:
+          "Analisi del tipo di pelle, delle discromie e delle imperfezioni, con definizione degli obiettivi e verifica delle controindicazioni.",
+      },
+      {
+        stepNumber: "02",
+        title: "Trattamento",
+        description:
+          "Applicazione controllata delle sostanze esfolianti selezionate dal medico, con intensità calibrata sulle caratteristiche della pelle.",
+      },
+      {
+        stepNumber: "03",
+        title: "Indicazioni e monitoraggio",
+        description:
+          "Indicazioni per la gestione della pelle nei giorni successivi, fotoprotezione e controllo della risposta cutanea.",
+      },
+    ],
+    timelineNote: {
+      title: "Ogni pelle è diversa",
+      text: "Il medico valuta la risposta della pelle e definisce l'eventuale necessità di ulteriori sedute.",
+    },
+    results: {
+      overline: "RISULTATI CLINICI",
+      title: "Peeling chimico: quali risultati aspettarsi?",
+      paragraphs: [
+        "Il peeling chimico può contribuire a migliorare la texture della pelle, l'uniformità dell'incarnato e alcune imperfezioni superficiali.",
+        "Gli eventuali risultati dipendono dalla tipologia di peeling utilizzata, dalle condizioni iniziali della pelle e dalla risposta individuale. In alcuni casi può essere sufficiente un singolo trattamento, mentre in altri è necessario un ciclo di più sedute.",
+        "Il peeling non garantisce l'eliminazione definitiva delle macchie o delle imperfezioni. Una valutazione medica permette di definire obiettivi realistici e individuare il percorso più appropriato.",
+      ],
+      image: "/images/doctor-consultation.jpg",
+    },
+    leadForm: {
+      overline: "RICHIEDI UNA VALUTAZIONE",
+      title: "Hai domande sul peeling?",
+      subtitle:
+        "Lasciaci i tuoi contatti. Il team Cocoora ti ricontatterà per fornirti maggiori informazioni e aiutarti a organizzare una valutazione medica.",
+    },
+    localSeo: {
+      overline: "MEDICINA ESTETICA A NAPOLI",
+      title: "Peeling chimico a Napoli",
+      description:
+        "Nel nostro centro a Napoli, in Via De Bonis 81 (Posillipo/Fuorigrotta), ogni percorso comincia da una valutazione medica personalizzata, per individuare il trattamento più adatto alle caratteristiche e alle esigenze della tua pelle.",
+      image: "/images/hero-clinic.jpg",
+    },
   },
   {
     slug: "prx",

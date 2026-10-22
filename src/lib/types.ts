@@ -94,6 +94,39 @@ export type MicrobiotaKit = {
   includes: string[];
 };
 
+export type TreatmentProblem = {
+  title: string;
+  description: string;
+  icon?: string;
+};
+
+export type TreatmentTimelineStep = {
+  stepNumber?: string;
+  title: string;
+  description: string;
+  duration?: string;
+  icon?: string;
+};
+
+export type TreatmentWhatIs = {
+  overline?: string;
+  title?: string;
+  description: string;
+  paragraphs?: string[];
+  callout?: string;
+  image?: string;
+  bullets?: string[];
+};
+
+export type TreatmentResults = {
+  overline?: string;
+  title?: string;
+  description?: string;
+  paragraphs?: string[];
+  image?: string;
+  images?: string[];
+};
+
 export type Treatment = {
   slug: string;
   title: string;
@@ -103,6 +136,16 @@ export type Treatment = {
   steps: { title: string; description: string }[];
   machines?: string[];
   faq: Faq[];
+  heroImage?: string;
+  heroQuickSpecialist?: { title: string; subtitle: string; href?: string };
+  heroQuickTier?: { title: string; subtitle: string; href?: string };
+  whatIs?: TreatmentWhatIs;
+  problemsGrid?: TreatmentProblem[];
+  timelineSteps?: TreatmentTimelineStep[];
+  timelineNote?: { title: string; text: string };
+  results?: TreatmentResults;
+  leadForm?: { overline?: string; title?: string; subtitle?: string };
+  localSeo?: { overline?: string; title?: string; description?: string; image?: string };
 };
 
 export type ClubTier = {
