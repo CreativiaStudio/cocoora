@@ -18,6 +18,20 @@ export function SiteChrome({ children }: { children: ReactNode }) {
   const page = state.pages.find((p) => p.path === pathname);
   const canvasMode = page?.canvasMode ?? false;
 
+  // Se siamo nel pannello admin o nella segreteria, escludiamo header e footer del sito
+  const isBackoffice =
+    pathname.startsWith("/admin") || pathname.startsWith("/segreteria");
+
+  if (isBackoffice) {
+    return (
+      <>
+        <SeoHead page={page} />
+        <main className="min-h-screen bg-[#f0f0f1]">{children}</main>
+        <DemoRoleSwitcher />
+      </>
+    );
+  }
+
   return (
     <>
       <SeoHead page={page} />

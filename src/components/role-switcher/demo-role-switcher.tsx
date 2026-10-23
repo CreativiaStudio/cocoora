@@ -60,13 +60,7 @@ const ROLES: RoleOption[] = [
 export function DemoRoleSwitcher() {
   const pathname = usePathname();
   const router = useRouter();
-  const [minimized, setMinimized] = useState<boolean>(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("cocoora_role_minimized") === "true";
-    }
-    return false;
-  });
-
+  const [minimized, setMinimized] = useState<boolean>(false);
   const [switchingTo, setSwitchingTo] = useState<string | null>(null);
 
   // Determina il ruolo attivo in base al path
@@ -80,23 +74,19 @@ export function DemoRoleSwitcher() {
   const activeRole = getActiveRole();
 
   const handleToggleMinimize = () => {
-    const next = !minimized;
-    setMinimized(next);
-    if (typeof window !== "undefined") {
-      localStorage.setItem("cocoora_role_minimized", String(next));
-    }
+    setMinimized(!minimized);
   };
 
   const handleSwitch = (role: RoleOption) => {
     setSwitchingTo(role.id);
     router.push(role.dest);
-    setTimeout(() => setSwitchingTo(null), 500);
+    setTimeout(() => setSwitchingTo(null), 400);
   };
 
   return (
     <aside
       aria-label="Simulatore Ruoli Cocoora"
-      className="fixed bottom-4 right-4 z-50 font-sans select-none"
+      className="fixed bottom-5 right-5 z-[99999] font-sans select-none animate-in fade-in slide-in-from-bottom-4 duration-300"
     >
       {minimized ? (
         /* ── Pillola Minimizzata Compatta ── */
