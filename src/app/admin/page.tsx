@@ -4,8 +4,10 @@ import Link from "next/link";
 import { useState, type ReactNode } from "react";
 import {
   Activity,
+  AlertTriangle,
   ArrowLeft,
   Calendar,
+  CalendarClock,
   CheckCircle2,
   Clock,
   CreditCard,
@@ -22,6 +24,7 @@ import {
   LayoutList,
   LogOut,
   RefreshCcw,
+  RotateCcw,
   Search,
   Settings,
   Shield,
@@ -31,6 +34,7 @@ import {
   User,
   UserCheck,
   Users,
+  XCircle,
 } from "lucide-react";
 import { VideosManager } from "@/components/admin/videos-manager";
 import { SeoManager } from "@/components/admin/seo-manager";
@@ -356,6 +360,125 @@ export default function AdminPage() {
                 >
                   Passa al Cruscotto Segreteria Live 📋
                 </Link>
+              </div>
+            </div>
+
+            {/* ── CARD METRICHE DI QUALITÀ CLINICA, ATTESE E DISDETTE ── */}
+            <div className="rounded-lg border border-[#c3c4c7] bg-white p-6 shadow-xs">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#dcdcde] gap-3">
+                <div>
+                  <h2 className="font-serif text-lg font-bold text-[#1d2327]">
+                    ⏱️ Qualità Clinica, Tempi d&apos;Attesa &amp; Tasso di Presenza
+                  </h2>
+                  <p className="text-xs text-[#50575e] mt-0.5">
+                    Monitoraggio in tempo reale del flusso di accoglienza, rispetto del benchmark di puntualità e controllo delle disdette per massimizzare la saturazione degli studi.
+                  </p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1 text-xs font-semibold text-emerald-800">
+                    <span className="h-2 w-2 rounded-full bg-emerald-500"></span>
+                    <span>Target Attesa &lt; 7 min: Rispettato 🟢</span>
+                  </span>
+                </div>
+              </div>
+
+              {/* Grid 4 KPI Chiave */}
+              <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="rounded-lg border border-[#dcdcde] bg-[#f6f7f7] p-4">
+                  <div className="flex items-center justify-between">
+                    <p className="text-[11px] font-bold uppercase tracking-wider text-[#50575e]">
+                      Tasso di Presenza
+                    </p>
+                    <span className="text-xs font-bold text-emerald-700">94%</span>
+                  </div>
+                  <p className="text-3xl font-bold text-slate-900 mt-1">94%</p>
+                  <p className="text-[11px] text-emerald-700 font-medium mt-1">
+                    ✓ Show-up sopra target (90%)
+                  </p>
+                </div>
+
+                <div className="rounded-lg border border-[#dcdcde] bg-[#f6f7f7] p-4">
+                  <div className="flex items-center justify-between">
+                    <p className="text-[11px] font-bold uppercase tracking-wider text-[#50575e]">
+                      Tempo Attesa Medio
+                    </p>
+                    <span className="text-xs font-bold text-teal-700">Target 7m</span>
+                  </div>
+                  <p className="text-3xl font-bold text-teal-900 mt-1">5m 30s</p>
+                  <p className="text-[11px] text-teal-700 font-medium mt-1">
+                    ✓ -1m 30s rispetto al limite
+                  </p>
+                </div>
+
+                <div className="rounded-lg border border-[#dcdcde] bg-[#f6f7f7] p-4">
+                  <div className="flex items-center justify-between">
+                    <p className="text-[11px] font-bold uppercase tracking-wider text-[#50575e]">
+                      Visite Spostate
+                    </p>
+                    <span className="text-xs font-bold text-amber-700">Riprogrammate</span>
+                  </div>
+                  <p className="text-3xl font-bold text-amber-900 mt-1">2</p>
+                  <p className="text-[11px] text-amber-700 font-medium mt-1">
+                    Slot salvati in agenda
+                  </p>
+                </div>
+
+                <div className="rounded-lg border border-[#dcdcde] bg-[#f6f7f7] p-4">
+                  <div className="flex items-center justify-between">
+                    <p className="text-[11px] font-bold uppercase tracking-wider text-[#50575e]">
+                      Disdette &amp; No-Show
+                    </p>
+                    <span className="text-xs font-bold text-rose-700">Mese in corso</span>
+                  </div>
+                  <p className="text-3xl font-bold text-rose-900 mt-1">1</p>
+                  <p className="text-[11px] text-rose-700 font-medium mt-1">
+                    1 disdetta con preavviso · 0 no-show
+                  </p>
+                </div>
+              </div>
+
+              {/* Registro Rapido Azioni Reception */}
+              <div className="mt-5 rounded-lg border border-[#dcdcde] bg-[#fafafa] p-4">
+                <div className="flex items-center justify-between">
+                  <p className="text-xs font-bold text-[#1d2327]">
+                    Registro Monitoraggio Slot &amp; Puntualità Clinica
+                  </p>
+                  <Link
+                    href="/segreteria"
+                    className="text-xs font-semibold text-[#2271b1] hover:underline"
+                  >
+                    Vedi tutte le visite al banco desk →
+                  </Link>
+                </div>
+                <div className="mt-3 divide-y divide-[#e5e5e5] text-xs">
+                  <div className="py-2 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-slate-800">Marco Esposito (PZ-001)</span>
+                      <span className="text-slate-500">— Visita Odontoiatrica</span>
+                    </div>
+                    <span className="rounded bg-emerald-100 text-emerald-800 px-2 py-0.5 font-semibold text-[11px]">
+                      Puntuale (Attesa: 4 min)
+                    </span>
+                  </div>
+                  <div className="py-2 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-slate-800">Laura De Rosa (PZ-002)</span>
+                      <span className="text-slate-500">— Controllo Medicina Estetica</span>
+                    </div>
+                    <span className="rounded bg-amber-100 text-amber-800 px-2 py-0.5 font-semibold text-[11px]">
+                      Spostato al 24/10 ore 11:00 (Richiesta paziente)
+                    </span>
+                  </div>
+                  <div className="py-2 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-slate-800">Giulia Romano (PZ-003)</span>
+                      <span className="text-slate-500">— Prima Visita Ortodonzia Pediatrica</span>
+                    </div>
+                    <span className="rounded bg-teal-100 text-teal-800 px-2 py-0.5 font-semibold text-[11px]">
+                      In Studio (Attesa: 6 min)
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

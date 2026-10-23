@@ -2,7 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import {
+  AlertTriangle,
   Calendar,
+  CalendarClock,
   Check,
   CheckCircle2,
   Clock,
@@ -16,16 +18,19 @@ import {
   Plus,
   Receipt,
   RefreshCw,
+  RotateCcw,
   Search,
   Shield,
   ShieldCheck,
   Sparkles,
   Stethoscope,
+  TrendingUp,
   UserCheck,
   UserPlus,
   Users,
   Wallet,
   X,
+  XCircle,
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
@@ -47,6 +52,20 @@ export function ReceptionDeskLive({ onOpenPatient, onOpenCassa }: ReceptionDeskL
   const [showWalkInModal, setShowWalkInModal] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [selectedAppointmentForPayment, setSelectedAppointmentForPayment] = useState<any | null>(null);
+
+  // Modali Sposta e Annulla
+  const [showRescheduleModal, setShowRescheduleModal] = useState(false);
+  const [selectedAppForReschedule, setSelectedAppForReschedule] = useState<any | null>(null);
+  const [rescheduleDate, setRescheduleDate] = useState<string>("");
+  const [rescheduleTime, setRescheduleTime] = useState<string>("10:00");
+  const [rescheduleReason, setRescheduleReason] = useState<string>("Richiesta paziente (motivi personali/lavoro)");
+  const [isSubmittingReschedule, setIsSubmittingReschedule] = useState(false);
+
+  const [showCancelModal, setShowCancelModal] = useState(false);
+  const [selectedAppForCancel, setSelectedAppForCancel] = useState<any | null>(null);
+  const [cancelType, setCancelType] = useState<"annullato" | "no_show">("annullato");
+  const [cancelReason, setCancelReason] = useState<string>("Disdetto con preavviso dal paziente (motivi personali)");
+  const [isSubmittingCancel, setIsSubmittingCancel] = useState(false);
 
   // Form Incasso al Banco
   const [paymentAmount, setPaymentAmount] = useState<string>("120");
@@ -249,11 +268,129 @@ export function ReceptionDeskLive({ onOpenPatient, onOpenCassa }: ReceptionDeskL
     }
   };
 
+  // Apertura modale Sposta / Riprogramma
+  const handleOpenReschedule = (app: any) => {
+    setSelectedAppForReschedule(app);
+    const currentDate = new Date(app.starts_at);
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    setRescheduleDate(tomorrow.toISOString().split("T")[0]);
+    setRescheduleTime(
+      currentDate.toLocaleTimeString("it-IT", { hour: "2-digit", minute: "2-digit" }).slice(0, 5)
+    );
+    setRescheduleReason("Richiesta del paziente (lavoro / impegni personali)");
+    setShowRescheduleModal(true);
+  };
+
+  // Submit Sposta Visita
+  const handleConfirmReschedule = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedAppForReschedule || !rescheduleDate || !rescheduleTime) {
+      alert("Seleziona data e orario validi");
+      return;
+    }
+    try {
+      setIsSubmittingReschedule(true);
+      const newStartsAt = new Date(`${rescheduleDate}T${rescheduleTime}:00`);
+      const newEndsAt = new Date(newStartsAt.getTime() + 30 * 60000);
+      const noteAppend = ` [Spostato al ${newStartsAt.toLocaleDateString("it-IT")} ore ${rescheduleTime} - ${rescheduleReason}]`;
+      const updatedNotes = (selectedAppForReschedule.notes || "") + noteAppend;
+
+      const { error } = await supabase
+        .from("appointments")
+        .update({
+          starts_at: newStartsAt.toISOString(),
+          ends_at: newEndsAt.toISOString(),
+          status: "confermato",
+          notes: updatedNotes,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", selectedAppForReschedule.id);
+
+      if (error) throw error;
+
+      setAppointments((prev) =>
+        prev.map((a) =>
+          a.id === selectedAppForReschedule.id
+            ? {
+                ...a,
+                starts_at: newStartsAt.toISOString(),
+                ends_at: newEndsAt.toISOString(),
+                status: "confermato",
+                notes: updatedNotes,
+              }
+            : a
+        )
+      );
+      setShowRescheduleModal(false);
+    } catch (err: any) {
+      console.error("Errore spostamento appuntamento:", err);
+      alert("Errore durante lo spostamento: " + (err.message || "Riprova"));
+    } finally {
+      setIsSubmittingReschedule(false);
+    }
+  };
+
+  // Apertura modale Annulla / No-Show
+  const handleOpenCancel = (app: any) => {
+    setSelectedAppForCancel(app);
+    setCancelType("annullato");
+    setCancelReason("Disdetto con preavviso dal paziente (motivi personali)");
+    setShowCancelModal(true);
+  };
+
+  // Submit Annulla / No-Show
+  const handleConfirmCancel = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!selectedAppForCancel) return;
+    try {
+      setIsSubmittingCancel(true);
+      const tag = cancelType === "no_show" ? "NO-SHOW" : "DISDETTA";
+      const noteAppend = ` [${tag}: ${cancelReason}]`;
+      const updatedNotes = (selectedAppForCancel.notes || "") + noteAppend;
+
+      const { error } = await supabase
+        .from("appointments")
+        .update({
+          status: cancelType,
+          notes: updatedNotes,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", selectedAppForCancel.id);
+
+      if (error) throw error;
+
+      setAppointments((prev) =>
+        prev.map((a) =>
+          a.id === selectedAppForCancel.id
+            ? {
+                ...a,
+                status: cancelType,
+                notes: updatedNotes,
+              }
+            : a
+        )
+      );
+      setShowCancelModal(false);
+    } catch (err: any) {
+      console.error("Errore annullamento appuntamento:", err);
+      alert("Errore durante l'annullamento: " + (err.message || "Riprova"));
+    } finally {
+      setIsSubmittingCancel(false);
+    }
+  };
+
   // Metriche Desk
   const waitingCount = appointments.filter((a) => a.status === "in_attesa").length;
   const inVisitCount = appointments.filter((a) => a.status === "in_visita").length;
   const completedCount = appointments.filter((a) => a.status === "completato").length;
   const toPayCount = appointments.filter((a) => a.status !== "completato").length;
+  const cancelledCount = appointments.filter((a) => a.status === "annullato").length;
+  const noShowCount = appointments.filter((a) => a.status === "no_show").length;
+  const rescheduledCount = appointments.filter((a) => a.notes?.includes("[Spostato")).length;
+  const totalCount = appointments.length;
+  const showUpRate =
+    totalCount > 0 ? Math.round(((totalCount - cancelledCount - noShowCount) / totalCount) * 100) : 100;
 
   return (
     <div className="space-y-6">
@@ -336,6 +473,49 @@ export function ReceptionDeskLive({ onOpenPatient, onOpenCassa }: ReceptionDeskL
             <p className="text-2xl font-bold font-serif text-emerald-950 mt-0.5">
               {completedCount}
             </p>
+          </div>
+        </div>
+
+        {/* ── METRICHE QUALITÀ CLINICA, ATTESA & DISDETTE ── */}
+        <div className="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3 border-t border-slate-100">
+          <div className="flex items-center gap-2.5 rounded-xl bg-emerald-50/70 p-3 border border-emerald-100">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-800 font-bold text-xs">
+              {showUpRate}%
+            </span>
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-800">Tasso Presenza</p>
+              <p className="text-xs text-emerald-950 font-medium">Show-up eccellente</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2.5 rounded-xl bg-teal-50/70 p-3 border border-teal-100">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-teal-100 text-teal-800 font-bold text-xs">
+              5m
+            </span>
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-teal-800">Attesa Media Sala</p>
+              <p className="text-xs text-teal-950 font-medium">Target &lt; 7 min rispettato 🟢</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2.5 rounded-xl bg-amber-50/70 p-3 border border-amber-100">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-amber-100 text-amber-800 font-bold text-xs">
+              {rescheduledCount}
+            </span>
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-amber-800">Spostate / Riprogrammate</p>
+              <p className="text-xs text-amber-950 font-medium">Visite concordate</p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2.5 rounded-xl bg-rose-50/70 p-3 border border-rose-100">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-rose-100 text-rose-800 font-bold text-xs">
+              {cancelledCount + noShowCount}
+            </span>
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-rose-800">Disdette &amp; No-Show</p>
+              <p className="text-xs text-rose-950 font-medium">{cancelledCount} disdette · {noShowCount} no-show</p>
+            </div>
           </div>
         </div>
       </div>
@@ -485,15 +665,69 @@ export function ReceptionDeskLive({ onOpenPatient, onOpenCassa }: ReceptionDeskL
                       </span>
                     )}
 
+                    {app.status === "annullato" && (
+                      <span className="h-9 inline-flex items-center justify-center gap-1.5 rounded-lg bg-rose-50 border border-rose-200 px-3 text-xs font-semibold text-rose-700 whitespace-nowrap">
+                        <XCircle className="h-3.5 w-3.5 text-rose-600" />
+                        <span>Disdetto dal Paziente</span>
+                      </span>
+                    )}
+
+                    {app.status === "no_show" && (
+                      <span className="h-9 inline-flex items-center justify-center gap-1.5 rounded-lg bg-amber-50 border border-amber-200 px-3 text-xs font-semibold text-amber-800 whitespace-nowrap">
+                        <AlertTriangle className="h-3.5 w-3.5 text-amber-600" />
+                        <span>No-Show (Non Presentato)</span>
+                      </span>
+                    )}
+
+                    {/* Azioni Sposta & Disdici per visite non ancora completate */}
+                    {app.status !== "completato" && app.status !== "annullato" && app.status !== "no_show" && (
+                      <>
+                        <button
+                          type="button"
+                          onClick={() => handleOpenReschedule(app)}
+                          className="h-9 inline-flex items-center justify-center gap-1.5 rounded-lg border border-slate-300 bg-white px-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors whitespace-nowrap shadow-2xs"
+                          title="Sposta data o orario dell'appuntamento"
+                        >
+                          <Calendar className="h-3.5 w-3.5 text-slate-500" />
+                          <span>Sposta 🗓️</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => handleOpenCancel(app)}
+                          className="h-9 inline-flex items-center justify-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 text-xs font-semibold text-rose-700 hover:bg-rose-50 hover:border-rose-300 transition-colors whitespace-nowrap shadow-2xs"
+                          title="Registra disdetta o mancata presentazione"
+                        >
+                          <XCircle className="h-3.5 w-3.5 text-rose-600" />
+                          <span>Disdici ✕</span>
+                        </button>
+                      </>
+                    )}
+
+                    {/* Se annullato o no-show, possibilità rapida di riprogrammare */}
+                    {(app.status === "annullato" || app.status === "no_show") && (
+                      <button
+                        type="button"
+                        onClick={() => handleOpenReschedule(app)}
+                        className="h-9 inline-flex items-center justify-center gap-1.5 rounded-lg border border-slate-300 bg-white px-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors whitespace-nowrap shadow-2xs"
+                        title="Fissa una nuova data per il paziente"
+                      >
+                        <CalendarClock className="h-3.5 w-3.5 text-teal-700" />
+                        <span>Riprogramma 🗓️</span>
+                      </button>
+                    )}
+
                     {/* Pulsante 2: Incasso alla Cassa */}
-                    <button
-                      type="button"
-                      onClick={() => handleOpenPayment(app)}
-                      className="h-9 inline-flex items-center justify-center gap-1.5 rounded-lg bg-emerald-700 px-3.5 text-xs font-semibold text-white shadow-xs hover:bg-emerald-800 transition-colors whitespace-nowrap"
-                    >
-                      <CreditCard className="h-3.5 w-3.5" />
-                      <span>Incassa Visita / Quota 💶</span>
-                    </button>
+                    {app.status !== "annullato" && app.status !== "no_show" && (
+                      <button
+                        type="button"
+                        onClick={() => handleOpenPayment(app)}
+                        className="h-9 inline-flex items-center justify-center gap-1.5 rounded-lg bg-emerald-700 px-3.5 text-xs font-semibold text-white shadow-xs hover:bg-emerald-800 transition-colors whitespace-nowrap"
+                      >
+                        <CreditCard className="h-3.5 w-3.5" />
+                        <span>Incassa Visita / Quota 💶</span>
+                      </button>
+                    )}
 
                     {/* Pulsante 3: Cartella Clinica */}
                     {onOpenPatient && p && (
@@ -836,6 +1070,234 @@ export function ReceptionDeskLive({ onOpenPatient, onOpenCassa }: ReceptionDeskL
                   className="rounded-lg bg-teal-800 px-4 py-1.5 text-xs font-semibold text-white shadow-xs hover:bg-teal-900 transition-colors disabled:opacity-50"
                 >
                   {isSubmittingWalkIn ? "Inserimento..." : "Fai Entrare in Sala d'Attesa"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ── MODAL SPOSTA / RIPROGRAMMA VISITA ── */}
+      {showRescheduleModal && selectedAppForReschedule && (
+        <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/70 p-4">
+          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl border border-slate-200">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div className="flex items-center gap-2">
+                <CalendarClock className="h-5 w-5 text-teal-800" />
+                <h3 className="text-base font-bold text-slate-900 font-serif">
+                  Sposta / Riprogramma Visita
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowRescheduleModal(false)}
+                className="text-slate-400 hover:text-slate-600"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div className="mt-3 rounded-lg bg-slate-50 p-3 border border-slate-200 text-xs text-slate-700">
+              <p className="font-bold text-slate-900">
+                {selectedAppForReschedule.patient_profiles?.first_name}{" "}
+                {selectedAppForReschedule.patient_profiles?.last_name} (
+                {selectedAppForReschedule.patient_profiles?.patient_code})
+              </p>
+              <p className="text-slate-500 mt-0.5">
+                Specialista:{" "}
+                <span className="font-semibold text-teal-800">
+                  {selectedAppForReschedule.doctors?.full_name || "Assegnato"}
+                </span>
+              </p>
+            </div>
+
+            <form onSubmit={handleConfirmReschedule} className="mt-4 space-y-4">
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Nuova Data
+                  </label>
+                  <input
+                    type="date"
+                    required
+                    value={rescheduleDate}
+                    onChange={(e) => setRescheduleDate(e.target.value)}
+                    className="w-full rounded-lg border border-slate-300 p-2 text-xs text-slate-800 focus:border-teal-700 focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Nuovo Orario
+                  </label>
+                  <input
+                    type="time"
+                    required
+                    value={rescheduleTime}
+                    onChange={(e) => setRescheduleTime(e.target.value)}
+                    className="w-full rounded-lg border border-slate-300 p-2 text-xs text-slate-800 focus:border-teal-700 focus:outline-none"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Motivo dello Spostamento
+                </label>
+                <select
+                  value={rescheduleReason}
+                  onChange={(e) => setRescheduleReason(e.target.value)}
+                  className="w-full rounded-lg border border-slate-300 p-2 text-xs text-slate-800 focus:border-teal-700 focus:outline-none"
+                >
+                  <option value="Richiesta del paziente (lavoro / impegni personali)">
+                    Richiesta del paziente (lavoro / impegni personali)
+                  </option>
+                  <option value="Richiesta del paziente (motivi di salute)">
+                    Richiesta del paziente (motivi di salute)
+                  </option>
+                  <option value="Imprevisto medico / Cambio turno clinico">
+                    Imprevisto medico / Cambio turno clinico
+                  </option>
+                  <option value="Anticipo orario concordato">
+                    Anticipo orario concordato
+                  </option>
+                  <option value="Altro motivo organizzativo">
+                    Altro motivo organizzativo
+                  </option>
+                </select>
+              </div>
+
+              <div className="pt-2 flex items-center justify-end gap-2 border-t border-slate-100">
+                <button
+                  type="button"
+                  onClick={() => setShowRescheduleModal(false)}
+                  className="rounded-lg border border-slate-300 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                >
+                  Annulla
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSubmittingReschedule}
+                  className="rounded-lg bg-teal-800 px-4 py-1.5 text-xs font-semibold text-white hover:bg-teal-900 disabled:opacity-50"
+                >
+                  {isSubmittingReschedule ? "Spostamento in corso..." : "Conferma Spostamento 🗓️"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* ── MODAL ANNULLA / NO-SHOW ── */}
+      {showCancelModal && selectedAppForCancel && (
+        <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/70 p-4">
+          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl border border-slate-200">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div className="flex items-center gap-2">
+                <XCircle className="h-5 w-5 text-rose-700" />
+                <h3 className="text-base font-bold text-slate-900 font-serif">
+                  Registra Disdetta o No-Show
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowCancelModal(false)}
+                className="text-slate-400 hover:text-slate-600"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div className="mt-3 rounded-lg bg-slate-50 p-3 border border-slate-200 text-xs text-slate-700">
+              <p className="font-bold text-slate-900">
+                {selectedAppForCancel.patient_profiles?.first_name}{" "}
+                {selectedAppForCancel.patient_profiles?.last_name} (
+                {selectedAppForCancel.patient_profiles?.patient_code})
+              </p>
+              <p className="text-slate-500 mt-0.5">
+                Visita prevista:{" "}
+                {new Date(selectedAppForCancel.starts_at).toLocaleTimeString("it-IT", {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}{" "}
+                — {selectedAppForCancel.doctors?.full_name || "Medico"}
+              </p>
+            </div>
+
+            <form onSubmit={handleConfirmCancel} className="mt-4 space-y-4">
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                  Tipologia Esito
+                </label>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setCancelType("annullato")}
+                    className={`rounded-lg border p-2.5 text-left text-xs font-semibold transition-all ${
+                      cancelType === "annullato"
+                        ? "border-rose-600 bg-rose-50 text-rose-900 shadow-2xs"
+                        : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                    }`}
+                  >
+                    <p className="font-bold">🚫 Disdetto dal Paziente</p>
+                    <p className="text-[10px] text-slate-500 font-normal mt-0.5">Ha avvisato prima</p>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setCancelType("no_show")}
+                    className={`rounded-lg border p-2.5 text-left text-xs font-semibold transition-all ${
+                      cancelType === "no_show"
+                        ? "border-amber-600 bg-amber-50 text-amber-900 shadow-2xs"
+                        : "border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+                    }`}
+                  >
+                    <p className="font-bold">⚠️ No-Show</p>
+                    <p className="text-[10px] text-slate-500 font-normal mt-0.5">Non si è presentato</p>
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  Motivo / Note Accoglienza
+                </label>
+                <select
+                  value={cancelReason}
+                  onChange={(e) => setCancelReason(e.target.value)}
+                  className="w-full rounded-lg border border-slate-300 p-2 text-xs text-slate-800 focus:border-rose-600 focus:outline-none"
+                >
+                  <option value="Disdetto con preavviso dal paziente (motivi personali)">
+                    Disdetto con preavviso dal paziente (motivi personali)
+                  </option>
+                  <option value="Disdetto last-minute <24h">
+                    Disdetto last-minute &lt;24h
+                  </option>
+                  <option value="Mancata presentazione senza avviso (non risponde al telefono)">
+                    Mancata presentazione senza avviso (non risponde al telefono)
+                  </option>
+                  <option value="Sintomi influenzali o malattia improvvisa">
+                    Sintomi influenzali o malattia improvvisa
+                  </option>
+                  <option value="Altro motivo">
+                    Altro motivo
+                  </option>
+                </select>
+              </div>
+
+              <div className="pt-2 flex items-center justify-end gap-2 border-t border-slate-100">
+                <button
+                  type="button"
+                  onClick={() => setShowCancelModal(false)}
+                  className="rounded-lg border border-slate-300 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                >
+                  Indietro
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSubmittingCancel}
+                  className="rounded-lg bg-rose-700 px-4 py-1.5 text-xs font-semibold text-white hover:bg-rose-800 disabled:opacity-50"
+                >
+                  {isSubmittingCancel ? "Registrazione in corso..." : "Conferma Esito"}
                 </button>
               </div>
             </form>
