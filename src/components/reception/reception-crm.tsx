@@ -27,6 +27,7 @@ import {
   X,
 } from "lucide-react";
 import { Button } from "@/components/ui";
+import { supabase } from "@/lib/supabase";
 
 type Appointment = {
   id: string;
@@ -151,27 +152,63 @@ export function ReceptionCrm() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const res = await fetch("/api/reception/desk");
-      const data = await res.json();
-      if (data.appointments) setAppointments(data.appointments);
-      if (data.rooms) setRooms(data.rooms);
-      if (data.doctors) setDoctors(data.doctors);
-      if (data.patients) {
-        setPatients(data.patients);
-        if (data.patients.length > 0 && !docForm.patientId) {
-          setDocForm((prev) => ({ ...prev, patientId: data.patients[0].id }));
-          setWalkInForm((prev) => ({ ...prev, patientId: data.patients[0].id }));
+      // 1. Prova via API
+      try {
+        const res = await fetch("/api/reception/desk");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.appointments) setAppointments(data.appointments);
+          if (data.rooms) setRooms(data.rooms);
+          if (data.doctors) setDoctors(data.doctors);
+          if (data.patients) setPatients(data.patients);
+          if (data.documents) setDocuments(data.documents);
+          if (data.installments) setInstallments(data.installments);
+          return;
         }
+      } catch {
+        // Fallback Supabase diretto
       }
-      if (data.documents) setDocuments(data.documents);
-      if (data.installments) setInstallments(data.installments);
 
-      if (data.doctors && data.doctors.length > 0 && !docForm.doctorId) {
-        setDocForm((prev) => ({ ...prev, doctorId: data.doctors[0].id }));
-        setWalkInForm((prev) => ({ ...prev, doctorId: data.doctors[0].id }));
+      // 2. Query diretta a Supabase (compatibile al 100% con export statico Vercel)
+      const { data: appts } = await supabase
+        .from("appointments")
+        .select(`
+          id, starts_at, ends_at, status, notes, is_first_visit,
+          patient_profiles ( id, patient_code, first_name, last_name, phone, email ),
+          doctors ( id, full_name, title, specialty_slug ),
+          clinic_rooms ( id, name, slug )
+        `)
+        .order("starts_at", { ascending: true });
+
+      const { data: rms } = await supabase.from("clinic_rooms").select("*").order("slug");
+      const { data: docs } = await supabase.from("doctors").select("*").eq("is_active", true).order("full_name");
+      const { data: pts } = await supabase.from("patient_profiles").select("*").order("last_name");
+      const { data: clinDocs } = await supabase
+        .from("clinical_documents")
+        .select("*, patient_profiles(id, patient_code, first_name, last_name)")
+        .order("report_date", { ascending: false });
+      const { data: inst } = await supabase
+        .from("treatment_installments")
+        .select("*, patient_profiles(id, patient_code, first_name, last_name)")
+        .order("due_date", { ascending: true });
+
+      if (appts) setAppointments(appts as any);
+      if (rms) setRooms(rms);
+      if (docs) setDoctors(docs);
+      if (pts) setPatients(pts);
+      if (clinDocs) setDocuments(clinDocs as any);
+      if (inst) setInstallments(inst as any);
+
+      if (pts && pts.length > 0 && !docForm.patientId) {
+        setDocForm((prev) => ({ ...prev, patientId: pts[0].id }));
+        setWalkInForm((prev) => ({ ...prev, patientId: pts[0].id }));
       }
-      if (data.rooms && data.rooms.length > 0 && !walkInForm.roomId) {
-        setWalkInForm((prev) => ({ ...prev, roomId: data.rooms[0].id }));
+      if (docs && docs.length > 0 && !docForm.doctorId) {
+        setDocForm((prev) => ({ ...prev, doctorId: docs[0].id }));
+        setWalkInForm((prev) => ({ ...prev, doctorId: docs[0].id }));
+      }
+      if (rms && rms.length > 0 && !walkInForm.roomId) {
+        setWalkInForm((prev) => ({ ...prev, roomId: rms[0].id }));
       }
     } catch (e) {
       console.error("Errore fetch reception desk:", e);
@@ -186,18 +223,24 @@ export function ReceptionCrm() {
 
   const handleUpdateStatus = async (appointmentId: string, nextStatus: string) => {
     try {
-      const res = await fetch("/api/reception/desk", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "update_status",
-          appointmentId,
-          status: nextStatus,
-        }),
-      });
-      if (res.ok) {
-        fetchData();
-      }
+      try {
+        const res = await fetch("/api/reception/desk", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "update_status", appointmentId, status: nextStatus }),
+        });
+        if (res.ok) {
+          fetchData();
+          return;
+        }
+      } catch {}
+
+      // Fallback Supabase diretto
+      await supabase
+        .from("appointments")
+        .update({ status: nextStatus, updated_at: new Date().toISOString() })
+        .eq("id", appointmentId);
+      fetchData();
     } catch (e) {
       console.error("Errore aggiornamento status appuntamento:", e);
     }
@@ -207,32 +250,48 @@ export function ReceptionCrm() {
     e.preventDefault();
     try {
       const selectedDoc = doctors.find((d) => d.id === docForm.doctorId);
-      const res = await fetch("/api/reception/desk", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "add_document",
-          patientId: docForm.patientId,
-          doctorId: docForm.doctorId,
-          doctorName: selectedDoc ? selectedDoc.full_name : "Direzione Sanitaria",
-          title: docForm.title,
-          specialty: docForm.specialty,
-          diagnosis: docForm.diagnosis,
-          recommendations: docForm.recommendations,
-        }),
-      });
-      if (res.ok) {
-        setShowDocModal(false);
-        setDocForm({
-          patientId: patients[0]?.id || "",
-          doctorId: doctors[0]?.id || "",
-          title: "",
-          specialty: "Odontoiatria & Ortodonzia",
-          diagnosis: "",
-          recommendations: "",
+      const doctorName = selectedDoc ? selectedDoc.full_name : "Direzione Sanitaria";
+      const code = `REF-${docForm.specialty.substring(0, 3).toUpperCase()}-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+
+      try {
+        const res = await fetch("/api/reception/desk", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "add_document",
+            patientId: docForm.patientId,
+            doctorId: docForm.doctorId,
+            doctorName,
+            title: docForm.title,
+            specialty: docForm.specialty,
+            diagnosis: docForm.diagnosis,
+            recommendations: docForm.recommendations,
+          }),
         });
-        fetchData();
-      }
+        if (res.ok) {
+          setShowDocModal(false);
+          fetchData();
+          return;
+        }
+      } catch {}
+
+      // Fallback Supabase diretto
+      await supabase.from("clinical_documents").insert({
+        patient_id: docForm.patientId,
+        doctor_id: docForm.doctorId || null,
+        title: docForm.title,
+        specialty: docForm.specialty,
+        doctor_name: doctorName,
+        diagnosis: docForm.diagnosis,
+        recommendations: docForm.recommendations,
+        document_code: code,
+        report_date: new Date().toISOString().split("T")[0],
+        is_ready: true,
+        file_size: "1.8 MB",
+      });
+
+      setShowDocModal(false);
+      fetchData();
     } catch (e) {
       console.error("Errore creazione referto:", e);
     }
@@ -241,21 +300,42 @@ export function ReceptionCrm() {
   const handleCreateWalkIn = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await fetch("/api/reception/desk", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "create_walk_in",
-          patientId: walkInForm.patientId,
-          doctorId: walkInForm.doctorId,
-          roomId: walkInForm.roomId,
-          notes: walkInForm.notes,
-        }),
+      const now = new Date();
+      const in30 = new Date(now.getTime() + 30 * 60000);
+
+      try {
+        const res = await fetch("/api/reception/desk", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            action: "create_walk_in",
+            patientId: walkInForm.patientId,
+            doctorId: walkInForm.doctorId,
+            roomId: walkInForm.roomId,
+            notes: walkInForm.notes,
+          }),
+        });
+        if (res.ok) {
+          setShowWalkInModal(false);
+          fetchData();
+          return;
+        }
+      } catch {}
+
+      // Fallback Supabase diretto
+      await supabase.from("appointments").insert({
+        patient_id: walkInForm.patientId,
+        doctor_id: walkInForm.doctorId,
+        room_id: walkInForm.roomId,
+        starts_at: now.toISOString(),
+        ends_at: in30.toISOString(),
+        status: "confermato",
+        is_first_visit: false,
+        notes: walkInForm.notes || "Accoglienza diretta al banco (walk-in)",
       });
-      if (res.ok) {
-        setShowWalkInModal(false);
-        fetchData();
-      }
+
+      setShowWalkInModal(false);
+      fetchData();
     } catch (e) {
       console.error("Errore creazione walk in:", e);
     }
@@ -263,18 +343,29 @@ export function ReceptionCrm() {
 
   const handleRecordPayment = async (installmentId: string) => {
     try {
-      const res = await fetch("/api/reception/desk", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "record_payment",
-          installmentId,
-          paymentMethod: "pos",
-        }),
-      });
-      if (res.ok) {
-        fetchData();
-      }
+      try {
+        const res = await fetch("/api/reception/desk", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ action: "record_payment", installmentId, paymentMethod: "pos" }),
+        });
+        if (res.ok) {
+          fetchData();
+          return;
+        }
+      } catch {}
+
+      // Fallback Supabase diretto
+      await supabase
+        .from("treatment_installments")
+        .update({
+          status: "pagato",
+          paid_at: new Date().toISOString(),
+          payment_method: "pos",
+        })
+        .eq("id", installmentId);
+
+      fetchData();
     } catch (e) {
       console.error("Errore registrazione pagamento:", e);
     }

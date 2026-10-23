@@ -12,7 +12,7 @@
  */
 
 import { execSync } from "node:child_process";
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync, renameSync } from "node:fs";
 
 const CONFIG = "next.config.mjs";
 const original = readFileSync(CONFIG, "utf8");
@@ -30,9 +30,20 @@ const nextConfig = {
 export default nextConfig;
 `;
 
+const apiDir = "src/app/api";
+const apiHold = "src/app/_api_hold";
+let renamedApi = false;
+
 try {
+  if (existsSync(apiDir)) {
+    renameSync(apiDir, apiHold);
+    renamedApi = true;
+  }
   writeFileSync(CONFIG, staticConfig, "utf8");
   execSync("npx next build", { stdio: "inherit", shell: true });
 } finally {
   writeFileSync(CONFIG, original, "utf8");
+  if (renamedApi && existsSync(apiHold)) {
+    renameSync(apiHold, apiDir);
+  }
 }

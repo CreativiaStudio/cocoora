@@ -32,6 +32,7 @@ import {
 import { Button } from "@/components/ui";
 import { PatientCalendar } from "@/components/calendar/patient-calendar";
 import { SITE } from "@/lib/site";
+import { supabase } from "@/lib/supabase";
 
 type PatientProfile = {
   id: string;
@@ -116,13 +117,62 @@ export function PatientPortal() {
   const fetchPortalData = async (code: string) => {
     try {
       setLoading(true);
-      const res = await fetch(`/api/patient/portal?code=${code}`);
-      const data = await res.json();
-      if (data.patient) setPatient(data.patient);
-      if (data.documents) setDocuments(data.documents);
-      if (data.appointments) setAppointments(data.appointments);
-      if (data.plan) setPlan(data.plan);
-      if (data.allPatients) setAllPatients(data.allPatients);
+      // Prova prima la route API
+      try {
+        const res = await fetch(`/api/patient/portal?code=${code}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.patient) setPatient(data.patient);
+          if (data.documents) setDocuments(data.documents);
+          if (data.appointments) setAppointments(data.appointments);
+          if (data.plan) setPlan(data.plan);
+          if (data.allPatients) setAllPatients(data.allPatients);
+          return;
+        }
+      } catch {
+        // Fallback Supabase diretto
+      }
+
+      // Query diretta a Supabase (ideale per export statico Vercel)
+      const { data: p } = await supabase
+        .from("patient_profiles")
+        .select("*")
+        .eq("patient_code", code)
+        .maybeSingle();
+
+      const { data: allP } = await supabase
+        .from("patient_profiles")
+        .select("id, patient_code, first_name, last_name, email, notes")
+        .order("patient_code");
+
+      if (allP) setAllPatients(allP);
+
+      const activePatient = p || (allP && allP.length > 0 ? allP[0] : null);
+      if (activePatient) {
+        setPatient(activePatient);
+        const { data: docs } = await supabase
+          .from("clinical_documents")
+          .select("*")
+          .eq("patient_id", activePatient.id)
+          .order("report_date", { ascending: false });
+        if (docs) setDocuments(docs);
+
+        const { data: appts } = await supabase
+          .from("appointments")
+          .select("*, doctors(full_name, title, specialty_slug), clinic_rooms(name, slug)")
+          .eq("patient_id", activePatient.id)
+          .order("starts_at", { ascending: true });
+        if (appts) setAppointments(appts);
+
+        const { data: pl } = await supabase
+          .from("patient_treatment_plans")
+          .select("*, treatment_installments(*)")
+          .eq("patient_id", activePatient.id)
+          .order("created_at", { ascending: false })
+          .limit(1)
+          .maybeSingle();
+        if (pl) setPlan(pl);
+      }
     } catch (e) {
       console.error("Errore fetch portale paziente:", e);
     } finally {

@@ -16,6 +16,7 @@ import {
   X,
 } from "lucide-react";
 import { Button } from "@/components/ui";
+import { supabase } from "@/lib/supabase";
 
 type Slot = {
   id?: string;
@@ -68,11 +69,28 @@ export function DoctorsManager() {
   const fetchDoctors = async () => {
     try {
       setLoading(true);
-      const res = await fetch("/api/admin/doctors");
-      const data = await res.json();
-      if (data.doctors) setDoctors(data.doctors);
-      if (data.rooms) setRooms(data.rooms);
-      if (data.branches) setBranches(data.branches);
+      try {
+        const res = await fetch("/api/admin/doctors");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.doctors) setDoctors(data.doctors);
+          if (data.rooms) setRooms(data.rooms);
+          if (data.branches) setBranches(data.branches);
+          return;
+        }
+      } catch {}
+
+      // Fallback Supabase diretto
+      const { data: docs } = await supabase
+        .from("doctors")
+        .select("*, doctor_availability(*, clinic_rooms(id, name, floor))")
+        .order("full_name");
+      const { data: rms } = await supabase.from("clinic_rooms").select("*").order("slug");
+      const { data: brs } = await supabase.from("branches").select("*").order("sort_order");
+
+      if (docs) setDoctors(docs as any);
+      if (rms) setRooms(rms);
+      if (brs) setBranches(brs);
     } catch (e) {
       console.error("Errore caricamento medici", e);
     } finally {
