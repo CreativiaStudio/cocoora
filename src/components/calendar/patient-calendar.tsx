@@ -259,7 +259,7 @@ export function PatientCalendar() {
       {/* Griglia Slot Disponibili per il Paziente */}
       {loading ? (
         <div className="p-16 text-center text-sm text-charcoal/60 bg-white rounded-3xl border border-slate-200">
-          Ricerca disponibilità in tempo reale su Supabase...
+          Ricerca disponibilità in tempo reale in agenda...
         </div>
       ) : filteredSlots.length === 0 ? (
         <div className="rounded-3xl border border-dashed border-teal-200 bg-white p-12 text-center text-charcoal/70">

@@ -152,7 +152,7 @@ export function RoomsManager() {
       {loading ? (
         <div className="p-12 text-center text-sm text-charcoal/60">
           <RefreshCw className="mx-auto h-6 w-6 animate-spin text-teal-700 mb-2" />
-          Caricamento stanze da Supabase...
+          Caricamento stanze dal database clinico...
         </div>
       ) : (
         <div className="grid gap-6 md:grid-cols-3">
@@ -305,7 +305,7 @@ export function RoomsManager() {
 
               {saveSuccess && (
                 <div className="flex items-center gap-2 rounded-xl bg-emerald-50 p-3 text-xs font-semibold text-emerald-800 border border-emerald-200">
-                  <Check className="h-4 w-4" /> Stanza aggiornata con successo su Supabase!
+                  <Check className="h-4 w-4" /> Stanza aggiornata con successo nel gestionale!
                 </div>
               )}
 

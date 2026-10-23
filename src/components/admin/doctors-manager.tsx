@@ -241,7 +241,7 @@ export function DoctorsManager() {
       {loading ? (
         <div className="p-12 text-center text-sm text-charcoal/60">
           <RefreshCw className="mx-auto h-6 w-6 animate-spin text-teal-700 mb-2" />
-          Caricamento medici da Supabase...
+          Caricamento corpo medico in corso...
         </div>
       ) : filtered.length === 0 ? (
         <div className="rounded-2xl border border-dashed border-teal-200 p-12 text-center text-charcoal/60">
@@ -349,7 +349,7 @@ export function DoctorsManager() {
               </h2>
             </div>
             <p className="mt-1 text-xs text-charcoal/60">
-              Aggiorna qualifica, stanza di visita e slot settimanali su Supabase.
+              Aggiorna qualifica, stanza di visita e slot settimanali nel registro clinico.
             </p>
 
             <form onSubmit={handleSave} className="mt-6 space-y-4">
@@ -561,7 +561,7 @@ export function DoctorsManager() {
 
               {saveSuccess && (
                 <div className="flex items-center gap-2 rounded-xl bg-emerald-50 p-3 text-xs font-semibold text-emerald-800 border border-emerald-200">
-                  <Check className="h-4 w-4" /> Dati salvati con successo su Supabase!
+                  <Check className="h-4 w-4" /> Dati salvati con successo nel registro clinico!
                 </div>
               )}
 
@@ -574,7 +574,7 @@ export function DoctorsManager() {
                   Annulla
                 </button>
                 <Button type="submit" disabled={saving} size="sm">
-                  {saving ? "Salvataggio..." : "Salva su Supabase"}
+                  {saving ? "Salvataggio..." : "Salva Modifiche"}
                 </Button>
               </div>
             </form>

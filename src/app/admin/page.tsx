@@ -38,9 +38,18 @@ import { DoctorsManager } from "@/components/admin/doctors-manager";
 import { RoomsManager } from "@/components/admin/rooms-manager";
 import { CalendarMatrix } from "@/components/admin/calendar-matrix";
 import { PatientsCrmAdmin } from "@/components/admin/patients-crm-admin";
+import { CashFlowManager } from "@/components/admin/cash-flow-manager";
 import { cn } from "@/lib/utils";
 
-type Tab = "dashboard" | "calendar" | "doctors" | "rooms" | "crm" | "videos" | "seo";
+type Tab =
+  | "dashboard"
+  | "calendar"
+  | "doctors"
+  | "rooms"
+  | "crm"
+  | "cassa"
+  | "videos"
+  | "seo";
 
 export default function AdminPage() {
   const [tab, setTab] = useState<Tab>("calendar");
@@ -111,7 +120,16 @@ export default function AdminPage() {
               active={tab === "crm"}
               onClick={() => setTab("crm")}
               icon={<Users className="h-4 w-4" />}
-              label="Pazienti & Fascicoli CRM"
+              label="CRM pazienti"
+              badge="3 attivi"
+            />
+
+            <SidebarItem
+              active={tab === "cassa"}
+              onClick={() => setTab("cassa")}
+              icon={<CreditCard className="h-4 w-4" />}
+              label="Cassa & Flussi"
+              badge="Fatture/Rate"
             />
 
             <div className="my-2 border-t border-[#2c3338]"></div>
@@ -211,7 +229,8 @@ export default function AdminPage() {
             {tab === "calendar" && "Calendario & Incrocio Stanze"}
             {tab === "doctors" && "Gestione Medici & Presenze"}
             {tab === "rooms" && "Stanze & Macchinari"}
-            {tab === "crm" && "Pazienti & Fascicoli Clinici"}
+            {tab === "crm" && "CRM Pazienti (Anagrafiche & Cartelle)"}
+            {tab === "cassa" && "Gestione Flusso di Cassa & Piani Rateali"}
             {tab === "videos" && "Video Verticali Reels"}
             {tab === "seo" && "SEO & Pagine Pubbliche"}
           </span>
@@ -221,7 +240,7 @@ export default function AdminPage() {
         <div className="flex items-center gap-3">
           <div className="hidden sm:flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1 text-[11px] font-semibold text-emerald-800">
             <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>Supabase Cloud: Connesso (eu-west-1)</span>
+            <span>Database Clinico: Connesso (Crittografato)</span>
           </div>
 
           <Link
@@ -258,10 +277,10 @@ export default function AdminPage() {
                 Pannello Direzionale Cocoora Centro Medico
               </h1>
               <p className="text-xs text-[#50575e] mt-1">
-                Panoramica operativa dello studio: 18 medici accreditati, 3 stanze specializzate e sincronizzazione in tempo reale con Supabase.
+                Panoramica operativa dello studio: 18 medici accreditati, 3 stanze specializzate e sincronizzazione in tempo reale con il Cloud Sanitario.
               </p>
 
-              <div className="mt-6 grid grid-cols-1 sm:grid-cols-4 gap-4">
+              <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
                 <div className="rounded-lg border border-[#dcdcde] bg-[#f6f7f7] p-4">
                   <p className="text-[11px] font-bold uppercase tracking-wider text-[#50575e]">
                     Medici Attivi
@@ -286,12 +305,26 @@ export default function AdminPage() {
                   <p className="text-[11px] text-teal-700 mt-1">Zero overbooking</p>
                 </div>
 
-                <div className="rounded-lg border border-[#dcdcde] bg-[#f6f7f7] p-4">
+                <div
+                  onClick={() => setTab("crm")}
+                  className="rounded-lg border border-[#dcdcde] bg-[#f6f7f7] p-4 cursor-pointer hover:border-[#2271b1] transition-all"
+                >
                   <p className="text-[11px] font-bold uppercase tracking-wider text-[#50575e]">
-                    Pazienti a Sistema
+                    CRM Pazienti
                   </p>
-                  <p className="text-3xl font-bold text-[#1d2327] mt-1">3 Demo</p>
-                  <p className="text-[11px] text-teal-700 mt-1">Marco, Laura, Giulia</p>
+                  <p className="text-3xl font-bold text-[#1d2327] mt-1">3</p>
+                  <p className="text-[11px] text-teal-700 mt-1">Marco, Laura, Giulia →</p>
+                </div>
+
+                <div
+                  onClick={() => setTab("cassa")}
+                  className="rounded-lg border border-emerald-200 bg-emerald-50/50 p-4 cursor-pointer hover:border-emerald-500 transition-all"
+                >
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-emerald-800">
+                    Cassa Incassata
+                  </p>
+                  <p className="text-3xl font-bold text-emerald-950 mt-1">€2.400</p>
+                  <p className="text-[11px] text-emerald-700 mt-1">Gestione flussi →</p>
                 </div>
               </div>
 
@@ -309,6 +342,13 @@ export default function AdminPage() {
                   className="rounded-md border border-[#c3c4c7] bg-white px-4 py-2 text-xs font-semibold text-[#2c3338] hover:bg-[#f6f7f7] transition-colors"
                 >
                   Gestisci Medici e Presenze
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setTab("cassa")}
+                  className="rounded-md border border-emerald-300 bg-emerald-50 px-4 py-2 text-xs font-semibold text-emerald-800 hover:bg-emerald-100 transition-colors"
+                >
+                  Cassa &amp; Avanzamento Pagamenti 💳
                 </button>
                 <Link
                   href="/segreteria"
@@ -330,13 +370,16 @@ export default function AdminPage() {
         {/* TAB 3: STANZE & SPAZI */}
         {tab === "rooms" && <RoomsManager />}
 
-        {/* TAB 4: PAZIENTI & FASCICOLI CRM */}
-        {tab === "crm" && <PatientsCrmAdmin />}
+        {/* TAB 4: CRM PAZIENTI */}
+        {tab === "crm" && <PatientsCrmAdmin onOpenCassa={() => setTab("cassa")} />}
 
-        {/* TAB 5: VIDEO VERTICALI */}
+        {/* TAB 5: CASSA & FLUSSI */}
+        {tab === "cassa" && <CashFlowManager onOpenPatient={() => setTab("crm")} />}
+
+        {/* TAB 6: VIDEO VERTICALI */}
         {tab === "videos" && <VideosManager />}
 
-        {/* TAB 6: SEO & PAGINE */}
+        {/* TAB 7: SEO & PAGINE */}
         {tab === "seo" && <SeoManager />}
       </main>
     </div>
