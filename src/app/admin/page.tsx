@@ -316,8 +316,8 @@ export default function AdminPage() {
                   <p className="text-[11px] font-bold uppercase tracking-wider text-[#50575e]">
                     CRM Pazienti
                   </p>
-                  <p className="text-3xl font-bold text-[#1d2327] mt-1">3</p>
-                  <p className="text-[11px] text-teal-700 mt-1">Marco, Laura, Giulia →</p>
+                  <p className="text-3xl font-bold text-[#1d2327] mt-1">5</p>
+                  <p className="text-[11px] text-teal-700 mt-1">Marco, Laura, Giulia, Matteo, Elena →</p>
                 </div>
 
                 <div
@@ -360,6 +360,186 @@ export default function AdminPage() {
                 >
                   Passa al Cruscotto Segreteria Live 📋
                 </Link>
+              </div>
+            </div>
+
+            {/* ── CARD LIVE PAZIENTI IN ATTESA DI ACCETTAZIONE AL BANCO (5 DEMO) ── */}
+            <div className="rounded-lg border border-teal-200 bg-white p-6 shadow-xs">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-teal-100 gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-800 text-white font-bold text-lg shadow-xs">
+                    📋
+                  </div>
+                  <div>
+                    <h2 className="font-serif text-lg font-bold text-[#1d2327]">
+                      Pazienti in Attesa di Accettazione al Banco Desk (Oggi)
+                    </h2>
+                    <p className="text-xs text-[#50575e]">
+                      Flusso accoglienza in tempo reale: check-in paziente, verifica anamnesi e indirizzamento nelle sale cliniche.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="rounded-full bg-amber-50 border border-amber-200 px-3 py-1 text-xs font-semibold text-amber-900">
+                    5 Visite da Accogliere Oggi
+                  </span>
+                  <Link
+                    href="/segreteria"
+                    className="inline-flex items-center gap-1.5 rounded-md bg-teal-700 px-3.5 py-1.5 text-xs font-semibold text-white shadow-2xs hover:bg-teal-800 transition-colors"
+                  >
+                    <span>Apri Desk Operativo Live ➔</span>
+                  </Link>
+                </div>
+              </div>
+
+              <div className="mt-4 divide-y divide-slate-100">
+                <div className="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50/60 p-2.5 rounded-lg transition-colors">
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-9 w-14 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-xs font-mono font-bold text-slate-800 border border-slate-200">
+                      14:45
+                    </span>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-bold text-slate-900">Marco De Luca</span>
+                        <span className="rounded bg-slate-100 text-[10px] font-mono text-slate-600 px-1.5 py-0.5">COC-2026-01001</span>
+                      </div>
+                      <p className="text-xs text-slate-500 mt-0.5">
+                        Dott.ssa Elisa Russo · <span className="font-semibold text-teal-800">Studio 1</span> · Allineatori Trasparenti (Controllo serie 2)
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="inline-flex items-center gap-1.5 rounded-lg bg-amber-50 border border-amber-200 px-2.5 py-1 text-xs font-semibold text-amber-800">
+                      <span className="h-2 w-2 rounded-full bg-amber-500 animate-pulse"></span>
+                      Al Banco: Da Accettare
+                    </span>
+                    <Link
+                      href="/segreteria"
+                      className="rounded-lg border border-slate-300 bg-white px-2.5 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-2xs"
+                    >
+                      Fai Check-in ➔
+                    </Link>
+                  </div>
+                </div>
+
+                <div className="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50/60 p-2.5 rounded-lg transition-colors">
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-9 w-14 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-xs font-mono font-bold text-slate-800 border border-slate-200">
+                      15:00
+                    </span>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-bold text-slate-900">Laura Ferri</span>
+                        <span className="rounded bg-slate-100 text-[10px] font-mono text-slate-600 px-1.5 py-0.5">COC-2026-01002</span>
+                        <span className="rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.2 text-[10px] font-semibold">Prima Visita</span>
+                      </div>
+                      <p className="text-xs text-slate-500 mt-0.5">
+                        Dott.ssa Alessandra Riccardi · <span className="font-semibold text-teal-800">Studio 2</span> · Consulenza Medicina Estetica Viso &amp; Biorivitalizzazione
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="inline-flex items-center gap-1.5 rounded-lg bg-amber-50 border border-amber-200 px-2.5 py-1 text-xs font-semibold text-amber-800">
+                      <span className="h-2 w-2 rounded-full bg-amber-500 animate-pulse"></span>
+                      Al Banco: Da Accettare
+                    </span>
+                    <Link
+                      href="/segreteria"
+                      className="rounded-lg border border-slate-300 bg-white px-2.5 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-2xs"
+                    >
+                      Fai Check-in ➔
+                    </Link>
+                  </div>
+                </div>
+
+                <div className="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50/60 p-2.5 rounded-lg transition-colors">
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-9 w-14 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-xs font-mono font-bold text-slate-800 border border-slate-200">
+                      15:15
+                    </span>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-bold text-slate-900">Giulia Esposito</span>
+                        <span className="rounded bg-slate-100 text-[10px] font-mono text-slate-600 px-1.5 py-0.5">COC-2026-01003</span>
+                        <span className="rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.2 text-[10px] font-semibold">Prima Visita</span>
+                      </div>
+                      <p className="text-xs text-slate-500 mt-0.5">
+                        Dr. Antonio Sorrentino · <span className="font-semibold text-teal-800">Studio 3</span> · Visita Specialistica Cardiologia + ECG a 12 derivazioni
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="inline-flex items-center gap-1.5 rounded-lg bg-amber-50 border border-amber-200 px-2.5 py-1 text-xs font-semibold text-amber-800">
+                      <span className="h-2 w-2 rounded-full bg-amber-500 animate-pulse"></span>
+                      Al Banco: Da Accettare
+                    </span>
+                    <Link
+                      href="/segreteria"
+                      className="rounded-lg border border-slate-300 bg-white px-2.5 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-2xs"
+                    >
+                      Fai Check-in ➔
+                    </Link>
+                  </div>
+                </div>
+
+                <div className="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50/60 p-2.5 rounded-lg transition-colors">
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-9 w-14 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-xs font-mono font-bold text-slate-800 border border-slate-200">
+                      15:30
+                    </span>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-bold text-slate-900">Matteo Rossi</span>
+                        <span className="rounded bg-slate-100 text-[10px] font-mono text-slate-600 px-1.5 py-0.5">COC-2026-01004</span>
+                        <span className="rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.2 text-[10px] font-semibold">Prima Visita</span>
+                      </div>
+                      <p className="text-xs text-slate-500 mt-0.5">
+                        Dr. Raffaele D&apos;Alessio · <span className="font-semibold text-teal-800">Studio 1</span> · Prima Visita Odontoiatrica &amp; Ortopantomografia (OPT)
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="inline-flex items-center gap-1.5 rounded-lg bg-amber-50 border border-amber-200 px-2.5 py-1 text-xs font-semibold text-amber-800">
+                      <span className="h-2 w-2 rounded-full bg-amber-500 animate-pulse"></span>
+                      Al Banco: Da Accettare
+                    </span>
+                    <Link
+                      href="/segreteria"
+                      className="rounded-lg border border-slate-300 bg-white px-2.5 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-2xs"
+                    >
+                      Fai Check-in ➔
+                    </Link>
+                  </div>
+                </div>
+
+                <div className="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50/60 p-2.5 rounded-lg transition-colors">
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-9 w-14 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-xs font-mono font-bold text-slate-800 border border-slate-200">
+                      15:45
+                    </span>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-bold text-slate-900">Elena Caputo</span>
+                        <span className="rounded bg-slate-100 text-[10px] font-mono text-slate-600 px-1.5 py-0.5">COC-2026-01005</span>
+                      </div>
+                      <p className="text-xs text-slate-500 mt-0.5">
+                        Dott.ssa Titti Errico · <span className="font-semibold text-teal-800">Studio 2</span> · Seduta Medicina Rigenerativa Viso &amp; Mantenimento
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="inline-flex items-center gap-1.5 rounded-lg bg-amber-50 border border-amber-200 px-2.5 py-1 text-xs font-semibold text-amber-800">
+                      <span className="h-2 w-2 rounded-full bg-amber-500 animate-pulse"></span>
+                      Al Banco: Da Accettare
+                    </span>
+                    <Link
+                      href="/segreteria"
+                      className="rounded-lg border border-slate-300 bg-white px-2.5 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-2xs"
+                    >
+                      Fai Check-in ➔
+                    </Link>
+                  </div>
+                </div>
               </div>
             </div>
 
