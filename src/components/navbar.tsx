@@ -245,15 +245,15 @@ export function Navbar() {
               variant="dark"
               className={cn(
                 "w-auto transition-all duration-300 ease-in-out",
-                scrolled ? "h-9 sm:h-10" : "h-11 sm:h-13"
+                scrolled ? "h-8 sm:h-9 lg:h-10" : "h-10 sm:h-11 lg:h-12"
               )}
             />
           </Link>
 
           {/* ── Desktop Navigation: 3 Menu Dropdown Separati + I Medici + Il Centro + Percorsi Salute ── */}
-          <nav className="hidden items-center gap-1 lg:flex">
+          <nav className="hidden items-center gap-0.5 xl:gap-1.5 lg:flex">
             {NAV_NODES.map((node) => (
-              <div key={node.label} onMouseEnter={() => openMenu(node.label)}>
+              <div key={node.label} onMouseEnter={() => openMenu(node.label)} className="shrink-0">
                 <button
                   type="button"
                   onClick={() => {
@@ -264,16 +264,16 @@ export function Navbar() {
                     }
                   }}
                   className={cn(
-                    "flex items-center gap-1.5 rounded-full px-4 py-2.5 text-sm font-medium transition-all duration-200",
+                    "flex items-center gap-1 xl:gap-1.5 rounded-full px-2.5 py-2 xl:px-3.5 2xl:px-4 text-[13px] xl:text-sm font-medium whitespace-nowrap transition-all duration-200",
                     "text-charcoal/85 hover:text-dark-navy hover:bg-slate-50/90",
                     openDesktop === node.label && "bg-slate-100 text-dark-navy font-semibold shadow-xs"
                   )}
                   aria-expanded={openDesktop === node.label}
                 >
-                  {node.label}
+                  <span className="whitespace-nowrap">{node.label}</span>
                   <ChevronDown
                     className={cn(
-                      "h-3.5 w-3.5 transition-transform duration-300",
+                      "h-3.5 w-3.5 shrink-0 transition-transform duration-300",
                       openDesktop === node.label && "rotate-180 text-teal-800"
                     )}
                   />
@@ -281,13 +281,6 @@ export function Navbar() {
               </div>
             ))}
           </nav>
-
-          {/* CTA Permanente Destra */}
-          <div className="hidden lg:flex items-center gap-3">
-            <Button onClick={() => openBooking()} size="md">
-              Prenota Visita
-            </Button>
-          </div>
 
           {/* ── MEGAMENU DESKTOP UNIFICATO ───────────────────────────── */}
           {/* Posizionato esattamente dall'inizio del logo (left-5/8/10) alla fine del tasto Prenota Visita (right-5/8/10) */}

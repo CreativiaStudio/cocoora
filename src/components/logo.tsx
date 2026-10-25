@@ -15,7 +15,7 @@ export function Logo({
       src={isWhite ? "/cocoora-logo-horizontal-white.png" : "/cocoora-logo-horizontal.png"}
       alt="Cocoora Centro Medico"
       width={749}
-      height={190}
+      height={146}
       priority
       className={cn("w-auto object-contain transition-all duration-300 ease-in-out", className ?? "h-10 sm:h-12")}
     />
