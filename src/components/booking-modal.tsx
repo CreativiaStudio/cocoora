@@ -215,10 +215,10 @@ function BookingDialog({
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
               </span>
-              Slot garantiti entro 72h a Napoli
+              Disponibilità aggiornata · Napoli
             </span>
             <h3 className="mt-4 pr-8 font-serif text-2xl font-semibold text-dark-navy sm:text-3xl">
-              Prenota la tua Visita senza Attese
+              Prenota la tua Visita su Appuntamento
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-charcoal/70">
               Scegli la branca, il giorno e l&apos;orario che preferisci: blocchiamo lo slot per te.
@@ -473,7 +473,7 @@ function BookingDialog({
               <p className="flex items-start gap-3">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-teal-700" />
                 <span>
-                  {SITE.address}, Napoli — Cocoora Studio Medico
+                  {SITE.address}, Napoli — Cocoora Centro Medico
                 </span>
               </p>
               <p className="flex items-start gap-3">

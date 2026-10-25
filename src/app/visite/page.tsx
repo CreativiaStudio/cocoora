@@ -17,7 +17,6 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { DOCTORS } from "@/lib/doctors";
-import { formatPrice } from "@/lib/utils";
 import { Badge, Container, SectionLabel } from "@/components/ui";
 
 type SpecialtyCard = {
@@ -59,14 +58,14 @@ export default function VisitePage() {
       <section className="hero-mesh relative overflow-hidden pb-16 pt-8 sm:pt-12">
         <Container className="relative">
           <div className="mx-auto max-w-3xl text-center">
-            <Badge className="mx-auto shadow-sm">Prima Visita Entro 72h · Zero Lista d&apos;Attesa</Badge>
+            <Badge className="mx-auto shadow-sm">Équipe Specialistica · Prenotazione su Appuntamento</Badge>
             <h1 className="mt-6 font-serif text-5xl font-semibold leading-[1.05] tracking-tight text-dark-navy sm:text-6xl">
               Visite Specialistiche Private a Napoli
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-charcoal/75">
-              Sei branche cliniche, prima visita garantita entro 72 ore e zero lista
-              d&apos;attesa SSN. Scegli la specialità di cui hai bisogno e prenota
-              direttamente con lo specialista dedicato.
+              Sei branche cliniche coordinate, con tempi dedicati all&apos;ascolto e
+              refertazione strutturata. Scegli la specialità di cui hai bisogno e
+              prenota direttamente con lo specialista dedicato.
             </p>
           </div>
         </Container>
@@ -99,11 +98,6 @@ export default function VisitePage() {
                   {doctor && (
                     <p className="mt-2 text-sm text-charcoal/65">{doctor.name}</p>
                   )}
-                  {doctor && (
-                    <p className="mt-1 text-sm font-medium text-slate-accent">
-                      da {formatPrice(doctor.tariffaVisita)}
-                    </p>
-                  )}
                   <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-teal-700 transition-all group-hover:gap-2.5 group-hover:text-dark-navy">
                     Scopri la visita <ArrowRight className="h-4 w-4" />
                   </span>
@@ -125,14 +119,15 @@ export default function VisitePage() {
             <div className="relative mx-auto max-w-2xl">
               <Badge className="bg-white/15 text-white">Cocoora Club</Badge>
               <h2 className="mt-5 font-serif text-3xl font-semibold leading-tight sm:text-4xl">
-                Incluse nel Cocoora Club Care e superiori
+                Incluse nei Percorsi Cocoora Club Care e superiori
               </h2>
               <p className="mt-4 text-base leading-relaxed text-teal-200/85">
-                Con i piani Care, Experience e Signature le visite specialistiche
-                sono incluse senza costi aggiuntivi, tutto l&apos;anno.
+                Con i Percorsi Salute Care, Experience e Signature le visite
+                specialistiche previste dal programma sono incluse nel tuo percorso
+                annuale coordinato.
               </p>
               <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-white transition-all group-hover:gap-2.5">
-                Scopri i Piani Salute <ArrowRight className="h-4 w-4" />
+                Scopri i Percorsi Salute <ArrowRight className="h-4 w-4" />
               </span>
             </div>
           </Link>

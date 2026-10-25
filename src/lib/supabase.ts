@@ -83,3 +83,19 @@ export type DbAppointment = {
   is_first_visit: boolean;
   notes?: string;
 };
+
+export type DbLead = {
+  id?: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  service?: string | null;
+  message?: string | null;
+  source?: string;
+  status?: "nuovo" | "in_gestione" | "contattato" | "convertito" | "archiviato";
+  notes?: string | null;
+  created_at?: string;
+  updated_at?: string;
+};
+

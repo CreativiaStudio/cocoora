@@ -30,7 +30,7 @@ export default function MedicinaEsteticaPage() {
       <div className="relative z-10 h-72 w-full overflow-hidden rounded-b-[2.5rem] border-b border-slate-200/80 shadow-xl shadow-dark-navy/10 sm:h-80 md:h-96">
         <Image
           src="/images/aesthetic-skin.jpg"
-          alt="Medicina estetica avanzata e trattamenti rigenerativi a Cocoora Napoli"
+          alt="Medicina estetica avanzata e trattamenti rigenerativi presso Cocoora Napoli"
           fill
           priority
           sizes="100vw"
@@ -47,7 +47,7 @@ export default function MedicinaEsteticaPage() {
             <div className="text-center lg:text-left">
               <Badge className="lg:mx-0 mx-auto shadow-sm">Medicina Estetica Avanzata</Badge>
               <h1 className="mt-6 font-serif text-5xl font-semibold leading-[1.05] tracking-tight text-dark-navy sm:text-6xl">
-                {page?.h1 ?? "Medicina estetica a Cocoora"}
+                {page?.h1 ?? "Medicina estetica presso Cocoora"}
               </h1>
               <p className="mt-3 font-serif text-lg italic text-teal-800">
                 La tua bellezza valorizzata nella sua forma più autentica — Naturally You.
@@ -58,7 +58,7 @@ export default function MedicinaEsteticaPage() {
                 nel rispetto della sua armonia naturale.
               </p>
               <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-charcoal/70 lg:mx-0">
-                A Cocoora la medicina estetica nasce da una valutazione medica attenta.
+                Nel nostro centro la medicina estetica nasce da una valutazione medica attenta.
                 L&apos;obiettivo non è modificare i tratti, ma accompagnare ogni paziente verso
                 un miglioramento naturale e coerente con la propria identità.
               </p>

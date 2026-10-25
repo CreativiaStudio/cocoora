@@ -71,15 +71,18 @@ export function ClubShowcase() {
         </div>
 
         <div className="mt-16">
-          <div className="mb-8 flex items-center gap-4">
+          <div className="mb-8 flex flex-wrap items-center gap-4">
             <h3 className="font-serif text-2xl font-semibold text-teal-900 sm:text-3xl">
               Add-on Family
             </h3>
+            <span className="rounded-full border border-teal-200 bg-teal-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-teal-800">
+              In arrivo · Scheda informativa
+            </span>
             <div className="h-px flex-1 bg-teal-100" />
           </div>
           <div className="mx-auto mt-10 grid max-w-4xl gap-6 sm:grid-cols-2">
             {FAMILY_ADDONS.map((tier) => (
-              <FamilyCard key={tier.id} tier={tier} onChoose={handleChoose} />
+              <FamilyCard key={tier.id} tier={tier} />
             ))}
           </div>
         </div>
@@ -234,7 +237,7 @@ export function TierCard({
             dark ? "text-teal-200/70 hover:text-white" : "text-teal-700 hover:text-dark-navy"
           )}
         >
-          Vedi dettagli e scomposizione clinica
+          Vedi dettagli e prestazioni incluse
         </Link>
       )}
     </div>
@@ -243,21 +246,16 @@ export function TierCard({
 
 function FamilyCard({
   tier,
-  onChoose,
 }: {
   tier: ClubTier;
-  onChoose: (tier: ClubTier) => void;
 }) {
   return (
     <div className="group flex h-full flex-col rounded-3xl border border-teal-100 bg-canvas/60 p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-teal-200 hover:shadow-md">
-      <h4 className="font-serif text-xl font-semibold text-teal-900">{tier.name}</h4>
-      <div className="mt-3 flex items-baseline gap-2">
-        <span className="font-serif text-2xl font-semibold text-teal-900">
-          {tier.price === 0 ? "Su misura" : formatPrice(tier.price)}
+      <div className="flex items-center justify-between gap-2">
+        <h4 className="font-serif text-xl font-semibold text-teal-900">{tier.name}</h4>
+        <span className="rounded-full bg-teal-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-teal-800">
+          In arrivo
         </span>
-        {tier.price !== 0 && (
-          <span className="text-xs text-charcoal/55">/ anno</span>
-        )}
       </div>
       <p className="mt-3 text-sm leading-relaxed text-charcoal/70">{tier.description}</p>
       <ul className="mt-5 flex-1 space-y-2.5">
@@ -268,9 +266,9 @@ function FamilyCard({
           </li>
         ))}
       </ul>
-      <Button variant="primary" className="mt-6 w-full" onClick={() => onChoose(tier)}>
-        Scegli
-      </Button>
+      <div className="mt-6 rounded-2xl border border-teal-100 bg-teal-50/70 px-4 py-3 text-center text-xs font-medium text-teal-900">
+        Scheda informativa · Attivazione disponibile prossimamente in sede
+      </div>
     </div>
   );
 }

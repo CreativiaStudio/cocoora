@@ -6,52 +6,108 @@ export const SITE = {
   claim: "Connessi alla tua salute.",
   phone: "081 18182091",
   phoneRaw: "08118182091",
-  email: "hello@cocoora.it",
+  email: "info@cocoora.it",
+  emails: {
+    info: "info@cocoora.it",
+    prenotazioni: "prenotazioni@cocoora.it",
+    amministrazione: "amministrazione@cocoora.it",
+    direzioneSanitaria: "direzionesanitaria@cocoora.it",
+  },
+  contactEmails: [
+    { label: "Informazioni & Accoglienza", email: "info@cocoora.it" },
+    { label: "Prenotazioni & Visite", email: "prenotazioni@cocoora.it" },
+    { label: "Amministrazione & Contabilità", email: "amministrazione@cocoora.it" },
+    { label: "Direzione Sanitaria Specialistica", email: "direzionesanitaria@cocoora.it" },
+  ],
   address: "Via Generale Giovanni De Bonis, 81",
   zip: "80123",
   city: "Napoli",
   fullAddress: "Via Generale Giovanni De Bonis, 81 - 80123 Napoli",
   whatsapp: "https://wa.me/3908118182091",
   instagram: "https://www.instagram.com/",
-  hours: "Lun–Ven · 8:00–20:00 — Sab · 9:00–14:00",
+  hours: "Lun–Ven · 8:00–20:00 (Orario continuato) — Sab · 9:00–14:00",
 };
 
 export const NAV_NODES: NavNode[] = [
   {
-    label: "Aree Mediche",
+    label: "Medicina Estetica",
+    href: "/servizi/medicina-estetica",
     children: [
       {
-        label: "Medicina Estetica & Rigenerativa",
-        href: "/servizi/medicina-estetica",
+        label: "Viso & Rigenerazione",
+        href: "/servizi/medicina-estetica#viso",
         description:
-          "Viso (Biostimolazione, Filler, Tossina botulinica), Corpo (Criolipolisi, Ultrasuoni CFU) e Laser medicali.",
+          "Filler acido ialuronico, Tossina botulinica, Biorivitalizzazione, Acido Polilattico e Peeling chimico.",
         image: "/images/aesthetic-skin.jpg",
       },
       {
-        label: "Odontoiatria & Ortodonzia",
-        href: "/servizi/odontoiatria",
+        label: "Corpo & Silhouette",
+        href: "/servizi/medicina-estetica#corpo",
         description:
-          "Allineatori Trasparenti, Ortodonzia Specialistica, Estetica del Sorriso, Igiene & Prevenzione.",
+          "Biostimolazione Corpo, Criolipolisi, Carbossiterapia, Mesoterapia e Lipedema.",
+      },
+      {
+        label: "Laser & Tecnologie",
+        href: "/servizi/medicina-estetica#laser",
+        description:
+          "Laser medicali, Resurfacing cutaneo e Ultrasuoni CFU ad alta intensità.",
+      },
+      {
+        label: "Non sai da dove iniziare?",
+        href: "/servizi/medicina-estetica#guida",
+        description:
+          "Percorso guidato per orientarti tra i trattamenti viso e corpo più adatti a te.",
+      },
+    ],
+  },
+  {
+    label: "Odontoiatria",
+    href: "/servizi/odontoiatria",
+    children: [
+      {
+        label: "Allineatori Trasparenti & Ortodonzia",
+        href: "/servizi/odontoiatria#ortodonzia",
+        description:
+          "Allineatori Adulti, Adolescenti e Ortodonzia Intercettiva per Bambini.",
         image: "/images/invisalign-smile.jpg",
       },
       {
-        label: "Visite Specialistiche",
+        label: "Clinica Dentale & Estetica del Sorriso",
+        href: "/servizi/odontoiatria#estetica",
+        description:
+          "Faccette estetiche, Igiene professionale e Implantologia a carico immediato.",
+      },
+      {
+        label: "Gnatologia, Bruxismo & Funzione",
+        href: "/servizi/odontoiatria#funzione",
+        description:
+          "Bite personalizzati, Conservativa, Endodonzia e diagnosi digitale 3D.",
+      },
+    ],
+  },
+  {
+    label: "Visite Specialistiche",
+    href: "/visite",
+    children: [
+      {
+        label: "Diagnostica Clinica & Prevenzione",
         href: "/visite",
         description:
-          "Cardiologia, Ginecologia, Senologia, Ecografia, Oculistica, Pediatria, Psicologia e Medicina dello Sport.",
+          "Cardiologia, Senologia, Ginecologia, Ecografia, Oculistica, Pediatria e Medicina dello Sport.",
         image: "/images/diagnostics-lab.jpg",
       },
       {
         label: "Cocoora Precision (Genomica & Longevità)",
         href: "/precision",
         description:
-          "Medicina del Futuro & Percorsi: test DNA 5, Kit Microbiota e longevità attiva.",
+          "Medicina predittiva e preventiva: test DNA 5, Kit Microbiota e longevità attiva.",
         image: "/images/dna-genomics.jpg",
       },
     ],
   },
   {
     label: "I Medici",
+    href: "/medici",
     children: [
       {
         label: "L'Équipe Specialistica",
@@ -70,6 +126,7 @@ export const NAV_NODES: NavNode[] = [
   },
   {
     label: "Il Centro",
+    href: "/chi-siamo",
     children: [
       {
         label: "La Filosofia del Centro",
@@ -79,15 +136,16 @@ export const NAV_NODES: NavNode[] = [
         image: "/images/clinic-lounge.jpg",
       },
       {
-        label: "Gli Spazi Clinici: Studio 1, 2, 3",
-        href: "/chi-siamo#spazi",
+        label: "Sede & Accoglienza",
+        href: "/contatti",
         description:
-          "Ambienti clinici dedicati per odontoiatria, medicina estetica, diagnostica e visite specialistiche.",
+          "Struttura medica autorizzata a Napoli (Cavalleggeri / Fuorigrotta). Orario continuato Lun–Ven 8:00–20:00, Sab 9:00–14:00.",
       },
     ],
   },
   {
     label: "Percorsi Salute",
+    href: "/club",
     children: [
       {
         label: "Panoramica Percorsi",
@@ -129,11 +187,12 @@ export const NAV_NODES: NavNode[] = [
 ];
 
 export const NAV_LINKS = [
-  { label: "Aree Mediche", href: "/#servizi" },
+  { label: "Medicina Estetica", href: "/servizi/medicina-estetica" },
+  { label: "Odontoiatria", href: "/servizi/odontoiatria" },
+  { label: "Visite Specialistiche", href: "/visite" },
   { label: "I Medici", href: "/medici" },
   { label: "Il Centro", href: "/chi-siamo" },
   { label: "Percorsi Salute", href: "/club" },
-  { label: "Contatti", href: "/contatti" },
 ];
 
 export const TRUST_METRICS = [

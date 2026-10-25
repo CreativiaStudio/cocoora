@@ -393,7 +393,7 @@ function HeroSection({
   const specialistSubtitle =
     doctor?.name ?? treatment.heroQuickSpecialist?.subtitle ?? "Da associare";
   const specialistHref = doctor
-    ? `/medici/${doctor.slug}`
+    ? "/medici"
     : treatment.heroQuickSpecialist?.href;
 
   const tierTitle = treatment.heroQuickTier?.title ?? "Percorsi Salute";

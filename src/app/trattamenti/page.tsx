@@ -42,7 +42,7 @@ export default function TrattamentiIndexPage() {
         <div className="absolute inset-0">
           <Image
             src="/images/laser-technology.jpg"
-            alt="Visite & Trattamenti Cocoora Studio Medico"
+            alt="Percorsi Clinici e Trattamenti Cocoora Centro Medico"
             fill
             priority
             sizes="100vw"
@@ -58,10 +58,10 @@ export default function TrattamentiIndexPage() {
               Guida ai Percorsi Clinici
             </Badge>
             <h1 style={serif} className="text-4xl sm:text-5xl lg:text-6xl font-medium text-white leading-tight">
-              Tutti i Trattamenti & Visite Specialistiche
+              Medicina Estetica, Odontoiatria e Visite Specialistiche
             </h1>
             <p className="mt-4 text-base sm:text-lg text-stone-200 font-light leading-relaxed">
-              Dall&apos;ortodonzia digitale con scanner 3D alla medicina rigenerativa, fino alle visite specialistiche con docenti universitari garantite entro 72 ore.
+              Dall&apos;ortodonzia digitale con scanner 3D alla medicina rigenerativa, fino alle visite specialistiche coordinate su appuntamento dedicato.
             </p>
           </div>
         </Container>
@@ -195,7 +195,7 @@ export default function TrattamentiIndexPage() {
                   <span className="text-xs font-semibold text-emerald-950 group-hover:text-amber-700 transition-colors inline-flex items-center gap-1">
                     Vedi scheda trattamento <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
                   </span>
-                  <span className="text-[11px] text-stone-400">Zero attese</span>
+                  <span className="text-[11px] text-stone-400">Su appuntamento</span>
                 </div>
               </Link>
             ))}
@@ -207,10 +207,10 @@ export default function TrattamentiIndexPage() {
           <div className="mt-16">
             <div className="mb-6 border-t border-stone-200 pt-10">
               <h2 style={serif} className="text-2xl font-medium text-emerald-950 sm:text-3xl">
-                Visite Specialistiche &amp; Diagnostica Rapida
+                Visite Specialistiche &amp; Diagnostica
               </h2>
               <p className="mt-1 text-xs text-stone-500 font-light">
-                Consulti multidisciplinari con docenti universitari e specialisti dedicati.
+                Consulti multidisciplinari con équipe specialistica dedicata.
               </p>
             </div>
 
@@ -245,7 +245,7 @@ export default function TrattamentiIndexPage() {
                     <span className="text-xs font-semibold text-emerald-950 group-hover:text-amber-700 transition-colors inline-flex items-center gap-1">
                       Dettaglio esami & medici <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
                     </span>
-                    <span className="text-[11px] text-emerald-700 font-medium">Entro 72h</span>
+                    <span className="text-[11px] text-emerald-700 font-medium">Su appuntamento</span>
                   </div>
                 </Link>
               ))}
@@ -257,18 +257,18 @@ export default function TrattamentiIndexPage() {
         <div className="mt-16 rounded-[2.5rem] bg-emerald-950 p-10 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="max-w-2xl">
             <span className="text-xs font-semibold uppercase tracking-[0.25em] text-amber-300 flex items-center gap-1.5">
-              <ShieldCheck className="h-4 w-4" /> Vantaggio Cocoora Club
+              <ShieldCheck className="h-4 w-4" /> Continuità Clinica · Cocoora Club
             </span>
             <h3 style={serif} className="mt-2 text-3xl font-medium sm:text-4xl">
-              La prima visita vale come acconto se aderisci al Club
+              Prevenzione strutturata nei Percorsi Salute annuali
             </h3>
             <p className="mt-3 text-sm text-stone-300 font-light leading-relaxed">
-              Se dopo una prima visita o un trattamento decidi di entrare in un Piano Salute annuale Cocoora Club, l&apos;intero importo della tua visita ti viene scalato dal costo di adesione.
+              Con Cocoora Club accedi a programmi annuali di prevenzione coordinata, con cartella clinica digitale, check-up dedicati e continuità assistenziale tra le diverse branche del centro.
             </p>
           </div>
           <div className="flex shrink-0 flex-col sm:flex-row gap-3">
             <ButtonLink href="/club" className="rounded-full bg-amber-200 text-emerald-950 hover:bg-amber-100">
-              Scopri i Piani Salute
+              Scopri i Percorsi Salute
             </ButtonLink>
             <ButtonLink href="/contatti" variant="outline-dark" className="rounded-full border-white/25 bg-white/5 text-white hover:bg-white/10">
               Prenota una Visita

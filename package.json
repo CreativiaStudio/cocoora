@@ -1,8 +1,8 @@
 {
-  "name": "cocoora-studio-medico",
+  "name": "cocoora-centro-medico",
   "version": "1.0.0",
   "private": true,
-  "description": "Cocoora Studio Medico Polispecialistico — Web App PWA con CMS interno",
+  "description": "Cocoora Centro Medico — Web App PWA con CMS interno",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

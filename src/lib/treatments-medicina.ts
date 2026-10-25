@@ -7,6 +7,7 @@ import type { Treatment } from "./types";
 export const TREATMENT_SLUG_ALIASES: Record<string, string> = {
   criolipolisi: "cryoliposculpt",
   "peeling-chimico": "peeling-medicali",
+  "biostimolazione-corpo": "biorivitalizzazione",
   "allineatori-adulti": "invisalign-adulti",
   "allineatori-trasparenti-adulti": "invisalign-adulti",
   "allineatori-adolescenti": "invisalign-adolescenti",

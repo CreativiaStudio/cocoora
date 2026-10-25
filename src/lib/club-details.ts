@@ -53,7 +53,7 @@ export const CLUB_TIER_DETAILS: ClubTierDetail[] = [
       { label: "Visita di medicina estetica", value: 80 },
     ],
     doctorSlugs: CORE_DOCTORS,
-    perks: ["Accesso prioritario alla clinica", "Sconto 5% su tutti i servizi", "Referti digitali h24"],
+    perks: ["Accesso prioritario alla clinica", "Condizioni dedicate riservate agli iscritti", "Referti digitali h24"],
   },
   {
     tierId: "care",
@@ -65,7 +65,7 @@ export const CLUB_TIER_DETAILS: ClubTierDetail[] = [
       donna: [{ label: "Visita ginecologica + ecografia pelvica", value: 140 }],
     },
     doctorSlugs: CARE_DOCTORS,
-    perks: ["Priorità di prenotazione", "Percorsi Uomo / Donna dedicati", "Sconti esclusivi sui trattamenti"],
+    perks: ["Priorità di prenotazione", "Percorsi Uomo / Donna dedicati", "Continuità assistenziale coordinata"],
   },
   {
     tierId: "experience",

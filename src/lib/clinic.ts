@@ -9,8 +9,8 @@ export const PRINCIPLES: Principle[] = [
   },
   {
     id: "zero-burocrazia",
-    title: "Zero Attese & Fluidità Totale",
-    text: "Piattaforma digitale proprietaria: prenoti in meno di 2 minuti, niente code in sala d'attesa, referti e cartelle cliniche disponibili h24 sul tuo smartphone.",
+    title: "Accoglienza Digitale & Fluidità",
+    text: "Piattaforma digitale proprietaria: prenoti su appuntamento dedicato, flussi ordinati e referti con cartella clinica disponibili h24 sul tuo smartphone.",
     icon: "Clock",
   },
   {

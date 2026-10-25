@@ -35,7 +35,7 @@ export const CLUB_TIERS: ClubTier[] = [
       "Visita odontoiatrica + OPT",
       "Consulenza nutrizionale",
       "Visita di medicina estetica",
-      "Sconto 5% sui servizi",
+      "Accesso prioritario e condizioni dedicate Club",
     ],
   },
   {
@@ -53,7 +53,7 @@ export const CLUB_TIERS: ClubTier[] = [
       "Consulenze specialistiche dedicate",
       "Priorità di prenotazione",
       "Referti e monitoraggio digitale",
-      "Sconti esclusivi sui trattamenti",
+      "Continuità assistenziale coordinata",
       "Percorsi Uomo / Donna dedicati",
     ],
   },
@@ -96,7 +96,6 @@ export const CLUB_TIERS: ClubTier[] = [
     name: "Signature Longevity",
     shortName: "Longevity",
     price: 1190,
-    listPrice: 1280,
     priceLabel: "€1.190 / anno",
     description:
       "Il programma più avanzato dedicato alla longevità e all'ottimizzazione del benessere.",

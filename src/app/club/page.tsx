@@ -96,10 +96,15 @@ export default function ClubPage() {
           </div>
           <div className="mx-auto mt-10 grid max-w-4xl gap-6 sm:grid-cols-2">
             {FAMILY_ADDONS.map((tier) => (
-              <div key={tier.id} className="rounded-3xl border border-teal-100 bg-white p-7 shadow-[0_16px_40px_-28px_rgba(3,53,75,0.35)]">
-                <h3 className="font-serif text-xl font-semibold text-teal-900">{tier.name}</h3>
+              <div key={tier.id} className="flex flex-col rounded-3xl border border-teal-100 bg-white p-7 shadow-[0_16px_40px_-28px_rgba(3,53,75,0.35)]">
+                <div className="flex items-center justify-between gap-2">
+                  <h3 className="font-serif text-xl font-semibold text-teal-900">{tier.name}</h3>
+                  <span className="rounded-full bg-teal-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-teal-800">
+                    In arrivo
+                  </span>
+                </div>
                 <p className="mt-2 text-sm text-charcoal/65">{tier.description}</p>
-                <ul className="mt-4 space-y-2">
+                <ul className="mt-4 flex-1 space-y-2">
                   {tier.features.map((f) => (
                     <li key={f} className="flex items-start gap-2 text-sm text-charcoal/75">
                       <Check className="mt-0.5 h-4 w-4 shrink-0 text-teal-600" />
@@ -107,13 +112,9 @@ export default function ClubPage() {
                     </li>
                   ))}
                 </ul>
-                <button
-                  type="button"
-                  onClick={() => choose(tier)}
-                  className="mt-6 w-full rounded-full bg-primary-teal px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-dark-navy"
-                >
-                  Scegli
-                </button>
+                <div className="mt-6 rounded-2xl border border-teal-100 bg-teal-50/60 px-4 py-3 text-center text-xs font-medium text-teal-900">
+                  Scheda informativa · Attivazione disponibile prossimamente in sede
+                </div>
               </div>
             ))}
           </div>

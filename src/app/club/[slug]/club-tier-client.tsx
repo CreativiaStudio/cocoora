@@ -163,18 +163,17 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
         </Container>
       </section>
 
-      {/* ── Scomposizione Clinica ────────────────────────────────────── */}
+      {/* ── Prestazioni Cliniche Incluse ──────────────────────────── */}
       {items.length > 0 && (
         <section className="bg-canvas py-20">
           <Container>
             <div className="mx-auto max-w-2xl text-center">
               <SectionLabel>Cosa include</SectionLabel>
               <h2 className="font-serif text-4xl font-semibold leading-tight text-teal-900 sm:text-5xl">
-                Scomposizione clinica del percorso
+                Prestazioni cliniche incluse
               </h2>
               <p className="mt-4 text-base leading-relaxed text-charcoal/70">
-                Ogni prestazione inclusa, con il relativo valore indicativo di
-                mercato a tariffa singola.
+                Tutti i check-up, le visite specialistiche e le prestazioni diagnostiche comprese nel percorso annuale.
               </p>
             </div>
 
@@ -188,11 +187,9 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
                     <Check className="mt-0.5 h-4 w-4 shrink-0 text-teal-600" />
                     {item.label}
                   </span>
-                  {item.value > 0 && (
-                    <span className="shrink-0 text-sm font-medium text-slate-accent">
-                      {formatPrice(item.value)}
-                    </span>
-                  )}
+                  <span className="shrink-0 rounded-full bg-teal-50 px-2.5 py-1 text-xs font-semibold text-teal-800">
+                    Incluso
+                  </span>
                 </div>
               ))}
             </div>
@@ -266,7 +263,7 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
               {doctors.map((doctor) => (
                 <Link
                   key={doctor!.slug}
-                  href={`/medici/${doctor!.slug}`}
+                  href="/medici"
                   className="group flex flex-col overflow-hidden rounded-3xl border border-teal-100 bg-white shadow-[0_16px_40px_-28px_rgba(3,53,75,0.3)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_28px_60px_-24px_rgba(3,53,75,0.4)]"
                 >
                   <div className="relative aspect-[4/3] w-full overflow-hidden">

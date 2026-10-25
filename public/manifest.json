@@ -1,7 +1,7 @@
 {
-  "name": "Cocoora Studio Medico Polispecialistico",
+  "name": "Cocoora Centro Medico",
   "short_name": "Cocoora",
-  "description": "Connessi alla tua salute. Studio medico polispecialistico — prenota, consulta e gestisci il tuo percorso di salute in un click.",
+  "description": "Connessi alla tua salute. Cocoora Centro Medico — prenota, consulta e gestisci il tuo percorso di salute in un click.",
   "id": "/",
   "start_url": "/",
   "scope": "/",

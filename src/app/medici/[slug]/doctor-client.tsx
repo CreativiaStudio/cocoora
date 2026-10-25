@@ -4,14 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Check, GraduationCap, Stethoscope } from "lucide-react";
 import { useShop } from "@/components/providers";
-import { CLUB_TIERS, FAMILY_ADDONS } from "@/lib/club";
-import { computeSavings, getTierDetail } from "@/lib/club-details";
+import { CLUB_TIERS } from "@/lib/club";
 import { getTreatmentBySlug } from "@/lib/content";
 import type { Doctor, ClubTier } from "@/lib/types";
 import { formatPrice } from "@/lib/utils";
 import { Badge, Button, ButtonLink, Container, SectionLabel } from "@/components/ui";
 
-const ALL_TIERS: ClubTier[] = [...CLUB_TIERS, ...FAMILY_ADDONS];
+const ALL_TIERS: ClubTier[] = [...CLUB_TIERS];
 
 function findTier(id: string): ClubTier | undefined {
   return ALL_TIERS.find((t) => t.id === id);
@@ -80,10 +79,10 @@ export function DoctorClient({ doctor }: { doctor: Doctor }) {
               </blockquote>
               <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start">
                 <Button size="lg" onClick={handlePrimaryCta}>
-                  Attiva Abbonamento con questo Medico <ArrowRight className="h-4 w-4" />
+                  Scopri i Percorsi Salute <ArrowRight className="h-4 w-4" />
                 </Button>
                 <ButtonLink href="/contatti" variant="secondary" size="lg">
-                  Prenota Visita Singola — {formatPrice(doctor.tariffaVisita)}
+                  Prenota Visita su Appuntamento
                 </ButtonLink>
               </div>
             </div>
@@ -152,54 +151,42 @@ export function DoctorClient({ doctor }: { doctor: Doctor }) {
                 {doctor.name} è incluso nei percorsi Cocoora Club
               </h2>
               <p className="mt-4 text-base leading-relaxed text-charcoal/70">
-                Con una membership annuale, le visite con questo specialista sono
-                comprese nel tuo percorso: risparmi rispetto alla singola visita e
-                garantisci continuità di cura nel tempo.
+                Con un Percorso Salute annuale, le consulenze con questo specialista
+                rientrano in un programma coordinato di prevenzione e continuità clinica.
               </p>
             </div>
 
             <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {includedTiers.map((tier) => {
-                const detail = getTierDetail(tier.id);
-                const { savingsPercent } = detail
-                  ? computeSavings(tier.price, detail)
-                  : { savingsPercent: 0 };
-                return (
-                  <Link
-                    key={tier.id}
-                    href={`/club/${tier.id}`}
-                    className="group relative flex flex-col rounded-3xl border border-teal-100 bg-white p-7 shadow-[0_20px_50px_-28px_rgba(3,53,75,0.3)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_30px_60px_-24px_rgba(3,53,75,0.4)]"
-                  >
-                    {tier.badge && (
-                      <Badge className="absolute -top-3 left-6 bg-teal-500 text-white">{tier.badge}</Badge>
-                    )}
-                    <h3 className="font-serif text-2xl font-semibold text-teal-900">{tier.name}</h3>
-                    <p className="mt-2 flex items-baseline gap-2">
-                      <span className="font-serif text-3xl font-semibold text-teal-900">
-                        {tier.free ? "€0" : formatPrice(tier.price)}
-                      </span>
-                      <span className="text-sm text-charcoal/55">{tier.free ? "" : "/ anno"}</span>
-                    </p>
-                    {savingsPercent > 0 && (
-                      <p className="mt-2 text-sm font-medium text-teal-700">
-                        Risparmi fino al {savingsPercent}% rispetto alle prestazioni singole
-                      </p>
-                    )}
-                    <p className="mt-3 flex-1 text-sm leading-relaxed text-charcoal/70">{tier.description}</p>
-                    <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-teal-700 transition-colors group-hover:text-dark-navy">
-                      Scopri il pacchetto <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              {includedTiers.map((tier) => (
+                <Link
+                  key={tier.id}
+                  href={`/club/${tier.id}`}
+                  className="group relative flex flex-col rounded-3xl border border-teal-100 bg-white p-7 shadow-[0_20px_50px_-28px_rgba(3,53,75,0.3)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_30px_60px_-24px_rgba(3,53,75,0.4)]"
+                >
+                  {tier.badge && (
+                    <Badge className="absolute -top-3 left-6 bg-teal-500 text-white">{tier.badge}</Badge>
+                  )}
+                  <h3 className="font-serif text-2xl font-semibold text-teal-900">{tier.name}</h3>
+                  <p className="mt-2 flex items-baseline gap-2">
+                    <span className="font-serif text-3xl font-semibold text-teal-900">
+                      {tier.free ? "€0" : formatPrice(tier.price)}
                     </span>
-                  </Link>
-                );
-              })}
+                    <span className="text-sm text-charcoal/55">{tier.free ? "" : "/ anno"}</span>
+                  </p>
+                  <p className="mt-3 flex-1 text-sm leading-relaxed text-charcoal/70">{tier.description}</p>
+                  <span className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium text-teal-700 transition-colors group-hover:text-dark-navy">
+                    Scopri il percorso <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </Link>
+              ))}
             </div>
 
             <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <Button size="lg" onClick={handlePrimaryCta}>
-                Attiva Abbonamento con questo Medico <ArrowRight className="h-4 w-4" />
+                Scopri i Percorsi Salute <ArrowRight className="h-4 w-4" />
               </Button>
               <ButtonLink href="/contatti" variant="secondary" size="lg">
-                Prenota Visita Singola
+                Prenota Visita su Appuntamento
               </ButtonLink>
             </div>
           </Container>

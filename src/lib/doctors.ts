@@ -14,7 +14,7 @@ export const DOCTORS: Doctor[] = [
     branca: "Odontoiatria & Ortodonzia Digitale",
     affiliation: "Docente a contratto — Università degli Studi di Napoli \"Federico II\"",
     image: "/images/doctors/antonio-sorrentino.jpg",
-    bio: "Il Dr. Sorrentino affianca alla pratica clinica quotidiana l'attività didattica universitaria, portando in studio i protocolli più aggiornati di ortodonzia digitale e chirurgia implantare guidata. Specialista in ortodonzia con allineatori trasparenti e tecnologie digitali 3D, ha costruito il proprio percorso professionale sull'idea che la tecnologia debba semplificare, non complicare, il rapporto tra medico e paziente.",
+    bio: "Il Dr. Sorrentino affianca alla pratica clinica quotidiana l'attività didattica universitaria, portando nel centro i protocolli più aggiornati di ortodonzia digitale e chirurgia implantare guidata. Specialista in ortodonzia con allineatori trasparenti e tecnologie digitali 3D, ha costruito il proprio percorso professionale sull'idea che la tecnologia debba semplificare, non complicare, il rapporto tra medico e paziente.",
     approach:
       "Non esistono due sorrisi identici: ogni piano di trattamento nasce da una diagnosi digitale accurata e viene condiviso con il paziente prima di iniziare, senza sorprese e senza tempi morti.",
     curriculum: [
@@ -139,7 +139,7 @@ export const DOCTORS: Doctor[] = [
     branca: "Ecografia & Diagnostica per Immagini",
     affiliation: "Già Dirigente Medico — A.O.R.N. \"Antonio Cardarelli\", U.O.C. Radiologia",
     image: "/images/doctors/gennaro-iovine.jpg",
-    bio: "Il Dr. Iovine porta nel nostro centro un'esperienza maturata su migliaia di esami ecografici in ambito ospedaliero, applicata oggi a un contesto ambulatoriale rapido e ben organizzato. La sua diagnostica per immagini è il punto di riferimento trasversale a più branche cliniche dello studio.",
+    bio: "Il Dr. Iovine porta nel nostro centro un'esperienza maturata su migliaia di esami ecografici in ambito ospedaliero, applicata oggi a un contesto ambulatoriale rapido e ben organizzato. La sua diagnostica per immagini è il punto di riferimento trasversale a più branche cliniche del centro.",
     approach:
       "Un'immagine diagnostica di qualità vale quanto il tempo dedicato a leggerla: referto accurato, spiegato chiaramente, disponibile subito nella tua area digitale.",
     curriculum: [

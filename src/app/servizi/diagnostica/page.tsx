@@ -14,7 +14,7 @@ import {
 import { useCms, useShop } from "@/components/providers";
 import { SPECIALTIES } from "@/lib/diagnostics";
 import { DOCTORS } from "@/lib/doctors";
-import { CLUB_TIERS, FAMILY_ADDONS } from "@/lib/club";
+import { CLUB_TIERS } from "@/lib/club";
 import { DoctorsReferenceSection, ClubPackagesSection } from "@/components/sections/servizi-cross-links";
 import { Badge, Button, ButtonLink, Container, SectionLabel } from "@/components/ui";
 
@@ -23,10 +23,9 @@ const DIAGNOSTICA_DOCTORS = DOCTORS.filter((d) =>
     d.specialtyId ?? ""
   )
 );
-const DIAGNOSTICA_PACKAGES = [
-  ...CLUB_TIERS.filter((t) => ["care", "experience", "signature"].includes(t.id)),
-  FAMILY_ADDONS[0],
-];
+const DIAGNOSTICA_PACKAGES = CLUB_TIERS.filter((t) =>
+  ["care", "experience", "signature"].includes(t.id)
+);
 
 const iconMap: Record<string, LucideIcon> = {
   Heart,
@@ -68,7 +67,7 @@ export default function DiagnosticaPage() {
               {page?.h1 ?? "Diagnostica rapida, refertazione digitale e specialisti dedicati."}
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-charcoal/75">
-              Sei specialità cliniche integrate, senza liste d&apos;attesa e con
+              Sei specialità cliniche integrate su appuntamento dedicato, con
               referti digitali disponibili h24 nella tua area riservata.
             </p>
             <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -152,7 +151,7 @@ export default function DiagnosticaPage() {
             <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[2.5rem] shadow-[0_30px_70px_-28px_rgba(3,53,75,0.35)]">
               <Image
                 src="/images/pediatric-family.jpg"
-                alt="Visita pediatrica e famiglia a Cocoora"
+                alt="Visita pediatrica e famiglia presso Cocoora Centro Medico"
                 fill
                 sizes="(min-width: 1024px) 560px, 90vw"
                 className="object-cover"
@@ -185,12 +184,12 @@ export default function DiagnosticaPage() {
           <div className="relative overflow-hidden rounded-[2.5rem] bg-dark-navy px-8 py-16 text-center text-white sm:px-16">
             <div className="noise pointer-events-none absolute inset-0" />
             <div className="relative mx-auto max-w-2xl">
-              <Badge className="bg-white/15 text-white">Zero Liste d&apos;Attesa</Badge>
+              <Badge className="bg-white/15 text-white">Prenotazione su Appuntamento</Badge>
               <h2 className="mt-5 font-serif text-4xl font-semibold leading-tight sm:text-5xl">
                 Prenota il tuo esame diagnostico
               </h2>
               <p className="mt-4 text-base leading-relaxed text-teal-200/85">
-                Visite specialistiche ed esami senza impegnativa, con referti
+                Visite specialistiche ed esami su appuntamento dedicato, con referti
                 digitali disponibili h24 nella tua area riservata.
               </p>
               <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">

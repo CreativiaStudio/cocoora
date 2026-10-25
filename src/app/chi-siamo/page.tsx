@@ -40,31 +40,31 @@ const principles = [
 const rooms = [
   {
     number: "01",
-    title: "Studio 1",
-    subtitle: "Odontoiatria Digitale & Ortodonzia",
+    title: "Area Clinica Odontoiatrica & Ortodonzia",
+    subtitle: "Accoglienza & Precisione Digitale",
     description:
-      "Postazione clinica ergonomica con scanner intraorale 3D e diagnostica radiologica digitale integrata. Lo spazio di riferimento per i trattamenti di ortodonzia digitale e implantologia guidata.",
-    equipment: ["Scanner 3D iTero Element 5D", "Ortopanoramica Digitale HD", "Simulazione Digitale Sorriso"],
+      "Ambiente clinico ad elevata ergonomia, progettato per mettere a proprio agio il paziente durante ogni trattamento ortodontico e di prevenzione del sorriso, con protocolli di igiene e comfort ai massimi standard.",
+    equipment: ["Ergonomia e Insonorizzazione", "Flussi Digitali Integrati", "Massima Riservatezza"],
     image: "/images/dental-operatory.jpg",
     icon: Scan,
   },
   {
     number: "02",
-    title: "Studio 2",
-    subtitle: "Medicina Estetica & Laserterapia",
+    title: "Ambulatorio Medicina Rigenerativa & Benessere",
+    subtitle: "Privacy, Luce Naturale & Rilassamento",
     description:
-      "Ambiente luminoso dedicato ai percorsi di medicina estetica rigenerativa, con piattaforma laser combinata viso-corpo e tecnologie di rimodellamento non invasivo.",
-    equipment: ["Piattaforma Laser Multi-Manipolo", "Cryoliposculpt Corpo", "Biostimolazione Rigenerativa"],
+      "Spazio distensivo e luminoso dedicato ai percorsi personalizzati di medicina estetica e rigenerativa, dove tecnologie cliniche mobili d'avanguardia incontrano il massimo relax.",
+    equipment: ["Ambiente Riservato", "Tecnologie Cliniche Avanzate", "Protocolli Rigenerativi Personalizzati"],
     image: "/images/laser-technology.jpg",
     icon: Zap,
   },
   {
     number: "03",
-    title: "Studio 3",
-    subtitle: "Visite Specialistiche & Diagnostica",
+    title: "Ambulatorio Specialistico & Diagnostica",
+    subtitle: "Ascolto Autentico & Approccio Multidisciplinare",
     description:
-      "Ambulatorio multidisciplinare dotato di ecografo HD ed elettrocardiografo digitale, dedicato alle visite specialistiche con i nostri medici e docenti universitari.",
-    equipment: ["Ecografo HD Multidisciplinare", "Elettrocardiografo Digitale", "Refertazione Digitale Integrata"],
+      "Ambulatorio dedicato ai consulti con la nostra équipe di docenti universitari e specialisti: tempi dedicati, ascolto attento e refertazione integrata per la tua prevenzione.",
+    equipment: ["Visite Senza Fretta", "Diagnostica Clinica Coordinata", "Cartella Clinica Unica Integrata"],
     image: "/images/diagnostics-lab.jpg",
     icon: Activity,
   },
@@ -110,11 +110,11 @@ export default function ChiSiamoPage() {
         <div className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-24 pt-40 sm:px-10">
           <Badge className="mb-8 border border-white/20 bg-white/10 px-4 py-1.5 text-teal-200 backdrop-blur-md">
             <Sparkles className="h-3.5 w-3.5" />
-            Lo Studio &amp; La Visione
+            Il Centro &amp; La Visione
           </Badge>
 
           <h1 className="max-w-4xl font-serif text-5xl font-semibold leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-7xl">
-            Uno studio medico pensato come
+            Un centro medico pensato come
             <span className="mt-1 block italic text-teal-200">un luogo per respirare.</span>
           </h1>
 
@@ -126,11 +126,11 @@ export default function ChiSiamoPage() {
 
           <div className="mt-11 flex flex-wrap items-center gap-4">
             <ButtonLink
-              href="#stanze"
+              href="#ambienti"
               size="lg"
               className="bg-white px-8 text-dark-navy hover:bg-teal-50"
             >
-              Esplora gli Ambienti
+              I Nostri Ambienti
               <ArrowRight className="h-4 w-4" />
             </ButtonLink>
             <ButtonLink
@@ -177,7 +177,7 @@ export default function ChiSiamoPage() {
       </section>
 
       {/* ============ GLI SPAZI DEL CENTRO ============ */}
-      <section id="stanze" className="relative overflow-hidden bg-dark-navy py-28">
+      <section id="ambienti" className="relative overflow-hidden bg-dark-navy py-28">
         <div className="pointer-events-none absolute -left-40 top-20 h-[28rem] w-[28rem] rounded-full bg-teal-500/15 blur-3xl" />
         <div className="pointer-events-none absolute -right-40 top-1/2 h-[30rem] w-[30rem] rounded-full bg-slate-accent/15 blur-3xl" />
         <div className="pointer-events-none absolute -bottom-32 left-1/3 h-96 w-96 rounded-full bg-teal-600/20 blur-3xl" />
@@ -189,8 +189,8 @@ export default function ChiSiamoPage() {
               Gli Spazi di Cocoora
             </h2>
             <p className="mt-6 text-base leading-[1.8] text-teal-100/80 sm:text-lg">
-              Tre ambienti clinici indipendenti, ciascuno progettato con una specifica vocazione specialistica
-              e curato nei materiali, nell&apos;insonorizzazione e nell&apos;illuminazione naturale per il massimo comfort.
+              Ambienti clinici modulari, ciascuno curato nei materiali, nell&apos;insonorizzazione
+              e nel comfort visivo per garantire riservatezza assoluta e un&apos;accoglienza a misura d&apos;uomo.
             </p>
           </div>
 
@@ -395,7 +395,7 @@ export default function ChiSiamoPage() {
             <div>
               <SectionEyebrow align="left">La Sede di Napoli</SectionEyebrow>
               <h2 className="font-serif text-4xl font-semibold leading-[1.1] text-teal-900 sm:text-5xl">
-                Uno studio facilmente raggiungibile, nel cuore della città
+                Un centro medico facilmente raggiungibile, nel cuore della città
               </h2>
               <p className="mt-6 text-base leading-[1.8] text-charcoal/70 sm:text-lg">
                 Il nostro centro si trova in <strong className="font-semibold text-teal-900">Via Giovanni De Bonis 81</strong>, in una
@@ -449,7 +449,7 @@ export default function ChiSiamoPage() {
                     variant="outline-dark"
                     className="border-white/25 bg-white/5 hover:bg-white/10"
                   >
-                    Scopri i Piani Salute
+                    Scopri i Percorsi Salute
                   </ButtonLink>
                 </div>
 

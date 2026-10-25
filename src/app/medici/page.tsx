@@ -7,6 +7,7 @@ import { ArrowRight, GraduationCap, Search, X } from "lucide-react";
 import { BRANCHE, DOCTORS } from "@/lib/doctors";
 import { cn } from "@/lib/utils";
 import { Button, ButtonLink, Container, SectionLabel } from "@/components/ui";
+import { useShop } from "@/components/providers";
 
 // Mappatura etichette brevi per una UI più pulita ed elegante
 const BRANCA_SHORT_LABELS: Record<string, string> = {
@@ -23,6 +24,7 @@ const BRANCA_SHORT_LABELS: Record<string, string> = {
 };
 
 export default function MediciPage() {
+  const { openBooking } = useShop();
   const [filter, setFilter] = useState<string>("Tutte");
   const [search, setSearch] = useState<string>("");
 
@@ -164,10 +166,9 @@ export default function MediciPage() {
           {filtered.length > 0 ? (
             <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
               {filtered.map((doctor) => (
-                <Link
+                <div
                   key={doctor.slug}
-                  href={`/medici/${doctor.slug}`}
-                  className="group flex flex-col overflow-hidden rounded-[2rem] border border-teal-100/80 bg-white shadow-[0_20px_50px_-28px_rgba(3,53,75,0.22)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_32px_70px_-24px_rgba(3,53,75,0.35)] hover:border-teal-300"
+                  className="group flex flex-col overflow-hidden rounded-[2rem] border border-teal-100/80 bg-white shadow-[0_20px_50px_-28px_rgba(3,53,75,0.22)] transition-all duration-300 hover:shadow-[0_28px_60px_-24px_rgba(3,53,75,0.3)] hover:border-teal-200"
                 >
                   {/* Ritratto medico in formato verticale (3:4) con focus volto */}
                   <div className="relative aspect-[3/4] w-full overflow-hidden bg-teal-50">
@@ -202,14 +203,18 @@ export default function MediciPage() {
                     </p>
                     <div className="mt-5 flex items-center justify-between gap-3 border-t border-teal-50 pt-4">
                       <span className="inline-flex items-center gap-1.5 rounded-full bg-teal-50 px-3 py-1 text-[11px] font-semibold text-teal-800">
-                        Percorsi Salute
+                        Équipe Cocoora
                       </span>
-                      <span className="inline-flex items-center gap-1.5 text-sm font-medium text-teal-700 transition-colors group-hover:text-dark-navy">
-                        Scopri profilo <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                      </span>
+                      <button
+                        type="button"
+                        onClick={() => openBooking(doctor.branca)}
+                        className="inline-flex items-center gap-1.5 rounded-full bg-teal-900 px-3.5 py-1.5 text-xs font-semibold text-white shadow-xs transition-colors hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-700/20"
+                      >
+                        Prenota con lo Specialista <ArrowRight className="h-3.5 w-3.5" />
+                      </button>
                     </div>
                   </div>
-                </Link>
+                </div>
               ))}
             </div>
           ) : (
@@ -251,8 +256,8 @@ export default function MediciPage() {
               </h2>
               <p className="mt-4 text-base leading-relaxed text-teal-200/85">
                 Con Cocoora Club scegli il tuo percorso annuale e includi le
-                visite con i tuoi specialisti di fiducia, a un prezzo molto più
-                conveniente della singola prestazione isolata.
+                visite con i tuoi specialisti di riferimento in un programma
+                strutturato di prevenzione e continuità clinica.
               </p>
               <div className="mt-8 flex justify-center">
                 <ButtonLink href="/club" variant="white" size="lg">

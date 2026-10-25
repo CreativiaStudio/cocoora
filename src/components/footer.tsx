@@ -107,19 +107,42 @@ export function Footer() {
                   {SITE.phone}
                 </a>
               </li>
-              <li>
-                <a
-                  href={`mailto:${SITE.email}`}
-                  className="flex items-center gap-3 break-all transition-colors hover:text-white"
-                >
+              <li className="space-y-1.5">
+                <div className="flex items-center gap-3 text-white font-medium text-xs uppercase tracking-wider">
                   <Mail className="h-4 w-4 shrink-0 text-slate-accent" />
-                  {SITE.email}
-                </a>
+                  <span>Email Istituzionali</span>
+                </div>
+                <div className="pl-7 space-y-1 text-xs">
+                  <div>
+                    <span className="text-teal-200/60">Info: </span>
+                    <a href={`mailto:${SITE.emails.info}`} className="hover:text-white transition-colors">
+                      {SITE.emails.info}
+                    </a>
+                  </div>
+                  <div>
+                    <span className="text-teal-200/60">Prenotazioni: </span>
+                    <a href={`mailto:${SITE.emails.prenotazioni}`} className="hover:text-white transition-colors">
+                      {SITE.emails.prenotazioni}
+                    </a>
+                  </div>
+                  <div>
+                    <span className="text-teal-200/60">Amministrazione: </span>
+                    <a href={`mailto:${SITE.emails.amministrazione}`} className="hover:text-white transition-colors">
+                      {SITE.emails.amministrazione}
+                    </a>
+                  </div>
+                  <div>
+                    <span className="text-teal-200/60">Direzione Sanitaria: </span>
+                    <a href={`mailto:${SITE.emails.direzioneSanitaria}`} className="hover:text-white transition-colors">
+                      {SITE.emails.direzioneSanitaria}
+                    </a>
+                  </div>
+                </div>
               </li>
               <li className="flex items-start gap-3">
                 <Clock className="mt-0.5 h-4 w-4 shrink-0 text-slate-accent" />
                 <span>
-                  Lun–Ven · 8:00–20:00
+                  Lun–Ven · 8:00–20:00 <span className="text-slate-accent text-xs block sm:inline">(Orario continuato)</span>
                   <br />
                   Sab · 9:00–14:00
                 </span>

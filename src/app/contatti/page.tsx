@@ -57,7 +57,7 @@ export default function ContattiPage() {
   const update = <K extends keyof FormState>(key: K, value: FormState[K]) =>
     setForm((prev) => ({ ...prev, [key]: value }));
 
-  const submit = (e: FormEvent) => {
+  const submit = async (e: FormEvent) => {
     e.preventDefault();
     if (!form.nome.trim() || !form.cognome.trim() || !form.telefono.trim() || !form.email.trim()) {
       setError("Compila tutti i campi obbligatori per proseguire.");
@@ -69,11 +69,29 @@ export default function ContattiPage() {
     }
     setError("");
     setSending(true);
-    trackLead({ email: form.email, name: `${form.nome} ${form.cognome}`.trim() });
-    window.setTimeout(() => {
-      setSending(false);
+
+    try {
+      trackLead({ email: form.email, name: `${form.nome} ${form.cognome}`.trim() });
+
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || "Errore durante l'invio della richiesta. Riprova più tardi.");
+      }
+
       setSent(true);
-    }, 900);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Si è verificato un errore imprevisto. Riprova.";
+      setError(msg);
+    } finally {
+      setSending(false);
+    }
   };
 
   const resetForm = () => {
@@ -111,7 +129,7 @@ export default function ContattiPage() {
               <div className="rounded-[2rem] border border-teal-100 bg-white p-8 shadow-[0_16px_40px_-28px_rgba(3,53,75,0.3)]">
                 <SectionLabel>Dove Siamo</SectionLabel>
                 <h2 className="font-serif text-2xl font-semibold text-teal-900">
-                  Cocoora Studio Medico
+                  Cocoora Centro Medico
                 </h2>
                 <ul className="mt-6 space-y-4 text-sm text-charcoal/80">
                   <li className="flex items-start gap-3">
@@ -126,14 +144,30 @@ export default function ContattiPage() {
                   </li>
                   <li className="flex items-start gap-3">
                     <Mail className="mt-0.5 h-5 w-5 shrink-0 text-teal-700" />
-                    <a href={`mailto:${SITE.email}`} className="hover:text-teal-800">
-                      {SITE.email}
-                    </a>
+                    <div className="space-y-1.5">
+                      <p className="text-xs font-semibold uppercase tracking-wider text-teal-900">
+                        Email Istituzionali
+                      </p>
+                      <div className="grid gap-1">
+                        <a href={`mailto:${SITE.emails.info}`} className="block hover:text-teal-800">
+                          <span className="font-medium text-dark-navy">Informazioni:</span> {SITE.emails.info}
+                        </a>
+                        <a href={`mailto:${SITE.emails.prenotazioni}`} className="block hover:text-teal-800">
+                          <span className="font-medium text-dark-navy">Prenotazioni:</span> {SITE.emails.prenotazioni}
+                        </a>
+                        <a href={`mailto:${SITE.emails.amministrazione}`} className="block hover:text-teal-800">
+                          <span className="font-medium text-dark-navy">Amministrazione:</span> {SITE.emails.amministrazione}
+                        </a>
+                        <a href={`mailto:${SITE.emails.direzioneSanitaria}`} className="block hover:text-teal-800">
+                          <span className="font-medium text-dark-navy">Direzione Sanitaria:</span> {SITE.emails.direzioneSanitaria}
+                        </a>
+                      </div>
+                    </div>
                   </li>
                   <li className="flex items-start gap-3">
                     <Clock className="mt-0.5 h-5 w-5 shrink-0 text-teal-700" />
                     <span>
-                      Lun–Ven · 8:00–20:00
+                      Lun–Ven · 8:00–20:00 <span className="font-medium text-teal-700">(Orario continuato)</span>
                       <br />
                       Sab · 9:00–14:00
                     </span>
@@ -185,7 +219,7 @@ export default function ContattiPage() {
                 <div className="hero-mesh absolute inset-0 opacity-20" />
                 <div className="relative flex flex-col items-center text-center text-white">
                   <MapPin className="h-8 w-8 text-slate-accent" />
-                  <p className="mt-3 font-serif text-lg font-semibold">Cocoora Studio Medico</p>
+                  <p className="mt-3 font-serif text-lg font-semibold">Cocoora Centro Medico</p>
                   <p className="mt-1 text-sm text-teal-200/80">{SITE.fullAddress}</p>
                 </div>
               </div>
@@ -276,7 +310,7 @@ export default function ContattiPage() {
                       <span>
                         Ho letto l&apos;informativa privacy e acconsento al
                         trattamento dei miei dati per essere ricontattato da
-                        Cocoora Studio Medico. *
+                        Cocoora Centro Medico. *
                       </span>
                     </label>
 
@@ -293,13 +327,14 @@ export default function ContattiPage() {
                     <Check className="h-8 w-8" />
                   </div>
                   <h3 className="mt-6 font-serif text-2xl font-semibold text-teal-900">
-                    Richiesta inviata con successo
+                    Richiesta presa in carico
                   </h3>
                   <p className="mt-3 max-w-sm text-sm leading-relaxed text-charcoal/70">
-                    Grazie {form.nome}! Ti abbiamo inviato una mail di conferma a{" "}
-                    <span className="font-medium text-teal-800">{form.email}</span>.
-                    Il nostro team ti ricontatterà a breve per definire data e
-                    orario della tua visita.
+                    Grazie <span className="font-medium text-teal-900">{form.nome}</span>! La tua richiesta per{" "}
+                    <span className="font-medium text-teal-800">{form.servizio}</span> è stata registrata da Cocoora Centro Medico.
+                    La nostra segreteria ti ricontatterà a breve ai recapiti indicati (
+                    <span className="font-medium text-teal-800">{form.telefono}</span> ·{" "}
+                    <span className="font-medium text-teal-800">{form.email}</span>) per concordare data e orario della visita.
                   </p>
                   <Button className="mt-7" onClick={resetForm}>
                     Invia un&apos;altra richiesta

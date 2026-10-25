@@ -55,17 +55,29 @@ const CLUB_ENTRY_FEATURES = [
 
 // Aree Mediche in evidenza — ordine tassativo:
 // 1° Medicina Estetica & Rigenerativa · 2° Odontoiatria e Ortodonzia · 3° Visite Specialistiche
-const AREE_MEDICHE_ORDER = [
-  "/servizi/medicina-estetica",
-  "/servizi/odontoiatria",
-  "/visite",
+const AREE_MEDICHE: NavChild[] = [
+  {
+    label: "Medicina Estetica & Rigenerativa",
+    href: "/servizi/medicina-estetica",
+    description:
+      "Viso (Biostimolazione, Filler, Tossina botulinica), Corpo (Criolipolisi, Ultrasuoni CFU) e Laser medicali.",
+    image: "/images/aesthetic-skin.jpg",
+  },
+  {
+    label: "Odontoiatria & Ortodonzia",
+    href: "/servizi/odontoiatria",
+    description:
+      "Allineatori Trasparenti, Ortodonzia Specialistica, Estetica del Sorriso, Igiene & Prevenzione.",
+    image: "/images/invisalign-smile.jpg",
+  },
+  {
+    label: "Visite Specialistiche",
+    href: "/visite",
+    description:
+      "Cardiologia, Ginecologia, Senologia, Ecografia, Oculistica, Pediatria, Psicologia e Medicina dello Sport.",
+    image: "/images/diagnostics-lab.jpg",
+  },
 ];
-
-const AREE_MEDICHE: NavChild[] = AREE_MEDICHE_ORDER.map((href) =>
-  (NAV_NODES.find((n) => n.label === "Aree Mediche")?.children ?? []).find(
-    (c) => c.href === href
-  )
-).filter((c): c is NavChild => Boolean(c));
 
 export default function HomePage() {
   const { pages } = useCms();

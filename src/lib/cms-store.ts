@@ -73,10 +73,10 @@ function buildDefaultPages(): SeoPage[] {
       id: "page_odontoiatria",
       path: "/servizi/odontoiatria",
       label: "Odontoiatria",
-      title: "Odontoiatria e Ortodonzia a Cocoora | Allineatori Trasparenti",
+      title: "Odontoiatria e Ortodonzia — Cocoora Centro Medico | Allineatori Trasparenti",
       metaDescription:
         "Cura, prevenzione e allineamento del sorriso con un approccio digitale e specialistico a Napoli.",
-      h1: "Odontoiatria e ortodonzia a Cocoora",
+      h1: "Odontoiatria e ortodonzia presso Cocoora",
       h2: "Ortodonzia Digitale & Allineatori Trasparenti",
       faq: [
         {
@@ -94,10 +94,10 @@ function buildDefaultPages(): SeoPage[] {
       id: "page_medicina_estetica",
       path: "/servizi/medicina-estetica",
       label: "Medicina Estetica",
-      title: "Medicina Estetica a Cocoora | Trattamenti medici e rigenerativi",
+      title: "Medicina Estetica — Cocoora Centro Medico | Trattamenti medici e rigenerativi",
       metaDescription:
         "Tecnologie medicali, trattamenti rigenerativi e protocolli personalizzati per valorizzare viso e corpo in modo armonico e naturale.",
-      h1: "Medicina estetica a Cocoora",
+      h1: "Medicina estetica presso Cocoora",
       h2: "L'approccio Cocoora",
       faq: [
         {
@@ -136,15 +136,15 @@ function buildDefaultPages(): SeoPage[] {
       id: "page_diagnostica",
       path: "/servizi/diagnostica",
       label: "Diagnostica",
-      title: "Visite Specialistiche & Diagnostica a Cocoora | Napoli",
+      title: "Visite Specialistiche & Diagnostica — Cocoora Centro Medico | Napoli",
       metaDescription:
-        "Cardiologia, senologia, ecografia, oculistica, pediatria e ginecologia: diagnostica rapida, refertazione digitale e specialisti dedicati, senza liste d'attesa.",
-      h1: "Diagnostica rapida, refertazione digitale e specialisti dedicati.",
+        "Cardiologia, senologia, ecografia, oculistica, pediatria e ginecologia: diagnostica dedicata, refertazione digitale e specialisti coordinati su appuntamento.",
+      h1: "Diagnostica dedicata, refertazione digitale e specialisti di riferimento.",
       h2: "Visite Specialistiche e Diagnostica",
       faq: [
         {
           q: "Serve l'impegnativa del medico di base per prenotare?",
-          a: "No, presso Cocoora puoi prenotare visite specialistiche ed esami diagnostici anche in regime privato, senza impegnativa e senza liste d'attesa.",
+          a: "No, presso Cocoora puoi prenotare visite specialistiche ed esami diagnostici in regime privato su appuntamento dedicato, senza impegnativa.",
         },
         {
           q: "Quanto tempo occorre per ricevere il referto?",
@@ -178,19 +178,19 @@ function buildDefaultPages(): SeoPage[] {
       id: "page_contatti",
       path: "/contatti",
       label: "Contatti",
-      title: "Contatti & Prenotazioni — Cocoora Studio Medico Napoli",
+      title: "Contatti & Prenotazioni — Cocoora Centro Medico Napoli",
       metaDescription:
-        "Prenota la tua visita a Cocoora: indirizzo Napoli, telefono, email, orari di apertura e form di richiesta prenotazione. Rispondiamo in meno di 2 minuti.",
+        "Prenota la tua visita presso Cocoora Centro Medico: indirizzo Napoli, telefono, email istituzionali, orario continuato e form di richiesta appuntamento.",
       h1: "Prenota la tua visita in meno di 2 minuti.",
       h2: "Contatti & Prenotazioni",
       faq: [
         {
           q: "Quali sono gli orari di apertura?",
-          a: "Siamo aperti dal Lunedì al Venerdì dalle 8:00 alle 20:00 e il Sabato dalle 9:00 alle 14:00.",
+          a: "Siamo aperti dal Lunedì al Venerdì dalle 8:00 alle 20:00 (orario continuato) e il Sabato dalle 9:00 alle 14:00.",
         },
         {
           q: "Come posso raggiungervi con i mezzi pubblici?",
-          a: "Lo studio è comodamente raggiungibile con la metropolitana e dispone di parcheggi convenzionati nelle vicinanze per chi arriva in auto.",
+          a: "Il centro medico è comodamente raggiungibile con la metropolitana e dispone di parcheggi convenzionati nelle vicinanze per chi arriva in auto.",
         },
       ],
       canvasMode: false,
