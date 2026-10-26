@@ -103,8 +103,6 @@ const TIER_GRADIENTS: Record<string, string> = {
     "linear-gradient(160deg, rgba(255,255,255,0.08) 0%, rgba(93,132,151,0.12) 100%)",
   signature:
     "linear-gradient(160deg, rgba(255,255,255,0.09) 0%, rgba(93,132,151,0.16) 60%, rgba(3,53,75,0.20) 100%)",
-  "signature-longevity":
-    "linear-gradient(160deg, rgba(255,255,255,0.10) 0%, rgba(128,161,178,0.16) 55%, rgba(3,53,75,0.24) 100%)",
 };
 
 

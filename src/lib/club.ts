@@ -104,22 +104,6 @@ export const CLUB_TIERS: ClubTier[] = [
       "Sconto Club 20% su tutte le prestazioni extra",
     ],
   },
-  {
-    id: "signature-longevity",
-    name: "Signature Longevity",
-    shortName: "Longevity",
-    price: 1190,
-    priceLabel: "€1.190 / anno",
-    description:
-      "Il programma più avanzato dedicato alla longevità e all'ottimizzazione del benessere.",
-    features: [
-      "Tutto il percorso Signature",
-      "Protocollo Longevity dedicato",
-      "Test genetici e biomarcatori",
-      "Piano nutrizionale di precisione",
-      "Follow-up continuo dedicato",
-    ],
-  },
 ];
 
 export const FAMILY_ADDONS: ClubTier[] = [

@@ -40,7 +40,7 @@ export const DOCTORS: Doctor[] = [
       "gnatologia-bruxismo-bite",
     ],
     specialtyId: undefined,
-    clubTierIds: ["access", "care", "experience", "signature", "signature-longevity"],
+    clubTierIds: ["access", "care", "experience", "signature"],
     tariffaVisita: 90,
   },
   {
@@ -74,7 +74,7 @@ export const DOCTORS: Doctor[] = [
       "tossina-botulinica",
       "cryoliposculpt",
     ],
-    clubTierIds: ["access", "care", "experience", "signature", "signature-longevity"],
+    clubTierIds: ["access", "care", "experience", "signature"],
     tariffaVisita: 120,
   },
   {
@@ -102,7 +102,7 @@ export const DOCTORS: Doctor[] = [
       "Percorsi di prevenzione cardiovascolare Cocoora Club",
     ],
     specialtyId: "cardiologia",
-    clubTierIds: ["access", "care", "experience", "signature", "signature-longevity"],
+    clubTierIds: ["access", "care", "experience", "signature"],
     tariffaVisita: 130,
   },
   {
@@ -129,7 +129,7 @@ export const DOCTORS: Doctor[] = [
       "Percorsi integrati Donna Precision",
     ],
     specialtyId: "senologia",
-    clubTierIds: ["care", "experience", "signature", "signature-longevity"],
+    clubTierIds: ["care", "experience", "signature"],
     tariffaVisita: 120,
   },
   {
@@ -157,7 +157,7 @@ export const DOCTORS: Doctor[] = [
       "Ecografia muscolo-tendinea",
     ],
     specialtyId: "radiologia-ecografie",
-    clubTierIds: ["experience", "signature", "signature-longevity", "family-senior"],
+    clubTierIds: ["experience", "signature"],
     tariffaVisita: 90,
   },
   {
@@ -184,7 +184,7 @@ export const DOCTORS: Doctor[] = [
       "Esame del fondo oculare (fundus oculi)",
     ],
     specialtyId: "oculistica",
-    clubTierIds: ["care", "experience", "signature", "signature-longevity"],
+    clubTierIds: ["care", "experience", "signature"],
     tariffaVisita: 110,
   },
   {
@@ -211,7 +211,7 @@ export const DOCTORS: Doctor[] = [
       "Coordinamento con ortodonzia intercettiva",
     ],
     specialtyId: "pediatria",
-    clubTierIds: ["family-basic", "family-elite", "family-senior"],
+    clubTierIds: ["family-basic", "family-elite"],
     tariffaVisita: 90,
   },
   {
@@ -238,7 +238,7 @@ export const DOCTORS: Doctor[] = [
       "Test del microbiota vaginale integrato",
     ],
     specialtyId: "ginecologia",
-    clubTierIds: ["care", "experience", "signature", "signature-longevity"],
+    clubTierIds: ["care", "experience", "signature"],
     tariffaVisita: 110,
   },
   {
@@ -264,7 +264,7 @@ export const DOCTORS: Doctor[] = [
       "Percorsi Nutri Precision (DNA 5 e microbiota)",
       "Follow-up e monitoraggio della composizione corporea",
     ],
-    clubTierIds: ["access", "care", "experience", "signature", "signature-longevity"],
+    clubTierIds: ["access", "care", "experience", "signature"],
     tariffaVisita: 100,
   },
 ];

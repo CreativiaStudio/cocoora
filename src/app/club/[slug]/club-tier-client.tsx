@@ -26,7 +26,6 @@ const TIER_IMAGES: Record<string, string> = {
   care: "/images/diagnostics-lab.jpg",
   experience: "/images/laser-technology.jpg",
   signature: "/images/hero-clinic.jpg",
-  "signature-longevity": "/images/dna-genomics.jpg",
 };
 
 // Feature flag: oscura il Calcolatore del Risparmio sul sito pubblico.

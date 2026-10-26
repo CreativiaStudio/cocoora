@@ -1,30 +1,13 @@
 import type { ClubExamItem, ClubTierDetail } from "./types";
 
 // ─────────────────────────────────────────────────────────────────────────
-// Layer 3 — Scomposizione clinica dettagliata dei pacchetti Cocoora Club.
-// Ogni voce ha un valore indicativo di mercato "a tariffa singola", usato
-// per calcolare il risparmio effettivo rispetto all'acquisto separato.
+// Layer 3 — Prestazioni cliniche incluse nei Percorsi Salute Cocoora Club.
+// Fonte Unica e Ufficiale: Tabella Comparativa Prestazioni (26/10/2026).
 // ─────────────────────────────────────────────────────────────────────────
 
 const CORE_DOCTORS = ["antonio-sorrentino", "chiara-del-prete", "ferdinando-esposito", "luca-marino"];
 const CARE_DOCTORS = [...CORE_DOCTORS, "ilaria-russo", "marianna-coppola", "federica-caputo"];
 const EXPERIENCE_DOCTORS = [...CARE_DOCTORS, "gennaro-iovine"];
-
-const CARE_COMMON: ClubExamItem[] = [
-  { label: "Check-up con visita medica generale", value: 90 },
-  { label: "Pannello ematico esteso (emocromo, epatico, renale, tiroide TSH, vitamina D, ferritina)", value: 90 },
-  { label: "ECG a riposo + visita cardiologica", value: 130 },
-  { label: "Visita odontoiatrica + igiene dentale professionale", value: 130 },
-  { label: "Visita medicina estetica + skin check-up digitale", value: 120 },
-  { label: "Consulenza nutrizionale con piano personalizzato", value: 90 },
-];
-
-const EXPERIENCE_EXTRA: ClubExamItem[] = [
-  { label: "Ecografia addome completo", value: 90 },
-  { label: "Ecocardiogramma color-Doppler", value: 120 },
-  { label: "Visita oculistica completa + tonometria", value: 100 },
-  { label: "Test genetico DNA 5 — pannello mirato", value: 250 },
-];
 
 export const CLUB_TIER_DETAILS: ClubTierDetail[] = [
   {
@@ -34,10 +17,7 @@ export const CLUB_TIER_DETAILS: ClubTierDetail[] = [
       { label: "Questionario anamnestico di base", value: 0 },
       { label: "Accesso al catalogo completo degli specialisti", value: 0 },
     ],
-    doctorSlugs: [
-      ...EXPERIENCE_DOCTORS,
-      "gennaro-iovine",
-    ],
+    doctorSlugs: EXPERIENCE_DOCTORS,
     perks: ["Nessun costo di attivazione", "Kit di benvenuto digitale", "Referti sempre disponibili in app"],
   },
   {
@@ -45,12 +25,12 @@ export const CLUB_TIER_DETAILS: ClubTierDetail[] = [
     installmentCount: 3,
     installmentProviders: ["Klarna", "Scalapay", "PayPal"],
     commonExams: [
-      { label: "Visita medica generale", value: 60 },
-      { label: "Elettrocardiogramma (ECG) a riposo", value: 40 },
-      { label: "Esami ematici — pannello base", value: 45 },
-      { label: "Visita odontoiatrica di controllo + OPT panoramica", value: 90 },
-      { label: "Consulenza nutrizionale", value: 60 },
-      { label: "Visita di medicina estetica", value: 80 },
+      { label: "Check-up laboratorio ematochimico Salute (17 voci, urine incluse)", value: 0 },
+      { label: "Medicina interna + ECG a 12 derivazioni a riposo con referto", value: 0 },
+      { label: "Visita odontoiatrica specialistica + OPT digitale (panoramica)", value: 0 },
+      { label: "Visita di medicina estetica viso/corpo (valutazione clinica)", value: 0 },
+      { label: "Booklet personale «Il tuo Percorso di Salute»", value: 0 },
+      { label: "Sconto Club 5% su tutte le prestazioni extra non incluse", value: 0 },
     ],
     doctorSlugs: CORE_DOCTORS,
     perks: ["Accesso prioritario alla clinica", "Condizioni dedicate riservate agli iscritti", "Referti digitali h24"],
@@ -59,11 +39,18 @@ export const CLUB_TIER_DETAILS: ClubTierDetail[] = [
     tierId: "care",
     installmentCount: 3,
     installmentProviders: ["Klarna", "Scalapay", "PayPal"],
-    commonExams: CARE_COMMON,
-    genderExams: {
-      uomo: [{ label: "Ecografia vescico-prostatica di prevenzione", value: 100 }],
-      donna: [{ label: "Visita ginecologica + ecografia pelvica", value: 140 }],
-    },
+    commonExams: [
+      { label: "Tutte le prestazioni incluse nel percorso Access", value: 0 },
+      { label: "Check-up laboratorio ematochimico Salute (17 voci, urine incluse)", value: 0 },
+      { label: "Medicina interna + ECG a 12 derivazioni con referto", value: 0 },
+      { label: "Seduta di igiene orale professionale in sede", value: 0 },
+      { label: "Visita odontoiatrica specialistica + OPT digitale", value: 0 },
+      { label: "Visita nutrizionale specialistica + piano alimentare scritto", value: 0 },
+      { label: "1° controllo nutrizionale di monitoraggio", value: 0 },
+      { label: "Visita di medicina estetica viso/corpo (valutazione clinica)", value: 0 },
+      { label: "Booklet personale «Il tuo Percorso di Salute»", value: 0 },
+      { label: "Sconto Club 10% su tutte le prestazioni extra non incluse", value: 0 },
+    ],
     doctorSlugs: CARE_DOCTORS,
     perks: ["Priorità di prenotazione", "Percorsi Uomo / Donna dedicati", "Continuità assistenziale coordinata"],
   },
@@ -71,10 +58,23 @@ export const CLUB_TIER_DETAILS: ClubTierDetail[] = [
     tierId: "experience",
     installmentCount: 3,
     installmentProviders: ["Klarna", "Scalapay", "PayPal"],
-    commonExams: [...CARE_COMMON, ...EXPERIENCE_EXTRA],
+    commonExams: [
+      { label: "Tutte le prestazioni incluse nel percorso Care Plus", value: 0 },
+      { label: "Check-up laboratorio ematochimico Completo Uomo / Donna", value: 0 },
+      { label: "Visita cardiologica specialistica + ecocardiogramma Color Doppler", value: 0 },
+      { label: "Visita oculistica specialistica + skin check-up", value: 0 },
+      { label: "Igiene orale professionale in sede + OPT digitale", value: 0 },
+      { label: "Visita nutrizionale + 1° e 2° controllo di monitoraggio", value: 0 },
+      { label: "Visita di medicina estetica viso/corpo", value: 0 },
+      { label: "Concierge sanitario dedicato e priorità assoluta", value: 0 },
+      { label: "Booklet personale «Il tuo Percorso di Salute»", value: 0 },
+      { label: "Sconto Club 15% su tutte le prestazioni extra non incluse", value: 0 },
+    ],
     genderExams: {
-      uomo: [{ label: "Ecografia prostatica trans-addominale + valutazione andrologica", value: 110 }],
-      donna: [{ label: "Ecografia mammaria bilaterale + visita senologica", value: 150 }],
+      uomo: [],
+      donna: [
+        { label: "Visita senologica specialistica + ecografia mammaria bilaterale", value: 0 },
+      ],
     },
     doctorSlugs: EXPERIENCE_DOCTORS,
     perks: ["Diagnostica per immagini inclusa", "Concierge sanitario dedicato", "Accesso prioritario assoluto"],
@@ -84,34 +84,27 @@ export const CLUB_TIER_DETAILS: ClubTierDetail[] = [
     installmentCount: 3,
     installmentProviders: ["Klarna", "Scalapay", "PayPal"],
     commonExams: [
-      ...CARE_COMMON,
-      ...EXPERIENCE_EXTRA,
-      { label: "Valutazione multidisciplinare con equipe dedicata", value: 150 },
-      { label: "Piano di salute personalizzato (nutrizionista + follow-up)", value: 120 },
-      { label: "Ecografia tiroidea", value: 70 },
-      { label: "Refertazione prioritaria e assistenza dedicata", value: 80 },
+      { label: "Tutte le prestazioni incluse nel percorso Experience", value: 0 },
+      { label: "Check-up laboratorio Avanzato Uomo/Donna + test FIT (sangue occulto)", value: 0 },
+      { label: "Ecografia addome completo ad alta risoluzione", value: 0 },
+      { label: "Visita dermatologica specialistica + dermatoscopia (mappatura nei)", value: 0 },
+      { label: "Test genomico DNA 5 + consulenza genetica specialistica", value: 0 },
+      { label: "Visita cardiologica + ecocardiogramma Color Doppler", value: 0 },
+      { label: "Visita oculistica specialistica + skin check-up", value: 0 },
+      { label: "Visita nutrizionale specialistica con doppio follow-up", value: 0 },
+      { label: "Igiene orale professionale + visita odontoiatrica con OPT", value: 0 },
+      { label: "Coordinamento clinico multidisciplinare dedicato dell'équipe", value: 0 },
+      { label: "Booklet personale «Il tuo Percorso di Salute»", value: 0 },
+      { label: "Sconto Club 20% su tutte le prestazioni extra non incluse", value: 0 },
     ],
+    genderExams: {
+      uomo: [],
+      donna: [
+        { label: "Visita senologica specialistica + ecografia mammaria bilaterale", value: 0 },
+      ],
+    },
     doctorSlugs: EXPERIENCE_DOCTORS,
-    perks: ["Una singola consulenza per ciascuna specialità", "Percorso di salute personalizzato", "Refertazione prioritaria"],
-  },
-  {
-    tierId: "signature-longevity",
-    installmentCount: 3,
-    installmentProviders: ["Klarna", "Scalapay", "PayPal"],
-    commonExams: [
-      ...CARE_COMMON,
-      ...EXPERIENCE_EXTRA,
-      { label: "Valutazione multidisciplinare con equipe dedicata", value: 150 },
-      { label: "Piano di salute personalizzato (nutrizionista + follow-up)", value: 120 },
-      { label: "Ecografia tiroidea", value: 70 },
-      { label: "Refertazione prioritaria e assistenza dedicata", value: 80 },
-      { label: "Pannello Longevity Biomarkers avanzato (infiammazione, stress ossidativo, ormonale)", value: 280 },
-      { label: "Test Microbiota Intestinale NGS", value: 200 },
-      { label: "Piano nutrizionale di precisione con 3 follow-up dedicati", value: 180 },
-      { label: "Follow-up continuo trimestrale con l'équipe medica Cocoora", value: 150 },
-    ],
-    doctorSlugs: EXPERIENCE_DOCTORS,
-    perks: ["Protocollo Longevity dedicato", "Test genetici e biomarcatori", "Follow-up continuo"],
+    perks: ["Genomica DNA 5 e longevità", "Coordinamento clinico multidisciplinare", "Refertazione prioritaria h24"],
   },
 ];
 
