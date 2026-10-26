@@ -42,7 +42,6 @@ export function SiteChrome({ children }: { children: ReactNode }) {
       <CheckoutDrawer />
       <DiscoverModal />
       <BookingModal />
-      <DemoRoleSwitcher />
     </>
   );
 }

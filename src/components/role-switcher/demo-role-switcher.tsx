@@ -63,6 +63,11 @@ export function DemoRoleSwitcher() {
   const [minimized, setMinimized] = useState<boolean>(false);
   const [switchingTo, setSwitchingTo] = useState<string | null>(null);
 
+  // Deve apparire esclusivamente nell'area admin/gestionale, MAI nel frontend pubblico
+  if (!pathname.startsWith("/admin") && !pathname.startsWith("/segreteria")) {
+    return null;
+  }
+
   // Determina il ruolo attivo in base al path
   const getActiveRole = (): RoleOption => {
     if (pathname.startsWith("/admin")) return ROLES[0];
