@@ -97,39 +97,6 @@ export default function HomePage() {
       {/* ── Hero Carousel ─────────────────────────────────────────────── */}
       <HeroCarousel h1={home?.h1} openDiscover={openDiscover} />
 
-      {/* ── Video Istituzionale 16:9 (placeholder — shooting 18-24 ottobre) ── */}
-      <section className="bg-canvas pt-16 sm:pt-20">
-        <Container>
-          <div className="relative aspect-video w-full overflow-hidden rounded-[2rem] border border-teal-100/80 bg-dark-navy shadow-xl">
-            <Image
-              src="/images/hero-clinic.jpg"
-              alt="Anteprima del video istituzionale Cocoora"
-              fill
-              sizes="(min-width: 1024px) 1200px, 100vw"
-              className="object-cover opacity-55"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-dark-navy/90 via-dark-navy/45 to-dark-navy/25" />
-            <div className="noise pointer-events-none absolute inset-0" />
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-5 px-6 text-center">
-              <span className="flex h-16 w-16 items-center justify-center rounded-full border border-white/25 bg-white/10 backdrop-blur-md">
-                <Play className="ml-1 h-6 w-6 text-white" />
-              </span>
-              <div>
-                <p className="font-serif text-xl font-semibold text-white sm:text-2xl">
-                  Il nostro centro si racconta
-                </p>
-                <p className="mt-2 text-sm leading-relaxed text-teal-100/80">
-                  Il video istituzionale sarà presto online.
-                </p>
-              </div>
-              <span className="rounded-full border border-white/20 bg-dark-navy/50 px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-teal-200 backdrop-blur-sm">
-                Video Istituzionale
-              </span>
-            </div>
-          </div>
-        </Container>
-      </section>
-
       {/* ── Manifesto ────────────────────────────────────────────────── */}
       <section className="bg-canvas py-24">
         <Container>
@@ -287,6 +254,49 @@ export default function HomePage() {
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-dark-navy/60 via-transparent to-transparent" />
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* ── Video Corporate Ufficiale: Connessi alla tua salute ────────── */}
+      <section className="bg-canvas py-20 border-t border-teal-100/60">
+        <Container>
+          <div className="mx-auto max-w-2xl text-center mb-10">
+            <SectionLabel>Il Centro si racconta</SectionLabel>
+            <h2 className="font-serif text-3xl font-semibold leading-tight text-teal-900 sm:text-4xl">
+              Connessi alla tua salute
+            </h2>
+            <p className="mt-3 text-sm sm:text-base leading-relaxed text-charcoal/70">
+              Uno sguardo autentico dentro gli ambienti, le tecnologie cliniche e l&apos;équipe multidisciplinare di Cocoora Centro Medico a Napoli.
+            </p>
+          </div>
+
+          <div className="relative aspect-video w-full overflow-hidden rounded-[2.5rem] border border-teal-100/80 bg-dark-navy shadow-2xl">
+            <Image
+              src="/images/hero-clinic.jpg"
+              alt="Anteprima del video corporate Cocoora Centro Medico"
+              fill
+              sizes="(min-width: 1024px) 1200px, 100vw"
+              className="object-cover opacity-55"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-dark-navy/90 via-dark-navy/40 to-dark-navy/20" />
+            <div className="noise pointer-events-none absolute inset-0" />
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-5 px-6 text-center">
+              <span className="flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full border border-white/25 bg-white/10 backdrop-blur-md shadow-lg transition-transform duration-300 hover:scale-105">
+                <Play className="ml-1 h-7 w-7 text-white" />
+              </span>
+              <div>
+                <p className="font-serif text-2xl font-semibold text-white sm:text-3xl">
+                  Il film del nostro centro
+                </p>
+                <p className="mt-2 text-xs sm:text-sm text-teal-100/80 max-w-md mx-auto">
+                  Il video corporate in fase di post-produzione sarà presto disponibile in alta definizione.
+                </p>
+              </div>
+              <span className="rounded-full border border-white/20 bg-dark-navy/60 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-teal-200 backdrop-blur-sm">
+                Video Corporate Ufficiale
+              </span>
             </div>
           </div>
         </Container>

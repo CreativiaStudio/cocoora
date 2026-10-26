@@ -383,31 +383,12 @@ function HeroSection({
   h1: string;
   intro: string;
 }) {
-  const doctor = getDoctorsByTreatment(treatment.slug)[0];
-  const recommendedTierId = doctor?.clubTierIds.find((id) => id !== "discover");
-  const recommendedTier = recommendedTierId
-    ? CLUB_TIERS.find((t) => t.id === recommendedTierId)
-    : undefined;
-
-  const specialistTitle = treatment.heroQuickSpecialist?.title ?? "Medico specialista";
-  const specialistSubtitle =
-    doctor?.name ?? treatment.heroQuickSpecialist?.subtitle ?? "Da associare";
-  const specialistHref = doctor
-    ? "/medici"
-    : treatment.heroQuickSpecialist?.href;
-
-  const tierTitle = treatment.heroQuickTier?.title ?? "Percorsi Salute";
-  const tierSubtitle = recommendedTier
-    ? `Incluso o agevolato con ${recommendedTier.name}`
-    : treatment.heroQuickTier?.subtitle ?? "Da verificare";
-  const tierHref = treatment.heroQuickTier?.href ?? "/club";
-
   return (
     <section className="relative overflow-hidden bg-canvas pb-16 pt-10 sm:pb-20 sm:pt-14">
       <Container>
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-          {/* Colonna sinistra — testo */}
-          <div>
+          {/* Colonna testo: su mobile sotto l'immagine, su desktop colonna sinistra */}
+          <div className="order-last lg:order-first">
             <p className="text-xs font-semibold uppercase tracking-wider text-teal-800">
               {treatment.whatIs?.overline ?? categoryLabel(treatment)}
             </p>
@@ -425,26 +406,10 @@ function HeroSection({
                 Richiedi una valutazione <ArrowRight className="h-4 w-4" />
               </button>
             </div>
-
-            {/* Quick-Cards — Specialista + Percorsi Salute */}
-            <div className="mt-8 grid gap-3 sm:grid-cols-2">
-              <QuickCard
-                href={specialistHref}
-                icon={Stethoscope}
-                title={specialistTitle}
-                subtitle={specialistSubtitle}
-              />
-              <QuickCard
-                href={tierHref}
-                icon={ShieldCheck}
-                title={tierTitle}
-                subtitle={tierSubtitle}
-              />
-            </div>
           </div>
 
-          {/* Colonna destra — immagine portrait */}
-          <div className="relative mx-auto aspect-[4/3] w-full max-w-xl overflow-hidden rounded-[2.5rem] shadow-xl sm:aspect-[4/5] lg:mx-0 lg:max-w-none">
+          {/* Colonna immagine: su mobile in cima ("Image-First"), su desktop colonna destra */}
+          <div className="order-first lg:order-last relative mx-auto aspect-[4/3] w-full max-w-xl overflow-hidden rounded-[2.5rem] shadow-xl sm:aspect-[4/5] lg:mx-0 lg:max-w-none">
             <Image
               src={treatment.heroImage ?? heroFallbackImage(treatment)}
               alt={treatment.title}

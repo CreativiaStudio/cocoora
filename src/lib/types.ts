@@ -153,6 +153,8 @@ export type ClubTier = {
   name: string;
   shortName: string;
   price: number;
+  priceUomo?: number;
+  priceDonna?: number;
   listPrice?: number;
   priceLabel: string;
   badge?: string;

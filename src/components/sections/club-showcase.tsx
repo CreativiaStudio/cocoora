@@ -123,7 +123,13 @@ export function TierCard({
   const name = gender && tier.genderToggle ? `${tier.name} ${gender === "uomo" ? "Uomo" : "Donna"}` : tier.name;
   const gradient = dark ? (TIER_GRADIENTS[tier.id] ?? TIER_GRADIENTS["access"]) : undefined;
   const featured = dark && !!tier.badge;
-  const priceValue = tier.free ? 0 : tier.price;
+  const priceValue = tier.free
+    ? 0
+    : gender === "uomo" && tier.priceUomo
+    ? tier.priceUomo
+    : gender === "donna" && tier.priceDonna
+    ? tier.priceDonna
+    : tier.price;
 
   return (
     <div

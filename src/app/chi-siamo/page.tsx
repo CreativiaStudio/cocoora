@@ -126,27 +126,27 @@ export default function ChiSiamoPage() {
 
           <div className="mt-11 flex flex-wrap items-center gap-4">
             <ButtonLink
-              href="#ambienti"
+              href="/contatti"
               size="lg"
               className="bg-white px-8 text-dark-navy hover:bg-teal-50"
             >
-              I Nostri Ambienti
+              Prenota una Visita
               <ArrowRight className="h-4 w-4" />
             </ButtonLink>
             <ButtonLink
-              href="/contatti"
+              href="#filosofia"
               size="lg"
               variant="outline-dark"
               className="border-white/30 bg-white/5 px-8 backdrop-blur-sm hover:bg-white/10"
             >
-              Prenota una Visita
+              La Nostra Filosofia
             </ButtonLink>
           </div>
         </div>
       </section>
 
       {/* ============ LA NOSTRA FILOSOFIA ============ */}
-      <section className="mx-auto max-w-6xl px-6 py-28 sm:px-10">
+      <section id="filosofia" className="mx-auto max-w-6xl px-6 py-28 sm:px-10">
         <div className="mx-auto mb-16 max-w-2xl text-center">
           <SectionEyebrow>Il Metodo</SectionEyebrow>
           <h2 className="font-serif text-4xl font-semibold leading-[1.1] text-teal-900 sm:text-5xl">
@@ -176,85 +176,12 @@ export default function ChiSiamoPage() {
         </div>
       </section>
 
-      {/* ============ GLI SPAZI DEL CENTRO ============ */}
+      {/* ============ GLI SPAZI DEL CENTRO (IN STANDBY PER IL GO-LIVE COME CONCORDATO CON SIMONE E VALENTINA IN ATTESA DELLO SHOOTING) ============ */}
+      {/*
       <section id="ambienti" className="relative overflow-hidden bg-dark-navy py-28">
-        <div className="pointer-events-none absolute -left-40 top-20 h-[28rem] w-[28rem] rounded-full bg-teal-500/15 blur-3xl" />
-        <div className="pointer-events-none absolute -right-40 top-1/2 h-[30rem] w-[30rem] rounded-full bg-slate-accent/15 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-32 left-1/3 h-96 w-96 rounded-full bg-teal-600/20 blur-3xl" />
-
-        <div className="relative mx-auto max-w-6xl px-6 sm:px-10">
-          <div className="mx-auto mb-20 max-w-2xl text-center">
-            <SectionEyebrow tone="dark">I Nostri Ambienti</SectionEyebrow>
-            <h2 className="font-serif text-4xl font-semibold leading-[1.1] text-white sm:text-5xl">
-              Gli Spazi di Cocoora
-            </h2>
-            <p className="mt-6 text-base leading-[1.8] text-teal-100/80 sm:text-lg">
-              Ambienti clinici modulari, ciascuno curato nei materiali, nell&apos;insonorizzazione
-              e nel comfort visivo per garantire riservatezza assoluta e un&apos;accoglienza a misura d&apos;uomo.
-            </p>
-          </div>
-
-          <div className="space-y-24 lg:space-y-32">
-            {rooms.map((room, idx) => {
-              const Icon = room.icon;
-              const reversed = idx % 2 === 1;
-              return (
-                <div
-                  key={room.number}
-                  className={`flex flex-col items-center gap-10 lg:gap-16 ${
-                    reversed ? "lg:flex-row-reverse" : "lg:flex-row"
-                  }`}
-                >
-                  <div className="group relative w-full overflow-hidden rounded-[2.5rem] border border-white/10 shadow-[0_40px_80px_-30px_rgba(0,0,0,0.6)] lg:w-1/2">
-                    <div className="relative aspect-[4/3]">
-                      <Image
-                        src={room.image}
-                        alt={room.title}
-                        fill
-                        sizes="(min-width: 1024px) 50vw, 100vw"
-                        className="object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-dark-navy/60 via-transparent to-transparent" />
-                    </div>
-                    <div className="absolute left-6 top-6 flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 backdrop-blur-md">
-                      <span className="text-xs font-semibold uppercase tracking-[0.2em] text-teal-200">
-                        Ambiente {room.number}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="w-full lg:w-1/2">
-                    <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl border border-white/15 bg-white/10">
-                      <Icon className="h-5 w-5 text-teal-200" strokeWidth={1.5} />
-                    </div>
-                    <span className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-accent">
-                      {room.subtitle}
-                    </span>
-                    <h3 className="mt-3 font-serif text-3xl font-semibold leading-[1.15] text-white sm:text-4xl">
-                      {room.title}
-                    </h3>
-                    <p className="mt-5 text-base leading-[1.8] text-teal-100/80">
-                      {room.description}
-                    </p>
-
-                    <ul className="mt-8 flex flex-wrap gap-2.5">
-                      {room.equipment.map((eq) => (
-                        <li
-                          key={eq}
-                          className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs font-medium text-teal-100 backdrop-blur-sm"
-                        >
-                          <CheckCircle2 className="h-3.5 w-3.5 text-teal-300" />
-                          {eq}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
+        ... Sezione ambienti in standby ...
       </section>
+      */}
 
       {/* ============ MANIFESTO ============ */}
       <section className="section-alt relative overflow-hidden py-28">
