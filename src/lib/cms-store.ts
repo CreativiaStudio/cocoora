@@ -25,12 +25,15 @@ function buildTreatmentPages(): SeoPage[] {
     id: `page_trattamento_${t.slug}`,
     path: `/trattamenti/${t.slug}`,
     label: `Trattamento · ${t.title}`,
-    title: `${t.title} a Napoli | ${t.tagline}`,
-    metaDescription: t.description.slice(0, 155),
+    title: t.seo?.metaTitle || `${t.title} a Napoli | ${t.tagline}`,
+    metaDescription: t.seo?.metaDescription || t.description.slice(0, 155),
     h1: t.title,
     h2: t.tagline,
     faq: t.faq.map((f) => ({ q: f.q, a: f.a })),
     canvasMode: false,
+    heroImage: t.heroImage,
+    galleryImages: t.galleryImages,
+    keywords: t.seo ? [t.seo.keywordMain, t.seo.keywordSec].filter(Boolean).join("; ") : undefined,
   }));
 }
 

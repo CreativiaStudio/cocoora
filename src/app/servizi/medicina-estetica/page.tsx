@@ -8,6 +8,7 @@ import { getTreatmentsByCategory } from "@/lib/content";
 import { DOCTORS } from "@/lib/doctors";
 import { CLUB_TIERS } from "@/lib/club";
 import { DoctorsReferenceSection, ClubPackagesSection } from "@/components/sections/servizi-cross-links";
+import { MatriceMedicinaEstetica } from "@/components/sections/matrice-medicina";
 import { Badge, ButtonLink, Container, SectionLabel } from "@/components/ui";
 
 const ESTETICA_DOCTORS = DOCTORS.filter((d) => d.branca.includes("Medicina Estetica"));
@@ -123,6 +124,9 @@ export default function MedicinaEsteticaPage() {
           </div>
         </Container>
       </section>
+
+      {/* Percorso guidato interattivo — Matrice Trattamenti */}
+      <MatriceMedicinaEstetica />
 
       <section id="trattamenti" className="bg-teal-50/60 py-20">
         <Container>

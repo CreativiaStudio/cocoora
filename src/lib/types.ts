@@ -129,14 +129,18 @@ export type TreatmentResults = {
 
 export type Treatment = {
   slug: string;
+  aliases?: string[];
   title: string;
   category: TreatmentCategory;
+  categoryName?: string;
   tagline: string;
   description: string;
   steps: { title: string; description: string }[];
   machines?: string[];
   faq: Faq[];
   heroImage?: string;
+  galleryImages?: string[];
+  seo?: { metaTitle?: string; metaDescription?: string; keywordMain?: string; keywordSec?: string };
   heroQuickSpecialist?: { title: string; subtitle: string; href?: string };
   heroQuickTier?: { title: string; subtitle: string; href?: string };
   whatIs?: TreatmentWhatIs;
@@ -210,6 +214,9 @@ export type SeoPage = {
   h2: string;
   faq: Faq[];
   canvasMode: boolean;
+  keywords?: string;
+  heroImage?: string;
+  galleryImages?: string[];
 };
 
 export type CmsState = {

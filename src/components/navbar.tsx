@@ -20,41 +20,48 @@ import { Button } from "./ui";
 import { useShop } from "./providers";
 
 // ── Dati condivisi Megamenu / Drawer per le 3 Aree Cliniche e Medici ─────────
-type MegamenuLink = { label: string; href: string; badge?: string };
+type MegamenuLink = {
+  label: string;
+  href: string;
+  badge?: string;
+  subtitle?: string;
+  isHeading?: boolean;
+};
 type MegamenuCategory = { heading: string; links: MegamenuLink[] };
 
 const TOPBAR_HOURS = "Lun–Ven 8:00–20:00 (Orario continuato) · Sab 9:00–14:00";
 
-// 1. Medicina Estetica & Rigenerativa
+// 1. Medicina Estetica & Rigenerativa (spec Silvia Monticelli)
 const MEDICINA_ESTETICA_CATEGORIES: MegamenuCategory[] = [
   {
-    heading: "Viso & Rigenerazione",
+    heading: "Viso e rigenerazione",
     links: [
-      { label: "Filler acido ialuronico", href: "/trattamenti/filler-acido-ialuronico" },
+      { label: "Filler viso", href: "/trattamenti/filler-acido-ialuronico" },
       { label: "Tossina botulinica", href: "/trattamenti/tossina-botulinica" },
-      { label: "Biorivitalizzazione", href: "/trattamenti/biorivitalizzazione" },
-      { label: "Biostimolatori (Polilattico)", href: "/trattamenti/acido-polilattico" },
+      { label: "Biorivitalizzazione*", href: "/trattamenti/biorivitalizzazione" },
+      { label: "Biostimolatori", href: "/trattamenti/acido-polilattico" },
       { label: "Peeling chimico", href: "/trattamenti/peeling-chimico" },
-      { label: "PRX senza aghi", href: "/trattamenti/prx" },
+      { label: "PRX", href: "/trattamenti/prx" },
     ],
   },
   {
-    heading: "Corpo & Silhouette",
+    heading: "Corpo e silhouette",
     links: [
-      { label: "Biostimolazione Corpo", href: "/trattamenti/biostimolazione-corpo", badge: "Nuovo" },
       { label: "Criolipolisi", href: "/trattamenti/cryoliposculpt" },
       { label: "Carbossiterapia", href: "/trattamenti/carbossiterapia" },
       { label: "Mesoterapia", href: "/trattamenti/mesoterapia" },
+      { label: "Biostimolazione corpo", href: "/trattamenti/biostimolazione-corpo" },
       { label: "Intralipoterapia", href: "/trattamenti/intralipoterapia" },
-      { label: "Valutazione Lipedema & Linfedema", href: "/servizi/medicina-estetica#lipedema" },
+      { label: "Percorsi specialistici", href: "", isHeading: true },
+      { label: "Valutazione lipedema e linfedema", href: "/trattamenti/lipedema-linfedema" },
     ],
   },
   {
-    heading: "Laser & Tecnologie",
+    heading: "Laser e tecnologie",
     links: [
-      { label: "Laser & Luce Pulsata", href: "/trattamenti/piattaforma-laser" },
-      { label: "Laser Resurfacing & Cicatrici", href: "/trattamenti/piattaforma-laser" },
-      { label: "Ultrasuoni CFU", href: "/trattamenti/ultrasuoni-cfu" },
+      { label: "Laser e luce pulsata", href: "/trattamenti/laser-luce-pulsata", subtitle: "Macchie e rossori" },
+      { label: "Laser resurfacing", href: "/trattamenti/laser-resurfacing", subtitle: "Cicatrici, rughe e texture" },
+      { label: "Ultrasuoni focalizzati CFU", href: "/trattamenti/ultrasuoni-cfu", subtitle: "Tono e lassità di viso e corpo" },
     ],
   },
 ];
@@ -396,21 +403,36 @@ export function Navbar() {
                                 {cat.heading}
                               </p>
                               <div className="mt-1.5 flex flex-col gap-1">
-                                {cat.links.map((link) => (
-                                  <Link
-                                    key={link.label}
-                                    href={link.href}
-                                    onClick={closeAll}
-                                    className="flex items-center justify-between rounded-lg px-2 py-1 text-sm font-medium text-charcoal/80 transition-colors hover:bg-teal-50 hover:text-teal-900"
-                                  >
-                                    <span>{link.label}</span>
-                                    {link.badge && (
-                                      <span className="rounded-full bg-teal-100 px-2 py-0.5 text-[10px] font-bold text-teal-800">
-                                        {link.badge}
+                                {cat.links.map((link) =>
+                                  link.isHeading ? (
+                                    <div key={link.label} className="pt-2 pb-0.5">
+                                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                                        {link.label}
                                       </span>
-                                    )}
-                                  </Link>
-                                ))}
+                                    </div>
+                                  ) : (
+                                    <Link
+                                      key={link.label}
+                                      href={link.href}
+                                      onClick={closeAll}
+                                      className="flex flex-col rounded-lg px-2 py-1 text-sm font-medium text-charcoal/80 transition-colors hover:bg-teal-50 hover:text-teal-900"
+                                    >
+                                      <div className="flex items-center justify-between w-full">
+                                        <span>{link.label}</span>
+                                        {link.badge && (
+                                          <span className="rounded-full bg-teal-100 px-2 py-0.5 text-[10px] font-bold text-teal-800">
+                                            {link.badge}
+                                          </span>
+                                        )}
+                                      </div>
+                                      {link.subtitle && (
+                                        <span className="text-[11px] text-charcoal/50 font-normal">
+                                          {link.subtitle}
+                                        </span>
+                                      )}
+                                    </Link>
+                                  )
+                                )}
                               </div>
                             </div>
                           ))}
@@ -419,7 +441,7 @@ export function Navbar() {
                               Filtro Guidato
                             </p>
                             <Link
-                              href="/servizi/medicina-estetica#guida"
+                              href="/servizi/medicina-estetica#da-dove-iniziare"
                               onClick={closeAll}
                               className="mt-1 block text-sm font-semibold hover:text-teal-200"
                             >
@@ -622,25 +644,40 @@ function MegamenuMedicinaEstetica({ onClose }: { onClose: () => void }) {
               {cat.heading}
             </span>
             <ul className="mt-3 space-y-1">
-              {cat.links.map((link) => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    onClick={onClose}
-                    className="text-[13px] text-dark-navy/90 hover:text-teal-700 hover:translate-x-1 transition-all flex items-center justify-between py-1 group"
-                  >
-                    <span>{link.label}</span>
-                    <span className="flex items-center gap-1.5">
-                      {link.badge && (
-                        <span className="rounded-full bg-teal-100 px-2 py-0.5 text-[10px] font-bold text-teal-800">
-                          {link.badge}
-                        </span>
-                      )}
-                      <ArrowRight className="h-3 w-3 shrink-0 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-teal-600" />
+              {cat.links.map((link) =>
+                link.isHeading ? (
+                  <li key={link.label} className="pt-2.5 pb-0.5">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                      {link.label}
                     </span>
-                  </Link>
-                </li>
-              ))}
+                  </li>
+                ) : (
+                  <li key={link.label}>
+                    <Link
+                      href={link.href}
+                      onClick={onClose}
+                      className="text-[13px] text-dark-navy/90 hover:text-teal-700 hover:translate-x-1 transition-all flex items-center justify-between py-1 group"
+                    >
+                      <div className="flex flex-col">
+                        <span>{link.label}</span>
+                        {link.subtitle && (
+                          <span className="text-[11px] text-charcoal/50 group-hover:text-teal-600/70 font-normal">
+                            {link.subtitle}
+                          </span>
+                        )}
+                      </div>
+                      <span className="flex items-center gap-1.5">
+                        {link.badge && (
+                          <span className="rounded-full bg-teal-100 px-2 py-0.5 text-[10px] font-bold text-teal-800">
+                            {link.badge}
+                          </span>
+                        )}
+                        <ArrowRight className="h-3 w-3 shrink-0 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-teal-600" />
+                      </span>
+                    </Link>
+                  </li>
+                )
+              )}
             </ul>
           </div>
         ))}
@@ -660,11 +697,11 @@ function MegamenuMedicinaEstetica({ onClose }: { onClose: () => void }) {
           </div>
           <div className="mt-5 space-y-2">
             <Link
-              href="/servizi/medicina-estetica#guida"
+              href="/servizi/medicina-estetica#da-dove-iniziare"
               onClick={onClose}
               className="w-full inline-flex items-center justify-between rounded-xl bg-teal-400 px-4 py-2.5 text-xs font-bold text-dark-navy hover:bg-teal-300 transition-colors"
             >
-              <span>Trova il tuo trattamento</span>
+              <span>Scopri di più</span>
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
             <Link

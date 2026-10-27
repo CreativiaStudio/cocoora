@@ -299,11 +299,11 @@ export function TreatmentClient({ treatment }: { treatment: Treatment }) {
   const page = pages.find((p) => p.path === `/trattamenti/${treatment.slug}`);
   const canvasMode = page?.canvasMode ?? false;
 
-  // Il titolo clinico ufficiale proviene sempre dalla scheda validata dalla Direzione Sanitaria (treatment.title)
-  // per prevenire residui o override obsoleti da cache locale.
-  const h1 = treatment.title;
-  const intro = treatment.tagline ?? page?.h2 ?? treatment.description;
-  const faq = treatment.faq?.length ? treatment.faq : page?.faq ?? [];
+  // Il titolo clinico e i testi provengono dalla scheda o dall'override del CMS/SEO backend
+  const h1 = page?.h1 || treatment.title;
+  const intro = page?.h2 || treatment.tagline || treatment.description;
+  const heroImage = page?.heroImage || treatment.heroImage || heroFallbackImage(treatment);
+  const faq = page?.faq?.length ? page.faq : treatment.faq ?? [];
 
   if (canvasMode) {
     // Modalità Canvas No-Menu per Google Ads: nessun menu di navigazione globale,
@@ -321,7 +321,7 @@ export function TreatmentClient({ treatment }: { treatment: Treatment }) {
           </Container>
         </header>
         <main>
-          <HeroSection treatment={treatment} h1={h1} intro={intro} />
+          <HeroSection treatment={treatment} h1={h1} intro={intro} heroImage={heroImage} />
           <WhatIsSection treatment={treatment} />
           <ProblemsSection treatment={treatment} />
           <TimelineSection treatment={treatment} />
@@ -339,7 +339,7 @@ export function TreatmentClient({ treatment }: { treatment: Treatment }) {
     <>
       <main className="pb-20 md:pb-0">
         {/* 1 — Hero */}
-        <HeroSection treatment={treatment} h1={h1} intro={intro} />
+        <HeroSection treatment={treatment} h1={h1} intro={intro} heroImage={heroImage} />
         {/* 2 — Che cos'è e come funziona? */}
         <WhatIsSection treatment={treatment} />
         {/* 3 — A cosa serve? (4 card problema/inestetismo) */}
@@ -378,10 +378,12 @@ function HeroSection({
   treatment,
   h1,
   intro,
+  heroImage,
 }: {
   treatment: Treatment;
   h1: string;
   intro: string;
+  heroImage?: string;
 }) {
   return (
     <section className="relative overflow-hidden bg-canvas pb-16 pt-10 sm:pb-20 sm:pt-14">
@@ -411,7 +413,7 @@ function HeroSection({
           {/* Colonna immagine: su mobile in cima ("Image-First"), su desktop colonna destra */}
           <div className="order-first lg:order-last relative mx-auto aspect-[4/3] w-full max-w-xl overflow-hidden rounded-[2.5rem] shadow-xl sm:aspect-[4/5] lg:mx-0 lg:max-w-none">
             <Image
-              src={treatment.heroImage ?? heroFallbackImage(treatment)}
+              src={heroImage ?? treatment.heroImage ?? heroFallbackImage(treatment)}
               alt={treatment.title}
               fill
               priority

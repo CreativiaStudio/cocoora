@@ -68,6 +68,16 @@ function PageEditor({ page }: { page: SeoPage }) {
             value={page.metaDescription}
             onChange={(metaDescription) => update({ metaDescription })}
           />
+          <Field
+            label="Parole Chiave / Keyword (SEO)"
+            value={page.keywords ?? ""}
+            onChange={(keywords) => update({ keywords })}
+          />
+          <Field
+            label="Immagine Hero / Copertina (Percorso o URL)"
+            value={page.heroImage ?? ""}
+            onChange={(heroImage) => update({ heroImage })}
+          />
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label="H1" value={page.h1} onChange={(h1) => update({ h1 })} />
             <Field label="H2" value={page.h2} onChange={(h2) => update({ h2 })} />

@@ -2,18 +2,27 @@ import type { Treatment } from "./types";
 
 /**
  * Alias slug legacy → slug canonico.
- * Garantisce che nessun link esistente (menu, medici, CMS) vada in 404.
+ * Garantisce che nessun link esistente (menu, medici, CMS, esterne) vada in 404.
  */
 export const TREATMENT_SLUG_ALIASES: Record<string, string> = {
-  criolipolisi: "cryoliposculpt",
-  "peeling-chimico": "peeling-medicali",
-  "biostimolazione-corpo": "biorivitalizzazione",
+  "criolipolisi": "cryoliposculpt",
+  "peeling-chimico": "peeling-chimico",
+  "peeling-medicali": "peeling-chimico",
+  "peeling-medicale": "peeling-chimico",
+  "biostimolazione": "biorivitalizzazione",
+  "biostimolatori": "acido-polilattico",
+  "botox": "tossina-botulinica",
+  "filler-viso": "filler-acido-ialuronico",
+  "piattaforma-laser": "laser-luce-pulsata",
+  "laser-e-luce-pulsata": "laser-luce-pulsata",
+  "ultrasuoni-focalizzati-cfu": "ultrasuoni-cfu",
+  "valutazione-lipedema-e-linfedema": "lipedema-linfedema",
   "allineatori-adulti": "invisalign-adulti",
   "allineatori-trasparenti-adulti": "invisalign-adulti",
   "allineatori-adolescenti": "invisalign-adolescenti",
   "allineatori-trasparenti-adolescenti": "invisalign-adolescenti",
   "ortodonzia-intercettiva-bambini": "invisalign-bambini",
-  "ortodonzia-intercettiva": "invisalign-bambini",
+  "ortodonzia-intercettiva": "invisalign-bambini"
 };
 
 export function resolveTreatmentSlug(slug: string): string {
@@ -22,363 +31,1749 @@ export function resolveTreatmentSlug(slug: string): string {
 
 export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
   {
-    slug: "biorivitalizzazione",
-    title: "Biorivitalizzazione / Biostimolazione",
-    category: "medicina-estetica",
-    tagline: "Idratazione profonda, luminosità ed elasticità cutanea",
-    description:
-      "Per stimolare i naturali processi cutanei, migliorando idratazione, luminosità, elasticità e qualità della pelle attraverso protocolli medici personalizzati.",
-    steps: [
-      { title: "Valutazione medica", description: "Analisi del grado di idratazione, della qualità cutanea e degli obiettivi della persona." },
-      { title: "Seduta / Protocollo", description: "Micro-iniezioni superficiali di sostanze biocompatibili nelle aree da trattare, secondo il protocollo definito dal medico." },
-      { title: "Risultato e follow-up", description: "Pelle progressivamente più idratata e luminosa; il medico pianifica il ciclo di sedute e i controlli successivi." },
+    "slug": "filler-acido-ialuronico",
+    "aliases": [
+      "filler-viso"
     ],
-    faq: [
-      { q: "Serve anestesia?", a: "No, il trattamento è minimamente invasivo e ben tollerato dalla maggior parte delle persone." },
-      { q: "Quante sedute sono consigliate?", a: "In genere un ciclo di più sedute ravvicinate, definito dal medico in base alle caratteristiche della cute." },
-      { q: "Posso tornare subito alle mie attività?", a: "Sì, salvo diverse indicazioni mediche; possono comparire piccoli pomfi o arrossamenti transitori." },
+    "title": "Filler viso con acido ialuronico",
+    "category": "medicina-estetica",
+    "categoryName": "Viso e rigenerazione",
+    "tagline": "Il filler di acido ialuronico è un trattamento medico iniettivo impiegato per armonizzare alcuni volumi del viso e valorizzarne le proporzioni, dopo un’attenta valutazione anatomica.",
+    "description": "Il filler di acido ialuronico è un trattamento medico iniettivo impiegato per armonizzare alcuni volumi del viso e valorizzarne le proporzioni, dopo un’attenta valutazione anatomica.",
+    "heroImage": "/images/trattamenti/medicina-estetica/filler-viso-napoli-1.jpg",
+    "galleryImages": [
+      "/images/trattamenti/medicina-estetica/filler-viso-napoli-1.jpg",
+      "/images/trattamenti/medicina-estetica/filler-viso-napoli-2.jpg",
+      "/images/trattamenti/medicina-estetica/filler-viso-napoli-3.jpg"
     ],
-  },
-  {
-    slug: "biorigenerazione",
-    title: "Biorigenerazione",
-    category: "medicina-estetica",
-    tagline: "Rigenerazione e vitalità dei tessuti cutanei",
-    description:
-      "Trattamento dedicato alla rigenerazione e al miglioramento della qualità dei tessuti, con un approccio orientato alla salute e alla vitalità cutanea.",
-    steps: [
-      { title: "Valutazione medica", description: "Studio della qualità dei tessuti e definizione degli obiettivi di rigenerazione cutanea." },
-      { title: "Seduta / Protocollo", description: "Protocollo biorigenerante personalizzato sulle aree indicate dal medico." },
-      { title: "Risultato e follow-up", description: "Miglioramento progressivo della vitalità dei tessuti, monitorato nelle sedute di controllo." },
-    ],
-    faq: [
-      { q: "Per chi è indicata?", a: "Per chi desidera migliorare la qualità e la vitalità dei tessuti cutanei, previa valutazione medica." },
-      { q: "Qual è la differenza con la biorivitalizzazione?", a: "La biorigenerazione è orientata al miglioramento strutturale dei tessuti; il medico indica il percorso più appropriato al singolo caso." },
-    ],
-  },
-  {
-    slug: "acido-polilattico",
-    title: "Bioristrutturazione con Biostimolatori",
-    category: "medicina-estetica",
-    tagline: "Acido Polilattico e Idrossiapatite di Calcio per il sostegno dei tessuti",
-    description:
-      "Protocolli con biostimolatori come acido polilattico e idrossiapatite di calcio, indicati per favorire la produzione di collagene, migliorare il sostegno dei tessuti e contrastare progressivamente i segni di lassità.",
-    steps: [
-      { title: "Valutazione medica", description: "Analisi del grado di lassità, dei tessuti e delle aree da sostenere." },
-      { title: "Seduta / Protocollo", description: "Infiltrazione del biostimolatore selezionato dal medico (acido polilattico o idrossiapatite di calcio) secondo un piano personalizzato." },
-      { title: "Risultato e follow-up", description: "Effetto di sostegno progressivo nelle settimane successive, con controlli programmati." },
-    ],
-    faq: [
-      { q: "Quante sedute servono?", a: "In genere un ciclo di 2-3 sedute distanziate, da personalizzare in base agli obiettivi e alla risposta dei tessuti." },
-      { q: "Il risultato è immediato?", a: "Il miglioramento si sviluppa progressivamente grazie alla stimolazione della produzione di collagene." },
-    ],
-  },
-  {
-    slug: "filler-acido-ialuronico",
-    title: "Filler di Acido Ialuronico",
-    category: "medicina-estetica",
-    tagline: "Ripristino dei volumi e armonizzazione delle proporzioni del volto",
-    description:
-      "Per ripristinare o armonizzare i volumi, ridefinire i contorni e valorizzare le proporzioni del volto nel pieno rispetto dell’armonia naturale.",
-    steps: [
-      { title: "Valutazione medica", description: "Studio dell'anatomia del volto, dei volumi e delle proporzioni da valorizzare." },
-      { title: "Seduta / Protocollo", description: "Iniezione di acido ialuronico con tecnica minimamente invasiva nelle aree pianificate." },
-      { title: "Risultato e follow-up", description: "Verifica del risultato e controllo programmato per valutare l'armonia del volto." },
-    ],
-    faq: [
-      { q: "Il risultato è naturale?", a: "Sì, l'obiettivo è valorizzare i tratti e le proporzioni in modo armonico, senza trasformarli." },
-      { q: "Quanto dura?", a: "La durata varia in base al prodotto e all'area trattata, generalmente da 6 a 18 mesi." },
-    ],
-  },
-  {
-    slug: "tossina-botulinica",
-    title: "Tossina Botulinica",
-    category: "medicina-estetica",
-    tagline: "Attenuazione delle rughe dinamiche con naturalezza ed espressività",
-    description:
-      "Trattamento medico mirato ad attenuare le rughe dinamiche d’espressione mantenendo intatta la naturalezza e l’espressività del volto.",
-    steps: [
-      { title: "Valutazione medica", description: "Analisi delle rughe dinamiche, della mimica facciale e delle aspettative della persona." },
-      { title: "Seduta / Protocollo", description: "Micro-iniezioni mirate nei distretti muscolari selezionati dal medico." },
-      { title: "Risultato e follow-up", description: "Effetto visibile in alcuni giorni e mantenuto per alcuni mesi, con controllo programmato." },
-    ],
-    faq: [
-      { q: "Il viso resta espressivo?", a: "Sì, il trattamento è calibrato per attenuare le rughe dinamiche preservando naturalezza ed espressività." },
-      { q: "Quanto dura l'effetto?", a: "La durata varia in base alla persona e all'area trattata; il follow-up medico definisce i tempi di eventuali richiami." },
-    ],
-  },
-  {
-    slug: "medicina-rigenerativa",
-    title: "Medicina Rigenerativa",
-    category: "medicina-estetica",
-    tagline: "Protocolli medici per i processi fisiologici di rigenerazione",
-    description:
-      "Protocolli medici avanzati studiati per sostenere i processi fisiologici di rigenerazione e il miglioramento globale della qualità dei tessuti.",
-    steps: [
-      { title: "Valutazione medica", description: "Inquadramento clinico dei tessuti e definizione degli obiettivi di rigenerazione." },
-      { title: "Seduta / Protocollo", description: "Applicazione del protocollo rigenerativo personalizzato selezionato dal medico." },
-      { title: "Risultato e follow-up", description: "Monitoraggio del miglioramento della qualità dei tessuti nelle visite di controllo." },
-    ],
-    faq: [
-      { q: "A chi si rivolge?", a: "A chi desidera sostenere i processi fisiologici di rigenerazione dei tessuti, previa valutazione medica specialistica." },
-      { q: "È combinabile con altri trattamenti?", a: "Sì, il medico può integrare la medicina rigenerativa in un percorso multidisciplinare personalizzato." },
-    ],
-  },
-  {
-    slug: "peeling-medicali",
-    title: "Peeling chimico",
-    category: "medicina-estetica",
-    tagline:
-      "Un trattamento di medicina estetica che favorisce il rinnovamento della pelle, contribuendo a migliorare la texture, l'uniformità dell'incarnato e alcune imperfezioni cutanee.",
-    description:
-      "Trattamenti esfolianti selezionati dal medico per intervenire su texture, luminosità, discromie, imperfezioni e segni del fotoinvecchiamento.",
-    steps: [
-      { title: "Valutazione medica", description: "Analisi del tipo di pelle, delle discromie e delle imperfezioni da trattare." },
-      { title: "Seduta / Protocollo", description: "Applicazione del peeling selezionato dal medico con esfoliazione controllata." },
-      { title: "Risultato e follow-up", description: "Miglioramento progressivo di texture e luminosità, con fotoprotezione rigorosa e controlli programmati." },
-    ],
-    faq: [
+    "seo": {
+      "metaTitle": "Filler viso con acido ialuronico a Napoli | Cocoora",
+      "metaDescription": "Filler viso con acido ialuronico a Napoli da Cocoora: indicazioni, visita medica e possibili risultati. Approfondisci filler labbra e filler zigomi.",
+      "keywordMain": "filler viso Napoli",
+      "keywordSec": "filler labbra; filler zigomi; filler mento e mandibola; filler solchi nasogenieni"
+    },
+    "whatIs": {
+      "title": "",
+      "description": "",
+      "paragraphs": [],
+      "image": "/images/trattamenti/medicina-estetica/filler-viso-napoli-2.jpg"
+    },
+    "problemsGrid": [
       {
-        q: "Quante sedute sono necessarie?",
-        a: "Il numero di sedute dipende dal tipo di peeling, dalle condizioni della pelle e dagli obiettivi del percorso. In alcuni casi può essere sufficiente un singolo trattamento, in altri il medico indica un ciclo di più sedute distanziate.",
+        "title": "Filler labbra",
+        "description": "Il filler labbra con acido ialuronico permette di valorizzare volume, contorno e simmetria delle labbra, rispettandone la forma naturale e l’armonia del viso."
       },
       {
-        q: "Il peeling chimico fa male?",
-        a: "Durante l'applicazione si può avvertire una sensazione di bruciore o pizzicore, generalmente transitoria. L'intensità varia in base al tipo di peeling e alla sensibilità individuale: il medico modula il protocollo in base alla tolleranza.",
+        "title": "Filler zigomi e solchi nasogeni",
+        "description": "Il filler zigomi aiuta a valorizzare i volumi e le proporzioni del viso, mantenendo un aspetto naturale. Può lavorare anche sui solchi nasogeni, rendendo meno evidenti le pieghe tra naso e bocca."
       },
       {
-        q: "La pelle si spella sempre?",
-        a: "Non sempre. L'entità della desquamazione dipende dalla profondità del peeling: i peeling superficiali possono provocare una desquamazione lieve, mentre quelli più intensi richiedono tempi di recupero più lunghi. Il medico spiega cosa aspettarsi prima del trattamento.",
+        "title": "Filler occhiaie",
+        "description": "Il filler per occhiaie è indicato a chi presenta nella zona perioculare svuotamenti, occhiaie scavate e deficit volumetrico."
       },
       {
-        q: "Si può fare in estate?",
-        a: "L'esposizione solare aumenta il rischio di discromie dopo il peeling. Per questo il periodo dell'anno e il grado di esposizione vengono valutati in visita; in alcuni casi il medico consiglia di programmare il trattamento in un periodo di minore esposizione solare, mantenendo sempre una fotoprotezione rigorosa.",
-      },
-      {
-        q: "È indicato per le macchie?",
-        a: "Può essere inserito in protocolli dedicati alle discromie, ma l'indicazione dipende dal tipo di macchia e dalla sua origine. La valutazione medica è necessaria per distinguere le diverse forme e scegliere il trattamento più adeguato.",
-      },
-      {
-        q: "Qual è la differenza rispetto alla biorivitalizzazione?",
-        a: "La biorivitalizzazione agisce attraverso micro-iniezioni di sostanze biocompatibili per migliorare idratazione e qualità della pelle. Il peeling chimico utilizza sostanze esfolianti applicate sulla superficie cutanea per favorire il rinnovamento degli strati superficiali. Sono approcci diversi e possono essere integrati in un percorso definito dal medico.",
-      },
-      {
-        q: "Quali sono i tempi di recupero?",
-        a: "Dipende dalla profondità del peeling: dopo un peeling superficiale possono comparire arrossamento e desquamazione lieve per alcuni giorni, mentre i peeling più intensi richiedono tempi più lunghi. Il medico fornisce indicazioni specifiche per il singolo caso.",
-      },
-      {
-        q: "Ci sono controindicazioni?",
-        a: "Sì, il peeling chimico non è indicato in alcune condizioni, come dermatiti attive, infezioni cutanee, esposizione solare recente e, per specifiche sostanze, gravidanza e allattamento. La valutazione medica e l'anamnesi permettono di verificare l'idoneità al trattamento.",
-      },
+        "title": "Filler Full Face",
+        "description": "I nostri medici valuteranno proporzioni, volumi, simmetrie e segni dell’invecchiamento per proporre un percorso completamente personalizzato e orientato alla valorizzazione del viso."
+      }
     ],
-    heroImage: "/images/aesthetic-skin.jpg",
-    heroQuickSpecialist: { title: "Medico specialista", subtitle: "Da associare" },
-    heroQuickTier: { title: "Percorsi Salute", subtitle: "Da verificare" },
-    whatIs: {
-      overline: "MEDICINA ESTETICA",
-      title: "Che cos'è il peeling chimico e come funziona?",
-      description:
-        "Il peeling chimico è un trattamento medico che prevede l'applicazione controllata sulla pelle di sostanze esfolianti, selezionate in base alle caratteristiche cutanee e agli obiettivi da raggiungere.",
-      paragraphs: [
-        "Il peeling chimico è un trattamento medico che prevede l'applicazione controllata sulla pelle di sostanze esfolianti, selezionate in base alle caratteristiche cutanee e agli obiettivi da raggiungere.",
-        "La sua azione favorisce il distacco e il rinnovamento degli strati superficiali della pelle, contribuendo a migliorare l'aspetto dell'incarnato e alcune alterazioni cutanee, come macchie, texture irregolare e linee sottili.",
+    "timelineSteps": [
+      {
+        "stepNumber": "01",
+        "title": "Analisi del volto",
+        "description": "Il medico raccoglie l’anamnesi, osserva proporzioni, dinamica espressiva e caratteristiche dei tessuti e valuta eventuali controindicazioni. La valutazione serve a proporre un percorso completamente personalizzato che abbia come obiettivo quello di valorizzare il volto, correggendo piccole imperfezioni con un risultato 100% naturale."
+      },
+      {
+        "stepNumber": "02",
+        "title": "Trattamento mirato",
+        "description": "Se indicato, esegue le iniezioni nelle aree concordate, con modalità e quantità definite durante la visita. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "stepNumber": "03",
+        "title": "Indicazioni e controllo",
+        "description": "Spiega quali reazioni transitorie possono comparire e fornisce indicazioni per il periodo successivo e gli eventuali controlli. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "steps": [
+      {
+        "title": "Analisi del volto",
+        "description": "Il medico raccoglie l’anamnesi, osserva proporzioni, dinamica espressiva e caratteristiche dei tessuti e valuta eventuali controindicazioni. La valutazione serve a proporre un percorso completamente personalizzato che abbia come obiettivo quello di valorizzare il volto, correggendo piccole imperfezioni con un risultato 100% naturale."
+      },
+      {
+        "title": "Trattamento mirato",
+        "description": "Se indicato, esegue le iniezioni nelle aree concordate, con modalità e quantità definite durante la visita. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "title": "Indicazioni e controllo",
+        "description": "Spiega quali reazioni transitorie possono comparire e fornisce indicazioni per il periodo successivo e gli eventuali controlli. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "results": {
+      "title": "Filler viso con acido ialuronico: quali risultati aspettarsi?",
+      "description": "L’effetto volumizzante può risultare visibile dopo il trattamento, ma il risultato va rivalutato dopo l’assestamento dei tessuti. Durata e risposta variano secondo prodotto, area e caratteristiche individuali.\n\nUn esito armonico dipende dalla proporzione rispetto ai lineamenti e non da un volume prefissato. La durata degli effetti è variabile e non si può stabilire per tutti un identico intervallo di mantenimento.\n\nOgni risultato deve essere interpretato alla luce del punto di partenza e della risposta individuale. Durante la consulenza vengono chiariti i limiti della procedura, le possibili alternative e i tempi più appropriati per un eventuale controllo.",
+      "paragraphs": [
+        "L’effetto volumizzante può risultare visibile dopo il trattamento, ma il risultato va rivalutato dopo l’assestamento dei tessuti. Durata e risposta variano secondo prodotto, area e caratteristiche individuali.",
+        "Un esito armonico dipende dalla proporzione rispetto ai lineamenti e non da un volume prefissato. La durata degli effetti è variabile e non si può stabilire per tutti un identico intervallo di mantenimento.",
+        "Ogni risultato deve essere interpretato alla luce del punto di partenza e della risposta individuale. Durante la consulenza vengono chiariti i limiti della procedura, le possibili alternative e i tempi più appropriati per un eventuale controllo."
       ],
-      callout:
-        "Esistono peeling superficiali, medi e profondi, che si distinguono per intensità e profondità d'azione. La scelta dipende dalle condizioni della pelle, dall'inestetismo da trattare e dalla valutazione medica.",
-      image: "/images/laser-technology.jpg",
+      "image": "/images/trattamenti/medicina-estetica/filler-viso-napoli-3.jpg"
     },
-    problemsGrid: [
-      {
-        title: "Macchie e discromie",
-        description:
-          "Alterazioni del tono cutaneo e iperpigmentazioni, inquadrate dal medico per definirne tipologia e indicazione al trattamento.",
-      },
-      {
-        title: "Acne e imperfezioni",
-        description:
-          "Texture irregolare e imperfezioni cutanee, da valutare clinicamente prima di impostare il percorso più adeguato.",
-      },
-      {
-        title: "Pelle spenta e texture irregolare",
-        description:
-          "Aspetto opaco e superficie non uniforme, per cui il peeling può favorire il rinnovamento degli strati superficiali.",
-      },
-      {
-        title: "Primi segni dell'invecchiamento",
-        description:
-          "Linee sottili e perdita di luminosità, affrontate con un protocollo personalizzato sulla base della valutazione medica.",
-      },
-    ],
-    timelineSteps: [
-      {
-        stepNumber: "01",
-        title: "Valutazione medica",
-        description:
-          "Analisi del tipo di pelle, delle discromie e delle imperfezioni, con definizione degli obiettivi e verifica delle controindicazioni.",
-      },
-      {
-        stepNumber: "02",
-        title: "Trattamento",
-        description:
-          "Applicazione controllata delle sostanze esfolianti selezionate dal medico, con intensità calibrata sulle caratteristiche della pelle.",
-      },
-      {
-        stepNumber: "03",
-        title: "Indicazioni e monitoraggio",
-        description:
-          "Indicazioni per la gestione della pelle nei giorni successivi, fotoprotezione e controllo della risposta cutanea.",
-      },
-    ],
-    timelineNote: {
-      title: "Ogni pelle è diversa",
-      text: "Il medico valuta la risposta della pelle e definisce l'eventuale necessità di ulteriori sedute.",
+    "localSeo": {
+      "title": "Filler viso con acido ialuronico a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato ai filler viso con acido ialuronico. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative al filler viso con acido ialuronico. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione."
     },
-    results: {
-      overline: "RISULTATI CLINICI",
-      title: "Peeling chimico: quali risultati aspettarsi?",
-      paragraphs: [
-        "Il peeling chimico può contribuire a migliorare la texture della pelle, l'uniformità dell'incarnato e alcune imperfezioni superficiali.",
-        "Gli eventuali risultati dipendono dalla tipologia di peeling utilizzata, dalle condizioni iniziali della pelle e dalla risposta individuale. In alcuni casi può essere sufficiente un singolo trattamento, mentre in altri è necessario un ciclo di più sedute.",
-        "Il peeling non garantisce l'eliminazione definitiva delle macchie o delle imperfezioni. Una valutazione medica permette di definire obiettivi realistici e individuare il percorso più appropriato.",
+    "faq": [
+      {
+        "q": "Il filler cambia l’espressività del volto?",
+        "a": "L’obiettivo può essere un riequilibrio proporzionato. Naturalezza ed espressività dipendono da indicazione, quantità e tecnica: vengono valutate durante la visita."
+      },
+      {
+        "q": "Quanto dura il filler viso?",
+        "a": "La durata non è uguale per tutti: incidono formulazione, area trattata e risposta individuale."
+      },
+      {
+        "q": "Dopo il trattamento possono comparire gonfiore o lividi?",
+        "a": "Sì, possono manifestarsi reazioni locali temporanee. Il medico illustra rischi, segnali da monitorare e gestione post-trattamento."
+      },
+      {
+        "q": "Il filler è adatto a chiunque?",
+        "a": "No. È necessaria una valutazione medica per indicazioni, controindicazioni e alternative."
+      }
+    ]
+  },
+  {
+    "slug": "tossina-botulinica",
+    "aliases": [
+      "botox"
+    ],
+    "title": "Tossina botulinica per le rughe dinamiche",
+    "category": "medicina-estetica",
+    "categoryName": "Viso e rigenerazione",
+    "tagline": "Un trattamento medico indicato in casi selezionati per attenuare le rughe legate alla contrazione dei muscoli mimici, preservando l’equilibrio dell’espressività.",
+    "description": "Un trattamento medico indicato in casi selezionati per attenuare le rughe legate alla contrazione dei muscoli mimici, preservando l’equilibrio dell’espressività.",
+    "heroImage": "/images/trattamenti/medicina-estetica/botox-napoli-1.jpg",
+    "galleryImages": [
+      "/images/trattamenti/medicina-estetica/botox-napoli-1.jpg",
+      "/images/trattamenti/medicina-estetica/botox-napoli-2.jpg",
+      "/images/trattamenti/medicina-estetica/botox-napoli-3.jpg"
+    ],
+    "seo": {
+      "metaTitle": "Tossina botulinica per le rughe dinamiche a Napoli | Cocoora",
+      "metaDescription": "Tossina botulinica per le rughe dinamiche a Napoli da Cocoora: indicazioni, visita medica e possibili risultati. Approfondisci tossina botulinica per rughe de",
+      "keywordMain": "tossina botulinica Napoli",
+      "keywordSec": "tossina botulinica per rughe della fronte; tossina botulinica per rughe glabellari; tossina botulinica per zampe di gallina; rughe dinamiche e rughe statiche"
+    },
+    "whatIs": {
+      "title": "",
+      "description": "",
+      "paragraphs": [],
+      "image": "/images/trattamenti/medicina-estetica/botox-napoli-2.jpg"
+    },
+    "problemsGrid": [
+      {
+        "title": "Tossina botulinica per rughe della fronte",
+        "description": "La tossina botulinica aiuta ad attenuare le rughe orizzontali della fronte, favorendo un aspetto più disteso e naturale."
+      },
+      {
+        "title": "Tossina botulinica per rughe glabellari",
+        "description": "La tossina botulinica aiuta ad attenuare le rughe tra le sopracciglia, rendendo l’espressione più distesa e naturale."
+      },
+      {
+        "title": "Tossina botulinica per bruxismo",
+        "description": "La tossina botulinica blocca temporaneamente gli impulsi nervosi al muscolo, riducendo la forza di contrazione e il sovraccarico."
+      },
+      {
+        "title": "Tossina botulinica per iperidrosi",
+        "description": "La tossina botulinica blocca il rilascio del neurotrasmettitore che stimola le ghiandole sudoripare. È efficace per mani, piedi e ascelle."
+      }
+    ],
+    "timelineSteps": [
+      {
+        "stepNumber": "01",
+        "title": "Visita e mímica",
+        "description": "L’effetto non compare immediatamente dopo le microiniezioni. Indicazioni post-seduta e tempi di controllo vengono comunicati dal medico; la durata della risposta cambia in base al caso clinico e al prodotto. Possibili effetti indesiderati sono spiegati prima della procedura."
+      },
+      {
+        "stepNumber": "02",
+        "title": "Somministrazione",
+        "description": "Quando appropriato, esegue piccole iniezioni in punti selezionati in base ai muscoli coinvolti. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "stepNumber": "03",
+        "title": "Valutazione successiva",
+        "description": "Fornisce istruzioni dopo la seduta e chiarisce i tempi per osservare il risultato e per eventuali controlli. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "steps": [
+      {
+        "title": "Visita e mímica",
+        "description": "L’effetto non compare immediatamente dopo le microiniezioni. Indicazioni post-seduta e tempi di controllo vengono comunicati dal medico; la durata della risposta cambia in base al caso clinico e al prodotto. Possibili effetti indesiderati sono spiegati prima della procedura."
+      },
+      {
+        "title": "Somministrazione",
+        "description": "Quando appropriato, esegue piccole iniezioni in punti selezionati in base ai muscoli coinvolti. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "title": "Valutazione successiva",
+        "description": "Fornisce istruzioni dopo la seduta e chiarisce i tempi per osservare il risultato e per eventuali controlli. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "results": {
+      "title": "Tossina botulinica per le rughe: quali risultati aspettarsi?",
+      "description": "L’effetto non è immediato e si sviluppa progressivamente. Entità e durata dipendono dalla risposta individuale e dal trattamento effettuato; non è un risultato permanente.\n\nL’obiettivo non è annullare ogni movimento, ma definire insieme al professionista un risultato compatibile con le caratteristiche del volto. Le rughe statiche e la qualità generale della pelle possono richiedere valutazioni diverse.\n\nOgni risultato deve essere interpretato alla luce del punto di partenza e della risposta individuale. Durante la consulenza vengono chiariti i limiti della procedura, le possibili alternative e i tempi più appropriati per un eventuale controllo.",
+      "paragraphs": [
+        "L’effetto non è immediato e si sviluppa progressivamente. Entità e durata dipendono dalla risposta individuale e dal trattamento effettuato; non è un risultato permanente.",
+        "L’obiettivo non è annullare ogni movimento, ma definire insieme al professionista un risultato compatibile con le caratteristiche del volto. Le rughe statiche e la qualità generale della pelle possono richiedere valutazioni diverse.",
+        "Ogni risultato deve essere interpretato alla luce del punto di partenza e della risposta individuale. Durante la consulenza vengono chiariti i limiti della procedura, le possibili alternative e i tempi più appropriati per un eventuale controllo."
       ],
-      image: "/images/doctor-consultation.jpg",
+      "image": "/images/trattamenti/medicina-estetica/botox-napoli-3.jpg"
     },
-    leadForm: {
-      overline: "RICHIEDI UNA VALUTAZIONE",
-      title: "Hai domande sul peeling?",
-      subtitle:
-        "Lasciaci i tuoi contatti. Il team Cocoora ti ricontatterà per fornirti maggiori informazioni e aiutarti a organizzare una valutazione medica.",
+    "localSeo": {
+      "title": "Tossina botulinica per le rughe a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato alla tossina botulinica per le rughe dinamiche. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative al tossina botulinica per le rughe dinamiche. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione."
     },
-    localSeo: {
-      overline: "MEDICINA ESTETICA A NAPOLI",
-      title: "Peeling chimico a Napoli",
-      description:
-        "Nel nostro centro a Napoli, in Via De Bonis 81 (Posillipo/Fuorigrotta), ogni percorso comincia da una valutazione medica personalizzata, per individuare il trattamento più adatto alle caratteristiche e alle esigenze della tua pelle.",
-      image: "/images/hero-clinic.jpg",
+    "faq": [
+      {
+        "q": "La tossina botulinica elimina tutte le rughe?",
+        "a": "No. Agisce soprattutto sulle rughe legate alla contrazione muscolare e non sostituisce i trattamenti per texture o perdita di volume."
+      },
+      {
+        "q": "Quando si nota l’effetto?",
+        "a": "Generalmente compare nei giorni successivi; il medico chiarisce i tempi attesi per il caso specifico."
+      },
+      {
+        "q": "Il volto resta espressivo?",
+        "a": "La pianificazione tiene conto della mimica personale, ma l’esito dipende dalla dose, dalla sede e dalla risposta del muscolo."
+      },
+      {
+        "q": "Si può ripetere il trattamento?",
+        "a": "L’eventuale ripetizione e i tempi vanno definiti dal medico, rispettando le indicazioni del prodotto e le necessità cliniche."
+      }
+    ]
+  },
+  {
+    "slug": "biorivitalizzazione",
+    "aliases": [
+      "biostimolazione"
+    ],
+    "title": "Biostimolazione della pelle",
+    "category": "medicina-estetica",
+    "categoryName": "Viso e rigenerazione",
+    "tagline": "La biostimolazione è un trattamento medico che mira a sostenere i processi fisiologici della pelle, con attenzione alla luminosità, all'elasticità e alla qualità dei tessuti.",
+    "description": "La biostimolazione è un trattamento medico che mira a sostenere i processi fisiologici della pelle, con attenzione alla luminosità, all'elasticità e alla qualità dei tessuti.",
+    "heroImage": "/images/trattamenti/medicina-estetica/bistimolazione-napoli-1.jpg",
+    "galleryImages": [
+      "/images/trattamenti/medicina-estetica/bistimolazione-napoli-1.jpg",
+      "/images/trattamenti/medicina-estetica/biostimolazione-napoli-2.jpg",
+      "/images/trattamenti/medicina-estetica/biostimolazione-napoli-3.jpg"
+    ],
+    "seo": {
+      "metaTitle": "Biostimolazione della pelle a Napoli | Cocoora",
+      "metaDescription": "Biostimolazione della pelle a Napoli da Cocoora: indicazioni, visita medica e possibili risultati. Approfondisci biostimolazione viso per qualità della pelle",
+      "keywordMain": "biostimolazione Napoli",
+      "keywordSec": "biostimolazione viso per qualità della pelle; biostimolazione per pelle disidratata e poco luminosa; biostimolazione collo e décolleté; biostimolazione o filler"
     },
+    "whatIs": {
+      "title": "",
+      "description": "",
+      "paragraphs": [],
+      "image": "/images/trattamenti/medicina-estetica/biostimolazione-napoli-2.jpg"
+    },
+    "problemsGrid": [
+      {
+        "title": "Biostimolazione per qualità della pelle",
+        "description": "La biostimolazione aiuta a migliorare idratazione, elasticità e qualità della pelle, senza modificarne i volumi."
+      },
+      {
+        "title": "Biostimolazione per pelle disidratata e poco luminosa",
+        "description": "La biostimolazione può contribuire a migliorare la luminosità e l’elasticità della pelle, donandole un aspetto più fresco e vitale."
+      },
+      {
+        "title": "Biostimolazione collo e décolleté",
+        "description": "La biostimolazione può contribuire a migliorare idratazione, elasticità e compattezza della pelle di collo e décolleté, quando indicata dal medico."
+      },
+      {
+        "title": "Biostimolazione o filler?",
+        "description": "Il filler con acido ialuronico aiuta a ridefinire i volumi e i contorni del viso, mentre la biostimolazione migliora la qualità della pelle, favorendone idratazione, elasticità e luminosità."
+      }
+    ],
+    "timelineSteps": [
+      {
+        "stepNumber": "01",
+        "title": "Inquadramento clinico",
+        "description": "La tecnica dipende dalla formulazione e dal protocollo utilizzati nel centro: non è corretto attribuire a tutte le biostimolazioni lo stesso metodo, numero di sedute o tempo di recupero. Questi dettagli vengono definiti e spiegati in visita."
+      },
+      {
+        "stepNumber": "02",
+        "title": "Procedura selezionata",
+        "description": "Il professionista applica il protocollo indicato dopo aver chiarito la formulazione, la tecnica e i possibili effetti locali. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "stepNumber": "03",
+        "title": "Monitoraggio",
+        "description": "Vengono osservati la risposta cutanea e l'andamento del percorso, con eventuali modifiche del piano. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "steps": [
+      {
+        "title": "Inquadramento clinico",
+        "description": "La tecnica dipende dalla formulazione e dal protocollo utilizzati nel centro: non è corretto attribuire a tutte le biostimolazioni lo stesso metodo, numero di sedute o tempo di recupero. Questi dettagli vengono definiti e spiegati in visita."
+      },
+      {
+        "title": "Procedura selezionata",
+        "description": "Il professionista applica il protocollo indicato dopo aver chiarito la formulazione, la tecnica e i possibili effetti locali. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "title": "Monitoraggio",
+        "description": "Vengono osservati la risposta cutanea e l'andamento del percorso, con eventuali modifiche del piano. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "results": {
+      "title": "Biostimolazione: quali risultati aspettarsi?",
+      "description": "La biostimolazione può contribuire a migliorare progressivamente la qualità della pelle, favorendo una maggiore idratazione, elasticità, luminosità e compattezza. Il risultato è una pelle dall’aspetto più fresco, uniforme e vitale, nel rispetto delle sue caratteristiche naturali.\n\nI miglioramenti si sviluppano gradualmente, seguendo i naturali processi di rinnovamento cutaneo. Tempi e risultati possono variare in base alle condizioni iniziali della pelle, alla metodica utilizzata e alla risposta individuale.\n\nDurante la visita specialistica, il medico definisce il percorso più adatto alle esigenze della persona, stabilendo il numero di sedute e gli eventuali controlli per valutare l’evoluzione dei risultati nel tempo.",
+      "paragraphs": [
+        "La biostimolazione può contribuire a migliorare progressivamente la qualità della pelle, favorendo una maggiore idratazione, elasticità, luminosità e compattezza. Il risultato è una pelle dall’aspetto più fresco, uniforme e vitale, nel rispetto delle sue caratteristiche naturali.",
+        "I miglioramenti si sviluppano gradualmente, seguendo i naturali processi di rinnovamento cutaneo. Tempi e risultati possono variare in base alle condizioni iniziali della pelle, alla metodica utilizzata e alla risposta individuale.",
+        "Durante la visita specialistica, il medico definisce il percorso più adatto alle esigenze della persona, stabilendo il numero di sedute e gli eventuali controlli per valutare l’evoluzione dei risultati nel tempo."
+      ],
+      "image": "/images/trattamenti/medicina-estetica/biostimolazione-napoli-3.jpg"
+    },
+    "localSeo": {
+      "title": "Biostimolazione della pelle a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato a biostimolazione della pelle. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative al biostimolazione della pelle. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione."
+    },
+    "faq": [
+      {
+        "q": "La biostimolazione sostituisce il filler?",
+        "a": "I due trattamenti hanno finalità differenti e non sono automaticamente intercambiabili."
+      },
+      {
+        "q": "È un trattamento per le rughe profonde?",
+        "a": "La finalità principale indicata è il sostegno alla qualità cutanea; per le rughe profonde serve una valutazione specifica."
+      },
+      {
+        "q": "I risultati sono immediati?",
+        "a": "I tempi dipendono dal protocollo e dalla risposta fisiologica dei tessuti."
+      },
+      {
+        "q": "Serve una valutazione prima della seduta?",
+        "a": "Sì, per verificare indicazioni, eventuali controindicazioni e scelta della procedura."
+      }
+    ]
   },
   {
-    slug: "prx",
-    title: "PRX — Biostimolazione senza aghi",
-    category: "medicina-estetica",
-    tagline: "Biostimolazione cutanea senza aghi per luminosità e compattezza",
-    description:
-      "Biostimolazione cutanea senza aghi indicata per migliorare luminosità, texture e compattezza della pelle in modo delicato e non invasivo.",
-    steps: [
-      { title: "Valutazione medica", description: "Verifica dell'idoneità della cute e definizione delle aree da biostimolare." },
-      { title: "Seduta / Protocollo", description: "Applicazione della soluzione biostimolante senza aghi, con massaggio delicato." },
-      { title: "Risultato e follow-up", description: "Pelle progressivamente più luminosa e compatta; il medico definisce il ciclo di sedute." },
+    "slug": "biorigenerazione",
+    "aliases": [],
+    "title": "Biorigenerazione",
+    "category": "medicina-estetica",
+    "categoryName": "Viso e rigenerazione",
+    "tagline": "Un approccio di medicina estetica rigenerativa che punta a sostenere la vitalità e la qualità dei tessuti, con protocolli definiti a partire dalla valutazione medica.",
+    "description": "Un approccio di medicina estetica rigenerativa che punta a sostenere la vitalità e la qualità dei tessuti, con protocolli definiti a partire dalla valutazione medica.",
+    "heroImage": "/images/trattamenti/medicina-estetica/biorigenerazione-napoli-1.jpg",
+    "galleryImages": [
+      "/images/trattamenti/medicina-estetica/biorigenerazione-napoli-1.jpg",
+      "/images/trattamenti/medicina-estetica/biorigenerazione-napoli-2.jpg",
+      "/images/trattamenti/medicina-estetica/biorigenerazione-napoli-3.jpg"
     ],
-    faq: [
-      { q: "È adatto a tutti?", a: "È indicato per la maggior parte delle pelli; la valutazione medica preliminare conferma l'idoneità." },
-      { q: "Si può fare in ogni stagione?", a: "Sì, previa indicazione medica e con un'adeguata fotoprotezione." },
+    "seo": {
+      "metaTitle": "Biorigenerazione dei tessuti a Napoli | Cocoora",
+      "metaDescription": "Biorigenerazione dei tessuti a Napoli da Cocoora: indicazioni, visita medica e possibili risultati. Approfondisci biorigenerazione viso e miglioramento dei te",
+      "keywordMain": "biorigenerazione Napoli",
+      "keywordSec": "biorigenerazione viso e miglioramento dei tessuti; biorigenerazione per elasticità e compattezza cutanea; biorigenerazione e pelle segnata dal tempo; biorigenerazione e biostimolazione"
+    },
+    "whatIs": {
+      "title": "",
+      "description": "",
+      "paragraphs": [],
+      "image": "/images/trattamenti/medicina-estetica/biorigenerazione-napoli-2.jpg"
+    },
+    "problemsGrid": [
+      {
+        "title": "Biorigenerazione viso",
+        "description": "La biorigenerazione sostiene i naturali processi di rigenerazione cutanea, contribuendo a migliorare la qualità e la vitalità della pelle."
+      },
+      {
+        "title": "Biorigenerazione per elasticità e compattezza cutanea",
+        "description": "La biorigenerazione può contribuire a migliorare l’elasticità e la compattezza della pelle, favorendo un aspetto più tonico e uniforme."
+      },
+      {
+        "title": "Biorigenerazione per pelle segnata dal tempo",
+        "description": "La biorigenerazione può contribuire a migliorare la texture e l’uniformità della pelle, valorizzandone la qualità e la naturale luminosità."
+      },
+      {
+        "title": "Biorigenerazione o biostimolazione?",
+        "description": "La biorigenerazione e la biostimolazione favoriscono entrambe il miglioramento della qualità della pelle, ma si distinguono per le metodiche utilizzate e gli specifici obiettivi del trattamento."
+      }
     ],
+    "timelineSteps": [
+      {
+        "stepNumber": "01",
+        "title": "Visita specialistica",
+        "description": "Materiali, tecnica e calendario non vanno dedotti dal nome commerciale del trattamento. Prima di iniziare vengono illustrate indicazioni, limiti, possibili reazioni e modalità di controllo secondo il protocollo definito dal professionista. Si definiscono bisogni, caratteristiche della cute e idoneità a una procedura rigenerativa. La valutazione serve anche a esaminare eventuali controindicazioni, terapie in corso ed esigenze individuali; quando necessario, il medico propone accertamenti o un percorso diverso."
+      },
+      {
+        "stepNumber": "02",
+        "title": "Piano terapeutico",
+        "description": "Viene selezionato il protocollo specifico e ne sono spiegati obiettivi, limiti e possibili reazioni. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "stepNumber": "03",
+        "title": "Controllo dell’andamento",
+        "description": "I cambiamenti vengono osservati nel tempo e il percorso è adattato alla risposta individuale. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "steps": [
+      {
+        "title": "Visita specialistica",
+        "description": "Materiali, tecnica e calendario non vanno dedotti dal nome commerciale del trattamento. Prima di iniziare vengono illustrate indicazioni, limiti, possibili reazioni e modalità di controllo secondo il protocollo definito dal professionista. Si definiscono bisogni, caratteristiche della cute e idoneità a una procedura rigenerativa. La valutazione serve anche a esaminare eventuali controindicazioni, terapie in corso ed esigenze individuali; quando necessario, il medico propone accertamenti o un percorso diverso."
+      },
+      {
+        "title": "Piano terapeutico",
+        "description": "Viene selezionato il protocollo specifico e ne sono spiegati obiettivi, limiti e possibili reazioni. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "title": "Controllo dell’andamento",
+        "description": "I cambiamenti vengono osservati nel tempo e il percorso è adattato alla risposta individuale. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "results": {
+      "title": "Biorigenerazione dei tessuti: quali risultati aspettarsi?",
+      "description": "La biorigenerazione può contribuire a migliorare progressivamente la qualità della pelle, favorendo una maggiore elasticità, compattezza e uniformità dei tessuti. Il risultato è una pelle dall’aspetto più fresco, luminoso e vitale, nel rispetto delle sue caratteristiche naturali.\n\nI miglioramenti si sviluppano gradualmente, accompagnando i processi fisiologici di rinnovamento cutaneo. I tempi e l’entità dei risultati dipendono dalle condizioni iniziali della pelle, dalla metodologia utilizzata e dalla risposta individuale.\n\nDurante la visita specialistica, il medico definisce un percorso personalizzato, individuando le sedute più appropriate e gli eventuali controlli per valutare l’evoluzione dei risultati nel tempo.",
+      "paragraphs": [
+        "La biorigenerazione può contribuire a migliorare progressivamente la qualità della pelle, favorendo una maggiore elasticità, compattezza e uniformità dei tessuti. Il risultato è una pelle dall’aspetto più fresco, luminoso e vitale, nel rispetto delle sue caratteristiche naturali.",
+        "I miglioramenti si sviluppano gradualmente, accompagnando i processi fisiologici di rinnovamento cutaneo. I tempi e l’entità dei risultati dipendono dalle condizioni iniziali della pelle, dalla metodologia utilizzata e dalla risposta individuale.",
+        "Durante la visita specialistica, il medico definisce un percorso personalizzato, individuando le sedute più appropriate e gli eventuali controlli per valutare l’evoluzione dei risultati nel tempo."
+      ],
+      "image": "/images/trattamenti/medicina-estetica/biorigenerazione-napoli-3.jpg"
+    },
+    "localSeo": {
+      "title": "Biorigenerazione a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato alla biorigenerazione dei tessuti. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative alla biorigenerazione dei tessuti. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione."
+    },
+    "faq": [
+      {
+        "q": "Che differenza c’è tra biorigenerazione e biostimolazione?",
+        "a": "Sono termini vicini ma non necessariamente coincidenti: il protocollo effettivamente usato chiarisce il meccanismo e la finalità."
+      },
+      {
+        "q": "La biorigenerazione è chirurgica?",
+        "a": "La modalità dipende dalla specifica procedura proposta; Cocoora deve confermare il protocollo."
+      },
+      {
+        "q": "Si possono trattare tutte le aree del corpo?",
+        "a": "Le aree eleggibili si definiscono solo dopo la valutazione specialistica."
+      },
+      {
+        "q": "Quanto tempo occorre per valutare il risultato?",
+        "a": "I tempi non sono uniformi e dipendono dalla tecnica e dalla risposta dei tessuti."
+      }
+    ]
   },
   {
-    slug: "cryoliposculpt",
-    title: "Criolipolisi (Cryoliposculpt)",
-    category: "medicina-estetica",
-    tagline: "Riduzione non invasiva degli accumuli adiposi localizzati",
-    description:
-      "Trattamento medico non invasivo (Cryoliposculpt) dedicato a ridurre gli accumuli adiposi localizzati e ridefinire il profilo corporeo su addome, fianchi, culotte de cheval, interno coscia e area sottoglutea/banana roll.",
-    steps: [
-      { title: "Valutazione medica", description: "Analisi delle aree adipose, della qualità dei tessuti e definizione del piano personalizzato." },
-      { title: "Seduta / Protocollo", description: "Posizionamento della manipola dedicata sull'area, con raffreddamento controllato dei tessuti." },
-      { title: "Risultato e follow-up", description: "Riduzione progressiva nelle settimane successive, monitorata nelle visite di controllo." },
+    "slug": "acido-polilattico",
+    "aliases": [
+      "biostimolatori"
     ],
-    machines: ["Cryoliposculpt", "Manipole dedicate"],
-    faq: [
-      { q: "Il trattamento è doloroso?", a: "No, durante la seduta si avverte una sensazione di freddo intenso iniziale che si attenua in pochi minuti." },
-      { q: "Quante sedute sono necessarie?", a: "Dipende dall'area e dagli obiettivi: in genere una o due sedute per area, da valutare in visita medica." },
-      { q: "Quali zone si possono trattare?", a: "Addome, fianchi, culotte de cheval, interno coscia, area sottoglutea/banana roll e altre aree selezionate dopo valutazione medica." },
+    "title": "Biostimolatori per il viso",
+    "category": "medicina-estetica",
+    "categoryName": "Viso e rigenerazione",
+    "tagline": "Trattamenti medici iniettivi con sostanze biostimolanti, tra cui acido polilattico e idrossiapatite di calcio, impiegati in casi selezionati per sostenere la qualità e la struttura dei tessuti.",
+    "description": "Trattamenti medici iniettivi con sostanze biostimolanti, tra cui acido polilattico e idrossiapatite di calcio, impiegati in casi selezionati per sostenere la qualità e la struttura dei tessuti.",
+    "heroImage": "/images/trattamenti/medicina-estetica/biostimolatori-napoli-1.jpg",
+    "galleryImages": [
+      "/images/trattamenti/medicina-estetica/biostimolatori-napoli-1.jpg",
+      "/images/trattamenti/medicina-estetica/biostimolatori-napoli-2.jpg",
+      "/images/trattamenti/medicina-estetica/biostimolatori-napoli-3.jpg"
     ],
+    "seo": {
+      "metaTitle": "Biostimolatori per il viso a Napoli | Cocoora",
+      "metaDescription": "Biostimolatori per il viso a Napoli da Cocoora: indicazioni, visita medica e possibili risultati. Approfondisci biostimolatori a base di acido polilattico e b",
+      "keywordMain": "biostimolatori Napoli",
+      "keywordSec": "biostimolatori a base di acido polilattico; biostimolatori con idrossiapatite di calcio; biostimolatori per lassità cutanea lieve; biostimolatori e filler"
+    },
+    "whatIs": {
+      "title": "",
+      "description": "",
+      "paragraphs": [],
+      "image": "/images/trattamenti/medicina-estetica/biostimolatori-napoli-2.jpg"
+    },
+    "problemsGrid": [
+      {
+        "title": "Biostimolatori a base di acido polilattico",
+        "description": "L’acido polilattico stimola la produzione di collagene, contribuendo a migliorare il sostegno e la compattezza dei tessuti."
+      },
+      {
+        "title": "Biostimolatori con idrossiapatite di calcio",
+        "description": "L’idrossiapatite di calcio stimola la produzione di collagene, contribuendo a migliorare la compattezza e il sostegno dei tessuti."
+      },
+      {
+        "title": "Biostimolatori per lassità cutanea lieve",
+        "description": "I biostimolatori possono contribuire a migliorare la compattezza e il sostegno dei tessuti, attenuando progressivamente i segni della lassità cutanea."
+      },
+      {
+        "title": "Biostimolatori o filler?",
+        "description": "Il filler ridefinisce i volumi del viso, mentre i biostimolatori favoriscono la produzione di collagene, migliorando progressivamente compattezza e qualità dei tessuti."
+      }
+    ],
+    "timelineSteps": [
+      {
+        "stepNumber": "01",
+        "title": "Esame medico",
+        "description": "Poiché si tratta di procedure mediche, il consenso informato deve descrivere reazioni locali ed eventi avversi possibili. Il professionista stabilisce il piano di trattamento e i tempi di rivalutazione senza promettere un cambiamento identico per ogni persona. La visita considera anamnesi, caratteristiche anatomiche, qualità della cute, indicazioni e controindicazioni. La valutazione serve anche a esaminare eventuali controindicazioni, terapie in corso ed esigenze individuali; quando necessario, il medico propone accertamenti o un percorso diverso."
+      },
+      {
+        "stepNumber": "02",
+        "title": "Scelta del prodotto e trattamento",
+        "description": "Il medico seleziona formulazione, area, tecnica e quantità, spiegando differenze, rischi e benefici potenziali. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "stepNumber": "03",
+        "title": "Controllo e follow-up",
+        "description": "Si ricevono indicazioni per il post-trattamento e si programmano eventuali controlli per valutare la risposta progressiva. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "steps": [
+      {
+        "title": "Esame medico",
+        "description": "Poiché si tratta di procedure mediche, il consenso informato deve descrivere reazioni locali ed eventi avversi possibili. Il professionista stabilisce il piano di trattamento e i tempi di rivalutazione senza promettere un cambiamento identico per ogni persona. La visita considera anamnesi, caratteristiche anatomiche, qualità della cute, indicazioni e controindicazioni. La valutazione serve anche a esaminare eventuali controindicazioni, terapie in corso ed esigenze individuali; quando necessario, il medico propone accertamenti o un percorso diverso."
+      },
+      {
+        "title": "Scelta del prodotto e trattamento",
+        "description": "Il medico seleziona formulazione, area, tecnica e quantità, spiegando differenze, rischi e benefici potenziali. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "title": "Controllo e follow-up",
+        "description": "Si ricevono indicazioni per il post-trattamento e si programmano eventuali controlli per valutare la risposta progressiva. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "results": {
+      "title": "Biostimolatori per il viso: quali risultati aspettarsi?",
+      "description": "I biostimolatori favoriscono la naturale produzione di collagene, contribuendo a migliorare progressivamente la compattezza, l’elasticità e il sostegno dei tessuti. Il risultato è una pelle dall’aspetto più tonico, uniforme e distesa, con un miglioramento graduale della lassità cutanea.\n\nA differenza dei filler volumizzanti, i biostimolatori agiscono nel tempo, accompagnando i naturali processi di rimodellamento dei tessuti. I primi miglioramenti possono diventare visibili nelle settimane successive al trattamento, con tempi e risultati che variano in base al prodotto utilizzato e alla risposta individuale.\n\nDurante la visita specialistica, il medico definisce un percorso personalizzato, valutando le caratteristiche della pelle, gli obiettivi desiderati e il numero di sedute più appropriato per ottenere un risultato armonioso e naturale.",
+      "paragraphs": [
+        "I biostimolatori favoriscono la naturale produzione di collagene, contribuendo a migliorare progressivamente la compattezza, l’elasticità e il sostegno dei tessuti. Il risultato è una pelle dall’aspetto più tonico, uniforme e distesa, con un miglioramento graduale della lassità cutanea.",
+        "A differenza dei filler volumizzanti, i biostimolatori agiscono nel tempo, accompagnando i naturali processi di rimodellamento dei tessuti. I primi miglioramenti possono diventare visibili nelle settimane successive al trattamento, con tempi e risultati che variano in base al prodotto utilizzato e alla risposta individuale.",
+        "Durante la visita specialistica, il medico definisce un percorso personalizzato, valutando le caratteristiche della pelle, gli obiettivi desiderati e il numero di sedute più appropriato per ottenere un risultato armonioso e naturale."
+      ],
+      "image": "/images/trattamenti/medicina-estetica/biostimolatori-napoli-3.jpg"
+    },
+    "localSeo": {
+      "title": "Biostimolatori per il viso a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato a biostimolatori per il viso. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative ai biostimolatori per il viso. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione."
+    },
+    "faq": [
+      {
+        "q": "Che differenza c’è tra biostimolatori e filler?",
+        "a": "I biostimolatori sono utilizzati soprattutto per sostenere processi di rimodellamento dei tessuti; i filler di acido ialuronico possono essere scelti anche per armonizzare volumi e contorni."
+      },
+      {
+        "q": "Quali sostanze vengono impiegate?",
+        "a": "I trattamenti con biostimolatori possono prevedere l’utilizzo di acido polilattico o idrossiapatite di calcio, selezionati dal medico in base alle caratteristiche della pelle e agli obiettivi del trattamento."
+      },
+      {
+        "q": "I risultati dei biostimolatori sono immediati?",
+        "a": "L’effetto sul rimodellamento del collagene è generalmente progressivo; la risposta varia da persona a persona."
+      },
+      {
+        "q": "Sono adatti a tutte le zone del viso?",
+        "a": "No. Le aree di applicazione sono determinate dalla valutazione medica e dalle caratteristiche del prodotto."
+      }
+    ]
   },
   {
-    slug: "carbossiterapia",
-    title: "Carbossiterapia",
-    category: "medicina-estetica",
-    tagline: "Anidride carbonica medicale per microcircolo, cellulite e qualità dei tessuti",
-    description:
-      "Trattamento medico che utilizza anidride carbonica medicale per migliorare l’aspetto della cellulite e la qualità dei tessuti, favorendo il microcircolo nelle aree trattate.",
-    steps: [
-      { title: "Valutazione medica", description: "Individuazione delle aree da trattare e degli obiettivi del protocollo." },
-      { title: "Seduta / Protocollo", description: "Somministrazione controllata di anidride carbonica medicale nelle aree selezionate." },
-      { title: "Risultato e follow-up", description: "Miglioramento progressivo nell'arco di un ciclo di sedute, con controlli programmati." },
+    "slug": "peeling-chimico",
+    "aliases": [
+      "peeling-medicali",
+      "peeling-medicale"
     ],
-    faq: [
-      { q: "È sicura?", a: "Sì, utilizza anidride carbonica medicale ed è eseguita da personale medico qualificato." },
-      { q: "Su quali inestetismi agisce?", a: "Può essere inserita in protocolli dedicati a cellulite, microcircolo e qualità dei tessuti." },
+    "title": "Peeling chimico medicale",
+    "category": "medicina-estetica",
+    "categoryName": "Viso e rigenerazione",
+    "tagline": "Un trattamento esfoliante eseguito in ambito medico per intervenire su texture, discromie e alcune imperfezioni cutanee, secondo la formulazione scelta dallo specialista.",
+    "description": "Un trattamento esfoliante eseguito in ambito medico per intervenire su texture, discromie e alcune imperfezioni cutanee, secondo la formulazione scelta dallo specialista.",
+    "heroImage": "/images/trattamenti/medicina-estetica/peeling-medicale-napoli-1.jpg",
+    "galleryImages": [
+      "/images/trattamenti/medicina-estetica/peeling-medicale-napoli-1.jpg",
+      "/images/trattamenti/medicina-estetica/peeling-medicale-napoli-2.jpg",
+      "/images/trattamenti/medicina-estetica/peeling-mendicale-napoli-3.jpg"
     ],
+    "seo": {
+      "metaTitle": "Peeling chimico medicale a Napoli | Cocoora",
+      "metaDescription": "Peeling chimico a Napoli da Cocoora: indicazioni, visita medica e possibili risultati. Approfondisci peeling chimico per macchie e discromie e peeling chimico",
+      "keywordMain": "peeling chimico Napoli",
+      "keywordSec": "peeling chimico per macchie e discromie; peeling chimico per acne e imperfezioni; peeling chimico per pelle spenta e texture irregolare; peeling chimico per rughe sottili e fotoinvecchiamento"
+    },
+    "whatIs": {
+      "title": "",
+      "description": "",
+      "paragraphs": [],
+      "image": "/images/trattamenti/medicina-estetica/peeling-medicale-napoli-2.jpg"
+    },
+    "problemsGrid": [
+      {
+        "title": "Peeling chimico medicale per macchie e discromie",
+        "description": "Il peeling medicale può contribuire ad attenuare macchie e discromie, migliorando l’uniformità del colorito con trattamenti specifici per ogni esigenza."
+      },
+      {
+        "title": "Peeling chimico medicale per acne e imperfezioni",
+        "description": "Il peeling medicale può contribuire a ridurre comedoni e imperfezioni legate all’acne, migliorando la texture e l’uniformità della pelle."
+      },
+      {
+        "title": "Peeling chimico medicale per pelle spenta e texture irregolare",
+        "description": "Il peeling medicale favorisce il rinnovamento superficiale della pelle, migliorandone la texture e rendendola più liscia e uniforme."
+      },
+      {
+        "title": "Peeling medicale per rughe sottili e fotoinvecchiamento",
+        "description": "Il peeling medicale può contribuire ad attenuare rughe sottili e segni del fotoinvecchiamento, rendendo la pelle più levigata e il colorito uniforme."
+      }
+    ],
+    "timelineSteps": [
+      {
+        "stepNumber": "01",
+        "title": "Esame della pelle",
+        "description": "Il medico illustra cosa si può avvertire durante l’applicazione, come pizzicore o calore, e quando contattare lo studio in caso di reazioni inattese. La frequenza delle sedute non è standard: dipende dal prodotto selezionato e dalla risposta della pelle. Il medico valuta fototipo, sensibilità, eventuali farmaci e controindicazioni e sceglie l’agente esfoliante. La valutazione serve anche a esaminare eventuali controindicazioni, terapie in corso ed esigenze individuali; quando necessario, il medico propone accertamenti o un percorso diverso."
+      },
+      {
+        "stepNumber": "02",
+        "title": "Applicazione controllata",
+        "description": "La soluzione viene applicata secondo tempi e modalità stabiliti in base al peeling prescritto. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "stepNumber": "03",
+        "title": "Cura post-procedura",
+        "description": "Si ricevono istruzioni per la detergenza, la protezione dal sole e la gestione dell’eventuale desquamazione. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "steps": [
+      {
+        "title": "Esame della pelle",
+        "description": "Il medico illustra cosa si può avvertire durante l’applicazione, come pizzicore o calore, e quando contattare lo studio in caso di reazioni inattese. La frequenza delle sedute non è standard: dipende dal prodotto selezionato e dalla risposta della pelle. Il medico valuta fototipo, sensibilità, eventuali farmaci e controindicazioni e sceglie l’agente esfoliante. La valutazione serve anche a esaminare eventuali controindicazioni, terapie in corso ed esigenze individuali; quando necessario, il medico propone accertamenti o un percorso diverso."
+      },
+      {
+        "title": "Applicazione controllata",
+        "description": "La soluzione viene applicata secondo tempi e modalità stabiliti in base al peeling prescritto. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "title": "Cura post-procedura",
+        "description": "Si ricevono istruzioni per la detergenza, la protezione dal sole e la gestione dell’eventuale desquamazione. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "results": {
+      "title": "Peeling chimico medicale: quali risultati aspettarsi?",
+      "description": "Il peeling medicale favorisce il rinnovamento cutaneo, contribuendo a migliorare la luminosità, la texture e l’uniformità della pelle. Il trattamento può aiutare ad attenuare macchie superficiali, imperfezioni e rughe sottili, donando al viso un aspetto più fresco, levigato e uniforme.\n\nI miglioramenti si sviluppano gradualmente, seguendo i naturali tempi di rinnovamento della pelle. In base alla tipologia e all’intensità del peeling, possono verificarsi rossore e una leggera desquamazione nei giorni successivi, parte del processo di recupero cutaneo.\n\nDurante la visita specialistica, il medico seleziona il peeling più indicato in base alle caratteristiche della pelle e agli obiettivi del trattamento, definendo le eventuali sedute successive e le indicazioni per preservare i risultati nel tempo, inclusa un’adeguata protezione solare.",
+      "paragraphs": [
+        "Il peeling medicale favorisce il rinnovamento cutaneo, contribuendo a migliorare la luminosità, la texture e l’uniformità della pelle. Il trattamento può aiutare ad attenuare macchie superficiali, imperfezioni e rughe sottili, donando al viso un aspetto più fresco, levigato e uniforme.",
+        "I miglioramenti si sviluppano gradualmente, seguendo i naturali tempi di rinnovamento della pelle. In base alla tipologia e all’intensità del peeling, possono verificarsi rossore e una leggera desquamazione nei giorni successivi, parte del processo di recupero cutaneo.",
+        "Durante la visita specialistica, il medico seleziona il peeling più indicato in base alle caratteristiche della pelle e agli obiettivi del trattamento, definendo le eventuali sedute successive e le indicazioni per preservare i risultati nel tempo, inclusa un’adeguata protezione solare."
+      ],
+      "image": "/images/trattamenti/medicina-estetica/peeling-mendicale-napoli-3.jpg"
+    },
+    "localSeo": {
+      "title": "Peeling medicale a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato a peeling chimico. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative al peeling chimico. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione."
+    },
+    "faq": [
+      {
+        "q": "Il peeling medicale provoca desquamazione?",
+        "a": "Può accadere, ma l'intensità e la durata cambiano in funzione della formulazione e della pelle."
+      },
+      {
+        "q": "Si può fare il peeling in estate?",
+        "a": "Dipende dal tipo di peeling, dal fototipo e dall’esposizione solare prevista: il medico valuta il momento più adatto."
+      },
+      {
+        "q": "Il peeling elimina tutte le macchie?",
+        "a": "No. La natura delle discromie va identificata prima di scegliere un trattamento e non tutte rispondono allo stesso modo."
+      },
+      {
+        "q": "Qual è la differenza tra peeling e PRX?",
+        "a": "PRX indica uno specifico protocollo di trattamento cutaneo; il peeling medicale comprende formulazioni e profondità diverse."
+      }
+    ]
   },
   {
-    slug: "mesoterapia",
-    title: "Mesoterapia",
-    category: "medicina-estetica",
-    tagline: "Microiniezioni superficiali per microcircolo, cellulite e texture",
-    description:
-      "Trattamento medico iniettivo mediante microiniezioni superficiali mirato al miglioramento del microcircolo, della cellulite e della texture cutanea.",
-    steps: [
-      { title: "Valutazione medica", description: "Analisi delle aree interessate da cellulite o ritenzione e definizione del protocollo." },
-      { title: "Seduta / Protocollo", description: "Microiniezioni superficiali di sostanze selezionate dal medico nelle aree da trattare." },
-      { title: "Risultato e follow-up", description: "Risultati progressivi nell'arco del ciclo di sedute, con monitoraggio medico." },
+    "slug": "prx",
+    "aliases": [
+      "prx-t33"
     ],
-    faq: [
-      { q: "Il trattamento è doloroso?", a: "Le microiniezioni superficiali sono generalmente ben tollerate; la percezione varia da persona a persona." },
-      { q: "Quante sedute servono?", a: "Il ciclo viene personalizzato dal medico in base all'entità dell'inestetismo e alla risposta dei tessuti." },
+    "title": "PRX",
+    "category": "medicina-estetica",
+    "categoryName": "Viso e rigenerazione",
+    "tagline": "Il PRX è un protocollo medico di trattamento cutaneo senza aghi, proposto da Cocoora per lavorare su luminosità, texture e compattezza della pelle.",
+    "description": "Il PRX è un protocollo medico di trattamento cutaneo senza aghi, proposto da Cocoora per lavorare su luminosità, texture e compattezza della pelle.",
+    "heroImage": "/images/trattamenti/medicina-estetica/prx-napoli-1.jpg",
+    "galleryImages": [
+      "/images/trattamenti/medicina-estetica/prx-napoli-1.jpg",
+      "/images/trattamenti/medicina-estetica/prx-napoli-2.jpg",
+      "/images/trattamenti/medicina-estetica/prx-napoli-3.jpg"
     ],
+    "seo": {
+      "metaTitle": "Trattamento PRX a Napoli | Cocoora",
+      "metaDescription": "Trattamento PRX a Napoli da Cocoora: indicazioni, visita medica e possibili risultati. Approfondisci prx per pelle spenta e luminosità del viso e prx per text",
+      "keywordMain": "PRX Napoli",
+      "keywordSec": "prx per pelle spenta e luminosità del viso; prx per texture irregolare della pelle; prx per compattezza e qualità cutanea; prx e peeling chimico"
+    },
+    "whatIs": {
+      "title": "",
+      "description": "",
+      "paragraphs": [],
+      "image": "/images/trattamenti/medicina-estetica/prx-napoli-2.jpg"
+    },
+    "problemsGrid": [
+      {
+        "title": "PRX per pelle spenta e luminosità del viso",
+        "description": "Il PRX è un trattamento di biostimolazione senza aghi che aiuta a migliorare luminosità, texture e compattezza della pelle, rendendo il viso più uniforme e levigato."
+      },
+      {
+        "title": "PRX per texture irregolare della pelle",
+        "description": "Il PRX può contribuire a migliorare la texture della pelle, rendendola più liscia e uniforme e attenuando le irregolarità superficiali."
+      },
+      {
+        "title": "PRX per compattezza e qualità cutanea",
+        "description": "Il PRX può contribuire a migliorare la compattezza e l’elasticità della pelle, favorendo un aspetto più tonico e disteso."
+      },
+      {
+        "title": "PRX o peeling chimico?",
+        "description": "Il PRX favorisce la biostimolazione cutanea senza aghi, mentre i peeling medicali agiscono attraverso un’esfoliazione controllata della pelle, con intensità variabile in base al trattamento."
+      }
+    ],
+    "timelineSteps": [
+      {
+        "stepNumber": "01",
+        "title": "Controllo preliminare",
+        "description": "La procedura pratica e le precauzioni successive dipendono dal prodotto e dal protocollo effettivamente in uso nel centro. Per questo il sito non deve dichiarare assenza assoluta di fastidio, desquamazione o recupero senza una conferma clinica. Vengono valutati l'anamnesi, eventuali irritazioni e condizioni che possono rendere il protocollo non adatto. La valutazione serve anche a esaminare eventuali controindicazioni, terapie in corso ed esigenze individuali; quando necessario, il medico propone accertamenti o un percorso diverso."
+      },
+      {
+        "stepNumber": "02",
+        "title": "Applicazione del protocollo",
+        "description": "Il medico esegue il trattamento senza aghi secondo le istruzioni del prodotto selezionato. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "stepNumber": "03",
+        "title": "Istruzioni successive",
+        "description": "Sono spiegati eventuali effetti transitori, skincare appropriata e fotoprotezione. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "steps": [
+      {
+        "title": "Controllo preliminare",
+        "description": "La procedura pratica e le precauzioni successive dipendono dal prodotto e dal protocollo effettivamente in uso nel centro. Per questo il sito non deve dichiarare assenza assoluta di fastidio, desquamazione o recupero senza una conferma clinica. Vengono valutati l'anamnesi, eventuali irritazioni e condizioni che possono rendere il protocollo non adatto. La valutazione serve anche a esaminare eventuali controindicazioni, terapie in corso ed esigenze individuali; quando necessario, il medico propone accertamenti o un percorso diverso."
+      },
+      {
+        "title": "Applicazione del protocollo",
+        "description": "Il medico esegue il trattamento senza aghi secondo le istruzioni del prodotto selezionato. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "title": "Istruzioni successive",
+        "description": "Sono spiegati eventuali effetti transitori, skincare appropriata e fotoprotezione. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "results": {
+      "title": "PRX: quali risultati aspettarsi?",
+      "description": "Il PRX contribuisce a migliorare la luminosità, la compattezza e l’uniformità della pelle, favorendo un aspetto più fresco, levigato e vitale. Il trattamento può aiutare ad attenuare le irregolarità superficiali e a valorizzare la naturale qualità dei tessuti cutanei.\n\nI miglioramenti possono essere apprezzabili progressivamente, con tempi e risultati che dipendono dalle caratteristiche iniziali della pelle e dalla risposta individuale. Il PRX si inserisce in un percorso di biostimolazione orientato a migliorare la qualità cutanea senza ricorrere a trattamenti iniettivi.\n\nDurante la visita specialistica, il medico valuta le esigenze della pelle e definisce un protocollo personalizzato, stabilendo il numero di sedute e gli eventuali controlli per accompagnare e mantenere i risultati nel tempo.",
+      "paragraphs": [
+        "Il PRX contribuisce a migliorare la luminosità, la compattezza e l’uniformità della pelle, favorendo un aspetto più fresco, levigato e vitale. Il trattamento può aiutare ad attenuare le irregolarità superficiali e a valorizzare la naturale qualità dei tessuti cutanei.",
+        "I miglioramenti possono essere apprezzabili progressivamente, con tempi e risultati che dipendono dalle caratteristiche iniziali della pelle e dalla risposta individuale. Il PRX si inserisce in un percorso di biostimolazione orientato a migliorare la qualità cutanea senza ricorrere a trattamenti iniettivi.",
+        "Durante la visita specialistica, il medico valuta le esigenze della pelle e definisce un protocollo personalizzato, stabilendo il numero di sedute e gli eventuali controlli per accompagnare e mantenere i risultati nel tempo."
+      ],
+      "image": "/images/trattamenti/medicina-estetica/prx-napoli-3.jpg"
+    },
+    "localSeo": {
+      "title": "Trattamento PRX a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato al trattamento PRX. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative al trattamento prx. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione."
+    },
+    "faq": [
+      {
+        "q": "PRX richiede iniezioni?",
+        "a": "Il PRX è un trattamento di biostimolazione cutanea senza aghi, che prevede l’applicazione di una formulazione specifica direttamente sulla pelle."
+      },
+      {
+        "q": "PRX e peeling sono equivalenti?",
+        "a": "No. PRX identifica un protocollo preciso, mentre “peeling medicale” è una categoria più ampia."
+      },
+      {
+        "q": "Sono previste più sedute?",
+        "a": "La frequenza dipende dalla valutazione medica e dalle indicazioni del prodotto utilizzato."
+      },
+      {
+        "q": "Il PRX è adatto alla pelle sensibile?",
+        "a": "L’idoneità va verificata caso per caso, considerando integrità cutanea, sensibilità e controindicazioni."
+      }
+    ]
   },
   {
-    slug: "intralipoterapia",
-    title: "Intralipoterapia",
-    category: "medicina-estetica",
-    tagline: "Riduzione mirata di adiposità localizzate selezionate",
-    description:
-      "Trattamento medico iniettivo indicato per la riduzione non chirurgica di adiposità localizzate accuratamente selezionate in sede di visita.",
-    steps: [
-      { title: "Valutazione medica", description: "Selezione accurata delle adiposità localizzate trattabili e definizione del piano." },
-      { title: "Seduta / Protocollo", description: "Micro-infiltrazioni nelle aree adipose selezionate dal medico." },
-      { title: "Risultato e follow-up", description: "Riduzione progressiva nelle settimane successive, con controlli programmati." },
+    "slug": "cryoliposculpt",
+    "aliases": [
+      "criolipolisi"
     ],
-    faq: [
-      { q: "Per chi è indicata?", a: "Per chi presenta adiposità localizzate accuratamente selezionate in sede di visita medica." },
-      { q: "È un'alternativa alla chirurgia?", a: "È un trattamento medico non chirurgico; l'idoneità e gli obiettivi vengono valutati esclusivamente in visita." },
+    "title": "Criolipolisi per adiposità localizzate",
+    "category": "medicina-estetica",
+    "categoryName": "Corpo e silhouette",
+    "tagline": "Una tecnologia non invasiva rivolta al trattamento di accumuli adiposi localizzati in aree selezionate, dopo un inquadramento medico della silhouette e dei tessuti.",
+    "description": "Una tecnologia non invasiva rivolta al trattamento di accumuli adiposi localizzati in aree selezionate, dopo un inquadramento medico della silhouette e dei tessuti.",
+    "heroImage": "/images/trattamenti/medicina-estetica/criolipolisi-napoli-1.jpg",
+    "galleryImages": [
+      "/images/trattamenti/medicina-estetica/criolipolisi-napoli-1.jpg",
+      "/images/trattamenti/medicina-estetica/criolipolisi-napoli-2.jpg",
+      "/images/trattamenti/medicina-estetica/criolipolisi-napoli-3.jpg"
     ],
+    "seo": {
+      "metaTitle": "Criolipolisi per adiposità localizzate a Napoli | Cocoora",
+      "metaDescription": "Criolipolisi per adiposità localizzate a Napoli da Cocoora: indicazioni, visita medica e possibili risultati. Approfondisci criolipolisi addome per adiposità",
+      "keywordMain": "criolipolisi Napoli",
+      "keywordSec": "criolipolisi addome per adiposità localizzata; criolipolisi fianchi e profilo corporeo; criolipolisi cosce e culotte de cheval; criolipolisi e dimagrimento"
+    },
+    "whatIs": {
+      "title": "",
+      "description": "",
+      "paragraphs": [],
+      "image": "/images/trattamenti/medicina-estetica/criolipolisi-napoli-2.jpg"
+    },
+    "problemsGrid": [
+      {
+        "title": "Criolipolisi addome per adiposità localizzata",
+        "description": "La criolipolisi può contribuire a ridurre il grasso localizzato sull’addome, favorendo un profilo più definito e armonioso."
+      },
+      {
+        "title": "Criolipolisi fianchi e profilo corporeo",
+        "description": "La criolipolisi può contribuire a ridurre il grasso localizzato sui fianchi, definendo il punto vita."
+      },
+      {
+        "title": "Criolipolisi cosce e culotte de cheval",
+        "description": "La criolipolisi può contribuire a ridurre il grasso localizzato sulle culotte de cheval, migliorando il profilo delle cosce."
+      },
+      {
+        "title": "Criolipolisi braccia",
+        "description": "La criolipolisi può lavorare efficacemente anche sulle braccia, una zona dove il grasso tende spesso ad accumularsi e dove ginnastica e diete non riescono a intervenire."
+      }
+    ],
+    "timelineSteps": [
+      {
+        "stepNumber": "01",
+        "title": "Valutazione delle aree",
+        "description": "Durante la consulenza si discutono sensazioni durante l’applicazione, possibili reazioni transitorie e complicanze conosciute, compresa l’iperplasia adiposa paradossa, evento raro ma rilevante da illustrare in ambito clinico. Il medico esamina la zona, raccoglie anamnesi e verifica controindicazioni al freddo e alla procedura. La valutazione serve anche a esaminare eventuali controindicazioni, terapie in corso ed esigenze individuali; quando necessario, il medico propone accertamenti o un percorso diverso."
+      },
+      {
+        "stepNumber": "02",
+        "title": "Raffreddamento controllato",
+        "description": "Viene eseguita la seduta con il dispositivo selezionato, secondo parametri e protezioni previsti. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "stepNumber": "03",
+        "title": "Controllo dei tessuti",
+        "description": "Si spiegano possibili reazioni locali e il periodo necessario per valutare eventuali cambiamenti. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "steps": [
+      {
+        "title": "Valutazione delle aree",
+        "description": "Durante la consulenza si discutono sensazioni durante l’applicazione, possibili reazioni transitorie e complicanze conosciute, compresa l’iperplasia adiposa paradossa, evento raro ma rilevante da illustrare in ambito clinico. Il medico esamina la zona, raccoglie anamnesi e verifica controindicazioni al freddo e alla procedura. La valutazione serve anche a esaminare eventuali controindicazioni, terapie in corso ed esigenze individuali; quando necessario, il medico propone accertamenti o un percorso diverso."
+      },
+      {
+        "title": "Raffreddamento controllato",
+        "description": "Viene eseguita la seduta con il dispositivo selezionato, secondo parametri e protezioni previsti. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "title": "Controllo dei tessuti",
+        "description": "Si spiegano possibili reazioni locali e il periodo necessario per valutare eventuali cambiamenti. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "results": {
+      "title": "Criolipolisi per adiposità localizzate: quali risultati aspettarsi?",
+      "description": "La criolipolisi può contribuire a ridurre progressivamente gli accumuli di grasso localizzato, favorendo un profilo corporeo più definito e una silhouette armoniosa, senza ricorrere alla chirurgia.\n\nI risultati si sviluppano gradualmente nelle settimane e nei mesi successivi al trattamento, seguendo i naturali processi con cui l’organismo elimina le cellule adipose interessate dal raffreddamento controllato. L’entità del miglioramento varia in base alla zona trattata, alle caratteristiche del tessuto adiposo e alla risposta individuale.\n\nDurante la visita specialistica, il medico valuta le aree su cui intervenire e definisce un percorso personalizzato, stabilendo gli eventuali controlli per osservare l’evoluzione dei risultati nel tempo. Vengono inoltre illustrate le possibili reazioni al trattamento, per affrontare ogni fase con informazioni chiare e aspettative realistiche.",
+      "paragraphs": [
+        "La criolipolisi può contribuire a ridurre progressivamente gli accumuli di grasso localizzato, favorendo un profilo corporeo più definito e una silhouette armoniosa, senza ricorrere alla chirurgia.",
+        "I risultati si sviluppano gradualmente nelle settimane e nei mesi successivi al trattamento, seguendo i naturali processi con cui l’organismo elimina le cellule adipose interessate dal raffreddamento controllato. L’entità del miglioramento varia in base alla zona trattata, alle caratteristiche del tessuto adiposo e alla risposta individuale.",
+        "Durante la visita specialistica, il medico valuta le aree su cui intervenire e definisce un percorso personalizzato, stabilendo gli eventuali controlli per osservare l’evoluzione dei risultati nel tempo. Vengono inoltre illustrate le possibili reazioni al trattamento, per affrontare ogni fase con informazioni chiare e aspettative realistiche."
+      ],
+      "image": "/images/trattamenti/medicina-estetica/criolipolisi-napoli-3.jpg"
+    },
+    "localSeo": {
+      "title": "Criolipolisi per adiposità localizzate a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato alla criolipolisi per adiposità localizzate. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative alla criolipolisi per adiposità localizzate. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione."
+    },
+    "faq": [
+      {
+        "q": "La criolipolisi fa dimagrire?",
+        "a": "È rivolta a depositi adiposi localizzati, non al trattamento del sovrappeso o dell’obesità."
+      },
+      {
+        "q": "Quando si osservano i cambiamenti?",
+        "a": "Il processo è graduale e i tempi possono variare in base alla risposta individuale."
+      },
+      {
+        "q": "È possibile trattare più zone?",
+        "a": "La scelta delle aree e del numero di applicazioni segue criteri medici e tecnici."
+      },
+      {
+        "q": "La criolipolisi ha controindicazioni?",
+        "a": "Sì. Alcune condizioni, incluse particolari sensibilità al freddo, possono renderla non indicata."
+      }
+    ]
   },
   {
-    slug: "ultrasuoni-cfu",
-    title: "Ultrasuoni CFU",
-    category: "medicina-estetica",
-    tagline: "Controlled Focalized Ultrasound per tono, compattezza e definizione",
-    description:
-      "La nuova frontiera degli ultrasuoni focalizzati (Controlled Focalized Ultrasound): agisce a profondità selezionate su viso, collo, sottomento, profilo mandibolare e aree corporee per stimolare il rimodellamento del collagene e contrastare la lassità lieve o moderata.",
-    steps: [
-      { title: "Valutazione medica", description: "Studio del grado di lassità, delle aree da ridefinire e dell'idoneità al trattamento." },
-      { title: "Seduta / Protocollo", description: "Emissione di ultrasuoni focalizzati a profondità selezionate, con stimolazione controllata dei tessuti." },
-      { title: "Risultato e follow-up", description: "Miglioramento progressivo di tono e compattezza, con tempi ed entità variabili in base alla risposta individuale dei tessuti." },
+    "slug": "carbossiterapia",
+    "aliases": [],
+    "title": "Carbossiterapia",
+    "category": "medicina-estetica",
+    "categoryName": "Corpo e silhouette",
+    "tagline": "Un trattamento medico che impiega anidride carbonica medicale in protocolli selezionati dedicati al microcircolo e alla qualità dei tessuti.",
+    "description": "Un trattamento medico che impiega anidride carbonica medicale in protocolli selezionati dedicati al microcircolo e alla qualità dei tessuti.",
+    "heroImage": "/images/trattamenti/medicina-estetica/carbossiterapia-napoli-1.jpg",
+    "galleryImages": [
+      "/images/trattamenti/medicina-estetica/carbossiterapia-napoli-1.jpg",
+      "/images/trattamenti/medicina-estetica/carbossiterapia-napoli-2.jpg",
+      "/images/trattamenti/medicina-estetica/carbossiterapia-napoli-3.jpg"
     ],
-    machines: ["Ultrasuoni CFU (Controlled Focalized Ultrasound)"],
-    faq: [
-      { q: "A cosa serve?", a: "A migliorare tono, compattezza e definizione su viso, collo, sottomento, profilo mandibolare e aree corporee selezionate." },
-      { q: "Per chi è indicato?", a: "Per chi presenta lassità lieve o moderata e desidera un approccio non chirurgico." },
-      { q: "Cosa aspettarsi?", a: "Un miglioramento progressivo, con tempi ed entità del risultato variabili in base alla risposta individuale dei tessuti." },
+    "seo": {
+      "metaTitle": "Carbossiterapia a Napoli | Cocoora",
+      "metaDescription": "Carbossiterapia a Napoli da Cocoora: indicazioni, visita medica e possibili risultati. Approfondisci carbossiterapia per cellulite e aspetto della cute e carb",
+      "keywordMain": "carbossiterapia napoli",
+      "keywordSec": "carbossiterapia per cellulite e aspetto della cute; carbossiterapia gambe e microcircolo; carbossiterapia cosce e glutei; carbossiterapia per pelle irregolare"
+    },
+    "whatIs": {
+      "title": "",
+      "description": "",
+      "paragraphs": [],
+      "image": "/images/trattamenti/medicina-estetica/carbossiterapia-napoli-2.jpg"
+    },
+    "problemsGrid": [
+      {
+        "title": "Carbossiterapia per cellulite",
+        "description": "La carbossiterapia può contribuire a migliorare l’aspetto della cellulite e la qualità dei tessuti, favorendo il microcircolo."
+      },
+      {
+        "title": "Carbossiterapia gambe",
+        "description": "La carbossiterapia utilizza anidride carbonica medicale per favorire il microcircolo e migliorare la qualità dei tessuti delle gambe."
+      },
+      {
+        "title": "Carbossiterapia cosce e glutei",
+        "description": "La carbossiterapia può contribuire a migliorare la texture della pelle di cosce e glutei, attenuando l’aspetto della cellulite."
+      },
+      {
+        "title": "Carbossiterapia per pelle irregolare",
+        "description": "La carbossiterapia può contribuire a migliorare l’uniformità e la qualità della pelle, favorendo il microcircolo nelle aree trattate."
+      }
     ],
+    "timelineSteps": [
+      {
+        "stepNumber": "01",
+        "title": "Visita e indicazione",
+        "description": "Prima della seduta vengono esaminate eventuali controindicazioni. Modalità di somministrazione, aree, durata e frequenza dipendono dall’obiettivo e dal protocollo medico; piccoli fastidi o segni transitori possono essere possibili. Si valutano anamnesi, caratteristiche dei tessuti e possibili controindicazioni. La valutazione serve anche a esaminare eventuali controindicazioni, terapie in corso ed esigenze individuali; quando necessario, il medico propone accertamenti o un percorso diverso."
+      },
+      {
+        "stepNumber": "02",
+        "title": "Somministrazione di CO₂",
+        "description": "Il medico esegue il protocollo con strumenti e parametri appropriati alla zona. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "stepNumber": "03",
+        "title": "Valutazione della risposta",
+        "description": "Vengono fornite informazioni su sensazioni transitorie e programmazione dei controlli. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "steps": [
+      {
+        "title": "Visita e indicazione",
+        "description": "Prima della seduta vengono esaminate eventuali controindicazioni. Modalità di somministrazione, aree, durata e frequenza dipendono dall’obiettivo e dal protocollo medico; piccoli fastidi o segni transitori possono essere possibili. Si valutano anamnesi, caratteristiche dei tessuti e possibili controindicazioni. La valutazione serve anche a esaminare eventuali controindicazioni, terapie in corso ed esigenze individuali; quando necessario, il medico propone accertamenti o un percorso diverso."
+      },
+      {
+        "title": "Somministrazione di CO₂",
+        "description": "Il medico esegue il protocollo con strumenti e parametri appropriati alla zona. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "title": "Valutazione della risposta",
+        "description": "Vengono fornite informazioni su sensazioni transitorie e programmazione dei controlli. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "results": {
+      "title": "Carbossiterapia: quali risultati aspettarsi?",
+      "description": "La carbossiterapia può contribuire a migliorare progressivamente l’aspetto della cellulite, favorendo il microcircolo e una maggiore uniformità e qualità della pelle. Il trattamento aiuta a rendere i tessuti più omogenei, per una pelle dall’aspetto più levigato.\n\nI miglioramenti si sviluppano gradualmente e possono variare in base alle caratteristiche della pelle, alla zona trattata e alla risposta individuale. Il medico definisce un percorso personalizzato, individuando il numero di sedute più appropriato per gli obiettivi desiderati.\n\nDurante i controlli viene valutata l’evoluzione dei risultati, così da adattare il percorso alle esigenze individuali e favorire il mantenimento dei benefici nel tempo.",
+      "paragraphs": [
+        "La carbossiterapia può contribuire a migliorare progressivamente l’aspetto della cellulite, favorendo il microcircolo e una maggiore uniformità e qualità della pelle. Il trattamento aiuta a rendere i tessuti più omogenei, per una pelle dall’aspetto più levigato.",
+        "I miglioramenti si sviluppano gradualmente e possono variare in base alle caratteristiche della pelle, alla zona trattata e alla risposta individuale. Il medico definisce un percorso personalizzato, individuando il numero di sedute più appropriato per gli obiettivi desiderati.",
+        "Durante i controlli viene valutata l’evoluzione dei risultati, così da adattare il percorso alle esigenze individuali e favorire il mantenimento dei benefici nel tempo."
+      ],
+      "image": "/images/trattamenti/medicina-estetica/carbossiterapia-napoli-3.jpg"
+    },
+    "localSeo": {
+      "title": "Carbossiterapia a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato alla carbossiterapia. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative alla carbossiterapia. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione."
+    },
+    "faq": [
+      {
+        "q": "Che cos’è la CO₂ medicale?",
+        "a": "È anidride carbonica impiegata per uso medico secondo protocolli e dispositivi dedicati."
+      },
+      {
+        "q": "La carbossiterapia serve solo per la cellulite?",
+        "a": "La carbossiterapia favorisce il microcircolo e contribuisce a migliorare la qualità, la texture e l’aspetto della pelle."
+      },
+      {
+        "q": "La seduta può dare fastidio?",
+        "a": "Sono possibili sensazioni locali durante la somministrazione; il medico spiega cosa aspettarsi."
+      },
+      {
+        "q": "Quante sedute vengono consigliate?",
+        "a": "Numero e frequenza dipendono dalla valutazione clinica e dal protocollo selezionato."
+      }
+    ]
   },
   {
-    slug: "piattaforma-laser",
-    title: "Piattaforma Laser",
-    category: "medicina-estetica",
-    tagline: "QS NPP, Erbium:YAG, CPL e Laser CO₂ per viso e corpo",
-    description:
-      "Tecnologie laser e sorgenti luminose selezionate dal medico: QS NPP (macchie e discromie), Erbium:YAG (texture e resurfacing superficiale), CPL (rossori e fotodanneggiamento) e Laser CO₂ (cicatrici da acne, rughe e resurfacing profondo).",
-    steps: [
-      { title: "Valutazione medica", description: "Diagnosi cutanea con identificazione del tipo di pelle e delle problematiche da trattare." },
-      { title: "Seduta / Protocollo", description: "Scelta della tecnologia più adatta al singolo caso tra QS NPP, Erbium:YAG, CPL e Laser CO₂." },
-      { title: "Risultato e follow-up", description: "Monitoraggio dei risultati, fotoprotezione rigorosa e pianificazione delle sedute successive." },
+    "slug": "mesoterapia",
+    "aliases": [],
+    "title": "Mesoterapia",
+    "category": "medicina-estetica",
+    "categoryName": "Corpo e silhouette",
+    "tagline": "Una procedura medica che utilizza microiniezioni superficiali, considerata da Cocoora in percorsi per microcircolo, cellulite e texture cutanea.",
+    "description": "Una procedura medica che utilizza microiniezioni superficiali, considerata da Cocoora in percorsi per microcircolo, cellulite e texture cutanea.",
+    "heroImage": "/images/trattamenti/medicina-estetica/mesoterapia-napoli-1.jpg",
+    "galleryImages": [
+      "/images/trattamenti/medicina-estetica/mesoterapia-napoli-1.jpg",
+      "/images/trattamenti/medicina-estetica/mesoterapia-napoli-2.jpg",
+      "/images/trattamenti/medicina-estetica/mesoterapia-napoli-3.jpg"
     ],
-    machines: ["Laser QS NPP", "Laser Erbium:YAG", "Luce pulsata CPL", "Laser CO₂"],
-    faq: [
-      { q: "Quali problematiche tratta?", a: "Macchie e discromie (QS NPP), texture e rughe sottili (Erbium:YAG), rossori e fotodanneggiamento (CPL), cicatrici da acne e resurfacing profondo (Laser CO₂)." },
-      { q: "Cosa aspettarsi dopo la seduta?", a: "I tempi di recupero variano in base all'intensità del trattamento scelto; è sempre richiesta una fotoprotezione rigorosa nei giorni successivi." },
+    "seo": {
+      "metaTitle": "Mesoterapia a Napoli | Cocoora",
+      "metaDescription": "Mesoterapia a Napoli da Cocoora: indicazioni, visita medica e possibili risultati. Approfondisci mesoterapia per cellulite di cosce e glutei e mesoterapia gam",
+      "keywordMain": "mesoterapia Napoli",
+      "keywordSec": "mesoterapia per cellulite di cosce e glutei; mesoterapia gambe e microcircolo; mesoterapia e miglioramento della texture cutanea; mesoterapia e intralipoterapia"
+    },
+    "whatIs": {
+      "title": "",
+      "description": "",
+      "paragraphs": [],
+      "image": "/images/trattamenti/medicina-estetica/mesoterapia-napoli-2.jpg"
+    },
+    "problemsGrid": [
+      {
+        "title": "Mesoterapia per cellulite di cosce e glutei",
+        "description": "La mesoterapia aiuta ad attenuare la cellulite e a migliorare la texture della pelle attraverso microiniezioni superficiali."
+      },
+      {
+        "title": "Mesoterapia gambe e microcircolo",
+        "description": "La mesoterapia può contribuire a migliorare il microcircolo locale e la qualità dei tessuti nelle aree trattate."
+      },
+      {
+        "title": "Mesoterapia e miglioramento della texture",
+        "description": "La mesoterapia può contribuire a migliorare la texture e l’uniformità della pelle, attenuando le irregolarità superficiali."
+      },
+      {
+        "title": "Mesoterapia o intralipoterapia?",
+        "description": "La mesoterapia aiuta a migliorare il microcircolo, la cellulite e la qualità della pelle, mentre l’intralipoterapia è indicata per ridurre gli accumuli di grasso localizzato."
+      }
     ],
+    "timelineSteps": [
+      {
+        "stepNumber": "01",
+        "title": "Valutazione",
+        "description": "Il piano viene impostato dopo anamnesi e verifica di eventuali allergie o controindicazioni. Sono stati chiariti la tecnica, la frequenza, i possibili segni locali e le precauzioni successive in base al prodotto effettivamente utilizzato. Il medico definisce obiettivi, zona di intervento e appropriatezza delle sostanze previste. La valutazione serve anche a esaminare eventuali controindicazioni, terapie in corso ed esigenze individuali; quando necessario, il medico propone accertamenti o un percorso diverso."
+      },
+      {
+        "stepNumber": "02",
+        "title": "Microiniezioni",
+        "description": "La procedura consiste in somministrazioni superficiali eseguite secondo un protocollo medico. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "stepNumber": "03",
+        "title": "Controllo e indicazioni",
+        "description": "Si monitorano la risposta, eventuali effetti locali e opportunità di incontri successivi. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "steps": [
+      {
+        "title": "Valutazione",
+        "description": "Il piano viene impostato dopo anamnesi e verifica di eventuali allergie o controindicazioni. Sono stati chiariti la tecnica, la frequenza, i possibili segni locali e le precauzioni successive in base al prodotto effettivamente utilizzato. Il medico definisce obiettivi, zona di intervento e appropriatezza delle sostanze previste. La valutazione serve anche a esaminare eventuali controindicazioni, terapie in corso ed esigenze individuali; quando necessario, il medico propone accertamenti o un percorso diverso."
+      },
+      {
+        "title": "Microiniezioni",
+        "description": "La procedura consiste in somministrazioni superficiali eseguite secondo un protocollo medico. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "title": "Controllo e indicazioni",
+        "description": "Si monitorano la risposta, eventuali effetti locali e opportunità di incontri successivi. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "results": {
+      "title": "Mesoterapia: quali risultati aspettarsi?",
+      "description": "La mesoterapia può contribuire a migliorare progressivamente l’aspetto della cellulite, favorire il microcircolo e rendere la pelle più uniforme e levigata. Il trattamento agisce sulla qualità dei tessuti, aiutando a migliorare la texture delle aree interessate.\n\nI risultati si sviluppano gradualmente e variano in base alle caratteristiche della pelle, alle sostanze utilizzate e alla risposta individuale. Il medico definisce un percorso personalizzato, individuando il numero di sedute più appropriato in funzione delle esigenze e degli obiettivi del trattamento.\n\nDurante le visite di controllo viene monitorata l’evoluzione dei risultati, con la possibilità di adattare il percorso per valorizzare e mantenere nel tempo i benefici ottenuti.",
+      "paragraphs": [
+        "La mesoterapia può contribuire a migliorare progressivamente l’aspetto della cellulite, favorire il microcircolo e rendere la pelle più uniforme e levigata. Il trattamento agisce sulla qualità dei tessuti, aiutando a migliorare la texture delle aree interessate.",
+        "I risultati si sviluppano gradualmente e variano in base alle caratteristiche della pelle, alle sostanze utilizzate e alla risposta individuale. Il medico definisce un percorso personalizzato, individuando il numero di sedute più appropriato in funzione delle esigenze e degli obiettivi del trattamento.",
+        "Durante le visite di controllo viene monitorata l’evoluzione dei risultati, con la possibilità di adattare il percorso per valorizzare e mantenere nel tempo i benefici ottenuti."
+      ],
+      "image": "/images/trattamenti/medicina-estetica/mesoterapia-napoli-3.jpg"
+    },
+    "localSeo": {
+      "title": "Mesoterapia a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato alla mesoterapia. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative alla mesoterapia. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione."
+    },
+    "faq": [
+      {
+        "q": "La mesoterapia è un massaggio?",
+        "a": "No. È una procedura medica che prevede microiniezioni."
+      },
+      {
+        "q": "Quali prodotti vengono iniettati?",
+        "a": "I preparati dipendono dal protocollo; Cocoora dovrà confermarli prima di inserire nomi specifici sul sito."
+      },
+      {
+        "q": "Può trattare tutte le forme di cellulite?",
+        "a": "Le caratteristiche della cellulite e le eventuali cause associate vanno prima valutate."
+      },
+      {
+        "q": "Occorre sospendere le normali attività?",
+        "a": "Le indicazioni variano con zona, sostanze e reazioni locali; vengono date dal medico."
+      }
+    ]
   },
+  {
+    "slug": "biostimolazione-corpo",
+    "aliases": [],
+    "title": "Biostimolazione corpo",
+    "category": "medicina-estetica",
+    "categoryName": "Corpo e silhouette",
+    "tagline": "Un trattamento medico-estetico iniettivo che stimola la produzione di collagene per migliorare progressivamente la tonicità, la compattezza e la qualità della pelle del corpo.",
+    "description": "La biostimolazione corpo è un trattamento di medicina estetica che utilizza sostanze iniettabili per stimolare la produzione di nuovo collagene e migliorare la struttura dei tessuti cutanei. Tra i principali biostimolanti utilizzati rientrano l'acido poli-L-lattico (PLLA) e l'idrossiapatite di calcio (CaHA). Entrambi favoriscono i processi di produzione del collagene, pur presentando caratteristiche, formulazioni e modalità di impiego differenti. L'obiettivo è intervenire sulla qualità della pelle, contribuendo a migliorarne elasticità, tonicità e compattezza. I cambiamenti si sviluppano progressivamente, attraverso la risposta biologica dei tessuti. A differenza dei trattamenti destinati alla riduzione delle adiposità localizzate, la biostimolazione non agisce sul grasso corporeo e non ha finalità dimagranti. È indicata in situazioni selezionate di lassità cutanea, dopo un'attenta valutazione medica.",
+    "heroImage": "/images/trattamenti/medicina-estetica/biostimolazione-corpo-napoli-1.jpg",
+    "galleryImages": [
+      "/images/trattamenti/medicina-estetica/biostimolazione-corpo-napoli-1.jpg",
+      "/images/trattamenti/medicina-estetica/biostimolazione-corpo-napoli-2.jpg",
+      "/images/trattamenti/medicina-estetica/biostimolazione-corpo-napoli-3.jpg"
+    ],
+    "seo": {
+      "metaTitle": "Biostimolazione corpo a Napoli | Cocoora",
+      "metaDescription": "Biostimolazione corpo a Napoli con acido poli-L-lattico e idrossiapatite di calcio. Scopri come migliorare progressivamente la qualità della pelle.",
+      "keywordMain": "biostimolazione corpo",
+      "keywordSec": "biostimolazione corpo Napoli, biostimolazione glutei, biostimolazione braccia, biostimolazione addome, biostimolazione cosce, biostimolazione collagene, trattamento lassità cutanea corpo."
+    },
+    "whatIs": {
+      "title": "Che cos'è la biostimolazione corpo e come funziona?",
+      "description": "La biostimolazione corpo è un trattamento di medicina estetica che utilizza sostanze iniettabili per stimolare la produzione di nuovo collagene e migliorare la struttura dei tessuti cutanei. Tra i principali biostimolanti utilizzati rientrano l'acido poli-L-lattico (PLLA) e l'idrossiapatite di calcio (CaHA). Entrambi favoriscono i processi di produzione del collagene, pur presentando caratteristiche, formulazioni e modalità di impiego differenti. L'obiettivo è intervenire sulla qualità della pelle, contribuendo a migliorarne elasticità, tonicità e compattezza. I cambiamenti si sviluppano progressivamente, attraverso la risposta biologica dei tessuti. A differenza dei trattamenti destinati alla riduzione delle adiposità localizzate, la biostimolazione non agisce sul grasso corporeo e non ha finalità dimagranti. È indicata in situazioni selezionate di lassità cutanea, dopo un'attenta valutazione medica.",
+      "paragraphs": [
+        "La biostimolazione corpo è un trattamento di medicina estetica che utilizza sostanze iniettabili per stimolare la produzione di nuovo collagene e migliorare la struttura dei tessuti cutanei. Tra i principali biostimolanti utilizzati rientrano l'acido poli-L-lattico (PLLA) e l'idrossiapatite di calcio (CaHA). Entrambi favoriscono i processi di produzione del collagene, pur presentando caratteristiche, formulazioni e modalità di impiego differenti. L'obiettivo è intervenire sulla qualità della pelle, contribuendo a migliorarne elasticità, tonicità e compattezza. I cambiamenti si sviluppano progressivamente, attraverso la risposta biologica dei tessuti. A differenza dei trattamenti destinati alla riduzione delle adiposità localizzate, la biostimolazione non agisce sul grasso corporeo e non ha finalità dimagranti. È indicata in situazioni selezionate di lassità cutanea, dopo un'attenta valutazione medica."
+      ],
+      "image": "/images/trattamenti/medicina-estetica/biostimolazione-corpo-napoli-2.jpg"
+    },
+    "problemsGrid": [
+      {
+        "title": "Biostimolazione glutei",
+        "description": "Nella regione glutea, la biostimolazione può contribuire a migliorare la compattezza della pelle e l'aspetto dei tessuti, soprattutto in presenza di lassità cutanea lieve o moderata."
+      },
+      {
+        "title": "Biostimolazione braccia",
+        "description": "La pelle delle braccia può perdere progressivamente elasticità e sostegno. La biostimolazione rappresenta una possibile opzione medico-estetica per intervenire sulla qualità cutanea, in particolare nelle aree caratterizzate da ridotta compattezza."
+      },
+      {
+        "title": "Biostimolazione addome",
+        "description": "Anche la pelle dell'addome può presentare variazioni di elasticità e tonicità, legate al naturale invecchiamento cutaneo o a cambiamenti corporei. La biostimolazione può essere presa in considerazione per favorire il sostegno dei tessuti e migliorarne gradualmente l'aspetto."
+      },
+      {
+        "title": "Biostimolazione cosce",
+        "description": "Nella zona delle cosce, la biostimolazione può aiutare a contrastare la perdita di compattezza cutanea, favorendo la produzione di collagene."
+      }
+    ],
+    "timelineSteps": [
+      {
+        "stepNumber": "01",
+        "title": "Valutazione medica iniziale",
+        "description": "Il percorso inizia con una visita durante la quale il medico analizza la storia clinica, le caratteristiche della pelle e il grado di lassità cutanea. Questa fase permette di verificare l'appropriatezza del trattamento, individuare eventuali controindicazioni e definire gli obiettivi."
+      },
+      {
+        "stepNumber": "02",
+        "title": "Trattamento",
+        "description": "Dopo aver individuato le aree da trattare, il medico procede alla somministrazione del prodotto selezionato attraverso iniezioni, utilizzando la tecnica più appropriata. La scelta tra acido poli-L-lattico e idrossiapatite di calcio dipende dalla valutazione specialistica e dalle indicazioni d'uso del dispositivo. Durata della seduta, numero di trattamenti ed eventuali intervalli vengono stabiliti in base al protocollo e alla risposta individuale."
+      },
+      {
+        "stepNumber": "03",
+        "title": "Indicazioni e monitoraggio",
+        "description": "Al termine della procedura, il medico fornisce le indicazioni da seguire nei giorni successivi e programma, quando necessario, le sedute o i controlli successivi. Possono comparire effetti locali temporanei, come arrossamento, gonfiore, sensibilità o piccoli ematomi. Durante la consulenza vengono illustrati anche gli altri possibili rischi associati ai trattamenti iniettabili e le precauzioni da adottare."
+      }
+    ],
+    "steps": [
+      {
+        "title": "Valutazione medica iniziale",
+        "description": "Il percorso inizia con una visita durante la quale il medico analizza la storia clinica, le caratteristiche della pelle e il grado di lassità cutanea. Questa fase permette di verificare l'appropriatezza del trattamento, individuare eventuali controindicazioni e definire gli obiettivi."
+      },
+      {
+        "title": "Trattamento",
+        "description": "Dopo aver individuato le aree da trattare, il medico procede alla somministrazione del prodotto selezionato attraverso iniezioni, utilizzando la tecnica più appropriata. La scelta tra acido poli-L-lattico e idrossiapatite di calcio dipende dalla valutazione specialistica e dalle indicazioni d'uso del dispositivo. Durata della seduta, numero di trattamenti ed eventuali intervalli vengono stabiliti in base al protocollo e alla risposta individuale."
+      },
+      {
+        "title": "Indicazioni e monitoraggio",
+        "description": "Al termine della procedura, il medico fornisce le indicazioni da seguire nei giorni successivi e programma, quando necessario, le sedute o i controlli successivi. Possono comparire effetti locali temporanei, come arrossamento, gonfiore, sensibilità o piccoli ematomi. Durante la consulenza vengono illustrati anche gli altri possibili rischi associati ai trattamenti iniettabili e le precauzioni da adottare."
+      }
+    ],
+    "results": {
+      "title": "Biostimolazione corpo: quali risultati aspettarsi?",
+      "description": "La biostimolazione corpo ha l'obiettivo di migliorare progressivamente la qualità cutanea attraverso la produzione di nuovo collagene. I cambiamenti possono riguardare una maggiore compattezza, un miglioramento dell'elasticità e un aspetto più uniforme dei tessuti nelle zone trattate.\n\nI risultati non sono immediati: la risposta biologica richiede tempo e i miglioramenti possono diventare osservabili nel corso delle settimane e dei mesi successivi al trattamento. L'entità e la durata degli effetti dipendono da diversi fattori, tra cui le caratteristiche iniziali della pelle, il prodotto utilizzato, il protocollo e la risposta individuale.",
+      "paragraphs": [
+        "La biostimolazione corpo ha l'obiettivo di migliorare progressivamente la qualità cutanea attraverso la produzione di nuovo collagene. I cambiamenti possono riguardare una maggiore compattezza, un miglioramento dell'elasticità e un aspetto più uniforme dei tessuti nelle zone trattate.",
+        "I risultati non sono immediati: la risposta biologica richiede tempo e i miglioramenti possono diventare osservabili nel corso delle settimane e dei mesi successivi al trattamento. L'entità e la durata degli effetti dipendono da diversi fattori, tra cui le caratteristiche iniziali della pelle, il prodotto utilizzato, il protocollo e la risposta individuale."
+      ],
+      "image": "/images/trattamenti/medicina-estetica/biostimolazione-corpo-napoli-3.jpg"
+    },
+    "localSeo": {
+      "title": "Biostimolazione corpo a Napoli",
+      "description": "A Napoli, Cocoora propone un percorso di medicina estetica dedicato alla valutazione e al trattamento della lassità cutanea del corpo. La consulenza specialistica permette di individuare le aree sulle quali intervenire, valutare l'eventuale impiego di acido poli-L-lattico o idrossiapatite di calcio e definire un programma coerente con le caratteristiche della pelle e gli obiettivi individuali. Contatta Cocoora per ricevere informazioni sulla biostimolazione corpo e prenotare una valutazione medica."
+    },
+    "faq": [
+      {
+        "q": "Qual è la differenza tra acido poli-L-lattico e idrossiapatite di calcio?",
+        "a": "Sono due biostimolanti con proprietà differenti. Entrambi possono favorire la produzione di collagene, ma si distinguono per composizione, comportamento nei tessuti e modalità di utilizzo. Il medico stabilisce quale prodotto sia appropriato per la zona da trattare."
+      },
+      {
+        "q": "Dopo quanto tempo si vedono i risultati della biostimolazione corpo?",
+        "a": "I risultati si sviluppano gradualmente, poiché dipendono dai processi di produzione del collagene. I primi cambiamenti possono diventare osservabili nel corso delle settimane o dei mesi successivi, con tempistiche variabili secondo il prodotto e la risposta individuale."
+      },
+      {
+        "q": "Quante sedute di biostimolazione corpo sono necessarie?",
+        "a": "Non esiste un numero di sedute valido per tutti. Il programma dipende dall'area trattata, dalle condizioni della pelle, dal biostimolante scelto e dagli obiettivi concordati con il medico."
+      },
+      {
+        "q": "La biostimolazione corpo aiuta a dimagrire?",
+        "a": "No. La biostimolazione agisce sulla qualità dei tessuti cutanei e sulla produzione di collagene. Non è un trattamento dimagrante e non è destinata all'eliminazione del grasso localizzato."
+      }
+    ]
+  },
+  {
+    "slug": "intralipoterapia",
+    "aliases": [],
+    "title": "Intralipoterapia per adiposità localizzate",
+    "category": "medicina-estetica",
+    "categoryName": "Corpo e silhouette",
+    "tagline": "Un trattamento medico iniettivo che può essere indicato per accumuli adiposi circoscritti, solo dopo un’attenta selezione della persona e dell’area.",
+    "description": "Un trattamento medico iniettivo che può essere indicato per accumuli adiposi circoscritti, solo dopo un’attenta selezione della persona e dell’area.",
+    "heroImage": "/images/trattamenti/medicina-estetica/intralipoterapia-napoli-1.jpg",
+    "galleryImages": [
+      "/images/trattamenti/medicina-estetica/intralipoterapia-napoli-1.jpg",
+      "/images/trattamenti/medicina-estetica/intralipoterapia-napoli-2.jpg",
+      "/images/trattamenti/medicina-estetica/intralipoterapia-napoli-3.jpg"
+    ],
+    "seo": {
+      "metaTitle": "Intralipoterapia per adiposità localizzate a Napoli | Cocoora",
+      "metaDescription": "Intralipoterapia per adiposità localizzate a Napoli da Cocoora: indicazioni, visita medica e possibili risultati. Approfondisci intralipoterapia addome e intr",
+      "keywordMain": "intralipoterapia Napoli",
+      "keywordSec": "intralipoterapia addome; intralipoterapia fianchi e aree circoscritte; intralipoterapia interno coscia; intralipoterapia e cellulite"
+    },
+    "whatIs": {
+      "title": "",
+      "description": "",
+      "paragraphs": [],
+      "image": "/images/trattamenti/medicina-estetica/intralipoterapia-napoli-2.jpg"
+    },
+    "problemsGrid": [
+      {
+        "title": "Intralipoterapia addome",
+        "description": "L’intralipoterapia può contribuire a ridurre gli accumuli di grasso localizzati sull’addome, favorendo un profilo più definito."
+      },
+      {
+        "title": "Intralipoterapia fianchi",
+        "description": "L’intralipoterapia può contribuire a ridurre il grasso localizzato sui fianchi, favorendo un profilo corporeo più definito e armonioso."
+      },
+      {
+        "title": "Intralipoterapia interno coscia",
+        "description": "L’intralipoterapia può contribuire a ridurre il grasso localizzato nell’interno coscia, migliorandone il profilo."
+      },
+      {
+        "title": "Intralipoterapia e cellulite",
+        "description": "L’intralipoterapia aiuta a ridurre gli accumuli di grasso localizzati sull’addome, sui fianchi e sulle cosce, mentre la cellulite richiede un approccio specifico."
+      }
+    ],
+    "timelineSteps": [
+      {
+        "stepNumber": "01",
+        "title": "Anamnesi e selezione",
+        "description": "Il medico verifica il tipo di adiposità, l’idoneità e le controindicazioni, compresa l’appropriatezza del prodotto. La valutazione serve anche a esaminare eventuali controindicazioni, terapie in corso ed esigenze individuali; quando necessario, il medico propone accertamenti o un percorso diverso."
+      },
+      {
+        "stepNumber": "02",
+        "title": "Procedura iniettiva",
+        "description": "Solo se indicato, viene effettuata la somministrazione con tecnica e sedi conformi al protocollo autorizzato. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "stepNumber": "03",
+        "title": "Sorveglianza",
+        "description": "Si chiariscono reazioni possibili, gestione post-seduta e controlli clinici. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "steps": [
+      {
+        "title": "Anamnesi e selezione",
+        "description": "Il medico verifica il tipo di adiposità, l’idoneità e le controindicazioni, compresa l’appropriatezza del prodotto. La valutazione serve anche a esaminare eventuali controindicazioni, terapie in corso ed esigenze individuali; quando necessario, il medico propone accertamenti o un percorso diverso."
+      },
+      {
+        "title": "Procedura iniettiva",
+        "description": "Solo se indicato, viene effettuata la somministrazione con tecnica e sedi conformi al protocollo autorizzato. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "title": "Sorveglianza",
+        "description": "Si chiariscono reazioni possibili, gestione post-seduta e controlli clinici. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "results": {
+      "title": "Intralipoterapia per adiposità localizzate: quali risultati aspettarsi?",
+      "description": "L’intralipoterapia può contribuire a ridurre gli accumuli adiposi localizzati e a migliorare progressivamente il profilo delle aree trattate, favorendo una silhouette più armoniosa e proporzionata.\n\nI risultati si sviluppano gradualmente, seguendo i tempi di risposta dell’organismo. L'entità del miglioramento varia in base alla zona interessata, alle caratteristiche del tessuto adiposo e al protocollo definito dal medico. In alcuni casi possono essere indicate più sedute per raggiungere gli obiettivi concordati.\n\nLa valutazione specialistica permette di individuare le aree su cui intervenire, definire aspettative realistiche e pianificare un percorso personalizzato, con controlli dedicati a osservare l’evoluzione del trattamento nel tempo.",
+      "paragraphs": [
+        "L’intralipoterapia può contribuire a ridurre gli accumuli adiposi localizzati e a migliorare progressivamente il profilo delle aree trattate, favorendo una silhouette più armoniosa e proporzionata.",
+        "I risultati si sviluppano gradualmente, seguendo i tempi di risposta dell’organismo. L'entità del miglioramento varia in base alla zona interessata, alle caratteristiche del tessuto adiposo e al protocollo definito dal medico. In alcuni casi possono essere indicate più sedute per raggiungere gli obiettivi concordati.",
+        "La valutazione specialistica permette di individuare le aree su cui intervenire, definire aspettative realistiche e pianificare un percorso personalizzato, con controlli dedicati a osservare l’evoluzione del trattamento nel tempo."
+      ],
+      "image": "/images/trattamenti/medicina-estetica/intralipoterapia-napoli-3.jpg"
+    },
+    "localSeo": {
+      "title": "Intralipoterapia per adiposità localizzate a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato all'intralipoterapia per adiposità localizzate. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative all'intralipoterapia per adiposità localizzate. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione."
+    },
+    "faq": [
+      {
+        "q": "L’intralipoterapia sostituisce una dieta?",
+        "a": "No. È rivolta a indicazioni localizzate e non tratta il sovrappeso."
+      },
+      {
+        "q": "È la stessa cosa della criolipolisi?",
+        "a": "No. L’intralipoterapia è iniettiva; la criolipolisi utilizza raffreddamento controllato."
+      },
+      {
+        "q": "Quali aree si possono trattare?",
+        "a": "Dipende dall’autorizzazione del prodotto e dalla valutazione specialistica."
+      },
+      {
+        "q": "Quale sostanza utilizza Cocoora?",
+        "a": "Il documento clinico fornito non la indica: è un dato da confermare prima della pubblicazione."
+      }
+    ]
+  },
+  {
+    "slug": "laser-luce-pulsata",
+    "aliases": [
+      "piattaforma-laser"
+    ],
+    "title": "Laser per macchie e rossori",
+    "category": "medicina-estetica",
+    "categoryName": "Laser e tecnologie",
+    "tagline": "Tecnologie selezionate dal medico per valutare discromie, rossori e alterazioni superficiali della pelle, scegliendo la sorgente più adatta a ciascuna indicazione.",
+    "description": "Tecnologie selezionate dal medico per valutare discromie, rossori e alterazioni superficiali della pelle, scegliendo la sorgente più adatta a ciascuna indicazione.",
+    "heroImage": "/images/trattamenti/medicina-estetica/laser-luce-pulsata-napoli-1.jpg",
+    "galleryImages": [
+      "/images/trattamenti/medicina-estetica/laser-luce-pulsata-napoli-1.jpg",
+      "/images/trattamenti/medicina-estetica/laser-luce-pulsata-napoli-2.jpg",
+      "/images/trattamenti/medicina-estetica/laser-luce-pulsata-napoli-3.jpg"
+    ],
+    "seo": {
+      "metaTitle": "Laser e sorgenti luminose per la pelle a Napoli | Cocoora",
+      "metaDescription": "Laser e sorgenti luminose per la pelle a Napoli da Cocoora: indicazioni, visita medica e possibili risultati. Approfondisci laser per macchie cutanee e discromie",
+      "keywordMain": "laser e luce pulsata Napoli",
+      "keywordSec": "laser per macchie cutanee e discromie selezionate; luce pulsata cpl per rossori del viso; laser e luce pulsata per macchie solari; laser per pigmentazioni"
+    },
+    "whatIs": {
+      "title": "",
+      "description": "",
+      "paragraphs": [],
+      "image": "/images/trattamenti/medicina-estetica/laser-luce-pulsata-napoli-2.jpg"
+    },
+    "problemsGrid": [
+      {
+        "title": "Laser per macchie cutanee e discromie selezionate",
+        "description": "Il laser QS NPP può contribuire ad attenuare macchie e pigmentazioni cutanee selezionate, favorendo un colorito più uniforme e luminoso dopo un’attenta valutazione dermatologica."
+      },
+      {
+        "title": "Luce pulsata CPL per rossori del viso",
+        "description": "La luce pulsata CPL può contribuire ad attenuare rossori e irregolarità del colorito, migliorando l’uniformità della pelle."
+      },
+      {
+        "title": "Laser e luce pulsata per macchie solari",
+        "description": "La luce pulsata CPL può contribuire ad attenuare macchie solari e segni del fotodanneggiamento, favorendo un colorito più uniforme e luminoso."
+      },
+      {
+        "title": "Laser per pigmentazioni QS NPP e CPL",
+        "description": "Le tecnologie QS NPP e CPL vengono selezionate dal medico in base al tipo di macchia o rossore e alle caratteristiche della pelle."
+      }
+    ],
+    "timelineSteps": [
+      {
+        "stepNumber": "01",
+        "title": "Diagnosi della problematica",
+        "description": "Durante la procedura vengono definiti la protezione oculare, i parametri, le sensazioni attese e le possibili reazioni. La necessità di più sedute e i tempi di recupero cambiano a seconda della tecnologia e dell’indicazione. Lo specialista valuta la natura delle alterazioni, il fototipo, i farmaci fotosensibilizzanti e altre controindicazioni. La valutazione serve anche a esaminare eventuali controindicazioni, terapie in corso ed esigenze individuali; quando necessario, il medico propone accertamenti o un percorso diverso."
+      },
+      {
+        "stepNumber": "02",
+        "title": "Scelta della sorgente",
+        "description": "Il medico seleziona QS NPP o CPL quando è coerente con il quadro clinico e applica i parametri appropriati. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "stepNumber": "03",
+        "title": "Fotoprotezione e controllo",
+        "description": "Il percorso prosegue con indicazioni per la pelle trattata, attenzione al sole ed eventuale rivalutazione. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "steps": [
+      {
+        "title": "Diagnosi della problematica",
+        "description": "Durante la procedura vengono definiti la protezione oculare, i parametri, le sensazioni attese e le possibili reazioni. La necessità di più sedute e i tempi di recupero cambiano a seconda della tecnologia e dell’indicazione. Lo specialista valuta la natura delle alterazioni, il fototipo, i farmaci fotosensibilizzanti e altre controindicazioni. La valutazione serve anche a esaminare eventuali controindicazioni, terapie in corso ed esigenze individuali; quando necessario, il medico propone accertamenti o un percorso diverso."
+      },
+      {
+        "title": "Scelta della sorgente",
+        "description": "Il medico seleziona QS NPP o CPL quando è coerente con il quadro clinico e applica i parametri appropriati. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "title": "Fotoprotezione e controllo",
+        "description": "Il percorso prosegue con indicazioni per la pelle trattata, attenzione al sole ed eventuale rivalutazione. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "results": {
+      "title": "Laser per macchie e rossori: quali risultati aspettarsi?",
+      "description": "troppo negativo La risposta varia secondo la natura dell’alterazione, il fototipo e il trattamento. Possono comparire rossore e modificazioni temporanee della pigmentazione; la fotoprotezione è essenziale.\n\nLa fotoprotezione è fondamentale dopo il trattamento, come riportato nella documentazione clinica. La ricomparsa di alcune pigmentazioni è possibile e il risultato non può essere promesso in modo definitivo.\n\nOgni risultato deve essere interpretato alla luce del punto di partenza e della risposta individuale. Durante la consulenza vengono chiariti i limiti della procedura, le possibili alternative e i tempi più appropriati per un eventuale controllo.",
+      "paragraphs": [
+        "troppo negativo La risposta varia secondo la natura dell’alterazione, il fototipo e il trattamento. Possono comparire rossore e modificazioni temporanee della pigmentazione; la fotoprotezione è essenziale.",
+        "La fotoprotezione è fondamentale dopo il trattamento, come riportato nella documentazione clinica. La ricomparsa di alcune pigmentazioni è possibile e il risultato non può essere promesso in modo definitivo.",
+        "Ogni risultato deve essere interpretato alla luce del punto di partenza e della risposta individuale. Durante la consulenza vengono chiariti i limiti della procedura, le possibili alternative e i tempi più appropriati per un eventuale controllo."
+      ],
+      "image": "/images/trattamenti/medicina-estetica/laser-luce-pulsata-napoli-3.jpg"
+    },
+    "localSeo": {
+      "title": "Laser per la pelle a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato ai laser per la pelle. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative al laser per la pelle. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione."
+    },
+    "faq": [
+      {
+        "q": "Laser e luce pulsata sono uguali?",
+        "a": "No. Sono tecnologie con caratteristiche e applicazioni diverse, da scegliere in base all’indicazione."
+      },
+      {
+        "q": "Quali tecnologie sono disponibili da Cocoora?",
+        "a": "Per il trattamento di macchie, discromie e rossori vengono utilizzate tecnologie specifiche, come il laser QS NPP e la luce pulsata CPL, selezionate in base alle caratteristiche della pelle."
+      },
+      {
+        "q": "Si possono trattare tutte le macchie?",
+        "a": "No. Prima si deve stabilire la natura della pigmentazione ed escludere lesioni che richiedono un altro percorso."
+      },
+      {
+        "q": "Perché serve proteggere la pelle dal sole?",
+        "a": "Per limitare i rischi di alterazioni pigmentarie e sostenere il recupero dopo la procedura."
+      }
+    ]
+  },
+  {
+    "slug": "laser-resurfacing",
+    "aliases": [],
+    "title": "Laser resurfacing",
+    "category": "medicina-estetica",
+    "categoryName": "Laser e tecnologie",
+    "tagline": "Un trattamento medico basato su tecnologie laser per lavorare su irregolarità della superficie cutanea, cicatrici selezionate e alcuni segni del fotoinvecchiamento.",
+    "description": "Un trattamento medico basato su tecnologie laser per lavorare su irregolarità della superficie cutanea, cicatrici selezionate e alcuni segni del fotoinvecchiamento.",
+    "heroImage": "/images/trattamenti/medicina-estetica/laser-resurfacing-napoli-1.jpg",
+    "galleryImages": [
+      "/images/trattamenti/medicina-estetica/laser-resurfacing-napoli-1.jpg",
+      "/images/trattamenti/medicina-estetica/laser-resurfacing-2.jpg",
+      "/images/trattamenti/medicina-estetica/laser-resurfacing-3.jpg"
+    ],
+    "seo": {
+      "metaTitle": "Laser resurfacing a Napoli | Cocoora",
+      "metaDescription": "Laser resurfacing a Napoli da Cocoora: indicazioni, visita medica e possibili risultati.",
+      "keywordMain": "laser resurfacing Napoli",
+      "keywordSec": "laser co₂ per cicatrici da acne; laser erbium; laser resurfacing per rughe sottili e fotoinvecchiamento; laser co₂ o erbium"
+    },
+    "whatIs": {
+      "title": "",
+      "description": "",
+      "paragraphs": [],
+      "image": "/images/trattamenti/medicina-estetica/laser-resurfacing-2.jpg"
+    },
+    "problemsGrid": [
+      {
+        "title": "Laser CO₂ per cicatrici da acne",
+        "description": "Il laser CO₂ può contribuire ad attenuare le cicatrici da acne, migliorando progressivamente la texture e l’uniformità della pelle."
+      },
+      {
+        "title": "Laser Erbium:YAG per texture irregolare",
+        "description": "Il laser Erbium:YAG può contribuire ad attenuare rughe sottili e irregolarità superficiali, migliorando la texture e l’uniformità della pelle."
+      },
+      {
+        "title": "Laser resurfacing per rughe sottili e fotoinvecchiamento",
+        "description": "Il laser resurfacing può contribuire ad attenuare rughe sottili e irregolarità cutanee, favorendo una pelle più liscia, uniforme e levigata."
+      },
+      {
+        "title": "Laser CO₂ o Erbium:YAG: profondità e recupero",
+        "description": "I laser CO₂ ed Erbium:YAG agiscono a profondità differenti, permettendo di personalizzare il trattamento in base alle esigenze della pelle."
+      }
+    ],
+    "timelineSteps": [
+      {
+        "stepNumber": "01",
+        "title": "Valutazione del rischio",
+        "description": "La procedura può richiedere differenti tempi di recupero e cure domiciliari; arrossamento e sensibilità sono possibili. L’intensità del trattamento viene calibrata e spiegata durante la visita, insieme ai rischi di alterazioni pigmentarie o cicatriziali. Si esaminano fototipo, cicatrizzazione, farmaci, esposizione solare e obiettivi del trattamento. La valutazione serve anche a esaminare eventuali controindicazioni, terapie in corso ed esigenze individuali; quando necessario, il medico propone accertamenti o un percorso diverso."
+      },
+      {
+        "stepNumber": "02",
+        "title": "Resurfacing selezionato",
+        "description": "Il medico utilizza Erbium:YAG o CO₂ secondo l’indicazione e la profondità necessaria. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "stepNumber": "03",
+        "title": "Recupero guidato",
+        "description": "Vengono fornite istruzioni sulla cura della pelle, sui tempi di recupero e sulla fotoprotezione rigorosa. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "steps": [
+      {
+        "title": "Valutazione del rischio",
+        "description": "La procedura può richiedere differenti tempi di recupero e cure domiciliari; arrossamento e sensibilità sono possibili. L’intensità del trattamento viene calibrata e spiegata durante la visita, insieme ai rischi di alterazioni pigmentarie o cicatriziali. Si esaminano fototipo, cicatrizzazione, farmaci, esposizione solare e obiettivi del trattamento. La valutazione serve anche a esaminare eventuali controindicazioni, terapie in corso ed esigenze individuali; quando necessario, il medico propone accertamenti o un percorso diverso."
+      },
+      {
+        "title": "Resurfacing selezionato",
+        "description": "Il medico utilizza Erbium:YAG o CO₂ secondo l’indicazione e la profondità necessaria. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "title": "Recupero guidato",
+        "description": "Vengono fornite istruzioni sulla cura della pelle, sui tempi di recupero e sulla fotoprotezione rigorosa. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "results": {
+      "title": "Laser resurfacing: quali risultati aspettarsi?",
+      "description": "Il laser resurfacing può contribuire a migliorare la texture della pelle, attenuando cicatrici da acne, rughe e irregolarità cutanee. Il trattamento favorisce il rinnovamento della pelle, rendendola progressivamente più liscia, uniforme e levigata.\n\nI risultati si sviluppano gradualmente, seguendo i naturali processi di rigenerazione cutanea. Tempi di recupero e miglioramenti variano in base alla profondità del trattamento, alla tecnologia utilizzata e alle caratteristiche individuali della pelle.\n\nDurante la visita specialistica, il medico definisce il percorso più indicato e fornisce le indicazioni per il recupero, comprese le precauzioni e la protezione solare necessarie per accompagnare la guarigione e preservare i risultati nel tempo.",
+      "paragraphs": [
+        "Il laser resurfacing può contribuire a migliorare la texture della pelle, attenuando cicatrici da acne, rughe e irregolarità cutanee. Il trattamento favorisce il rinnovamento della pelle, rendendola progressivamente più liscia, uniforme e levigata.",
+        "I risultati si sviluppano gradualmente, seguendo i naturali processi di rigenerazione cutanea. Tempi di recupero e miglioramenti variano in base alla profondità del trattamento, alla tecnologia utilizzata e alle caratteristiche individuali della pelle.",
+        "Durante la visita specialistica, il medico definisce il percorso più indicato e fornisce le indicazioni per il recupero, comprese le precauzioni e la protezione solare necessarie per accompagnare la guarigione e preservare i risultati nel tempo."
+      ],
+      "image": "/images/trattamenti/medicina-estetica/laser-resurfacing-3.jpg"
+    },
+    "localSeo": {
+      "title": "Laser resurfacing a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato al laser resurfacing. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative al laser resurfacing. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione."
+    },
+    "faq": [
+      {
+        "q": "Che differenza c’è tra laser CO₂ ed Erbium:YAG?",
+        "a": "Il laser CO₂ è indicato per trattamenti di resurfacing più profondi, mentre il laser Erbium:YAG permette di intervenire sulle irregolarità superficiali della pelle."
+      },
+      {
+        "q": "Il laser resurfacing elimina le cicatrici da acne?",
+        "a": "Può attenuare alcune cicatrici selezionate, ma non ne garantisce la scomparsa."
+      },
+      {
+        "q": "Quanto dura il recupero?",
+        "a": "Dipende dal dispositivo, dalla profondità di azione e dalla risposta della pelle."
+      },
+      {
+        "q": "Si può esporsi al sole dopo il trattamento?",
+        "a": "È necessaria una fotoprotezione rigorosa secondo le istruzioni dello specialista."
+      }
+    ]
+  },
+  {
+    "slug": "ultrasuoni-cfu",
+    "aliases": [
+      "ultrasuoni-focalizzati-cfu"
+    ],
+    "title": "Ultrasuoni focalizzati CFU",
+    "category": "medicina-estetica",
+    "categoryName": "Laser e tecnologie",
+    "tagline": "Un trattamento non chirurgico che utilizza ultrasuoni focalizzati a profondità selezionate per stimolare i tessuti e favorire un miglioramento progressivo del loro aspetto.",
+    "description": "Un trattamento non chirurgico che utilizza ultrasuoni focalizzati a profondità selezionate per stimolare i tessuti e favorire un miglioramento progressivo del loro aspetto.",
+    "heroImage": "/images/trattamenti/medicina-estetica/cfu-napoli-1.jpg",
+    "galleryImages": [
+      "/images/trattamenti/medicina-estetica/cfu-napoli-1.jpg",
+      "/images/trattamenti/medicina-estetica/cfu-napoli-2.jpg",
+      "/images/trattamenti/medicina-estetica/cfu-napoli-3.jpg"
+    ],
+    "seo": {
+      "metaTitle": "Ultrasuoni focalizzati CFU a Napoli | Cocoora",
+      "metaDescription": "Ultrasuoni focalizzati CFU a Napoli da Cocoora: indicazioni, visita medica e possibili risultati. Approfondisci ultrasuoni cfu viso per lassità lieve o moderata",
+      "keywordMain": "ultrasuoni focalizzati cfu Napoli",
+      "keywordSec": "ultrasuoni cfu viso per lassità lieve o moderata; ultrasuoni cfu collo e sottomento; ultrasuoni focalizzati cfu per profilo mandibolare; ultrasuoni cfu corpo per compattezza dei tessuti"
+    },
+    "whatIs": {
+      "title": "",
+      "description": "",
+      "paragraphs": [],
+      "image": "/images/trattamenti/medicina-estetica/cfu-napoli-2.jpg"
+    },
+    "problemsGrid": [
+      {
+        "title": "Ultrasuoni CFU viso per lassità lieve o moderata",
+        "description": "Gli ultrasuoni focalizzati CFU stimolano il rimodellamento del collagene in profondità, contribuendo a migliorare tono, compattezza e definizione della pelle in presenza di lassità lieve o moderata."
+      },
+      {
+        "title": "Ultrasuoni CFU collo e sottomento",
+        "description": "Gli ultrasuoni focalizzati CFU possono contribuire a migliorare il tono e la compattezza della pelle del collo e del sottomento, favorendo un profilo più definito e armonioso."
+      },
+      {
+        "title": "Ultrasuoni CFU corpo per compattezza dei tessuti",
+        "description": "Gli ultrasuoni focalizzati CFU possono contribuire a migliorare il tono e la compattezza della pelle in aree del corpo selezionate."
+      },
+      {
+        "title": "Ultrasuoni CFU o HIFU?",
+        "description": "Il CFU rappresenta l’evoluzione diretta del tradizionale HIFU. A differenza dell’HIFU, il CFU è del tutto indolore, si muove con fluidità ed è più preciso."
+      }
+    ],
+    "timelineSteps": [
+      {
+        "stepNumber": "01",
+        "title": "Valutazione della lassità",
+        "description": "Prima di iniziare il medico spiega sensazioni possibili, controindicazioni e tempi realistici di rivalutazione, senza presentare la procedura come equivalente a un lifting chirurgico. Il medico analizza il grado di lassità, i tessuti e l'anatomia per stabilire se la procedura sia appropriata. La valutazione serve anche a esaminare eventuali controindicazioni, terapie in corso ed esigenze individuali; quando necessario, il medico propone accertamenti o un percorso diverso."
+      },
+      {
+        "stepNumber": "02",
+        "title": "Applicazione degli ultrasuoni",
+        "description": "La tecnologia emette energia focalizzata secondo profondità e parametri impostati per l’area. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "stepNumber": "03",
+        "title": "Follow-up progressivo",
+        "description": "Si valutano eventuali reazioni e si concordano tempi realistici per osservare i cambiamenti. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "steps": [
+      {
+        "title": "Valutazione della lassità",
+        "description": "Prima di iniziare il medico spiega sensazioni possibili, controindicazioni e tempi realistici di rivalutazione, senza presentare la procedura come equivalente a un lifting chirurgico. Il medico analizza il grado di lassità, i tessuti e l'anatomia per stabilire se la procedura sia appropriata. La valutazione serve anche a esaminare eventuali controindicazioni, terapie in corso ed esigenze individuali; quando necessario, il medico propone accertamenti o un percorso diverso."
+      },
+      {
+        "title": "Applicazione degli ultrasuoni",
+        "description": "La tecnologia emette energia focalizzata secondo profondità e parametri impostati per l’area. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "title": "Follow-up progressivo",
+        "description": "Si valutano eventuali reazioni e si concordano tempi realistici per osservare i cambiamenti. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "results": {
+      "title": "Ultrasuoni focalizzati CFU: quali risultati aspettarsi?",
+      "description": "Gli ultrasuoni focalizzati CFU stimolano la naturale produzione di collagene, contribuendo a migliorare progressivamente il tono, la compattezza e la definizione dei tessuti. Il trattamento può aiutare ad attenuare i segni della lassità cutanea, favorendo un aspetto più tonico e disteso.\n\nI miglioramenti si sviluppano gradualmente nelle settimane e nei mesi successivi alla seduta, seguendo i naturali processi di rimodellamento del collagene. Tempi ed entità dei risultati variano in base alla zona trattata, alle caratteristiche della pelle e alla risposta individuale.\n\nDurante la visita specialistica, il medico valuta il grado di lassità cutanea e definisce un percorso personalizzato, individuando le aree su cui intervenire e gli eventuali controlli per monitorare l’evoluzione dei risultati nel tempo.",
+      "paragraphs": [
+        "Gli ultrasuoni focalizzati CFU stimolano la naturale produzione di collagene, contribuendo a migliorare progressivamente il tono, la compattezza e la definizione dei tessuti. Il trattamento può aiutare ad attenuare i segni della lassità cutanea, favorendo un aspetto più tonico e disteso.",
+        "I miglioramenti si sviluppano gradualmente nelle settimane e nei mesi successivi alla seduta, seguendo i naturali processi di rimodellamento del collagene. Tempi ed entità dei risultati variano in base alla zona trattata, alle caratteristiche della pelle e alla risposta individuale.",
+        "Durante la visita specialistica, il medico valuta il grado di lassità cutanea e definisce un percorso personalizzato, individuando le aree su cui intervenire e gli eventuali controlli per monitorare l’evoluzione dei risultati nel tempo."
+      ],
+      "image": "/images/trattamenti/medicina-estetica/cfu-napoli-3.jpg"
+    },
+    "localSeo": {
+      "title": "Ultrasuoni focalizzati CFU a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato agli ultrasuoni focalizzati cfu. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative agli ultrasuoni focalizzati cfu. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione."
+    },
+    "faq": [
+      {
+        "q": "Gli ultrasuoni CFU sono un trattamento chirurgico?",
+        "a": "Gli ultrasuoni focalizzati CFU sono un trattamento non chirurgico che contribuisce a migliorare il tono e la compattezza della pelle."
+      },
+      {
+        "q": "Per quale grado di lassità sono indicati?",
+        "a": "Il medico cita soprattutto lassità cutanea lieve o moderata, da verificare durante la visita."
+      },
+      {
+        "q": "In quali zone si applicano?",
+        "a": "Viso, collo, sottomento, profilo mandibolare e alcune aree del corpo selezionate."
+      },
+      {
+        "q": "Il risultato è immediato?",
+        "a": "Il rimodellamento dei tessuti richiede tempo e l’entità del cambiamento varia tra persone."
+      }
+    ]
+  },
+  {
+    "slug": "lipedema-linfedema",
+    "aliases": [
+      "valutazione-lipedema-e-linfedema"
+    ],
+    "title": "Valutazione per lipedema e linfedema",
+    "category": "medicina-estetica",
+    "categoryName": "Percorsi specialistici",
+    "tagline": "Un percorso di valutazione specialistica dedicato a due condizioni differenti, che richiedono un corretto inquadramento clinico e, quando necessario, il contributo di più professionisti.",
+    "description": "Un percorso di valutazione specialistica dedicato a due condizioni differenti, che richiedono un corretto inquadramento clinico e, quando necessario, il contributo di più professionisti.",
+    "heroImage": "/images/trattamenti/medicina-estetica/lipedema-linfedema-napoli-1.jpg",
+    "galleryImages": [
+      "/images/trattamenti/medicina-estetica/lipedema-linfedema-napoli-1.jpg",
+      "/images/trattamenti/medicina-estetica/lipedema-linfedema-napoli-2.jpg",
+      "/images/trattamenti/medicina-estetica/lipedema-linfedema-napoli-3.jpg"
+    ],
+    "seo": {
+      "metaTitle": "Valutazione per lipedema e linfedema a Napoli | Cocoora",
+      "metaDescription": "Visita specialistica per lipedema e linfedema a Napoli: come avviene la valutazione, quali differenze considerare e come orientare gli approfondimenti.",
+      "keywordMain": "valutazione lipedema e linfedema Napoli",
+      "keywordSec": "valutazione del lipedema alle gambe; valutazione del linfedema e gonfiore persistente; lipedema o linfedema; percorso specialistico per lipedema e linfedema"
+    },
+    "whatIs": {
+      "title": "",
+      "description": "",
+      "paragraphs": [],
+      "image": "/images/trattamenti/medicina-estetica/lipedema-linfedema-napoli-2.jpg"
+    },
+    "problemsGrid": [
+      {
+        "title": "Valutazione del lipedema alle gambe",
+        "description": "Il lipedema è una condizione cronica che interessa soprattutto gli arti inferiori. La visita specialistica permette di riconoscerne le caratteristiche e definire un percorso di cura personalizzato."
+      },
+      {
+        "title": "Valutazione del linfedema e gonfiore persistente",
+        "description": "Il linfedema può causare gonfiore e aumento di volume degli arti. La visita specialistica permette di individuarne le cause e definire il percorso di cura più appropriato."
+      },
+      {
+        "title": "Lipedema o linfedema: riconoscere le differenze",
+        "description": "Lipedema e linfedema sono condizioni differenti che possono interessare gli arti. La valutazione specialistica permette di distinguerle e individuare il percorso di cura più adatto."
+      },
+      {
+        "title": "Percorso specialistico per lipedema e linfedema",
+        "description": "La valutazione specialistica aiuta a comprendere la condizione e a definire un percorso di cura personalizzato, con eventuali esami e il supporto di più specialisti."
+      }
+    ],
+    "timelineSteps": [
+      {
+        "stepNumber": "01",
+        "title": "Raccolta della storia clinica",
+        "description": "La valutazione specialistica per lipedema e linfedema permette di approfondire le caratteristiche di queste condizioni e individuare il percorso di cura più appropriato. Durante la visita, il medico raccoglie informazioni sui sintomi, sulla storia clinica e sull’evoluzione della condizione, valutando le caratteristiche dei tessuti e le esigenze individuali. Quando necessario, possono essere consigliati ulteriori accertamenti o il coinvolgimento di diversi specialisti, per definire un percorso personalizzato e favorire una gestione completa e coordinata della salute."
+      },
+      {
+        "stepNumber": "02",
+        "title": "Esame specialistico",
+        "description": "Il medico esamina la distribuzione dei tessuti e i segni clinici, decidendo se siano necessari ulteriori accertamenti. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "stepNumber": "03",
+        "title": "Orientamento del percorso",
+        "description": "La persona riceve indicazioni sui passaggi successivi e sull’eventuale coinvolgimento di altri specialisti. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "steps": [
+      {
+        "title": "Raccolta della storia clinica",
+        "description": "La valutazione specialistica per lipedema e linfedema permette di approfondire le caratteristiche di queste condizioni e individuare il percorso di cura più appropriato. Durante la visita, il medico raccoglie informazioni sui sintomi, sulla storia clinica e sull’evoluzione della condizione, valutando le caratteristiche dei tessuti e le esigenze individuali. Quando necessario, possono essere consigliati ulteriori accertamenti o il coinvolgimento di diversi specialisti, per definire un percorso personalizzato e favorire una gestione completa e coordinata della salute."
+      },
+      {
+        "title": "Esame specialistico",
+        "description": "Il medico esamina la distribuzione dei tessuti e i segni clinici, decidendo se siano necessari ulteriori accertamenti. Tecnica, durata e numero di incontri non sono uguali per tutti: vengono definiti dal professionista in funzione del protocollo effettivamente disponibile e dell’obiettivo clinico."
+      },
+      {
+        "title": "Orientamento del percorso",
+        "description": "La persona riceve indicazioni sui passaggi successivi e sull’eventuale coinvolgimento di altri specialisti. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
+      }
+    ],
+    "results": {
+      "title": "",
+      "description": "",
+      "paragraphs": [],
+      "image": "/images/trattamenti/medicina-estetica/lipedema-linfedema-napoli-3.jpg"
+    },
+    "localSeo": {
+      "title": "Valutazione per lipedema e linfedema a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato alla valutazione per lipedema e linfedema. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nL’inquadramento può richiedere ulteriori accertamenti o il coinvolgimento di più specialisti. Contatta Cocoora per informazioni sulla visita e sull’organizzazione del percorso clinico."
+    },
+    "faq": [
+      {
+        "q": "Lipedema e linfedema sono la stessa malattia?",
+        "a": "No. Nel lipedema cambia soprattutto la distribuzione del tessuto adiposo; il linfedema riguarda l’accumulo di liquido linfatico."
+      },
+      {
+        "q": "Quale specialista valuta queste condizioni?",
+        "a": "Il professionista indicato dipende dai sintomi e dall’organizzazione clinica; Cocoora confermerà i referenti effettivi."
+      },
+      {
+        "q": "La valutazione prevede esami strumentali?",
+        "a": "Possono essere necessari in alcuni casi, ma la scelta dipende dal quadro clinico."
+      },
+      {
+        "q": "È possibile avere entrambe le condizioni?",
+        "a": "Alcune situazioni possono essere complesse o sovrapposte: serve un inquadramento specialistico."
+      }
+    ]
+  }
 ];
