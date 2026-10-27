@@ -27,7 +27,7 @@ import { useCms } from "@/components/providers";
 import { getDoctorsByTreatment } from "@/lib/doctors";
 import { CLUB_TIERS } from "@/lib/club";
 import { SITE } from "@/lib/site";
-import type { Treatment } from "@/lib/types";
+import type { Treatment, SeoPage } from "@/lib/types";
 import { trackLead } from "@/lib/tracking";
 import { Button, Container } from "@/components/ui";
 import { Logo } from "@/components/logo";
@@ -303,6 +303,7 @@ export function TreatmentClient({ treatment }: { treatment: Treatment }) {
   const h1 = page?.h1 || treatment.title;
   const intro = page?.h2 || treatment.tagline || treatment.description;
   const heroImage = page?.heroImage || treatment.heroImage || heroFallbackImage(treatment);
+  const heroCta = page?.heroCta || treatment.heroCta || "Richiedi una valutazione";
   const faq = page?.faq?.length ? page.faq : treatment.faq ?? [];
 
   if (canvasMode) {
@@ -321,14 +322,14 @@ export function TreatmentClient({ treatment }: { treatment: Treatment }) {
           </Container>
         </header>
         <main>
-          <HeroSection treatment={treatment} h1={h1} intro={intro} heroImage={heroImage} />
-          <WhatIsSection treatment={treatment} />
-          <ProblemsSection treatment={treatment} />
-          <TimelineSection treatment={treatment} />
-          <ResultsSection treatment={treatment} />
-          <LeadSection treatment={treatment} />
+          <HeroSection treatment={treatment} page={page} h1={h1} intro={intro} heroImage={heroImage} heroCta={heroCta} />
+          <WhatIsSection treatment={treatment} page={page} />
+          <ProblemsSection treatment={treatment} page={page} />
+          <TimelineSection treatment={treatment} page={page} />
+          <ResultsSection treatment={treatment} page={page} />
+          <LeadSection treatment={treatment} page={page} />
           <FaqSection faq={faq} />
-          <LocalSeoSection treatment={treatment} />
+          <LocalSeoSection treatment={treatment} page={page} />
         </main>
         <StickyMobileCtaBar />
       </div>
@@ -339,21 +340,21 @@ export function TreatmentClient({ treatment }: { treatment: Treatment }) {
     <>
       <main className="pb-20 md:pb-0">
         {/* 1 — Hero */}
-        <HeroSection treatment={treatment} h1={h1} intro={intro} heroImage={heroImage} />
+        <HeroSection treatment={treatment} page={page} h1={h1} intro={intro} heroImage={heroImage} heroCta={heroCta} />
         {/* 2 — Che cos'è e come funziona? */}
-        <WhatIsSection treatment={treatment} />
+        <WhatIsSection treatment={treatment} page={page} />
         {/* 3 — A cosa serve? (4 card problema/inestetismo) */}
-        <ProblemsSection treatment={treatment} />
+        <ProblemsSection treatment={treatment} page={page} />
         {/* 4 — Come si svolge una seduta? (timeline 3 step) */}
-        <TimelineSection treatment={treatment} />
+        <TimelineSection treatment={treatment} page={page} />
         {/* 5 — Quali risultati aspettarsi? */}
-        <ResultsSection treatment={treatment} />
+        <ResultsSection treatment={treatment} page={page} />
         {/* 6 — Form lead dedicato */}
-        <LeadSection treatment={treatment} />
+        <LeadSection treatment={treatment} page={page} />
         {/* 7 — Domande frequenti */}
         <FaqSection faq={faq} />
         {/* 8 — Geo-Local SEO Napoli */}
-        <LocalSeoSection treatment={treatment} />
+        <LocalSeoSection treatment={treatment} page={page} />
         <div className="bg-canvas pb-8">
           <Container>
             <Link
@@ -376,15 +377,20 @@ export function TreatmentClient({ treatment }: { treatment: Treatment }) {
 
 function HeroSection({
   treatment,
+  page,
   h1,
   intro,
   heroImage,
+  heroCta,
 }: {
   treatment: Treatment;
+  page?: SeoPage;
   h1: string;
   intro: string;
   heroImage?: string;
+  heroCta?: string;
 }) {
+  const ctaLabel = heroCta || page?.heroCta || treatment.heroCta || "Richiedi una valutazione";
   return (
     <section className="relative overflow-hidden bg-canvas pb-16 pt-10 sm:pb-20 sm:pt-14">
       <Container>
@@ -405,7 +411,7 @@ function HeroSection({
                 onClick={scrollToLead}
                 className="inline-flex items-center gap-2 rounded-full bg-dark-navy px-8 py-3.5 text-sm font-medium text-white shadow-[0_16px_40px_-16px_rgba(3,53,75,0.55)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-teal-900"
               >
-                Richiedi una valutazione <ArrowRight className="h-4 w-4" />
+                {ctaLabel} <ArrowRight className="h-4 w-4" />
               </button>
             </div>
           </div>
@@ -468,23 +474,30 @@ function QuickCard({
 // BLOCCO 2 — "Che cos'è e come funziona?"
 // ─────────────────────────────────────────────────────────────────────────
 
-function WhatIsSection({ treatment }: { treatment: Treatment }) {
+function WhatIsSection({ treatment, page }: { treatment: Treatment; page?: SeoPage }) {
   const whatIs = treatment.whatIs;
   const title =
-    whatIs?.title ??
+    page?.whatIsTitle ||
+    whatIs?.title ||
     `Che cos'è ${withArticle(treatment.title)} e come funziona?`;
 
-  const paragraphs = whatIs?.paragraphs?.length
-    ? whatIs.paragraphs
-    : whatIs?.description
-      ? [whatIs.description]
-      : [treatment.description];
+  const description = page?.whatIsDescription;
+  const paragraphs = description
+    ? description.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean)
+    : whatIs?.paragraphs?.length
+      ? whatIs.paragraphs
+      : whatIs?.description
+        ? [whatIs.description]
+        : [treatment.description];
 
   const callout =
-    whatIs?.callout ??
+    page?.whatIsCallout ||
+    whatIs?.callout ||
     (treatment.category === "odontoiatria"
       ? "Materiali, tecnologie e protocolli vengono selezionati dal medico in base alla situazione clinica individuale e agli obiettivi definiti durante la valutazione."
       : "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.");
+
+  const image = page?.whatIsImage || whatIs?.image || "/images/laser-technology.jpg";
 
   return (
     <section className="bg-canvas py-16 sm:py-20">
@@ -493,7 +506,7 @@ function WhatIsSection({ treatment }: { treatment: Treatment }) {
           {/* Colonna sinistra — immagine gesto medico / tecnologia */}
           <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl shadow-md">
             <Image
-              src={whatIs?.image ?? "/images/laser-technology.jpg"}
+              src={image}
               alt={`${treatment.title} — come funziona`}
               fill
               sizes="(min-width: 1024px) 50vw, 90vw"
@@ -535,22 +548,32 @@ function WhatIsSection({ treatment }: { treatment: Treatment }) {
 // BLOCCO 3 — "A cosa serve?" (griglia 2x2 di 4 card)
 // ─────────────────────────────────────────────────────────────────────────
 
-function ProblemsSection({ treatment }: { treatment: Treatment }) {
-  const problems: ProblemCard[] = treatment.problemsGrid?.length
-    ? treatment.problemsGrid
-    : getTreatmentProblems(treatment);
+function ProblemsSection({ treatment, page }: { treatment: Treatment; page?: SeoPage }) {
+  const problems: ProblemCard[] =
+    page?.problemsGrid?.length
+      ? page.problemsGrid
+      : treatment.problemsGrid?.length
+        ? treatment.problemsGrid
+        : getTreatmentProblems(treatment);
+
+  const title =
+    page?.problemsTitle ||
+    treatment.problemsTitle ||
+    `A cosa serve ${withArticle(treatment.title)}?`;
 
   const subtitle =
-    treatment.category === "odontoiatria"
+    page?.problemsSubtitle ||
+    treatment.problemsSubtitle ||
+    (treatment.category === "odontoiatria"
       ? "Il medico valuta se il percorso è indicato per queste condizioni, definendo obiettivi realistici e personalizzati durante la visita."
-      : "Il medico valuta se il trattamento è indicato per queste condizioni, definendo obiettivi realistici e personalizzati durante la valutazione.";
+      : "Il medico valuta se il trattamento è indicato per queste condizioni, definendo obiettivi realistici e personalizzati durante la valutazione.");
 
   return (
     <section className="bg-teal-50/50 py-16 sm:py-20">
       <Container>
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="font-serif text-3xl font-semibold tracking-tight text-dark-navy sm:text-4xl">
-            A cosa serve {withArticle(treatment.title)}?
+            {title}
           </h2>
           <p className="mt-4 text-base leading-relaxed text-charcoal/70">{subtitle}</p>
         </div>
@@ -586,26 +609,35 @@ function ProblemsSection({ treatment }: { treatment: Treatment }) {
 // BLOCCO 4 — "Come si svolge una seduta?" (timeline 3 step)
 // ─────────────────────────────────────────────────────────────────────────
 
-function TimelineSection({ treatment }: { treatment: Treatment }) {
-  const steps = getTimelineSteps(treatment).slice(0, 3);
+function TimelineSection({ treatment, page }: { treatment: Treatment; page?: SeoPage }) {
+  const steps =
+    page?.timelineSteps?.length
+      ? page.timelineSteps
+      : getTimelineSteps(treatment).slice(0, 3);
 
-  const note = treatment.timelineNote ??
+  const title =
+    page?.timelineTitle ||
+    treatment.timelineTitle ||
+    `Come si svolge una seduta di ${withArticle(treatment.title)}?`;
+
+  const noteTitle =
+    page?.timelineNoteTitle ||
+    treatment.timelineNote?.title ||
+    (treatment.category === "odontoiatria" ? "Ogni sorriso è diverso" : "Ogni pelle è diversa");
+
+  const noteText =
+    page?.timelineNoteText ||
+    treatment.timelineNote?.text ||
     (treatment.category === "odontoiatria"
-      ? {
-          title: "Ogni sorriso è diverso",
-          text: "Il medico valuta la risposta individuale e definisce l'eventuale necessità di ulteriori sedute o controlli nel tempo.",
-        }
-      : {
-          title: "Ogni pelle è diversa",
-          text: "Il medico valuta la risposta della pelle e definisce l'eventuale necessità di ulteriori sedute.",
-        });
+      ? "Il medico valuta la risposta individuale e definisce l'eventuale necessità di ulteriori sedute o controlli nel tempo."
+      : "Il medico valuta la risposta della pelle e definisce l'eventuale necessità di ulteriori sedute.");
 
   return (
     <section className="bg-white py-16 sm:py-20">
       <Container>
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="font-serif text-3xl font-semibold tracking-tight text-dark-navy sm:text-4xl">
-            Come si svolge una seduta di {withArticle(treatment.title)}?
+            {title}
           </h2>
           <p className="mt-4 text-base leading-relaxed text-charcoal/70">
             Nel nostro centro, il trattamento viene definito in base alle condizioni{" "}
@@ -656,8 +688,8 @@ function TimelineSection({ treatment }: { treatment: Treatment }) {
             <Leaf className="h-5 w-5" />
           </span>
           <div>
-            <p className="font-serif text-lg font-semibold text-teal-900">{note.title}</p>
-            <p className="mt-1 text-sm leading-relaxed text-charcoal/70">{note.text}</p>
+            <p className="font-serif text-lg font-semibold text-teal-900">{noteTitle}</p>
+            <p className="mt-1 text-sm leading-relaxed text-charcoal/70">{noteText}</p>
           </div>
         </div>
       </Container>
@@ -669,25 +701,33 @@ function TimelineSection({ treatment }: { treatment: Treatment }) {
 // BLOCCO 5 — "Quali risultati aspettarsi?"
 // ─────────────────────────────────────────────────────────────────────────
 
-function ResultsSection({ treatment }: { treatment: Treatment }) {
+function ResultsSection({ treatment, page }: { treatment: Treatment; page?: SeoPage }) {
   const results = treatment.results;
-  const title = results?.title ?? `${treatment.title}: quali risultati aspettarsi?`;
+  const title =
+    page?.resultsTitle ||
+    results?.title ||
+    `${treatment.title}: quali risultati aspettarsi?`;
 
-  const paragraphs = results?.paragraphs?.length
-    ? results.paragraphs
-    : results?.description
-      ? [results.description]
-      : treatment.category === "odontoiatria"
-        ? [
-            "I risultati dipendono dalla situazione clinica di partenza, dalla risposta individuale e dal percorso definito dal medico specialista.",
-            "Controlli periodici e una corretta igiene domiciliare aiutano a mantenere nel tempo i risultati ottenuti.",
-            "La valutazione medica consente di definire obiettivi realistici e il protocollo più appropriato per il singolo caso.",
-          ]
-        : [
-            "I risultati dipendono dalle condizioni iniziali della pelle, dalla risposta individuale e dal protocollo definito dal medico.",
-            "Un percorso di mantenimento personalizzato aiuta a preservare nel tempo i risultati ottenuti.",
-            "La valutazione medica consente di definire obiettivi realistici e il trattamento più appropriato per le caratteristiche della tua pelle.",
-          ];
+  const description = page?.resultsDescription;
+  const paragraphs = description
+    ? description.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean)
+    : results?.paragraphs?.length
+      ? results.paragraphs
+      : results?.description
+        ? [results.description]
+        : treatment.category === "odontoiatria"
+          ? [
+              "I risultati dipendono dalla situazione clinica di partenza, dalla risposta individuale e dal percorso definito dal medico specialista.",
+              "Controlli periodici e una corretta igiene domiciliare aiutano a mantenere nel tempo i risultati ottenuti.",
+              "La valutazione medica consente di definire obiettivi realistici e il protocollo più appropriato per il singolo caso.",
+            ]
+          : [
+              "I risultati dipendono dalle condizioni iniziali della pelle, dalla risposta individuale e dal protocollo definito dal medico.",
+              "Un percorso di mantenimento personalizzato aiuta a preservare nel tempo i risultati ottenuti.",
+              "La valutazione medica consente di definire obiettivi realistici e il trattamento più appropriato per le caratteristiche della tua pelle.",
+            ];
+
+  const image = page?.resultsImage || results?.image || "/images/doctor-consultation.jpg";
 
   return (
     <section className="bg-canvas py-16 sm:py-20">
@@ -696,7 +736,7 @@ function ResultsSection({ treatment }: { treatment: Treatment }) {
           {/* Colonna sinistra — immagine risultato */}
           <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl shadow-md">
             <Image
-              src={results?.image ?? "/images/doctor-consultation.jpg"}
+              src={image}
               alt={`${treatment.title} — risultati`}
               fill
               sizes="(min-width: 1024px) 50vw, 90vw"
@@ -740,7 +780,7 @@ const CONTACT_OPTIONS: { value: ContactPreference; icon: LucideIcon }[] = [
   { value: "Telefono", icon: Phone },
 ];
 
-function LeadSection({ treatment }: { treatment: Treatment }) {
+function LeadSection({ treatment, page }: { treatment: Treatment; page?: SeoPage }) {
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
   const [form, setForm] = useState({
@@ -755,10 +795,14 @@ function LeadSection({ treatment }: { treatment: Treatment }) {
 
   const overline = treatment.leadForm?.overline ?? "RICHIEDI UNA VALUTAZIONE";
   const title =
-    treatment.leadForm?.title ?? `Hai domande su ${withArticle(treatment.title)}?`;
+    page?.leadTitle ||
+    treatment.leadForm?.title ||
+    `Hai domande su ${withArticle(treatment.title)}?`;
   const subtitle =
-    treatment.leadForm?.subtitle ??
+    page?.leadSubtitle ||
+    treatment.leadForm?.subtitle ||
     "Lasciaci i tuoi contatti: il team Cocoora ti ricontatterà per fornirti maggiori informazioni e aiutarti a organizzare una valutazione medica, senza impegno.";
+  const ctaText = page?.leadCta || treatment.leadForm?.cta || "Richiedi ora";
 
   const inputClass =
     "w-full rounded-xl border border-teal-200 bg-white px-4 py-3 text-sm text-charcoal outline-none transition-colors placeholder:text-charcoal/40 focus:border-teal-600";
@@ -957,7 +1001,7 @@ function LeadSection({ treatment }: { treatment: Treatment }) {
                     type="submit"
                     className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-dark-navy px-8 py-3.5 text-sm font-medium text-white shadow-[0_16px_40px_-16px_rgba(3,53,75,0.55)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-teal-900"
                   >
-                    Richiedi ora <ArrowRight className="h-4 w-4" />
+                    {ctaText} <ArrowRight className="h-4 w-4" />
                   </button>
                 </form>
               )}
@@ -1015,17 +1059,25 @@ function FaqSection({ faq }: { faq: { q: string; a: string }[] }) {
 // BLOCCO 8 — Geo-Local SEO Napoli
 // ─────────────────────────────────────────────────────────────────────────
 
-function LocalSeoSection({ treatment }: { treatment: Treatment }) {
+function LocalSeoSection({ treatment, page }: { treatment: Treatment; page?: SeoPage }) {
   const localSeo = treatment.localSeo;
   const overline =
     localSeo?.overline ??
     (treatment.category === "odontoiatria"
       ? "ODONTOIATRIA A NAPOLI"
       : "MEDICINA ESTETICA A NAPOLI");
-  const title = localSeo?.title ?? `${treatment.title} a Napoli`;
+  const title =
+    page?.localSeoTitle ||
+    localSeo?.title ||
+    `${treatment.title} a Napoli`;
   const description =
-    localSeo?.description ??
+    page?.localSeoDescription ||
+    localSeo?.description ||
     "Nel nostro centro a Napoli, in Via Generale Giovanni De Bonis 81 (Posillipo/Fuorigrotta), ogni percorso comincia da una valutazione medica personalizzata. Una posizione centrale e facilmente raggiungibile in auto e con i mezzi pubblici, con parcheggio nelle vicinanze.";
+  const ctaText =
+    page?.localSeoCta ||
+    localSeo?.cta ||
+    "Richiedi una valutazione";
 
   return (
     <section className="bg-canvas py-16 sm:py-20">
@@ -1072,7 +1124,7 @@ function LocalSeoSection({ treatment }: { treatment: Treatment }) {
                   onClick={scrollToLead}
                   className="inline-flex items-center gap-2 rounded-full bg-dark-navy px-8 py-3.5 text-sm font-medium text-white shadow-[0_16px_40px_-16px_rgba(3,53,75,0.55)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-teal-900"
                 >
-                  Richiedi una valutazione <ArrowRight className="h-4 w-4" />
+                  {ctaText} <ArrowRight className="h-4 w-4" />
                 </button>
               </div>
             </div>

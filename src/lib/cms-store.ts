@@ -3,7 +3,7 @@ import { TREATMENTS } from "./content";
 import type { CmsState, Faq, SeoPage, VideoItem } from "./types";
 import { uid } from "./utils";
 
-const STORAGE_KEY = "cocoora_cms_v3_clean";
+const STORAGE_KEY = "cocoora_cms_v4_blocks";
 
 const HOME_FAQ: Faq[] = [
   {
@@ -34,6 +34,49 @@ function buildTreatmentPages(): SeoPage[] {
     heroImage: t.heroImage,
     galleryImages: t.galleryImages,
     keywords: t.seo ? [t.seo.keywordMain, t.seo.keywordSec].filter(Boolean).join("; ") : undefined,
+    heroCta: "Richiedi una valutazione",
+
+    // Blocco 2 — Che cos'è e come funziona?
+    whatIsTitle: t.whatIs?.title || `Che cos'è ${t.title} e come funziona?`,
+    whatIsDescription:
+      t.whatIs?.paragraphs?.join("\n\n") ||
+      t.whatIs?.description ||
+      t.description,
+    whatIsCallout: t.whatIs?.callout,
+    whatIsImage: t.whatIs?.image,
+
+    // Blocco 3 — A cosa serve? (4 card)
+    problemsTitle: `A cosa serve ${t.title}?`,
+    problemsSubtitle: "Il medico valuta se il percorso è indicato per queste condizioni, definendo obiettivi realistici e personalizzati.",
+    problemsGrid: t.problemsGrid?.map((p) => ({ title: p.title, description: p.description, icon: p.icon })),
+
+    // Blocco 4 — Come si svolge una seduta? (3 step)
+    timelineTitle: `Come si svolge una seduta di ${t.title}?`,
+    timelineSteps:
+      t.timelineSteps?.map((s) => ({ stepNumber: s.stepNumber, title: s.title, description: s.description })) ||
+      t.steps?.map((s, i) => ({ stepNumber: String(i + 1).padStart(2, "0"), title: s.title, description: s.description })),
+    timelineNoteTitle: t.timelineNote?.title || "Ogni persona è diversa",
+    timelineNoteText:
+      t.timelineNote?.text ||
+      "Il medico valuta la risposta individuale e definisce l'eventuale necessità di ulteriori sedute o controlli nel tempo.",
+
+    // Blocco 5 — Quali risultati aspettarsi?
+    resultsTitle: t.results?.title || `${t.title}: quali risultati aspettarsi?`,
+    resultsDescription:
+      t.results?.paragraphs?.join("\n\n") || t.results?.description,
+    resultsImage: t.results?.image,
+
+    // Blocco 6 — Form lead dedicato
+    leadTitle: t.leadForm?.title || "Hai domande sul trattamento?",
+    leadSubtitle:
+      t.leadForm?.subtitle ||
+      "Lasciaci i tuoi contatti. Il team Cocoora ti ricontatterà per fornirti maggiori informazioni e aiutarti a organizzare una valutazione medica.",
+    leadCta: "Richiedi ora",
+
+    // Blocco 8 — Geo-Local SEO Napoli
+    localSeoTitle: t.localSeo?.title || `${t.title} a Napoli`,
+    localSeoDescription: t.localSeo?.description,
+    localSeoCta: "Richiedi una valutazione",
   }));
 }
 
@@ -241,9 +284,15 @@ function loadStoredState(): CmsState | null {
       const fallback = initial.videos.find((d) => d.id === v.id);
       return fallback && !v.url ? { ...fallback, visible: v.visible } : v;
     });
+    const storedPages = initial.pages.map((initialPage) => {
+      const stored = parsed.pages?.find((p) => p.id === initialPage.id);
+      if (!stored) return initialPage;
+      return { ...initialPage, ...stored };
+    });
+
     return {
       videos: storedVideos ?? initial.videos,
-      pages: parsed.pages ?? initial.pages,
+      pages: storedPages,
     };
   } catch {
     return null;

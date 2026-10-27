@@ -46,6 +46,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       "/images/trattamenti/medicina-estetica/filler-viso-napoli-2.jpg",
       "/images/trattamenti/medicina-estetica/filler-viso-napoli-3.jpg"
     ],
+    "heroCta": "Richiedi una valutazione",
     "seo": {
       "metaTitle": "Filler viso con acido ialuronico a Napoli | Cocoora",
       "metaDescription": "Filler viso con acido ialuronico a Napoli da Cocoora: indicazioni, visita medica e possibili risultati. Approfondisci filler labbra e filler zigomi.",
@@ -53,11 +54,17 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       "keywordSec": "filler labbra; filler zigomi; filler mento e mandibola; filler solchi nasogenieni"
     },
     "whatIs": {
-      "title": "",
-      "description": "",
-      "paragraphs": [],
+      "title": "Che cos’è il trattamento filler viso con acido ialuronico e come funziona?",
+      "description": "I filler a base di acido ialuronico sono gel iniettabili che il medico può utilizzare in aree selezionate del volto. Formulazione, quantità e piano di trattamento dipendono dall’anatomia individuale e dall’obiettivo concordato: non esiste uno schema adatto a tutti.\n\nIl filler a base di acido ialuronico è utilizzato in medicina estetica per intervenire su volumi e proporzioni del viso. La visita non consiste nel decidere una quantità di prodotto: si osservano anatomia, simmetrie, espressioni e qualità dei tessuti, per valutare se il trattamento sia appropriato e in quali aree.",
+      "paragraphs": [
+        "I filler a base di acido ialuronico sono gel iniettabili che il medico può utilizzare in aree selezionate del volto. Formulazione, quantità e piano di trattamento dipendono dall’anatomia individuale e dall’obiettivo concordato: non esiste uno schema adatto a tutti.",
+        "Il filler a base di acido ialuronico è utilizzato in medicina estetica per intervenire su volumi e proporzioni del viso. La visita non consiste nel decidere una quantità di prodotto: si osservano anatomia, simmetrie, espressioni e qualità dei tessuti, per valutare se il trattamento sia appropriato e in quali aree."
+      ],
+      "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
       "image": "/images/trattamenti/medicina-estetica/filler-viso-napoli-2.jpg"
     },
+    "problemsTitle": "A cosa serve il filler viso con acido ialuronico?",
+    "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
     "problemsGrid": [
       {
         "title": "Filler labbra",
@@ -76,6 +83,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "I nostri medici valuteranno proporzioni, volumi, simmetrie e segni dell’invecchiamento per proporre un percorso completamente personalizzato e orientato alla valorizzazione del viso."
       }
     ],
+    "timelineTitle": "Come si svolge una seduta di filler viso con acido ialuronico?",
     "timelineSteps": [
       {
         "stepNumber": "01",
@@ -93,6 +101,10 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "Spiega quali reazioni transitorie possono comparire e fornisce indicazioni per il periodo successivo e gli eventuali controlli. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
       }
     ],
+    "timelineNote": {
+      "title": "Ogni pelle è diversa",
+      "text": "Il medico valuta la risposta della pelle e definisce l’eventuale necessità di ulteriori sedute o controlli nel tempo."
+    },
     "steps": [
       {
         "title": "Analisi del volto",
@@ -117,9 +129,10 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       ],
       "image": "/images/trattamenti/medicina-estetica/filler-viso-napoli-3.jpg"
     },
-    "localSeo": {
-      "title": "Filler viso con acido ialuronico a Napoli",
-      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato ai filler viso con acido ialuronico. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative al filler viso con acido ialuronico. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione."
+    "leadForm": {
+      "title": "Hai domande sul trattamento?",
+      "subtitle": "Lasciaci i tuoi contatti. Il team Cocoora ti ricontatterà per fornirti maggiori informazioni e aiutarti a organizzare una valutazione medica.",
+      "cta": "Richiedi ora"
     },
     "faq": [
       {
@@ -138,7 +151,12 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "q": "Il filler è adatto a chiunque?",
         "a": "No. È necessaria una valutazione medica per indicazioni, controindicazioni e alternative."
       }
-    ]
+    ],
+    "localSeo": {
+      "title": "Filler viso con acido ialuronico a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato ai filler viso con acido ialuronico. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative al filler viso con acido ialuronico. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione.",
+      "cta": "Richiedi una valutazione"
+    }
   },
   {
     "slug": "tossina-botulinica",
@@ -150,12 +168,13 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
     "categoryName": "Viso e rigenerazione",
     "tagline": "Un trattamento medico indicato in casi selezionati per attenuare le rughe legate alla contrazione dei muscoli mimici, preservando l’equilibrio dell’espressività.",
     "description": "Un trattamento medico indicato in casi selezionati per attenuare le rughe legate alla contrazione dei muscoli mimici, preservando l’equilibrio dell’espressività.",
-    "heroImage": "/images/trattamenti/medicina-estetica/botox-napoli-1.jpg",
+    "heroImage": "/images/trattamenti/medicina-estetica/tossina-botulinica-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/medicina-estetica/botox-napoli-1.jpg",
-      "/images/trattamenti/medicina-estetica/botox-napoli-2.jpg",
-      "/images/trattamenti/medicina-estetica/botox-napoli-3.jpg"
+      "/images/trattamenti/medicina-estetica/tossina-botulinica-napoli-1.jpg",
+      "/images/trattamenti/medicina-estetica/tossina-botulinica-napoli-2.jpg",
+      "/images/trattamenti/medicina-estetica/tossina-botulinica-napoli-3.jpg"
     ],
+    "heroCta": "Richiedi una valutazione",
     "seo": {
       "metaTitle": "Tossina botulinica per le rughe dinamiche a Napoli | Cocoora",
       "metaDescription": "Tossina botulinica per le rughe dinamiche a Napoli da Cocoora: indicazioni, visita medica e possibili risultati. Approfondisci tossina botulinica per rughe de",
@@ -163,11 +182,17 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       "keywordSec": "tossina botulinica per rughe della fronte; tossina botulinica per rughe glabellari; tossina botulinica per zampe di gallina; rughe dinamiche e rughe statiche"
     },
     "whatIs": {
-      "title": "",
-      "description": "",
-      "paragraphs": [],
-      "image": "/images/trattamenti/medicina-estetica/botox-napoli-2.jpg"
+      "title": "Che cos’è il trattamento con tossina botulinica per le rughe e come funziona?",
+      "description": "La tossina botulinica agisce temporaneamente sulla trasmissione del segnale tra nervo e muscolo nell’area in cui viene somministrata. Il medico definisce se e come intervenire in funzione della mimica, dell’anatomia e delle indicazioni autorizzate del prodotto utilizzato.\n\nLa tossina botulinica agisce riducendo temporaneamente l’attività di muscoli selezionati. Le rughe che compaiono durante l’espressione non sono identiche ai segni presenti a riposo: distinguerle è importante per impostare aspettative realistiche e decidere se il trattamento sia indicato.",
+      "paragraphs": [
+        "La tossina botulinica agisce temporaneamente sulla trasmissione del segnale tra nervo e muscolo nell’area in cui viene somministrata. Il medico definisce se e come intervenire in funzione della mimica, dell’anatomia e delle indicazioni autorizzate del prodotto utilizzato.",
+        "La tossina botulinica agisce riducendo temporaneamente l’attività di muscoli selezionati. Le rughe che compaiono durante l’espressione non sono identiche ai segni presenti a riposo: distinguerle è importante per impostare aspettative realistiche e decidere se il trattamento sia indicato."
+      ],
+      "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
+      "image": "/images/trattamenti/medicina-estetica/tossina-botulinica-napoli-2.jpg"
     },
+    "problemsTitle": "A cosa serve la tossina botulinica per le rughe dinamiche?",
+    "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
     "problemsGrid": [
       {
         "title": "Tossina botulinica per rughe della fronte",
@@ -186,6 +211,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "La tossina botulinica blocca il rilascio del neurotrasmettitore che stimola le ghiandole sudoripare. È efficace per mani, piedi e ascelle."
       }
     ],
+    "timelineTitle": "Come si svolge una seduta di tossina botulinica per le rughe?",
     "timelineSteps": [
       {
         "stepNumber": "01",
@@ -203,6 +229,10 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "Fornisce istruzioni dopo la seduta e chiarisce i tempi per osservare il risultato e per eventuali controlli. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
       }
     ],
+    "timelineNote": {
+      "title": "Ogni pelle è diversa",
+      "text": "Il medico valuta la risposta della pelle e definisce l’eventuale necessità di ulteriori sedute o controlli nel tempo."
+    },
     "steps": [
       {
         "title": "Visita e mímica",
@@ -225,11 +255,12 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "L’obiettivo non è annullare ogni movimento, ma definire insieme al professionista un risultato compatibile con le caratteristiche del volto. Le rughe statiche e la qualità generale della pelle possono richiedere valutazioni diverse.",
         "Ogni risultato deve essere interpretato alla luce del punto di partenza e della risposta individuale. Durante la consulenza vengono chiariti i limiti della procedura, le possibili alternative e i tempi più appropriati per un eventuale controllo."
       ],
-      "image": "/images/trattamenti/medicina-estetica/botox-napoli-3.jpg"
+      "image": "/images/trattamenti/medicina-estetica/tossina-botulinica-napoli-3.jpg"
     },
-    "localSeo": {
-      "title": "Tossina botulinica per le rughe a Napoli",
-      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato alla tossina botulinica per le rughe dinamiche. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative al tossina botulinica per le rughe dinamiche. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione."
+    "leadForm": {
+      "title": "Hai domande sul trattamento?",
+      "subtitle": "Lasciaci i tuoi contatti. Il team Cocoora ti ricontatterà per fornirti maggiori informazioni e aiutarti a organizzare una valutazione medica.",
+      "cta": "Richiedi ora"
     },
     "faq": [
       {
@@ -248,7 +279,12 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "q": "Si può ripetere il trattamento?",
         "a": "L’eventuale ripetizione e i tempi vanno definiti dal medico, rispettando le indicazioni del prodotto e le necessità cliniche."
       }
-    ]
+    ],
+    "localSeo": {
+      "title": "Tossina botulinica per le rughe a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato alla tossina botulinica per le rughe dinamiche. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative al tossina botulinica per le rughe dinamiche. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione.",
+      "cta": "Richiedi una valutazione"
+    }
   },
   {
     "slug": "biorivitalizzazione",
@@ -260,12 +296,13 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
     "categoryName": "Viso e rigenerazione",
     "tagline": "La biostimolazione è un trattamento medico che mira a sostenere i processi fisiologici della pelle, con attenzione alla luminosità, all'elasticità e alla qualità dei tessuti.",
     "description": "La biostimolazione è un trattamento medico che mira a sostenere i processi fisiologici della pelle, con attenzione alla luminosità, all'elasticità e alla qualità dei tessuti.",
-    "heroImage": "/images/trattamenti/medicina-estetica/bistimolazione-napoli-1.jpg",
+    "heroImage": "/images/trattamenti/medicina-estetica/biostimolazione-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/medicina-estetica/bistimolazione-napoli-1.jpg",
+      "/images/trattamenti/medicina-estetica/biostimolazione-napoli-1.jpg",
       "/images/trattamenti/medicina-estetica/biostimolazione-napoli-2.jpg",
       "/images/trattamenti/medicina-estetica/biostimolazione-napoli-3.jpg"
     ],
+    "heroCta": "Richiedi una valutazione",
     "seo": {
       "metaTitle": "Biostimolazione della pelle a Napoli | Cocoora",
       "metaDescription": "Biostimolazione della pelle a Napoli da Cocoora: indicazioni, visita medica e possibili risultati. Approfondisci biostimolazione viso per qualità della pelle",
@@ -273,11 +310,17 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       "keywordSec": "biostimolazione viso per qualità della pelle; biostimolazione per pelle disidratata e poco luminosa; biostimolazione collo e décolleté; biostimolazione o filler"
     },
     "whatIs": {
-      "title": "",
-      "description": "",
-      "paragraphs": [],
+      "title": "Che cos’è la biostimolazione della pelle e come funziona?",
+      "description": "La biostimolazione è un trattamento di medicina estetica che favorisce i naturali processi di rinnovamento della pelle, contribuendo a migliorarne idratazione, elasticità, luminosità e compattezza.\n\nA differenza dei filler, che intervengono principalmente sui volumi del viso, la biostimolazione si concentra sulla qualità dei tessuti cutanei, aiutando la pelle a mantenere un aspetto più fresco, uniforme e vitale. Il trattamento viene personalizzato dal medico in base alle caratteristiche della pelle, alle esigenze individuali e agli obiettivi desiderati.",
+      "paragraphs": [
+        "La biostimolazione è un trattamento di medicina estetica che favorisce i naturali processi di rinnovamento della pelle, contribuendo a migliorarne idratazione, elasticità, luminosità e compattezza.",
+        "A differenza dei filler, che intervengono principalmente sui volumi del viso, la biostimolazione si concentra sulla qualità dei tessuti cutanei, aiutando la pelle a mantenere un aspetto più fresco, uniforme e vitale. Il trattamento viene personalizzato dal medico in base alle caratteristiche della pelle, alle esigenze individuali e agli obiettivi desiderati."
+      ],
+      "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
       "image": "/images/trattamenti/medicina-estetica/biostimolazione-napoli-2.jpg"
     },
+    "problemsTitle": "A cosa serve la biostimolazione della pelle?",
+    "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
     "problemsGrid": [
       {
         "title": "Biostimolazione per qualità della pelle",
@@ -296,6 +339,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "Il filler con acido ialuronico aiuta a ridefinire i volumi e i contorni del viso, mentre la biostimolazione migliora la qualità della pelle, favorendone idratazione, elasticità e luminosità."
       }
     ],
+    "timelineTitle": "Come si svolge una seduta di biostimolazione della pelle?",
     "timelineSteps": [
       {
         "stepNumber": "01",
@@ -313,6 +357,10 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "Vengono osservati la risposta cutanea e l'andamento del percorso, con eventuali modifiche del piano. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
       }
     ],
+    "timelineNote": {
+      "title": "Ogni pelle è diversa",
+      "text": "Il medico valuta la risposta della pelle e definisce l’eventuale necessità di ulteriori sedute o controlli nel tempo."
+    },
     "steps": [
       {
         "title": "Inquadramento clinico",
@@ -337,9 +385,10 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       ],
       "image": "/images/trattamenti/medicina-estetica/biostimolazione-napoli-3.jpg"
     },
-    "localSeo": {
-      "title": "Biostimolazione della pelle a Napoli",
-      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato a biostimolazione della pelle. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative al biostimolazione della pelle. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione."
+    "leadForm": {
+      "title": "Hai domande sul trattamento?",
+      "subtitle": "Lasciaci i tuoi contatti. Il team Cocoora ti ricontatterà per fornirti maggiori informazioni e aiutarti a organizzare una valutazione medica.",
+      "cta": "Richiedi ora"
     },
     "faq": [
       {
@@ -358,11 +407,15 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "q": "Serve una valutazione prima della seduta?",
         "a": "Sì, per verificare indicazioni, eventuali controindicazioni e scelta della procedura."
       }
-    ]
+    ],
+    "localSeo": {
+      "title": "Biostimolazione della pelle a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato a biostimolazione della pelle. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative al biostimolazione della pelle. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione.",
+      "cta": "Richiedi una valutazione"
+    }
   },
   {
     "slug": "biorigenerazione",
-    "aliases": [],
     "title": "Biorigenerazione",
     "category": "medicina-estetica",
     "categoryName": "Viso e rigenerazione",
@@ -374,6 +427,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       "/images/trattamenti/medicina-estetica/biorigenerazione-napoli-2.jpg",
       "/images/trattamenti/medicina-estetica/biorigenerazione-napoli-3.jpg"
     ],
+    "heroCta": "Richiedi una valutazione",
     "seo": {
       "metaTitle": "Biorigenerazione dei tessuti a Napoli | Cocoora",
       "metaDescription": "Biorigenerazione dei tessuti a Napoli da Cocoora: indicazioni, visita medica e possibili risultati. Approfondisci biorigenerazione viso e miglioramento dei te",
@@ -381,11 +435,18 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       "keywordSec": "biorigenerazione viso e miglioramento dei tessuti; biorigenerazione per elasticità e compattezza cutanea; biorigenerazione e pelle segnata dal tempo; biorigenerazione e biostimolazione"
     },
     "whatIs": {
-      "title": "",
-      "description": "",
-      "paragraphs": [],
+      "title": "Che cos’è la  biorigenerazione e come funziona?",
+      "description": "La biorigenerazione è un trattamento di medicina estetica che favorisce i naturali processi di rigenerazione della pelle, contribuendo a migliorare la qualità e la vitalità dei tessuti cutanei.\n\nL’obiettivo è sostenere il rinnovamento della pelle, aiutandola a ritrovare un aspetto più fresco, uniforme e luminoso. Il trattamento si inserisce in un percorso personalizzato, definito dal medico in base alle caratteristiche dei tessuti, alle esigenze individuali e ai risultati desiderati.\n\nLa biorigenerazione privilegia un approccio graduale, orientato a valorizzare la naturale bellezza della pelle e a preservarne la qualità nel tempo.",
+      "paragraphs": [
+        "La biorigenerazione è un trattamento di medicina estetica che favorisce i naturali processi di rigenerazione della pelle, contribuendo a migliorare la qualità e la vitalità dei tessuti cutanei.",
+        "L’obiettivo è sostenere il rinnovamento della pelle, aiutandola a ritrovare un aspetto più fresco, uniforme e luminoso. Il trattamento si inserisce in un percorso personalizzato, definito dal medico in base alle caratteristiche dei tessuti, alle esigenze individuali e ai risultati desiderati.",
+        "La biorigenerazione privilegia un approccio graduale, orientato a valorizzare la naturale bellezza della pelle e a preservarne la qualità nel tempo."
+      ],
+      "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
       "image": "/images/trattamenti/medicina-estetica/biorigenerazione-napoli-2.jpg"
     },
+    "problemsTitle": "A cosa serve la biorigenerazione?",
+    "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
     "problemsGrid": [
       {
         "title": "Biorigenerazione viso",
@@ -404,6 +465,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "La biorigenerazione e la biostimolazione favoriscono entrambe il miglioramento della qualità della pelle, ma si distinguono per le metodiche utilizzate e gli specifici obiettivi del trattamento."
       }
     ],
+    "timelineTitle": "Come si svolge una seduta di biorigenerazione dei tessuti?",
     "timelineSteps": [
       {
         "stepNumber": "01",
@@ -421,6 +483,10 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "I cambiamenti vengono osservati nel tempo e il percorso è adattato alla risposta individuale. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
       }
     ],
+    "timelineNote": {
+      "title": "Ogni pelle è diversa",
+      "text": "Il medico valuta la risposta della pelle e definisce l’eventuale necessità di ulteriori sedute o controlli nel tempo."
+    },
     "steps": [
       {
         "title": "Visita specialistica",
@@ -445,9 +511,10 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       ],
       "image": "/images/trattamenti/medicina-estetica/biorigenerazione-napoli-3.jpg"
     },
-    "localSeo": {
-      "title": "Biorigenerazione a Napoli",
-      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato alla biorigenerazione dei tessuti. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative alla biorigenerazione dei tessuti. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione."
+    "leadForm": {
+      "title": "Hai domande sul trattamento?",
+      "subtitle": "Lasciaci i tuoi contatti. Il team Cocoora ti ricontatterà per fornirti maggiori informazioni e aiutarti a organizzare una valutazione medica.",
+      "cta": "Richiedi ora"
     },
     "faq": [
       {
@@ -466,7 +533,12 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "q": "Quanto tempo occorre per valutare il risultato?",
         "a": "I tempi non sono uniformi e dipendono dalla tecnica e dalla risposta dei tessuti."
       }
-    ]
+    ],
+    "localSeo": {
+      "title": "Biorigenerazione a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato alla biorigenerazione dei tessuti. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative alla biorigenerazione dei tessuti. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione.",
+      "cta": "Richiedi una valutazione"
+    }
   },
   {
     "slug": "acido-polilattico",
@@ -484,6 +556,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       "/images/trattamenti/medicina-estetica/biostimolatori-napoli-2.jpg",
       "/images/trattamenti/medicina-estetica/biostimolatori-napoli-3.jpg"
     ],
+    "heroCta": "Richiedi una valutazione",
     "seo": {
       "metaTitle": "Biostimolatori per il viso a Napoli | Cocoora",
       "metaDescription": "Biostimolatori per il viso a Napoli da Cocoora: indicazioni, visita medica e possibili risultati. Approfondisci biostimolatori a base di acido polilattico e b",
@@ -491,11 +564,17 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       "keywordSec": "biostimolatori a base di acido polilattico; biostimolatori con idrossiapatite di calcio; biostimolatori per lassità cutanea lieve; biostimolatori e filler"
     },
     "whatIs": {
-      "title": "",
-      "description": "",
-      "paragraphs": [],
+      "title": "Che cos’è il trattamento con biostimolatori per il viso e come funziona?",
+      "description": "I biostimolatori possono favorire progressivamente la produzione di collagene e il sostegno dei tessuti. Cocoora cita acido polilattico e idrossiapatite di calcio: prodotti diversi per caratteristiche e indicazioni, da scegliere solo dopo la valutazione anatomica e clinica. Non sono equivalenti a un filler volumizzante tradizionale.\n\nI biostimolatori descritti dal medico comprendono sostanze come acido polilattico e idrossiapatite di calcio. Vengono considerati in protocolli mirati al sostegno dei tessuti e alla stimolazione della produzione di collagene, con risultati che possono svilupparsi progressivamente.",
+      "paragraphs": [
+        "I biostimolatori possono favorire progressivamente la produzione di collagene e il sostegno dei tessuti. Cocoora cita acido polilattico e idrossiapatite di calcio: prodotti diversi per caratteristiche e indicazioni, da scegliere solo dopo la valutazione anatomica e clinica. Non sono equivalenti a un filler volumizzante tradizionale.",
+        "I biostimolatori descritti dal medico comprendono sostanze come acido polilattico e idrossiapatite di calcio. Vengono considerati in protocolli mirati al sostegno dei tessuti e alla stimolazione della produzione di collagene, con risultati che possono svilupparsi progressivamente."
+      ],
+      "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
       "image": "/images/trattamenti/medicina-estetica/biostimolatori-napoli-2.jpg"
     },
+    "problemsTitle": "A cosa servono i biostimolatori per il viso?",
+    "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
     "problemsGrid": [
       {
         "title": "Biostimolatori a base di acido polilattico",
@@ -514,6 +593,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "Il filler ridefinisce i volumi del viso, mentre i biostimolatori favoriscono la produzione di collagene, migliorando progressivamente compattezza e qualità dei tessuti."
       }
     ],
+    "timelineTitle": "Come si svolge una seduta di biostimolatori per il viso?",
     "timelineSteps": [
       {
         "stepNumber": "01",
@@ -531,6 +611,10 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "Si ricevono indicazioni per il post-trattamento e si programmano eventuali controlli per valutare la risposta progressiva. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
       }
     ],
+    "timelineNote": {
+      "title": "Ogni pelle è diversa",
+      "text": "Il medico valuta la risposta della pelle e definisce l’eventuale necessità di ulteriori sedute o controlli nel tempo."
+    },
     "steps": [
       {
         "title": "Esame medico",
@@ -555,9 +639,10 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       ],
       "image": "/images/trattamenti/medicina-estetica/biostimolatori-napoli-3.jpg"
     },
-    "localSeo": {
-      "title": "Biostimolatori per il viso a Napoli",
-      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato a biostimolatori per il viso. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative ai biostimolatori per il viso. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione."
+    "leadForm": {
+      "title": "Hai domande sul trattamento?",
+      "subtitle": "Lasciaci i tuoi contatti. Il team Cocoora ti ricontatterà per fornirti maggiori informazioni e aiutarti a organizzare una valutazione medica.",
+      "cta": "Richiedi ora"
     },
     "faq": [
       {
@@ -576,7 +661,12 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "q": "Sono adatti a tutte le zone del viso?",
         "a": "No. Le aree di applicazione sono determinate dalla valutazione medica e dalle caratteristiche del prodotto."
       }
-    ]
+    ],
+    "localSeo": {
+      "title": "Biostimolatori per il viso a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato a biostimolatori per il viso. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative ai biostimolatori per il viso. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione.",
+      "cta": "Richiedi una valutazione"
+    }
   },
   {
     "slug": "peeling-chimico",
@@ -589,12 +679,13 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
     "categoryName": "Viso e rigenerazione",
     "tagline": "Un trattamento esfoliante eseguito in ambito medico per intervenire su texture, discromie e alcune imperfezioni cutanee, secondo la formulazione scelta dallo specialista.",
     "description": "Un trattamento esfoliante eseguito in ambito medico per intervenire su texture, discromie e alcune imperfezioni cutanee, secondo la formulazione scelta dallo specialista.",
-    "heroImage": "/images/trattamenti/medicina-estetica/peeling-medicale-napoli-1.jpg",
+    "heroImage": "/images/trattamenti/medicina-estetica/peeling-chimico-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/medicina-estetica/peeling-medicale-napoli-1.jpg",
-      "/images/trattamenti/medicina-estetica/peeling-medicale-napoli-2.jpg",
-      "/images/trattamenti/medicina-estetica/peeling-mendicale-napoli-3.jpg"
+      "/images/trattamenti/medicina-estetica/peeling-chimico-napoli-1.jpg",
+      "/images/trattamenti/medicina-estetica/peeling-chimico-napoli-2.jpg",
+      "/images/trattamenti/medicina-estetica/peeling-chimico-napoli-3.jpg"
     ],
+    "heroCta": "Richiedi una valutazione",
     "seo": {
       "metaTitle": "Peeling chimico medicale a Napoli | Cocoora",
       "metaDescription": "Peeling chimico a Napoli da Cocoora: indicazioni, visita medica e possibili risultati. Approfondisci peeling chimico per macchie e discromie e peeling chimico",
@@ -602,11 +693,17 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       "keywordSec": "peeling chimico per macchie e discromie; peeling chimico per acne e imperfezioni; peeling chimico per pelle spenta e texture irregolare; peeling chimico per rughe sottili e fotoinvecchiamento"
     },
     "whatIs": {
-      "title": "",
-      "description": "",
-      "paragraphs": [],
-      "image": "/images/trattamenti/medicina-estetica/peeling-medicale-napoli-2.jpg"
+      "title": "Che cos’è il trattamento peeling chimico e come funziona?",
+      "description": "Il peeling medicale utilizza agenti esfolianti selezionati in base a fototipo, sensibilità, storia clinica e obiettivo. L’azione interessa strati cutanei diversi a seconda del tipo e della profondità del peeling; per questo la preparazione e il recupero non sono uguali per tutti.\n\nLa scelta non dipende soltanto dall’inestetismo visibile: il medico considera la barriera cutanea, l’eventuale tendenza alle macchie post-infiammatorie, le terapie in corso e la sensibilità individuale. Un peeling superficiale non ha lo stesso obiettivo né gli stessi tempi di recupero di uno più intenso. Per questo non esiste un’unica formulazione adatta a tutte le pelli.",
+      "paragraphs": [
+        "Il peeling medicale utilizza agenti esfolianti selezionati in base a fototipo, sensibilità, storia clinica e obiettivo. L’azione interessa strati cutanei diversi a seconda del tipo e della profondità del peeling; per questo la preparazione e il recupero non sono uguali per tutti.",
+        "La scelta non dipende soltanto dall’inestetismo visibile: il medico considera la barriera cutanea, l’eventuale tendenza alle macchie post-infiammatorie, le terapie in corso e la sensibilità individuale. Un peeling superficiale non ha lo stesso obiettivo né gli stessi tempi di recupero di uno più intenso. Per questo non esiste un’unica formulazione adatta a tutte le pelli."
+      ],
+      "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
+      "image": "/images/trattamenti/medicina-estetica/peeling-chimico-napoli-2.jpg"
     },
+    "problemsTitle": "A cosa serve il peeling chimico?",
+    "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
     "problemsGrid": [
       {
         "title": "Peeling chimico medicale per macchie e discromie",
@@ -625,6 +722,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "Il peeling medicale può contribuire ad attenuare rughe sottili e segni del fotoinvecchiamento, rendendo la pelle più levigata e il colorito uniforme."
       }
     ],
+    "timelineTitle": "Come si svolge una seduta di peeling chimico?",
     "timelineSteps": [
       {
         "stepNumber": "01",
@@ -642,6 +740,10 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "Si ricevono istruzioni per la detergenza, la protezione dal sole e la gestione dell’eventuale desquamazione. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
       }
     ],
+    "timelineNote": {
+      "title": "Ogni pelle è diversa",
+      "text": "Il medico valuta la risposta della pelle e definisce l’eventuale necessità di ulteriori sedute o controlli nel tempo."
+    },
     "steps": [
       {
         "title": "Esame della pelle",
@@ -664,11 +766,12 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "I miglioramenti si sviluppano gradualmente, seguendo i naturali tempi di rinnovamento della pelle. In base alla tipologia e all’intensità del peeling, possono verificarsi rossore e una leggera desquamazione nei giorni successivi, parte del processo di recupero cutaneo.",
         "Durante la visita specialistica, il medico seleziona il peeling più indicato in base alle caratteristiche della pelle e agli obiettivi del trattamento, definendo le eventuali sedute successive e le indicazioni per preservare i risultati nel tempo, inclusa un’adeguata protezione solare."
       ],
-      "image": "/images/trattamenti/medicina-estetica/peeling-mendicale-napoli-3.jpg"
+      "image": "/images/trattamenti/medicina-estetica/peeling-chimico-napoli-3.jpg"
     },
-    "localSeo": {
-      "title": "Peeling medicale a Napoli",
-      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato a peeling chimico. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative al peeling chimico. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione."
+    "leadForm": {
+      "title": "Hai domande sul trattamento?",
+      "subtitle": "Lasciaci i tuoi contatti. Il team Cocoora ti ricontatterà per fornirti maggiori informazioni e aiutarti a organizzare una valutazione medica.",
+      "cta": "Richiedi ora"
     },
     "faq": [
       {
@@ -687,13 +790,15 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "q": "Qual è la differenza tra peeling e PRX?",
         "a": "PRX indica uno specifico protocollo di trattamento cutaneo; il peeling medicale comprende formulazioni e profondità diverse."
       }
-    ]
+    ],
+    "localSeo": {
+      "title": "Peeling medicale a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato a peeling chimico. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative al peeling chimico. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione.",
+      "cta": "Richiedi una valutazione"
+    }
   },
   {
     "slug": "prx",
-    "aliases": [
-      "prx-t33"
-    ],
     "title": "PRX",
     "category": "medicina-estetica",
     "categoryName": "Viso e rigenerazione",
@@ -705,6 +810,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       "/images/trattamenti/medicina-estetica/prx-napoli-2.jpg",
       "/images/trattamenti/medicina-estetica/prx-napoli-3.jpg"
     ],
+    "heroCta": "Richiedi una valutazione",
     "seo": {
       "metaTitle": "Trattamento PRX a Napoli | Cocoora",
       "metaDescription": "Trattamento PRX a Napoli da Cocoora: indicazioni, visita medica e possibili risultati. Approfondisci prx per pelle spenta e luminosità del viso e prx per text",
@@ -712,11 +818,18 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       "keywordSec": "prx per pelle spenta e luminosità del viso; prx per texture irregolare della pelle; prx per compattezza e qualità cutanea; prx e peeling chimico"
     },
     "whatIs": {
-      "title": "",
-      "description": "",
-      "paragraphs": [],
+      "title": "Che cos’è il PRX e come funziona?",
+      "description": "Il PRX è un trattamento di biostimolazione cutanea senza aghi che contribuisce a migliorare la luminosità, la compattezza e la qualità della pelle, favorendo un aspetto più fresco, levigato e uniforme.\n\nA differenza dei peeling tradizionali, il PRX è pensato per stimolare il rinnovamento cutaneo senza un’esfoliazione superficiale marcata. Il trattamento prevede l’applicazione di una formulazione specifica sulla pelle, attraverso un protocollo medico personalizzato in base alle caratteristiche cutanee e agli obiettivi desiderati.\n\nPuò essere inserito in percorsi dedicati al miglioramento della texture, dell’elasticità e dei primi segni dell’invecchiamento cutaneo, valorizzando la naturale qualità della pelle.",
+      "paragraphs": [
+        "Il PRX è un trattamento di biostimolazione cutanea senza aghi che contribuisce a migliorare la luminosità, la compattezza e la qualità della pelle, favorendo un aspetto più fresco, levigato e uniforme.",
+        "A differenza dei peeling tradizionali, il PRX è pensato per stimolare il rinnovamento cutaneo senza un’esfoliazione superficiale marcata. Il trattamento prevede l’applicazione di una formulazione specifica sulla pelle, attraverso un protocollo medico personalizzato in base alle caratteristiche cutanee e agli obiettivi desiderati.",
+        "Può essere inserito in percorsi dedicati al miglioramento della texture, dell’elasticità e dei primi segni dell’invecchiamento cutaneo, valorizzando la naturale qualità della pelle."
+      ],
+      "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
       "image": "/images/trattamenti/medicina-estetica/prx-napoli-2.jpg"
     },
+    "problemsTitle": "A cosa serve il PRX?",
+    "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
     "problemsGrid": [
       {
         "title": "PRX per pelle spenta e luminosità del viso",
@@ -735,6 +848,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "Il PRX favorisce la biostimolazione cutanea senza aghi, mentre i peeling medicali agiscono attraverso un’esfoliazione controllata della pelle, con intensità variabile in base al trattamento."
       }
     ],
+    "timelineTitle": "Come si svolge una seduta di PRX?",
     "timelineSteps": [
       {
         "stepNumber": "01",
@@ -752,6 +866,10 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "Sono spiegati eventuali effetti transitori, skincare appropriata e fotoprotezione. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
       }
     ],
+    "timelineNote": {
+      "title": "Ogni pelle è diversa",
+      "text": "Il medico valuta la risposta della pelle e definisce l’eventuale necessità di ulteriori sedute o controlli nel tempo."
+    },
     "steps": [
       {
         "title": "Controllo preliminare",
@@ -776,9 +894,10 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       ],
       "image": "/images/trattamenti/medicina-estetica/prx-napoli-3.jpg"
     },
-    "localSeo": {
-      "title": "Trattamento PRX a Napoli",
-      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato al trattamento PRX. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative al trattamento prx. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione."
+    "leadForm": {
+      "title": "Hai domande sul trattamento?",
+      "subtitle": "Lasciaci i tuoi contatti. Il team Cocoora ti ricontatterà per fornirti maggiori informazioni e aiutarti a organizzare una valutazione medica.",
+      "cta": "Richiedi ora"
     },
     "faq": [
       {
@@ -797,7 +916,12 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "q": "Il PRX è adatto alla pelle sensibile?",
         "a": "L’idoneità va verificata caso per caso, considerando integrità cutanea, sensibilità e controindicazioni."
       }
-    ]
+    ],
+    "localSeo": {
+      "title": "Trattamento PRX a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato al trattamento PRX. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative al trattamento prx. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione.",
+      "cta": "Richiedi una valutazione"
+    }
   },
   {
     "slug": "cryoliposculpt",
@@ -815,6 +939,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       "/images/trattamenti/medicina-estetica/criolipolisi-napoli-2.jpg",
       "/images/trattamenti/medicina-estetica/criolipolisi-napoli-3.jpg"
     ],
+    "heroCta": "Richiedi una valutazione",
     "seo": {
       "metaTitle": "Criolipolisi per adiposità localizzate a Napoli | Cocoora",
       "metaDescription": "Criolipolisi per adiposità localizzate a Napoli da Cocoora: indicazioni, visita medica e possibili risultati. Approfondisci criolipolisi addome per adiposità",
@@ -822,11 +947,18 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       "keywordSec": "criolipolisi addome per adiposità localizzata; criolipolisi fianchi e profilo corporeo; criolipolisi cosce e culotte de cheval; criolipolisi e dimagrimento"
     },
     "whatIs": {
-      "title": "",
-      "description": "",
-      "paragraphs": [],
+      "title": "Che cos’è la criolipolisi per adiposità localizzate e come funziona?",
+      "description": "La criolipolisi è un trattamento di medicina estetica non invasivo che utilizza il freddo controllato per agire sugli accumuli di grasso localizzato, contribuendo a rimodellare il profilo corporeo senza ricorrere alla chirurgia.\n\nAttraverso la tecnologia Cryoliposculpt, il trattamento agisce sulle cellule adipose dell’area selezionata, favorendone la progressiva eliminazione attraverso i naturali processi dell’organismo.\n\nLa criolipolisi può essere indicata per intervenire su zone come addome, fianchi e cosce, con un percorso personalizzato definito dal medico in base alla distribuzione del tessuto adiposo e alle caratteristiche individuali.",
+      "paragraphs": [
+        "La criolipolisi è un trattamento di medicina estetica non invasivo che utilizza il freddo controllato per agire sugli accumuli di grasso localizzato, contribuendo a rimodellare il profilo corporeo senza ricorrere alla chirurgia.",
+        "Attraverso la tecnologia Cryoliposculpt, il trattamento agisce sulle cellule adipose dell’area selezionata, favorendone la progressiva eliminazione attraverso i naturali processi dell’organismo.",
+        "La criolipolisi può essere indicata per intervenire su zone come addome, fianchi e cosce, con un percorso personalizzato definito dal medico in base alla distribuzione del tessuto adiposo e alle caratteristiche individuali."
+      ],
+      "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
       "image": "/images/trattamenti/medicina-estetica/criolipolisi-napoli-2.jpg"
     },
+    "problemsTitle": "A cosa serve la criolipolisi per adiposità localizzate?",
+    "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
     "problemsGrid": [
       {
         "title": "Criolipolisi addome per adiposità localizzata",
@@ -845,6 +977,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "La criolipolisi può lavorare efficacemente anche sulle braccia, una zona dove il grasso tende spesso ad accumularsi e dove ginnastica e diete non riescono a intervenire."
       }
     ],
+    "timelineTitle": "Come si svolge una seduta di criolipolisi per adiposità localizzate?",
     "timelineSteps": [
       {
         "stepNumber": "01",
@@ -862,6 +995,10 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "Si spiegano possibili reazioni locali e il periodo necessario per valutare eventuali cambiamenti. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
       }
     ],
+    "timelineNote": {
+      "title": "Ogni pelle è diversa",
+      "text": "Il medico valuta la risposta della pelle e definisce l’eventuale necessità di ulteriori sedute o controlli nel tempo."
+    },
     "steps": [
       {
         "title": "Valutazione delle aree",
@@ -886,9 +1023,10 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       ],
       "image": "/images/trattamenti/medicina-estetica/criolipolisi-napoli-3.jpg"
     },
-    "localSeo": {
-      "title": "Criolipolisi per adiposità localizzate a Napoli",
-      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato alla criolipolisi per adiposità localizzate. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative alla criolipolisi per adiposità localizzate. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione."
+    "leadForm": {
+      "title": "Hai domande sul trattamento?",
+      "subtitle": "Lasciaci i tuoi contatti. Il team Cocoora ti ricontatterà per fornirti maggiori informazioni e aiutarti a organizzare una valutazione medica.",
+      "cta": "Richiedi ora"
     },
     "faq": [
       {
@@ -907,11 +1045,15 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "q": "La criolipolisi ha controindicazioni?",
         "a": "Sì. Alcune condizioni, incluse particolari sensibilità al freddo, possono renderla non indicata."
       }
-    ]
+    ],
+    "localSeo": {
+      "title": "Criolipolisi per adiposità localizzate a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato alla criolipolisi per adiposità localizzate. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative alla criolipolisi per adiposità localizzate. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione.",
+      "cta": "Richiedi una valutazione"
+    }
   },
   {
     "slug": "carbossiterapia",
-    "aliases": [],
     "title": "Carbossiterapia",
     "category": "medicina-estetica",
     "categoryName": "Corpo e silhouette",
@@ -923,6 +1065,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       "/images/trattamenti/medicina-estetica/carbossiterapia-napoli-2.jpg",
       "/images/trattamenti/medicina-estetica/carbossiterapia-napoli-3.jpg"
     ],
+    "heroCta": "Richiedi una valutazione",
     "seo": {
       "metaTitle": "Carbossiterapia a Napoli | Cocoora",
       "metaDescription": "Carbossiterapia a Napoli da Cocoora: indicazioni, visita medica e possibili risultati. Approfondisci carbossiterapia per cellulite e aspetto della cute e carb",
@@ -930,11 +1073,17 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       "keywordSec": "carbossiterapia per cellulite e aspetto della cute; carbossiterapia gambe e microcircolo; carbossiterapia cosce e glutei; carbossiterapia per pelle irregolare"
     },
     "whatIs": {
-      "title": "",
-      "description": "",
-      "paragraphs": [],
+      "title": "Che cos’è la carbossiterapia e come funziona?",
+      "description": "La carbossiterapia prevede la somministrazione controllata di CO₂ medicale nei tessuti mediante una procedura effettuata da un professionista. Cocoora la include nei percorsi per migliorare l’aspetto della cellulite e sostenere il microcircolo; indicazioni ed evidenze vanno rapportate al quadro individuale.\n\nLa carbossiterapia utilizza anidride carbonica medicale somministrata secondo un protocollo medico. Nelle indicazioni fornite da Cocoora trova spazio in percorsi rivolti alla qualità dei tessuti e all’aspetto della cellulite, con attenzione al microcircolo locale.",
+      "paragraphs": [
+        "La carbossiterapia prevede la somministrazione controllata di CO₂ medicale nei tessuti mediante una procedura effettuata da un professionista. Cocoora la include nei percorsi per migliorare l’aspetto della cellulite e sostenere il microcircolo; indicazioni ed evidenze vanno rapportate al quadro individuale.",
+        "La carbossiterapia utilizza anidride carbonica medicale somministrata secondo un protocollo medico. Nelle indicazioni fornite da Cocoora trova spazio in percorsi rivolti alla qualità dei tessuti e all’aspetto della cellulite, con attenzione al microcircolo locale."
+      ],
+      "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
       "image": "/images/trattamenti/medicina-estetica/carbossiterapia-napoli-2.jpg"
     },
+    "problemsTitle": "A cosa serve la carbossiterapia?",
+    "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
     "problemsGrid": [
       {
         "title": "Carbossiterapia per cellulite",
@@ -953,6 +1102,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "La carbossiterapia può contribuire a migliorare l’uniformità e la qualità della pelle, favorendo il microcircolo nelle aree trattate."
       }
     ],
+    "timelineTitle": "Come si svolge una seduta di carbossiterapia?",
     "timelineSteps": [
       {
         "stepNumber": "01",
@@ -970,6 +1120,10 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "Vengono fornite informazioni su sensazioni transitorie e programmazione dei controlli. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
       }
     ],
+    "timelineNote": {
+      "title": "Ogni pelle è diversa",
+      "text": "Il medico valuta la risposta della pelle e definisce l’eventuale necessità di ulteriori sedute o controlli nel tempo."
+    },
     "steps": [
       {
         "title": "Visita e indicazione",
@@ -994,9 +1148,10 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       ],
       "image": "/images/trattamenti/medicina-estetica/carbossiterapia-napoli-3.jpg"
     },
-    "localSeo": {
-      "title": "Carbossiterapia a Napoli",
-      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato alla carbossiterapia. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative alla carbossiterapia. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione."
+    "leadForm": {
+      "title": "Hai domande sul trattamento?",
+      "subtitle": "Lasciaci i tuoi contatti. Il team Cocoora ti ricontatterà per fornirti maggiori informazioni e aiutarti a organizzare una valutazione medica.",
+      "cta": "Richiedi ora"
     },
     "faq": [
       {
@@ -1015,11 +1170,15 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "q": "Quante sedute vengono consigliate?",
         "a": "Numero e frequenza dipendono dalla valutazione clinica e dal protocollo selezionato."
       }
-    ]
+    ],
+    "localSeo": {
+      "title": "Carbossiterapia a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato alla carbossiterapia. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative alla carbossiterapia. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione.",
+      "cta": "Richiedi una valutazione"
+    }
   },
   {
     "slug": "mesoterapia",
-    "aliases": [],
     "title": "Mesoterapia",
     "category": "medicina-estetica",
     "categoryName": "Corpo e silhouette",
@@ -1031,6 +1190,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       "/images/trattamenti/medicina-estetica/mesoterapia-napoli-2.jpg",
       "/images/trattamenti/medicina-estetica/mesoterapia-napoli-3.jpg"
     ],
+    "heroCta": "Richiedi una valutazione",
     "seo": {
       "metaTitle": "Mesoterapia a Napoli | Cocoora",
       "metaDescription": "Mesoterapia a Napoli da Cocoora: indicazioni, visita medica e possibili risultati. Approfondisci mesoterapia per cellulite di cosce e glutei e mesoterapia gam",
@@ -1038,11 +1198,17 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       "keywordSec": "mesoterapia per cellulite di cosce e glutei; mesoterapia gambe e microcircolo; mesoterapia e miglioramento della texture cutanea; mesoterapia e intralipoterapia"
     },
     "whatIs": {
-      "title": "",
-      "description": "",
-      "paragraphs": [],
+      "title": "Che cos’è la mesoterapia e come funziona?",
+      "description": "La mesoterapia è un trattamento di medicina estetica che prevede microiniezioni superficiali di sostanze specifiche, selezionate dal medico in base alle caratteristiche della pelle e agli obiettivi del trattamento.\n\nPuò contribuire a migliorare il microcircolo, attenuare l’aspetto della cellulite e favorire una pelle più uniforme e levigata. Il trattamento viene personalizzato in base alle zone interessate e alle esigenze individuali, all’interno di un percorso mirato al miglioramento della qualità dei tessuti.",
+      "paragraphs": [
+        "La mesoterapia è un trattamento di medicina estetica che prevede microiniezioni superficiali di sostanze specifiche, selezionate dal medico in base alle caratteristiche della pelle e agli obiettivi del trattamento.",
+        "Può contribuire a migliorare il microcircolo, attenuare l’aspetto della cellulite e favorire una pelle più uniforme e levigata. Il trattamento viene personalizzato in base alle zone interessate e alle esigenze individuali, all’interno di un percorso mirato al miglioramento della qualità dei tessuti."
+      ],
+      "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
       "image": "/images/trattamenti/medicina-estetica/mesoterapia-napoli-2.jpg"
     },
+    "problemsTitle": "A cosa serve la mesoterapia?",
+    "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
     "problemsGrid": [
       {
         "title": "Mesoterapia per cellulite di cosce e glutei",
@@ -1061,6 +1227,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "La mesoterapia aiuta a migliorare il microcircolo, la cellulite e la qualità della pelle, mentre l’intralipoterapia è indicata per ridurre gli accumuli di grasso localizzato."
       }
     ],
+    "timelineTitle": "Come si svolge una seduta di mesoterapia?",
     "timelineSteps": [
       {
         "stepNumber": "01",
@@ -1078,6 +1245,10 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "Si monitorano la risposta, eventuali effetti locali e opportunità di incontri successivi. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
       }
     ],
+    "timelineNote": {
+      "title": "Ogni pelle è diversa",
+      "text": "Il medico valuta la risposta della pelle e definisce l’eventuale necessità di ulteriori sedute o controlli nel tempo."
+    },
     "steps": [
       {
         "title": "Valutazione",
@@ -1102,9 +1273,10 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       ],
       "image": "/images/trattamenti/medicina-estetica/mesoterapia-napoli-3.jpg"
     },
-    "localSeo": {
-      "title": "Mesoterapia a Napoli",
-      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato alla mesoterapia. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative alla mesoterapia. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione."
+    "leadForm": {
+      "title": "Hai domande sul trattamento?",
+      "subtitle": "Lasciaci i tuoi contatti. Il team Cocoora ti ricontatterà per fornirti maggiori informazioni e aiutarti a organizzare una valutazione medica.",
+      "cta": "Richiedi ora"
     },
     "faq": [
       {
@@ -1123,22 +1295,27 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "q": "Occorre sospendere le normali attività?",
         "a": "Le indicazioni variano con zona, sostanze e reazioni locali; vengono date dal medico."
       }
-    ]
+    ],
+    "localSeo": {
+      "title": "Mesoterapia a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato alla mesoterapia. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative alla mesoterapia. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione.",
+      "cta": "Richiedi una valutazione"
+    }
   },
   {
     "slug": "biostimolazione-corpo",
-    "aliases": [],
     "title": "Biostimolazione corpo",
     "category": "medicina-estetica",
     "categoryName": "Corpo e silhouette",
     "tagline": "Un trattamento medico-estetico iniettivo che stimola la produzione di collagene per migliorare progressivamente la tonicità, la compattezza e la qualità della pelle del corpo.",
-    "description": "La biostimolazione corpo è un trattamento di medicina estetica che utilizza sostanze iniettabili per stimolare la produzione di nuovo collagene e migliorare la struttura dei tessuti cutanei. Tra i principali biostimolanti utilizzati rientrano l'acido poli-L-lattico (PLLA) e l'idrossiapatite di calcio (CaHA). Entrambi favoriscono i processi di produzione del collagene, pur presentando caratteristiche, formulazioni e modalità di impiego differenti. L'obiettivo è intervenire sulla qualità della pelle, contribuendo a migliorarne elasticità, tonicità e compattezza. I cambiamenti si sviluppano progressivamente, attraverso la risposta biologica dei tessuti. A differenza dei trattamenti destinati alla riduzione delle adiposità localizzate, la biostimolazione non agisce sul grasso corporeo e non ha finalità dimagranti. È indicata in situazioni selezionate di lassità cutanea, dopo un'attenta valutazione medica.",
+    "description": "Un trattamento medico-estetico iniettivo che stimola la produzione di collagene per migliorare progressivamente la tonicità, la compattezza e la qualità della pelle del corpo.",
     "heroImage": "/images/trattamenti/medicina-estetica/biostimolazione-corpo-napoli-1.jpg",
     "galleryImages": [
       "/images/trattamenti/medicina-estetica/biostimolazione-corpo-napoli-1.jpg",
       "/images/trattamenti/medicina-estetica/biostimolazione-corpo-napoli-2.jpg",
       "/images/trattamenti/medicina-estetica/biostimolazione-corpo-napoli-3.jpg"
     ],
+    "heroCta": "Richiedi una valutazione",
     "seo": {
       "metaTitle": "Biostimolazione corpo a Napoli | Cocoora",
       "metaDescription": "Biostimolazione corpo a Napoli con acido poli-L-lattico e idrossiapatite di calcio. Scopri come migliorare progressivamente la qualità della pelle.",
@@ -1151,8 +1328,11 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       "paragraphs": [
         "La biostimolazione corpo è un trattamento di medicina estetica che utilizza sostanze iniettabili per stimolare la produzione di nuovo collagene e migliorare la struttura dei tessuti cutanei. Tra i principali biostimolanti utilizzati rientrano l'acido poli-L-lattico (PLLA) e l'idrossiapatite di calcio (CaHA). Entrambi favoriscono i processi di produzione del collagene, pur presentando caratteristiche, formulazioni e modalità di impiego differenti. L'obiettivo è intervenire sulla qualità della pelle, contribuendo a migliorarne elasticità, tonicità e compattezza. I cambiamenti si sviluppano progressivamente, attraverso la risposta biologica dei tessuti. A differenza dei trattamenti destinati alla riduzione delle adiposità localizzate, la biostimolazione non agisce sul grasso corporeo e non ha finalità dimagranti. È indicata in situazioni selezionate di lassità cutanea, dopo un'attenta valutazione medica."
       ],
+      "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
       "image": "/images/trattamenti/medicina-estetica/biostimolazione-corpo-napoli-2.jpg"
     },
+    "problemsTitle": "A cosa serve la biostimolazione corpo?",
+    "problemsSubtitle": "La biostimolazione può essere valutata per diverse aree del corpo in cui si desidera migliorare la qualità e il sostegno della pelle. La scelta della zona da trattare, del prodotto e della tecnica dipende dalle caratteristiche dei tessuti e dagli obiettivi definiti durante la visita.",
     "problemsGrid": [
       {
         "title": "Biostimolazione glutei",
@@ -1171,6 +1351,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "Nella zona delle cosce, la biostimolazione può aiutare a contrastare la perdita di compattezza cutanea, favorendo la produzione di collagene."
       }
     ],
+    "timelineTitle": "Come si svolge una seduta di biostimolazione corpo?",
     "timelineSteps": [
       {
         "stepNumber": "01",
@@ -1188,6 +1369,10 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "Al termine della procedura, il medico fornisce le indicazioni da seguire nei giorni successivi e programma, quando necessario, le sedute o i controlli successivi. Possono comparire effetti locali temporanei, come arrossamento, gonfiore, sensibilità o piccoli ematomi. Durante la consulenza vengono illustrati anche gli altri possibili rischi associati ai trattamenti iniettabili e le precauzioni da adottare."
       }
     ],
+    "timelineNote": {
+      "title": "Ogni pelle è diversa",
+      "text": "Il medico valuta la risposta della pelle e definisce l’eventuale necessità di ulteriori sedute o controlli nel tempo."
+    },
     "steps": [
       {
         "title": "Valutazione medica iniziale",
@@ -1211,9 +1396,10 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       ],
       "image": "/images/trattamenti/medicina-estetica/biostimolazione-corpo-napoli-3.jpg"
     },
-    "localSeo": {
-      "title": "Biostimolazione corpo a Napoli",
-      "description": "A Napoli, Cocoora propone un percorso di medicina estetica dedicato alla valutazione e al trattamento della lassità cutanea del corpo. La consulenza specialistica permette di individuare le aree sulle quali intervenire, valutare l'eventuale impiego di acido poli-L-lattico o idrossiapatite di calcio e definire un programma coerente con le caratteristiche della pelle e gli obiettivi individuali. Contatta Cocoora per ricevere informazioni sulla biostimolazione corpo e prenotare una valutazione medica."
+    "leadForm": {
+      "title": "Hai domande sul trattamento?",
+      "subtitle": "Lasciaci i tuoi contatti. Il team Cocoora ti ricontatterà per fornirti maggiori informazioni sulla biostimolazione corpo e aiutarti a organizzare una valutazione medica.",
+      "cta": "Richiedi ora"
     },
     "faq": [
       {
@@ -1232,11 +1418,15 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "q": "La biostimolazione corpo aiuta a dimagrire?",
         "a": "No. La biostimolazione agisce sulla qualità dei tessuti cutanei e sulla produzione di collagene. Non è un trattamento dimagrante e non è destinata all'eliminazione del grasso localizzato."
       }
-    ]
+    ],
+    "localSeo": {
+      "title": "Biostimolazione corpo a Napoli",
+      "description": "A Napoli, Cocoora propone un percorso di medicina estetica dedicato alla valutazione e al trattamento della lassità cutanea del corpo. La consulenza specialistica permette di individuare le aree sulle quali intervenire, valutare l'eventuale impiego di acido poli-L-lattico o idrossiapatite di calcio e definire un programma coerente con le caratteristiche della pelle e gli obiettivi individuali. Contatta Cocoora per ricevere informazioni sulla biostimolazione corpo e prenotare una valutazione medica.",
+      "cta": "Richiedi una valutazione"
+    }
   },
   {
     "slug": "intralipoterapia",
-    "aliases": [],
     "title": "Intralipoterapia per adiposità localizzate",
     "category": "medicina-estetica",
     "categoryName": "Corpo e silhouette",
@@ -1248,6 +1438,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       "/images/trattamenti/medicina-estetica/intralipoterapia-napoli-2.jpg",
       "/images/trattamenti/medicina-estetica/intralipoterapia-napoli-3.jpg"
     ],
+    "heroCta": "Richiedi una valutazione",
     "seo": {
       "metaTitle": "Intralipoterapia per adiposità localizzate a Napoli | Cocoora",
       "metaDescription": "Intralipoterapia per adiposità localizzate a Napoli da Cocoora: indicazioni, visita medica e possibili risultati. Approfondisci intralipoterapia addome e intr",
@@ -1255,11 +1446,18 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       "keywordSec": "intralipoterapia addome; intralipoterapia fianchi e aree circoscritte; intralipoterapia interno coscia; intralipoterapia e cellulite"
     },
     "whatIs": {
-      "title": "",
-      "description": "",
-      "paragraphs": [],
+      "title": "Che cos’è l’intralipoterapia per adiposità localizzate e come funziona?",
+      "description": "L’intralipoterapia è un trattamento di medicina estetica che permette di intervenire in modo mirato sugli accumuli di grasso localizzati, contribuendo a rimodellare il profilo corporeo senza ricorrere alla chirurgia.\n\nLa procedura prevede l’iniezione di sostanze specifiche direttamente nel tessuto adiposo sottocutaneo, con l’obiettivo di favorire la riduzione del grasso nell’area trattata. Può essere presa in considerazione per zone come addome, fianchi e cosce, quando gli accumuli adiposi risultano circoscritti e adatti a questo tipo di intervento.\n\nPrima del trattamento, il medico valuta la distribuzione del tessuto adiposo, le caratteristiche della pelle e gli obiettivi della persona. Sulla base di questa analisi viene definito un percorso personalizzato, che tiene conto delle aree da trattare e dei risultati che è realisticamente possibile ottenere.",
+      "paragraphs": [
+        "L’intralipoterapia è un trattamento di medicina estetica che permette di intervenire in modo mirato sugli accumuli di grasso localizzati, contribuendo a rimodellare il profilo corporeo senza ricorrere alla chirurgia.",
+        "La procedura prevede l’iniezione di sostanze specifiche direttamente nel tessuto adiposo sottocutaneo, con l’obiettivo di favorire la riduzione del grasso nell’area trattata. Può essere presa in considerazione per zone come addome, fianchi e cosce, quando gli accumuli adiposi risultano circoscritti e adatti a questo tipo di intervento.",
+        "Prima del trattamento, il medico valuta la distribuzione del tessuto adiposo, le caratteristiche della pelle e gli obiettivi della persona. Sulla base di questa analisi viene definito un percorso personalizzato, che tiene conto delle aree da trattare e dei risultati che è realisticamente possibile ottenere."
+      ],
+      "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
       "image": "/images/trattamenti/medicina-estetica/intralipoterapia-napoli-2.jpg"
     },
+    "problemsTitle": "A cosa serve l'intralipoterapia per adiposità localizzate?",
+    "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
     "problemsGrid": [
       {
         "title": "Intralipoterapia addome",
@@ -1278,6 +1476,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "L’intralipoterapia aiuta a ridurre gli accumuli di grasso localizzati sull’addome, sui fianchi e sulle cosce, mentre la cellulite richiede un approccio specifico."
       }
     ],
+    "timelineTitle": "Come si svolge una seduta di intralipoterapia per adiposità localizzate?",
     "timelineSteps": [
       {
         "stepNumber": "01",
@@ -1295,6 +1494,10 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "Si chiariscono reazioni possibili, gestione post-seduta e controlli clinici. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
       }
     ],
+    "timelineNote": {
+      "title": "Ogni pelle è diversa",
+      "text": "Il medico valuta la risposta della pelle e definisce l’eventuale necessità di ulteriori sedute o controlli nel tempo."
+    },
     "steps": [
       {
         "title": "Anamnesi e selezione",
@@ -1319,9 +1522,10 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       ],
       "image": "/images/trattamenti/medicina-estetica/intralipoterapia-napoli-3.jpg"
     },
-    "localSeo": {
-      "title": "Intralipoterapia per adiposità localizzate a Napoli",
-      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato all'intralipoterapia per adiposità localizzate. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative all'intralipoterapia per adiposità localizzate. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione."
+    "leadForm": {
+      "title": "Hai domande sul trattamento?",
+      "subtitle": "Lasciaci i tuoi contatti. Il team Cocoora ti ricontatterà per fornirti maggiori informazioni e aiutarti a organizzare una valutazione medica.",
+      "cta": "Richiedi ora"
     },
     "faq": [
       {
@@ -1340,12 +1544,18 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "q": "Quale sostanza utilizza Cocoora?",
         "a": "Il documento clinico fornito non la indica: è un dato da confermare prima della pubblicazione."
       }
-    ]
+    ],
+    "localSeo": {
+      "title": "Intralipoterapia per adiposità localizzate a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato all'intralipoterapia per adiposità localizzate. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative all'intralipoterapia per adiposità localizzate. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione.",
+      "cta": "Richiedi una valutazione"
+    }
   },
   {
     "slug": "laser-luce-pulsata",
     "aliases": [
-      "piattaforma-laser"
+      "piattaforma-laser",
+      "laser-e-luce-pulsata"
     ],
     "title": "Laser per macchie e rossori",
     "category": "medicina-estetica",
@@ -1358,6 +1568,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       "/images/trattamenti/medicina-estetica/laser-luce-pulsata-napoli-2.jpg",
       "/images/trattamenti/medicina-estetica/laser-luce-pulsata-napoli-3.jpg"
     ],
+    "heroCta": "Richiedi una valutazione",
     "seo": {
       "metaTitle": "Laser e sorgenti luminose per la pelle a Napoli | Cocoora",
       "metaDescription": "Laser e sorgenti luminose per la pelle a Napoli da Cocoora: indicazioni, visita medica e possibili risultati. Approfondisci laser per macchie cutanee e discromie",
@@ -1365,11 +1576,17 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       "keywordSec": "laser per macchie cutanee e discromie selezionate; luce pulsata cpl per rossori del viso; laser e luce pulsata per macchie solari; laser per pigmentazioni"
     },
     "whatIs": {
-      "title": "",
-      "description": "",
-      "paragraphs": [],
+      "title": "Che cos’è il trattamento laser per macchie e rossori e come funziona?",
+      "description": "non è per il cliente finale: Cocoora indica l’uso di QS NPP per pigmentazioni selezionate e CPL per rossori, macchie solari e fotodanneggiamento. Laser e sorgenti luminose non sono equivalenti: lunghezza d’onda, bersaglio e protocollo dipendono dalla tecnologia e dal tipo di pelle.\n\nLaser e sorgenti luminose non sono sinonimi: differiscono per caratteristiche fisiche e modalità di interazione con la cute. Cocoora cita QS NPP per pigmentazioni selezionate e CPL per rossori, macchie solari e segni di fotodanneggiamento. La scelta dipende dalla diagnosi e dal fototipo.",
+      "paragraphs": [
+        "non è per il cliente finale: Cocoora indica l’uso di QS NPP per pigmentazioni selezionate e CPL per rossori, macchie solari e fotodanneggiamento. Laser e sorgenti luminose non sono equivalenti: lunghezza d’onda, bersaglio e protocollo dipendono dalla tecnologia e dal tipo di pelle.",
+        "Laser e sorgenti luminose non sono sinonimi: differiscono per caratteristiche fisiche e modalità di interazione con la cute. Cocoora cita QS NPP per pigmentazioni selezionate e CPL per rossori, macchie solari e segni di fotodanneggiamento. La scelta dipende dalla diagnosi e dal fototipo."
+      ],
+      "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
       "image": "/images/trattamenti/medicina-estetica/laser-luce-pulsata-napoli-2.jpg"
     },
+    "problemsTitle": "A cosa serve il laser per macchie e rossori?",
+    "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
     "problemsGrid": [
       {
         "title": "Laser per macchie cutanee e discromie selezionate",
@@ -1388,6 +1605,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "Le tecnologie QS NPP e CPL vengono selezionate dal medico in base al tipo di macchia o rossore e alle caratteristiche della pelle."
       }
     ],
+    "timelineTitle": "Come si svolge una seduta di laser e sorgenti luminose per la pelle?",
     "timelineSteps": [
       {
         "stepNumber": "01",
@@ -1405,6 +1623,10 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "Il percorso prosegue con indicazioni per la pelle trattata, attenzione al sole ed eventuale rivalutazione. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
       }
     ],
+    "timelineNote": {
+      "title": "Ogni pelle è diversa",
+      "text": "Il medico valuta la risposta della pelle e definisce l’eventuale necessità di ulteriori sedute o controlli nel tempo."
+    },
     "steps": [
       {
         "title": "Diagnosi della problematica",
@@ -1429,9 +1651,10 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       ],
       "image": "/images/trattamenti/medicina-estetica/laser-luce-pulsata-napoli-3.jpg"
     },
-    "localSeo": {
-      "title": "Laser per la pelle a Napoli",
-      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato ai laser per la pelle. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative al laser per la pelle. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione."
+    "leadForm": {
+      "title": "Hai domande sul trattamento?",
+      "subtitle": "Lasciaci i tuoi contatti. Il team Cocoora ti ricontatterà per fornirti maggiori informazioni e aiutarti a organizzare una valutazione medica.",
+      "cta": "Richiedi ora"
     },
     "faq": [
       {
@@ -1450,11 +1673,15 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "q": "Perché serve proteggere la pelle dal sole?",
         "a": "Per limitare i rischi di alterazioni pigmentarie e sostenere il recupero dopo la procedura."
       }
-    ]
+    ],
+    "localSeo": {
+      "title": "Laser per la pelle a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato ai laser per la pelle. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative al laser per la pelle. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione.",
+      "cta": "Richiedi una valutazione"
+    }
   },
   {
     "slug": "laser-resurfacing",
-    "aliases": [],
     "title": "Laser resurfacing",
     "category": "medicina-estetica",
     "categoryName": "Laser e tecnologie",
@@ -1463,9 +1690,10 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
     "heroImage": "/images/trattamenti/medicina-estetica/laser-resurfacing-napoli-1.jpg",
     "galleryImages": [
       "/images/trattamenti/medicina-estetica/laser-resurfacing-napoli-1.jpg",
-      "/images/trattamenti/medicina-estetica/laser-resurfacing-2.jpg",
-      "/images/trattamenti/medicina-estetica/laser-resurfacing-3.jpg"
+      "/images/trattamenti/medicina-estetica/laser-resurfacing-napoli-2.jpg",
+      "/images/trattamenti/medicina-estetica/laser-resurfacing-napoli-3.jpg"
     ],
+    "heroCta": "Richiedi una valutazione",
     "seo": {
       "metaTitle": "Laser resurfacing a Napoli | Cocoora",
       "metaDescription": "Laser resurfacing a Napoli da Cocoora: indicazioni, visita medica e possibili risultati.",
@@ -1473,11 +1701,16 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       "keywordSec": "laser co₂ per cicatrici da acne; laser erbium; laser resurfacing per rughe sottili e fotoinvecchiamento; laser co₂ o erbium"
     },
     "whatIs": {
-      "title": "",
-      "description": "",
-      "paragraphs": [],
-      "image": "/images/trattamenti/medicina-estetica/laser-resurfacing-2.jpg"
+      "title": "Che cos’è il trattamento laser resurfacing e come funziona?",
+      "description": "Il laser resurfacing è un trattamento che favorisce il rinnovamento cutaneo, migliorando la texture della pelle e attenuando rughe e cicatrici da acne. A seconda delle esigenze, il medico può utilizzare il laser Erbium:YAG per intervenire sulle irregolarità più superficiali oppure il laser CO₂ per trattamenti più profondi.",
+      "paragraphs": [
+        "Il laser resurfacing è un trattamento che favorisce il rinnovamento cutaneo, migliorando la texture della pelle e attenuando rughe e cicatrici da acne. A seconda delle esigenze, il medico può utilizzare il laser Erbium:YAG per intervenire sulle irregolarità più superficiali oppure il laser CO₂ per trattamenti più profondi."
+      ],
+      "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
+      "image": "/images/trattamenti/medicina-estetica/laser-resurfacing-napoli-2.jpg"
     },
+    "problemsTitle": "A cosa serve il laser resurfacing?",
+    "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
     "problemsGrid": [
       {
         "title": "Laser CO₂ per cicatrici da acne",
@@ -1496,6 +1729,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "I laser CO₂ ed Erbium:YAG agiscono a profondità differenti, permettendo di personalizzare il trattamento in base alle esigenze della pelle."
       }
     ],
+    "timelineTitle": "Come si svolge una seduta di laser resurfacing?",
     "timelineSteps": [
       {
         "stepNumber": "01",
@@ -1513,6 +1747,10 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "Vengono fornite istruzioni sulla cura della pelle, sui tempi di recupero e sulla fotoprotezione rigorosa. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
       }
     ],
+    "timelineNote": {
+      "title": "Ogni pelle è diversa",
+      "text": "Il medico valuta la risposta della pelle e definisce l’eventuale necessità di ulteriori sedute o controlli nel tempo."
+    },
     "steps": [
       {
         "title": "Valutazione del rischio",
@@ -1535,11 +1773,12 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "I risultati si sviluppano gradualmente, seguendo i naturali processi di rigenerazione cutanea. Tempi di recupero e miglioramenti variano in base alla profondità del trattamento, alla tecnologia utilizzata e alle caratteristiche individuali della pelle.",
         "Durante la visita specialistica, il medico definisce il percorso più indicato e fornisce le indicazioni per il recupero, comprese le precauzioni e la protezione solare necessarie per accompagnare la guarigione e preservare i risultati nel tempo."
       ],
-      "image": "/images/trattamenti/medicina-estetica/laser-resurfacing-3.jpg"
+      "image": "/images/trattamenti/medicina-estetica/laser-resurfacing-napoli-3.jpg"
     },
-    "localSeo": {
-      "title": "Laser resurfacing a Napoli",
-      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato al laser resurfacing. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative al laser resurfacing. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione."
+    "leadForm": {
+      "title": "Hai domande sul trattamento?",
+      "subtitle": "Lasciaci i tuoi contatti. Il team Cocoora ti ricontatterà per fornirti maggiori informazioni e aiutarti a organizzare una valutazione medica.",
+      "cta": "Richiedi ora"
     },
     "faq": [
       {
@@ -1558,7 +1797,12 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "q": "Si può esporsi al sole dopo il trattamento?",
         "a": "È necessaria una fotoprotezione rigorosa secondo le istruzioni dello specialista."
       }
-    ]
+    ],
+    "localSeo": {
+      "title": "Laser resurfacing a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato al laser resurfacing. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative al laser resurfacing. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione.",
+      "cta": "Richiedi una valutazione"
+    }
   },
   {
     "slug": "ultrasuoni-cfu",
@@ -1570,12 +1814,13 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
     "categoryName": "Laser e tecnologie",
     "tagline": "Un trattamento non chirurgico che utilizza ultrasuoni focalizzati a profondità selezionate per stimolare i tessuti e favorire un miglioramento progressivo del loro aspetto.",
     "description": "Un trattamento non chirurgico che utilizza ultrasuoni focalizzati a profondità selezionate per stimolare i tessuti e favorire un miglioramento progressivo del loro aspetto.",
-    "heroImage": "/images/trattamenti/medicina-estetica/cfu-napoli-1.jpg",
+    "heroImage": "/images/trattamenti/medicina-estetica/ultrasuoni-cfu-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/medicina-estetica/cfu-napoli-1.jpg",
-      "/images/trattamenti/medicina-estetica/cfu-napoli-2.jpg",
-      "/images/trattamenti/medicina-estetica/cfu-napoli-3.jpg"
+      "/images/trattamenti/medicina-estetica/ultrasuoni-cfu-napoli-1.jpg",
+      "/images/trattamenti/medicina-estetica/ultrasuoni-cfu-napoli-2.jpg",
+      "/images/trattamenti/medicina-estetica/ultrasuoni-cfu-napoli-3.jpg"
     ],
+    "heroCta": "Richiedi una valutazione",
     "seo": {
       "metaTitle": "Ultrasuoni focalizzati CFU a Napoli | Cocoora",
       "metaDescription": "Ultrasuoni focalizzati CFU a Napoli da Cocoora: indicazioni, visita medica e possibili risultati. Approfondisci ultrasuoni cfu viso per lassità lieve o moderata",
@@ -1583,11 +1828,18 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       "keywordSec": "ultrasuoni cfu viso per lassità lieve o moderata; ultrasuoni cfu collo e sottomento; ultrasuoni focalizzati cfu per profilo mandibolare; ultrasuoni cfu corpo per compattezza dei tessuti"
     },
     "whatIs": {
-      "title": "",
-      "description": "",
-      "paragraphs": [],
-      "image": "/images/trattamenti/medicina-estetica/cfu-napoli-2.jpg"
+      "title": "Che cos’è il trattamento a ultrasuoni focalizzati cfu e come funziona?",
+      "description": "Gli ultrasuoni focalizzati CFU (Controlled Focalized Ultrasound) sono una tecnologia di medicina estetica non chirurgica che utilizza energia a ultrasuoni per agire in modo mirato a diverse profondità dei tessuti, stimolando i naturali processi di rimodellamento del collagene.\n\nIl trattamento contribuisce a migliorare progressivamente il tono, la compattezza e l’elasticità della pelle, aiutando ad attenuare i segni della lassità cutanea lieve o moderata. Può essere utilizzato su aree come viso, collo, sottomento e profilo mandibolare, favorendo una maggiore definizione dei contorni e un aspetto più tonico e disteso.\n\nDurante la visita specialistica, il medico valuta le caratteristiche della pelle e il grado di lassità per individuare le zone da trattare e definire un percorso personalizzato. I miglioramenti si sviluppano gradualmente, seguendo i naturali tempi di risposta dei tessuti.",
+      "paragraphs": [
+        "Gli ultrasuoni focalizzati CFU (Controlled Focalized Ultrasound) sono una tecnologia di medicina estetica non chirurgica che utilizza energia a ultrasuoni per agire in modo mirato a diverse profondità dei tessuti, stimolando i naturali processi di rimodellamento del collagene.",
+        "Il trattamento contribuisce a migliorare progressivamente il tono, la compattezza e l’elasticità della pelle, aiutando ad attenuare i segni della lassità cutanea lieve o moderata. Può essere utilizzato su aree come viso, collo, sottomento e profilo mandibolare, favorendo una maggiore definizione dei contorni e un aspetto più tonico e disteso.",
+        "Durante la visita specialistica, il medico valuta le caratteristiche della pelle e il grado di lassità per individuare le zone da trattare e definire un percorso personalizzato. I miglioramenti si sviluppano gradualmente, seguendo i naturali tempi di risposta dei tessuti."
+      ],
+      "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
+      "image": "/images/trattamenti/medicina-estetica/ultrasuoni-cfu-napoli-2.jpg"
     },
+    "problemsTitle": "A cosa serve l'ultrasuono focalizzato cfu?",
+    "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
     "problemsGrid": [
       {
         "title": "Ultrasuoni CFU viso per lassità lieve o moderata",
@@ -1606,6 +1858,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "Il CFU rappresenta l’evoluzione diretta del tradizionale HIFU. A differenza dell’HIFU, il CFU è del tutto indolore, si muove con fluidità ed è più preciso."
       }
     ],
+    "timelineTitle": "Come si svolge una seduta di ultrasuoni focalizzati cfu?",
     "timelineSteps": [
       {
         "stepNumber": "01",
@@ -1623,6 +1876,10 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "Si valutano eventuali reazioni e si concordano tempi realistici per osservare i cambiamenti. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
       }
     ],
+    "timelineNote": {
+      "title": "Ogni pelle è diversa",
+      "text": "Il medico valuta la risposta della pelle e definisce l’eventuale necessità di ulteriori sedute o controlli nel tempo."
+    },
     "steps": [
       {
         "title": "Valutazione della lassità",
@@ -1645,11 +1902,12 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "I miglioramenti si sviluppano gradualmente nelle settimane e nei mesi successivi alla seduta, seguendo i naturali processi di rimodellamento del collagene. Tempi ed entità dei risultati variano in base alla zona trattata, alle caratteristiche della pelle e alla risposta individuale.",
         "Durante la visita specialistica, il medico valuta il grado di lassità cutanea e definisce un percorso personalizzato, individuando le aree su cui intervenire e gli eventuali controlli per monitorare l’evoluzione dei risultati nel tempo."
       ],
-      "image": "/images/trattamenti/medicina-estetica/cfu-napoli-3.jpg"
+      "image": "/images/trattamenti/medicina-estetica/ultrasuoni-cfu-napoli-3.jpg"
     },
-    "localSeo": {
-      "title": "Ultrasuoni focalizzati CFU a Napoli",
-      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato agli ultrasuoni focalizzati cfu. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative agli ultrasuoni focalizzati cfu. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione."
+    "leadForm": {
+      "title": "Hai domande sul trattamento?",
+      "subtitle": "Lasciaci i tuoi contatti. Il team Cocoora ti ricontatterà per fornirti maggiori informazioni e aiutarti a organizzare una valutazione medica.",
+      "cta": "Richiedi ora"
     },
     "faq": [
       {
@@ -1668,7 +1926,12 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "q": "Il risultato è immediato?",
         "a": "Il rimodellamento dei tessuti richiede tempo e l’entità del cambiamento varia tra persone."
       }
-    ]
+    ],
+    "localSeo": {
+      "title": "Ultrasuoni focalizzati CFU a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato agli ultrasuoni focalizzati cfu. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nLa consulenza permette di affrontare dubbi su indicazioni, limiti e possibili alternative agli ultrasuoni focalizzati cfu. Per fissare un appuntamento è possibile contattare il team Cocoora: le modalità del percorso vengono spiegate prima di qualsiasi decisione.",
+      "cta": "Richiedi una valutazione"
+    }
   },
   {
     "slug": "lipedema-linfedema",
@@ -1686,6 +1949,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       "/images/trattamenti/medicina-estetica/lipedema-linfedema-napoli-2.jpg",
       "/images/trattamenti/medicina-estetica/lipedema-linfedema-napoli-3.jpg"
     ],
+    "heroCta": "Richiedi una valutazione",
     "seo": {
       "metaTitle": "Valutazione per lipedema e linfedema a Napoli | Cocoora",
       "metaDescription": "Visita specialistica per lipedema e linfedema a Napoli: come avviene la valutazione, quali differenze considerare e come orientare gli approfondimenti.",
@@ -1693,11 +1957,17 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       "keywordSec": "valutazione del lipedema alle gambe; valutazione del linfedema e gonfiore persistente; lipedema o linfedema; percorso specialistico per lipedema e linfedema"
     },
     "whatIs": {
-      "title": "",
-      "description": "",
-      "paragraphs": [],
+      "title": "Che cos’è la valutazione per lipedema e linfedema e come funziona?",
+      "description": "Il lipedema è una condizione cronica caratterizzata da una distribuzione alterata del tessuto adiposo, spesso agli arti inferiori. Il linfedema è legato a un accumulo di liquido linfatico nei tessuti, con possibile gonfiore persistente. Non sono sinonimi: distinguere le due condizioni è centrale per scegliere il percorso appropriato.\n\nLipedema e linfedema richiedono un inquadramento differenziale: il primo è una condizione cronica che interessa la distribuzione del tessuto adiposo, prevalentemente agli arti; il secondo riguarda l’accumulo di liquido linfatico nei tessuti. Sintomi e segni possono sovrapporsi, ma non sono la stessa diagnosi.",
+      "paragraphs": [
+        "Il lipedema è una condizione cronica caratterizzata da una distribuzione alterata del tessuto adiposo, spesso agli arti inferiori. Il linfedema è legato a un accumulo di liquido linfatico nei tessuti, con possibile gonfiore persistente. Non sono sinonimi: distinguere le due condizioni è centrale per scegliere il percorso appropriato.",
+        "Lipedema e linfedema richiedono un inquadramento differenziale: il primo è una condizione cronica che interessa la distribuzione del tessuto adiposo, prevalentemente agli arti; il secondo riguarda l’accumulo di liquido linfatico nei tessuti. Sintomi e segni possono sovrapporsi, ma non sono la stessa diagnosi."
+      ],
+      "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
       "image": "/images/trattamenti/medicina-estetica/lipedema-linfedema-napoli-2.jpg"
     },
+    "problemsTitle": "A cosa serve la valutazione specialistica per lipedema e linfedema?",
+    "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
     "problemsGrid": [
       {
         "title": "Valutazione del lipedema alle gambe",
@@ -1716,6 +1986,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "La valutazione specialistica aiuta a comprendere la condizione e a definire un percorso di cura personalizzato, con eventuali esami e il supporto di più specialisti."
       }
     ],
+    "timelineTitle": "Come si svolge la valutazione specialistica?",
     "timelineSteps": [
       {
         "stepNumber": "01",
@@ -1733,6 +2004,10 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "description": "La persona riceve indicazioni sui passaggi successivi e sull’eventuale coinvolgimento di altri specialisti. Prima di concludere, il medico chiarisce i possibili effetti indesiderati, le indicazioni per i giorni successivi e i segnali per cui è importante contattare lo studio."
       }
     ],
+    "timelineNote": {
+      "title": "Ogni pelle è diversa",
+      "text": "Il medico valuta la risposta della pelle e definisce l’eventuale necessità di ulteriori sedute o controlli nel tempo."
+    },
     "steps": [
       {
         "title": "Raccolta della storia clinica",
@@ -1748,14 +2023,19 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
       }
     ],
     "results": {
-      "title": "",
-      "description": "",
-      "paragraphs": [],
+      "title": "Valutazione di lipedema e linfedema: che cosa aspettarsi?",
+      "description": "Il primo risultato atteso dalla valutazione è un inquadramento più preciso e la definizione di un percorso appropriato. Non si promette la risoluzione del gonfiore o la guarigione: le opzioni dipendono dalla diagnosi.\n\nIl valore della visita è individuare una direzione appropriata, chiarire i passaggi successivi e riconoscere le situazioni in cui sono necessari altri specialisti. Le decisioni devono essere costruite sulla condizione clinica individuale.\n\nOgni risultato deve essere interpretato alla luce del punto di partenza e della risposta individuale. Durante la consulenza vengono chiariti i limiti della procedura, le possibili alternative e i tempi più appropriati per un eventuale controllo.",
+      "paragraphs": [
+        "Il primo risultato atteso dalla valutazione è un inquadramento più preciso e la definizione di un percorso appropriato. Non si promette la risoluzione del gonfiore o la guarigione: le opzioni dipendono dalla diagnosi.",
+        "Il valore della visita è individuare una direzione appropriata, chiarire i passaggi successivi e riconoscere le situazioni in cui sono necessari altri specialisti. Le decisioni devono essere costruite sulla condizione clinica individuale.",
+        "Ogni risultato deve essere interpretato alla luce del punto di partenza e della risposta individuale. Durante la consulenza vengono chiariti i limiti della procedura, le possibili alternative e i tempi più appropriati per un eventuale controllo."
+      ],
       "image": "/images/trattamenti/medicina-estetica/lipedema-linfedema-napoli-3.jpg"
     },
-    "localSeo": {
-      "title": "Valutazione per lipedema e linfedema a Napoli",
-      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato alla valutazione per lipedema e linfedema. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nL’inquadramento può richiedere ulteriori accertamenti o il coinvolgimento di più specialisti. Contatta Cocoora per informazioni sulla visita e sull’organizzazione del percorso clinico."
+    "leadForm": {
+      "title": "Hai domande sul percorso specialistico?",
+      "subtitle": "Lasciaci i tuoi contatti. Il team Cocoora ti ricontatterà per fornirti maggiori informazioni e aiutarti a organizzare una valutazione medica.",
+      "cta": "Richiedi ora"
     },
     "faq": [
       {
@@ -1774,6 +2054,11 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "q": "È possibile avere entrambe le condizioni?",
         "a": "Alcune situazioni possono essere complesse o sovrapposte: serve un inquadramento specialistico."
       }
-    ]
+    ],
+    "localSeo": {
+      "title": "Valutazione per lipedema e linfedema a Napoli",
+      "description": "A Napoli, Cocoora propone un primo confronto specialistico dedicato alla valutazione per lipedema e linfedema. Il medico esamina la richiesta, la storia clinica e le caratteristiche dell’area coinvolta, così da chiarire quali opzioni siano appropriate e quali risultati possano essere realisticamente discussi.\n\nL’inquadramento può richiedere ulteriori accertamenti o il coinvolgimento di più specialisti. Contatta Cocoora per informazioni sulla visita e sull’organizzazione del percorso clinico.",
+      "cta": "Richiedi una valutazione"
+    }
   }
 ];

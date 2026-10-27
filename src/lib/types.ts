@@ -140,16 +140,20 @@ export type Treatment = {
   faq: Faq[];
   heroImage?: string;
   galleryImages?: string[];
+  heroCta?: string;
   seo?: { metaTitle?: string; metaDescription?: string; keywordMain?: string; keywordSec?: string };
   heroQuickSpecialist?: { title: string; subtitle: string; href?: string };
   heroQuickTier?: { title: string; subtitle: string; href?: string };
   whatIs?: TreatmentWhatIs;
+  problemsTitle?: string;
+  problemsSubtitle?: string;
   problemsGrid?: TreatmentProblem[];
+  timelineTitle?: string;
   timelineSteps?: TreatmentTimelineStep[];
   timelineNote?: { title: string; text: string };
   results?: TreatmentResults;
-  leadForm?: { overline?: string; title?: string; subtitle?: string };
-  localSeo?: { overline?: string; title?: string; description?: string; image?: string };
+  leadForm?: { overline?: string; title?: string; subtitle?: string; cta?: string };
+  localSeo?: { overline?: string; title?: string; description?: string; image?: string; cta?: string };
 };
 
 export type ClubTier = {
@@ -217,6 +221,39 @@ export type SeoPage = {
   keywords?: string;
   heroImage?: string;
   galleryImages?: string[];
+  heroCta?: string;
+
+  // Blocco 2 — Che cos'è e come funziona?
+  whatIsTitle?: string;
+  whatIsDescription?: string;
+  whatIsCallout?: string;
+  whatIsImage?: string;
+
+  // Blocco 3 — A cosa serve? (4 card inestetismi/problemi)
+  problemsTitle?: string;
+  problemsSubtitle?: string;
+  problemsGrid?: TreatmentProblem[];
+
+  // Blocco 4 — Come si svolge una seduta? (3 step)
+  timelineTitle?: string;
+  timelineSteps?: TreatmentTimelineStep[];
+  timelineNoteTitle?: string;
+  timelineNoteText?: string;
+
+  // Blocco 5 — Quali risultati aspettarsi?
+  resultsTitle?: string;
+  resultsDescription?: string;
+  resultsImage?: string;
+
+  // Blocco 6 — Form lead dedicato
+  leadTitle?: string;
+  leadSubtitle?: string;
+  leadCta?: string;
+
+  // Blocco 8 — Geo-Local SEO Napoli
+  localSeoTitle?: string;
+  localSeoDescription?: string;
+  localSeoCta?: string;
 };
 
 export type CmsState = {
