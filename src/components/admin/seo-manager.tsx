@@ -22,6 +22,7 @@ import {
 import { cmsStore } from "@/lib/cms-store";
 import { useCms } from "../providers";
 import type { SeoPage, TreatmentProblem, TreatmentTimelineStep } from "@/lib/types";
+import { MediaLibraryModal } from "./media-library-modal";
 
 type PageCategory = "all" | "medicina" | "odontoiatria" | "hub";
 
@@ -875,11 +876,12 @@ function ImageField({
   helperText?: string;
 }) {
   const [hasError, setHasError] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <div>
       <span className="mb-1.5 block text-xs font-semibold text-teal-900">{label}</span>
-      <div className="flex items-center gap-3">
+      <div className="flex flex-wrap items-center gap-3">
         {/* Thumbnail Preview */}
         <div className="relative h-14 w-20 shrink-0 overflow-hidden rounded-xl border border-teal-200 bg-teal-50/70 shadow-inner">
           {value && !hasError ? (
@@ -897,20 +899,41 @@ function ImageField({
           )}
         </div>
 
-        {/* Input */}
-        <div className="flex-1">
+        {/* Pulsante Scegli dalla Libreria (Stile WordPress) */}
+        <button
+          type="button"
+          onClick={() => setIsModalOpen(true)}
+          className="inline-flex items-center gap-1.5 rounded-xl border border-teal-300 bg-teal-50 px-3.5 py-2.5 text-xs font-semibold text-teal-900 shadow-sm transition-all hover:border-teal-400 hover:bg-teal-100 active:scale-95"
+        >
+          <ImageIcon className="h-3.5 w-3.5 text-teal-700" />
+          Scegli dalla Libreria Media
+        </button>
+
+        {/* Input manuale opzionale */}
+        <div className="min-w-[200px] flex-1">
           <input
             value={value}
             onChange={(e) => {
               setHasError(false);
               onChange(e.target.value);
             }}
-            placeholder="/images/trattamenti/..."
-            className="w-full rounded-xl border border-teal-200 bg-white px-3.5 py-2 text-sm text-charcoal outline-none transition-colors placeholder:text-charcoal/40 focus:border-teal-600 focus:bg-teal-50/20"
+            placeholder="/images/trattamenti/... o https://..."
+            className="w-full rounded-xl border border-teal-200 bg-white px-3.5 py-2 text-xs text-charcoal outline-none transition-colors placeholder:text-charcoal/40 focus:border-teal-600 focus:bg-teal-50/20"
           />
-          {helperText && <p className="mt-1 text-[11px] text-charcoal/50">{helperText}</p>}
         </div>
       </div>
+      {helperText && <p className="mt-1 text-[11px] text-charcoal/50">{helperText}</p>}
+
+      {/* Modale Libreria Media */}
+      <MediaLibraryModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSelect={(url) => {
+          setHasError(false);
+          onChange(url);
+        }}
+        currentValue={value}
+      />
     </div>
   );
 }
