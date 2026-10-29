@@ -125,6 +125,10 @@ type DbMedicalServiceRow = {
   is_active: boolean | null;
   sort_order: number | null;
   updated_at: string | null;
+  is_bookable_online?: boolean | null;
+  is_listed?: boolean | null;
+  vat_regime?: string | null;
+  room?: string | null;
   branches?: DbBranch | DbBranch[] | null;
 };
 
@@ -181,15 +185,22 @@ function mapDatabaseService(row: DbMedicalServiceRow): CatalogService {
     local.price_cents !== undefined ? local.price_cents : basePriceCents;
   const isActive =
     local.is_active !== undefined ? local.is_active : row.is_active !== false;
-  const room = local.room !== undefined ? local.room : inferRoom(row, area);
+  const room =
+    local.room !== undefined
+      ? local.room
+      : (row.room?.trim() || inferRoom(row, area));
   const isListed =
     local.is_listed !== undefined
       ? local.is_listed
-      : isActive && priceCents !== null;
+      : (row.is_listed !== undefined && row.is_listed !== null
+          ? row.is_listed
+          : isActive && priceCents !== null);
   const bookableOnline =
     local.is_bookable_online !== undefined
       ? local.is_bookable_online
-      : false;
+      : (row.is_bookable_online ?? false);
+  const vatRegime =
+    local.vat_regime ?? row.vat_regime?.trim() ?? DEFAULT_VAT_REGIME;
   const priceMode =
     local.price_mode !== undefined
       ? local.price_mode
@@ -213,10 +224,10 @@ function mapDatabaseService(row: DbMedicalServiceRow): CatalogService {
     area,
     priceCents,
     priceMode,
-    vatRegime: local.vat_regime ?? DEFAULT_VAT_REGIME,
+    vatRegime,
     room,
-    bookableOnline: bookableOnline && priceCents !== null && isListed,
-    isListed: isListed && priceCents !== null,
+    bookableOnline,
+    isListed,
     isActive,
     durationMinutes: row.duration_minutes ?? 60,
     notes: row.description,
@@ -282,7 +293,7 @@ async function loadDatabaseCatalog(): Promise<{
     const withBranch = await supabase
       .from("medical_services")
       .select(
-        "id, code, name, category, branch_id, description, duration_minutes, base_price, is_active, sort_order, updated_at, branches(name, slug)"
+        "id, code, name, category, branch_id, description, duration_minutes, base_price, is_active, sort_order, updated_at, is_bookable_online, is_listed, vat_regime, room, branches(name, slug)"
       )
       .order("sort_order", { ascending: true })
       .order("name", { ascending: true });
@@ -297,7 +308,7 @@ async function loadDatabaseCatalog(): Promise<{
     const withoutBranch = await supabase
       .from("medical_services")
       .select(
-        "id, code, name, category, branch_id, description, duration_minutes, base_price, is_active, sort_order, updated_at"
+        "id, code, name, category, branch_id, description, duration_minutes, base_price, is_active, sort_order, updated_at, is_bookable_online, is_listed, vat_regime, room"
       )
       .order("sort_order", { ascending: true })
       .order("name", { ascending: true });
@@ -350,6 +361,13 @@ export async function getAdminServicesListAction(
       ? database.rows.map(mapDatabaseService)
       : await loadCsvFallbackCatalog();
 
+  // Mostra il Catalogo Unico ufficiale (COC-xxx) del Centro.
+  // Esclude i vecchi mockup legacy non-COC per garantire il conteggio esatto del catalogo.
+  const hasCocServices = services.some((s) => s.code.startsWith("COC-"));
+  if (hasCocServices) {
+    services = services.filter((s) => s.code.startsWith("COC-"));
+  }
+
   const source: AdminServicesListResult["source"] =
     database.rows.length > 0 ? "database" : services.length > 0 ? "csv" : "empty";
 
@@ -401,7 +419,7 @@ async function resolveServiceById(
     const { data, error } = await supabase
       .from("medical_services")
       .select(
-        "id, code, name, category, branch_id, description, duration_minutes, base_price, is_active, sort_order, updated_at, branches(name, slug)"
+        "id, code, name, category, branch_id, description, duration_minutes, base_price, is_active, sort_order, updated_at, is_bookable_online, is_listed, vat_regime, room, branches(name, slug)"
       )
       .eq("id", serviceId)
       .maybeSingle();
@@ -828,9 +846,13 @@ export async function importServicesCsvAction(
         ? `${row.specialty} — ${row.notes}`
         : row.specialty,
       duration_minutes: 60,
-      base_price: (row.priceCents ?? 0) / 100,
+      base_price: row.priceCents !== null ? row.priceCents / 100 : null,
       is_active: row.status === "ATTIVA",
       sort_order: row.lineNumber + index,
+      is_bookable_online: row.bookableOnline,
+      is_listed: row.status === "ATTIVA" && row.priceCents !== null,
+      vat_regime: row.vatRegime,
+      room: row.room,
       updated_at: new Date().toISOString(),
     };
 
