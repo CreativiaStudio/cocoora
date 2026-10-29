@@ -1,0 +1,132 @@
+COCOORA  |  CATALOGO UNICO DELLE PRESTAZIONI,,,,,,,,,,,
+Listino originale + nuove prestazioni | Doppioni esatti rimossi | Ridondanze segnalate | Prezzi originali conservati,,,,,,,,,,,
+,,,,,,,,,,,
+Codice,Specialità,Prestazione,Prezzo (€),Modalità di prezzo,Indicazione fiscale originale,Stato prestazione,Origine,Controllo / ridondanze,Note cliniche e operative,Sala,Prenotabile online
+COC-001,Cardiologia,Ecocardiogramma color Doppler transtoracico,,DA_DEFINIRE,,ATTIVA,Catalogo ex novo,NUOVA VOCE: approvare prestazione e prezzo,,,
+COC-002,Cardiologia,Elettrocardiogramma (ECG) a 12 derivazioni,,DA_DEFINIRE,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Catalogo ex novo,NUOVA VOCE: approvare prestazione e prezzo,,,
+COC-003,Cardiologia,Visita cardiologica con ECG ed ecocardiogramma color Doppler,180,DA_DEFINIRE,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Catalogo ex novo,NUOVA VOCE: approvare prestazione e prezzo,,,
+COC-004,Cardiologia,Visita cardiologica con elettrocardiogramma (ECG) a 12 derivazioni,120,DA_DEFINIRE,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Catalogo ex novo,NUOVA VOCE: approvare prestazione e prezzo,,,
+COC-005,Chirurgia ambulatoriale,Medicazioni,80,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 112,,,Studio 2,SI
+COC-006,Chirurgia ambulatoriale,Piccola chirurgia ambulatoriale,,PREVENTIVO_POST_VISITA,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 111,"AREA SOVRAPPOSTA: distinguere tipo lesione, tecnica, sede ed eventuale istologico incluso.",,Studio 2,NO
+COC-007,Chirurgia ambulatoriale,Rimozione punti,60,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 113,,,Studio 2,SI
+COC-008,Chirurgia ambulatoriale,Escissione chirurgica di nevo cutaneo con esame istopatologico del pezzo operatorio,350,DA_DEFINIRE,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Catalogo ex novo,NUOVA VOCE: approvare prestazione e prezzo,"Prezzo comprensivo di esame istopatologico solo dopo verifica con laboratorio; indicare eventuali supplementi. | Listino originale: piccola chirurgia dermatologica €450, ma NON conferma che istologico sia incluso.",,
+COC-009,Chirurgia ambulatoriale,Visita specialistica di chirurgia ambulatoriale,150,DA_DEFINIRE,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Catalogo ex novo,NUOVA VOCE: approvare prestazione e prezzo,,,
+COC-010,Chirurgia dermatologica,Asportazione chirurgica di cisti cutanea o sottocutanea con esame istopatologico del pezzo operatorio,450,DA_DEFINIRE,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Catalogo ex novo,NUOVA VOCE: approvare prestazione e prezzo,Erogabile in dermatologia / chirurgia; una sola voce tariffaria. Istologico incluso da confermare.,,
+COC-011,Chirurgia plastica,Asportazione piccole neoformazioni cutanee corpo,,PREVENTIVO_POST_VISITA,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 45,"AREA SOVRAPPOSTA: distinguere tipo lesione, tecnica, sede ed eventuale istologico incluso.",,Studio 3,NO
+COC-012,Chirurgia plastica,Asportazione piccole neoformazioni cutanee volto,,PREVENTIVO_POST_VISITA,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 46,"AREA SOVRAPPOSTA: distinguere tipo lesione, tecnica, sede ed eventuale istologico incluso.",,Studio 3,NO
+COC-013,Chirurgia plastica,Asportazioni piccoli tumori cutanei,,PREVENTIVO_POST_VISITA,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 44,"AREA SOVRAPPOSTA: distinguere tipo lesione, tecnica, sede ed eventuale istologico incluso.",,Studio 3,NO
+COC-014,Chirurgia plastica,Blefaroplastica superiore,,PREVENTIVO_POST_VISITA,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 48,,,Studio 3,NO
+COC-016,Chirurgia plastica,Fenolizzazione matrice ungueale per unghia incarnita,,PREVENTIVO_POST_VISITA,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 43,,,Studio 3,NO
+COC-018,Dermatologia,Dermatoscopia / epiluminescenza,150,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 98,"DA DISTINGUERE: controllo nevi, mappatura e dermatoscopia non sono necessariamente la stessa prestazione.",,Studio 2,SI
+COC-019,Dermatologia,Mappatura nei,250,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 97,"DA DISTINGUERE: controllo nevi, mappatura e dermatoscopia non sono necessariamente la stessa prestazione.",,Studio 2,SI
+COC-020,Dermatologia,Piccola chirurgia dermatologica ambulatoriale,450,PREVENTIVO_POST_VISITA,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 99,"AREA SOVRAPPOSTA: distinguere tipo lesione, tecnica, sede ed eventuale istologico incluso.",,Studio 2,NO
+COC-021,Dermatologia,Visita dermatologica,150,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 95,,,Studio 2,SI
+COC-022,Dermatologia,Escissione chirurgica di nevo cutaneo con esame istopatologico del pezzo operatorio,350,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Catalogo ex novo,NUOVA VOCE: approvare prestazione e prezzo,"Prezzo comprensivo di esame istopatologico solo dopo verifica con laboratorio; indicare eventuali supplementi. | Listino originale: piccola chirurgia dermatologica €450, ma NON conferma che istologico sia incluso.",,
+COC-023,Ginecologia,Esame citologico urinario (citologia delle urine),,DA_DEFINIRE,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Catalogo ex novo,NUOVA VOCE: approvare prestazione e prezzo,Esame generalmente di competenza urologica/laboratorio; valutare collocazione.,,
+COC-024,Ginecologia,Pap test - esame citologico cervico-vaginale,,DA_DEFINIRE,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Catalogo ex novo,NUOVA VOCE: approvare prestazione e prezzo,Precisare se citologia convenzionale o in fase liquida.,,
+COC-025,Ginecologia,Test HPV-DNA ad alto rischio oncogeno,,DA_DEFINIRE,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Catalogo ex novo,NUOVA VOCE: approvare prestazione e prezzo,"Definire metodica, genotipizzazione ed eventuale co-testing.",,
+COC-026,Ginecologia,Visita specialistica ginecologica,180,DA_DEFINIRE,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Catalogo ex novo,NUOVA VOCE: approvare prestazione e prezzo,,,
+COC-027,Laboratorio e check-up,Check-up Avanzato Donna,,DA_DEFINIRE,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Catalogo ex novo,NUOVA VOCE: approvare prestazione e prezzo,Verificare componente laboratorio e servizi aggiuntivi.,,
+COC-028,Laboratorio e check-up,Check-up Avanzato Uomo,,DA_DEFINIRE,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Catalogo ex novo,NUOVA VOCE: approvare prestazione e prezzo,Verificare componente laboratorio e servizi aggiuntivi.,,
+COC-029,Laboratorio e check-up,Check-up Completo Donna,,DA_DEFINIRE,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Catalogo ex novo,NUOVA VOCE: approvare prestazione e prezzo,Verificare se venduto singolarmente o tramite membership.,,
+COC-030,Laboratorio e check-up,Check-up Completo Uomo,,DA_DEFINIRE,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Catalogo ex novo,NUOVA VOCE: approvare prestazione e prezzo,Verificare se venduto singolarmente o tramite membership.,,
+COC-031,Laboratorio e check-up,Check-up Salute (17 voci),,DA_DEFINIRE,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Catalogo ex novo,NUOVA VOCE: approvare prestazione e prezzo,Pannello 17 voci; tariffa laboratorio da confermare.,,
+COC-032,Laboratorio e check-up,Prelievo ematico in sede,,DA_DEFINIRE,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Catalogo ex novo,NUOVA VOCE: approvare prestazione e prezzo,,,
+COC-033,Medicina estetica,Bioristruturazione corpo,,PREVENTIVO_POST_VISITA,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 23,,,Studio 3,NO
+COC-034,Medicina estetica,Bioristruturazione volto,,PREVENTIVO_POST_VISITA,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 22,,,Studio 3,NO
+COC-035,Medicina estetica,Biorivitalizzazione,120,FISSO,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 18,"POSSIBILE RIDONDANZA: definire sostanza, protocollo e indicazione per distinguere le 3 voci.",,Studio 3,SI
+COC-036,Medicina estetica,Biorivitalizzazione/biostimolazione occhiaie,,PREVENTIVO_POST_VISITA,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 13,,,Studio 3,No
+COC-037,Medicina estetica,Biostimolazione,120,FISSO,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 17,"POSSIBILE RIDONDANZA: definire sostanza, protocollo e indicazione per distinguere le 3 voci.",,Studio 3,SI
+COC-038,Medicina estetica,Blefaroplastica non chirurgica con laser CO2,,PREVENTIVO_POST_VISITA,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 31,,,Studio 3,NO
+COC-039,Medicina estetica,Carbossiterapia – trattamento singolo,150,FISSO,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 26,,,Studio 3,SI
+COC-040,Medicina estetica,Consulenza per armonizzazione del viso,,PREVENTIVO_POST_VISITA,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 4,POSSIBILE SOVRAPPOSIZIONE con visita di medicina estetica; verificare se consulenza separata.,,Studio 3,SI
+COC-041,Medicina estetica,Cryoliposculpt – trattamento per area,250,FISSO,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 27,,,Studio 3,SI
+COC-042,Medicina estetica,Filler Full Face,,PREVENTIVO_POST_VISITA,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 6,,,Studio 3,NO
+COC-043,Medicina estetica,Filler labbra,300,FISSO,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 7,,,Studio 3,SI
+COC-044,Medicina estetica,Filler mandibola / jawline,,PREVENTIVO_POST_VISITA,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 11,,,Studio 3,NO
+COC-045,Medicina estetica,Filler mento,,PREVENTIVO_POST_VISITA,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 10,,,Studio 3,NO
+COC-046,Medicina estetica,Filler occhiaie,,PREVENTIVO_POST_VISITA,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 12,,,Studio 3,NO
+COC-047,Medicina estetica,Filler zigomi,,PREVENTIVO_POST_VISITA,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 9,,,Studio 3,NO
+COC-048,Medicina estetica,Laser CO2 frazionato – resurfacing viso,500,PREVENTIVO_POST_VISITA,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 30,,,Studio 3,NO
+COC-049,Medicina estetica,Laser CO2 – asportazioni piccole neoformazioni cutanee,,PREVENTIVO_POST_VISITA,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 34,,,Studio 3,no
+COC-050,Medicina estetica,Laser CO2 – cicatrici e irregolarità cutanee,,PREVENTIVO_POST_VISITA,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 32,,,Studio 3,NO
+COC-051,Medicina estetica,Laser CO2 –macchie cutanee,,PREVENTIVO_POST_VISITA,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 33,,,Studio 3,NO
+COC-052,Medicina estetica,Laser Erbium-yag per rimozione cicatrici e smagliature a seduta,200,FISSO,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 51,,,Studio 3,SI
+COC-053,Medicina estetica,Laser Erbium-yag resurfacing volto a seduta,300,FISSO,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 52,,,Studio 3,NO
+COC-054,Medicina estetica,Laser Q-switched per rimozione microblading sopracciglia a seduta,200,FISSO,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 50,,,Studio 3,SI
+COC-055,Medicina estetica,Laser Q-switched per rimozione tatuaggi a seduta,200,FISSO,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 49,,,Studio 3,SI
+COC-056,Medicina estetica,Mesoterapia corpo seduta singola,120,FISSO,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 35,,,Studio 3,No
+COC-057,Medicina estetica,Peeling chimici medicali,150,FISSO,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 38,,,Studio 3,NO
+COC-058,Medicina estetica,Polilattico corpo,,PREVENTIVO_POST_VISITA,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 21,,,Studio 3,NO
+COC-059,Medicina estetica,Polilattico volto o collo,,PREVENTIVO_POST_VISITA,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 20,,,Studio 3,NO
+COC-060,Medicina estetica,Protocollo anticellulite,700,FISSO,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 36,,,Studio 3,No
+COC-061,Medicina estetica,PRX,120,FISSO,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 25,,,Studio 3,SI
+COC-062,Medicina estetica,Rinofiller,450,FISSO,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 8,,,Studio 3,NO
+COC-063,Medicina estetica,Skin booster,120,FISSO,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 19,"POSSIBILE RIDONDANZA: definire sostanza, protocollo e indicazione per distinguere le 3 voci.",,Studio 3,SI
+COC-064,Medicina estetica,Trattamenti rigenerativi,,PREVENTIVO_POST_VISITA,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 24,,,Studio 3,NO
+COC-065,Medicina estetica,Trattamento adiposità localizzate (intralipoterapia) singola zona,250,FISSO,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 37,,,Studio 3,No
+COC-066,Medicina estetica,Trattamento bruxismo con tossina botulinica,600,FISSO,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 15,,,Studio 3,NO
+COC-067,Medicina estetica,Trattamento CFU (HIFU) corpo,120,PREVENTIVO_POST_VISITA,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 29,,,Studio 3,SI
+COC-068,Medicina estetica,Trattamento CFU (HIFU) viso e collo,120,PREVENTIVO_POST_VISITA,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 28,,,Studio 3,SI
+COC-069,Medicina estetica,Trattamento cicatrici acneiche,,PREVENTIVO_POST_VISITA,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 39,,,Studio 3,NO
+COC-070,Medicina estetica,Trattamento iperidrosi con tossina botulinica,,PREVENTIVO_POST_VISITA,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 16,,,Studio 3,NO
+COC-071,Medicina estetica,Trattamento lassità cutanea lieve/moderata,,PREVENTIVO_POST_VISITA,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 42,,,Studio 3,NO
+COC-072,Medicina estetica,Trattamento luminosità cutanea,,PREVENTIVO_POST_VISITA,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 41,,,Studio 3,NO
+COC-073,Medicina estetica,Trattamento rughe dinamiche con tossina botulinica,,PREVENTIVO_POST_VISITA,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 14,,,Studio 3,SI
+COC-074,Medicina estetica,Trattamento texture cutanea,,PREVENTIVO_POST_VISITA,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 40,,,Studio 3,NO
+COC-075,Medicina estetica,Valutazione skin quality,80,LISTINO_IN_SEDE,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 5,,,Studio 3,SI
+COC-076,Medicina estetica,Visita di medicina estetica o chirurgia plastica,100,LISTINO_IN_SEDE,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Originale riga 3,,,Studio 3,SI
+COC-077,Medicina estetica,Biostimolazione con acido poli-L-lattico,,PREVENTIVO_POST_VISITA,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Catalogo ex novo,NUOVA VOCE: approvare prestazione e prezzo,Listino originale: polilattico volto / corpo su preventivo; prezzo non definito.,,
+COC-078,Medicina estetica,Biostimolazione con idrossiapatite di calcio,,PREVENTIVO_POST_VISITA,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Catalogo ex novo,NUOVA VOCE: approvare prestazione e prezzo,Listino originale non riporta prezzo specifico per idrossiapatite di calcio.,,
+COC-080,Nutrizione,Prima visita nutrizionale con piano alimentare,100,FISSO,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Catalogo ex novo,NUOVA VOCE: approvare prestazione e prezzo,,,
+COC-081,Nutrizione,Visita nutrizionale di controllo,80,FISSO,IVA 22% / ESENTE se finalità terapeutica documentata,ATTIVA,Catalogo ex novo,NUOVA VOCE: approvare prestazione e prezzo,,,
+COC-082,Oculistica,Visita oculistica,200,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 105,,,Studio 4,SI
+COC-083,Oculistica,Visite oculistiche pediatriche,170,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 106,,,Studio 4,SI
+COC-084,Odontoiatria,Visita odontoiatrica con ortopantomografia (OPT),,PREVENTIVO_POST_VISITA,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",DA_VALIDARE,Catalogo ex novo,NUOVA VOCE: approvare prestazione e prezzo,"Listino originale: OPT €60, ma non è disponibile il prezzo della visita COMBINATA.",,
+COC-085,Odontoiatria,Visita ortodontica e valutazione delle malocclusioni,,PREVENTIVO_POST_VISITA,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",DA_VALIDARE,Catalogo ex novo,NUOVA VOCE: approvare prestazione e prezzo,,,
+COC-086,Odontoiatria e ortodonzia,Chirurgia implantare,,PREVENTIVO_POST_VISITA,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 65,,,Studio 1,NO
+COC-087,Odontoiatria e ortodonzia,Chirurgia orale,,PREVENTIVO_POST_VISITA,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 62,,,Studio 1,NO
+COC-088,Odontoiatria e ortodonzia,Cone Beam / CBCT,140,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 75,,,Studio 1,SI
+COC-089,Odontoiatria e ortodonzia,Conservativa,,PREVENTIVO_POST_VISITA,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 56,SOVRAPPOSIZIONE: Conservativa è una categoria generale; otturazioni è una prestazione specifica. Valutare rimozione della voce generale.,,Studio 1,NO
+COC-090,Odontoiatria e ortodonzia,Endodonzia Monoradicolare,350,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 59,,,Studio 1,NO
+COC-091,Odontoiatria e ortodonzia,Endodonzia Pluriradicolare,450,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 60,,,Studio 1,NO
+COC-092,Odontoiatria e ortodonzia,Estrazione ottavi / denti del giudizio,450,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 64,,,Studio 1,NO
+COC-093,Odontoiatria e ortodonzia,Estrazioni semplici e complesse,250,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 63,,,Studio 1,NO
+COC-094,Odontoiatria e ortodonzia,Faccette dentali,,PREVENTIVO_POST_VISITA,IVA 22% se meramente estetica/accessoria; ESENTE se sanitaria,ATTIVA,Originale riga 69,,,Studio 1,NO
+COC-095,Odontoiatria e ortodonzia,Igiene orale professionale,90,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 54,,,Studio 1,SI
+COC-096,Odontoiatria e ortodonzia,Impronta digitale,70,FISSO,IVA 22% se meramente estetica/accessoria; ESENTE se sanitaria,ATTIVA,Originale riga 73,,,Studio 1,SI
+COC-097,Odontoiatria e ortodonzia,OPT / ortopantomografia,50,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 74,,,Studio 1,SI
+COC-098,Odontoiatria e ortodonzia,Ortodonzia bambini e adolescenti,,PREVENTIVO_POST_VISITA,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 72,,,Studio 1,NO
+COC-099,Odontoiatria e ortodonzia,Ortodonzia invisibile / allineatori trasparenti,,PREVENTIVO_POST_VISITA,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 71,,,Studio 1,NO
+COC-100,Odontoiatria e ortodonzia,Ortodonzia tradizionale,,PREVENTIVO_POST_VISITA,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 70,,,Studio 1,NO
+COC-102,Odontoiatria e ortodonzia,Protesi,,PREVENTIVO_POST_VISITA,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 66,,,Studio 1,NO
+COC-105,Odontoiatria e ortodonzia,Radiografie endorali,35,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 76,,,Studio 1,SI
+COC-106,Odontoiatria e ortodonzia,Ricostruzioni estetiche,,PREVENTIVO_POST_VISITA,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 58,,,Studio 1,NO
+COC-107,Odontoiatria e ortodonzia,Ritrattamenti canalari,,PREVENTIVO_POST_VISITA,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 61,,,Studio 1,NO
+COC-108,Odontoiatria e ortodonzia,Sbiancamento dentale professionale,450,FISSO,IVA 22% se meramente estetica/accessoria; ESENTE se sanitaria,ATTIVA,Originale riga 55,,,Studio 1,SI
+COC-109,Odontoiatria e ortodonzia,Visita odontoiatrica,0,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 53,,,Studio 1,SI
+COC-110,Oncologia,Consulenza oncologica,220,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 103,,,Studio 2,SI
+COC-111,Oncologia,Supporto nella lettura di referti e documentazione clinica,180,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 104,,,Studio 2,SI
+COC-115,Pediatria,Visita Pediatrica domiciliare,150,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 108,,,Studio 2,SI
+COC-116,Pediatria,Visita pediatrica,120,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 107,,,Studio 2,SI
+COC-117,Psicologia,Consulenza psicologica,100,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 109,,,Studio 2,SI
+COC-118,Psicologia,"Trattamento dei disturbi da dipendenza da device digitali, inclusi cellulare, tablet/iPad e altri dispositivi",120,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 110,,,Studio 2,NO
+COC-121,Radiologia ed ecografia,Ecografia addome completo,160,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 78,,,Studio 4,SI
+COC-122,Radiologia ed ecografia,Ecografia addome inferiore (PELVI),160,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 80,"POSSIBILE SOVRAPPOSIZIONE: specificare distretto e indicazioni per pelvica, ginecologica e addome inferiore.",,Studio 4,SI
+COC-123,Radiologia ed ecografia,Ecografia addome superiore,160,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 79,,,Studio 4,SI
+COC-124,Radiologia ed ecografia,Ecografia articolare,140,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 86,,,Studio 4,SI
+COC-125,Radiologia ed ecografia,Ecografia collo,120,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 83,,,Studio 4,SI
+COC-126,Radiologia ed ecografia,Ecografia cute e sottocute,120,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 87,,,Studio 4,SI
+COC-127,Radiologia ed ecografia,Ecografia ginecologica sovrapubica,140,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 92,"POSSIBILE SOVRAPPOSIZIONE: specificare distretto e indicazioni per pelvica, ginecologica e addome inferiore.",,Studio 4,SI
+COC-128,Radiologia ed ecografia,Ecografia mammaria,130,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 82,,,Studio 4,SI
+COC-129,Radiologia ed ecografia,Ecografia muscolo-tendinea,140,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 85,,,Studio 4,SI
+COC-130,Radiologia ed ecografia,Ecografia pelvica sovrapubica,160,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 91,"POSSIBILE SOVRAPPOSIZIONE: specificare distretto e indicazioni per pelvica, ginecologica e addome inferiore.",,Studio 4,SI
+COC-132,Radiologia ed ecografia,Ecografia renale e vie urinarie,160,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 90,,,Studio 4,SI
+COC-133,Radiologia ed ecografia,Ecografia tessuti molli,120,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 84,,,Studio 4,SI
+COC-134,Radiologia ed ecografia,Ecografia testicolare,130,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 88,,,Studio 4,SI
+COC-135,Radiologia ed ecografia,Ecografia tiroidea,120,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 81,,,Studio 4,SI
+COC-136,Radiologia ed ecografia,Supporto ecografico a visite specialistiche,80,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 94,DA CHIARIRE: definire contenuto ed evitare duplicazione con ecografie per distretto.,,Studio 4,SI
+COC-138,Senologia,Follow-up senologico,140,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 102,,,Studio 2,SI
+COC-139,Senologia,Visita senologica,160,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",ATTIVA,Originale riga 100,,,Studio 2,SI
+COC-140,Senologia,Visita senologica con ecografia mammaria,200,FISSO,,ATTIVA,Catalogo ex novo,NUOVA VOCE: approvare prestazione e prezzo,"Listino originale: visita senologica €160 ed ecografia mammaria €130, ma nessun prezzo per il pacchetto combinato.",,
+COC-141,Telemedicina,Teleconsulto,120,FISSO,"ESENTE IVA art. 10, c.1, n.18 DPR 633/72",DA_CONFERMARE_DS,Originale riga 114,,,—,SI
