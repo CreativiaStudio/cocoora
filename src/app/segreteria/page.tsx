@@ -66,6 +66,19 @@ export default function SegreteriaPage() {
 
           {/* Menu Voci Segreteria */}
           <nav className="mt-3 px-2 space-y-1">
+            <Link
+              href="/segreteria/prenota"
+              className="flex items-center justify-between rounded-md px-3 py-2 text-xs font-bold text-white bg-teal-800/90 hover:bg-teal-700 transition-colors shadow-xs mb-2 border border-teal-600/40"
+            >
+              <div className="flex items-center gap-2.5">
+                <span className="text-sm">⚡</span>
+                <span>Prenota in 3 Click</span>
+              </div>
+              <span className="rounded-full bg-emerald-400/20 px-1.5 py-0.5 text-[9px] font-semibold text-emerald-300">
+                Rapido
+              </span>
+            </Link>
+
             <p className="px-3 pt-2 pb-1 text-[10px] font-bold uppercase tracking-wider text-[#787c82]">
               Front-Office Clinico
             </p>
@@ -125,6 +138,19 @@ export default function SegreteriaPage() {
                 <span>Pannello Direzione (Admin)</span>
               </div>
               <ExternalLink className="h-3 w-3 text-[#787c82]" />
+            </Link>
+
+            <Link
+              href="/admin/catalogo"
+              className="flex items-center justify-between rounded-md px-3 py-2 text-xs font-semibold text-[#c3c4c7] hover:bg-[#2c3338] hover:text-white transition-colors"
+            >
+              <div className="flex items-center gap-2.5">
+                <span className="text-sm">📋</span>
+                <span>Catalogo Prestazioni & Tariffe</span>
+              </div>
+              <span className="rounded-full bg-teal-500/20 px-1.5 py-0.5 text-[9px] font-semibold text-teal-300">
+                78 Voci
+              </span>
             </Link>
 
             <Link

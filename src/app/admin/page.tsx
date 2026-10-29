@@ -136,6 +136,19 @@ export default function AdminPage() {
               badge="Fatture/Rate"
             />
 
+            <Link
+              href="/admin/catalogo"
+              className="flex items-center justify-between rounded-md px-3 py-2 text-xs font-semibold text-[#c3c4c7] hover:bg-[#2c3338] hover:text-white transition-colors"
+            >
+              <div className="flex items-center gap-2.5">
+                <FileText className="h-4 w-4 text-teal-400" />
+                <span>Catalogo Prestazioni</span>
+              </div>
+              <span className="rounded-full bg-teal-500/20 px-1.5 py-0.5 text-[9px] font-semibold text-teal-300">
+                78 Voci
+              </span>
+            </Link>
+
             <div className="my-2 border-t border-[#2c3338]"></div>
 
             <p className="px-3 pt-1 pb-1 text-[10px] font-bold uppercase tracking-wider text-[#787c82]">
@@ -169,6 +182,17 @@ export default function AdminPage() {
               <div className="flex items-center gap-2.5">
                 <span className="text-sm">📋</span>
                 <span>Postazione Segreteria</span>
+              </div>
+              <ExternalLink className="h-3 w-3 text-[#787c82]" />
+            </Link>
+
+            <Link
+              href="/segreteria/prenota"
+              className="flex items-center justify-between rounded-md px-3 py-2 text-xs font-semibold text-[#c3c4c7] hover:bg-[#2c3338] hover:text-white transition-colors"
+            >
+              <div className="flex items-center gap-2.5">
+                <span className="text-sm">⚡</span>
+                <span>Prenotazione Rapida (3 Click)</span>
               </div>
               <ExternalLink className="h-3 w-3 text-[#787c82]" />
             </Link>
