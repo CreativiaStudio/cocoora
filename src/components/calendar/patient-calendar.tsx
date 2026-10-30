@@ -78,31 +78,37 @@ export function PatientCalendar() {
     async function loadServices() {
       try {
         setLoadingServices(true);
-        const res = await fetch("/api/services");
-        if (res.ok) {
-          const data = await res.json();
-          if (data.services && Array.isArray(data.services)) {
-            const onlineOnly = data.services.filter(
-              (s: MedicalService) => s.is_bookable_online !== false
-            );
-            setServices(onlineOnly);
-            return;
+        let loaded = false;
+
+        try {
+          const res = await fetch("/api/services");
+          if (res.ok) {
+            const data = await res.json();
+            if (data.services && Array.isArray(data.services) && data.services.length > 0) {
+              const onlineOnly = data.services.filter(
+                (s: MedicalService) => s.is_bookable_online !== false
+              );
+              setServices(onlineOnly);
+              loaded = true;
+            }
+          }
+        } catch (err) {
+          console.warn("Fallback caricamento prestazioni diretto Supabase", err);
+        }
+
+        if (!loaded) {
+          // Fallback Supabase client
+          const { data } = await supabase
+            .from("medical_services")
+            .select("id, code, name, category, duration_minutes, is_bookable_online, room")
+            .eq("is_active", true)
+            .eq("is_bookable_online", true)
+            .order("name", { ascending: true });
+
+          if (data && data.length > 0) {
+            setServices(data);
           }
         }
-      } catch (err) {
-        console.warn("Fallback caricamento prestazioni diretto Supabase", err);
-      }
-
-      // Fallback Supabase client
-      try {
-        const { data } = await supabase
-          .from("medical_services")
-          .select("id, code, name, category, duration_minutes, is_bookable_online, room")
-          .eq("is_active", true)
-          .eq("is_bookable_online", true)
-          .order("name", { ascending: true });
-
-        if (data) setServices(data);
       } catch (e) {
         console.error("Errore fetch prestazioni", e);
       } finally {
@@ -117,22 +123,26 @@ export function PatientCalendar() {
   const fetchSlots = async () => {
     try {
       setLoadingSlots(true);
+      let loaded = false;
+
       try {
         const queryParams = new URLSearchParams({ date: selectedDate });
         if (selectedService?.id) queryParams.set("serviceId", selectedService.id);
         const res = await fetch(`/api/calendar/slots?${queryParams.toString()}`);
         if (res.ok) {
           const data = await res.json();
-          if (data.slots) {
+          if (data.slots && Array.isArray(data.slots)) {
             setSlots(data.slots);
-            return;
+            loaded = true;
           }
         }
       } catch {}
 
-      // Fallback slot engine
-      const directSlots = await computeAvailableSlots(selectedDate);
-      setSlots(directSlots);
+      if (!loaded) {
+        // Fallback slot engine
+        const directSlots = await computeAvailableSlots(selectedDate);
+        setSlots(directSlots);
+      }
     } catch (e) {
       console.error("Errore recupero slot", e);
     } finally {
