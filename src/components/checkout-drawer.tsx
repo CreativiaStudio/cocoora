@@ -49,6 +49,7 @@ export function CheckoutDrawer() {
   const [method, setMethod] = useState("card");
   const [lead, setLead] = useState({ nome: "", cognome: "", email: "", telefono: "" });
   const [error, setError] = useState("");
+  const [loadingStripe, setLoadingStripe] = useState(false);
 
   if (!checkoutItem) return null;
 
@@ -69,6 +70,40 @@ export function CheckoutDrawer() {
       { item_id: tier.id, item_name: tier.name, price: tier.price },
     ]);
     setStep("payment");
+  };
+
+  const startStripeCheckout = async () => {
+    try {
+      setLoadingStripe(true);
+      setError("");
+
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          tierId: tier.id,
+          gender: gender || null,
+          lead,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Impossibile inizializzare la cassa sicura Stripe.");
+      }
+
+      if (data.url) {
+        window.location.href = data.url;
+        return;
+      }
+
+      setStep("success");
+    } catch (err: unknown) {
+      console.error("Errore Stripe checkout:", err);
+      setError(err instanceof Error ? err.message : "Errore connessione Stripe. Riprova.");
+    } finally {
+      setLoadingStripe(false);
+    }
   };
 
   const confirm = () => {
@@ -169,8 +204,20 @@ export function CheckoutDrawer() {
                   ))}
                 </div>
               </div>
-              <Button className="w-full" size="lg" onClick={confirm}>
-                Conferma pagamento
+              {error && (
+                <p className="text-xs text-rose-600 bg-rose-50 p-2.5 rounded-xl border border-rose-200">
+                  {error}
+                </p>
+              )}
+              <Button
+                className="w-full flex items-center justify-center gap-2"
+                size="lg"
+                disabled={loadingStripe}
+                onClick={startStripeCheckout}
+              >
+                {loadingStripe
+                  ? "Apertura Cassa Sicura Stripe..."
+                  : `Paga ${formatPrice(tier.price)} con Stripe`}
               </Button>
             </div>
           )}
