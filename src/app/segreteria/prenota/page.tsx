@@ -40,6 +40,7 @@ const STUDIOS = [
   { id: "studio-2", name: "Studio 2", focus: "Medicina Estetica · Jolly" },
   { id: "studio-3", name: "Studio 3", focus: "Medicina Estetica · Laser" },
   { id: "studio-4", name: "Studio 4", focus: "Oculistica" },
+  { id: "sala-opt", name: "Sala OPT", focus: "Ortopantomografia" },
 ];
 
 const INITIAL_AGENDA: AgendaItem[] = [
@@ -300,7 +301,7 @@ export default function PrenotaPage() {
             </span>
             <span className="inline-flex items-center gap-1 rounded-full border border-[#80A1B2]/35 bg-white px-2 py-1">
               <Users className="h-3 w-3 text-[#80A1B2]" />
-              4 studi attivi
+              4 studi + OPT
             </span>
           </div>
         </div>
@@ -359,7 +360,7 @@ export default function PrenotaPage() {
           />
         </div>
 
-        {/* AGENDA 4 STUDI */}
+        {/* AGENDA 4 STUDI + SALA OPT */}
         <section className="mt-5 rounded-2xl border border-[#80A1B2]/30 bg-white p-3 shadow-[0_18px_50px_-30px_rgba(3,53,75,0.35)] sm:p-4">
           <div className="mb-3 flex flex-wrap items-center justify-between gap-2 px-1">
             <div>
@@ -385,7 +386,7 @@ export default function PrenotaPage() {
             </div>
           </div>
 
-          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
             {STUDIOS.map((studio) => {
               const studioItems = agenda.filter(
                 (item) => item.roomId === studio.id

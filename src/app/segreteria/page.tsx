@@ -96,7 +96,7 @@ export default function SegreteriaPage() {
               onClick={() => setTab("calendar")}
               icon={<Calendar className="h-4 w-4" />}
               label="Calendario & Prenotazioni"
-              badge="3 Sale"
+              badge="4 Studi + OPT"
             />
 
             <SidebarItem

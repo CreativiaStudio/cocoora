@@ -1,5 +1,12 @@
 import { NextResponse } from "next/server";
 import { getServiceSupabase } from "@/lib/supabase";
+import {
+  firstEmbedded,
+  mergeClinicRooms,
+  resolveRoomForDoctor,
+  type ClinicRoomRow,
+  type Room,
+} from "@/lib/slot-engine";
 
 function getWeekdayNumber(dateStr: string): number {
   // Returns 1 (Monday) to 7 (Sunday)
@@ -19,6 +26,43 @@ function minutesToTime(mins: number): string {
   return `${h}:${m}`;
 }
 
+type SupabaseServiceClient = ReturnType<typeof getServiceSupabase>;
+
+/** Verifica che la prestazione esista nei cataloghi del centro (nuovo motore o legacy). */
+async function serviceExists(
+  supabase: SupabaseServiceClient,
+  serviceId: string
+): Promise<boolean> {
+  const legacy = await supabase
+    .from("medical_services")
+    .select("id")
+    .eq("id", serviceId)
+    .maybeSingle();
+
+  if (!legacy.error && legacy.data) return true;
+
+  const engine = await supabase
+    .from("services")
+    .select("id")
+    .eq("id", serviceId)
+    .maybeSingle();
+
+  if (!engine.error && engine.data) return true;
+
+  return false;
+}
+
+/** Carica le 5 sale ufficiali dal DB con fallback sulla matrice statica. */
+async function loadRooms(supabase: SupabaseServiceClient): Promise<Room[]> {
+  const { data, error } = await supabase
+    .from("clinic_rooms")
+    .select("id, slug, name, floor")
+    .order("slug");
+
+  if (error) return mergeClinicRooms([]);
+  return mergeClinicRooms((data ?? []) as ClinicRoomRow[]);
+}
+
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
@@ -28,6 +72,9 @@ export async function GET(req: Request) {
 
     const weekday = getWeekdayNumber(date);
     const supabase = getServiceSupabase();
+
+    // 0. Carica le 5 sale ufficiali (matrice a 4 vie: medico, sala, prestazione, paziente)
+    const rooms = await loadRooms(supabase);
 
     // 1. Fetch doctor availability matching weekday
     let availQuery = supabase
@@ -44,10 +91,12 @@ export async function GET(req: Request) {
           id,
           full_name,
           title,
-          is_active
+          is_active,
+          specialty_slug
         ),
         clinic_rooms (
           id,
+          slug,
           name,
           floor
         )
@@ -56,7 +105,6 @@ export async function GET(req: Request) {
       .eq("is_active", true);
 
     if (doctorId) availQuery = availQuery.eq("doctor_id", doctorId);
-    if (roomId) availQuery = availQuery.eq("room_id", roomId);
 
     const { data: availabilities, error: availError } = await availQuery;
     if (availError) throw availError;
@@ -83,17 +131,40 @@ export async function GET(req: Request) {
       doctorTitle: string | null;
       roomId: string | null;
       roomName: string | null;
+      roomSlug: string | null;
       isAvailable: boolean;
       conflictReason?: string;
+    };
+
+    type AvailabilityDoctor = {
+      id: string;
+      full_name: string;
+      title: string | null;
+      is_active: boolean;
+      specialty_slug: string | null;
     };
 
     const slots: GeneratedSlot[] = [];
 
     for (const av of availabilities || []) {
-      const doc = av.doctors as unknown as { id: string; full_name: string; title: string | null; is_active: boolean } | null;
+      const doc = firstEmbedded<AvailabilityDoctor>(
+        av.doctors as unknown as AvailabilityDoctor | AvailabilityDoctor[] | null
+      );
       if (!doc || !doc.is_active) continue;
 
-      const room = av.clinic_rooms as unknown as { id: string; name: string } | null;
+      // Sala effettiva: quella legata alla disponibilità, altrimenti la stanza
+      // predefinita in base alla specialità del medico.
+      const slotRoom = resolveRoomForDoctor(
+        {
+          fullName: doc.full_name,
+          specialtySlug: doc.specialty_slug,
+          roomId: av.room_id ?? null,
+        },
+        rooms
+      );
+
+      if (roomId && slotRoom?.id !== roomId && slotRoom?.slug !== roomId) continue;
+
       const startMin = timeToMinutes(av.start_time);
       const endMin = timeToMinutes(av.end_time);
       const step = av.slot_minutes || 30;
@@ -113,7 +184,7 @@ export async function GET(req: Request) {
 
         // Check if room is already booked by another doctor in this slot
         const roomConflict = (existingAppts || []).some((a) => {
-          if (!room || a.room_id !== room.id) return false;
+          if (!slotRoom?.id || a.room_id !== slotRoom.id) return false;
           const aStart = new Date(a.starts_at).getTime();
           const aEnd = new Date(a.ends_at).getTime();
           return slotStart < aEnd && slotEnd > aStart;
@@ -127,15 +198,18 @@ export async function GET(req: Request) {
           doctorId: doc.id,
           doctorName: doc.full_name,
           doctorTitle: doc.title,
-          roomId: room?.id || null,
-          roomName: room?.name || "Stanza da assegnare",
+          roomId: slotRoom?.id ?? null,
+          roomName: slotRoom?.name ?? "Stanza da assegnare",
+          roomSlug: slotRoom?.slug ?? null,
           isAvailable,
           conflictReason: doctorConflict ? "Medico occupato" : roomConflict ? "Stanza occupata" : undefined,
         });
       }
     }
 
-    return NextResponse.json({ date, weekday, totalSlots: slots.length, slots });
+    slots.sort((a, b) => a.time.localeCompare(b.time) || a.doctorName.localeCompare(b.doctorName));
+
+    return NextResponse.json({ date, weekday, totalSlots: slots.length, slots, rooms });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Errore generazione slot";
     return NextResponse.json({ error: message }, { status: 500 });
@@ -146,10 +220,54 @@ export async function POST(req: Request) {
   try {
     const supabase = getServiceSupabase();
     const body = await req.json();
-    const { doctorId, roomId, date, time, durationMinutes = 30, patientName, patientPhone, patientEmail, notes } = body;
+    const {
+      doctorId,
+      roomId,
+      serviceId,
+      date,
+      time,
+      durationMinutes = 30,
+      patientName,
+      patientPhone,
+      patientEmail,
+      notes,
+    } = body;
 
     if (!doctorId || !date || !time || !patientName || !patientPhone) {
       return NextResponse.json({ error: "Dati prenotazione incompleti" }, { status: 400 });
+    }
+
+    // 0. Validazione prestazione (se fornita)
+    let validServiceId: string | null = null;
+    if (serviceId) {
+      const valid = await serviceExists(supabase, serviceId);
+      if (!valid) {
+        return NextResponse.json({ error: "Prestazione non valida o non attiva." }, { status: 400 });
+      }
+      validServiceId = serviceId;
+    }
+
+    // Sala: se non indicata, assegna quella predefinita per la specialità del medico
+    let resolvedRoomId: string | null = roomId || null;
+    if (!resolvedRoomId) {
+      const { data: doctor } = await supabase
+        .from("doctors")
+        .select("id, full_name, specialty_slug")
+        .eq("id", doctorId)
+        .maybeSingle();
+
+      if (doctor) {
+        const rooms = await loadRooms(supabase);
+        const slotRoom = resolveRoomForDoctor(
+          {
+            fullName: doctor.full_name as string | null,
+            specialtySlug: doctor.specialty_slug as string | null,
+            roomId: null,
+          },
+          rooms
+        );
+        resolvedRoomId = slotRoom?.id ?? null;
+      }
     }
 
     const startsAt = new Date(`${date}T${time}:00Z`).toISOString();
@@ -169,11 +287,11 @@ export async function POST(req: Request) {
     }
 
     // 2. Conflict Check: is room free?
-    if (roomId) {
+    if (resolvedRoomId) {
       const { data: roomConflicts } = await supabase
         .from("appointments")
         .select("id")
-        .eq("room_id", roomId)
+        .eq("room_id", resolvedRoomId)
         .neq("status", "annullato")
         .lt("starts_at", endsAt)
         .gt("ends_at", startsAt);
@@ -219,7 +337,8 @@ export async function POST(req: Request) {
       .from("appointments")
       .insert({
         doctor_id: doctorId,
-        room_id: roomId || null,
+        room_id: resolvedRoomId,
+        service_id: validServiceId,
         patient_id: patientId,
         starts_at: startsAt,
         ends_at: endsAt,
@@ -232,7 +351,7 @@ export async function POST(req: Request) {
 
     if (aError) throw aError;
 
-    return NextResponse.json({ success: true, appointment });
+    return NextResponse.json({ success: true, appointmentId: appointment.id, appointment });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Errore creazione appuntamento";
     return NextResponse.json({ error: message }, { status: 500 });

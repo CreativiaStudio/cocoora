@@ -65,6 +65,18 @@ const ROOM_EQUIPMENT: Record<string, string[]> = {
     "Ultrasuoni Focalizzati CFU",
     "Carbossiterapia CO2 Medicale",
   ],
+  "studio-4": [
+    "Ecografo HD Multidisciplinare",
+    "Lampada a fessura Oculistica",
+    "Visite Senologiche",
+    "Refertazione Digitale HD",
+  ],
+  "sala-opt": [
+    "Ortopantomografo 3D CBCT",
+    "Teleradiografia Digitale",
+    "Sensoristica a bassa dose",
+    "Acquisizione Panoramica",
+  ],
 };
 
 export function RoomsManager() {

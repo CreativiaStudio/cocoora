@@ -29,67 +29,60 @@ type MockDoctor = {
 
 const MOCK_DOCTORS: MockDoctor[] = [
   {
-    id: "doc-antonio-sorrentino",
-    name: "Dr. Antonio Sorrentino",
-    area: "odontoiatria",
-    roomId: "studio-1",
-    roomName: "Studio 1",
-  },
-  {
-    id: "doc-elisa-russo",
+    id: "7f203a0c-a916-4782-be8c-d3b6658f5180",
     name: "Dr.ssa Elisa Russo",
     area: "odontoiatria",
     roomId: "studio-1",
-    roomName: "Studio 1",
+    roomName: "Studio 1 (Odontoiatria)",
   },
   {
-    id: "doc-chiara-del-prete",
-    name: "Dr.ssa Chiara Del Prete",
+    id: "eabac97b-7083-41f9-9163-176e03b6f2a6",
+    name: "Dr. Raffaele D'Alessio",
+    area: "odontoiatria",
+    roomId: "studio-1",
+    roomName: "Studio 1 (Odontoiatria)",
+  },
+  {
+    id: "a33ac8ec-64e2-4c54-be98-78b083184928",
+    name: "Prof. Dr. Francesco D'Andrea",
     area: "medicina_estetica",
     roomId: "studio-2",
-    roomName: "Studio 2",
+    roomName: "Studio 2 (Chirurgia Ambulatoriale)",
   },
   {
-    id: "doc-paola-ruggiero",
-    name: "Dr.ssa Paola Ruggiero",
+    id: "c100ee52-1cae-4727-8be7-b7adab675db3",
+    name: "Dott.ssa Titti Errico",
     area: "medicina_estetica",
     roomId: "studio-3",
-    roomName: "Studio 3",
+    roomName: "Studio 3 (Medicina Estetica · Laser)",
   },
   {
-    id: "doc-giulia-ferraro",
-    name: "Dr.ssa Giulia Ferraro",
-    area: "visite_specialistiche",
-    roomId: "studio-2",
-    roomName: "Studio 2",
+    id: "b85be9a4-683d-496d-8160-60d8d8b74ae2",
+    name: "Dott.ssa Alessandra Riccardi",
+    area: "medicina_estetica",
+    roomId: "studio-3",
+    roomName: "Studio 3 (Medicina Estetica · Laser)",
   },
   {
-    id: "doc-marco-esposito",
-    name: "Dr. Marco Esposito",
-    area: "visite_specialistiche",
-    roomId: "studio-2",
-    roomName: "Studio 2",
-  },
-  {
-    id: "doc-francesca-greco",
-    name: "Dr.ssa Francesca Greco",
-    area: "visite_specialistiche",
-    roomId: "studio-2",
-    roomName: "Studio 2",
-  },
-  {
-    id: "doc-anna-romano",
-    name: "Dr.ssa Anna Romano",
-    area: "visite_specialistiche",
-    roomId: "studio-2",
-    roomName: "Studio 2",
-  },
-  {
-    id: "doc-luca-costa",
-    name: "Dr. Luca Costa",
+    id: "786329db-e9c9-4545-a42b-f587365624f4",
+    name: "Dr. Mario Toro",
     area: "visite_specialistiche",
     roomId: "studio-4",
-    roomName: "Studio 4",
+    roomName: "Studio 4 (Oculistica)",
+  },
+  {
+    id: "7840978e-48e7-425c-8882-d0096b07faed",
+    name: "Dr. Giuseppe Buono",
+    area: "visite_specialistiche",
+    roomId: "studio-4",
+    roomName: "Studio 4 (Ecografia & Senologia)",
+  },
+  {
+    id: "9f4439ab-ca73-4226-96c6-03b1de037769",
+    name: "Dr. Nicola Rocco",
+    area: "visite_specialistiche",
+    roomId: "studio-4",
+    roomName: "Studio 4 (Senologia)",
   },
 ];
 
@@ -502,22 +495,25 @@ function roomForService(service: ServiceSearchResult): {
 } {
   const name = normalize(`${service.name} ${service.specialty ?? ""}`);
 
-  if (name.includes("ocul")) {
+  if (name.includes("opt") || name.includes("panoram") || name.includes("ortopant") || name.includes("cbct") || name.includes("teleradiog")) {
+    return { roomId: "sala-opt", roomName: "Sala OPT" };
+  }
+  if (name.includes("ocul") || name.includes("senol") || name.includes("ecograf") || name.includes("vista") || name.includes("mamm")) {
     return { roomId: "studio-4", roomName: "Studio 4" };
   }
-  if (name.includes("laser")) {
+  if (name.includes("laser") || name.includes("skin") || name.includes("filler") || name.includes("botox") || name.includes("peeling") || name.includes("bioriv")) {
     return { roomId: "studio-3", roomName: "Studio 3" };
   }
-  if (name.includes("criolipolisi")) {
+  if (name.includes("criolipolisi") || name.includes("carbossi") || name.includes("chirurg") || name.includes("ambulatorial")) {
     return { roomId: "studio-2", roomName: "Studio 2" };
   }
-  if (service.area === "odontoiatria") {
+  if (service.area === "odontoiatria" || name.includes("dent") || name.includes("igiene") || name.includes("ortod") || name.includes("sbianca")) {
     return { roomId: "studio-1", roomName: "Studio 1" };
   }
   if (service.area === "medicina_estetica") {
-    return { roomId: "studio-2", roomName: "Studio 2" };
+    return { roomId: "studio-3", roomName: "Studio 3" };
   }
-  return { roomId: "studio-2", roomName: "Studio 2" };
+  return { roomId: "studio-4", roomName: "Studio 4" };
 }
 
 function doctorsForService(
@@ -531,24 +527,20 @@ function doctorsForService(
 
   const name = normalize(`${service.name} ${service.specialty ?? ""}`);
 
-  if (name.includes("ocul")) {
-    return MOCK_DOCTORS.filter((doctor) => doctor.id === "doc-luca-costa");
+  if (name.includes("ocul") || name.includes("vista")) {
+    return MOCK_DOCTORS.filter((doctor) => doctor.id === "786329db-e9c9-4545-a42b-f587365624f4");
   }
-  if (name.includes("cardio")) {
-    return MOCK_DOCTORS.filter((doctor) => doctor.id === "doc-marco-esposito");
+  if (name.includes("senol") || name.includes("ecograf") || name.includes("mamm")) {
+    return MOCK_DOCTORS.filter((doctor) => doctor.id === "7840978e-48e7-425c-8882-d0096b07faed" || doctor.id === "9f4439ab-ca73-4226-96c6-03b1de037769");
   }
-  if (name.includes("gineco")) {
-    return MOCK_DOCTORS.filter((doctor) => doctor.id === "doc-francesca-greco");
+  if (name.includes("chirurg") || name.includes("ambulatorial")) {
+    return MOCK_DOCTORS.filter((doctor) => doctor.id === "a33ac8ec-64e2-4c54-be98-78b083184928");
   }
-  if (name.includes("pediatr")) {
-    return MOCK_DOCTORS.filter((doctor) => doctor.id === "doc-anna-romano");
+  if (name.includes("laser") || name.includes("filler") || name.includes("estet") || name.includes("skin") || name.includes("peeling")) {
+    return MOCK_DOCTORS.filter((doctor) => doctor.id === "c100ee52-1cae-4727-8be7-b7adab675db3" || doctor.id === "b85be9a4-683d-496d-8160-60d8d8b74ae2");
   }
-  if (
-    name.includes("dermat") ||
-    name.includes("mappatura") ||
-    name.includes("nei")
-  ) {
-    return MOCK_DOCTORS.filter((doctor) => doctor.id === "doc-giulia-ferraro");
+  if (service.area === "odontoiatria" || name.includes("dent") || name.includes("igiene") || name.includes("ortod")) {
+    return MOCK_DOCTORS.filter((doctor) => doctor.id === "7f203a0c-a916-4782-be8c-d3b6658f5180" || doctor.id === "eabac97b-7083-41f9-9163-176e03b6f2a6");
   }
 
   const byArea = MOCK_DOCTORS.filter((doctor) => doctor.area === service.area);
@@ -675,26 +667,30 @@ function mapDbPatient(row: Record<string, unknown>): PatientSearchResult {
 }
 
 function mapDbService(row: Record<string, unknown>): ServiceSearchResult {
-  const area = (text(row.area) ?? "visite_specialistiche") as ClinicalArea;
+  const cat = normalize(text(pick(row, "category", "area")) ?? "");
+  let area: ClinicalArea = "visite_specialistiche";
+  if (cat.includes("odont") || cat.includes("dent")) area = "odontoiatria";
+  else if (cat.includes("estet") || cat.includes("laser")) area = "medicina_estetica";
+
   const vatRegime = (text(pick(row, "vat_regime", "vatRegime")) ??
     "esente_art10") as VatRegime;
   const billingEntity = (text(pick(row, "billing_entity", "billingEntity")) ??
     "cocoora_stp") as BillingEntity;
+
+  const rawPrice = numberValue(pick(row, "price_cents", "priceCents", "base_price", "prezzo"), 0);
+  const priceCents = rawPrice > 1000 ? Math.round(rawPrice) : Math.round(rawPrice * 100);
 
   return {
     id: text(row.id) ?? `svc-${Math.random().toString(36).slice(2, 10)}`,
     code: text(pick(row, "code", "codice")) ?? "COC-000",
     name: text(pick(row, "name", "nome")) ?? "Prestazione",
     area,
-    specialty: text(pick(row, "specialty", "specialita")),
+    specialty: text(pick(row, "category", "specialty", "specialita")),
     totalDurationMin: numberValue(
-      pick(row, "total_duration_min", "totalDurationMin", "duration_min"),
+      pick(row, "duration_minutes", "total_duration_min", "totalDurationMin", "duration_min"),
       30
     ),
-    priceCents: numberValue(
-      pick(row, "price_cents", "priceCents", "prezzo_centesimi"),
-      0
-    ),
+    priceCents,
     vatRegime,
     billingEntity,
     isCoveredByMembership: booleanValue(
@@ -771,14 +767,14 @@ export async function searchPatientsAction(
 
     if (safe.length >= 2) {
       const { data, error } = await supabase
-        .from("patients")
+        .from("patient_profiles")
         .select("*")
         .or(
           [
             `phone.ilike.%${safe}%`,
             `last_name.ilike.%${safe}%`,
             `first_name.ilike.%${safe}%`,
-            `fiscal_code.ilike.%${safe}%`,
+            `email.ilike.%${safe}%`,
           ].join(",")
         )
         .limit(8);
@@ -789,7 +785,7 @@ export async function searchPatientsAction(
       if (rows.length > 0) return rows.map(mapDbPatient);
 
       const { count, error: countError } = await supabase
-        .from("patients")
+        .from("patient_profiles")
         .select("id", { count: "exact", head: true });
 
       if (!countError && (count ?? 0) === 0) return mockSearchPatients(raw);
@@ -818,16 +814,16 @@ export async function searchServicesAction(
 
     if (safe.length >= 1) {
       const { data, error } = await supabase
-        .from("services")
+        .from("medical_services")
         .select("*")
         .or(
           [
             `name.ilike.%${safe}%`,
             `code.ilike.%${safe}%`,
-            `specialty.ilike.%${safe}%`,
+            `category.ilike.%${safe}%`,
           ].join(",")
         )
-        .limit(8);
+        .limit(12);
 
       if (error) return mockSearchServices(raw);
 
@@ -835,11 +831,21 @@ export async function searchServicesAction(
       if (rows.length > 0) return rows.map(mapDbService);
 
       const { count, error: countError } = await supabase
-        .from("services")
+        .from("medical_services")
         .select("id", { count: "exact", head: true });
 
       if (!countError && (count ?? 0) === 0) return mockSearchServices(raw);
       return [];
+    }
+
+    const { data: defaultServices } = await supabase
+      .from("medical_services")
+      .select("*")
+      .eq("is_active", true)
+      .limit(10);
+
+    if (defaultServices && defaultServices.length > 0) {
+      return (defaultServices as unknown as Record<string, unknown>[]).map(mapDbService);
     }
 
     return MOCK_SERVICES.slice(0, 6);
@@ -854,9 +860,9 @@ async function findServiceById(
   try {
     const supabase = getServiceSupabase();
     const { data, error } = await supabase
-      .from("services")
+      .from("medical_services")
       .select("*")
-      .eq("id", serviceId)
+      .or(`id.eq.${serviceId},code.eq.${serviceId}`)
       .maybeSingle();
 
     if (!error && data) {
@@ -1109,7 +1115,7 @@ export async function quickCreatePatientAction(data: {
     const supabase = getServiceSupabase();
 
     const { data: existingRows, error: existingError } = await supabase
-      .from("patients")
+      .from("patient_profiles")
       .select("*")
       .eq("phone", phone)
       .limit(1);
@@ -1124,11 +1130,12 @@ export async function quickCreatePatientAction(data: {
     }
 
     const { data: inserted, error: insertError } = await supabase
-      .from("patients")
+      .from("patient_profiles")
       .insert({
         first_name: firstName,
         last_name: lastName,
         phone,
+        patient_code: `COC-PZ-${Math.floor(10000 + Math.random() * 90000)}`,
       })
       .select("*")
       .single();

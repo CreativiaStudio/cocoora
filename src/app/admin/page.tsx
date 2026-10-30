@@ -101,7 +101,7 @@ export default function AdminPage() {
               onClick={() => setTab("calendar")}
               icon={<Calendar className="h-4 w-4" />}
               label="Calendario & Incrocio"
-              badge="3 Sale"
+              badge="4 Studi + OPT"
             />
 
             <SidebarItem
@@ -117,7 +117,7 @@ export default function AdminPage() {
               onClick={() => setTab("rooms")}
               icon={<DoorOpen className="h-4 w-4" />}
               label="Stanze & Spazi"
-              badge="Studio 1-3"
+              badge="4 Studi + OPT"
             />
 
             <SidebarItem
@@ -305,7 +305,7 @@ export default function AdminPage() {
                 Pannello Direzionale Cocoora Centro Medico
               </h1>
               <p className="text-xs text-[#50575e] mt-1">
-                Panoramica operativa dello studio: 18 medici accreditati, 3 stanze specializzate e sincronizzazione in tempo reale con il Cloud Sanitario.
+                Panoramica operativa dello studio: 18 medici accreditati, 4 studi specializzati più la sala OPT e sincronizzazione in tempo reale con il Cloud Sanitario.
               </p>
 
               <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
@@ -321,8 +321,8 @@ export default function AdminPage() {
                   <p className="text-[11px] font-bold uppercase tracking-wider text-[#50575e]">
                     Stanze Operative
                   </p>
-                  <p className="text-3xl font-bold text-[#1d2327] mt-1">3</p>
-                  <p className="text-[11px] text-teal-700 mt-1">Studio 1, 2, 3</p>
+                  <p className="text-3xl font-bold text-[#1d2327] mt-1">5</p>
+                  <p className="text-[11px] text-teal-700 mt-1">Studio 1-4 + OPT</p>
                 </div>
 
                 <div className="rounded-lg border border-[#dcdcde] bg-[#f6f7f7] p-4">
