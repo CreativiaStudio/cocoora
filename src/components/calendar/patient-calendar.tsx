@@ -17,11 +17,27 @@ import {
   Sparkles,
   Stethoscope,
   User,
+  UserCheck,
   X,
 } from "lucide-react";
 import { Button } from "@/components/ui";
 import { computeAvailableSlots, type Slot } from "@/lib/slot-engine";
 import { supabase } from "@/lib/supabase";
+
+export type LoggedPatient = {
+  id: string;
+  patient_code?: string;
+  first_name: string;
+  last_name: string;
+  phone?: string | null;
+  email?: string | null;
+  notes?: string | null;
+};
+
+export type PatientCalendarProps = {
+  patient?: LoggedPatient | null;
+  onBookingComplete?: () => void;
+};
 
 type MedicalService = {
   id: string;
@@ -42,7 +58,7 @@ const CATEGORY_TABS = [
   { id: "specialistica", label: "🩺 Visite Specialistiche & Diagnostica" },
 ];
 
-export function PatientCalendar() {
+export function PatientCalendar({ patient, onBookingComplete }: PatientCalendarProps = {}) {
   const [step, setStep] = useState<Step>(1);
 
   // STEP 1 STATE: SERVICES
@@ -72,6 +88,18 @@ export function PatientCalendar() {
   const [submitting, setSubmitting] = useState(false);
   const [bookingError, setBookingError] = useState<string | null>(null);
   const [confirmedBookingId, setConfirmedBookingId] = useState<string | null>(null);
+
+  // Auto-prefill se il paziente è già autenticato nell'area riservata
+  useEffect(() => {
+    if (patient) {
+      setForm((prev) => ({
+        ...prev,
+        name: `${patient.first_name || ""} ${patient.last_name || ""}`.trim(),
+        phone: patient.phone || prev.phone,
+        email: patient.email || prev.email,
+      }));
+    }
+  }, [patient]);
 
   // 1. Carica il catalogo prestazioni mediche attive prenotabili online
   useEffect(() => {
@@ -219,6 +247,10 @@ export function PatientCalendar() {
     setBookingError(null);
 
     const duration = selectedService?.duration_minutes || 30;
+    const patientName = (patient ? `${patient.first_name} ${patient.last_name}` : form.name).trim();
+    const patientPhone = (patient ? (patient.phone || form.phone) : form.phone).trim();
+    const patientEmail = (patient ? (patient.email || form.email) : form.email).trim();
+    const patientId = patient?.id;
 
     try {
       const res = await fetch("/api/calendar/slots", {
@@ -228,12 +260,13 @@ export function PatientCalendar() {
           doctorId: selectedSlot.doctorId,
           roomId: selectedSlot.roomId,
           serviceId: selectedService?.id,
+          patientId: patientId,
           date: selectedSlot.date,
           time: selectedSlot.time,
           durationMinutes: duration,
-          patientName: form.name.trim(),
-          patientPhone: form.phone.trim(),
-          patientEmail: form.email.trim() || undefined,
+          patientName,
+          patientPhone,
+          patientEmail: patientEmail || undefined,
           notes: form.notes.trim() || undefined,
         }),
       });
@@ -243,29 +276,32 @@ export function PatientCalendar() {
         if (data.success) {
           setConfirmedBookingId(data.appointmentId || `COC-APT-${Math.floor(10000 + Math.random() * 90000)}`);
           setStep(4);
+          if (onBookingComplete) onBookingComplete();
           return;
         }
       }
 
       // Fallback Supabase diretto
-      const nameParts = form.name.trim().split(" ");
-      const firstName = nameParts[0] || "Paziente";
-      const lastName = nameParts.slice(1).join(" ") || "Cocoora";
+      let pId: string | null = patientId || null;
+      if (!pId) {
+        const nameParts = patientName.split(" ");
+        const firstName = nameParts[0] || "Paziente";
+        const lastName = nameParts.slice(1).join(" ") || "Cocoora";
 
-      let pId: string | null = null;
-      const { data: pData } = await supabase
-        .from("patient_profiles")
-        .insert({
-          patient_code: `COC-PZ-${Math.floor(10000 + Math.random() * 90000)}`,
-          first_name: firstName,
-          last_name: lastName,
-          phone: form.phone.trim(),
-          email: form.email.trim() || null,
-        })
-        .select("id")
-        .single();
+        const { data: pData } = await supabase
+          .from("patient_profiles")
+          .insert({
+            patient_code: `COC-PZ-${Math.floor(10000 + Math.random() * 90000)}`,
+            first_name: firstName,
+            last_name: lastName,
+            phone: patientPhone,
+            email: patientEmail || null,
+          })
+          .select("id")
+          .single();
 
-      if (pData) pId = pData.id;
+        if (pData) pId = pData.id;
+      }
 
       const startsAt = new Date(`${selectedSlot.date}T${selectedSlot.time}:00Z`).toISOString();
       const endsAt = new Date(new Date(startsAt).getTime() + duration * 60 * 1000).toISOString();
@@ -290,6 +326,7 @@ export function PatientCalendar() {
 
       setConfirmedBookingId(apptData?.id || `COC-APT-${Math.floor(10000 + Math.random() * 90000)}`);
       setStep(4);
+      if (onBookingComplete) onBookingComplete();
     } catch (err: unknown) {
       console.error("Errore prenotazione", err);
       setBookingError("Non è stato possibile completare la prenotazione. Contatta la nostra reception al 081 18182091.");
@@ -748,62 +785,104 @@ export function PatientCalendar() {
             onSubmit={handleConfirmBooking}
             className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/90 shadow-xs space-y-4"
           >
-            <h4 className="font-serif text-base font-bold text-slate-900 border-b border-slate-100 pb-3">
-              Inserisci i tuoi dati di contatto per la conferma
-            </h4>
+            {patient ? (
+              <div className="rounded-2xl bg-teal-50/70 p-5 border border-teal-100/90 space-y-3">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                  <div className="flex items-center gap-2.5">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1C4A5C] text-white shrink-0">
+                      <UserCheck className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-teal-800">
+                        Paziente Riconosciuto · Area Personale
+                      </span>
+                      <h4 className="font-serif text-base font-bold text-slate-900">
+                        {patient.first_name} {patient.last_name}
+                      </h4>
+                    </div>
+                  </div>
+                  {patient.patient_code && (
+                    <span className="self-start sm:self-center text-xs font-mono font-bold text-teal-900 bg-white px-2.5 py-1 rounded-lg border border-teal-200">
+                      {patient.patient_code}
+                    </span>
+                  )}
+                </div>
+
+                <div className="grid sm:grid-cols-2 gap-3 pt-3 border-t border-teal-100 text-xs text-slate-700">
+                  <div className="flex items-center gap-2">
+                    <Phone className="h-3.5 w-3.5 text-teal-700 shrink-0" />
+                    <span>Conferma SMS: <strong>{patient.phone || "Registrato nel fascicolo"}</strong></span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <User className="h-3.5 w-3.5 text-teal-700 shrink-0" />
+                    <span>Email promemoria: <strong>{patient.email || "Registrata nel fascicolo"}</strong></span>
+                  </div>
+                </div>
+
+                <p className="text-[11px] text-teal-800/80">
+                  ✓ Nessun dato da digitare: l&apos;appuntamento verrà collegato automaticamente al tuo fascicolo sanitario Cocoora.
+                </p>
+              </div>
+            ) : (
+              <>
+                <h4 className="font-serif text-base font-bold text-slate-900 border-b border-slate-100 pb-3">
+                  Inserisci i tuoi dati di contatto per la conferma
+                </h4>
+
+                <div>
+                  <label className="block text-xs font-semibold text-slate-900 mb-1">
+                    Nome e Cognome *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={form.name}
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
+                    placeholder="es. Mario Rossi"
+                    className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm text-slate-800 focus:border-[#1C4A5C] focus:outline-none"
+                  />
+                </div>
+
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-900 mb-1">
+                      Numero di Telefono (per conferma SMS) *
+                    </label>
+                    <input
+                      type="tel"
+                      required
+                      value={form.phone}
+                      onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                      placeholder="333 1234567"
+                      className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm text-slate-800 focus:border-[#1C4A5C] focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-semibold text-slate-900 mb-1">
+                      Email (per promemoria digitale)
+                    </label>
+                    <input
+                      type="email"
+                      value={form.email}
+                      onChange={(e) => setForm({ ...form, email: e.target.value })}
+                      placeholder="mario.rossi@email.it"
+                      className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm text-slate-800 focus:border-[#1C4A5C] focus:outline-none"
+                    />
+                  </div>
+                </div>
+              </>
+            )}
 
             <div>
               <label className="block text-xs font-semibold text-slate-900 mb-1">
-                Nome e Cognome *
-              </label>
-              <input
-                type="text"
-                required
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-                placeholder="es. Mario Rossi"
-                className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm text-slate-800 focus:border-[#1C4A5C] focus:outline-none"
-              />
-            </div>
-
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-semibold text-slate-900 mb-1">
-                  Numero di Telefono (per conferma SMS) *
-                </label>
-                <input
-                  type="tel"
-                  required
-                  value={form.phone}
-                  onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                  placeholder="333 1234567"
-                  className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm text-slate-800 focus:border-[#1C4A5C] focus:outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-slate-900 mb-1">
-                  Email (per promemoria digitale)
-                </label>
-                <input
-                  type="email"
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  placeholder="mario.rossi@email.it"
-                  className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm text-slate-800 focus:border-[#1C4A5C] focus:outline-none"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-xs font-semibold text-slate-900 mb-1">
-                Eventuali note per lo specialista o la reception
+                Eventuali note per lo specialista o la reception (opzionale)
               </label>
               <textarea
                 rows={2}
                 value={form.notes}
                 onChange={(e) => setForm({ ...form, notes: e.target.value })}
-                placeholder="Es. Prima visita di controllo, fastidio a un dente, richiesta chiarimento..."
+                placeholder="Es. Richiesta controllo particolare, preferenze orario..."
                 className="w-full rounded-xl border border-slate-200 px-3.5 py-2 text-sm text-slate-800 focus:border-[#1C4A5C] focus:outline-none resize-none"
               />
             </div>
@@ -824,7 +903,11 @@ export function PatientCalendar() {
                 ← Torna agli orari
               </button>
               <Button type="submit" size="md" disabled={submitting}>
-                {submitting ? "Registrazione in corso..." : "Conferma Prenotazione"}
+                {submitting
+                  ? "Registrazione in corso..."
+                  : patient
+                  ? "Conferma Prenotazione Istantanea"
+                  : "Conferma Prenotazione"}
               </Button>
             </div>
           </form>

@@ -523,7 +523,12 @@ export function PatientPortal() {
             </p>
           </div>
           <div className="mt-6">
-            <PatientCalendar />
+            <PatientCalendar
+              patient={patient}
+              onBookingComplete={() => {
+                if (selectedCode) fetchPortalData(selectedCode);
+              }}
+            />
           </div>
         </div>
       )}

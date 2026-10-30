@@ -224,6 +224,7 @@ export async function POST(req: Request) {
       doctorId,
       roomId,
       serviceId,
+      patientId: directPatientId,
       date,
       time,
       durationMinutes = 30,
@@ -233,7 +234,7 @@ export async function POST(req: Request) {
       notes,
     } = body;
 
-    if (!doctorId || !date || !time || !patientName || !patientPhone) {
+    if (!doctorId || !date || !time || (!directPatientId && (!patientName || !patientPhone))) {
       return NextResponse.json({ error: "Dati prenotazione incompleti" }, { status: 400 });
     }
 
@@ -301,34 +302,37 @@ export async function POST(req: Request) {
       }
     }
 
-    // 3. Find or create patient profile
-    const nameParts = patientName.trim().split(" ");
-    const firstName = nameParts[0] || "Paziente";
-    const lastName = nameParts.slice(1).join(" ") || "Cocoora";
+    let patientId: string | null = directPatientId || null;
 
-    let patientId: string | null = null;
-    const { data: existingPatient } = await supabase
-      .from("patient_profiles")
-      .select("id")
-      .eq("phone", patientPhone)
-      .single();
-
-    if (existingPatient) {
-      patientId = existingPatient.id;
-    } else {
-      const { data: newPatient, error: pError } = await supabase
+    if (!patientId) {
+      const { data: existingPatient } = await supabase
         .from("patient_profiles")
-        .insert({
-          first_name: firstName,
-          last_name: lastName,
-          phone: patientPhone,
-          email: patientEmail || null,
-        })
         .select("id")
-        .single();
+        .eq("phone", patientPhone)
+        .maybeSingle();
 
-      if (!pError && newPatient) {
-        patientId = newPatient.id;
+      if (existingPatient) {
+        patientId = existingPatient.id;
+      } else {
+        const nameParts = (patientName || "Paziente").trim().split(" ");
+        const firstName = nameParts[0] || "Paziente";
+        const lastName = nameParts.slice(1).join(" ") || "Cocoora";
+
+        const { data: newPatient, error: pError } = await supabase
+          .from("patient_profiles")
+          .insert({
+            patient_code: `COC-PZ-${Math.floor(10000 + Math.random() * 90000)}`,
+            first_name: firstName,
+            last_name: lastName,
+            phone: patientPhone || "",
+            email: patientEmail || null,
+          })
+          .select("id")
+          .single();
+
+        if (!pError && newPatient) {
+          patientId = newPatient.id;
+        }
       }
     }
 
