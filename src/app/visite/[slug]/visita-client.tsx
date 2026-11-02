@@ -146,22 +146,31 @@ export function VisitaClient({ visita }: { visita: VisitaSpecialistica }) {
       {visita.whatIs && (
         <section className="py-16 bg-sand-50/60 border-b border-sand-200">
           <Container>
-            <div className="mx-auto max-w-3xl">
-              <div className="text-center">
+            <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl border border-sand-300 shadow-md">
+                <Image
+                  src={visita.whatIs.image || visita.galleryImages[1] || visita.heroImage}
+                  alt={`${visita.title} — approfondimento`}
+                  fill
+                  sizes="(min-width: 1024px) 50vw, 90vw"
+                  className="object-cover"
+                />
+              </div>
+
+              <div>
                 <span className="text-xs font-semibold uppercase tracking-wider text-teal-800">
                   Approfondimento Clinico
                 </span>
                 <h2 className="mt-2 font-serif text-2xl font-semibold text-teal-900 sm:text-3xl">
                   {visita.whatIs.title}
                 </h2>
-              </div>
-
-              <div className="mt-8 space-y-4 text-sm leading-relaxed text-charcoal/80 sm:text-base">
-                {visita.whatIs.paragraphs && visita.whatIs.paragraphs.length > 0 ? (
-                  visita.whatIs.paragraphs.map((p, i) => <p key={i}>{p}</p>)
-                ) : (
-                  <p>{visita.whatIs.description}</p>
-                )}
+                <div className="mt-6 space-y-4 text-sm leading-relaxed text-charcoal/80 sm:text-base">
+                  {visita.whatIs.paragraphs && visita.whatIs.paragraphs.length > 0 ? (
+                    visita.whatIs.paragraphs.map((p, i) => <p key={i}>{p}</p>)
+                  ) : (
+                    <p>{visita.whatIs.description}</p>
+                  )}
+                </div>
               </div>
             </div>
           </Container>
@@ -239,22 +248,31 @@ export function VisitaClient({ visita }: { visita: VisitaSpecialistica }) {
       {visita.results && (visita.results.description || (visita.results.paragraphs && visita.results.paragraphs.length > 0)) && (
         <section className="py-16 bg-white border-b border-sand-200">
           <Container>
-            <div className="mx-auto max-w-3xl">
-              <div className="text-center">
+            <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
+              <div>
                 <span className="text-xs font-semibold uppercase tracking-wider text-teal-800">
                   Refertazione & Esito
                 </span>
                 <h2 className="mt-2 font-serif text-2xl font-semibold text-teal-900 sm:text-3xl">
                   {visita.results.title}
                 </h2>
+                <div className="mt-6 space-y-4 text-sm leading-relaxed text-charcoal/80 sm:text-base">
+                  {visita.results.paragraphs && visita.results.paragraphs.length > 0 ? (
+                    visita.results.paragraphs.map((p, i) => <p key={i}>{p}</p>)
+                  ) : (
+                    <p>{visita.results.description}</p>
+                  )}
+                </div>
               </div>
 
-              <div className="mt-8 space-y-4 text-sm leading-relaxed text-charcoal/80 sm:text-base">
-                {visita.results.paragraphs && visita.results.paragraphs.length > 0 ? (
-                  visita.results.paragraphs.map((p, i) => <p key={i}>{p}</p>)
-                ) : (
-                  <p>{visita.results.description}</p>
-                )}
+              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl border border-sand-300 shadow-md">
+                <Image
+                  src={visita.results.image || visita.galleryImages[2] || visita.galleryImages[1] || visita.heroImage}
+                  alt={`${visita.title} — esito e refertazione`}
+                  fill
+                  sizes="(min-width: 1024px) 50vw, 90vw"
+                  className="object-cover"
+                />
               </div>
             </div>
           </Container>

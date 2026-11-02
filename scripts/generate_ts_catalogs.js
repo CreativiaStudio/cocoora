@@ -108,6 +108,8 @@ for (const m of ODON_MAPPING) {
   const images = getImages('public/images/trattamenti/odontoiatria', m.imgPrefix);
   const heroImage = images[0] || `/images/trattamenti/odontoiatria/${m.imgPrefix}-napoli-1.jpg`;
   const galleryImages = images.length > 0 ? images : [heroImage];
+  const whatIsImage = galleryImages[1] || heroImage;
+  const resultsImage = galleryImages[2] || galleryImages[1] || heroImage;
 
   const treatment = {
     slug: m.slug,
@@ -129,7 +131,8 @@ for (const m of ODON_MAPPING) {
     whatIs: {
       title: d.whatIs.title || `Che cos’è ${d.title}?`,
       description: d.whatIs.description,
-      paragraphs: d.whatIs.paragraphs
+      paragraphs: d.whatIs.paragraphs,
+      image: whatIsImage
     },
     problemsTitle: d.problemsTitle || 'Cosa vorresti migliorare?',
     problemsGrid: d.problemsGrid,
@@ -143,7 +146,8 @@ for (const m of ODON_MAPPING) {
     results: {
       title: d.results.title || 'Cosa aspettarsi dal trattamento',
       description: d.results.description,
-      paragraphs: d.results.paragraphs
+      paragraphs: d.results.paragraphs,
+      image: resultsImage
     },
     faq: d.faq,
     localSeo: {
@@ -269,6 +273,8 @@ for (const m of VISITE_MAPPING) {
   const images = getImages('public/images/visite', m.imgPrefix);
   const heroImage = images[0] || `/images/visite/${m.imgPrefix}-napoli-1.jpg`;
   const galleryImages = images.length > 0 ? images : [heroImage];
+  const whatIsImage = galleryImages[1] || heroImage;
+  const resultsImage = galleryImages[2] || galleryImages[1] || heroImage;
 
   const item = {
     slug: m.slug,
@@ -288,7 +294,8 @@ for (const m of VISITE_MAPPING) {
     whatIs: {
       title: d.whatIs.title || `In cosa consiste la ${d.title}?`,
       description: d.whatIs.description,
-      paragraphs: d.whatIs.paragraphs
+      paragraphs: d.whatIs.paragraphs,
+      image: whatIsImage
     },
     problemsTitle: d.problemsTitle || 'Quando è indicata?',
     problemsGrid: d.problemsGrid,
@@ -301,7 +308,8 @@ for (const m of VISITE_MAPPING) {
     results: {
       title: d.results.title || 'Cosa comprende e refertazione',
       description: d.results.description,
-      paragraphs: d.results.paragraphs
+      paragraphs: d.results.paragraphs,
+      image: resultsImage
     },
     faq: d.faq,
     localSeo: {
@@ -325,12 +333,12 @@ export type VisitaSpecialistica = {
   galleryImages: string[];
   heroCta: string;
   seo?: { metaTitle?: string; metaDescription?: string; keywordMain?: string; keywordSec?: string };
-  whatIs: { title: string; description: string; paragraphs: string[] };
+  whatIs: { title: string; description: string; paragraphs: string[]; image?: string };
   problemsTitle: string;
   problemsGrid: { title: string; description: string }[];
   timelineTitle: string;
   timelineSteps: { stepNumber: string; title: string; description: string }[];
-  results: { title: string; description: string; paragraphs: string[] };
+  results: { title: string; description: string; paragraphs: string[]; image?: string };
   faq: Faq[];
   localSeo: { title: string; description: string; cta: string };
 };

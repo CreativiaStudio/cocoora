@@ -10,6 +10,15 @@ const nextConfig = {
     // Il type-checking resta attivo: nessun errore TypeScript deve passare.
     ignoreBuildErrors: false,
   },
+  async redirects() {
+    return [
+      {
+        source: "/visite/ecografia",
+        destination: "/visite/radiologia",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

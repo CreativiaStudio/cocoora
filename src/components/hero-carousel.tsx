@@ -12,7 +12,7 @@ const SLIDES = [
     position: "object-center",
   },
   {
-    src: "/images/doctor-consultation.jpg",
+    src: "/images/medici-hero-banner.jpg",
     alt: "Visita medica personalizzata con uno specialista Cocoora",
     position: "object-top",
   },

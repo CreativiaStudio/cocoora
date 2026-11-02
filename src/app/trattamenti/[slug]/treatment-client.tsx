@@ -497,7 +497,11 @@ function WhatIsSection({ treatment, page }: { treatment: Treatment; page?: SeoPa
       ? "Materiali, tecnologie e protocolli vengono selezionati dal medico in base alla situazione clinica individuale e agli obiettivi definiti durante la valutazione."
       : "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.");
 
-  const image = page?.whatIsImage || whatIs?.image || "/images/laser-technology.jpg";
+  const image =
+    page?.whatIsImage ||
+    whatIs?.image ||
+    treatment.galleryImages?.[1] ||
+    (treatment.category === "odontoiatria" ? "/images/dental-operatory.jpg" : "/images/laser-technology.jpg");
 
   return (
     <section className="bg-canvas py-16 sm:py-20">
@@ -727,7 +731,12 @@ function ResultsSection({ treatment, page }: { treatment: Treatment; page?: SeoP
               "La valutazione medica consente di definire obiettivi realistici e il trattamento più appropriato per le caratteristiche della tua pelle.",
             ];
 
-  const image = page?.resultsImage || results?.image || "/images/doctor-consultation.jpg";
+  const image =
+    page?.resultsImage ||
+    results?.image ||
+    treatment.galleryImages?.[2] ||
+    treatment.galleryImages?.[1] ||
+    (treatment.category === "odontoiatria" ? "/images/invisalign-smile.jpg" : "/images/aesthetic-skin.jpg");
 
   return (
     <section className="bg-canvas py-16 sm:py-20">

@@ -248,7 +248,7 @@ export const NAV_NODES: NavNode[] = [
         href: "/medici",
         description:
           "Specialisti di riferimento per un percorso clinico multidisciplinare e coordinato a Napoli.",
-        image: "/images/doctor-consultation.jpg",
+        image: "/images/medici-hero-banner.jpg",
       },
       {
         label: "Docenti Universitari e Ospedalieri",
@@ -406,7 +406,7 @@ export const DEFAULT_VIDEOS: VideoItem[] = [
     id: "video_3",
     type: "mp4",
     url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
-    poster: "/images/doctor-consultation.jpg",
+    poster: "/images/hero-clinic.jpg",
     title: "La prevenzione è il tuo stile",
     caption: "Cocoora Club: check-up dedicati e vantaggi per tutta la famiglia.",
     ctaLabel: "Entra nel Club",
@@ -445,7 +445,7 @@ export const INSTAGRAM_POSTS: InstagramPost[] = [
   },
   {
     id: 4,
-    image: "/images/doctor-consultation.jpg",
+    image: "/images/medici-hero-banner.jpg",
     caption:
       "Il tempo che dedichiamo a te è il farmaco più prezioso. Il metodo Cocoora, la salute al centro del tuo tempo. #CocooraCare #SaluteIntegrata",
     likes: 198,

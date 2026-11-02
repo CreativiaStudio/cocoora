@@ -55,7 +55,7 @@ export const CLINIC_GALLERY: GalleryItem[] = [
   },
   {
     id: "consultation",
-    image: "/images/doctor-consultation.jpg",
+    image: "/images/medici-hero-banner.jpg",
     caption: "Spazi di Consultazione: riservatezza, ascolto e tempo dedicato tra medico e paziente.",
   },
 ];

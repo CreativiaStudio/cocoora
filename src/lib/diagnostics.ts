@@ -22,7 +22,7 @@ export const SPECIALTIES: Specialty[] = [
     description:
       "Percorsi dedicati alla salute della ghiandola mammaria, con ecografia ad alta definizione e approccio multidisciplinare empatico.",
     icon: "ShieldCheck",
-    image: "/images/doctor-consultation.jpg",
+    image: "/images/visite/senologia-napoli-1.jpg",
     exams: [
       "Visita senologica clinica",
       "Ecografia mammaria bilaterale ad alta risoluzione",
@@ -36,7 +36,7 @@ export const SPECIALTIES: Specialty[] = [
     description:
       "Diagnostica ecografica completa per organi interni, tiroide, apparato urinario e muscolo-scheletrico.",
     icon: "Activity",
-    image: "/images/laser-technology.jpg",
+    image: "/images/visite/radiologia-napoli-1.jpg",
     exams: [
       "Ecografia addome completo",
       "Ecografia tiroidea e paratiroidea",

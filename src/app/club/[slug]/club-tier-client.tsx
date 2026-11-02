@@ -22,7 +22,7 @@ import { Badge, Button, ButtonLink, Container, SectionLabel } from "@/components
 
 const TIER_IMAGES: Record<string, string> = {
   discover: "/images/clinic-lounge.jpg",
-  access: "/images/doctor-consultation.jpg",
+  access: "/images/medici-hero-banner.jpg",
   care: "/images/diagnostics-lab.jpg",
   experience: "/images/laser-technology.jpg",
   signature: "/images/hero-clinic.jpg",

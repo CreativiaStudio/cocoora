@@ -101,7 +101,7 @@ export const PRECISION_PROGRAMS: PrecisionProgram[] = [
     tagline: "Women's Health & Longevity Program",
     description:
       "Prevenzione e benessere femminile integrato a 360°. Unisce diagnostica senologica, ecografia pelvica, salute cutanea, equilibrio del microbioma e profilo ormonale per ogni fase della vita.",
-    image: "/images/doctor-consultation.jpg",
+    image: "/images/visite/ginecologia-napoli-1.jpg",
     options: [
       {
         id: "donna-base",
