@@ -35,7 +35,7 @@ const areas: MedicalArea[] = [
     number: "02",
     title: "Odontoiatria & Ortodonzia",
     href: "/servizi/odontoiatria",
-    image: "/images/invisalign-smile.jpg",
+    image: "/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-1.jpg",
     tag: "Sorriso · Prevenzione",
     description:
       "Allineatori Trasparenti, Ortodonzia Specialistica, Estetica del Sorriso, Implantologia e Igiene professionale con tecnologie digitali.",

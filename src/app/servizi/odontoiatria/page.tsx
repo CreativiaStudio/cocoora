@@ -51,14 +51,14 @@ export default function OdontoiatriaPage() {
   const { pages } = useCms();
   const page = pages.find((p) => p.path === "/servizi/odontoiatria");
   const treatments = getTreatmentsByCategory("odontoiatria");
-  const allineatori = treatments.filter((t) => t.slug.startsWith("invisalign"));
-  const altri = treatments.filter((t) => !t.slug.startsWith("invisalign"));
+  const ortodonzia = treatments.filter((t) => t.categoryName === "Ortodonzia specialistica");
+  const curaCompleta = treatments.filter((t) => t.categoryName !== "Ortodonzia specialistica");
 
   return (
     <>
       <div className="relative z-10 h-72 w-full overflow-hidden rounded-b-[2.5rem] border-b border-slate-200/80 shadow-xl shadow-dark-navy/10 sm:h-80 md:h-96">
         <Image
-          src="/images/invisalign-smile.jpg"
+          src="/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-1.jpg"
           alt="Il tuo sorriso, la nostra visione — Odontoiatria e ortodonzia specialistica Cocoora Napoli"
           fill
           priority
@@ -101,7 +101,7 @@ export default function OdontoiatriaPage() {
 
             <div className="relative mx-auto aspect-[4/3] w-full max-w-xl overflow-hidden rounded-[2.5rem] shadow-[0_30px_70px_-28px_rgba(3,53,75,0.4)] lg:mx-0">
               <Image
-                src="/images/invisalign-smile.jpg"
+                src="/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-1.jpg"
                 alt="Odontoiatria, ortodonzia specialistica ed estetica del sorriso nel nostro centro Cocoora"
                 fill
                 priority
@@ -216,8 +216,8 @@ export default function OdontoiatriaPage() {
                 Ogni età ha il suo momento.
               </h3>
             </div>
-            <div className="mt-10 grid gap-6 md:grid-cols-3">
-              {allineatori.map((t) => (
+            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {ortodonzia.map((t) => (
                 <TreatmentCard key={t.slug} slug={t.slug} title={t.title} text={t.tagline} />
               ))}
             </div>
@@ -234,7 +234,7 @@ export default function OdontoiatriaPage() {
             </h2>
           </div>
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {altri.map((t) => (
+            {curaCompleta.map((t) => (
               <TreatmentCard key={t.slug} slug={t.slug} title={t.title} text={t.tagline} />
             ))}
           </div>

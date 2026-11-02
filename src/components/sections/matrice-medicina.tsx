@@ -22,7 +22,7 @@ export const TREATMENTS_MAP: Record<string, TreatmentRef> = {
     overline: "VISO",
     title: "Tossina botulinica",
     description: "Per distendere le rughe d'espressione e armonizzare alcune aree del viso.",
-    image: "/images/trattamenti/medicina-estetica/botox-napoli-1.jpg",
+    image: "/images/trattamenti/medicina-estetica/tossina-botulinica-napoli-1.jpg",
   },
   "Filler viso": {
     name: "Filler viso",
@@ -38,7 +38,7 @@ export const TREATMENTS_MAP: Record<string, TreatmentRef> = {
     overline: "TECNOLOGIE",
     title: "Ultrasuoni focalizzati CFU",
     description: "Per il tono dei tessuti e la definizione di alcune aree del viso e del collo.",
-    image: "/images/trattamenti/medicina-estetica/cfu-napoli-1.jpg",
+    image: "/images/trattamenti/medicina-estetica/ultrasuoni-cfu-napoli-1.jpg",
   },
   "Biostimolatori": {
     name: "Biostimolatori",
@@ -54,7 +54,7 @@ export const TREATMENTS_MAP: Record<string, TreatmentRef> = {
     overline: "RIGENERAZIONE",
     title: "Biostimolazione cutanea",
     description: "Per stimolare idratazione profonda, luminosità e qualità del tessuto cutaneo.",
-    image: "/images/trattamenti/medicina-estetica/bistimolazione-napoli-1.jpg",
+    image: "/images/trattamenti/medicina-estetica/biostimolazione-napoli-1.jpg",
   },
   "Biorigenerazione": {
     name: "Biorigenerazione",
@@ -86,7 +86,7 @@ export const TREATMENTS_MAP: Record<string, TreatmentRef> = {
     overline: "RIGENERAZIONE",
     title: "Peeling chimico medicale",
     description: "Esfoliazione controllata per rinnovare la texture e uniformare il colorito.",
-    image: "/images/trattamenti/medicina-estetica/peeling-medicale-napoli-1.jpg",
+    image: "/images/trattamenti/medicina-estetica/peeling-chimico-napoli-1.jpg",
   },
   "Laser resurfacing": {
     name: "Laser resurfacing",
