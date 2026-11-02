@@ -6,7 +6,7 @@ import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Container, SectionLabel } from "@/components/ui";
 
-type TreatmentRef = {
+export type TreatmentRef = {
   name: string;
   slug: string;
   overline: string;
@@ -15,7 +15,7 @@ type TreatmentRef = {
   image: string;
 };
 
-const TREATMENTS_MAP: Record<string, TreatmentRef> = {
+export const TREATMENTS_MAP: Record<string, TreatmentRef> = {
   "Tossina botulinica": {
     name: "Tossina botulinica",
     slug: "tossina-botulinica",
@@ -138,14 +138,14 @@ const TREATMENTS_MAP: Record<string, TreatmentRef> = {
   },
 };
 
-type MatrixArea = "VISO" | "PELLE" | "CORPO";
+export type MatrixArea = "VISO" | "PELLE" | "CORPO";
 
-type MatrixGoal = {
+export type MatrixGoal = {
   label: string;
   treatments: string[];
 };
 
-const MATRIX_DATA: Record<MatrixArea, MatrixGoal[]> = {
+export const MATRIX_DATA: Record<MatrixArea, MatrixGoal[]> = {
   VISO: [
     { label: "Rughe d'espressione", treatments: ["Tossina botulinica"] },
     { label: "Volumi e proporzioni del viso", treatments: ["Filler viso"] },

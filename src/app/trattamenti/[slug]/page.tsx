@@ -11,10 +11,10 @@ import { TreatmentClient } from "./treatment-client";
  */
 export function generateStaticParams() {
   const slugs = TREATMENTS.map((t) => t.slug);
-  const aliasSlugs = Object.keys(TREATMENT_SLUG_ALIASES).filter(
-    (alias) => !slugs.includes(alias)
-  );
-  return [...slugs, ...aliasSlugs].map((slug) => ({ slug }));
+  const aliasSlugs = TREATMENTS.flatMap((t) => t.aliases ?? []);
+  const legacyAliases = Object.keys(TREATMENT_SLUG_ALIASES);
+  const allSlugs = Array.from(new Set([...slugs, ...aliasSlugs, ...legacyAliases]));
+  return allSlugs.map((slug) => ({ slug }));
 }
 
 function findTreatment(slug: string) {
@@ -40,7 +40,7 @@ export async function generateMetadata({
 
   return {
     title: `${treatment.title} a Napoli — ${branch} | Cocoora`,
-    description: `${treatment.tagline}. ${treatment.description}`.slice(0, 160),
+    description: `${treatment.tagline || treatment.description}`.slice(0, 160),
     alternates: { canonical: `/trattamenti/${treatment.slug}` },
   };
 }

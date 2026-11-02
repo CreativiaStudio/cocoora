@@ -65,23 +65,73 @@ export const NAV_NODES: NavNode[] = [
     href: "/servizi/odontoiatria",
     children: [
       {
-        label: "Allineatori Trasparenti & Ortodonzia",
-        href: "/servizi/odontoiatria#ortodonzia",
+        label: "Allineatori trasparenti",
+        href: "/trattamenti/allineatori-trasparenti",
         description:
-          "Allineatori Adulti, Adolescenti e Ortodonzia Intercettiva per Bambini.",
-        image: "/images/invisalign-smile.jpg",
+          "Ortodonzia specialistica · Bambini, adolescenti e adulti.",
+        image: "/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-1.jpg",
       },
       {
-        label: "Clinica Dentale & Estetica del Sorriso",
-        href: "/servizi/odontoiatria#estetica",
+        label: "Apparecchio fisso",
+        href: "/trattamenti/apparecchio-fisso",
         description:
-          "Faccette estetiche, Igiene professionale e Implantologia a carico immediato.",
+          "Ortodonzia specialistica · Adulti e adolescenti.",
+        image: "/images/trattamenti/odontoiatria/apparecchio-fisso-napoli-1.jpg",
       },
       {
-        label: "Gnatologia, Bruxismo & Funzione",
-        href: "/servizi/odontoiatria#funzione",
+        label: "Ortodonzia intercettiva",
+        href: "/trattamenti/ortodonzia-intercettiva",
+        description: "Ortodonzia specialistica · Bambini e adolescenti.",
+        image: "/images/trattamenti/odontoiatria/ortodonzia-intercettiva-napoli-1.jpg",
+      },
+      {
+        label: "Contenzione",
+        href: "/trattamenti/contenzione",
         description:
-          "Bite personalizzati, Conservativa, Endodonzia e diagnosi digitale 3D.",
+          "Ortodonzia specialistica · Mantenimento del risultato.",
+        image: "/images/trattamenti/odontoiatria/contenzione-napoli-1.jpg",
+      },
+      {
+        label: "Visita odontoiatrica",
+        href: "/trattamenti/visita-odontoiatrica",
+        description: "Salute e prevenzione · Valutazione e piano di cura.",
+        image: "/images/trattamenti/odontoiatria/visita-odontoiatrica-napoli-1.jpg",
+      },
+      {
+        label: "Igiene orale professionale",
+        href: "/trattamenti/igiene",
+        description: "Salute e prevenzione · Prevenzione e salute delle gengive.",
+        image: "/images/trattamenti/odontoiatria/igiene-orale-professionale-napoli-1.jpg",
+      },
+      {
+        label: "Conservativa",
+        href: "/trattamenti/conservativa",
+        description: "Cura e riabilitazione · Otturazioni e trattamenti.",
+        image: "/images/trattamenti/odontoiatria/conservativa-napoli-1.jpg",
+      },
+      {
+        label: "Endodonzia",
+        href: "/trattamenti/endodonzia",
+        description: "Cura e riabilitazione · Cura canalare.",
+        image: "/images/trattamenti/odontoiatria/endodonzia-napoli-1.jpg",
+      },
+      {
+        label: "Parodontologia",
+        href: "/trattamenti/parodontologia",
+        description: "Cura e riabilitazione · Salute delle gengive.",
+        image: "/images/trattamenti/odontoiatria/paradontologia-napoli-1.jpg",
+      },
+      {
+        label: "Protesi",
+        href: "/trattamenti/protesi",
+        description: "Cura e riabilitazione · Protesi fisse e rimovibili.",
+        image: "/images/trattamenti/odontoiatria/protesi-napoli-1.jpg",
+      },
+      {
+        label: "Implantologia",
+        href: "/trattamenti/implantologia",
+        description: "Cura e riabilitazione · Impianti dentali.",
+        image: "/images/trattamenti/odontoiatria/implantologia-napoli-1.jpg",
       },
     ],
   },
@@ -90,11 +140,95 @@ export const NAV_NODES: NavNode[] = [
     href: "/visite",
     children: [
       {
-        label: "Diagnostica Clinica & Prevenzione",
-        href: "/visite",
+        label: "Odontoiatria",
+        href: "/servizi/odontoiatria",
+        description: "Benessere e cura di sé.",
+      },
+      {
+        label: "Nutrizione",
+        href: "/visite/nutrizione",
+        description: "Benessere e cura di sé · Piano nutrizionale personalizzato.",
+        image: "/images/visite/nutrizione-napoli-1.jpg",
+      },
+      {
+        label: "Medicina estetica",
+        href: "/servizi/medicina-estetica",
+        description: "Benessere e cura di sé.",
+      },
+      {
+        label: "Dermatologia",
+        href: "/visite/dermatologia",
+        description: "Benessere e cura di sé · Mappatura nei e salute cutanea.",
+        image: "/images/visite/dermatologia-napoli-1.jpg",
+      },
+      {
+        label: "Chirurgia plastica",
+        href: "/visite/chirurgia-plastica",
+        description: "Benessere e cura di sé · Consulenza e chirurgia ambulatoriale.",
+        image: "/images/visite/chiururgia-plastica-napoli-1.jpg",
+      },
+      {
+        label: "Radiologia",
+        href: "/visite/radiologia",
+        description: "Diagnostica e prevenzione · Diagnostica ecografica e per immagini.",
+        image: "/images/visite/radiologia-napoli-1.jpg",
+      },
+      {
+        label: "Cardiologia",
+        href: "/visite/cardiologia",
+        description: "Diagnostica e prevenzione · ECG ed ecocardiografia avanzata.",
+        image: "/images/visite/cardiologia-napoli-1.jpg",
+      },
+      {
+        label: "Diabetologia",
+        href: "/visite/diabetologia",
+        description: "Diagnostica e prevenzione · Prevenzione metabolica ed endocrinologica.",
+        image: "/images/visite/diabetologia-napoli-1.jpg",
+      },
+      {
+        label: "Ginecologia",
+        href: "/visite/ginecologia",
+        description: "Diagnostica e prevenzione · Visita ed ecografia ginecologica.",
+        image: "/images/visite/ginecologia-napoli-1.jpg",
+      },
+      {
+        label: "Pediatria",
+        href: "/visite/pediatria",
+        description: "Diagnostica e prevenzione · Salute e bilanci di crescita.",
+        image: "/images/visite/pediatria-napoli-1.jpg",
+      },
+      {
+        label: "Oculistica",
+        href: "/visite/oculistica",
+        description: "Diagnostica e prevenzione · Screening della vista e fondo oculare.",
+        image: "/images/visite/oculistica-napoli-1.jpg",
+      },
+      {
+        label: "Psicologia",
+        href: "/visite/psicologia",
         description:
-          "Cardiologia, Senologia, Ginecologia, Ecografia, Oculistica, Pediatria e Medicina dello Sport.",
-        image: "/images/diagnostics-lab.jpg",
+          "Specialistiche per la famiglia · Sostegno psicologico e benessere emotivo.",
+        image: "/images/visite/psicologia-napoli-1.jpg",
+      },
+      {
+        label: "Medicina dello sport",
+        href: "/visite/medicina-dello-sport",
+        description:
+          "Specialistiche per la famiglia · Idoneità sportiva e monitoraggio atletico.",
+        image: "/images/visite/medicina-dello-sport-napoli-1.jpg",
+      },
+      {
+        label: "Senologia",
+        href: "/visite/senologia",
+        description: "Specialistiche per la famiglia · Prevenzione senologica ed ecografia mammaria.",
+        image: "/images/visite/senologia-napoli-1.jpg",
+      },
+      {
+        label: "Oncologia",
+        href: "/visite/oncologia",
+        description:
+          "Specialistiche per la famiglia · Prevenzione oncologica e percorsi multidisciplinari.",
+        image: "/images/visite/oncologia-napoli-1.jpg",
       },
       {
         label: "Cocoora Precision (Genomica & Longevità)",

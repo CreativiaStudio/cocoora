@@ -31,16 +31,17 @@ type MegamenuCategory = { heading: string; links: MegamenuLink[] };
 
 const TOPBAR_HOURS = "Lun–Ven 8:00–20:00 (Orario continuato) · Sab 9:00–14:00";
 
-// 1. Medicina Estetica & Rigenerativa (spec Silvia Monticelli)
+// 1. Medicina Estetica & Rigenerativa (spec Silvia Monticelli — email 25/10/2026)
 const MEDICINA_ESTETICA_CATEGORIES: MegamenuCategory[] = [
   {
     heading: "Viso e rigenerazione",
     links: [
       { label: "Filler viso", href: "/trattamenti/filler-acido-ialuronico" },
       { label: "Tossina botulinica", href: "/trattamenti/tossina-botulinica" },
-      { label: "Biorivitalizzazione*", href: "/trattamenti/biorivitalizzazione" },
+      { label: "Biostimolazione", href: "/trattamenti/biorivitalizzazione" },
+      { label: "Biorigenerazione", href: "/trattamenti/biorigenerazione" },
       { label: "Biostimolatori", href: "/trattamenti/acido-polilattico" },
-      { label: "Peeling chimico", href: "/trattamenti/peeling-chimico" },
+      { label: "Peeling medicale", href: "/trattamenti/peeling-chimico" },
       { label: "PRX", href: "/trattamenti/prx" },
     ],
   },
@@ -66,54 +67,193 @@ const MEDICINA_ESTETICA_CATEGORIES: MegamenuCategory[] = [
   },
 ];
 
-// 2. Odontoiatria & Ortodonzia
+// 2. Odontoiatria & Ortodonzia (spec Silvia Monticelli — email 28/10/2026)
 const ODONTOIATRIA_CATEGORIES: MegamenuCategory[] = [
   {
-    heading: "Ortodonzia & Allineatori",
+    heading: "Ortodonzia specialistica",
     links: [
-      { label: "Allineatori Trasparenti Adulti", href: "/trattamenti/invisalign-adulti" },
-      { label: "Allineatori Adolescenti", href: "/trattamenti/invisalign-adolescenti" },
-      { label: "Ortodonzia Intercettiva Bambini", href: "/trattamenti/invisalign-bambini" },
+      {
+        label: "Allineatori trasparenti",
+        href: "/trattamenti/allineatori-trasparenti",
+        subtitle: "Bambini, adolescenti e adulti",
+      },
+      {
+        label: "Apparecchio fisso",
+        href: "/trattamenti/apparecchio-fisso",
+        subtitle: "Adulti e adolescenti",
+      },
+      {
+        label: "Ortodonzia intercettiva",
+        href: "/trattamenti/ortodonzia-intercettiva",
+        subtitle: "Bambini e adolescenti",
+      },
+      {
+        label: "Contenzione",
+        href: "/trattamenti/contenzione",
+        subtitle: "Mantenimento del risultato",
+      },
     ],
   },
   {
-    heading: "Clinica Dentale & Estetica",
+    heading: "Salute e prevenzione",
     links: [
-      { label: "Estetica del Sorriso & Faccette", href: "/trattamenti/estetica-dentale" },
-      { label: "Igiene & Prevenzione", href: "/trattamenti/igiene" },
-      { label: "Implantologia a Carico Immediato", href: "/trattamenti/implantologia" },
+      {
+        label: "Visita odontoiatrica",
+        href: "/trattamenti/visita-odontoiatrica",
+        subtitle: "Valutazione e piano di cura",
+      },
+      {
+        label: "Igiene orale professionale",
+        href: "/trattamenti/igiene",
+        subtitle: "Prevenzione e salute delle gengive",
+      },
     ],
   },
   {
-    heading: "Funzione & Gnatologia",
+    heading: "Cura e riabilitazione",
     links: [
-      { label: "Gnatologia, Bruxismo & Bite", href: "/trattamenti/gnatologia-bruxismo-bite" },
-      { label: "Conservativa & Endodonzia", href: "/trattamenti/conservativa" },
+      {
+        label: "Conservativa",
+        href: "/trattamenti/conservativa",
+        subtitle: "Otturazioni e trattamenti",
+      },
+      {
+        label: "Endodonzia",
+        href: "/trattamenti/endodonzia",
+        subtitle: "Cura canalare",
+      },
+      {
+        label: "Parodontologia",
+        href: "/trattamenti/parodontologia",
+        subtitle: "Salute delle gengive",
+      },
+      {
+        label: "Protesi",
+        href: "/trattamenti/protesi",
+        subtitle: "Protesi fisse e rimovibili",
+      },
+      {
+        label: "Implantologia",
+        href: "/trattamenti/implantologia",
+        subtitle: "Impianti dentali",
+      },
     ],
   },
 ];
 
-// 3. Visite Specialistiche
+// 3. Visite Specialistiche (spec Silvia Monticelli — email 28/10/2026)
 const VISITE_SPECIALISTICHE_CATEGORIES: MegamenuCategory[] = [
   {
-    heading: "Senologia & Prevenzione Donna",
+    heading: "Benessere e cura di sé",
     links: [
-      { label: "Senologia & Prevenzione Clinica", href: "/visite/senologia" },
-      { label: "Cardiologia & ECG", href: "/visite/cardiologia" },
-      { label: "Ginecologia & Ostetricia", href: "/visite/ginecologia" },
-      { label: "Ecografia Clinica Avanzata", href: "/visite/ecografia" },
+      { label: "Odontoiatria", href: "/servizi/odontoiatria" },
+      { label: "Nutrizione", href: "/visite/nutrizione" },
+      { label: "Medicina estetica", href: "/servizi/medicina-estetica" },
+      { label: "Dermatologia", href: "/visite/dermatologia" },
+      { label: "Chirurgia plastica", href: "/visite/chirurgia-plastica" },
     ],
   },
   {
-    heading: "Specialistiche per la Famiglia",
+    heading: "Diagnostica e prevenzione",
     links: [
-      { label: "Oculistica Specialistica", href: "/visite/oculistica" },
-      { label: "Pediatria Generale", href: "/visite/pediatria" },
-      { label: "Psicologia & Benessere", href: "/visite" },
-      { label: "Medicina dello Sport", href: "/visite" },
+      { label: "Radiologia", href: "/visite/radiologia" },
+      { label: "Cardiologia", href: "/visite/cardiologia" },
+      { label: "Diabetologia", href: "/visite/diabetologia" },
+      { label: "Ginecologia", href: "/visite/ginecologia" },
+      { label: "Pediatria", href: "/visite/pediatria" },
+      { label: "Oculistica", href: "/visite/oculistica" },
+    ],
+  },
+  {
+    heading: "Specialistiche per la famiglia",
+    links: [
+      { label: "Psicologia", href: "/visite/psicologia" },
+      { label: "Medicina dello sport", href: "/visite/medicina-dello-sport" },
+      { label: "Senologia", href: "/visite/senologia" },
+      { label: "Oncologia", href: "/visite/oncologia" },
     ],
   },
 ];
+
+// ── Badge "pagina mancante" (?): segnala le voci senza pagina dedicata attiva ─
+function MissingPageBadge() {
+  return (
+    <span
+      title="Pagina dedicata non ancora attiva"
+      aria-label="Pagina dedicata non ancora attiva"
+      className="inline-flex items-center justify-center h-4 w-4 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold shrink-0"
+    >
+      ?
+    </span>
+  );
+}
+
+// Voce di megamenu desktop: Link se la pagina esiste, altrimenti testo non cliccabile
+function MegamenuItemLink({ link, onClose }: { link: MegamenuLink; onClose: () => void }) {
+  if (!link.href) {
+    return (
+      <span className="flex items-start justify-between gap-2 py-1 cursor-default text-charcoal/70">
+        <span className="flex flex-col">
+          <span className="flex items-center gap-1.5 text-[13px] font-medium">
+            {link.label}
+            <MissingPageBadge />
+          </span>
+          {link.subtitle && (
+            <span className="text-[11px] text-charcoal/50 font-normal">{link.subtitle}</span>
+          )}
+        </span>
+      </span>
+    );
+  }
+
+  return (
+    <Link
+      href={link.href}
+      onClick={onClose}
+      className="text-[13px] text-dark-navy/90 hover:text-teal-700 hover:translate-x-1 transition-all flex items-start justify-between gap-2 py-1 group"
+    >
+      <span className="flex flex-col">
+        <span>{link.label}</span>
+        {link.subtitle && (
+          <span className="text-[11px] text-charcoal/50 group-hover:text-teal-600/70 font-normal">
+            {link.subtitle}
+          </span>
+        )}
+      </span>
+      <ArrowRight className="mt-0.5 h-3 w-3 shrink-0 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-teal-600" />
+    </Link>
+  );
+}
+
+// Voce di menu mobile: Link se la pagina esiste, altrimenti testo non cliccabile con badge
+function MobileMegamenuItemLink({ link, onClose }: { link: MegamenuLink; onClose: () => void }) {
+  if (!link.href) {
+    return (
+      <div className="flex flex-col rounded-lg px-2 py-1 cursor-default text-charcoal/70">
+        <span className="flex items-center gap-1.5 text-sm font-medium">
+          {link.label}
+          <MissingPageBadge />
+        </span>
+        {link.subtitle && (
+          <span className="text-[11px] text-charcoal/50 font-normal">{link.subtitle}</span>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <Link
+      href={link.href}
+      onClick={onClose}
+      className="flex flex-col rounded-lg px-2 py-1 text-sm font-medium text-charcoal/80 transition-colors hover:bg-teal-50 hover:text-teal-900"
+    >
+      <span>{link.label}</span>
+      {link.subtitle && (
+        <span className="text-[11px] text-charcoal/50 font-normal">{link.subtitle}</span>
+      )}
+    </Link>
+  );
+}
 
 // 4. I Medici (solo testo per nome + qualifica, senza foto nel dropdown)
 type DoctorMenuEntry = { name: string; title: string; href: string };
@@ -469,14 +609,11 @@ export function Navbar() {
                               </p>
                               <div className="mt-1.5 flex flex-col gap-1">
                                 {cat.links.map((link) => (
-                                  <Link
+                                  <MobileMegamenuItemLink
                                     key={link.label}
-                                    href={link.href}
-                                    onClick={closeAll}
-                                    className="rounded-lg px-2 py-1 text-sm font-medium text-charcoal/80 transition-colors hover:bg-teal-50 hover:text-teal-900"
-                                  >
-                                    {link.label}
-                                  </Link>
+                                    link={link}
+                                    onClose={closeAll}
+                                  />
                                 ))}
                               </div>
                             </div>
@@ -499,14 +636,11 @@ export function Navbar() {
                               </p>
                               <div className="mt-1.5 flex flex-col gap-1">
                                 {cat.links.map((link) => (
-                                  <Link
+                                  <MobileMegamenuItemLink
                                     key={link.label}
-                                    href={link.href}
-                                    onClick={closeAll}
-                                    className="rounded-lg px-2 py-1 text-sm font-medium text-charcoal/80 transition-colors hover:bg-teal-50 hover:text-teal-900"
-                                  >
-                                    {link.label}
-                                  </Link>
+                                    link={link}
+                                    onClose={closeAll}
+                                  />
                                 ))}
                               </div>
                             </div>
@@ -748,14 +882,7 @@ function MegamenuOdontoiatria({ onClose }: { onClose: () => void }) {
             <ul className="mt-3 space-y-1">
               {cat.links.map((link) => (
                 <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    onClick={onClose}
-                    className="text-[13px] text-dark-navy/90 hover:text-teal-700 hover:translate-x-1 transition-all flex items-center justify-between py-1 group"
-                  >
-                    <span>{link.label}</span>
-                    <ArrowRight className="h-3 w-3 shrink-0 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-teal-600" />
-                  </Link>
+                  <MegamenuItemLink link={link} onClose={onClose} />
                 </li>
               ))}
             </ul>
@@ -827,68 +954,12 @@ function MegamenuVisiteSpecialistiche({ onClose }: { onClose: () => void }) {
             <ul className="mt-3 space-y-1">
               {cat.links.map((link) => (
                 <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    onClick={onClose}
-                    className="text-[13px] text-dark-navy/90 hover:text-teal-700 hover:translate-x-1 transition-all flex items-center justify-between py-1 group"
-                  >
-                    <span>{link.label}</span>
-                    <ArrowRight className="h-3 w-3 shrink-0 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-teal-600" />
-                  </Link>
+                  <MegamenuItemLink link={link} onClose={onClose} />
                 </li>
               ))}
             </ul>
           </div>
         ))}
-
-        {/* Colonna 3: Branche Integrate */}
-        <div>
-          <span className="font-bold text-xs uppercase tracking-wider text-slate-accent pb-1 border-b border-teal-100/60 flex items-center gap-1.5">
-            Specialità Integrate
-          </span>
-          <ul className="mt-3 space-y-1">
-            <li>
-              <Link
-                href="/visite"
-                onClick={onClose}
-                className="text-[13px] text-dark-navy/90 hover:text-teal-700 hover:translate-x-1 transition-all flex items-center justify-between py-1 group"
-              >
-                <span>Endocrinologia &amp; Metabolismo</span>
-                <ArrowRight className="h-3 w-3 shrink-0 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-teal-600" />
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/visite"
-                onClick={onClose}
-                className="text-[13px] text-dark-navy/90 hover:text-teal-700 hover:translate-x-1 transition-all flex items-center justify-between py-1 group"
-              >
-                <span>Dermatologia Clinica</span>
-                <ArrowRight className="h-3 w-3 shrink-0 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-teal-600" />
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/visite"
-                onClick={onClose}
-                className="text-[13px] text-dark-navy/90 hover:text-teal-700 hover:translate-x-1 transition-all flex items-center justify-between py-1 group"
-              >
-                <span>Ortopedia &amp; Posturologia</span>
-                <ArrowRight className="h-3 w-3 shrink-0 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-teal-600" />
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/visite"
-                onClick={onClose}
-                className="text-[13px] text-dark-navy/90 hover:text-teal-700 hover:translate-x-1 transition-all flex items-center justify-between py-1 group"
-              >
-                <span>Nutrizione Clinica &amp; Dieta</span>
-                <ArrowRight className="h-3 w-3 shrink-0 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-teal-600" />
-              </Link>
-            </li>
-          </ul>
-        </div>
 
         {/* Colonna 4: Dark Luxury Glass — Cocoora Precision */}
         <div className="bg-gradient-to-br from-dark-navy to-teal-950 text-white rounded-3xl p-6 shadow-xl border border-teal-500/20 backdrop-blur-md flex flex-col justify-between">
@@ -937,7 +1008,7 @@ function MegamenuVisiteSpecialistiche({ onClose }: { onClose: () => void }) {
         <span className="flex items-center gap-2 text-charcoal/75">
           <Clock className="h-3.5 w-3.5 text-teal-700 shrink-0" />
           <span>
-            <strong className="font-semibold text-dark-navy">Presa in carico integrata.</strong> Visite specialistiche senza attese con refertazione digitale immediata.
+            <strong className="font-semibold text-dark-navy">Presa in carico integrata.</strong> Visite specialistiche con refertazione digitale e percorsi di prevenzione personalizzati.
           </span>
         </span>
         <Link

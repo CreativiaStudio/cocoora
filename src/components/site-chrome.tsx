@@ -18,6 +18,12 @@ export function SiteChrome({ children }: { children: ReactNode }) {
   const page = state.pages.find((p) => p.path === pathname);
   const canvasMode = page?.canvasMode ?? false;
 
+  // Se siamo nel lab sperimentale, escludiamo header e footer standard per evitare duplicazioni
+  const isLab = pathname.startsWith("/lab");
+  if (isLab) {
+    return <main>{children}</main>;
+  }
+
   // Se siamo nel pannello admin o nella segreteria, escludiamo header e footer del sito
   const isBackoffice =
     pathname.startsWith("/admin") || pathname.startsWith("/segreteria");
