@@ -10,6 +10,7 @@ import {
   ChevronDown,
   CalendarCheck,
   ClipboardList,
+  CreditCard,
   HeartHandshake,
   Mail,
   MapPin,
@@ -122,6 +123,10 @@ export function VisitaClient({ visita }: { visita: VisitaSpecialistica }) {
                 <div className="flex items-center gap-2">
                   <HeartHandshake className="h-4 w-4 text-teal-700" />
                   <span>Referto Clinico Dettagliato</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CreditCard className="h-4 w-4 text-teal-700" />
+                  <span>Pagamento in sede o a rate (Klarna · PayPal)</span>
                 </div>
               </div>
             </div>
@@ -368,6 +373,12 @@ export function VisitaClient({ visita }: { visita: VisitaSpecialistica }) {
               <p className="mt-2 text-xs text-charcoal/70 sm:text-sm">
                 Compila i dati: la segreteria clinica Cocoora ti ricontatterà per concordare data, orario e dettagli.
               </p>
+              <div className="mt-4 rounded-2xl bg-teal-50/70 p-3.5 border border-teal-100/80 text-xs text-teal-900 text-left flex items-start gap-2.5">
+                <CreditCard className="h-4 w-4 text-teal-700 shrink-0 mt-0.5" />
+                <p className="leading-relaxed text-charcoal/80">
+                  <strong>Zero anticipo alla prenotazione:</strong> il saldo avviene comodamente in clinica con Bancomat/Carta oppure, per pacchetti e piani di cura, in <strong>3 rate a tasso zero con Klarna o PayPal</strong>.
+                </p>
+              </div>
             </div>
 
             {formState === "success" ? (

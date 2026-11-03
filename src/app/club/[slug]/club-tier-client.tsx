@@ -115,12 +115,16 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
                   )}
                   <span className="text-sm text-charcoal/60">{tier.free ? "Free" : "/ anno"}</span>
                 </div>
-                {installmentAmount && (
-                  <p className="mt-3 flex items-center gap-2 text-sm font-medium text-teal-700">
-                    <CreditCard className="h-4 w-4 shrink-0" />
-                    O in {detail?.installmentCount} rate da {formatPrice(installmentAmount)}/mese con{" "}
-                    {detail?.installmentProviders?.join(" / ")} a tasso zero
-                  </p>
+                {!tier.free && tier.price > 0 && (
+                  <div className="mt-3.5 rounded-2xl bg-teal-50/80 p-3.5 border border-teal-100 text-xs">
+                    <p className="flex items-center gap-2 font-semibold text-teal-900">
+                      <CreditCard className="h-4 w-4 shrink-0 text-teal-700" />
+                      Oppure in 3 rate da {formatPrice(Math.round(tier.price / 3))}/mese a tasso zero
+                    </p>
+                    <p className="mt-1 text-charcoal/70">
+                      Disponibile con <strong>Klarna</strong> e <strong>PayPal</strong> (TAN 0% TAEG 0%). Nessun interesse o spesa aggiuntiva.
+                    </p>
+                  </div>
                 )}
                 {SHOW_SAVINGS_CALCULATOR && savings > 0 && (
                   <p className="mt-3 flex items-center gap-2 text-sm font-medium text-charcoal/70">
@@ -145,6 +149,13 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
                   Prenota Visita Singola
                 </ButtonLink>
               </div>
+
+              {!tier.free && (
+                <p className="mt-4 text-xs text-charcoal/60 text-center lg:text-left flex items-center justify-center lg:justify-start gap-1.5">
+                  <ShieldCheck className="h-4 w-4 text-emerald-600" />
+                  <span>Pagamento sicuro · Carte di Credito, Apple Pay, Google Pay, Klarna e PayPal in 3 rate</span>
+                </p>
+              )}
             </div>
 
             <div className="relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden rounded-[2.5rem] shadow-[0_30px_70px_-28px_rgba(3,53,75,0.4)] lg:mx-0">

@@ -6,6 +6,7 @@ import {
   Check,
   CreditCard,
   Landmark,
+  ShieldCheck,
   Smartphone,
   Wallet,
   X,
@@ -21,12 +22,12 @@ import {
 import { Button } from "./ui";
 
 const PAYMENT_METHODS = [
-  { id: "card", label: "Carta di credito", sub: "Visa · Mastercard · Amex", Icon: CreditCard },
-  { id: "klarna", label: "Klarna", sub: "Paga a rate", Icon: Wallet },
-  { id: "paypal", label: "PayPal", sub: "Fino a 24 rate", Icon: Wallet },
-  { id: "applepay", label: "Apple Pay", sub: "Pagamento rapido", Icon: Apple },
-  { id: "googlepay", label: "Google Pay", sub: "Pagamento rapido", Icon: Smartphone },
-  { id: "revolut", label: "Revolut", sub: "Paga in un click", Icon: Landmark },
+  { id: "card", label: "Carta di Credito", sub: "Visa · Mastercard · Amex", badge: "Immediato", Icon: CreditCard },
+  { id: "klarna", label: "Klarna", sub: "3 rate senza interessi a tasso zero", badge: "3 Rate a Tasso Zero", Icon: Wallet },
+  { id: "paypal", label: "PayPal", sub: "Paga in 3 rate senza interessi o conto", badge: "Paga in 3 Rate", Icon: Wallet },
+  { id: "applepay", label: "Apple Pay", sub: "Pagamento rapido Face/Touch ID", badge: "1-Click", Icon: Apple },
+  { id: "googlepay", label: "Google Pay", sub: "Pagamento protetto Google", badge: "1-Click", Icon: Smartphone },
+  { id: "revolut", label: "Revolut Pay", sub: "Paga in un click dall'app", badge: "Rapido", Icon: Landmark },
 ];
 
 type Step = "lead" | "payment" | "success";
@@ -174,31 +175,63 @@ export function CheckoutDrawer() {
 
           {step === "payment" && !isSuMisura && (
             <div className="space-y-5">
-              <div className="rounded-2xl bg-teal-50 p-4">
-                <p className="text-sm text-charcoal/70">Totale</p>
-                <p className="font-serif text-3xl font-semibold text-teal-900">
-                  {formatPrice(tier.price)}
-                </p>
+              <div className="rounded-2xl bg-teal-50/80 p-4 border border-teal-100">
+                <div className="flex items-baseline justify-between">
+                  <div>
+                    <p className="text-[11px] font-semibold uppercase tracking-wider text-teal-800">Totale Quota</p>
+                    <p className="font-serif text-3xl font-bold text-teal-950">
+                      {formatPrice(tier.price)}
+                    </p>
+                  </div>
+                  {tier.price > 0 && (
+                    <div className="text-right">
+                      <span className="inline-block rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 border border-emerald-200">
+                        Tasso Zero
+                      </span>
+                      <p className="text-xs text-charcoal/80 mt-1">
+                        o <strong>3 rate da {formatPrice(Math.round(tier.price / 3))}</strong>
+                      </p>
+                    </div>
+                  )}
+                </div>
+                {tier.price > 0 && (
+                  <div className="mt-3 pt-2.5 border-t border-teal-200/50 flex items-center justify-between text-[11px] text-teal-900 font-medium">
+                    <span className="flex items-center gap-1">
+                      <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" /> Transazione Protetta SSL 256-bit
+                    </span>
+                    <span className="text-charcoal/60">Klarna · PayPal · Carte</span>
+                  </div>
+                )}
               </div>
               <div>
-                <p className="mb-3 text-sm font-medium text-teal-900">Metodo di pagamento</p>
+                <div className="mb-3 flex items-center justify-between">
+                  <p className="text-sm font-medium text-teal-900">Metodo di pagamento preferito</p>
+                  <span className="text-[11px] text-teal-700 font-medium">Rateizzazione inclusa</span>
+                </div>
                 <div className="grid grid-cols-2 gap-2.5">
-                  {PAYMENT_METHODS.map(({ id, label, sub, Icon }) => (
+                  {PAYMENT_METHODS.map(({ id, label, sub, badge, Icon }) => (
                     <button
                       key={id}
                       type="button"
                       onClick={() => setMethod(id)}
                       className={cn(
-                        "flex items-start gap-3 rounded-2xl border p-3.5 text-left transition-all",
+                        "relative flex items-start gap-3 rounded-2xl border p-3.5 text-left transition-all",
                         method === id
-                          ? "border-teal-600 bg-teal-50/60 shadow-sm"
-                          : "border-teal-100 hover:border-teal-300"
+                          ? "border-teal-600 bg-teal-50/70 shadow-sm ring-1 ring-teal-600/30"
+                          : "border-teal-100 hover:border-teal-300 bg-white"
                       )}
                     >
                       <Icon className="mt-0.5 h-5 w-5 shrink-0 text-teal-700" />
-                      <span>
-                        <span className="block text-sm font-medium text-teal-900">{label}</span>
-                        <span className="block text-xs text-charcoal/60">{sub}</span>
+                      <span className="min-w-0">
+                        <span className="flex items-center gap-1.5 flex-wrap">
+                          <span className="block text-sm font-medium text-teal-900">{label}</span>
+                        </span>
+                        <span className="block text-[11px] leading-tight text-charcoal/60 mt-0.5">{sub}</span>
+                        {badge && (
+                          <span className="mt-1.5 inline-block text-[9px] font-bold uppercase tracking-wider text-teal-800 bg-teal-100/70 px-1.5 py-0.5 rounded">
+                            {badge}
+                          </span>
+                        )}
                       </span>
                     </button>
                   ))}
@@ -209,16 +242,26 @@ export function CheckoutDrawer() {
                   {error}
                 </p>
               )}
-              <Button
-                className="w-full flex items-center justify-center gap-2"
-                size="lg"
-                disabled={loadingStripe}
-                onClick={startStripeCheckout}
-              >
-                {loadingStripe
-                  ? "Apertura Cassa Sicura Stripe..."
-                  : `Paga ${formatPrice(tier.price)} con Stripe`}
-              </Button>
+              <div className="space-y-2">
+                <Button
+                  className="w-full flex items-center justify-center gap-2"
+                  size="lg"
+                  disabled={loadingStripe}
+                  onClick={startStripeCheckout}
+                >
+                  {loadingStripe ? (
+                    "Apertura Cassa Protetta..."
+                  ) : (
+                    <>
+                      <ShieldCheck className="h-4 w-4" />
+                      <span>Procedi al Pagamento Sicuro ({formatPrice(tier.price)})</span>
+                    </>
+                  )}
+                </Button>
+                <p className="text-center text-[11px] text-charcoal/60 leading-relaxed">
+                  Paga subito o in <strong>3 rate a tasso zero</strong> con Klarna e PayPal. Nessun costo nascosto.
+                </p>
+              </div>
             </div>
           )}
 

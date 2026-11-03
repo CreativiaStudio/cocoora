@@ -201,6 +201,21 @@ export function TierCard({
         </span>
       </div>
 
+      {priceValue > 0 && (
+        <div
+          className={cn(
+            "mt-2 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium w-fit",
+            dark
+              ? "bg-white/10 text-teal-100 border border-white/15"
+              : "bg-teal-50 text-teal-900 border border-teal-100"
+          )}
+        >
+          <span className="font-semibold text-emerald-600 dark:text-emerald-400">o 3 rate</span> da{" "}
+          <strong className="font-semibold">{formatPrice(Math.round(priceValue / 3))}</strong>/mese con{" "}
+          <strong>Klarna</strong> o <strong>PayPal</strong>
+        </div>
+      )}
+
       {dark && <div className="mt-5 h-px w-full bg-gradient-to-r from-white/25 via-white/10 to-transparent" />}
 
       <p className={cn("mt-3 text-sm leading-relaxed", dark ? "text-teal-200/80" : "text-charcoal/70")}>
@@ -243,6 +258,25 @@ export function TierCard({
         >
           Vedi dettagli e prestazioni incluse
         </Link>
+      )}
+
+      {priceValue > 0 && (
+        <div
+          className={cn(
+            "mt-3.5 pt-3 border-t flex flex-wrap items-center justify-center gap-1.5 text-[11px]",
+            dark
+              ? "border-white/10 text-teal-200/70"
+              : "border-teal-100 text-charcoal/60"
+          )}
+        >
+          <span>Carta</span>
+          <span>·</span>
+          <span>Apple Pay</span>
+          <span>·</span>
+          <span className="font-semibold text-emerald-600 dark:text-emerald-400">Klarna 3 rate</span>
+          <span>·</span>
+          <span className="font-semibold text-teal-700 dark:text-teal-300">PayPal</span>
+        </div>
       )}
     </div>
   );

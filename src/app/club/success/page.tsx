@@ -28,7 +28,7 @@ function SuccessContent() {
             Benvenuto in Cocoora Club!
           </h1>
           <p className="text-sm text-slate-600 mt-2 max-w-md mx-auto">
-            Grazie per aver scelto il percorso <strong className="text-teal-900 capitalize">{tier.replace(/-/g, " ")}</strong>. La transazione è stata completata con successo tramite Stripe.
+            Grazie per aver scelto il percorso <strong className="text-teal-900 capitalize">{tier.replace(/-/g, " ")}</strong>. La transazione è stata completata con successo.
           </p>
         </div>
 
@@ -43,7 +43,7 @@ function SuccessContent() {
           </div>
           {sessionId && (
             <div className="flex justify-between border-b border-teal-200/50 pb-2">
-              <span className="text-slate-600">Transazione Stripe:</span>
+              <span className="text-slate-600">ID Ricevuta Digitale:</span>
               <span className="font-mono text-[11px] text-slate-800 truncate max-w-[220px]">{sessionId}</span>
             </div>
           )}

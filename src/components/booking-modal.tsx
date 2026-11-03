@@ -429,11 +429,17 @@ function BookingDialog({
                 <Button type="submit" className="w-full" size="lg">
                   Conferma Prenotazione &amp; Crea Account (0€)
                 </Button>
-                <p className="mt-3 flex items-start justify-center gap-2 text-center text-[11px] leading-relaxed text-charcoal/60">
-                  <ShieldCheck className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-600" />
-                  Zero costi di attivazione · Nessun pagamento anticipato · Annullamento gratuito
-                  fino a 24h prima
-                </p>
+                <div className="mt-3.5 rounded-2xl bg-teal-50/70 p-3.5 border border-teal-100 text-left text-xs space-y-1">
+                  <div className="flex items-center justify-between text-teal-900 font-semibold text-[11px]">
+                    <span className="flex items-center gap-1.5">
+                      <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" /> Nessun pagamento anticipato adesso
+                    </span>
+                    <span className="text-emerald-700 font-bold">Rate a Tasso Zero</span>
+                  </div>
+                  <p className="text-[11px] leading-relaxed text-charcoal/70">
+                    Saldabile direttamente in clinica (Bancomat, Carta, Apple Pay) o a <strong>rate con Klarna e PayPal</strong> per percorsi e piani di cura. Annullamento gratuito fino a 24h prima.
+                  </p>
+                </div>
               </div>
             </form>
           </div>
