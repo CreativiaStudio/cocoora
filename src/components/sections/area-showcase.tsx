@@ -45,7 +45,7 @@ type AreaDefinition = {
   variant: "canvas" | "tinted";
 };
 
-const MANUAL_HOLD_MS = 4500;
+const MANUAL_HOLD_MS = 8000;
 const SCROLL_STEPS = 6;
 
 const AREAS: readonly AreaDefinition[] = [

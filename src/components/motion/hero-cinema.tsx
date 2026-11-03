@@ -1,24 +1,22 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { ArrowDownRight, Pause, Play, Plus, Volume2, VolumeX } from "lucide-react";
 import { Button, ButtonLink, Container } from "@/components/ui";
 import { EASE } from "@/components/motion/tokens";
 import { cn } from "@/lib/utils";
 
-// Inserire qui il percorso del video istituzionale definitivo (es. "/video/cocoora-hero.mp4")
+/* Final institutional MP4 is in post-production: null activates the full-bleed showreel. */
 const HERO_VIDEO_SRC: string | null = null;
 
-const DEFAULT_H1 = "Connessi alla tua salute.";
 const CHAPTER_MS = 5200;
 
 interface Chapter {
   id: string;
   code: string;
   label: string;
-  caption: string;
   src: string;
   position: string;
 }
@@ -28,49 +26,89 @@ const CHAPTERS: readonly Chapter[] = [
     id: "estetica",
     code: "01",
     label: "Medicina Estetica",
-    caption: "Armonia autentica e protocolli rigenerativi del viso",
     src: "/images/trattamenti/medicina-estetica/filler-viso-napoli-1.jpg",
-    position: "object-[50%_28%]",
+    position: "object-[68%_24%]",
   },
   {
     id: "odontoiatria",
     code: "02",
     label: "Odontoiatria & Ortodonzia",
-    caption: "Allineatori trasparenti e progettazione digitale del sorriso",
     src: "/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-1.jpg",
-    position: "object-center",
+    position: "object-[62%_50%]",
   },
   {
     id: "diagnostica",
     code: "03",
     label: "Diagnostica Specialistica",
-    caption: "Strumentazione clinica ad alta precisione in sede",
     src: "/images/visite/oculistica-napoli-1.jpg",
-    position: "object-[42%_45%]",
+    position: "object-[58%_42%]",
   },
   {
-    id: "cura",
+    id: "radiologia",
     code: "04",
-    label: "Continuità di Cura",
-    caption: "Ascolto medico multidisciplinare nel tempo",
-    src: "/images/visite/oncologia-napoli-1.jpg",
-    position: "object-center",
+    label: "Prevenzione & Imaging",
+    src: "/images/visite/radiologia-napoli-1.jpg",
+    position: "object-[60%_46%]",
   },
+];
+
+const AREAS: readonly { code: string; label: string; href: string }[] = [
+  { code: "01", label: "Medicina Estetica e Rigenerativa", href: "#medicina-estetica" },
+  { code: "02", label: "Odontoiatria e Ortodonzia", href: "#odontoiatria" },
+  { code: "03", label: "Visite Specialistiche", href: "#visite-specialistiche" },
 ];
 
 const TOTAL_MS = CHAPTER_MS * CHAPTERS.length;
 
-const AREAS = [
-  { code: "01", label: "Medicina Estetica e Rigenerativa", href: "#medicina-estetica" },
-  { code: "02", label: "Odontoiatria e Ortodonzia", href: "#odontoiatria" },
-  { code: "03", label: "Visite Specialistiche", href: "#visite-specialistiche" },
-] as const;
-
 function formatTime(ms: number): string {
-  const total = Math.max(0, Math.floor(ms / 1000));
-  const m = Math.floor(total / 60);
-  const s = total % 60;
+  const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+  const m = Math.floor(totalSeconds / 60);
+  const s = totalSeconds % 60;
   return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
+}
+
+function splitHeadline(h1?: string): [string, string] {
+  const fallback: [string, string] = ["Connessi alla", "tua salute."];
+  if (!h1 || !h1.trim()) return fallback;
+  const words = h1.trim().split(/\s+/);
+  if (words.length < 2) return [words[0] ?? fallback[0], ""];
+  const cut = Math.ceil(words.length / 2);
+  return [words.slice(0, cut).join(" "), words.slice(cut).join(" ")];
+}
+
+interface MaskedLineProps {
+  text: string;
+  baseDelay: number;
+  reduced: boolean;
+  className?: string;
+}
+
+function MaskedLine({ text, baseDelay, reduced, className }: MaskedLineProps) {
+  const words = text.split(" ").filter(Boolean);
+  return (
+    <span className={cn("block", className)}>
+      {words.map((word, i) => (
+        <span
+          key={`${word}-${i}`}
+          className="-my-[0.05em] inline-block overflow-hidden py-[0.08em] align-bottom"
+        >
+          <motion.span
+            className="inline-block will-change-transform"
+            initial={reduced ? { opacity: 0 } : { y: "110%", opacity: 0 }}
+            animate={reduced ? { opacity: 1 } : { y: "0%", opacity: 1 }}
+            transition={{
+              duration: reduced ? 0.4 : 1.05,
+              ease: EASE.out,
+              delay: reduced ? 0 : baseDelay + i * 0.08,
+            }}
+          >
+            {word}
+          </motion.span>
+          {i < words.length - 1 ? "\u00A0" : null}
+        </span>
+      ))}
+    </span>
+  );
 }
 
 export interface HeroCinemaProps {
@@ -79,373 +117,352 @@ export interface HeroCinemaProps {
   openDiscover: () => void;
 }
 
-interface Word {
-  text: string;
-  accent: boolean;
-}
+export function HeroCinema({ h1, videoSrc, openDiscover }: HeroCinemaProps) {
+  const reducedPref = useReducedMotion();
+  const reduced = reducedPref === true;
+  const activeVideoSrc = videoSrc ?? HERO_VIDEO_SRC;
+  const isVideo = Boolean(activeVideoSrc);
 
-function buildLines(h1?: string): Word[][] {
-  if (!h1 || h1.trim() === DEFAULT_H1) {
-    return [
-      [
-        { text: "Connessi", accent: false },
-        { text: "alla", accent: false },
-      ],
-      [
-        { text: "tua", accent: true },
-        { text: "salute.", accent: true },
-      ],
-    ];
-  }
-  const words = h1.trim().split(/\s+/);
-  const accentFrom = Math.max(0, words.length - 2);
-  return [words.map((text, i) => ({ text, accent: i >= accentFrom }))];
-}
+  const frameRef = useRef<HTMLDivElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
-function AnimatedHeadline({ h1, reduced }: { h1?: string; reduced: boolean }) {
-  const lines = buildLines(h1);
-  let index = 0;
-  return (
-    <h1 className="mt-5 font-serif font-semibold leading-[1.04] tracking-[-0.03em] text-[clamp(2.65rem,5.1vw,5.1rem)] text-white">
-      {lines.map((line, li) => (
-        <span key={li} className="block">
-          {line.map((word, wi) => {
-            const i = index++;
-            return (
-              <span key={`${li}-${wi}`}>
-                <span className="inline-block overflow-hidden align-bottom py-[0.08em] -my-[0.05em]">
-                  <motion.span
-                    className={cn(
-                      "inline-block",
-                      word.accent ? "italic font-normal text-[#c5dbe3]" : "text-white",
-                    )}
-                    initial={reduced ? false : { y: "108%" }}
-                    animate={{ y: "0%" }}
-                    transition={{ duration: 0.72, ease: EASE.emphasized, delay: reduced ? 0 : 0.04 + i * 0.055 }}
-                  >
-                    {word.text}
-                  </motion.span>
-                </span>
-                {wi < line.length - 1 ? " " : null}
-              </span>
-            );
-          })}
-        </span>
-      ))}
-    </h1>
-  );
-}
+  const { scrollYProgress } = useScroll({
+    target: frameRef,
+    offset: ["start start", "end start"],
+  });
+  const parallaxY = useTransform(scrollYProgress, [0, 1], ["0%", reduced ? "0%" : "12%"]);
+  const parallaxScale = useTransform(scrollYProgress, [0, 1], [1, reduced ? 1 : 1.06]);
 
-function RealVideoPlayer({ src }: { src: string }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [playing, setPlaying] = useState(true);
+  /* ---------- Mode A: real video ---------- */
+  const [videoPlaying, setVideoPlaying] = useState(true);
   const [muted, setMuted] = useState(true);
 
-  const togglePlay = useCallback(() => {
+  const toggleVideo = useCallback(() => {
     const v = videoRef.current;
     if (!v) return;
     if (v.paused) {
       void v.play().catch(() => undefined);
+      setVideoPlaying(true);
     } else {
       v.pause();
+      setVideoPlaying(false);
     }
   }, []);
 
   const toggleMute = useCallback(() => {
-    const v = videoRef.current;
-    if (!v) return;
-    v.muted = !v.muted;
-    setMuted(v.muted);
+    setMuted((m) => {
+      const next = !m;
+      if (videoRef.current) videoRef.current.muted = next;
+      return next;
+    });
   }, []);
 
-  return (
-    <div className="group relative aspect-[5/4] sm:aspect-[16/11] w-full overflow-hidden rounded-[1.25rem] sm:rounded-[1.55rem] bg-[#001824]">
-      <video
-        ref={videoRef}
-        src={src}
-        className="absolute inset-0 h-full w-full cursor-pointer object-cover"
-        autoPlay
-        muted
-        loop
-        playsInline
-        onClick={togglePlay}
-        onPlay={() => setPlaying(true)}
-        onPause={() => setPlaying(false)}
-      />
-      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#001824]/80 to-transparent" />
-      <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-        <button
-          type="button"
-          onClick={togglePlay}
-          aria-label={playing ? "Metti in pausa il video" : "Riproduci il video"}
-          className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md transition hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-200"
-        >
-          {playing ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 translate-x-[1px]" />}
-        </button>
-        <button
-          type="button"
-          onClick={toggleMute}
-          aria-label={muted ? "Attiva l'audio" : "Disattiva l'audio"}
-          className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md transition hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-200"
-        >
-          {muted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-        </button>
-      </div>
-    </div>
-  );
-}
-
-function ShowreelPlayer({ reduced }: { reduced: boolean }) {
-  const [playing, setPlaying] = useState(!reduced);
-  const [elapsedMs, setElapsedMs] = useState(0);
-  const [docHidden, setDocHidden] = useState(false);
-  const lastTsRef = useRef<number | null>(null);
-  const rafRef = useRef<number | null>(null);
+  /* ---------- Mode B: showreel ---------- */
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [elapsed, setElapsed] = useState(0);
+  const [playing, setPlaying] = useState(true);
+  const elapsedRef = useRef(0);
 
   useEffect(() => {
-    const onVis = () => setDocHidden(document.hidden);
-    onVis();
-    document.addEventListener("visibilitychange", onVis);
-    return () => document.removeEventListener("visibilitychange", onVis);
-  }, []);
-
-  const running = playing && !docHidden;
+    if (reduced) setPlaying(false);
+  }, [reduced]);
 
   useEffect(() => {
-    if (!running) {
-      lastTsRef.current = null;
-      return;
-    }
-    const tick = (ts: number) => {
-      if (lastTsRef.current !== null) {
-        const delta = Math.min(ts - lastTsRef.current, 100);
-        setElapsedMs((prev) => (prev + delta) % TOTAL_MS);
+    if (isVideo || !playing) return;
+    let raf = 0;
+    let last: number | null = null;
+
+    const tick = (now: number) => {
+      if (document.hidden) {
+        last = null;
+        raf = requestAnimationFrame(tick);
+        return;
       }
-      lastTsRef.current = ts;
-      rafRef.current = requestAnimationFrame(tick);
+      if (last !== null) {
+        const delta = Math.min(now - last, 100);
+        let next = elapsedRef.current + delta;
+        if (next >= CHAPTER_MS) {
+          next = 0;
+          setActiveIndex((i) => (i + 1) % CHAPTERS.length);
+        }
+        elapsedRef.current = next;
+        setElapsed(next);
+      }
+      last = now;
+      raf = requestAnimationFrame(tick);
     };
-    rafRef.current = requestAnimationFrame(tick);
-    return () => {
-      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
-      lastTsRef.current = null;
-    };
-  }, [running]);
 
-  const activeIndex = Math.min(CHAPTERS.length - 1, Math.floor(elapsedMs / CHAPTER_MS));
-  const active = CHAPTERS[activeIndex];
-  const togglePlay = useCallback(() => setPlaying((p) => !p), []);
-  const jumpTo = useCallback((i: number) => setElapsedMs(i * CHAPTER_MS), []);
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [isVideo, playing]);
+
+  const jumpTo = useCallback((index: number) => {
+    elapsedRef.current = 0;
+    setElapsed(0);
+    setActiveIndex(index);
+  }, []);
+
+  const active = CHAPTERS[activeIndex] ?? CHAPTERS[0];
+  const globalMs = activeIndex * CHAPTER_MS + elapsed;
+  const [line1, line2] = splitHeadline(h1);
 
   return (
-    <div className="group relative aspect-[5/4] sm:aspect-[16/11] w-full overflow-hidden rounded-[1.25rem] sm:rounded-[1.55rem] bg-[#001824]">
-      <div className="absolute inset-0 z-0">
-        <AnimatePresence initial={false}>
-          <motion.div
-            key={active.id}
-            className="absolute inset-0"
-            initial={{ opacity: 0, scale: reduced ? 1 : 1.06 }}
-            animate={{ opacity: 1, scale: reduced ? 1 : 1.0 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.1, ease: EASE.out }}
-          >
-            <Image
-              src={active.src}
-              alt={`${active.label} — ${active.caption}`}
-              fill
-              sizes="(min-width: 1024px) 580px, 95vw"
-              priority={activeIndex === 0}
-              className={cn("object-cover", active.position)}
-              draggable={false}
-            />
-          </motion.div>
-        </AnimatePresence>
-      </div>
-      <button
-        type="button"
-        onClick={togglePlay}
-        aria-label={playing ? "Metti in pausa l'anteprima" : "Riproduci l'anteprima"}
-        className="absolute inset-0 z-[15] cursor-pointer focus-visible:outline-none"
-      />
-
-      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 z-10 h-1/3 bg-gradient-to-b from-[#001824]/75 via-[#001824]/15 to-transparent" />
-      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[62%] bg-gradient-to-t from-[#001824]/92 via-[#001824]/45 to-transparent" />
-
-      <div className="pointer-events-none absolute inset-x-3 top-3 z-20 flex items-center justify-between gap-2 sm:inset-x-4 sm:top-4">
-        <span className="glass-dark inline-flex items-center gap-2 rounded-full border border-white/15 bg-[#001824]/45 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/90 backdrop-blur-md sm:text-[11px]">
-          <span className="relative flex h-2 w-2">
-            {!reduced && <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-teal-300/70" />}
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-teal-300" />
-          </span>
-          Video Istituzionale · Anteprima
-        </span>
-        <span className="rounded-full border border-white/15 bg-[#001824]/45 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/80 backdrop-blur-md sm:text-[11px]">
-          16:9 · In arrivo
-        </span>
-      </div>
-
-      <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
-        <motion.span
-          aria-hidden="true"
-          className={cn(
-            "flex h-16 w-16 items-center justify-center rounded-full border border-white/25 bg-white/10 text-white shadow-[0_12px_40px_-10px_rgba(0,0,0,0.6)] backdrop-blur-md transition-opacity duration-300 sm:h-20 sm:w-20",
-            playing ? "opacity-0 group-hover:opacity-100" : "opacity-100",
-          )}
-          animate={{ scale: playing ? 0.92 : 1 }}
-          transition={{ duration: 0.3, ease: EASE.out }}
+    <section className="relative bg-canvas px-2.5 pb-4 pt-[7.25rem] sm:px-4 sm:pb-6 sm:pt-[7.85rem]">
+      <div
+        ref={frameRef}
+        className="relative isolate flex min-h-[540px] flex-col justify-between overflow-hidden rounded-[1.85rem] border border-teal-900/30 bg-[#001824] text-white shadow-[0_36px_90px_-36px_rgba(0,34,49,0.72)] sm:min-h-[min(calc(100svh-9rem),860px)] sm:rounded-[2.5rem] lg:max-h-[860px]"
+      >
+        {/* Full-bleed background stage */}
+        <motion.div
+          aria-hidden={!isVideo}
+          className="absolute inset-0 -z-10"
+          style={{ y: parallaxY, scale: parallaxScale }}
         >
-          {playing ? <Pause className="h-6 w-6" /> : <Play className="h-6 w-6 translate-x-[2px]" />}
-        </motion.span>
-      </div>
-
-      <div className="absolute inset-x-3 bottom-3 z-30 sm:inset-x-5 sm:bottom-5">
-        <div className="flex items-end gap-3 sm:gap-4">
-          <button
-            type="button"
-            onClick={togglePlay}
-            aria-label={playing ? "Pausa" : "Riproduci"}
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-[#03354b] transition hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-200 sm:h-11 sm:w-11"
-          >
-            {playing ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 translate-x-[1px]" />}
-          </button>
-          <div className="min-w-0 flex-1" aria-live="polite">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-teal-200/90">
-              Capitolo {active.code}
-            </p>
-            <p className="truncate font-serif text-lg font-semibold leading-tight text-white sm:text-xl">{active.label}</p>
-            <p className="hidden truncate text-xs text-teal-100/75 sm:block">{active.caption}</p>
-          </div>
-          <span className="shrink-0 font-mono text-[11px] tabular-nums text-white/80 sm:text-xs">
-            {formatTime(elapsedMs)} / {formatTime(TOTAL_MS)}
-          </span>
-        </div>
-        <div className="mt-3 grid grid-cols-4 gap-1.5">
-          {CHAPTERS.map((c, i) => {
-            const progress =
-              i < activeIndex ? 1 : i > activeIndex ? 0 : (elapsedMs - i * CHAPTER_MS) / CHAPTER_MS;
-            return (
-              <button
-                key={c.id}
-                type="button"
-                onClick={() => jumpTo(i)}
-                aria-label={`Vai al capitolo ${c.code}: ${c.label}`}
-                aria-current={i === activeIndex ? "step" : undefined}
-                className="group/seg py-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-200 rounded"
+          {isVideo && activeVideoSrc ? (
+            <video
+              ref={videoRef}
+              src={activeVideoSrc}
+              autoPlay
+              muted={muted}
+              loop
+              playsInline
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          ) : (
+            <AnimatePresence initial={false}>
+              <motion.div
+                key={active.id}
+                className="absolute inset-0"
+                initial={{ opacity: 0, scale: reduced ? 1 : 1.09 }}
+                animate={{ opacity: 1, scale: 1.01 }}
+                exit={{ opacity: 0 }}
+                transition={{
+                  opacity: { duration: 1.35, ease: EASE.out },
+                  scale: { duration: reduced ? 0 : 5.4, ease: "linear" },
+                }}
               >
-                <span className="relative block h-[3px] overflow-hidden rounded-full bg-white/20 transition-[height] group-hover/seg:h-[5px]">
-                  <span
-                    className="absolute inset-0 origin-left rounded-full bg-white"
-                    style={{ transform: `scaleX(${Math.max(0, Math.min(1, progress))})` }}
-                  />
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-    </div>
-  );
-}
+                <Image
+                  src={active.src}
+                  alt={`${active.label} — Cocoora Centro Medico Napoli`}
+                  fill
+                  priority={activeIndex === 0}
+                  sizes="100vw"
+                  className={cn("object-cover", active.position)}
+                  draggable={false}
+                />
+              </motion.div>
+            </AnimatePresence>
+          )}
+        </motion.div>
 
-export function HeroCinema({ h1, videoSrc, openDiscover }: HeroCinemaProps) {
-  const sectionRef = useRef<HTMLElement>(null);
-  const reduced = useReducedMotion() ?? false;
-  const activeVideoSrc = videoSrc ?? HERO_VIDEO_SRC;
-
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
-  const parallaxY = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : -14]);
-
-  return (
-    <section ref={sectionRef} className="relative bg-canvas px-2.5 pb-4 pt-[7.25rem] sm:px-4 sm:pb-6 sm:pt-[7.85rem]">
-      <div className="relative isolate overflow-hidden rounded-[1.85rem] sm:rounded-[2.5rem] bg-[#002231] text-white shadow-[0_36px_90px_-36px_rgba(0,34,49,0.68)] border border-teal-900/40">
+        {/* Cinema grade & legibility scrims */}
         <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 -z-10"
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-0"
           style={{
             background:
-              "radial-gradient(ellipse 75% 65% at 82% 38%, rgba(28,74,92,0.62) 0%, rgba(0,52,75,0.35) 48%, rgba(0,34,49,0.98) 100%)",
+              "linear-gradient(96deg, rgba(0,22,33,0.90) 0%, rgba(0,30,44,0.66) 38%, rgba(0,26,39,0.22) 72%, rgba(0,22,33,0.38) 100%)",
           }}
         />
         <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 -z-10"
-          style={{ background: "radial-gradient(circle at 12% 18%, rgba(128,161,178,0.16), transparent 52%)" }}
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-0"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(0,20,31,0.48) 0%, rgba(0,20,31,0) 28%, rgba(0,20,31,0.18) 65%, rgba(0,18,28,0.88) 100%)",
+          }}
         />
-        <div aria-hidden="true" className="noise pointer-events-none absolute inset-0 -z-10 opacity-60" />
+        <div aria-hidden className="noise pointer-events-none absolute inset-0 z-0 opacity-35" />
 
-        <Container className="relative z-10 py-10 sm:py-14 lg:py-16">
-          <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
-            <div className="min-w-0 lg:col-span-6">
-              <motion.div
-                className="flex items-center gap-3"
-                initial={reduced ? false : { opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, ease: EASE.out }}
-              >
-                <span className="h-px w-8 bg-[#80a1b2]" />
-                <span className="text-[11px] font-semibold uppercase tracking-[0.26em] text-teal-200/90">
-                  Cocoora Centro Medico · Napoli
-                </span>
-              </motion.div>
+        {/* Top HUD */}
+        <Container className="relative z-20 pt-7 sm:pt-9">
+          <div className="flex items-center justify-between gap-4">
+            <motion.div
+              className="flex items-center gap-3"
+              initial={{ opacity: 0, y: reduced ? 0 : -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, ease: EASE.out, delay: 0.1 }}
+            >
+              <span aria-hidden className="h-px w-8 bg-white/50" />
+              <span className="text-[10px] font-semibold uppercase tracking-[0.24em] text-white/80 sm:text-[11px]">
+                Cocoora Centro Medico · Napoli
+              </span>
+            </motion.div>
 
-              <AnimatedHeadline h1={h1} reduced={reduced} />
-
-              <motion.div
-                initial={reduced ? false : { opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.62, ease: EASE.out, delay: reduced ? 0 : 0.22 }}
-              >
-                <p className="mt-6 max-w-xl text-[15px] sm:text-[17px] leading-[1.68] text-teal-100/80">
-                  Un centro medico autorizzato a Napoli dove prevenzione, diagnostica avanzata e cura si incontrano:
-                  specialisti, docenti universitari e tecnologie di ultima generazione al servizio del tuo tempo.
-                </p>
-
-                <div className="mt-8 flex flex-col gap-3.5 sm:flex-row sm:items-center">
-                  <Button size="lg" variant="white" onClick={openDiscover}>
-                    Inizia gratis con il Club <Plus className="h-4 w-4" />
-                  </Button>
-                  <ButtonLink href="/contatti" variant="outline-dark" size="lg">
-                    Prenota Visita
-                  </ButtonLink>
-                </div>
-
-                <div className="mt-7 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-teal-200/70">
-                  <span>Docenti Università Federico II & Vanvitelli</span>
-                  <span aria-hidden="true" className="h-1 w-1 rounded-full bg-[#80a1b2]" />
-                  <span>Lun–Ven 8:00–20:00 (Orario continuato) · Sab 9:00–14:00</span>
-                </div>
-              </motion.div>
-            </div>
-
-            <div className="min-w-0 lg:col-span-6">
-              <motion.div
-                style={{ y: parallaxY }}
-                initial={reduced ? false : { opacity: 0, scale: 0.97 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.85, ease: EASE.emphasized, delay: reduced ? 0 : 0.14 }}
-                className="relative rounded-[1.6rem] sm:rounded-[2rem] border border-white/15 bg-white/[0.04] p-2 sm:p-2.5 shadow-[0_32px_80px_-28px_rgba(0,0,0,0.75)] backdrop-blur-md"
-              >
-                {activeVideoSrc ? <RealVideoPlayer src={activeVideoSrc} /> : <ShowreelPlayer reduced={reduced} />}
-              </motion.div>
-            </div>
+            <motion.span
+              className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-[#001824]/45 px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/90 backdrop-blur-md sm:text-[11px]"
+              initial={{ opacity: 0, y: reduced ? 0 : -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, ease: EASE.out, delay: 0.2 }}
+            >
+              <span className="relative flex h-2 w-2">
+                {!reduced && (
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#80A1B2] opacity-75" />
+                )}
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-[#80A1B2]" />
+              </span>
+              {isVideo ? "Video Istituzionale" : "Video Hero · Anteprima"}
+            </motion.span>
           </div>
         </Container>
 
-        <nav aria-label="Aree del centro" className="relative z-10 border-t border-white/10 bg-[#001a26]/55 backdrop-blur-md">
+        {/* Main copy + controls */}
+        <Container className="relative z-20 mt-auto pb-8 pt-16 sm:pb-10 sm:pt-20 lg:pt-24">
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-xl">
+              <h1 className="font-serif text-[clamp(3rem,6vw,5.6rem)] font-semibold leading-[1.02] tracking-[-0.032em] text-white">
+                <MaskedLine text={line1} baseDelay={0.25} reduced={reduced} />
+                {line2 ? (
+                  <MaskedLine
+                    text={line2}
+                    baseDelay={0.45}
+                    reduced={reduced}
+                    className="font-normal italic text-[#d2e5ec]"
+                  />
+                ) : null}
+              </h1>
+
+              <motion.p
+                className="mt-4 max-w-md text-[15px] leading-[1.6] text-white/80 sm:text-[17px]"
+                initial={{ opacity: 0, y: reduced ? 0 : 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.9, ease: EASE.out, delay: reduced ? 0 : 0.8 }}
+              >
+                Prevenzione, diagnostica avanzata e cura specialistica in un unico centro.
+              </motion.p>
+
+              <motion.div
+                className="mt-7 flex flex-wrap items-center gap-3.5"
+                initial={{ opacity: 0, y: reduced ? 0 : 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.9, ease: EASE.out, delay: reduced ? 0 : 0.95 }}
+              >
+                <Button size="lg" variant="white" onClick={openDiscover}>
+                  Inizia gratis con il Club <Plus className="h-4 w-4" />
+                </Button>
+                <ButtonLink
+                  href="/contatti"
+                  variant="outline-dark"
+                  size="lg"
+                  className="bg-[#001824]/25 backdrop-blur-md"
+                >
+                  Prenota Visita
+                </ButtonLink>
+              </motion.div>
+            </div>
+
+            <motion.div
+              className="w-full max-w-xs shrink-0 lg:w-80"
+              initial={{ opacity: 0, y: reduced ? 0 : 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease: EASE.out, delay: reduced ? 0 : 1.1 }}
+            >
+              {isVideo ? (
+                <div className="flex items-center justify-end gap-2.5">
+                  <button
+                    type="button"
+                    onClick={toggleVideo}
+                    aria-label={videoPlaying ? "Metti in pausa il video" : "Riproduci il video"}
+                    className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-[#001824]/45 text-white backdrop-blur-md transition hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                  >
+                    {videoPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={toggleMute}
+                    aria-label={muted ? "Attiva audio" : "Disattiva audio"}
+                    className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-[#001824]/45 text-white backdrop-blur-md transition hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                  >
+                    {muted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+                  </button>
+                </div>
+              ) : (
+                <div className="rounded-2xl border border-white/15 bg-[#001824]/45 p-3.5 backdrop-blur-md">
+                  <div className="flex items-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setPlaying((p) => !p)}
+                      aria-label={playing ? "Metti in pausa lo showreel" : "Riproduci lo showreel"}
+                      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-[#03354B] transition hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                    >
+                      {playing ? (
+                        <Pause className="h-4 w-4" />
+                      ) : (
+                        <Play className="ml-0.5 h-4 w-4" />
+                      )}
+                    </button>
+                    <div className="min-w-0 flex-1">
+                      <AnimatePresence mode="wait" initial={false}>
+                        <motion.p
+                          key={active.id}
+                          className="truncate text-[13px] font-medium text-white"
+                          initial={{ opacity: 0, y: reduced ? 0 : 6 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: reduced ? 0 : -6 }}
+                          transition={{ duration: 0.35, ease: EASE.out }}
+                          aria-live="polite"
+                        >
+                          <span className="text-white/60">{active.code} ·</span> {active.label}
+                        </motion.p>
+                      </AnimatePresence>
+                      <p className="mt-0.5 text-[11px] tabular-nums tracking-[0.08em] text-white/55">
+                        {formatTime(globalMs)} / {formatTime(TOTAL_MS)}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-3 grid grid-cols-4 gap-1.5" role="tablist" aria-label="Capitoli showreel">
+                    {CHAPTERS.map((chapter, i) => {
+                      const fill =
+                        i < activeIndex ? 1 : i === activeIndex ? elapsed / CHAPTER_MS : 0;
+                      return (
+                        <button
+                          key={chapter.id}
+                          type="button"
+                          role="tab"
+                          aria-selected={i === activeIndex}
+                          aria-label={`${chapter.code} ${chapter.label}`}
+                          onClick={() => jumpTo(i)}
+                          className="group py-2 focus-visible:outline-none"
+                        >
+                          <span className="relative block h-[3px] overflow-hidden rounded-full bg-white/20 transition group-hover:bg-white/35 group-focus-visible:ring-2 group-focus-visible:ring-white/70">
+                            <span
+                              className="absolute inset-y-0 left-0 rounded-full bg-white"
+                              style={{ width: `${Math.min(1, Math.max(0, fill)) * 100}%` }}
+                            />
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          </div>
+        </Container>
+
+        {/* Bottom quick navigation */}
+        <nav
+          aria-label="Aree del centro"
+          className="relative z-20 border-t border-white/12 bg-[#00141f]/55 backdrop-blur-md"
+        >
           <Container>
-            <ul className="grid divide-y divide-white/10 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+            <ul className="grid grid-cols-1 divide-y divide-white/10 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
               {AREAS.map((area) => (
                 <li key={area.href}>
                   <a
                     href={area.href}
-                    className="group flex items-center justify-between gap-4 py-4 sm:px-5 sm:py-5 first:sm:pl-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-200 rounded"
+                    className="group flex items-center justify-between gap-3 py-4 transition sm:px-5 sm:py-5 sm:first:pl-0"
                   >
                     <span className="flex items-baseline gap-3">
-                      <span className="font-mono text-[11px] tabular-nums text-[#80a1b2]">{area.code}</span>
-                      <span className="text-sm font-medium text-white/90 transition-colors group-hover:text-white">
+                      <span className="text-[11px] font-semibold tabular-nums tracking-[0.18em] text-[#80A1B2]">
+                        {area.code}
+                      </span>
+                      <span className="text-[13px] font-medium text-white/85 transition group-hover:text-white sm:text-[14px]">
                         {area.label}
                       </span>
                     </span>
-                    <ArrowDownRight className="h-4 w-4 shrink-0 text-teal-200/70 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:translate-y-0.5 group-hover:text-white" />
+                    <ArrowDownRight className="h-4 w-4 shrink-0 text-white/50 transition group-hover:translate-x-0.5 group-hover:translate-y-0.5 group-hover:text-white" />
                   </a>
                 </li>
               ))}
@@ -456,3 +473,5 @@ export function HeroCinema({ h1, videoSrc, openDiscover }: HeroCinemaProps) {
     </section>
   );
 }
+
+export default HeroCinema;
