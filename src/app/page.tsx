@@ -1,7 +1,7 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import {
   ArrowRight,
   CalendarDays,
@@ -9,7 +9,6 @@ import {
   Heart,
   Instagram,
   MessageCircle,
-  Play,
   Plus,
   ShieldCheck,
   Sparkles,
@@ -17,72 +16,111 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useCms, useShop } from "@/components/providers";
-import {
-  INSTAGRAM_POSTS,
-  MANIFESTO,
-  NAV_NODES,
-} from "@/lib/site";
+import { INSTAGRAM_POSTS, MANIFESTO } from "@/lib/site";
 import { CLUB_TIERS } from "@/lib/club";
-import type { ClubTier, NavChild } from "@/lib/types";
+import type { ClubTier } from "@/lib/types";
 import { Badge, Button, ButtonLink, Container, SectionLabel } from "@/components/ui";
 import { TierCard } from "@/components/sections/club-showcase";
 import { ReelsSection } from "@/components/sections/reels";
-import { HeroCarousel } from "@/components/hero-carousel";
+import { HeroCinema } from "@/components/motion/hero-cinema";
+import { AreasShowcase } from "@/components/sections/area-showcase";
+import { Reveal, RevealItem, RevealStagger } from "@/components/motion/reveal";
+import { SpotlightCard } from "@/components/motion/spotlight-card";
 
-const CLUB_ENTRY_FEATURES = [
+type EcosystemStep = {
+  n: string;
+  title: string;
+  text: string;
+  icon: LucideIcon;
+};
+
+const ECOSYSTEM_STEPS: EcosystemStep[] = [
   {
-    id: "registrazione",
-    icon: UserRound,
+    n: "01",
     title: "Profilo sanitario digitale",
-    description:
-      "Crea il tuo profilo sanitario digitale in pochi minuti, direttamente dall'app Cocoora.",
+    text: "Attiva il tuo profilo sanitario digitale in pochi passi, senza code né moduli cartacei.",
+    icon: UserRound,
   },
   {
-    id: "prenotazione",
-    icon: CalendarDays,
+    n: "02",
     title: "Specialista, sede e orario",
-    description:
-      "Scegli lo specialista, la sede e l'orario più comodi per te, in un unico click.",
+    text: "Prenota la visita che preferisci scegliendo il professionista e l'orario più adatto a te.",
+    icon: CalendarDays,
   },
   {
-    id: "referti",
-    icon: FileText,
+    n: "03",
     title: "Referti digitali sempre con te",
-    description:
-      "Consulta referti e documenti in un'area riservata sicura, disponibile 24/7.",
+    text: "I tuoi referti sono disponibili in un'area riservata sicura, accessibili quando e dove ti servono.",
+    icon: FileText,
   },
 ];
 
-// Aree Mediche in evidenza — ordine tassativo:
-// 1° Medicina Estetica & Rigenerativa · 2° Odontoiatria e Ortodonzia · 3° Visite Specialistiche
-const AREE_MEDICHE: NavChild[] = [
-  {
-    label: "Medicina Estetica & Rigenerativa",
-    href: "/servizi/medicina-estetica",
-    description:
-      "Viso (Biostimolazione, Filler, Tossina botulinica), Corpo (Criolipolisi, Ultrasuoni CFU) e Laser medicali.",
-    image: "/images/aesthetic-skin.jpg",
-  },
-  {
-    label: "Odontoiatria & Ortodonzia",
-    href: "/servizi/odontoiatria",
-    description:
-      "Allineatori Trasparenti, Ortodonzia Specialistica, Estetica del Sorriso, Igiene & Prevenzione.",
-    image: "/images/invisalign-smile.jpg",
-  },
-  {
-    label: "Visite Specialistiche",
-    href: "/visite",
-    description:
-      "Cardiologia, Ginecologia, Senologia, Ecografia, Oculistica, Pediatria, Psicologia e Medicina dello Sport.",
-    image: "/images/diagnostics-lab.jpg",
-  },
-];
+function EyebrowBar({ children, dark = false }: { children: string; dark?: boolean }) {
+  return (
+    <div className="flex items-center justify-center gap-4">
+      <span
+        className={`h-px w-12 bg-gradient-to-r from-transparent ${dark ? "to-white/50" : "to-[#80a1b2]/70"}`}
+      />
+      <SectionLabel className="mb-0">{children}</SectionLabel>
+      <span
+        className={`h-px w-12 bg-gradient-to-l from-transparent ${dark ? "to-white/50" : "to-[#80a1b2]/70"}`}
+      />
+    </div>
+  );
+}
+
+function FaqSection({ faq }: { faq: { q: string; a: string }[] }) {
+  const [open, setOpen] = useState<number | null>(0);
+  if (faq.length === 0) return null;
+  return (
+    <section className="relative overflow-hidden bg-canvas py-24 sm:py-28">
+      <Container>
+        <Reveal className="mx-auto max-w-2xl text-center">
+          <SectionLabel>Domande frequenti</SectionLabel>
+          <h2 className="font-serif text-[clamp(2.2rem,3.8vw,3.3rem)] font-semibold leading-[1.06] tracking-[-0.028em] text-[#00344b]">
+            Le risposte <span className="italic font-normal text-[#5d8497]">che cerchi</span>
+          </h2>
+        </Reveal>
+        <RevealStagger className="mx-auto mt-12 flex max-w-3xl flex-col gap-4">
+          {faq.map((item, i) => {
+            const isOpen = open === i;
+            return (
+              <RevealItem key={item.q}>
+                <div className="rounded-2xl border border-[#80a1b2]/25 bg-white/85 shadow-[0_16px_40px_-30px_rgba(3,53,75,0.35)] backdrop-blur-md transition-colors hover:border-[#80a1b2]/50">
+                  <button
+                    type="button"
+                    aria-expanded={isOpen}
+                    onClick={() => setOpen(isOpen ? null : i)}
+                    className="flex w-full items-center justify-between gap-6 px-6 py-5 text-left"
+                  >
+                    <span className="font-serif text-lg font-semibold leading-snug text-[#1c4a5c] sm:text-xl">
+                      {item.q}
+                    </span>
+                    <Plus
+                      className={`h-5 w-5 shrink-0 text-[#1c4a5c] transition-transform duration-300 ${isOpen ? "rotate-45" : ""}`}
+                    />
+                  </button>
+                  <div
+                    className={`grid transition-all duration-300 ${isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
+                  >
+                    <div className="overflow-hidden">
+                      <p className="px-6 pb-6 text-[15px] leading-[1.75] text-charcoal/80">{item.a}</p>
+                    </div>
+                  </div>
+                </div>
+              </RevealItem>
+            );
+          })}
+        </RevealStagger>
+      </Container>
+    </section>
+  );
+}
 
 export default function HomePage() {
   const { pages } = useCms();
-  const { openDiscover, openCheckout } = useShop();
   const home = pages.find((p) => p.path === "/");
+  const { openDiscover, openCheckout } = useShop();
 
   const chooseTier = (tier: ClubTier) => {
     if (tier.free) {
@@ -92,390 +130,303 @@ export default function HomePage() {
     openCheckout(tier);
   };
 
-  return (
-    <>
-      {/* ── Hero Carousel ─────────────────────────────────────────────── */}
-      <HeroCarousel h1={home?.h1} openDiscover={openDiscover} />
+  const paragraphs = MANIFESTO.paragraphs;
+  const bodyParagraphs = paragraphs.slice(0, -1);
+  const closing = paragraphs.length > 0 ? paragraphs[paragraphs.length - 1] : null;
 
-      {/* ── Manifesto ────────────────────────────────────────────────── */}
-      <section className="bg-canvas py-24">
+  return (
+    <div className="bg-canvas">
+      {/* 1 · Hero */}
+      <HeroCinema h1={home?.h1} openDiscover={openDiscover} />
+
+      {/* 2 · La nostra filosofia */}
+      <section className="relative overflow-hidden bg-canvas py-24 sm:py-32">
+        <div className="mx-auto mb-8 h-12 w-px bg-gradient-to-b from-[#80a1b2]/50 to-transparent" />
         <Container>
-          <div className="mx-auto max-w-3xl">
-            {/* Accent bar decorativa */}
-            <div className="mb-10 flex items-center gap-5">
-              <div className="h-px flex-1 bg-gradient-to-r from-transparent to-teal-200" />
-              <SectionLabel>La nostra filosofia</SectionLabel>
-              <div className="h-px flex-1 bg-gradient-to-l from-transparent to-teal-200" />
-            </div>
-            <h2 className="text-center font-serif text-4xl font-semibold leading-tight text-teal-900 sm:text-5xl">
+          <Reveal className="mx-auto max-w-3xl">
+            <EyebrowBar>La nostra filosofia</EyebrowBar>
+            <h2 className="mt-6 text-center font-serif text-[clamp(2.2rem,3.8vw,3.4rem)] font-semibold leading-[1.08] tracking-[-0.025em] text-[#00344b]">
               {home?.h2 ?? MANIFESTO.h2}
             </h2>
-            <div className="mt-8 space-y-5">
-              {MANIFESTO.paragraphs.map((p, i) => (
-                <p
-                  key={i}
-                  className={
-                    i === MANIFESTO.paragraphs.length - 1
-                      ? "border-l-2 border-teal-600 pl-5 font-serif text-xl italic leading-relaxed text-teal-800"
-                      : "text-base leading-relaxed text-charcoal/75"
-                  }
-                >
+            <div className="mt-10 space-y-6">
+              {bodyParagraphs.map((p, i) => (
+                <p key={i} className="text-base leading-[1.78] text-charcoal/80 sm:text-[17px]">
                   {p}
                 </p>
               ))}
+              {closing && (
+                <p className="rounded-2xl border-l-2 border-[#1c4a5c] bg-[#f2f7f9]/70 px-6 py-5 font-serif text-xl italic leading-relaxed text-[#00344b] sm:text-2xl">
+                  {closing}
+                </p>
+              )}
             </div>
-            <div className="mt-8 flex justify-center">
+            <div className="mt-10 flex justify-center">
               <ButtonLink href="/chi-siamo" variant="secondary">
                 Scopri il Metodo Cocoora <ArrowRight className="h-4 w-4" />
               </ButtonLink>
             </div>
-          </div>
+          </Reveal>
         </Container>
       </section>
 
-      {/* ── Entra in Cocoora Club ─────────────────────────────────────── */}
-      <section id="cocoora-club" className="section-alt relative overflow-hidden py-24">
-        <Container>
-          <div className="mx-auto max-w-2xl text-center">
+      {/* 3 · Ecosistema digitale */}
+      <section
+        id="cocoora-club"
+        className="relative overflow-hidden border-y border-teal-200/45 bg-gradient-to-b from-[#eef4f7] via-[#f4f8fa] to-canvas py-24 sm:py-28"
+      >
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -top-40 left-1/2 h-[480px] w-[780px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(128,161,178,0.22),transparent)]"
+        />
+        <Container className="relative">
+          <Reveal className="mx-auto max-w-2xl text-center">
             <SectionLabel>Entra in Cocoora Club</SectionLabel>
-            <h2 className="font-serif text-4xl font-semibold leading-tight text-teal-900 sm:text-5xl">
-              Il tuo tempo, la nostra priorità
+            <h2 className="font-serif text-[clamp(2.25rem,3.9vw,3.5rem)] font-semibold leading-[1.05] tracking-[-0.028em] text-[#00344b]">
+              Il tuo tempo, <span className="italic font-normal text-[#5d8497]">la nostra priorità</span>
             </h2>
-            <p className="mt-4 text-base leading-relaxed text-charcoal/70">
-              Prenota, consulta, gestisci in un click. La tua salute digitale,
-              sempre con te.
+            <p className="mt-4 text-base leading-relaxed text-charcoal/75">
+              Prenota, consulta, gestisci in un click. La tua salute digitale, sempre con te.
             </p>
-          </div>
-
-          <div className="mt-14 grid gap-6 md:grid-cols-3">
-            {CLUB_ENTRY_FEATURES.map((f, i) => {
-              const Icon: LucideIcon = f.icon;
+          </Reveal>
+          <RevealStagger className="mt-14 grid gap-6 md:grid-cols-3">
+            {ECOSYSTEM_STEPS.map((step) => {
+              const Icon = step.icon;
               return (
-                <div
-                  key={f.id}
-                  className="group relative overflow-hidden rounded-3xl border border-white bg-white/70 p-8 backdrop-blur-md transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_30px_60px_-24px_rgba(3,53,75,0.35)]"
-                >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-teal-100 text-teal-700 transition-colors group-hover:bg-teal-600 group-hover:text-white">
-                    <Icon className="h-6 w-6" />
-                  </div>
-                  <p className="mt-6 font-serif text-2xl font-semibold text-teal-900">
-                    <span className="mr-2 text-slate-accent">{String(i + 1).padStart(2, "0")}</span>
-                    {f.title}
-                  </p>
-                  <p className="mt-3 text-sm leading-relaxed text-charcoal/70">
-                    {f.description}
-                  </p>
-                </div>
+                <RevealItem key={step.n}>
+                  <SpotlightCard className="group h-full rounded-[1.85rem] border border-white/90 bg-white/80 p-8 shadow-[0_22px_50px_-28px_rgba(3,53,75,0.28)] backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_32px_64px_-26px_rgba(3,53,75,0.36)]">
+                    <div className="flex items-center justify-between">
+                      <span className="font-serif text-4xl font-semibold tracking-[-0.028em] text-[#80a1b2]">
+                        {step.n}
+                      </span>
+                      <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[#80a1b2]/30 bg-[#f4f8fa] text-[#1c4a5c] transition-colors group-hover:bg-[#1c4a5c] group-hover:text-white">
+                        <Icon className="h-5 w-5" />
+                      </span>
+                    </div>
+                    <h3 className="mt-8 font-serif text-2xl font-semibold leading-tight tracking-[-0.02em] text-[#1c4a5c]">
+                      {step.title}
+                    </h3>
+                    <p className="mt-3 text-[15px] leading-[1.7] text-charcoal/75">{step.text}</p>
+                  </SpotlightCard>
+                </RevealItem>
               );
             })}
-          </div>
+          </RevealStagger>
+          <Reveal className="mt-12 flex justify-center">
+            <Button onClick={openDiscover} size="lg">
+              <Sparkles className="h-4 w-4" /> Crea il tuo profilo gratuito
+            </Button>
+          </Reveal>
         </Container>
       </section>
 
-      {/* ── Aree Mediche in Evidenza ─────────────────────────────────── */}
-      <section id="servizi" className="bg-canvas py-24">
-        <Container>
-          <div className="mx-auto max-w-2xl text-center">
-            <SectionLabel>Aree Mediche in Evidenza</SectionLabel>
-            <h2 className="font-serif text-4xl font-semibold leading-tight text-teal-900 sm:text-5xl">
-              Le Nostre Aree Mediche
-            </h2>
-            <p className="mt-4 text-base leading-relaxed text-charcoal/70">
-              Una rete di professionisti pronta a rispondere a ogni tua esigenza,
-              dalla prevenzione quotidiana alla diagnostica avanzata.
-            </p>
-          </div>
+      {/* 4 · Aree cliniche */}
+      <AreasShowcase />
 
-          <div className="mt-14 grid gap-6 lg:grid-cols-3">
-            {AREE_MEDICHE.map((pillar) => (
-              <Link
-                key={pillar.href}
-                href={pillar.href}
-                className="group relative flex h-[420px] flex-col overflow-hidden rounded-[2rem] shadow-[0_20px_50px_-28px_rgba(3,53,75,0.4)] transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_35px_70px_-24px_rgba(3,53,75,0.45)]"
-              >
-                {pillar.image && (
-                  <Image
-                    src={pillar.image}
-                    alt={pillar.label}
-                    fill
-                    sizes="(min-width: 1024px) 400px, 90vw"
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                  />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-dark-navy/90 via-dark-navy/30 to-transparent" />
-                <div className="relative mt-auto p-7 text-white">
-                  <h3 className="font-serif text-2xl font-semibold leading-tight">
-                    {pillar.label}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-teal-100/85">
-                    {pillar.description}
+      {/* 5 · Club & Precision */}
+      <section className="relative overflow-hidden bg-canvas px-2.5 py-6 sm:px-4 sm:py-10">
+        <div className="relative isolate overflow-hidden rounded-[1.85rem] bg-[#002231] py-20 text-white shadow-[0_36px_90px_-36px_rgba(0,34,49,0.65)] sm:rounded-[2.5rem] sm:py-24">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -left-32 top-1/3 -z-10 h-[620px] w-[620px] rounded-full bg-[radial-gradient(closest-side,rgba(28,74,92,0.75),transparent)]"
+          />
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -right-40 -top-40 -z-10 h-[520px] w-[520px] rounded-full bg-[radial-gradient(closest-side,rgba(128,161,178,0.28),transparent)]"
+          />
+          <div aria-hidden className="noise pointer-events-none absolute inset-0 -z-10 opacity-40" />
+          <Container className="relative z-10">
+            <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-14">
+              <div className="lg:col-span-6">
+                <Reveal>
+                  <div className="flex items-center gap-3">
+                    <span className="h-px w-10 bg-white/40" />
+                    <span className="text-xs font-semibold uppercase tracking-[0.22em] text-[#c5dbe3]">
+                      Cocoora Club &amp; Precision
+                    </span>
+                  </div>
+                  <h2 className="mt-6 font-serif text-[clamp(2.35rem,4vw,3.6rem)] font-semibold leading-[1.04] tracking-[-0.028em]">
+                    Dalla prevenzione
+                    <span className="block italic font-normal text-[#c5dbe3]">alla medicina predittiva</span>
+                  </h2>
+                  <p className="mt-6 max-w-xl text-base leading-[1.75] text-white/75 sm:text-[17px]">
+                    Scegli il tuo percorso annuale, da Discover (gratuito) a Signature, oppure approfondisci la
+                    tua salute con test genetici DNA 5 e sequenziamento del microbiota, per una prevenzione
+                    realmente predittiva.
                   </p>
-                  <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-white transition-all group-hover:gap-2.5">
-                    Scopri di più <ArrowRight className="h-4 w-4" />
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      {/* ── Cocoora Club & Precision Preview ─────────────────────────── */}
-      <section className="relative overflow-hidden bg-dark-navy py-24 text-white">
-        <div className="noise pointer-events-none absolute inset-0" />
-        <Container className="relative">
-          <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
-            <div>
-              <SectionLabel>Cocoora Club &amp; Precision</SectionLabel>
-              <h2 className="font-serif text-4xl font-semibold leading-tight sm:text-5xl">
-                Dalla prevenzione alla medicina predittiva
-              </h2>
-              <p className="mt-5 text-base leading-relaxed text-teal-200/85">
-                Scegli il tuo percorso di membership, da <strong className="text-white">Discover</strong>{" "}
-                (gratuito) a <strong className="text-white">Signature Longevity</strong>, oppure
-                approfondisci la tua salute con test genetici DNA 5 e sequenziamento
-                del microbiota, per una prevenzione realmente predittiva.
-              </p>
-              <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-                <ButtonLink href="/club" variant="white" size="lg">
-                  Scopri il Club <ArrowRight className="h-4 w-4" />
-                </ButtonLink>
-                <ButtonLink href="/precision" variant="outline-dark" size="lg">
-                  Scopri Precision
-                </ButtonLink>
+                  <div className="mt-8 flex flex-col gap-3.5 sm:flex-row">
+                    <ButtonLink href="/club" variant="white" size="lg">
+                      Scopri il Club <ArrowRight className="h-4 w-4" />
+                    </ButtonLink>
+                    <ButtonLink href="/precision" variant="outline-dark" size="lg">
+                      Scopri Precision
+                    </ButtonLink>
+                  </div>
+                </Reveal>
+              </div>
+              <div className="lg:col-span-6">
+                <Reveal delay={0.12}>
+                  <div className="relative aspect-[4/5] w-full max-w-[500px] overflow-hidden rounded-[2rem] border border-white/15 shadow-[0_40px_90px_-30px_rgba(0,0,0,0.6)] sm:aspect-[5/4] lg:ml-auto lg:aspect-[4/5]">
+                    <Image
+                      src="/images/visite/cardiologia-napoli-2.jpg"
+                      alt="Diagnostica predittiva e monitoraggio clinico avanzato nel centro Cocoora"
+                      fill
+                      sizes="(min-width: 1024px) 500px, 92vw"
+                      className="object-cover"
+                    />
+                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[#002231]/85 to-transparent" />
+                    <div className="absolute bottom-5 left-5 right-5 flex justify-center">
+                      <span className="rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold tracking-wide text-white backdrop-blur-md">
+                        DNA 5 · Microbiota · Biomarcatori Clinici
+                      </span>
+                    </div>
+                  </div>
+                </Reveal>
               </div>
             </div>
-            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[2.5rem] shadow-[0_40px_90px_-30px_rgba(0,0,0,0.5)]">
-              <Image
-                src="/images/dna-genomics.jpg"
-                alt="Genomica predittiva Cocoora Precision — doppia elica del DNA"
-                fill
-                sizes="(min-width: 1024px) 560px, 90vw"
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-dark-navy/60 via-transparent to-transparent" />
-            </div>
-          </div>
-        </Container>
+          </Container>
+        </div>
       </section>
 
-      {/* ── Video Corporate Ufficiale: Connessi alla tua salute ────────── */}
-      <section className="bg-canvas py-20 border-t border-teal-100/60">
+      {/* 6 · Percorsi Salute */}
+      <section id="percorsi" className="bg-white py-24 sm:py-28">
         <Container>
-          <div className="mx-auto max-w-2xl text-center mb-10">
-            <SectionLabel>Il Centro si racconta</SectionLabel>
-            <h2 className="font-serif text-3xl font-semibold leading-tight text-teal-900 sm:text-4xl">
-              Connessi alla tua salute
-            </h2>
-            <p className="mt-3 text-sm sm:text-base leading-relaxed text-charcoal/70">
-              Uno sguardo autentico dentro gli ambienti, le tecnologie cliniche e l&apos;équipe multidisciplinare di Cocoora Centro Medico a Napoli.
-            </p>
-          </div>
-
-          <div className="relative aspect-video w-full overflow-hidden rounded-[2.5rem] border border-teal-100/80 bg-dark-navy shadow-2xl">
-            <Image
-              src="/images/hero-clinic.jpg"
-              alt="Anteprima del video corporate Cocoora Centro Medico"
-              fill
-              sizes="(min-width: 1024px) 1200px, 100vw"
-              className="object-cover opacity-55"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-dark-navy/90 via-dark-navy/40 to-dark-navy/20" />
-            <div className="noise pointer-events-none absolute inset-0" />
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-5 px-6 text-center">
-              <span className="flex h-16 w-16 sm:h-20 sm:w-20 items-center justify-center rounded-full border border-white/25 bg-white/10 backdrop-blur-md shadow-lg transition-transform duration-300 hover:scale-105">
-                <Play className="ml-1 h-7 w-7 text-white" />
-              </span>
-              <div>
-                <p className="font-serif text-2xl font-semibold text-white sm:text-3xl">
-                  Il film del nostro centro
-                </p>
-                <p className="mt-2 text-xs sm:text-sm text-teal-100/80 max-w-md mx-auto">
-                  Il video corporate in fase di post-produzione sarà presto disponibile in alta definizione.
-                </p>
-              </div>
-              <span className="rounded-full border border-white/20 bg-dark-navy/60 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-teal-200 backdrop-blur-sm">
-                Video Corporate Ufficiale
-              </span>
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      {/* ── Percorsi Salute (canvas bianco, carosello su mobile) ─────── */}
-      <section id="percorsi" className="bg-white py-24">
-        <Container>
-          <div className="mx-auto max-w-2xl text-center">
+          <Reveal className="mx-auto max-w-2xl text-center">
             <SectionLabel>Percorsi Salute</SectionLabel>
-            <h2 className="font-serif text-4xl font-semibold leading-tight text-teal-900 sm:text-5xl">
-              La salute come stile di vita
+            <h2 className="font-serif text-[clamp(2.25rem,3.9vw,3.5rem)] font-semibold leading-[1.05] tracking-[-0.028em] text-[#00344b]">
+              La salute <span className="italic font-normal text-[#5d8497]">come stile di vita</span>
             </h2>
-            <p className="mt-4 text-base leading-relaxed text-charcoal/70">
-              Un percorso annuale dedicato a chi sceglie la prevenzione costante:
-              check-up, accesso prioritario e vantaggi per tutta la famiglia.
+            <p className="mt-4 text-base leading-relaxed text-charcoal/75">
+              Perché prendersi cura di sé non sia un&apos;emergenza, ma un percorso consapevole.
             </p>
-          </div>
+          </Reveal>
 
-          {/* Mobile: scroll orizzontale a scorrimento · Desktop: griglia */}
-          <div className="mt-14 flex snap-x snap-mandatory gap-5 overflow-x-auto pt-6 pb-4 scrollbar-none lg:grid lg:grid-cols-3 lg:gap-6 lg:overflow-visible lg:pb-0">
-            {CLUB_TIERS.map((tier) => (
-              <div
-                key={tier.id}
-                className="w-[82%] shrink-0 snap-center sm:w-[56%] lg:w-auto"
-              >
+          <div className="-mx-4 mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pt-6 pb-4 md:hidden">
+            {CLUB_TIERS.map((tier: ClubTier) => (
+              <div key={tier.id} className="w-[85%] shrink-0 snap-center">
                 <TierCard tier={tier} onChoose={chooseTier} variant="light" />
               </div>
             ))}
           </div>
 
-          <div className="mt-12 flex justify-center">
-            <ButtonLink href="/club" variant="secondary" size="lg">
+          <RevealStagger className="mt-14 hidden gap-6 md:grid md:grid-cols-2 lg:grid-cols-6">
+            {CLUB_TIERS.map((tier: ClubTier, idx: number) => (
+              <RevealItem
+                key={tier.id}
+                className={`lg:col-span-2 ${idx === 3 ? "lg:col-start-2" : ""}`}
+              >
+                <TierCard tier={tier} onChoose={chooseTier} variant="light" />
+              </RevealItem>
+            ))}
+          </RevealStagger>
+
+          <p className="mx-auto mt-10 max-w-2xl text-center text-xs leading-relaxed text-charcoal/60">
+            Il percorso include una singola consulenza per ciascuna specialità. Membership nominativa non
+            trasferibile. Validità annuale.
+          </p>
+
+          <div className="mt-8 flex justify-center">
+            <ButtonLink href="/club" variant="secondary">
               Scopri tutti i Percorsi Salute <ArrowRight className="h-4 w-4" />
             </ButtonLink>
           </div>
         </Container>
       </section>
 
-      {/* ── FAQ Clinica ──────────────────────────────────────────────── */}
+      {/* 7 · FAQ */}
       <FaqSection faq={home?.faq ?? []} />
 
-      {/* ── CTA Finale ───────────────────────────────────────────────── */}
-      <section id="contatti" className="bg-canvas pb-28">
-        <Container>
-          <div className="relative overflow-hidden rounded-[2.5rem] bg-dark-navy px-8 py-16 text-center text-white sm:px-16">
-            <div className="noise pointer-events-none absolute inset-0" />
-            <div className="relative mx-auto max-w-2xl">
+      {/* 8 · CTA finale */}
+      <section id="contatti" className="bg-canvas px-2.5 py-6 sm:px-4 sm:py-10">
+        <Reveal>
+          <div className="relative isolate overflow-hidden rounded-[2rem] bg-[#002231] px-6 py-20 text-center text-white shadow-[0_36px_90px_-36px_rgba(0,34,49,0.65)] sm:rounded-[2.5rem] sm:py-24">
+            <div
+              aria-hidden
+              className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[520px] w-[820px] -translate-x-1/2 -translate-y-1/3 rounded-full bg-[radial-gradient(closest-side,rgba(128,161,178,0.3),transparent)]"
+            />
+            <div aria-hidden className="noise pointer-events-none absolute inset-0 -z-10 opacity-40" />
+            <div className="mx-auto max-w-2xl">
               <Badge className="bg-white/15 text-white">
-                <ShieldCheck className="h-3.5 w-3.5" /> Prenotazione senza attese
+                <ShieldCheck className="h-3.5 w-3.5" /> Accoglienza dedicata · Napoli
               </Badge>
-              <h2 className="mt-5 font-serif text-4xl font-semibold leading-tight sm:text-5xl">
-                Prenota il tuo primo check-up
+              <h2 className="mt-6 font-serif text-[clamp(2.3rem,4vw,3.5rem)] font-semibold leading-[1.05] tracking-[-0.028em]">
+                Prenota il tuo <span className="italic font-normal text-[#c5dbe3]">primo check-up</span>
               </h2>
-              <p className="mt-4 text-base leading-relaxed text-teal-200/85">
-                In meno di 2 minuti, senza attese e senza burocrazia. Il tuo
-                percorso di salute inizia qui.
+              <p className="mt-5 text-base leading-[1.75] text-white/75 sm:text-[17px]">
+                In pochi click dal tuo profilo digitale, con l&apos;accompagnamento della nostra segreteria
+                clinica. Il tuo percorso di salute inizia qui.
               </p>
-              <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                <Button size="lg" onClick={openDiscover}>
-                  Inizia gratis <Plus className="h-4 w-4" />
+              <div className="mt-9 flex flex-col justify-center gap-3.5 sm:flex-row">
+                <Button onClick={openDiscover} variant="white" size="lg">
+                  Inizia gratis <ArrowRight className="h-4 w-4" />
                 </Button>
                 <ButtonLink href="/contatti" variant="outline-dark" size="lg">
                   Prenota Visita
                 </ButtonLink>
               </div>
+              <p className="mt-8 text-xs tracking-wide text-white/55">
+                Lun–Ven 8:00–20:00 (Orario continuato), Sab 9:00–14:00
+              </p>
             </div>
           </div>
-        </Container>
+        </Reveal>
       </section>
 
-      {/* ── Pre-Footer · Reels Verticali 9:16 ────────────────────────── */}
+      {/* 9 · Reels e Instagram */}
       <ReelsSection />
 
-      {/* ── Pre-Footer · Instagram Feed ──────────────────────────────── */}
-      <section className="bg-canvas pb-24">
+      <section className="bg-canvas pb-24 pt-8 sm:pb-28">
         <Container>
-          <div className="mb-10 flex items-end justify-between">
-            <div>
-              <SectionLabel>Instagram</SectionLabel>
-              <h2 className="font-serif text-3xl font-semibold text-teal-900 sm:text-4xl">
-                Segui il mondo Cocoora
-              </h2>
+          <Reveal className="mb-10 flex flex-col items-center justify-between gap-4 sm:flex-row">
+            <div className="flex items-center gap-3">
+              <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#1c4a5c] text-white">
+                <Instagram className="h-5 w-5" />
+              </span>
+              <div>
+                <p className="font-serif text-2xl font-semibold tracking-[-0.02em] text-[#00344b]">@cocoora</p>
+                <p className="text-sm text-charcoal/65">Connessi alla tua salute, ogni giorno.</p>
+              </div>
             </div>
-            <a
-              href="https://www.instagram.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden items-center gap-2 text-sm font-medium text-teal-700 transition-colors hover:text-dark-navy sm:inline-flex"
-            >
-              <Instagram className="h-4 w-4" /> @cocoora
-            </a>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-            {INSTAGRAM_POSTS.map((post) => (
-              <a
-                key={post.id}
-                href="https://www.instagram.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative aspect-square overflow-hidden rounded-2xl border border-teal-100/60 bg-teal-50"
-              >
-                <Image
-                  src={post.image}
-                  alt={post.caption}
-                  fill
-                  sizes="(min-width: 1024px) 220px, (min-width: 640px) 33vw, 50vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-
-                {/* Badge Instagram */}
-                <div className="absolute right-3 top-3 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-dark-navy/40 text-white backdrop-blur-sm transition-opacity duration-300 group-hover:opacity-0">
-                  <Instagram className="h-3.5 w-3.5" />
-                </div>
-
-                {/* Overlay hover */}
-                <div className="absolute inset-0 flex flex-col justify-between bg-gradient-to-t from-dark-navy/90 via-dark-navy/50 to-transparent p-4 opacity-0 transition-all duration-300 group-hover:opacity-100">
-                  <div className="flex items-center justify-between">
-                    <span className="rounded-full bg-white/15 px-2.5 py-1 text-[10px] font-medium uppercase tracking-[0.14em] text-white backdrop-blur-sm">
+            <ButtonLink href="https://www.instagram.com/" variant="secondary">
+              Seguici su Instagram <ArrowRight className="h-4 w-4" />
+            </ButtonLink>
+          </Reveal>
+          <RevealStagger className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+            {INSTAGRAM_POSTS.slice(0, 6).map((post) => (
+              <RevealItem key={post.id}>
+                <a
+                  href="https://www.instagram.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative block aspect-square overflow-hidden rounded-2xl border border-[#80a1b2]/20"
+                >
+                  <Image
+                    src={post.image}
+                    alt={post.caption}
+                    fill
+                    sizes="(min-width: 1024px) 16vw, (min-width: 640px) 33vw, 50vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-[#002231]/80 via-transparent to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <span className="text-[11px] font-semibold uppercase tracking-wider text-[#c5dbe3]">
                       {post.tag}
                     </span>
-                    <Instagram className="h-4 w-4 text-white/80" />
-                  </div>
-
-                  <div className="flex items-center justify-center gap-5 text-white">
-                    <span className="inline-flex items-center gap-1.5 text-sm font-semibold">
-                      <Heart className="h-4 w-4 fill-current" />
-                      {post.likes}
-                    </span>
-                    {typeof post.comments === "number" && (
-                      <span className="inline-flex items-center gap-1.5 text-sm font-semibold">
-                        <MessageCircle className="h-4 w-4" />
-                        {post.comments}
+                    <div className="mt-1 flex items-center gap-3 text-xs text-white">
+                      <span className="flex items-center gap-1">
+                        <Heart className="h-3.5 w-3.5" /> {post.likes}
                       </span>
-                    )}
+                      {typeof post.comments === "number" && (
+                        <span className="flex items-center gap-1">
+                          <MessageCircle className="h-3.5 w-3.5" /> {post.comments}
+                        </span>
+                      )}
+                    </div>
                   </div>
-
-                  <p className="line-clamp-2 text-xs font-medium leading-snug text-white/95">
-                    {post.caption}
-                  </p>
-                </div>
-              </a>
+                </a>
+              </RevealItem>
             ))}
-          </div>
+          </RevealStagger>
         </Container>
       </section>
-    </>
-  );
-}
-
-function FaqSection({ faq }: { faq: { q: string; a: string }[] }) {
-  if (faq.length === 0) return null;
-  return (
-    <section className="bg-canvas pb-24">
-      <Container>
-        <div className="mx-auto max-w-3xl">
-          <div className="text-center">
-            <SectionLabel>Domande Frequenti</SectionLabel>
-            <h2 className="font-serif text-3xl font-semibold text-teal-900 sm:text-4xl">
-              Le domande più frequenti sui nostri servizi
-            </h2>
-          </div>
-          <div className="mt-10 space-y-4">
-            {faq.map((f) => (
-              <details
-                key={f.q}
-                className="group rounded-2xl border border-teal-100 bg-white p-6 transition-colors open:border-teal-300"
-              >
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-teal-900">
-                  {f.q}
-                  <Sparkles className="h-4 w-4 shrink-0 text-slate-accent transition-transform group-open:rotate-90" />
-                </summary>
-                <p className="mt-3 text-sm leading-relaxed text-charcoal/70">{f.a}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </Container>
-    </section>
+    </div>
   );
 }

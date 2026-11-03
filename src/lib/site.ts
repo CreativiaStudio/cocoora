@@ -38,7 +38,7 @@ export const NAV_NODES: NavNode[] = [
         href: "/servizi/medicina-estetica#viso",
         description:
           "Filler acido ialuronico, Tossina botulinica, Biorivitalizzazione, Acido Polilattico e Peeling chimico.",
-        image: "/images/aesthetic-skin.jpg",
+        image: "/images/trattamenti/medicina-estetica/filler-viso-napoli-1.jpg",
       },
       {
         label: "Corpo & Silhouette",
@@ -235,7 +235,7 @@ export const NAV_NODES: NavNode[] = [
         href: "/precision",
         description:
           "Medicina predittiva e preventiva: test DNA 5, Kit Microbiota e longevità attiva.",
-        image: "/images/dna-genomics.jpg",
+        image: "/images/visite/diabetologia-napoli-2.jpg",
       },
     ],
   },
@@ -248,7 +248,7 @@ export const NAV_NODES: NavNode[] = [
         href: "/medici",
         description:
           "Specialisti di riferimento per un percorso clinico multidisciplinare e coordinato a Napoli.",
-        image: "/images/medici-hero-banner.jpg",
+        image: "/images/visite/oncologia-napoli-1.jpg",
       },
       {
         label: "Docenti Universitari e Ospedalieri",
@@ -267,7 +267,7 @@ export const NAV_NODES: NavNode[] = [
         href: "/chi-siamo",
         description:
           "Eccellenza clinica, tecnologie diagnostiche avanzate e accoglienza riservata in Via De Bonis 81 a Napoli.",
-        image: "/images/clinic-lounge.jpg",
+        image: "/images/trattamenti/medicina-estetica/biostimolazione-napoli-2.jpg",
       },
       {
         label: "Sede & Accoglienza",
@@ -286,7 +286,7 @@ export const NAV_NODES: NavNode[] = [
         href: "/club",
         description:
           "I percorsi annuali dedicati alla prevenzione continua per singoli e famiglie.",
-        image: "/images/hero-clinic.jpg",
+        image: "/images/visite/cardiologia-napoli-2.jpg",
       },
       {
         label: "Discover",
@@ -384,7 +384,7 @@ export const DEFAULT_VIDEOS: VideoItem[] = [
     id: "video_1",
     type: "mp4",
     url: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-    poster: "/images/invisalign-smile.jpg",
+    poster: "/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-1.jpg",
     title: "Il tuo sorriso, in digitale",
     caption: "Percorsi con allineatori trasparenti, dalla diagnosi alla simulazione 3D.",
     ctaLabel: "Scopri l'Odontoiatria",
@@ -395,7 +395,7 @@ export const DEFAULT_VIDEOS: VideoItem[] = [
     id: "video_2",
     type: "mp4",
     url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-    poster: "/images/aesthetic-skin.jpg",
+    poster: "/images/trattamenti/medicina-estetica/biorigenerazione-napoli-1.jpg",
     title: "Medicina estetica naturale",
     caption: "Tecnologie medicali e protocolli personalizzati per valorizzare viso e corpo.",
     ctaLabel: "Scopri la Medicina Estetica",
@@ -406,7 +406,7 @@ export const DEFAULT_VIDEOS: VideoItem[] = [
     id: "video_3",
     type: "mp4",
     url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
-    poster: "/images/hero-clinic.jpg",
+    poster: "/images/visite/cardiologia-napoli-2.jpg",
     title: "La prevenzione è il tuo stile",
     caption: "Cocoora Club: check-up dedicati e vantaggi per tutta la famiglia.",
     ctaLabel: "Entra nel Club",
@@ -418,7 +418,7 @@ export const DEFAULT_VIDEOS: VideoItem[] = [
 export const INSTAGRAM_POSTS: InstagramPost[] = [
   {
     id: 1,
-    image: "/images/clinic-lounge.jpg",
+    image: "/images/trattamenti/medicina-estetica/biostimolazione-napoli-2.jpg",
     caption:
       "Benvenuti nel Centro. Luce, materiali naturali e silenzio: il tuo benessere inizia dall'accoglienza. #CocooraClinic #CentroMedico",
     likes: 184,
@@ -427,7 +427,7 @@ export const INSTAGRAM_POSTS: InstagramPost[] = [
   },
   {
     id: 2,
-    image: "/images/invisalign-smile.jpg",
+    image: "/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-1.jpg",
     caption:
       "Il tuo sorriso, progettato in digitale. Allineatori trasparenti per percorsi discreti ed efficaci. #AllineatoriTrasparenti #CocooraSmile",
     likes: 242,
@@ -436,7 +436,7 @@ export const INSTAGRAM_POSTS: InstagramPost[] = [
   },
   {
     id: 3,
-    image: "/images/aesthetic-skin.jpg",
+    image: "/images/trattamenti/medicina-estetica/filler-viso-napoli-1.jpg",
     caption:
       "Medicina estetica naturale: valorizzare senza trasformare, con protocolli su misura. #MedicinaEstetica #CocooraBeauty",
     likes: 310,
@@ -445,7 +445,7 @@ export const INSTAGRAM_POSTS: InstagramPost[] = [
   },
   {
     id: 4,
-    image: "/images/medici-hero-banner.jpg",
+    image: "/images/visite/oncologia-napoli-1.jpg",
     caption:
       "Il tempo che dedichiamo a te è il farmaco più prezioso. Il metodo Cocoora, la salute al centro del tuo tempo. #CocooraCare #SaluteIntegrata",
     likes: 198,
@@ -454,7 +454,7 @@ export const INSTAGRAM_POSTS: InstagramPost[] = [
   },
   {
     id: 5,
-    image: "/images/laser-technology.jpg",
+    image: "/images/trattamenti/medicina-estetica/laser-resurfacing-napoli-1.jpg",
     caption:
       "Tecnologia di precisione al servizio della pelle. Trattamenti laser medicali per risultati armoniosi e sicuri. #CocooraTech #LaserMedicale",
     likes: 156,
@@ -463,7 +463,7 @@ export const INSTAGRAM_POSTS: InstagramPost[] = [
   },
   {
     id: 6,
-    image: "/images/dna-genomics.jpg",
+    image: "/images/visite/diabetologia-napoli-2.jpg",
     caption:
       "La prevenzione diventa predittiva. DNA 5 e microbiota per leggere il tuo futuro e proteggerti prima. #CocooraPrecision #Longevità",
     likes: 275,
