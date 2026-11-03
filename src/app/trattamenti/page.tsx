@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Sparkles, Smile, Stethoscope, ArrowRight, ShieldCheck, CheckCircle2, Search } from "lucide-react";
+import { Smile, Stethoscope, ArrowRight, ShieldCheck, CheckCircle2, Search, Heart } from "lucide-react";
 import { TREATMENTS } from "@/lib/content";
 import { SPECIALTIES } from "@/lib/diagnostics";
 import { Container, Badge, ButtonLink } from "@/components/ui";
@@ -54,7 +54,7 @@ export default function TrattamentiIndexPage() {
         <Container className="relative z-10">
           <div className="max-w-3xl">
             <Badge className="mb-4 border border-amber-300/40 bg-amber-50/10 px-4 py-1 text-xs uppercase tracking-[0.2em] text-amber-200">
-              <Sparkles className="mr-1.5 h-3.5 w-3.5" />
+              <ShieldCheck className="mr-1.5 h-3.5 w-3.5" />
               Guida ai Percorsi Clinici
             </Badge>
             <h1 style={serif} className="text-4xl sm:text-5xl lg:text-6xl font-medium text-white leading-tight">
@@ -108,7 +108,7 @@ export default function TrattamentiIndexPage() {
                     : "bg-stone-100 text-stone-600 hover:bg-stone-200"
                 )}
               >
-                <Sparkles className="h-3.5 w-3.5" /> Medicina Estetica (
+                <Heart className="h-3.5 w-3.5" /> Medicina Estetica (
                 {TREATMENTS.filter((t) => t.category === "medicina-estetica").length})
               </button>
               <button

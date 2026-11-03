@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Award, Check, Sparkles } from "lucide-react";
+import { ArrowRight, Award, Check, ShieldCheck } from "lucide-react";
 import { useCms } from "@/components/providers";
 import { getTreatmentsByCategory } from "@/lib/content";
 import { DOCTORS } from "@/lib/doctors";
@@ -198,7 +198,7 @@ export default function OdontoiatriaPage() {
                 className="flex h-full flex-col rounded-3xl border border-teal-100 bg-white p-7 shadow-[0_16px_40px_-28px_rgba(3,53,75,0.35)]"
               >
                 <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-teal-600/10 text-teal-700">
-                  <Sparkles className="h-5 w-5" />
+                  <Award className="h-5 w-5" />
                 </div>
                 <h3 className="mt-5 font-serif text-xl font-semibold text-teal-900">{h.title}</h3>
                 <p className="mt-2 flex-1 text-sm leading-relaxed text-charcoal/65">{h.text}</p>
@@ -264,7 +264,7 @@ function TreatmentCard({ slug, title, text }: { slug: string; title: string; tex
       className="group flex h-full flex-col rounded-3xl border border-teal-100 bg-white p-7 shadow-[0_16px_40px_-28px_rgba(3,53,75,0.35)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_30px_60px_-24px_rgba(3,53,75,0.4)]"
     >
       <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-teal-600/10 text-teal-700">
-        <Sparkles className="h-5 w-5" />
+        <ShieldCheck className="h-5 w-5" />
       </div>
       <h3 className="mt-5 font-serif text-xl font-semibold text-teal-900">{title}</h3>
       <p className="mt-2 flex-1 text-sm leading-relaxed text-charcoal/65">{text}</p>

@@ -111,11 +111,13 @@ export function TierCard({
   gender,
   onChoose,
   variant = "dark",
+  maxFeatures = 4,
 }: {
   tier: ClubTier;
   gender?: "uomo" | "donna";
   onChoose: (tier: ClubTier) => void;
   variant?: "dark" | "light";
+  maxFeatures?: number;
 }) {
   const dark = variant === "dark";
   const name = gender && tier.genderToggle ? `${tier.name} ${gender === "uomo" ? "Uomo" : "Donna"}` : tier.name;
@@ -129,16 +131,19 @@ export function TierCard({
     ? tier.priceDonna
     : tier.price;
 
+  const displayedFeatures = maxFeatures ? tier.features.slice(0, maxFeatures) : tier.features;
+  const remaining = tier.features.length - displayedFeatures.length;
+
   return (
     <div
       className={cn(
-        "group relative flex h-full flex-col rounded-3xl p-7 transition-all duration-500 ease-out hover:-translate-y-2.5",
+        "group relative flex h-full flex-col rounded-[2rem] p-5 sm:p-6 transition-all duration-300 ease-out hover:-translate-y-1.5",
         dark
-          ? "border border-white/15 shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.22),inset_0_-1px_1px_0_rgba(0,0,0,0.3),0_20px_50px_-20px_rgba(0,0,0,0.5)] backdrop-blur-xl hover:border-white/40 hover:shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.3),inset_0_-1px_1px_0_rgba(0,0,0,0.3),0_32px_70px_-20px_rgba(0,0,0,0.6),0_0_40px_-10px_rgba(128,161,178,0.3)]"
-          : "border border-teal-100 bg-white shadow-[0_20px_50px_-24px_rgba(3,53,75,0.25)] hover:shadow-[0_30px_70px_-24px_rgba(3,53,75,0.35)]",
+          ? "border border-white/15 shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.22),0_18px_45px_-18px_rgba(0,0,0,0.5)] backdrop-blur-xl hover:border-white/35"
+          : "border border-teal-100/90 bg-white shadow-[0_16px_40px_-24px_rgba(3,53,75,0.18)] hover:shadow-[0_24px_50px_-20px_rgba(3,53,75,0.28)] hover:border-teal-200",
         featured &&
-          "border-slate-accent/50 shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.3),inset_0_-1px_1px_0_rgba(0,0,0,0.3),0_20px_60px_-15px_rgba(128,161,178,0.25)] hover:border-slate-accent/80 hover:shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.35),inset_0_-1px_1px_0_rgba(0,0,0,0.3),0_36px_80px_-15px_rgba(128,161,178,0.45)] xl:scale-[1.03]",
-        !dark && tier.badge && "border-teal-500"
+          "border-slate-accent/50 shadow-[0_20px_50px_-15px_rgba(128,161,178,0.25)] hover:border-slate-accent/80 xl:scale-[1.02]",
+        !dark && tier.badge && "border-teal-500/80 ring-1 ring-teal-500/20"
       )}
       style={dark ? { background: gradient } : undefined}
     >
@@ -146,7 +151,7 @@ export function TierCard({
         <>
           <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
           <div
-            className="pointer-events-none absolute inset-x-0 top-0 h-32 rounded-t-3xl opacity-70 transition-opacity duration-500 group-hover:opacity-100"
+            className="pointer-events-none absolute inset-x-0 top-0 h-28 rounded-t-[2rem] opacity-70 transition-opacity duration-500 group-hover:opacity-100"
             style={{
               background: `radial-gradient(120% 100% at 50% 0%, rgba(255,255,255,${featured ? 0.14 : 0.08}) 0%, rgba(255,255,255,0) 70%)`,
             }}
@@ -157,10 +162,10 @@ export function TierCard({
       {tier.badge && (
         <Badge
           className={cn(
-            "absolute -top-3.5 left-6 gap-2 px-4 py-1.5 text-[11px]",
+            "absolute -top-3 left-5 gap-1.5 px-3 py-1 text-[10px] font-bold uppercase tracking-wider",
             dark
-              ? "border border-teal-300/60 bg-dark-navy/60 text-white shadow-[0_0_20px_-2px_rgba(159,194,207,0.55),inset_0_1px_0_rgba(255,255,255,0.25)] backdrop-blur-md"
-              : "bg-teal-500 text-white"
+              ? "border border-teal-300/60 bg-dark-navy/80 text-white shadow-[0_0_15px_-2px_rgba(159,194,207,0.55)] backdrop-blur-md"
+              : "bg-teal-600 text-white shadow-sm"
           )}
         >
           {dark && (
@@ -171,113 +176,103 @@ export function TierCard({
       )}
 
       <div className="flex items-baseline justify-between">
-        <h3 className={cn("font-serif text-2xl font-semibold", dark ? "text-white" : "text-teal-900")}>
+        <h3 className={cn("font-serif text-xl sm:text-2xl font-bold tracking-tight", dark ? "text-white" : "text-teal-950")}>
           {name}
         </h3>
       </div>
 
-      <div className="mt-5 flex flex-wrap items-baseline gap-x-2 gap-y-1">
-        <span
-          className={cn(
-            "flex items-baseline font-serif font-semibold tracking-tight",
-            dark ? "text-white" : "text-teal-900"
-          )}
-        >
-          <span className={cn("mr-1 text-2xl font-medium", dark ? "text-teal-300" : "text-teal-600")}>€</span>
-          <span className="text-5xl leading-none">{formatPricePlain(priceValue)}</span>
-        </span>
-        {tier.listPrice && (
-          <span className="text-lg text-slate-accent line-through">
-            {formatPrice(tier.listPrice)}
-          </span>
-        )}
-        <span
-          className={cn(
-            "text-sm font-medium uppercase tracking-[0.12em]",
-            dark ? "text-teal-200/70" : "text-charcoal/60"
-          )}
-        >
-          {tier.free ? "Free" : "/ anno"}
-        </span>
-      </div>
-
-      {priceValue > 0 && (
-        <div
-          className={cn(
-            "mt-2 inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium w-fit",
-            dark
-              ? "bg-white/10 text-teal-100 border border-white/15"
-              : "bg-teal-50 text-teal-900 border border-teal-100"
-          )}
-        >
-          <span className="font-semibold text-emerald-600 dark:text-emerald-400">o 3 rate</span> da{" "}
-          <strong className="font-semibold">{formatPrice(Math.round(priceValue / 3))}</strong>/mese con{" "}
-          <strong>Klarna</strong> o <strong>PayPal</strong>
-        </div>
-      )}
-
-      {dark && <div className="mt-5 h-px w-full bg-gradient-to-r from-white/25 via-white/10 to-transparent" />}
-
-      <p className={cn("mt-3 text-sm leading-relaxed", dark ? "text-teal-200/80" : "text-charcoal/70")}>
+      <p className={cn("mt-1.5 text-xs sm:text-[13px] leading-relaxed line-clamp-2", dark ? "text-teal-200/80" : "text-charcoal/70")}>
         {tier.description}
       </p>
 
-      <ul className="mt-6 flex-1 space-y-3">
-        {tier.features.map((f) => (
-          <li key={f} className="flex items-start gap-2.5 text-sm">
+      {/* Box Prezzo & Rateizzazione compatto su una sola riga */}
+      <div className="mt-3 flex items-baseline justify-between gap-2 border-y border-teal-100/70 py-2.5 dark:border-white/10">
+        <div className="flex items-baseline">
+          <span className={cn("text-lg font-medium", dark ? "text-teal-300" : "text-teal-600")}>€</span>
+          <span className={cn("font-serif text-3xl sm:text-4xl font-bold leading-none tracking-tight", dark ? "text-white" : "text-teal-950")}>
+            {formatPricePlain(priceValue)}
+          </span>
+          {tier.listPrice && (
+            <span className="ml-1.5 text-xs text-slate-accent line-through">
+              {formatPrice(tier.listPrice)}
+            </span>
+          )}
+          <span className={cn("ml-1 text-[11px] font-semibold uppercase tracking-wider", dark ? "text-teal-200/70" : "text-charcoal/60")}>
+            {tier.free ? "Free" : "/ anno"}
+          </span>
+        </div>
+        {priceValue > 0 && (
+          <div className="text-right">
+            <span className="inline-block rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-800 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-700/50">
+              Tasso Zero
+            </span>
+            <p className="text-[11px] font-medium text-charcoal/80 dark:text-teal-100/80 mt-0.5 whitespace-nowrap">
+              3 rate da <strong>{formatPrice(Math.round(priceValue / 3))}</strong>
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* Feature sintetizzate ad alto impatto */}
+      <ul className="mt-3.5 flex-1 space-y-2">
+        {displayedFeatures.map((f) => (
+          <li key={f} className="flex items-start gap-2 text-xs sm:text-[13px] leading-snug">
             <span
               className={cn(
-                "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full",
+                "mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full",
                 dark
-                  ? "bg-teal-500/20 text-teal-300 ring-1 ring-teal-300/20"
-                  : "bg-teal-500/10 text-teal-600"
+                  ? "bg-teal-500/20 text-teal-300 ring-1 ring-teal-300/25"
+                  : "bg-teal-50 text-teal-700 ring-1 ring-teal-200/80"
               )}
             >
-              <Check className="h-3 w-3" strokeWidth={3} />
+              <Check className="h-2.5 w-2.5" strokeWidth={3} />
             </span>
             <span className={dark ? "text-teal-100/90" : "text-charcoal/80"}>{f}</span>
           </li>
         ))}
+        {remaining > 0 && (
+          <li className="pt-0.5">
+            <Link
+              href={`/club/${tier.id}`}
+              className={cn(
+                "inline-flex items-center gap-1 text-[11px] font-semibold transition-colors hover:underline",
+                dark ? "text-teal-300 hover:text-white" : "text-teal-700 hover:text-dark-navy"
+              )}
+            >
+              <span>+ altre {remaining} prestazioni incluse</span>
+              <ArrowRight className="h-3 w-3" />
+            </Link>
+          </li>
+        )}
       </ul>
 
-      <Button
-        variant={dark ? "white" : "primary"}
-        className="mt-7 w-full"
-        onClick={() => onChoose(tier)}
-      >
-        {tier.free ? "Inizia gratis" : "Scegli"}
-        <ArrowRight className="h-4 w-4" />
-      </Button>
-      {!tier.family && (
-        <Link
-          href={`/club/${tier.id}`}
-          className={cn(
-            "mt-3 text-center text-xs font-medium underline-offset-4 transition-colors hover:underline",
-            dark ? "text-teal-200/70 hover:text-white" : "text-teal-700 hover:text-dark-navy"
-          )}
+      {/* Pulsante e badge pagamenti */}
+      <div className="mt-5 space-y-2 pt-2 border-t border-teal-100/50 dark:border-white/10">
+        <Button
+          variant={dark ? "white" : "primary"}
+          className="w-full py-2.5 text-sm font-semibold shadow-sm transition-all hover:shadow-md"
+          onClick={() => onChoose(tier)}
         >
-          Vedi dettagli e prestazioni incluse
-        </Link>
-      )}
-
-      {priceValue > 0 && (
-        <div
-          className={cn(
-            "mt-3.5 pt-3 border-t flex flex-wrap items-center justify-center gap-1.5 text-[11px]",
-            dark
-              ? "border-white/10 text-teal-200/70"
-              : "border-teal-100 text-charcoal/60"
-          )}
-        >
-          <span>Carta</span>
-          <span>·</span>
-          <span>Apple Pay</span>
-          <span>·</span>
-          <span className="font-semibold text-emerald-600 dark:text-emerald-400">Klarna 3 rate</span>
-          <span>·</span>
-          <span className="font-semibold text-teal-700 dark:text-teal-300">PayPal</span>
-        </div>
-      )}
+          {tier.free ? "Inizia gratis" : "Scegli Percorso"}
+          <ArrowRight className="h-4 w-4" />
+        </Button>
+        {priceValue > 0 && (
+          <div
+            className={cn(
+              "flex items-center justify-center gap-1.5 text-[10px] pt-0.5 text-center",
+              dark ? "text-teal-200/60" : "text-charcoal/50"
+            )}
+          >
+            <span>Carta</span>
+            <span>·</span>
+            <span>Apple Pay</span>
+            <span>·</span>
+            <span className="font-semibold text-emerald-600 dark:text-emerald-400">Klarna 3 rate</span>
+            <span>·</span>
+            <span className="font-semibold text-teal-700 dark:text-teal-300">PayPal</span>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

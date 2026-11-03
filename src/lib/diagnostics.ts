@@ -78,7 +78,7 @@ export const SPECIALTIES: Specialty[] = [
     title: "Ginecologia & Benessere Intimo",
     description:
       "Dalla prevenzione di routine alla valutazione dell'equilibrio ormonale e del microbiota intimo.",
-    icon: "Sparkles",
+    icon: "Heart",
     image: "/images/aesthetic-skin.jpg",
     exams: [
       "Visita ginecologica di controllo",

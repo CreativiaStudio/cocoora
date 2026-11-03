@@ -10,8 +10,8 @@ import {
   CreditCard,
   GraduationCap,
   ShieldCheck,
-  Sparkles,
   TrendingDown,
+  UserCheck,
 } from "lucide-react";
 import { useShop } from "@/components/providers";
 import { getDoctorBySlug } from "@/lib/doctors";
@@ -151,10 +151,33 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
               </div>
 
               {!tier.free && (
-                <p className="mt-4 text-xs text-charcoal/60 text-center lg:text-left flex items-center justify-center lg:justify-start gap-1.5">
-                  <ShieldCheck className="h-4 w-4 text-emerald-600" />
-                  <span>Pagamento sicuro · Carte di Credito, Apple Pay, Google Pay, Klarna e PayPal in 3 rate</span>
-                </p>
+                <>
+                  <p className="mt-4 text-xs text-charcoal/60 text-center lg:text-left flex items-center justify-center lg:justify-start gap-1.5">
+                    <ShieldCheck className="h-4 w-4 text-emerald-600" />
+                    <span>Pagamento sicuro · Carte di Credito, Apple Pay, Google Pay, Klarna e PayPal in 3 rate</span>
+                  </p>
+
+                  <div className="mt-6 rounded-2xl border border-teal-200/80 bg-teal-50/70 p-4 text-left">
+                    <div className="flex items-start gap-3">
+                      <UserCheck className="mt-0.5 h-4 w-4 shrink-0 text-teal-700" />
+                      <div>
+                        <p className="text-xs font-semibold text-teal-950">
+                          Preferisci iniziare senza abbonamento?
+                        </p>
+                        <p className="mt-0.5 text-xs text-charcoal/70">
+                          Attiva il <strong>Percorso Base Cocoora Discover (€0)</strong>: crea il tuo profilo sanitario digitale per prenotare visite singole con accesso prioritario e sbloccare i percorsi.
+                        </p>
+                        <button
+                          type="button"
+                          onClick={openDiscover}
+                          className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-teal-800 underline underline-offset-2 hover:text-dark-navy cursor-pointer"
+                        >
+                          Inizia gratis con il Percorso Base (€0) →
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </>
               )}
             </div>
 
@@ -316,7 +339,7 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
                   key={perk}
                   className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm text-teal-100/90"
                 >
-                  <Sparkles className="h-3.5 w-3.5 text-slate-accent" /> {perk}
+                  <Check className="h-3.5 w-3.5 text-teal-300" /> {perk}
                 </span>
               ))}
             </div>

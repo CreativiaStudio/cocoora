@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { Check, Sparkles, X } from "lucide-react";
+import { Check, ShieldCheck, X } from "lucide-react";
 import { useShop } from "./providers";
 import { trackLead } from "@/lib/tracking";
 import { Button } from "./ui";
@@ -54,7 +54,7 @@ export function DiscoverModal() {
         {!done ? (
           <>
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-teal-50 text-teal-700">
-              <Sparkles className="h-6 w-6" />
+              <ShieldCheck className="h-6 w-6" />
             </div>
             <h3 className="mt-4 font-serif text-2xl font-semibold text-teal-900">
               Inizia gratis

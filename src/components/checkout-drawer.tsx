@@ -90,7 +90,7 @@ export function CheckoutDrawer() {
 
       const data = await res.json();
       if (!res.ok || !data.success) {
-        throw new Error(data.error || "Impossibile inizializzare la cassa sicura Stripe.");
+        throw new Error(data.error || "Impossibile inizializzare il modulo di pagamento sicuro.");
       }
 
       if (data.url) {
@@ -100,8 +100,8 @@ export function CheckoutDrawer() {
 
       setStep("success");
     } catch (err: unknown) {
-      console.error("Errore Stripe checkout:", err);
-      setError(err instanceof Error ? err.message : "Errore connessione Stripe. Riprova.");
+      console.error("Errore checkout:", err);
+      setError(err instanceof Error ? err.message : "Errore di connessione al circuito di pagamento. Riprova.");
     } finally {
       setLoadingStripe(false);
     }

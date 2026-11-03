@@ -11,7 +11,6 @@ import {
   MessageCircle,
   Plus,
   ShieldCheck,
-  Sparkles,
   UserRound,
   type LucideIcon,
 } from "lucide-react";
@@ -213,7 +212,7 @@ export default function HomePage() {
           </RevealStagger>
           <Reveal className="mt-12 flex justify-center">
             <Button onClick={openDiscover} size="lg">
-              <Sparkles className="h-4 w-4" /> Crea il tuo profilo gratuito
+              <ShieldCheck className="h-4 w-4" /> Crea il tuo profilo gratuito
             </Button>
           </Reveal>
         </Container>

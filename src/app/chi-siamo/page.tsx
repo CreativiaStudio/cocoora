@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import Image from "next/image";
 import { ButtonLink, Badge } from "@/components/ui";
 import {
-  Sparkles,
+  Building2,
   Clock,
   GraduationCap,
   MapPin,
@@ -109,7 +109,7 @@ export default function ChiSiamoPage() {
 
         <div className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-24 pt-40 sm:px-10">
           <Badge className="mb-8 border border-white/20 bg-white/10 px-4 py-1.5 text-teal-200 backdrop-blur-md">
-            <Sparkles className="h-3.5 w-3.5" />
+            <Building2 className="h-3.5 w-3.5" />
             Il Centro &amp; La Visione
           </Badge>
 

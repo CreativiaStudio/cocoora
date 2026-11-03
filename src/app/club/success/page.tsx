@@ -3,7 +3,7 @@
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { CheckCircle2, ArrowRight, ShieldCheck, Sparkles, User, FileText } from "lucide-react";
+import { CheckCircle2, ArrowRight, ShieldCheck, User, FileText } from "lucide-react";
 import { Button } from "@/components/ui";
 
 function SuccessContent() {
@@ -21,7 +21,7 @@ function SuccessContent() {
 
         <div>
           <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100/70 px-3.5 py-1 rounded-full border border-emerald-200">
-            <Sparkles className="h-3.5 w-3.5 text-emerald-700" />
+            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-700" />
             Pagamento Confermato · Cocoora Club
           </span>
           <h1 className="font-serif text-3xl font-bold text-slate-900 mt-4">

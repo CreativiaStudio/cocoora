@@ -23,7 +23,7 @@ export const PRINCIPLES: Principle[] = [
     id: "precisione",
     title: "Appropriatezza & Medicina Rigenerativa",
     text: "Rifiutiamo gli esami inutili e i trattamenti aggressivi. Crediamo nell'appropriatezza clinica, nella prevenzione predittiva (DNA e microbiota) e in risultati estetici armoniosi.",
-    icon: "Sparkles",
+    icon: "ShieldCheck",
   },
 ];
 

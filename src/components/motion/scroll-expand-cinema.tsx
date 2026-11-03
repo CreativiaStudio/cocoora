@@ -14,7 +14,6 @@ import {
   Pause,
   Volume2,
   VolumeX,
-  Sparkles,
   ShieldCheck,
   Activity,
   Microscope,
@@ -407,7 +406,7 @@ export function ScrollExpandCinema({
             </button>
 
             <div className="mt-4 flex items-center gap-2 rounded-full border border-white/20 bg-dark-navy/40 px-3.5 py-1 backdrop-blur-md">
-              <Sparkles className="h-3 w-3 text-teal-300" />
+              <Volume2 className="h-3 w-3 text-teal-300" />
               <span className="text-[11px] font-medium uppercase tracking-[0.2em] text-teal-100">
                 {isAudioActive
                   ? "Audio Spaziale 432Hz Attivo"

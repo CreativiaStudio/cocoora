@@ -242,40 +242,10 @@ export const NAV_NODES: NavNode[] = [
   {
     label: "I Medici",
     href: "/medici",
-    children: [
-      {
-        label: "L'Équipe Specialistica",
-        href: "/medici",
-        description:
-          "Specialisti di riferimento per un percorso clinico multidisciplinare e coordinato a Napoli.",
-        image: "/images/visite/oncologia-napoli-1.jpg",
-      },
-      {
-        label: "Docenti Universitari e Ospedalieri",
-        href: "/medici#docenti",
-        description:
-          "Professori e dirigenti medici delle Università Federico II, Vanvitelli e dei principali poli ospedalieri.",
-      },
-    ],
   },
   {
     label: "Il Centro",
     href: "/chi-siamo",
-    children: [
-      {
-        label: "La Filosofia del Centro",
-        href: "/chi-siamo",
-        description:
-          "Eccellenza clinica, tecnologie diagnostiche avanzate e accoglienza riservata in Via De Bonis 81 a Napoli.",
-        image: "/images/trattamenti/medicina-estetica/biostimolazione-napoli-2.jpg",
-      },
-      {
-        label: "Sede & Accoglienza",
-        href: "/contatti",
-        description:
-          "Struttura medica autorizzata a Napoli (Cavalleggeri / Fuorigrotta). Orario continuato Lun–Ven 8:00–20:00, Sab 9:00–14:00.",
-      },
-    ],
   },
   {
     label: "Percorsi Salute",

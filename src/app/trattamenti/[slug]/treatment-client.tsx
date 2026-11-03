@@ -19,7 +19,6 @@ import {
   Phone,
   SearchCheck,
   ShieldCheck,
-  Sparkles,
   Stethoscope,
   type LucideIcon,
 } from "lucide-react";
@@ -217,7 +216,7 @@ export function getTreatmentProblems(treatment: Treatment): ProblemCard[] {
 // ─────────────────────────────────────────────────────────────────────────
 
 const PROBLEM_ICONS: Record<string, LucideIcon> = {
-  sparkles: Sparkles,
+  sparkles: Check,
   shield: ShieldCheck,
   search: SearchCheck,
   leaf: Leaf,
@@ -227,7 +226,7 @@ const PROBLEM_ICONS: Record<string, LucideIcon> = {
   clipboard: ClipboardList,
 };
 
-const TIMELINE_ICONS: LucideIcon[] = [ClipboardList, Sparkles, ShieldCheck];
+const TIMELINE_ICONS: LucideIcon[] = [ClipboardList, Stethoscope, ShieldCheck];
 
 type TimelineStep = { stepNumber: string; title: string; description: string };
 
@@ -584,7 +583,7 @@ function ProblemsSection({ treatment, page }: { treatment: Treatment; page?: Seo
 
         <div className="mt-10 grid gap-5 sm:grid-cols-2">
           {problems.slice(0, 4).map((p) => {
-            const Icon = PROBLEM_ICONS[p.icon ?? ""] ?? Sparkles;
+            const Icon = PROBLEM_ICONS[p.icon ?? ""] ?? Check;
             return (
               <div
                 key={p.title}
@@ -655,7 +654,7 @@ function TimelineSection({ treatment, page }: { treatment: Treatment; page?: Seo
         {/* Timeline — verticale su mobile, orizzontale su desktop */}
         <div className="mt-12 grid gap-8 md:grid-cols-3 md:gap-6">
           {steps.map((step, i) => {
-            const Icon = TIMELINE_ICONS[i] ?? Sparkles;
+            const Icon = TIMELINE_ICONS[i] ?? Check;
             return (
               <div key={step.stepNumber} className="relative flex gap-5 md:block">
                 {/* Linea di collegamento verticale (mobile) */}

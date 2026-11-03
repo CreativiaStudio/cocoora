@@ -9,7 +9,7 @@ import {
   useReducedMotion,
   type Variants,
 } from "motion/react";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Activity } from "lucide-react";
 
 import {
   MATRIX_DATA,
@@ -225,7 +225,7 @@ export function GlassMatrixDrum() {
 
         <div className="mt-14" aria-live="polite">
           <div className="mb-6 flex flex-col items-center gap-2 sm:flex-row sm:justify-start">
-            <Sparkles className="h-4 w-4 text-[#1C4A5C]" aria-hidden="true" />
+            <Activity className="h-4 w-4 text-[#1C4A5C]" aria-hidden="true" />
             <h3 className="font-serif text-lg font-semibold text-[#03354B]">
               Scopri i trattamenti correlati
             </h3>
@@ -280,7 +280,7 @@ export function GlassMatrixDrum() {
                           boxShadow: "inset 0 1px 0 rgba(255,255,255,0.65)",
                         }}
                       >
-                        <Sparkles
+                        <Activity
                           className="h-3 w-3 shrink-0 text-[#80A1B2]"
                           aria-hidden="true"
                         />

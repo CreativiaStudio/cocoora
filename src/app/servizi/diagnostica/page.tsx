@@ -8,7 +8,7 @@ import {
   Eye,
   Heart,
   ShieldCheck,
-  Sparkles,
+  Stethoscope,
   type LucideIcon,
 } from "lucide-react";
 import { useCms, useShop } from "@/components/providers";
@@ -33,7 +33,7 @@ const iconMap: Record<string, LucideIcon> = {
   Activity,
   Eye,
   Baby,
-  Sparkles,
+  Stethoscope,
 };
 
 export default function DiagnosticaPage() {
@@ -94,7 +94,7 @@ export default function DiagnosticaPage() {
 
           <div className="mt-14 space-y-6">
             {SPECIALTIES.map((s, i) => {
-              const Icon = iconMap[s.icon] ?? Sparkles;
+              const Icon = iconMap[s.icon] ?? Stethoscope;
               const reverse = i % 2 === 1;
               return (
                 <div

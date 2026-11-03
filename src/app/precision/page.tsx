@@ -4,7 +4,6 @@ import Image from "next/image";
 import {
   Dna,
   FlaskConical,
-  Sparkles,
   Check,
   ArrowRight,
   ShieldCheck,
@@ -19,7 +18,7 @@ import { useShop } from "@/components/providers";
 import { PRECISION_PROGRAMS, DNA_COMBOS, MICROBIOTA_KITS } from "@/lib/precision";
 import { formatPrice } from "@/lib/utils";
 
-const PROGRAM_ICONS: LucideIcon[] = [Sparkles, Activity, HeartHandshake];
+const PROGRAM_ICONS: LucideIcon[] = [Dna, Activity, HeartHandshake];
 
 export default function PrecisionPage() {
   const { openDiscover } = useShop();

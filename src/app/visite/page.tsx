@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Stethoscope } from "lucide-react";
 import { VISITE_SPECIALISTICHE } from "@/lib/visite-specialistiche";
 import { Badge, Container, SectionLabel } from "@/components/ui";
 
@@ -65,7 +65,7 @@ export default function VisitePage() {
                     />
                     <div className="absolute top-3 left-3">
                       <span className="inline-flex items-center gap-1 rounded-full bg-white/90 px-2.5 py-0.5 text-xs font-semibold text-teal-900 shadow-sm backdrop-blur-sm">
-                        <Sparkles className="h-3 w-3 text-teal-700" />
+                        <Stethoscope className="h-3 w-3 text-teal-700" />
                         {visita.categoryName}
                       </span>
                     </div>

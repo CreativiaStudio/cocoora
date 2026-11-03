@@ -397,36 +397,51 @@ export function Navbar() {
             />
           </Link>
 
-          {/* ── Desktop Navigation: 3 Menu Dropdown Separati + I Medici + Il Centro + Percorsi Salute ── */}
+          {/* ── Desktop Navigation: Menu Dropdown (Aree Cliniche + Percorsi) & Link Diretti (I Medici, Il Centro) ── */}
           <nav className="hidden items-center gap-0.5 xl:gap-1.5 lg:flex">
-            {NAV_NODES.map((node) => (
-              <div key={node.label} onMouseEnter={() => openMenu(node.label)} className="shrink-0">
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (openDesktop === node.label) {
-                      setOpenDesktop(null);
-                    } else {
-                      openMenu(node.label);
-                    }
-                  }}
-                  className={cn(
-                    "flex items-center gap-1 xl:gap-1.5 rounded-full px-2.5 py-2 xl:px-3.5 2xl:px-4 text-[13px] xl:text-sm font-medium whitespace-nowrap transition-all duration-200",
-                    "text-charcoal/85 hover:text-dark-navy hover:bg-slate-50/90",
-                    openDesktop === node.label && "bg-slate-100 text-dark-navy font-semibold shadow-xs"
-                  )}
-                  aria-expanded={openDesktop === node.label}
-                >
-                  <span className="whitespace-nowrap">{node.label}</span>
-                  <ChevronDown
+            {NAV_NODES.map((node) => {
+              const hasDropdown = Boolean(node.children && node.children.length > 0);
+              if (!hasDropdown) {
+                return (
+                  <Link
+                    key={node.label}
+                    href={node.href || "/"}
+                    onClick={closeAll}
+                    className="flex items-center rounded-full px-2.5 py-2 xl:px-3.5 2xl:px-4 text-[13px] xl:text-sm font-medium whitespace-nowrap transition-all duration-200 text-charcoal/85 hover:text-dark-navy hover:bg-slate-50/90"
+                  >
+                    {node.label}
+                  </Link>
+                );
+              }
+              return (
+                <div key={node.label} onMouseEnter={() => openMenu(node.label)} className="shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (openDesktop === node.label) {
+                        setOpenDesktop(null);
+                      } else {
+                        openMenu(node.label);
+                      }
+                    }}
                     className={cn(
-                      "h-3.5 w-3.5 shrink-0 transition-transform duration-300",
-                      openDesktop === node.label && "rotate-180 text-teal-800"
+                      "flex items-center gap-1 xl:gap-1.5 rounded-full px-2.5 py-2 xl:px-3.5 2xl:px-4 text-[13px] xl:text-sm font-medium whitespace-nowrap transition-all duration-200",
+                      "text-charcoal/85 hover:text-dark-navy hover:bg-slate-50/90",
+                      openDesktop === node.label && "bg-slate-100 text-dark-navy font-semibold shadow-xs"
                     )}
-                  />
-                </button>
-              </div>
-            ))}
+                    aria-expanded={openDesktop === node.label}
+                  >
+                    <span className="whitespace-nowrap">{node.label}</span>
+                    <ChevronDown
+                      className={cn(
+                        "h-3.5 w-3.5 shrink-0 transition-transform duration-300",
+                        openDesktop === node.label && "rotate-180 text-teal-800"
+                      )}
+                    />
+                  </button>
+                </div>
+              );
+            })}
           </nav>
 
           {/* ── MEGAMENU DESKTOP UNIFICATO ───────────────────────────── */}
@@ -447,8 +462,6 @@ export function Navbar() {
               {openDesktop === "Medicina Estetica" && <MegamenuMedicinaEstetica onClose={closeAll} />}
               {openDesktop === "Odontoiatria" && <MegamenuOdontoiatria onClose={closeAll} />}
               {openDesktop === "Visite Specialistiche" && <MegamenuVisiteSpecialistiche onClose={closeAll} />}
-              {openDesktop === "I Medici" && <MegamenuMedici onClose={closeAll} onOpenBooking={openBooking} />}
-              {openDesktop === "Il Centro" && <MegamenuCentro onClose={closeAll} />}
               {openDesktop === "Percorsi Salute" && <MegamenuPercorsiSalute onClose={closeAll} />}
             </div>
           </div>
@@ -500,23 +513,39 @@ export function Navbar() {
           {/* Elenco Pagine Accordion */}
           <nav className="flex-1 overflow-y-auto px-5 py-5">
             <ul className="flex flex-col gap-1.5">
-              {NAV_NODES.map((node) => (
-                <li key={node.label} className="border-b border-slate-100 py-1.5">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setMobileAccordion((v) => (v === node.label ? null : node.label))
-                    }
-                    className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-base font-medium text-dark-navy transition-colors hover:bg-teal-50"
-                  >
-                    <span>{node.label}</span>
-                    <ChevronDown
-                      className={cn(
-                        "h-4 w-4 text-slate-accent transition-transform duration-300",
-                        mobileAccordion === node.label && "rotate-180"
-                      )}
-                    />
-                  </button>
+              {NAV_NODES.map((node) => {
+                const hasDropdown = Boolean(node.children && node.children.length > 0);
+                if (!hasDropdown) {
+                  return (
+                    <li key={node.label} className="border-b border-slate-100 py-1.5">
+                      <Link
+                        href={node.href || "/"}
+                        onClick={closeAll}
+                        className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-base font-medium text-dark-navy transition-colors hover:bg-teal-50"
+                      >
+                        <span>{node.label}</span>
+                        <ArrowRight className="h-4 w-4 text-teal-700" />
+                      </Link>
+                    </li>
+                  );
+                }
+                return (
+                  <li key={node.label} className="border-b border-slate-100 py-1.5">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setMobileAccordion((v) => (v === node.label ? null : node.label))
+                      }
+                      className="flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-base font-medium text-dark-navy transition-colors hover:bg-teal-50"
+                    >
+                      <span>{node.label}</span>
+                      <ChevronDown
+                        className={cn(
+                          "h-4 w-4 text-slate-accent transition-transform duration-300",
+                          mobileAccordion === node.label && "rotate-180"
+                        )}
+                      />
+                    </button>
 
                   <div
                     className={cn(
@@ -727,7 +756,8 @@ export function Navbar() {
                     </div>
                   </div>
                 </li>
-              ))}
+              );
+            })}
             </ul>
           </nav>
 

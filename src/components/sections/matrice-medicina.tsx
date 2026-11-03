@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Activity } from "lucide-react";
 import { Container, SectionLabel } from "@/components/ui";
 
 export type TreatmentRef = {
@@ -268,7 +268,7 @@ export function MatriceMedicinaEstetica() {
         {/* Trattamenti Correlati Cards */}
         <div className="mt-14">
           <div className="flex items-center gap-2 justify-center sm:justify-start mb-6">
-            <Sparkles className="h-4 w-4 text-teal-700" />
+            <Activity className="h-4 w-4 text-teal-700" />
             <h3 className="font-serif text-lg font-semibold text-dark-navy">
               Scopri i trattamenti correlati
             </h3>
