@@ -165,26 +165,32 @@ function PhilosophySection({
           >
             <EyebrowBar>La nostra filosofia</EyebrowBar>
             <h2 className="mt-6 text-center font-serif text-[clamp(2.35rem,4.2vw,3.75rem)] font-semibold leading-[1.08] tracking-[-0.028em] text-[#00344b]">
-              {title}
+              Il tuo benessere,{" "}
+              <span className="italic font-normal text-[#5d8497]">
+                senza ostacoli
+              </span>
             </h2>
           </motion.div>
 
-          {/* Paragrafi con tipografia editoriale prestigiosa */}
+          {/* Paragrafi con tipografia editoriale prestigiosa (3 righe e 3 righe simmetriche) */}
           <motion.div
             style={{ y: bodyY, opacity: bodyOpacity }}
-            className="mt-10 space-y-6 text-center"
+            className="mt-10 space-y-7 text-center"
           >
-            {bodyParagraphs.map((p, i) => (
-              <p
-                key={i}
-                className="mx-auto max-w-2xl text-lg sm:text-xl leading-[1.8] text-charcoal/80 font-light"
-              >
-                {p}
-              </p>
-            ))}
+            <p className="mx-auto max-w-2xl text-lg sm:text-[21px] leading-[1.75] text-charcoal/80 font-light">
+              <span className="sm:block">Il nostro centro supera l&apos;idea tradizionale di visita medica.</span>
+              <span className="sm:block">Qui l&apos;efficienza non è solo organizzazione, è la cornice</span>
+              <span className="sm:block">che permette alla medicina di esprimersi al meglio.</span>
+            </p>
+
+            <p className="mx-auto max-w-3xl text-lg sm:text-[21px] leading-[1.75] text-charcoal/80 font-light">
+              <span className="sm:block">Abbiamo azzerato attese, burocrazia e complessità per permetterti di vivere</span>
+              <span className="sm:block">un percorso di salute fluido e immediato. Dedichiamo ogni risorsa, ogni spazio</span>
+              <span className="sm:block">e ogni tecnologia alla qualità del rapporto tra te e il tuo specialista.</span>
+            </p>
           </motion.div>
 
-          {/* Closing quote: centerpiece editoriale frosted glass */}
+          {/* Closing quote: centerpiece editoriale frosted glass (2 righe simmetriche) */}
           {closing && (
             <motion.div
               style={{ y: cardY, scale: cardScale, opacity: cardOpacity }}
@@ -205,8 +211,9 @@ function PhilosophySection({
                   className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#80a1b2]/40 to-transparent"
                 />
 
-                <blockquote className="relative z-10 mx-auto max-w-2xl font-serif text-2xl sm:text-3xl italic text-[#00344b] leading-snug">
-                  {closing}
+                <blockquote className="relative z-10 mx-auto max-w-2xl font-serif text-2xl sm:text-3xl lg:text-[32px] italic text-[#00344b] leading-snug">
+                  <span className="sm:block">La tua salute merita attenzione, dedizione</span>
+                  <span className="sm:block">e, soprattutto, nessun ostacolo.</span>
                 </blockquote>
 
                 <div className="relative z-10 mt-6 flex items-center justify-center gap-3">
@@ -219,25 +226,6 @@ function PhilosophySection({
               </div>
             </motion.div>
           )}
-
-          {/* Bottone CTA centrato con hover micro-interaction */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-12 flex justify-center"
-          >
-            <ButtonLink
-              href="/chi-siamo"
-              variant="secondary"
-              size="lg"
-              className="group relative inline-flex items-center gap-2.5 overflow-hidden px-8 py-4 transition-all duration-300 hover:scale-[1.02] hover:border-[#80a1b2]/60 hover:shadow-[0_16px_36px_-12px_rgba(0,52,75,0.18)] active:scale-[0.98]"
-            >
-              <span>Scopri il Metodo Cocoora</span>
-              <ArrowRight className="h-4 w-4 transition-transform duration-300 ease-out group-hover:translate-x-1" />
-            </ButtonLink>
-          </motion.div>
         </div>
       </Container>
     </section>
