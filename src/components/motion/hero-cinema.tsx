@@ -299,7 +299,7 @@ export function HeroCinema({ h1, videoSrc, openDiscover }: HeroCinemaProps) {
         <Container className="relative z-20 mt-auto pb-8 pt-16 sm:pb-10 sm:pt-20 lg:pt-24">
           <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-xl">
-              <h1 className="font-serif text-[clamp(3rem,6vw,5.6rem)] font-semibold leading-[1.02] tracking-[-0.032em] text-white">
+              <h1 className="font-serif text-[clamp(2.85rem,5.6vw,5.2rem)] font-semibold leading-[0.98] tracking-[-0.035em] text-white">
                 <MaskedLine text={line1} baseDelay={0.25} reduced={reduced} />
                 {line2 ? (
                   <MaskedLine
@@ -312,16 +312,17 @@ export function HeroCinema({ h1, videoSrc, openDiscover }: HeroCinemaProps) {
               </h1>
 
               <motion.p
-                className="mt-4 max-w-md text-[15px] leading-[1.6] text-white/80 sm:text-[17px]"
+                className="mt-2.5 max-w-lg text-[15px] leading-[1.5] text-white/85 sm:mt-3 sm:text-[17px]"
                 initial={{ opacity: 0, y: reduced ? 0 : 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.9, ease: EASE.out, delay: reduced ? 0 : 0.8 }}
               >
-                Prevenzione, diagnostica avanzata e cura specialistica in un unico centro.
+                <span className="sm:block">Prevenzione, diagnostica avanzata</span>
+                <span className="sm:block">e cura specialistica in un unico centro.</span>
               </motion.p>
 
               <motion.div
-                className="mt-7 flex flex-wrap items-center gap-3.5"
+                className="mt-5 flex flex-wrap items-center gap-3.5 sm:mt-6"
                 initial={{ opacity: 0, y: reduced ? 0 : 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.9, ease: EASE.out, delay: reduced ? 0 : 0.95 }}
