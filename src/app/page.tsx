@@ -268,9 +268,6 @@ export default function HomePage() {
                     <ButtonLink href="/club" variant="white" size="lg">
                       Scopri il Club <ArrowRight className="h-4 w-4" />
                     </ButtonLink>
-                    <ButtonLink href="/precision" variant="outline-dark" size="lg">
-                      Scopri Precision
-                    </ButtonLink>
                   </div>
                 </Reveal>
               </div>
