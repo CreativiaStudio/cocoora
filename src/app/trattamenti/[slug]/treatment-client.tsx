@@ -22,7 +22,7 @@ import {
   Stethoscope,
   type LucideIcon,
 } from "lucide-react";
-import { useCms } from "@/components/providers";
+import { useCms, useShop } from "@/components/providers";
 import { getDoctorsByTreatment } from "@/lib/doctors";
 import { CLUB_TIERS } from "@/lib/club";
 import { SITE } from "@/lib/site";
@@ -389,7 +389,7 @@ function HeroSection({
   heroImage?: string;
   heroCta?: string;
 }) {
-  const ctaLabel = heroCta || page?.heroCta || treatment.heroCta || "Richiedi una valutazione";
+  const { openDiscover } = useShop();
   return (
     <section className="relative overflow-hidden bg-canvas pb-16 pt-10 sm:pb-20 sm:pt-14">
       <Container>
@@ -407,10 +407,10 @@ function HeroSection({
             <div className="mt-8">
               <button
                 type="button"
-                onClick={scrollToLead}
+                onClick={openDiscover}
                 className="inline-flex items-center gap-2 rounded-full bg-dark-navy px-8 py-3.5 text-sm font-medium text-white shadow-[0_16px_40px_-16px_rgba(3,53,75,0.55)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-teal-900"
               >
-                {ctaLabel} <ArrowRight className="h-4 w-4" />
+                Iscriviti gratuitamente al Cocoora Club <ArrowRight className="h-4 w-4" />
               </button>
             </div>
           </div>
@@ -489,13 +489,6 @@ function WhatIsSection({ treatment, page }: { treatment: Treatment; page?: SeoPa
         ? [whatIs.description]
         : [treatment.description];
 
-  const callout =
-    page?.whatIsCallout ||
-    whatIs?.callout ||
-    (treatment.category === "odontoiatria"
-      ? "Materiali, tecnologie e protocolli vengono selezionati dal medico in base alla situazione clinica individuale e agli obiettivi definiti durante la valutazione."
-      : "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.");
-
   const image =
     page?.whatIsImage ||
     whatIs?.image ||
@@ -517,7 +510,7 @@ function WhatIsSection({ treatment, page }: { treatment: Treatment; page?: SeoPa
             />
           </div>
 
-          {/* Colonna destra — testi + callout */}
+          {/* Colonna destra — testi */}
           <div>
             {whatIs?.overline && (
               <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-teal-800">
@@ -533,12 +526,6 @@ function WhatIsSection({ treatment, page }: { treatment: Treatment; page?: SeoPa
                   {p}
                 </p>
               ))}
-            </div>
-            <div className="mt-6 flex items-start gap-3.5 rounded-2xl border border-teal-200/80 bg-teal-50/80 p-4">
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-teal-100 text-teal-700">
-                <Info className="h-3.5 w-3.5" />
-              </span>
-              <p className="text-sm leading-relaxed text-teal-900/85">{callout}</p>
             </div>
           </div>
         </div>
@@ -623,18 +610,6 @@ function TimelineSection({ treatment, page }: { treatment: Treatment; page?: Seo
     treatment.timelineTitle ||
     `Come si svolge una seduta di ${withArticle(treatment.title)}?`;
 
-  const noteTitle =
-    page?.timelineNoteTitle ||
-    treatment.timelineNote?.title ||
-    (treatment.category === "odontoiatria" ? "Ogni sorriso è diverso" : "Ogni pelle è diversa");
-
-  const noteText =
-    page?.timelineNoteText ||
-    treatment.timelineNote?.text ||
-    (treatment.category === "odontoiatria"
-      ? "Il medico valuta la risposta individuale e definisce l'eventuale necessità di ulteriori sedute o controlli nel tempo."
-      : "Il medico valuta la risposta della pelle e definisce l'eventuale necessità di ulteriori sedute.");
-
   return (
     <section className="bg-white py-16 sm:py-20">
       <Container>
@@ -683,17 +658,6 @@ function TimelineSection({ treatment, page }: { treatment: Treatment; page?: Seo
               </div>
             );
           })}
-        </div>
-
-        {/* Box finale rassicurante */}
-        <div className="mx-auto mt-12 flex max-w-3xl items-start gap-4 rounded-2xl border border-teal-100 bg-teal-50/60 p-6">
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-100 text-teal-700">
-            <Leaf className="h-5 w-5" />
-          </span>
-          <div>
-            <p className="font-serif text-lg font-semibold text-teal-900">{noteTitle}</p>
-            <p className="mt-1 text-sm leading-relaxed text-charcoal/70">{noteText}</p>
-          </div>
         </div>
       </Container>
     </section>
@@ -1144,18 +1108,19 @@ function LocalSeoSection({ treatment, page }: { treatment: Treatment; page?: Seo
 }
 
 // ─────────────────────────────────────────────────────────────────────────
-// Sticky CTA mobile — smooth scroll all'ancora #lead (senza popup)
+// Sticky CTA mobile — apre DiscoverModal Cocoora Club
 // ─────────────────────────────────────────────────────────────────────────
 
 function StickyMobileCtaBar() {
+  const { openDiscover } = useShop();
   return (
     <div className="fixed inset-x-0 bottom-0 z-40 border-t border-teal-100 bg-white/95 p-3 shadow-[0_-10px_25px_-5px_rgba(3,53,75,0.15)] backdrop-blur-md md:hidden">
       <button
         type="button"
-        onClick={scrollToLead}
+        onClick={openDiscover}
         className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-dark-navy px-8 py-3.5 text-sm font-medium text-white transition-colors duration-300 hover:bg-teal-900"
       >
-        Richiedi una valutazione <ArrowRight className="h-4 w-4" />
+        Iscriviti gratuitamente al Cocoora Club <ArrowRight className="h-4 w-4" />
       </button>
     </div>
   );

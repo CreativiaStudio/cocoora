@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { Check, ShieldCheck, X } from "lucide-react";
+import { X } from "lucide-react";
 import { useShop } from "./providers";
 import { trackLead } from "@/lib/tracking";
 import { Button } from "./ui";
@@ -10,15 +10,21 @@ export function DiscoverModal() {
   const { discoverOpen, closeDiscover } = useShop();
   const [done, setDone] = useState(false);
   const [profileId, setProfileId] = useState("");
-  const [form, setForm] = useState({ nome: "", email: "" });
+  const [form, setForm] = useState({ nome: "", email: "", telefono: "" });
+  const [privacyAccepted, setPrivacyAccepted] = useState(false);
+  const [trackingAccepted, setTrackingAccepted] = useState(false);
   const [error, setError] = useState("");
 
   if (!discoverOpen) return null;
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
-    if (!form.nome.trim() || !form.email.trim()) {
-      setError("Compila nome ed email per generare il tuo profilo.");
+    if (!form.nome.trim() || !form.email.trim() || !form.telefono.trim()) {
+      setError("Compila tutti i campi per generare il tuo profilo.");
+      return;
+    }
+    if (!privacyAccepted || !trackingAccepted) {
+      setError("Accetta entrambe le informative per procedere con l'iscrizione.");
       return;
     }
     setError("");
@@ -30,7 +36,9 @@ export function DiscoverModal() {
   const reset = () => {
     setDone(false);
     setProfileId("");
-    setForm({ nome: "", email: "" });
+    setForm({ nome: "", email: "", telefono: "" });
+    setPrivacyAccepted(false);
+    setTrackingAccepted(false);
     setError("");
     closeDiscover();
   };
@@ -53,58 +61,92 @@ export function DiscoverModal() {
 
         {!done ? (
           <>
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-teal-50 text-teal-700">
-              <ShieldCheck className="h-6 w-6" />
-            </div>
-            <h3 className="mt-4 font-serif text-2xl font-semibold text-teal-900">
-              Inizia gratis
+            <h3 className="font-serif text-2xl font-semibold text-teal-900">
+              Iscriviti gratuitamente al Cocoora Club
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-charcoal/75">
-              Crea il tuo profilo sanitario digitale in 2 minuti e entra in
+              Crea il tuo profilo sanitario digitale in 2 minuti ed entra nel
               Cocoora Club con il piano Discover (€0).
             </p>
-            <form onSubmit={submit} className="mt-5 space-y-4">
+            <form onSubmit={submit} className="mt-5 space-y-3.5">
               <label className="block">
-                <span className="mb-1.5 block text-xs font-medium text-teal-900">Nome</span>
+                <span className="mb-1 block text-xs font-medium text-teal-900">
+                  Nome e cognome
+                </span>
                 <input
                   value={form.nome}
                   onChange={(e) => setForm({ ...form, nome: e.target.value })}
-                  className="w-full rounded-xl border border-teal-200 px-4 py-3 text-sm outline-none transition-colors focus:border-teal-600"
-                  placeholder="Il tuo nome"
+                  className="w-full rounded-xl border border-teal-200 px-4 py-2.5 text-sm outline-none transition-colors focus:border-teal-600"
+                  placeholder="Nome e cognome"
                 />
               </label>
               <label className="block">
-                <span className="mb-1.5 block text-xs font-medium text-teal-900">Email</span>
+                <span className="mb-1 block text-xs font-medium text-teal-900">
+                  Email
+                </span>
                 <input
                   type="email"
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  className="w-full rounded-xl border border-teal-200 px-4 py-3 text-sm outline-none transition-colors focus:border-teal-600"
+                  className="w-full rounded-xl border border-teal-200 px-4 py-2.5 text-sm outline-none transition-colors focus:border-teal-600"
                   placeholder="nome@email.it"
                 />
               </label>
+              <label className="block">
+                <span className="mb-1 block text-xs font-medium text-teal-900">
+                  Telefono
+                </span>
+                <input
+                  type="tel"
+                  value={form.telefono}
+                  onChange={(e) => setForm({ ...form, telefono: e.target.value })}
+                  className="w-full rounded-xl border border-teal-200 px-4 py-2.5 text-sm outline-none transition-colors focus:border-teal-600"
+                  placeholder="+39 333 1234567"
+                />
+              </label>
+              <div className="space-y-2 pt-1 text-xs text-charcoal/80">
+                <label className="flex items-start gap-2.5 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={privacyAccepted}
+                    onChange={(e) => setPrivacyAccepted(e.target.checked)}
+                    className="mt-0.5 h-4 w-4 rounded border-teal-300 text-teal-700 focus:ring-teal-600"
+                  />
+                  <span>
+                    Ho letto e accetto la Privacy Policy e il trattamento dei dati personali.
+                  </span>
+                </label>
+                <label className="flex items-start gap-2.5 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={trackingAccepted}
+                    onChange={(e) => setTrackingAccepted(e.target.checked)}
+                    className="mt-0.5 h-4 w-4 rounded border-teal-300 text-teal-700 focus:ring-teal-600"
+                  />
+                  <span>
+                    Acconsento alla misurazione dell&apos;apertura delle comunicazioni e al monitoraggio dei click nelle email informative e promozionali.
+                  </span>
+                </label>
+              </div>
               {error && <p className="text-sm text-red-500">{error}</p>}
               <Button type="submit" className="w-full" size="lg">
-                Genera il mio profilo
+                Iscriviti al Club
               </Button>
             </form>
           </>
         ) : (
           <div className="flex flex-col items-center py-4 text-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-teal-100 text-teal-700">
-              <Check className="h-8 w-8" />
-            </div>
-            <h3 className="mt-5 font-serif text-2xl font-semibold text-teal-900">
-              Profilo creato!
+            <h3 className="font-serif text-2xl font-semibold text-teal-900">
+              Iscrizione completata!
             </h3>
             <p className="mt-2 text-sm text-charcoal/70">
-              Benvenuto {form.nome}. Il tuo profilo digitale è attivo.
+              Benvenuto {form.nome}. Il tuo profilo Cocoora Club è attivo.
             </p>
             <div className="mt-4 rounded-2xl bg-teal-50 px-6 py-3 font-mono text-lg font-semibold tracking-widest text-teal-800">
               {profileId}
             </div>
             <p className="mt-4 text-xs text-charcoal/60">
-              Scarica l&apos;app Cocoora e accedi con la tua email per iniziare.
+              Scarica l&apos;app Cocoora e accedi con la tua email per iniziare a usufruire di tutti i vantaggi del Club.
             </p>
             <Button className="mt-6" onClick={reset}>
               Chiudi

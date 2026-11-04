@@ -558,14 +558,6 @@ export function Navbar() {
                     <div className="overflow-hidden pl-2">
                       {node.label === "Medicina Estetica" ? (
                         <div className="flex flex-col gap-2">
-                          <Link
-                            href="/servizi/medicina-estetica"
-                            onClick={closeAll}
-                            className="rounded-xl bg-teal-50/80 px-3 py-2 text-xs font-bold uppercase tracking-wider text-teal-900 flex items-center justify-between"
-                          >
-                            <span>Panoramica Medicina Estetica</span>
-                            <ArrowRight className="h-3.5 w-3.5 text-teal-700" />
-                          </Link>
                           {MEDICINA_ESTETICA_CATEGORIES.map((cat) => (
                             <div key={cat.heading} className="rounded-xl bg-slate-50/80 px-3 py-2.5">
                               <p className="text-[10px] font-bold uppercase tracking-wider text-teal-800/90 pb-1 border-b border-teal-100/50">
@@ -607,30 +599,22 @@ export function Navbar() {
                           ))}
                           <div className="rounded-xl bg-gradient-to-br from-dark-navy to-teal-950 p-3.5 text-white">
                             <p className="text-[10px] font-bold uppercase tracking-wider text-teal-300">
-                              Filtro Guidato
+                              Percorso Guidato
                             </p>
                             <Link
-                              href="/servizi/medicina-estetica#da-dove-iniziare"
+                              href="/servizi/medicina-estetica"
                               onClick={closeAll}
                               className="mt-1 block text-sm font-semibold hover:text-teal-200"
                             >
                               Non sai da dove iniziare?
                             </Link>
-                            <p className="mt-1 text-[11px] text-teal-100/70">
+                            <p className="mt-1 text-[11px] text-teal-100/75">
                               Trova il trattamento mirato per viso, corpo o texture cutanea.
                             </p>
                           </div>
                         </div>
                       ) : node.label === "Odontoiatria" ? (
                         <div className="flex flex-col gap-2">
-                          <Link
-                            href="/servizi/odontoiatria"
-                            onClick={closeAll}
-                            className="rounded-xl bg-teal-50/80 px-3 py-2 text-xs font-bold uppercase tracking-wider text-teal-900 flex items-center justify-between"
-                          >
-                            <span>Panoramica Odontoiatria</span>
-                            <ArrowRight className="h-3.5 w-3.5 text-teal-700" />
-                          </Link>
                           {ODONTOIATRIA_CATEGORIES.map((cat) => (
                             <div key={cat.heading} className="rounded-xl bg-slate-50/80 px-3 py-2.5">
                               <p className="text-[10px] font-bold uppercase tracking-wider text-teal-800/90 pb-1 border-b border-teal-100/50">
@@ -861,19 +845,12 @@ function MegamenuMedicinaEstetica({ onClose }: { onClose: () => void }) {
           </div>
           <div className="mt-5 space-y-2">
             <Link
-              href="/servizi/medicina-estetica#da-dove-iniziare"
+              href="/servizi/medicina-estetica"
               onClick={onClose}
               className="w-full inline-flex items-center justify-between rounded-xl bg-teal-400 px-4 py-2.5 text-xs font-bold text-dark-navy hover:bg-teal-300 transition-colors"
             >
               <span>Scopri di più</span>
               <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-            <Link
-              href="/servizi/medicina-estetica"
-              onClick={onClose}
-              className="w-full inline-flex items-center justify-center gap-1.5 rounded-xl bg-white/10 px-4 py-2 text-xs font-semibold text-white hover:bg-white/20 transition-colors"
-            >
-              Panoramica Medicina Estetica
             </Link>
           </div>
         </div>
@@ -887,23 +864,16 @@ function MegamenuMedicinaEstetica({ onClose }: { onClose: () => void }) {
             <strong className="font-semibold text-dark-navy">Medicina Estetica &amp; Rigenerativa.</strong> Protocolli clinici certificati, diagnosi preliminare e risultati naturali.
           </span>
         </span>
-        <Link
-          href="/servizi/medicina-estetica"
-          onClick={onClose}
-          className="font-semibold text-teal-900 hover:text-dark-navy flex items-center gap-1 whitespace-nowrap transition-colors"
-        >
-          Esplora tutti i trattamenti <ArrowRight className="h-3 w-3" />
-        </Link>
       </div>
     </div>
   );
 }
 
-// ── MEGAMENU 2: ODONTOIATRIA (3 Colonne Categorie + 1 Colonna Focus Digitale) ─
+// ── MEGAMENU 2: ODONTOIATRIA (3 Colonne Categorie Bilanciate) ─────────────────
 function MegamenuOdontoiatria({ onClose }: { onClose: () => void }) {
   return (
     <div className="flex flex-col">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-8 p-8 lg:p-10">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 p-8 lg:p-10">
         {ODONTOIATRIA_CATEGORIES.map((cat) => (
           <div key={cat.heading}>
             <span className="font-bold text-xs uppercase tracking-wider text-slate-accent pb-1 border-b border-teal-100/60 flex items-center gap-1.5">
@@ -918,38 +888,6 @@ function MegamenuOdontoiatria({ onClose }: { onClose: () => void }) {
             </ul>
           </div>
         ))}
-
-        {/* Colonna 4: Focus Odontoiatria Digitale */}
-        <div className="bg-gradient-to-br from-dark-navy to-teal-950 text-white rounded-3xl p-6 shadow-xl border border-teal-500/20 backdrop-blur-md flex flex-col justify-between">
-          <div>
-            <p className="text-[10px] font-bold uppercase tracking-wider text-teal-300">
-              Odontoiatria 3D
-            </p>
-            <h4 className="mt-2 font-serif text-base font-semibold leading-snug text-white">
-              Il tuo sorriso, in digitale
-            </h4>
-            <p className="mt-2 text-[11px] leading-relaxed text-teal-100/75">
-              Allineatori trasparenti per adulti e bambini con simulazione 3D pre-trattamento. Direzione Sanitaria Dott.ssa Elisa Russo.
-            </p>
-          </div>
-          <div className="mt-5 space-y-2">
-            <Link
-              href="/servizi/odontoiatria"
-              onClick={onClose}
-              className="w-full inline-flex items-center justify-between rounded-xl bg-teal-400 px-4 py-2.5 text-xs font-bold text-dark-navy hover:bg-teal-300 transition-colors"
-            >
-              <span>Scopri l&apos;Odontoiatria</span>
-              <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-            <Link
-              href="/trattamenti/invisalign-adulti"
-              onClick={onClose}
-              className="w-full inline-flex items-center justify-center gap-1.5 rounded-xl bg-white/10 px-4 py-2 text-xs font-semibold text-white hover:bg-white/20 transition-colors"
-            >
-              Allineatori Trasparenti Adulti
-            </Link>
-          </div>
-        </div>
       </div>
 
       <div className="border-t border-slate-100/80 bg-slate-50/70 backdrop-blur-md px-8 py-3.5 flex items-center justify-between text-xs">
@@ -959,13 +897,6 @@ function MegamenuOdontoiatria({ onClose }: { onClose: () => void }) {
             <strong className="font-semibold text-dark-navy">Clinica Odontoiatrica Digitale.</strong> Diagnosi senza impronte tradizionali, riabilitazione estetica e funzionale.
           </span>
         </span>
-        <Link
-          href="/servizi/odontoiatria"
-          onClick={onClose}
-          className="font-semibold text-teal-900 hover:text-dark-navy flex items-center gap-1 whitespace-nowrap transition-colors"
-        >
-          Vai alla clinica dentale <ArrowRight className="h-3 w-3" />
-        </Link>
       </div>
     </div>
   );

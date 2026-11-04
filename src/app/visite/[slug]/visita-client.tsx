@@ -11,8 +11,6 @@ import {
   Clock,
   CreditCard,
   HeartHandshake,
-  Info,
-  Leaf,
   Mail,
   MapPin,
   MessageCircle,
@@ -48,7 +46,7 @@ export function VisitaClient({ visita }: { visita: VisitaSpecialistica }) {
     <>
       <main className="pb-20 md:pb-0 bg-canvas text-charcoal">
         {/* 1 — Hero Split 50/50 Image-First Luxury */}
-        <HeroSection visita={visita} onScrollToLead={scrollToLead} onOpenDiscover={openDiscover} />
+        <HeroSection visita={visita} onOpenDiscover={openDiscover} />
 
         {/* 2 — Che cos'è e come funziona */}
         {visita.whatIs && <WhatIsSection visita={visita} />}
@@ -93,8 +91,8 @@ export function VisitaClient({ visita }: { visita: VisitaSpecialistica }) {
         </div>
       </main>
 
-      {/* Barra mobile fissa per prenotazione immediata */}
-      <StickyMobileCtaBar heroCta={visita.heroCta} onScrollToLead={scrollToLead} />
+      {/* Barra mobile fissa per iscrizione Cocoora Club */}
+      <StickyMobileCtaBar onOpenDiscover={openDiscover} />
     </>
   );
 }
@@ -105,15 +103,11 @@ export function VisitaClient({ visita }: { visita: VisitaSpecialistica }) {
 
 function HeroSection({
   visita,
-  onScrollToLead,
   onOpenDiscover,
 }: {
   visita: VisitaSpecialistica;
-  onScrollToLead: () => void;
   onOpenDiscover: () => void;
 }) {
-  const ctaLabel = visita.heroCta || "Richiedi una valutazione";
-
   return (
     <section className="relative overflow-hidden bg-canvas pb-16 pt-10 sm:pb-20 sm:pt-14 border-b border-teal-100/60">
       <Container>
@@ -136,19 +130,10 @@ function HeroSection({
             <div className="mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
               <button
                 type="button"
-                onClick={onScrollToLead}
-                className="inline-flex items-center gap-2 rounded-full bg-dark-navy px-7 py-3.5 text-sm font-medium text-white shadow-[0_16px_40px_-16px_rgba(3,53,75,0.55)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-teal-900"
-              >
-                {ctaLabel} <ArrowRight className="h-4 w-4" />
-              </button>
-
-              <button
-                type="button"
                 onClick={onOpenDiscover}
-                className="inline-flex items-center gap-2 rounded-full border border-teal-300 bg-teal-50/90 px-6 py-3.5 text-sm font-semibold text-teal-900 shadow-xs transition-all hover:bg-teal-100 hover:-translate-y-0.5"
+                className="inline-flex items-center gap-2 rounded-full bg-dark-navy px-8 py-3.5 text-sm font-medium text-white shadow-[0_16px_40px_-16px_rgba(3,53,75,0.55)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-teal-900"
               >
-                <UserCheck className="h-4 w-4 text-teal-700" />
-                Inizia con Percorso Base (€0)
+                Iscriviti gratuitamente al Cocoora Club <ArrowRight className="h-4 w-4" />
               </button>
 
               <a
@@ -237,14 +222,6 @@ function WhatIsSection({ visita }: { visita: VisitaSpecialistica }) {
               {paragraphs.map((p, i) => (
                 <p key={i}>{p}</p>
               ))}
-            </div>
-            <div className="mt-6 flex items-start gap-3.5 rounded-2xl border border-teal-200/80 bg-teal-50/80 p-4">
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-teal-100 text-teal-700">
-                <Info className="h-3.5 w-3.5" />
-              </span>
-              <p className="text-sm leading-relaxed text-teal-900/85">
-                La valutazione viene eseguita dal medico specialista in sede con strumentazione dedicata, garantendo tempi adeguati all&apos;ascolto e indicazioni terapeutiche personalizzate.
-              </p>
             </div>
           </div>
         </div>
@@ -343,18 +320,6 @@ function TimelineSection({ visita }: { visita: VisitaSpecialistica }) {
               </div>
             </div>
           ))}
-        </div>
-
-        <div className="mx-auto mt-12 flex max-w-3xl items-start gap-4 rounded-2xl border border-teal-100 bg-teal-50/60 p-6">
-          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-100 text-teal-700">
-            <Leaf className="h-5 w-5" />
-          </span>
-          <div>
-            <p className="font-serif text-lg font-semibold text-teal-900">Nessuna Fretta, Ascolto Reale</p>
-            <p className="mt-1 text-sm leading-relaxed text-charcoal/70">
-              Nelle nostre visite specialistiche il medico dedica il tempo necessario all&apos;ascolto della tua storia clinica e alla spiegazione dettagliata degli esiti.
-            </p>
-          </div>
         </div>
       </Container>
     </section>
@@ -761,11 +726,9 @@ function LocalSeoSection({ visita }: { visita: VisitaSpecialistica }) {
 // ─────────────────────────────────────────────────────────────────────────
 
 function StickyMobileCtaBar({
-  heroCta,
-  onScrollToLead,
+  onOpenDiscover,
 }: {
-  heroCta?: string;
-  onScrollToLead: () => void;
+  onOpenDiscover: () => void;
 }) {
   return (
     <div className="fixed inset-x-0 bottom-0 z-40 border-t border-teal-100 bg-white/95 p-3.5 backdrop-blur-md md:hidden shadow-lg">
@@ -777,8 +740,8 @@ function StickyMobileCtaBar({
         >
           <Phone className="h-4 w-4" />
         </a>
-        <Button onClick={onScrollToLead} size="md" className="flex-1 font-semibold">
-          {heroCta || "Prenota Visita"}
+        <Button onClick={onOpenDiscover} size="md" className="flex-1 font-semibold">
+          Iscriviti gratuitamente al Cocoora Club
         </Button>
       </div>
     </div>

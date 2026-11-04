@@ -39,7 +39,7 @@ type AreaDefinition = {
   titleLine2: string;
   copy: string;
   shortTag: string;
-  ctaLabel: string;
+  ctaLabel?: string;
   checks: readonly CategoryCheck[];
   items: AreaItem[];
   variant: "canvas" | "tinted";
@@ -278,32 +278,26 @@ function AreaBlock({ area }: { area: AreaDefinition }) {
             </ul>
 
             <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">
-              <ButtonLink href={area.href} variant="primary" size="lg">
-                {area.ctaLabel}
-              </ButtonLink>
-              <Link
-                href={activeItem.href}
-                className="group inline-flex items-center gap-2 font-sans text-sm text-[#1C4A5C] underline-offset-4 hover:underline"
-              >
-                <span className="opacity-70">Approfondisci:</span>
-                <span className="relative inline-block overflow-hidden">
+              <ButtonLink href={activeItem.href} variant="primary" size="lg" className="group">
+                <span>Approfondisci</span>
+                <span className="relative inline-block overflow-hidden font-semibold">
                   <motion.span
                     key={activeItem.id}
                     initial={prefersReducedMotion ? false : { y: "100%", opacity: 0 }}
                     animate={{ y: "0%", opacity: 1 }}
                     transition={{ duration: DUR.base, ease: EASE.out }}
-                    className="inline-block font-medium"
+                    className="inline-block"
                   >
                     {activeItem.label}
                   </motion.span>
                 </span>
                 <span
                   aria-hidden="true"
-                  className="transition-transform duration-300 group-hover:translate-x-1"
+                  className="inline-block transition-transform duration-300 group-hover:translate-x-1"
                 >
                   →
                 </span>
-              </Link>
+              </ButtonLink>
             </div>
           </Reveal>
 

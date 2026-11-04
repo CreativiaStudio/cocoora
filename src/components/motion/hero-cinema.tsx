@@ -8,9 +8,6 @@ import { Button, ButtonLink, Container } from "@/components/ui";
 import { EASE } from "@/components/motion/tokens";
 import { cn } from "@/lib/utils";
 
-/* Final institutional MP4 is in post-production: null activates the full-bleed showreel. */
-const HERO_VIDEO_SRC: string | null = null;
-
 const CHAPTER_MS = 5200;
 
 interface Chapter {
@@ -120,8 +117,7 @@ export interface HeroCinemaProps {
 export function HeroCinema({ h1, videoSrc, openDiscover }: HeroCinemaProps) {
   const reducedPref = useReducedMotion();
   const reduced = reducedPref === true;
-  const activeVideoSrc = videoSrc ?? HERO_VIDEO_SRC;
-  const isVideo = Boolean(activeVideoSrc);
+  const isVideo = videoSrc !== null;
 
   const frameRef = useRef<HTMLDivElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -218,16 +214,33 @@ export function HeroCinema({ h1, videoSrc, openDiscover }: HeroCinemaProps) {
           className="absolute inset-0 -z-10"
           style={{ y: parallaxY, scale: parallaxScale }}
         >
-          {isVideo && activeVideoSrc ? (
+          {isVideo ? (
             <video
               ref={videoRef}
-              src={activeVideoSrc}
               autoPlay
               muted={muted}
               loop
               playsInline
+              preload="auto"
               className="absolute inset-0 h-full w-full object-cover"
-            />
+            >
+              {videoSrc ? (
+                <source src={videoSrc} type="video/mp4" />
+              ) : (
+                <>
+                  <source
+                    src="/videos/hero-desktop.mp4"
+                    media="(min-width: 768px)"
+                    type="video/mp4"
+                  />
+                  <source
+                    src="/videos/hero-mobile.mp4"
+                    media="(max-width: 767px)"
+                    type="video/mp4"
+                  />
+                </>
+              )}
+            </video>
           ) : (
             <AnimatePresence initial={false}>
               <motion.div
@@ -301,7 +314,7 @@ export function HeroCinema({ h1, videoSrc, openDiscover }: HeroCinemaProps) {
                 )}
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-[#80A1B2]" />
               </span>
-              {isVideo ? "Video Istituzionale" : "Video Hero · Anteprima"}
+              Video Hero · Anteprima
             </motion.span>
           </div>
         </Container>

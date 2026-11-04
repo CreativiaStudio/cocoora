@@ -13,12 +13,10 @@ const legalLinks = [
   { label: "Termini e Condizioni", href: "/contatti" },
 ];
 
-const dipartimenti = [
-  { label: "Odontoiatria & Ortodonzia", href: "/servizi/odontoiatria" },
+const areeMediche = [
   { label: "Medicina Estetica & Rigenerativa", href: "/servizi/medicina-estetica" },
-  { label: "Visite Specialistiche & Diagnostica", href: "/servizi/diagnostica" },
-  { label: "Senologia & Ginecologia", href: "/visite/senologia" },
-  { label: "Cardiologia & Ecografia", href: "/visite/cardiologia" },
+  { label: "Odontoiatria & Ortodonzia", href: "/servizi/odontoiatria" },
+  { label: "Visite Specialistiche", href: "/visite" },
 ];
 
 const percorsiClub = [
@@ -87,7 +85,7 @@ export function Footer() {
             </a>
           </div>
 
-          <FooterColumn title="Dipartimenti Clinici" links={dipartimenti} />
+          <FooterColumn title="Aree Mediche" links={areeMediche} />
           <FooterColumn title="Il Tuo Percorso" links={percorsiClub} />
 
           {/* Contatti */}

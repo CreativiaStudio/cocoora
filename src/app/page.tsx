@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import {
   ArrowRight,
@@ -14,6 +14,7 @@ import {
   UserRound,
   type LucideIcon,
 } from "lucide-react";
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { useCms, useShop } from "@/components/providers";
 import { INSTAGRAM_POSTS, MANIFESTO } from "@/lib/site";
 import { CLUB_TIERS } from "@/lib/club";
@@ -116,6 +117,133 @@ function FaqSection({ faq }: { faq: { q: string; a: string }[] }) {
   );
 }
 
+function PhilosophySection({
+  title,
+  bodyParagraphs,
+  closing,
+}: {
+  title: string;
+  bodyParagraphs: string[];
+  closing: string | null;
+}) {
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const reducedMotion = useReducedMotion();
+  const reduced = reducedMotion === true;
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start 85%", "end 25%"],
+  });
+
+  const headerY = useTransform(scrollYProgress, [0, 0.25], [reduced ? 0 : 32, 0]);
+  const headerOpacity = useTransform(scrollYProgress, [0, 0.22], [reduced ? 1 : 0.2, 1]);
+
+  const bodyY = useTransform(scrollYProgress, [0.12, 0.42], [reduced ? 0 : 36, 0]);
+  const bodyOpacity = useTransform(scrollYProgress, [0.12, 0.42], [reduced ? 1 : 0.2, 1]);
+
+  const cardY = useTransform(scrollYProgress, [0.25, 0.6], [reduced ? 0 : 44, 0]);
+  const cardScale = useTransform(scrollYProgress, [0.25, 0.6], [reduced ? 1 : 0.96, 1]);
+  const cardOpacity = useTransform(scrollYProgress, [0.25, 0.55], [reduced ? 1 : 0.25, 1]);
+
+  return (
+    <section ref={sectionRef} className="relative overflow-hidden bg-canvas py-28 sm:py-36">
+      {/* Glow e atmosfera luminosa editoriale */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-16 -translate-x-1/2 h-[420px] w-[760px] rounded-full bg-[radial-gradient(closest-side,rgba(128,161,178,0.18),transparent)] blur-3xl"
+      />
+
+      {/* Linea verticale guida di design */}
+      <div className="mx-auto mb-10 h-16 w-px bg-gradient-to-b from-[#80a1b2]/60 via-[#80a1b2]/30 to-transparent" />
+
+      <Container>
+        <div className="mx-auto max-w-3xl text-center">
+          {/* Eyebrow & Titolo */}
+          <motion.div
+            style={{ y: headerY, opacity: headerOpacity }}
+            className="flex flex-col items-center"
+          >
+            <EyebrowBar>La nostra filosofia</EyebrowBar>
+            <h2 className="mt-6 text-center font-serif text-[clamp(2.35rem,4.2vw,3.75rem)] font-semibold leading-[1.08] tracking-[-0.028em] text-[#00344b]">
+              {title}
+            </h2>
+          </motion.div>
+
+          {/* Paragrafi con tipografia editoriale prestigiosa */}
+          <motion.div
+            style={{ y: bodyY, opacity: bodyOpacity }}
+            className="mt-10 space-y-6 text-center"
+          >
+            {bodyParagraphs.map((p, i) => (
+              <p
+                key={i}
+                className="mx-auto max-w-2xl text-lg sm:text-xl leading-[1.8] text-charcoal/80 font-light"
+              >
+                {p}
+              </p>
+            ))}
+          </motion.div>
+
+          {/* Closing quote: centerpiece editoriale frosted glass */}
+          {closing && (
+            <motion.div
+              style={{ y: cardY, scale: cardScale, opacity: cardOpacity }}
+              className="mt-12 sm:mt-14"
+            >
+              <div className="relative mx-auto overflow-hidden rounded-[2rem] border border-[#80a1b2]/30 bg-gradient-to-b from-white/95 to-[#f2f7f9]/85 p-8 sm:p-12 shadow-[0_24px_70px_-28px_rgba(0,52,75,0.12)] backdrop-blur-md">
+                {/* Watermark decorativo della virgoletta */}
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute -right-3 -top-7 select-none font-serif text-[130px] font-bold leading-none text-[#80a1b2]/12 sm:-right-1 sm:-top-10 sm:text-[170px]"
+                >
+                  &ldquo;
+                </span>
+
+                {/* Accento luminoso superiore */}
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#80a1b2]/40 to-transparent"
+                />
+
+                <blockquote className="relative z-10 mx-auto max-w-2xl font-serif text-2xl sm:text-3xl italic text-[#00344b] leading-snug">
+                  {closing}
+                </blockquote>
+
+                <div className="relative z-10 mt-6 flex items-center justify-center gap-3">
+                  <span className="h-px w-8 bg-[#80a1b2]/40" />
+                  <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.24em] text-[#5d8497]">
+                    Visione Clinica Cocoora
+                  </span>
+                  <span className="h-px w-8 bg-[#80a1b2]/40" />
+                </div>
+              </div>
+            </motion.div>
+          )}
+
+          {/* Bottone CTA centrato con hover micro-interaction */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-40px" }}
+            transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-12 flex justify-center"
+          >
+            <ButtonLink
+              href="/chi-siamo"
+              variant="secondary"
+              size="lg"
+              className="group relative inline-flex items-center gap-2.5 overflow-hidden px-8 py-4 transition-all duration-300 hover:scale-[1.02] hover:border-[#80a1b2]/60 hover:shadow-[0_16px_36px_-12px_rgba(0,52,75,0.18)] active:scale-[0.98]"
+            >
+              <span>Scopri il Metodo Cocoora</span>
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 ease-out group-hover:translate-x-1" />
+            </ButtonLink>
+          </motion.div>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
 export default function HomePage() {
   const { pages } = useCms();
   const home = pages.find((p) => p.path === "/");
@@ -139,34 +267,11 @@ export default function HomePage() {
       <HeroCinema h1={home?.h1} openDiscover={openDiscover} />
 
       {/* 2 · La nostra filosofia */}
-      <section className="relative overflow-hidden bg-canvas py-24 sm:py-32">
-        <div className="mx-auto mb-8 h-12 w-px bg-gradient-to-b from-[#80a1b2]/50 to-transparent" />
-        <Container>
-          <Reveal className="mx-auto max-w-3xl">
-            <EyebrowBar>La nostra filosofia</EyebrowBar>
-            <h2 className="mt-6 text-center font-serif text-[clamp(2.2rem,3.8vw,3.4rem)] font-semibold leading-[1.08] tracking-[-0.025em] text-[#00344b]">
-              {home?.h2 ?? MANIFESTO.h2}
-            </h2>
-            <div className="mt-10 space-y-6">
-              {bodyParagraphs.map((p, i) => (
-                <p key={i} className="text-base leading-[1.78] text-charcoal/80 sm:text-[17px]">
-                  {p}
-                </p>
-              ))}
-              {closing && (
-                <p className="rounded-2xl border-l-2 border-[#1c4a5c] bg-[#f2f7f9]/70 px-6 py-5 font-serif text-xl italic leading-relaxed text-[#00344b] sm:text-2xl">
-                  {closing}
-                </p>
-              )}
-            </div>
-            <div className="mt-10 flex justify-center">
-              <ButtonLink href="/chi-siamo" variant="secondary">
-                Scopri il Metodo Cocoora <ArrowRight className="h-4 w-4" />
-              </ButtonLink>
-            </div>
-          </Reveal>
-        </Container>
-      </section>
+      <PhilosophySection
+        title={home?.h2 ?? MANIFESTO.h2}
+        bodyParagraphs={bodyParagraphs}
+        closing={closing}
+      />
 
       {/* 3 · Ecosistema digitale */}
       <section
