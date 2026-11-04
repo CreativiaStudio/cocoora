@@ -259,24 +259,47 @@ export function HeroCinema({ h1, videoSrc, openDiscover }: HeroCinemaProps) {
           )}
         </motion.div>
 
-        {/* Cinema grade & legibility scrims */}
+        {/* Cinema grade & legibility scrims - Focused on text zone, keeping the video bright & vibrant */}
+        {/* 1. Mobile scrim: bottom-to-top gradient for stacked copy */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 z-0"
+          className="pointer-events-none absolute inset-0 z-0 sm:hidden"
           style={{
             background:
-              "linear-gradient(96deg, rgba(0,22,33,0.90) 0%, rgba(0,30,44,0.66) 38%, rgba(0,26,39,0.22) 72%, rgba(0,22,33,0.38) 100%)",
+              "linear-gradient(180deg, rgba(0,18,28,0.50) 0%, rgba(0,18,28,0.15) 35%, rgba(0,18,28,0.85) 75%, rgba(0,18,28,0.96) 100%)",
+          }}
+        />
+
+        {/* 2. Desktop directional scrim: deep contrast on the left under the text, completely transparent on the right so video action is crisp & bright */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-0 hidden sm:block"
+          style={{
+            background:
+              "linear-gradient(90deg, rgba(0,16,25,0.92) 0%, rgba(0,18,28,0.84) 32%, rgba(0,20,31,0.45) 50%, rgba(0,20,31,0.08) 65%, transparent 76%)",
+          }}
+        />
+
+        {/* 3. Subtle top & bottom edge blends (leaves 75% of the vertical video area untouched) */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 z-0 h-24"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(0,16,25,0.45) 0%, transparent 100%)",
           }}
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 z-0"
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-24"
           style={{
             background:
-              "linear-gradient(180deg, rgba(0,20,31,0.48) 0%, rgba(0,20,31,0) 28%, rgba(0,20,31,0.18) 65%, rgba(0,18,28,0.88) 100%)",
+              "linear-gradient(0deg, rgba(0,16,25,0.65) 0%, transparent 100%)",
           }}
         />
-        <div aria-hidden className="noise pointer-events-none absolute inset-0 z-0 opacity-35" />
+
+        {/* 4. Film grain - lightened so video details stay high-definition */}
+        <div aria-hidden className="noise pointer-events-none absolute inset-0 z-0 opacity-12" />
 
         {/* Top HUD */}
         <Container className="relative z-20 pt-7 sm:pt-9">
@@ -298,21 +321,21 @@ export function HeroCinema({ h1, videoSrc, openDiscover }: HeroCinemaProps) {
         {/* Main copy + controls */}
         <Container className="relative z-20 mt-auto pb-8 pt-16 sm:pb-10 sm:pt-20 lg:pt-24">
           <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-            <div className="max-w-xl">
-              <h1 className="font-serif text-[clamp(2.85rem,5.6vw,5.2rem)] font-semibold leading-[0.98] tracking-[-0.035em] text-white">
+            <div className="relative max-w-xl before:pointer-events-none before:absolute before:-inset-8 before:-z-10 before:rounded-3xl before:bg-[radial-gradient(ellipse_at_left,rgba(0,16,25,0.60),transparent_80%)]">
+              <h1 className="font-serif text-[clamp(2.85rem,5.6vw,5.2rem)] font-semibold leading-[0.98] tracking-[-0.035em] text-white drop-shadow-[0_2px_14px_rgba(0,16,25,0.75)]">
                 <MaskedLine text={line1} baseDelay={0.25} reduced={reduced} />
                 {line2 ? (
                   <MaskedLine
                     text={line2}
                     baseDelay={0.45}
                     reduced={reduced}
-                    className="font-normal italic text-[#d2e5ec]"
+                    className="font-normal italic text-[#dff0f6]"
                   />
                 ) : null}
               </h1>
 
               <motion.p
-                className="mt-2.5 max-w-lg text-[15px] leading-[1.5] text-white/85 sm:mt-3 sm:text-[17px]"
+                className="mt-2.5 max-w-lg text-[15px] leading-[1.5] text-white/95 drop-shadow-[0_2px_8px_rgba(0,16,25,0.7)] sm:mt-3 sm:text-[17px]"
                 initial={{ opacity: 0, y: reduced ? 0 : 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.9, ease: EASE.out, delay: reduced ? 0 : 0.8 }}
