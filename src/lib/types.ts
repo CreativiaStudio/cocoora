@@ -167,10 +167,14 @@ export type ClubTier = {
   priceLabel: string;
   badge?: string;
   description: string;
+  descriptionDonna?: string;
   features: string[];
+  featuresDonna?: string[];
   free?: boolean;
   genderToggle?: boolean;
   family?: boolean;
+  discountClub?: string;
+  checkupName?: string;
 };
 
 export type PrecisionPath = {

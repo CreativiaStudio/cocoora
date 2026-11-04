@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Check, Minus } from "lucide-react";
 import { useCms, useShop } from "@/components/providers";
 import { CLUB_BENEFITS, CLUB_TIERS, FAMILY_ADDONS, PRECISION_PATHS } from "@/lib/club";
-import { TierCard } from "@/components/sections/club-showcase";
+import { DiscoverHorizontalCard, PaidTierCard } from "@/components/sections/club-showcase";
 import type { ClubTier } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { Badge, Container, SectionLabel } from "@/components/ui";
@@ -15,12 +15,12 @@ export default function ClubPage() {
   const page = pages.find((p) => p.path === "/club");
   const [gender, setGender] = useState<"uomo" | "donna">("uomo");
 
-  const choose = (tier: ClubTier) => {
+  const choose = (tier: ClubTier, g?: "uomo" | "donna") => {
     if (tier.free) {
       openDiscover();
       return;
     }
-    openCheckout(tier, tier.genderToggle ? gender : undefined);
+    openCheckout(tier, g ?? (tier.genderToggle ? gender : undefined));
   };
 
   return (
@@ -50,31 +50,23 @@ export default function ClubPage() {
           <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
             <SectionLabel>Percorsi Salute Annuali</SectionLabel>
             <h2 className="font-serif text-4xl font-semibold text-teal-900">Scegli il tuo percorso</h2>
-            <div className="mt-8 inline-flex items-center rounded-full border border-teal-200 bg-white p-1">
-              {(["uomo", "donna"] as const).map((g) => (
-                <button
-                  key={g}
-                  type="button"
-                  onClick={() => setGender(g)}
-                  className={cn(
-                    "rounded-full px-6 py-2 text-sm font-medium capitalize transition-all",
-                    gender === g ? "bg-teal-600 text-white" : "text-charcoal/60"
-                  )}
-                >
-                  {g}
-                </button>
-              ))}
-            </div>
+            <p className="mt-3 text-base text-charcoal/70">
+              Quattro livelli di prevenzione progressiva, pensati per accompagnarti tutto l'anno.
+            </p>
           </div>
 
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-            {CLUB_TIERS.map((tier) => (
-              <TierCard
+          {/* 1. Card Discover Orizzontale a piena larghezza */}
+          <div className="mt-12">
+            <DiscoverHorizontalCard onChoose={openDiscover} />
+          </div>
+
+          {/* 2. Griglia a 4 colonne perfettamente simmetrica dei 4 pacchetti a pagamento */}
+          <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {CLUB_TIERS.filter((t) => !t.free).map((tier) => (
+              <PaidTierCard
                 key={tier.id}
                 tier={tier}
-                gender={tier.genderToggle ? gender : undefined}
                 onChoose={choose}
-                variant="light"
               />
             ))}
           </div>

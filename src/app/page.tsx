@@ -16,7 +16,7 @@ import { INSTAGRAM_POSTS, MANIFESTO } from "@/lib/site";
 import { CLUB_TIERS } from "@/lib/club";
 import type { ClubTier } from "@/lib/types";
 import { Badge, Button, ButtonLink, Container, SectionLabel } from "@/components/ui";
-import { TierCard } from "@/components/sections/club-showcase";
+import { DiscoverHorizontalCard, PaidTierCard } from "@/components/sections/club-showcase";
 import { ReelsSection } from "@/components/sections/reels";
 import { HeroCinema } from "@/components/motion/hero-cinema";
 import { AreasShowcase } from "@/components/sections/area-showcase";
@@ -205,12 +205,12 @@ export default function HomePage() {
   const home = pages.find((p) => p.path === "/");
   const { openDiscover, openCheckout } = useShop();
 
-  const chooseTier = (tier: ClubTier) => {
+  const chooseTier = (tier: ClubTier, gender?: "uomo" | "donna") => {
     if (tier.free) {
       openDiscover();
       return;
     }
-    openCheckout(tier);
+    openCheckout(tier, gender);
   };
 
   const paragraphs = MANIFESTO.paragraphs;
@@ -308,24 +308,21 @@ export default function HomePage() {
             </p>
           </Reveal>
 
-          <div className="-mx-4 mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pt-6 pb-4 md:hidden">
-            {CLUB_TIERS.map((tier: ClubTier) => (
-              <div key={tier.id} className="w-[85%] shrink-0 snap-center">
-                <TierCard tier={tier} onChoose={chooseTier} variant="light" />
-              </div>
-            ))}
+          {/* 1. Card Discover Orizzontale a tutta lunghezza */}
+          <div className="mt-12">
+            <DiscoverHorizontalCard onChoose={openDiscover} />
           </div>
 
-          <RevealStagger className="mt-14 hidden gap-6 md:grid md:grid-cols-2 lg:grid-cols-6">
-            {CLUB_TIERS.map((tier: ClubTier, idx: number) => (
-              <RevealItem
+          {/* 2. Griglia a 4 colonne perfettamente simmetrica dei 4 pacchetti a pagamento */}
+          <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {CLUB_TIERS.filter((t: ClubTier) => !t.free).map((tier: ClubTier) => (
+              <PaidTierCard
                 key={tier.id}
-                className={`lg:col-span-2 ${idx === 3 ? "lg:col-start-2" : ""}`}
-              >
-                <TierCard tier={tier} onChoose={chooseTier} variant="light" />
-              </RevealItem>
+                tier={tier}
+                onChoose={chooseTier}
+              />
             ))}
-          </RevealStagger>
+          </div>
 
           <p className="mx-auto mt-10 max-w-2xl text-center text-xs leading-relaxed text-charcoal/60">
             Il percorso include una singola consulenza per ciascuna specialità. Membership nominativa non

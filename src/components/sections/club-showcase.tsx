@@ -5,21 +5,295 @@ import { useState } from "react";
 import { ArrowRight, Check } from "lucide-react";
 import { CLUB_TIERS, FAMILY_ADDONS } from "@/lib/club";
 import type { ClubTier } from "@/lib/types";
-import { cn, formatPrice, formatPricePlain } from "@/lib/utils";
+import { cn, formatPricePlain } from "@/lib/utils";
 import { useShop } from "../providers";
 import { Badge, Button, SectionLabel } from "../ui";
 
+export function DiscoverHorizontalCard({ onChoose }: { onChoose: () => void }) {
+  return (
+    <div className="group relative overflow-hidden rounded-[2rem] border border-teal-200/90 bg-gradient-to-br from-white via-[#f7fafb] to-[#eef4f7] p-6 sm:p-8 shadow-[0_16px_40px_-24px_rgba(3,53,75,0.14)] transition-all duration-300 hover:border-teal-400 hover:shadow-[0_24px_50px_-20px_rgba(3,53,75,0.22)]">
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+        {/* Sinistra: Titolo, Badge e Prezzo Free */}
+        <div className="lg:max-w-xs xl:max-w-sm">
+          <div className="flex items-center gap-2">
+            <span className="rounded-full bg-teal-50 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-teal-800 border border-teal-200">
+              Ingresso Gratuito
+            </span>
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-emerald-600">
+              Sempre Attivo
+            </span>
+          </div>
+          <h3 className="mt-3 font-serif text-3xl font-bold tracking-tight text-teal-950">
+            Discover
+          </h3>
+          <p className="mt-1.5 text-xs sm:text-[13px] leading-relaxed text-charcoal/70">
+            Il percorso gratuito per entrare in Cocoora Club e iniziare il tuo percorso digitale di salute.
+          </p>
+          <div className="mt-3 flex items-baseline gap-2">
+            <span className="font-serif text-3xl sm:text-4xl font-bold leading-none tracking-tight text-teal-950">
+              €0
+            </span>
+            <span className="text-xs font-bold uppercase tracking-wider text-teal-600">
+              FREE
+            </span>
+          </div>
+        </div>
+
+        {/* Centro: Griglia Funzionalità Orizzontali */}
+        <div className="flex-1 border-t border-teal-100/80 pt-4 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
+          <p className="text-[11px] font-semibold uppercase tracking-wider text-[#5d8497] mb-3">
+            Incluso nel tuo profilo digitale gratuito:
+          </p>
+          <ul className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+            <li className="flex items-center gap-2 text-xs sm:text-[13px] text-charcoal/85">
+              <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-teal-50 text-teal-700 ring-1 ring-teal-200/80">
+                <Check className="h-2.5 w-2.5" strokeWidth={3} />
+              </span>
+              Registrazione app Cocoora
+            </li>
+            <li className="flex items-center gap-2 text-xs sm:text-[13px] text-charcoal/85">
+              <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-teal-50 text-teal-700 ring-1 ring-teal-200/80">
+                <Check className="h-2.5 w-2.5" strokeWidth={3} />
+              </span>
+              Profilo sanitario digitale
+            </li>
+            <li className="flex items-center gap-2 text-xs sm:text-[13px] text-charcoal/85">
+              <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-teal-50 text-teal-700 ring-1 ring-teal-200/80">
+                <Check className="h-2.5 w-2.5" strokeWidth={3} />
+              </span>
+              Questionario anamnestico di base
+            </li>
+            <li className="flex items-center gap-2 text-xs sm:text-[13px] text-charcoal/85">
+              <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-teal-50 text-teal-700 ring-1 ring-teal-200/80">
+                <Check className="h-2.5 w-2.5" strokeWidth={3} />
+              </span>
+              Accesso al catalogo e referti digitali
+            </li>
+          </ul>
+        </div>
+
+        {/* Destra: Azione */}
+        <div className="flex flex-col items-stretch lg:items-end justify-center shrink-0 border-t border-teal-100/80 pt-4 lg:border-t-0 lg:pt-0">
+          <Button
+            variant="primary"
+            size="lg"
+            className="shadow-sm transition-all hover:shadow-md whitespace-nowrap"
+            onClick={onChoose}
+          >
+            Inizia gratis con il Club <ArrowRight className="h-4 w-4" />
+          </Button>
+          <p className="mt-2 text-center lg:text-right text-[11px] text-charcoal/50">
+            Nessun costo · Nessuna carta richiesta
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function PaidTierCard({
+  tier,
+  onChoose,
+}: {
+  tier: ClubTier;
+  onChoose: (tier: ClubTier, gender?: "uomo" | "donna") => void;
+}) {
+  const [cardGender, setCardGender] = useState<"uomo" | "donna">("uomo");
+  const isFeatured = tier.id === "care";
+
+  const activePrice = tier.genderToggle
+    ? cardGender === "donna"
+      ? (tier.priceDonna ?? tier.price)
+      : (tier.priceUomo ?? tier.price)
+    : tier.price;
+
+  const activeFeatures =
+    tier.genderToggle && cardGender === "donna" && tier.featuresDonna
+      ? tier.featuresDonna
+      : tier.features;
+
+  const activeDesc =
+    tier.genderToggle && cardGender === "donna" && tier.descriptionDonna
+      ? tier.descriptionDonna
+      : tier.description;
+
+  return (
+    <div
+      className={cn(
+        "group relative flex h-full flex-col rounded-[2rem] p-6 transition-all duration-300 ease-out hover:-translate-y-1.5",
+        "border bg-white shadow-[0_16px_40px_-24px_rgba(3,53,75,0.18)] hover:shadow-[0_24px_50px_-20px_rgba(3,53,75,0.28)]",
+        isFeatured
+          ? "border-teal-500/80 ring-2 ring-teal-500/25"
+          : "border-teal-100/90 hover:border-teal-300"
+      )}
+    >
+      {/* 1. Badge slot con altezza fissa per simmetria perfetta */}
+      <div className="flex h-7 items-center justify-between gap-2">
+        {tier.id === "care" ? (
+          <span className="rounded-full bg-teal-600 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-sm">
+            Più Scelto
+          </span>
+        ) : tier.id === "signature" ? (
+          <span className="rounded-full bg-[#002231] px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-sm">
+            Top Longevity
+          </span>
+        ) : tier.id === "experience" ? (
+          <span className="rounded-full bg-teal-50 border border-teal-200 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-teal-800">
+            Avanzato
+          </span>
+        ) : (
+          <span className="rounded-full bg-teal-50 border border-teal-200 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-teal-800">
+            Essenziale
+          </span>
+        )}
+
+        {tier.discountClub && (
+          <span className="text-[11px] font-semibold text-teal-700 bg-teal-50/70 border border-teal-100 rounded-full px-2.5 py-0.5">
+            Sconto {tier.discountClub}
+          </span>
+        )}
+      </div>
+
+      {/* 2. Titolo */}
+      <h3 className="mt-3 font-serif text-2xl font-bold tracking-tight text-teal-950">
+        {tier.name}
+      </h3>
+
+      {/* 3. Descrizione breve (altezza fissa 2 righe per allineare i toggle) */}
+      <p className="mt-1.5 text-xs sm:text-[13px] leading-relaxed text-charcoal/70 line-clamp-2 h-[38px]">
+        {activeDesc}
+      </p>
+
+      {/* 4. Slot Toggle Uomo / Donna (altezza fissa h-9 per simmetria millimetrica) */}
+      <div className="mt-3 h-9 flex items-center">
+        {tier.genderToggle ? (
+          <div className="inline-flex w-full items-center rounded-xl bg-[#eef4f7] p-1 border border-teal-100/80">
+            <button
+              type="button"
+              onClick={() => setCardGender("uomo")}
+              className={cn(
+                "flex-1 rounded-lg py-1 text-xs font-semibold transition-all",
+                cardGender === "uomo"
+                  ? "bg-white text-teal-950 shadow-sm"
+                  : "text-charcoal/60 hover:text-teal-950"
+              )}
+            >
+              Uomo
+            </button>
+            <button
+              type="button"
+              onClick={() => setCardGender("donna")}
+              className={cn(
+                "flex-1 rounded-lg py-1 text-xs font-semibold transition-all",
+                cardGender === "donna"
+                  ? "bg-white text-teal-950 shadow-sm"
+                  : "text-charcoal/60 hover:text-teal-950"
+              )}
+            >
+              Donna
+            </button>
+          </div>
+        ) : (
+          <div className="inline-flex w-full items-center justify-center rounded-xl bg-[#f8fafb] py-1.5 px-3 border border-teal-100/50 text-[11px] font-medium text-charcoal/60">
+            Percorso Unisex · Per tutti
+          </div>
+        )}
+      </div>
+
+      {/* 5. Box Prezzo & Rateizzazione compatto simmetrico */}
+      <div className="mt-4 rounded-2xl bg-[#f8fafb] border border-teal-100/70 p-4">
+        <div className="flex items-baseline justify-between">
+          <div className="flex items-baseline">
+            <span className="text-lg font-medium text-teal-600">€</span>
+            <span className="font-serif text-3xl sm:text-4xl font-bold leading-none tracking-tight text-teal-950">
+              {formatPricePlain(activePrice)}
+            </span>
+            <span className="ml-1 text-[11px] font-semibold uppercase tracking-wider text-charcoal/60">
+              / anno
+            </span>
+          </div>
+          <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-800 border border-emerald-200">
+            Tasso Zero
+          </span>
+        </div>
+        <div className="mt-1.5 flex items-center justify-between text-[11px]">
+          <span className="text-charcoal/75">
+            3 rate da <strong>€{Math.round(activePrice / 3)}</strong>
+          </span>
+          <span className="text-emerald-700 font-semibold">Klarna 0%</span>
+        </div>
+      </div>
+
+      {/* 6. Feature sintetizzate ad alto impatto (altezza minima fissa per fine card allineata) */}
+      <ul className="mt-4 flex-1 space-y-2 min-h-[170px]">
+        {activeFeatures.slice(0, 4).map((f) => (
+          <li key={f} className="flex items-start gap-2 text-xs sm:text-[13px] leading-snug">
+            <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-teal-50 text-teal-700 ring-1 ring-teal-200/80">
+              <Check className="h-2.5 w-2.5" strokeWidth={3} />
+            </span>
+            <span className="text-charcoal/80">{f}</span>
+          </li>
+        ))}
+        <li className="pt-1">
+          <Link
+            href={`/club/${tier.id}`}
+            className="inline-flex items-center gap-1 text-[11px] font-semibold text-teal-700 hover:text-dark-navy hover:underline"
+          >
+            <span>+ altre {Math.max(0, activeFeatures.length - 4)} prestazioni incluse</span>
+            <ArrowRight className="h-3 w-3" />
+          </Link>
+        </li>
+      </ul>
+
+      {/* 7. Pulsante e badge pagamenti */}
+      <div className="mt-5 space-y-2 pt-3 border-t border-teal-100/60">
+        <Button
+          variant={isFeatured ? "primary" : "secondary"}
+          className="w-full py-2.5 text-sm font-semibold shadow-sm transition-all hover:shadow-md"
+          onClick={() => onChoose(tier, tier.genderToggle ? cardGender : undefined)}
+        >
+          Scegli Percorso
+          <ArrowRight className="h-4 w-4" />
+        </Button>
+        <div className="flex items-center justify-center gap-1.5 text-[10px] pt-0.5 text-charcoal/50 text-center">
+          <span>Carta</span>
+          <span>·</span>
+          <span>Apple Pay</span>
+          <span>·</span>
+          <span className="font-semibold text-emerald-600">Klarna 3 rate</span>
+          <span>·</span>
+          <span className="font-semibold text-teal-700">PayPal</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Wrapper retrocompatibile per chiamate legacy
+export function TierCard({
+  tier,
+  onChoose,
+}: {
+  tier: ClubTier;
+  gender?: "uomo" | "donna";
+  onChoose: (tier: ClubTier, gender?: "uomo" | "donna") => void;
+  variant?: "dark" | "light";
+  maxFeatures?: number;
+}) {
+  if (tier.free) {
+    return <DiscoverHorizontalCard onChoose={() => onChoose(tier)} />;
+  }
+  return <PaidTierCard tier={tier} onChoose={onChoose} />;
+}
+
 export function ClubShowcase() {
   const { openCheckout, openDiscover } = useShop();
-  const [gender, setGender] = useState<"uomo" | "donna">("uomo");
 
-  const handleChoose = (tier: ClubTier) => {
-    if (tier.free) {
-      openDiscover();
-      return;
-    }
-    openCheckout(tier, tier.genderToggle ? gender : undefined);
+  const handleChoosePaid = (tier: ClubTier, gender?: "uomo" | "donna") => {
+    openCheckout(tier, gender);
   };
+
+  const paidTiers = CLUB_TIERS.filter((t) => !t.free);
 
   return (
     <section id="club" className="bg-white py-24 text-charcoal">
@@ -33,40 +307,21 @@ export function ClubShowcase() {
             Un programma esclusivo dedicato a chi sceglie la prevenzione costante.
             Accesso prioritario, check-up dedicati e vantaggi per tutta la famiglia.
           </p>
-
-          <div className="mt-8 inline-flex items-center rounded-full border border-teal-100 bg-canvas p-1">
-            {(["uomo", "donna"] as const).map((g) => (
-              <button
-                key={g}
-                type="button"
-                onClick={() => setGender(g)}
-                className={cn(
-                  "rounded-full px-6 py-2 text-sm font-medium capitalize transition-all",
-                  gender === g
-                    ? "bg-teal-900 text-white shadow-sm"
-                    : "text-charcoal/60 hover:text-teal-900"
-                )}
-              >
-                {g}
-              </button>
-            ))}
-          </div>
         </div>
 
-        {/* Griglia su desktop · carosello con scroll orizzontale su mobile */}
-        <div className="mt-14 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 pt-5 scrollbar-none lg:grid lg:grid-cols-3 lg:overflow-visible lg:pb-0">
-          {CLUB_TIERS.map((tier) => (
-            <div
+        {/* 1. Card Discover Orizzontale a piena larghezza in alto */}
+        <div className="mt-12">
+          <DiscoverHorizontalCard onChoose={openDiscover} />
+        </div>
+
+        {/* 2. Griglia a 4 colonne perfettamente simmetrica dei pacchetti a pagamento */}
+        <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {paidTiers.map((tier) => (
+            <PaidTierCard
               key={tier.id}
-              className="w-[85%] shrink-0 snap-center sm:w-[45%] lg:w-auto"
-            >
-              <TierCard
-                tier={tier}
-                gender={tier.genderToggle ? gender : undefined}
-                onChoose={handleChoose}
-                variant="light"
-              />
-            </div>
+              tier={tier}
+              onChoose={handleChoosePaid}
+            />
           ))}
         </div>
 
@@ -91,197 +346,7 @@ export function ClubShowcase() {
   );
 }
 
-// Gradienti premium per ogni tier (dark variant)
-const TIER_GRADIENTS: Record<string, string> = {
-  discover:
-    "linear-gradient(160deg, rgba(255,255,255,0.09) 0%, rgba(255,255,255,0.03) 100%)",
-  access:
-    "linear-gradient(160deg, rgba(255,255,255,0.08) 0%, rgba(128,161,178,0.07) 100%)",
-  care:
-    "linear-gradient(180deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.03) 100%)",
-  experience:
-    "linear-gradient(160deg, rgba(255,255,255,0.08) 0%, rgba(93,132,151,0.12) 100%)",
-  signature:
-    "linear-gradient(160deg, rgba(255,255,255,0.09) 0%, rgba(93,132,151,0.16) 60%, rgba(3,53,75,0.20) 100%)",
-};
-
-
-export function TierCard({
-  tier,
-  gender,
-  onChoose,
-  variant = "dark",
-  maxFeatures = 4,
-}: {
-  tier: ClubTier;
-  gender?: "uomo" | "donna";
-  onChoose: (tier: ClubTier) => void;
-  variant?: "dark" | "light";
-  maxFeatures?: number;
-}) {
-  const dark = variant === "dark";
-  const name = gender && tier.genderToggle ? `${tier.name} ${gender === "uomo" ? "Uomo" : "Donna"}` : tier.name;
-  const gradient = dark ? (TIER_GRADIENTS[tier.id] ?? TIER_GRADIENTS["access"]) : undefined;
-  const featured = dark && !!tier.badge;
-  const priceValue = tier.free
-    ? 0
-    : gender === "uomo" && tier.priceUomo
-    ? tier.priceUomo
-    : gender === "donna" && tier.priceDonna
-    ? tier.priceDonna
-    : tier.price;
-
-  const displayedFeatures = maxFeatures ? tier.features.slice(0, maxFeatures) : tier.features;
-  const remaining = tier.features.length - displayedFeatures.length;
-
-  return (
-    <div
-      className={cn(
-        "group relative flex h-full flex-col rounded-[2rem] p-5 sm:p-6 transition-all duration-300 ease-out hover:-translate-y-1.5",
-        dark
-          ? "border border-white/15 shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.22),0_18px_45px_-18px_rgba(0,0,0,0.5)] backdrop-blur-xl hover:border-white/35"
-          : "border border-teal-100/90 bg-white shadow-[0_16px_40px_-24px_rgba(3,53,75,0.18)] hover:shadow-[0_24px_50px_-20px_rgba(3,53,75,0.28)] hover:border-teal-200",
-        featured &&
-          "border-slate-accent/50 shadow-[0_20px_50px_-15px_rgba(128,161,178,0.25)] hover:border-slate-accent/80 xl:scale-[1.02]",
-        !dark && tier.badge && "border-teal-500/80 ring-1 ring-teal-500/20"
-      )}
-      style={dark ? { background: gradient } : undefined}
-    >
-      {dark && (
-        <>
-          <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-          <div
-            className="pointer-events-none absolute inset-x-0 top-0 h-28 rounded-t-[2rem] opacity-70 transition-opacity duration-500 group-hover:opacity-100"
-            style={{
-              background: `radial-gradient(120% 100% at 50% 0%, rgba(255,255,255,${featured ? 0.14 : 0.08}) 0%, rgba(255,255,255,0) 70%)`,
-            }}
-          />
-        </>
-      )}
-
-      {tier.badge && (
-        <Badge
-          className={cn(
-            "absolute -top-3 left-5 gap-1.5 px-3 py-1 text-[10px] font-bold uppercase tracking-wider",
-            dark
-              ? "border border-teal-300/60 bg-dark-navy/80 text-white shadow-[0_0_15px_-2px_rgba(159,194,207,0.55)] backdrop-blur-md"
-              : "bg-teal-600 text-white shadow-sm"
-          )}
-        >
-          {dark && (
-            <span className="h-1.5 w-1.5 rounded-full bg-teal-300 shadow-[0_0_8px_2px_rgba(159,194,207,0.8)]" />
-          )}
-          {tier.badge}
-        </Badge>
-      )}
-
-      <div className="flex items-baseline justify-between">
-        <h3 className={cn("font-serif text-xl sm:text-2xl font-bold tracking-tight", dark ? "text-white" : "text-teal-950")}>
-          {name}
-        </h3>
-      </div>
-
-      <p className={cn("mt-1.5 text-xs sm:text-[13px] leading-relaxed line-clamp-2", dark ? "text-teal-200/80" : "text-charcoal/70")}>
-        {tier.description}
-      </p>
-
-      {/* Box Prezzo & Rateizzazione compatto su una sola riga */}
-      <div className="mt-3 flex items-baseline justify-between gap-2 border-y border-teal-100/70 py-2.5 dark:border-white/10">
-        <div className="flex items-baseline">
-          <span className={cn("text-lg font-medium", dark ? "text-teal-300" : "text-teal-600")}>€</span>
-          <span className={cn("font-serif text-3xl sm:text-4xl font-bold leading-none tracking-tight", dark ? "text-white" : "text-teal-950")}>
-            {formatPricePlain(priceValue)}
-          </span>
-          {tier.listPrice && (
-            <span className="ml-1.5 text-xs text-slate-accent line-through">
-              {formatPrice(tier.listPrice)}
-            </span>
-          )}
-          <span className={cn("ml-1 text-[11px] font-semibold uppercase tracking-wider", dark ? "text-teal-200/70" : "text-charcoal/60")}>
-            {tier.free ? "Free" : "/ anno"}
-          </span>
-        </div>
-        {priceValue > 0 && (
-          <div className="text-right">
-            <span className="inline-block rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-800 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-700/50">
-              Tasso Zero
-            </span>
-            <p className="text-[11px] font-medium text-charcoal/80 dark:text-teal-100/80 mt-0.5 whitespace-nowrap">
-              3 rate da <strong>{formatPrice(Math.round(priceValue / 3))}</strong>
-            </p>
-          </div>
-        )}
-      </div>
-
-      {/* Feature sintetizzate ad alto impatto */}
-      <ul className="mt-3.5 flex-1 space-y-2">
-        {displayedFeatures.map((f) => (
-          <li key={f} className="flex items-start gap-2 text-xs sm:text-[13px] leading-snug">
-            <span
-              className={cn(
-                "mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full",
-                dark
-                  ? "bg-teal-500/20 text-teal-300 ring-1 ring-teal-300/25"
-                  : "bg-teal-50 text-teal-700 ring-1 ring-teal-200/80"
-              )}
-            >
-              <Check className="h-2.5 w-2.5" strokeWidth={3} />
-            </span>
-            <span className={dark ? "text-teal-100/90" : "text-charcoal/80"}>{f}</span>
-          </li>
-        ))}
-        {remaining > 0 && (
-          <li className="pt-0.5">
-            <Link
-              href={`/club/${tier.id}`}
-              className={cn(
-                "inline-flex items-center gap-1 text-[11px] font-semibold transition-colors hover:underline",
-                dark ? "text-teal-300 hover:text-white" : "text-teal-700 hover:text-dark-navy"
-              )}
-            >
-              <span>+ altre {remaining} prestazioni incluse</span>
-              <ArrowRight className="h-3 w-3" />
-            </Link>
-          </li>
-        )}
-      </ul>
-
-      {/* Pulsante e badge pagamenti */}
-      <div className="mt-5 space-y-2 pt-2 border-t border-teal-100/50 dark:border-white/10">
-        <Button
-          variant={dark ? "white" : "primary"}
-          className="w-full py-2.5 text-sm font-semibold shadow-sm transition-all hover:shadow-md"
-          onClick={() => onChoose(tier)}
-        >
-          {tier.free ? "Inizia gratis" : "Scegli Percorso"}
-          <ArrowRight className="h-4 w-4" />
-        </Button>
-        {priceValue > 0 && (
-          <div
-            className={cn(
-              "flex items-center justify-center gap-1.5 text-[10px] pt-0.5 text-center",
-              dark ? "text-teal-200/60" : "text-charcoal/50"
-            )}
-          >
-            <span>Carta</span>
-            <span>·</span>
-            <span>Apple Pay</span>
-            <span>·</span>
-            <span className="font-semibold text-emerald-600 dark:text-emerald-400">Klarna 3 rate</span>
-            <span>·</span>
-            <span className="font-semibold text-teal-700 dark:text-teal-300">PayPal</span>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function FamilyCard({
-  tier,
-}: {
-  tier: ClubTier;
-}) {
+function FamilyCard({ tier }: { tier: ClubTier }) {
   return (
     <div className="group flex h-full flex-col rounded-3xl border border-teal-100 bg-canvas/60 p-8 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-teal-200 hover:shadow-md">
       <div className="flex items-center justify-between gap-2">
