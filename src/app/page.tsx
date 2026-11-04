@@ -4,15 +4,11 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import {
   ArrowRight,
-  CalendarDays,
-  FileText,
   Heart,
   Instagram,
   MessageCircle,
   Plus,
   ShieldCheck,
-  UserRound,
-  type LucideIcon,
 } from "lucide-react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { useCms, useShop } from "@/components/providers";
@@ -25,35 +21,7 @@ import { ReelsSection } from "@/components/sections/reels";
 import { HeroCinema } from "@/components/motion/hero-cinema";
 import { AreasShowcase } from "@/components/sections/area-showcase";
 import { Reveal, RevealItem, RevealStagger } from "@/components/motion/reveal";
-import { SpotlightCard } from "@/components/motion/spotlight-card";
 
-type EcosystemStep = {
-  n: string;
-  title: string;
-  text: string;
-  icon: LucideIcon;
-};
-
-const ECOSYSTEM_STEPS: EcosystemStep[] = [
-  {
-    n: "01",
-    title: "Profilo sanitario digitale",
-    text: "Attiva il tuo profilo sanitario digitale in pochi passi, senza code né moduli cartacei.",
-    icon: UserRound,
-  },
-  {
-    n: "02",
-    title: "Specialista, sede e orario",
-    text: "Prenota la visita che preferisci scegliendo il professionista e l'orario più adatto a te.",
-    icon: CalendarDays,
-  },
-  {
-    n: "03",
-    title: "Referti digitali sempre con te",
-    text: "I tuoi referti sono disponibili in un'area riservata sicura, accessibili quando e dove ti servono.",
-    icon: FileText,
-  },
-];
 
 function EyebrowBar({ children, dark = false }: { children: string; dark?: boolean }) {
   return (
@@ -261,55 +229,6 @@ export default function HomePage() {
         closing={closing}
       />
 
-      {/* 3 · Ecosistema digitale */}
-      <section
-        id="cocoora-club"
-        className="relative overflow-hidden border-y border-teal-200/45 bg-gradient-to-b from-[#eef4f7] via-[#f4f8fa] to-canvas py-24 sm:py-28"
-      >
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -top-40 left-1/2 h-[480px] w-[780px] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(128,161,178,0.22),transparent)]"
-        />
-        <Container className="relative">
-          <Reveal className="mx-auto max-w-2xl text-center">
-            <SectionLabel>Entra in Cocoora Club</SectionLabel>
-            <h2 className="font-serif text-[clamp(2.25rem,3.9vw,3.5rem)] font-semibold leading-[1.05] tracking-[-0.028em] text-[#00344b]">
-              Il tuo tempo, <span className="italic font-normal text-[#5d8497]">la nostra priorità</span>
-            </h2>
-            <p className="mt-4 text-base leading-relaxed text-charcoal/75">
-              Prenota, consulta, gestisci in un click. La tua salute digitale, sempre con te.
-            </p>
-          </Reveal>
-          <RevealStagger className="mt-14 grid gap-6 md:grid-cols-3">
-            {ECOSYSTEM_STEPS.map((step) => {
-              const Icon = step.icon;
-              return (
-                <RevealItem key={step.n}>
-                  <SpotlightCard className="group h-full rounded-[1.85rem] border border-white/90 bg-white/80 p-8 shadow-[0_22px_50px_-28px_rgba(3,53,75,0.28)] backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_32px_64px_-26px_rgba(3,53,75,0.36)]">
-                    <div className="flex items-center justify-between">
-                      <span className="font-serif text-4xl font-semibold tracking-[-0.028em] text-[#80a1b2]">
-                        {step.n}
-                      </span>
-                      <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[#80a1b2]/30 bg-[#f4f8fa] text-[#1c4a5c] transition-colors group-hover:bg-[#1c4a5c] group-hover:text-white">
-                        <Icon className="h-5 w-5" />
-                      </span>
-                    </div>
-                    <h3 className="mt-8 font-serif text-2xl font-semibold leading-tight tracking-[-0.02em] text-[#1c4a5c]">
-                      {step.title}
-                    </h3>
-                    <p className="mt-3 text-[15px] leading-[1.7] text-charcoal/75">{step.text}</p>
-                  </SpotlightCard>
-                </RevealItem>
-              );
-            })}
-          </RevealStagger>
-          <Reveal className="mt-12 flex justify-center">
-            <Button onClick={openDiscover} size="lg">
-              <ShieldCheck className="h-4 w-4" /> Crea il tuo profilo gratuito
-            </Button>
-          </Reveal>
-        </Container>
-      </section>
 
       {/* 4 · Aree cliniche */}
       <AreasShowcase />
@@ -359,8 +278,8 @@ export default function HomePage() {
                 <Reveal delay={0.12}>
                   <div className="relative aspect-[4/5] w-full max-w-[500px] overflow-hidden rounded-[2rem] border border-white/15 shadow-[0_40px_90px_-30px_rgba(0,0,0,0.6)] sm:aspect-[5/4] lg:ml-auto lg:aspect-[4/5]">
                     <Image
-                      src="/images/visite/cardiologia-napoli-2.jpg"
-                      alt="Diagnostica predittiva e monitoraggio clinico avanzato nel centro Cocoora"
+                      src="/images/dna-genomics.jpg"
+                      alt="Diagnostica predittiva e radiologia clinica avanzata nel centro Cocoora"
                       fill
                       sizes="(min-width: 1024px) 500px, 92vw"
                       className="object-cover"
