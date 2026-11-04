@@ -55,13 +55,13 @@ export default function ClubPage() {
             </p>
           </div>
 
-          {/* 1. Card Discover Orizzontale a piena larghezza */}
-          <div className="mt-12">
+          {/* 1. Card Discover Orizzontale Compatta */}
+          <div className="mt-10">
             <DiscoverHorizontalCard onChoose={openDiscover} />
           </div>
 
-          {/* 2. Griglia a 4 colonne perfettamente simmetrica dei 4 pacchetti a pagamento */}
-          <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {/* 2. Griglia a 4 colonne compatta e perfettamente simmetrica */}
+          <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {CLUB_TIERS.filter((t) => !t.free).map((tier) => (
               <PaidTierCard
                 key={tier.id}
