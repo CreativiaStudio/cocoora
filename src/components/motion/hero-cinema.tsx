@@ -3,8 +3,8 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from "motion/react";
-import { ArrowDownRight, Pause, Play, Plus, Volume2, VolumeX } from "lucide-react";
-import { Button, ButtonLink, Container } from "@/components/ui";
+import { ArrowDownRight, Pause, Play, Plus } from "lucide-react";
+import { Button, Container } from "@/components/ui";
 import { EASE } from "@/components/motion/tokens";
 import { cn } from "@/lib/utils";
 
@@ -131,7 +131,6 @@ export function HeroCinema({ h1, videoSrc, openDiscover }: HeroCinemaProps) {
 
   /* ---------- Mode A: real video ---------- */
   const [videoPlaying, setVideoPlaying] = useState(true);
-  const [muted, setMuted] = useState(true);
 
   const toggleVideo = useCallback(() => {
     const v = videoRef.current;
@@ -143,14 +142,6 @@ export function HeroCinema({ h1, videoSrc, openDiscover }: HeroCinemaProps) {
       v.pause();
       setVideoPlaying(false);
     }
-  }, []);
-
-  const toggleMute = useCallback(() => {
-    setMuted((m) => {
-      const next = !m;
-      if (videoRef.current) videoRef.current.muted = next;
-      return next;
-    });
   }, []);
 
   /* ---------- Mode B: showreel ---------- */
@@ -218,7 +209,7 @@ export function HeroCinema({ h1, videoSrc, openDiscover }: HeroCinemaProps) {
             <video
               ref={videoRef}
               autoPlay
-              muted={muted}
+              muted
               loop
               playsInline
               preload="auto"
@@ -301,21 +292,6 @@ export function HeroCinema({ h1, videoSrc, openDiscover }: HeroCinemaProps) {
                 Cocoora Centro Medico · Napoli
               </span>
             </motion.div>
-
-            <motion.span
-              className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-[#001824]/45 px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/90 backdrop-blur-md sm:text-[11px]"
-              initial={{ opacity: 0, y: reduced ? 0 : -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, ease: EASE.out, delay: 0.2 }}
-            >
-              <span className="relative flex h-2 w-2">
-                {!reduced && (
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#80A1B2] opacity-75" />
-                )}
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-[#80A1B2]" />
-              </span>
-              Video Hero · Anteprima
-            </motion.span>
           </div>
         </Container>
 
@@ -353,14 +329,6 @@ export function HeroCinema({ h1, videoSrc, openDiscover }: HeroCinemaProps) {
                 <Button size="lg" variant="white" onClick={openDiscover}>
                   Inizia gratis con il Club <Plus className="h-4 w-4" />
                 </Button>
-                <ButtonLink
-                  href="/contatti"
-                  variant="outline-dark"
-                  size="lg"
-                  className="bg-[#001824]/25 backdrop-blur-md"
-                >
-                  Prenota Visita
-                </ButtonLink>
               </motion.div>
             </div>
 
@@ -371,7 +339,7 @@ export function HeroCinema({ h1, videoSrc, openDiscover }: HeroCinemaProps) {
               transition={{ duration: 1, ease: EASE.out, delay: reduced ? 0 : 1.1 }}
             >
               {isVideo ? (
-                <div className="flex items-center justify-end gap-2.5">
+                <div className="flex items-center justify-end">
                   <button
                     type="button"
                     onClick={toggleVideo}
@@ -379,14 +347,6 @@ export function HeroCinema({ h1, videoSrc, openDiscover }: HeroCinemaProps) {
                     className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-[#001824]/45 text-white backdrop-blur-md transition hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
                   >
                     {videoPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={toggleMute}
-                    aria-label={muted ? "Attiva audio" : "Disattiva audio"}
-                    className="flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-[#001824]/45 text-white backdrop-blur-md transition hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
-                  >
-                    {muted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
                   </button>
                 </div>
               ) : (
