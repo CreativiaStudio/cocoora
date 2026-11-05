@@ -11,7 +11,6 @@ import {
   GraduationCap,
   ShieldCheck,
   TrendingDown,
-  UserCheck,
 } from "lucide-react";
 import { useShop } from "@/components/providers";
 import { getDoctorBySlug } from "@/lib/doctors";
@@ -167,27 +166,7 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
                 )}
               </div>
 
-              {!tier.free && (
-                <div className="mx-auto mt-4 flex max-w-md items-center justify-center lg:justify-start">
-                  <div className="inline-flex flex-wrap items-center justify-center gap-1.5 rounded-full border border-teal-200/60 bg-teal-50/50 px-3.5 py-1.5 text-xs text-charcoal/75 shadow-[0_1px_2px_rgba(0,0,0,0.02)] sm:justify-start">
-                    <UserCheck className="h-3.5 w-3.5 shrink-0 text-teal-700" />
-                    <span>
-                      <strong className="font-semibold text-teal-950">Senza abbonamento?</strong>{" "}
-                      Inizia con il{" "}
-                      <button
-                        type="button"
-                        onClick={openDiscover}
-                        className="font-semibold text-teal-800 underline underline-offset-2 hover:text-teal-950 cursor-pointer transition-colors"
-                      >
-                        Percorso Discover gratuito (€0)
-                      </button>{" "}
-                      per visite singole.
-                    </span>
-                  </div>
-                </div>
-              )}
-
-              <div className="mt-6 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start">
+              <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start">
                 <Button size="lg" disabled={activating} onClick={handleActivate}>
                   {activating ? (
                     "Apertura Cassa Protetta Stripe..."
@@ -198,9 +177,21 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
                     </>
                   )}
                 </Button>
-                <ButtonLink href="/contatti" variant="secondary" size="lg">
-                  Prenota Visita Singola
-                </ButtonLink>
+
+                {!tier.free && (
+                  <button
+                    type="button"
+                    onClick={openDiscover}
+                    className="group inline-flex flex-col items-center justify-center rounded-full border border-teal-200/90 bg-white/80 px-6 py-2.5 text-center backdrop-blur-sm transition-all duration-300 hover:border-teal-400 hover:bg-white hover:-translate-y-0.5 sm:items-start sm:text-left cursor-pointer shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/40"
+                  >
+                    <span className="text-xs font-semibold text-teal-950 group-hover:text-dark-navy">
+                      Senza abbonamento? Inizia gratis (€0)
+                    </span>
+                    <span className="text-[11px] font-normal text-charcoal/65">
+                      Prenota visite singole · Fai l'upgrade dopo
+                    </span>
+                  </button>
+                )}
               </div>
 
               {!tier.free && (
