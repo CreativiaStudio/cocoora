@@ -10,6 +10,15 @@ const nextConfig = {
     // Il type-checking resta attivo: nessun errore TypeScript deve passare.
     ignoreBuildErrors: false,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev",
+        pathname: "/**",
+      },
+    ],
+  },
   async redirects() {
     return [
       {
