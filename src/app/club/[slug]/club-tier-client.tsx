@@ -16,6 +16,7 @@ import {
 import { useShop } from "@/components/providers";
 import { getDoctorBySlug } from "@/lib/doctors";
 import { computeInstallment, computeSavings, getTierDetail } from "@/lib/club-details";
+import { redirectToStripeCheckout } from "@/lib/checkout-client";
 import type { ClubTier } from "@/lib/types";
 import { cn, formatPrice } from "@/lib/utils";
 import { Badge, Button, ButtonLink, Container, SectionLabel } from "@/components/ui";
@@ -57,16 +58,31 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
     ? computeInstallment(activePrice, detail.installmentCount)
     : null;
 
+  const [activating, setActivating] = useState(false);
+  const [checkoutError, setCheckoutError] = useState("");
+
   const doctors = (detail?.doctorSlugs ?? [])
     .map((slug) => getDoctorBySlug(slug))
     .filter(Boolean);
 
-  const handleActivate = () => {
+  const handleActivate = async () => {
     if (tier.free) {
       openDiscover();
       return;
     }
-    openCheckout(tier, activeGender);
+
+    try {
+      setActivating(true);
+      setCheckoutError("");
+      await redirectToStripeCheckout({
+        tierId: tier.id,
+        gender: tier.genderToggle ? gender : null,
+      });
+    } catch (err: unknown) {
+      console.warn("Errore avvio diretto Stripe, apertura cassetto checkout:", err);
+      setActivating(false);
+      openCheckout(tier, activeGender);
+    }
   };
 
   const displayName =
@@ -152,9 +168,15 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
               </div>
 
               <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start">
-                <Button size="lg" onClick={handleActivate}>
-                  {tier.free ? "Attiva Discover Gratis" : `Attiva ${tier.shortName}`}{" "}
-                  <ArrowRight className="h-4 w-4" />
+                <Button size="lg" disabled={activating} onClick={handleActivate}>
+                  {activating ? (
+                    "Apertura Cassa Protetta Stripe..."
+                  ) : (
+                    <>
+                      {tier.free ? "Attiva Discover Gratis" : `Attiva ${tier.shortName}`}
+                      <ArrowRight className="h-4 w-4" />
+                    </>
+                  )}
                 </Button>
                 <ButtonLink href="/contatti" variant="secondary" size="lg">
                   Prenota Visita Singola
@@ -363,9 +385,13 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
               clinica.
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <Button size="lg" variant="white" onClick={handleActivate}>
+              <Button size="lg" variant="white" disabled={activating} onClick={handleActivate}>
                 <ShieldCheck className="h-4 w-4" />{" "}
-                {tier.free ? "Attiva Discover Gratis" : `Attiva ${tier.shortName}`}
+                {activating
+                  ? "Apertura Cassa Protetta Stripe..."
+                  : tier.free
+                  ? "Attiva Discover Gratis"
+                  : `Attiva ${tier.shortName}`}
               </Button>
               <ButtonLink href="/club" variant="outline-dark" size="lg">
                 Confronta tutti i pacchetti

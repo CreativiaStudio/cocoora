@@ -8,9 +8,9 @@ export async function POST(req: Request) {
     const body = await req.json();
     const { tierId, gender, lead } = body;
 
-    if (!tierId || !lead?.email || !lead?.nome) {
+    if (!tierId) {
       return NextResponse.json(
-        { error: "Dati obbligatori mancanti (tierId, nome, email)" },
+        { error: "Parametro tierId obbligatorio." },
         { status: 400 }
       );
     }
@@ -25,26 +25,28 @@ export async function POST(req: Request) {
 
     // Se percorso gratuito (Discover), salva nel CRM e ritorna successo immediato
     if (tier.price === 0) {
-      try {
-        const supabase = getServiceSupabase();
-        await supabase.from("patient_profiles").upsert(
-          {
-            first_name: lead.nome.trim(),
-            last_name: (lead.cognome || "").trim() || "Paziente",
-            email: lead.email.trim(),
-            phone: (lead.telefono || "").trim(),
-            notes: `Iscrizione Cocoora Club Gratuita — Percorso Discover (${new Date().toLocaleDateString("it-IT")})`,
-          },
-          { onConflict: "email" }
-        );
-      } catch (err) {
-        console.warn("Errore salvataggio profilo Discover in Supabase", err);
+      if (lead?.email && lead?.nome) {
+        try {
+          const supabase = getServiceSupabase();
+          await supabase.from("patient_profiles").upsert(
+            {
+              first_name: lead.nome.trim(),
+              last_name: (lead.cognome || "").trim() || "Paziente",
+              email: lead.email.trim(),
+              phone: (lead.telefono || "").trim(),
+              notes: `Iscrizione Cocoora Club Gratuita — Percorso Discover (${new Date().toLocaleDateString("it-IT")})`,
+            },
+            { onConflict: "email" }
+          );
+        } catch (err) {
+          console.warn("Errore salvataggio profilo Discover in Supabase", err);
+        }
       }
 
       return NextResponse.json({
         success: true,
         free: true,
-        url: `/club/success?tier=discover&name=${encodeURIComponent(lead.nome)}`,
+        url: `/club/success?tier=discover&name=${encodeURIComponent(lead?.nome || "Paziente")}`,
       });
     }
 
@@ -56,27 +58,30 @@ export async function POST(req: Request) {
       finalPrice = tier.priceUomo;
     }
 
-    // Risoluzione Entità Fiscale: i percorsi Club appartengono a PRIMECARE SRL
+    // Risoluzione Entità Fiscale: tutti i percorsi Club sono gestiti e incassati da PRIMECARE SRL
     const billingEntity = "primecare";
     const entityInfo = BILLING_ENTITIES[billingEntity];
     const stripe = getStripe(billingEntity);
 
-    const origin = req.headers.get("origin") || "https://cocoora.vercel.app";
+    const origin =
+      req.headers.get("origin") ||
+      req.headers.get("referer")?.replace(/\/$/, "") ||
+      "https://cocoora.vercel.app";
 
-    const session = await stripe.checkout.sessions.create({
+    const sessionParams: any = {
       mode: "payment",
-      customer_email: lead.email.trim(),
-      client_reference_id: `ccr_${tier.id}_${Date.now()}`,
+      client_reference_id: `ccr_${tier.id}_${gender || "std"}_${Date.now()}`,
       line_items: [
         {
           price_data: {
             currency: "eur",
             unit_amount: finalPrice * 100,
             product_data: {
-              name: `Cocoora Club · Percorso ${tier.name}${gender ? ` (${gender.charAt(0).toUpperCase() + gender.slice(1)})` : ""}`,
-              description: `${tier.description} — Emesso da ${entityInfo.name}`,
+              name: `Cocoora Club · Percorso ${tier.name}${gender ? ` (${gender === "donna" ? "Donna" : "Uomo"})` : ""}`,
+              description: `Percorso Annuale di Prevenzione Continua — Emesso da ${entityInfo.name} (IBAN: ${entityInfo.iban})`,
               metadata: {
                 tier_id: tier.id,
+                gender: gender || "",
                 billing_entity: billingEntity,
                 iban_accredito: entityInfo.iban,
               },
@@ -85,20 +90,28 @@ export async function POST(req: Request) {
           quantity: 1,
         },
       ],
+      billing_address_collection: "auto",
+      phone_number_collection: { enabled: true },
       metadata: {
         tier_id: tier.id,
         tier_name: tier.name,
         gender: gender || "",
-        customer_name: `${lead.nome} ${lead.cognome || ""}`.trim(),
-        customer_phone: (lead.telefono || "").trim(),
-        customer_email: lead.email.trim(),
+        customer_name: lead?.nome ? `${lead.nome} ${lead.cognome || ""}`.trim() : "",
+        customer_phone: (lead?.telefono || "").trim(),
+        customer_email: (lead?.email || "").trim(),
         billing_entity: billingEntity,
         company_name: entityInfo.name,
         company_iban: entityInfo.iban,
       },
       success_url: `${origin}/club/success?session_id={CHECKOUT_SESSION_ID}&tier=${tier.id}`,
       cancel_url: `${origin}/club/${tier.id}`,
-    });
+    };
+
+    if (lead?.email && lead.email.trim().length > 3) {
+      sessionParams.customer_email = lead.email.trim();
+    }
+
+    const session = await stripe.checkout.sessions.create(sessionParams);
 
     return NextResponse.json({
       success: true,

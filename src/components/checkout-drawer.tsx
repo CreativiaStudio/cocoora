@@ -46,7 +46,6 @@ function persistLead(lead: { nome: string; cognome: string; email: string; telef
 
 export function CheckoutDrawer() {
   const { checkoutItem, closeCheckout } = useShop();
-  const [step, setStep] = useState<Step>("lead");
   const [method, setMethod] = useState("card");
   const [lead, setLead] = useState({ nome: "", cognome: "", email: "", telefono: "" });
   const [error, setError] = useState("");
@@ -62,26 +61,19 @@ export function CheckoutDrawer() {
       : (tier.priceUomo ?? tier.price)
     : tier.price;
 
-  const submitLead = (e: FormEvent) => {
-    e.preventDefault();
-    if (!lead.nome.trim() || !lead.email.trim()) {
-      setError("Compila almeno nome ed email per proseguire.");
-      return;
-    }
-    setError("");
-    persistLead(lead);
-    trackLead({ email: lead.email, name: `${lead.nome} ${lead.cognome}`.trim() });
-    trackAddToCart({ item_id: tier.id, item_name: tier.name, price: activePrice });
-    trackBeginCheckout([
-      { item_id: tier.id, item_name: tier.name, price: activePrice },
-    ]);
-    setStep("payment");
-  };
-
   const startStripeCheckout = async () => {
     try {
       setLoadingStripe(true);
       setError("");
+
+      if (lead.email || lead.nome) {
+        persistLead(lead);
+        trackLead({ email: lead.email, name: `${lead.nome} ${lead.cognome}`.trim() });
+      }
+      trackAddToCart({ item_id: tier.id, item_name: tier.name, price: activePrice });
+      trackBeginCheckout([
+        { item_id: tier.id, item_name: tier.name, price: activePrice },
+      ]);
 
       const res = await fetch("/api/checkout", {
         method: "POST",
@@ -89,41 +81,28 @@ export function CheckoutDrawer() {
         body: JSON.stringify({
           tierId: tier.id,
           gender: gender || null,
-          lead,
+          lead: lead.email || lead.nome ? lead : null,
         }),
       });
 
       const data = await res.json();
       if (!res.ok || !data.success) {
-        throw new Error(data.error || "Impossibile inizializzare il modulo di pagamento sicuro.");
+        throw new Error(data.error || "Impossibile inizializzare il modulo di pagamento sicuro Stripe.");
       }
 
       if (data.url) {
         window.location.href = data.url;
         return;
       }
-
-      setStep("success");
     } catch (err: unknown) {
       console.error("Errore checkout:", err);
-      setError(err instanceof Error ? err.message : "Errore di connessione al circuito di pagamento. Riprova.");
+      setError(err instanceof Error ? err.message : "Errore di connessione al circuito di pagamento Stripe. Riprova.");
     } finally {
       setLoadingStripe(false);
     }
   };
 
-  const confirm = () => {
-    const orderId = `ccr_${Date.now().toString(36)}`;
-    trackPurchase({
-      transaction_id: orderId,
-      value: activePrice,
-      items: [{ item_id: tier.id, item_name: tier.name, price: activePrice }],
-    });
-    setStep("success");
-  };
-
   const reset = () => {
-    setStep("lead");
     setLead({ nome: "", cognome: "", email: "", telefono: "" });
     setError("");
     setMethod("card");
@@ -161,25 +140,9 @@ export function CheckoutDrawer() {
         </div>
 
         <div className="flex-1 overflow-y-auto p-6">
-          {step === "lead" && (
-            <form onSubmit={submitLead} className="space-y-4">
-              <p className="text-sm leading-relaxed text-charcoal/80">
-                Lascia i tuoi dati: il nostro team ti ricontatterà per completare
-                l&apos;attivazione del percorso {tier.name}.
-              </p>
-              <Field label="Nome *" value={lead.nome} onChange={(v) => setLead({ ...lead, nome: v })} />
-              <Field label="Cognome" value={lead.cognome} onChange={(v) => setLead({ ...lead, cognome: v })} />
-              <Field label="Email *" type="email" value={lead.email} onChange={(v) => setLead({ ...lead, email: v })} />
-              <Field label="Telefono" type="tel" value={lead.telefono} onChange={(v) => setLead({ ...lead, telefono: v })} />
-              {error && <p className="text-sm text-red-500">{error}</p>}
-              <Button type="submit" className="w-full" size="lg">
-                Continua
-              </Button>
-            </form>
-          )}
-
-          {step === "payment" && !isSuMisura && (
+          {!isSuMisura && (
             <div className="space-y-5">
+              {/* Box Riepilogo Quota e Rate */}
               <div className="rounded-2xl bg-teal-50/80 p-4 border border-teal-100">
                 <div className="flex items-baseline justify-between">
                   <div>
@@ -204,97 +167,95 @@ export function CheckoutDrawer() {
                     <span className="flex items-center gap-1">
                       <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" /> Transazione Protetta SSL 256-bit
                     </span>
-                    <span className="text-charcoal/60">Klarna · PayPal · Carte</span>
+                    <span className="text-charcoal/60">Incasso Primecare SRL</span>
                   </div>
                 )}
               </div>
-              <div>
-                <div className="mb-3 flex items-center justify-between">
-                  <p className="text-sm font-medium text-teal-900">Metodo di pagamento preferito</p>
-                  <span className="text-[11px] text-teal-700 font-medium">Rateizzazione inclusa</span>
+
+              {/* Informazioni fiscali Primecare */}
+              <div className="rounded-xl border border-teal-100 bg-white p-3.5 text-[11px] text-charcoal/75 space-y-1">
+                <div className="flex justify-between">
+                  <span className="font-medium text-teal-950">Fatturazione &amp; Incasso:</span>
+                  <span className="font-semibold text-teal-900">PRIMECARE SRL</span>
                 </div>
-                <div className="grid grid-cols-2 gap-2.5">
-                  {PAYMENT_METHODS.map(({ id, label, sub, badge, Icon }) => (
-                    <button
+                <div className="flex justify-between text-[10px] text-charcoal/60">
+                  <span>Accredito Bancario Ufficiale:</span>
+                  <span className="font-mono">Banca Patrimoni Sella &amp; C.</span>
+                </div>
+              </div>
+
+              {/* Metodi di Pagamento Accettati */}
+              <div>
+                <div className="mb-2.5 flex items-center justify-between">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-teal-900">Metodi di pagamento accettati</p>
+                  <span className="text-[10px] text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">Klarna &amp; PayPal 3 Rate</span>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  {PAYMENT_METHODS.map(({ id, label, sub, Icon }) => (
+                    <div
                       key={id}
-                      type="button"
-                      onClick={() => setMethod(id)}
-                      className={cn(
-                        "relative flex items-start gap-3 rounded-2xl border p-3.5 text-left transition-all",
-                        method === id
-                          ? "border-teal-600 bg-teal-50/70 shadow-sm ring-1 ring-teal-600/30"
-                          : "border-teal-100 hover:border-teal-300 bg-white"
-                      )}
+                      className="flex items-center gap-2.5 rounded-xl border border-teal-100 bg-white p-2.5 text-left text-xs"
                     >
-                      <Icon className="mt-0.5 h-5 w-5 shrink-0 text-teal-700" />
-                      <span className="min-w-0">
-                        <span className="flex items-center gap-1.5 flex-wrap">
-                          <span className="block text-sm font-medium text-teal-900">{label}</span>
-                        </span>
-                        <span className="block text-[11px] leading-tight text-charcoal/60 mt-0.5">{sub}</span>
-                        {badge && (
-                          <span className="mt-1.5 inline-block text-[9px] font-bold uppercase tracking-wider text-teal-800 bg-teal-100/70 px-1.5 py-0.5 rounded">
-                            {badge}
-                          </span>
-                        )}
-                      </span>
-                    </button>
+                      <Icon className="h-4 w-4 shrink-0 text-teal-700" />
+                      <div className="min-w-0">
+                        <span className="block font-medium text-teal-950 leading-tight truncate">{label}</span>
+                        <span className="block text-[10px] text-charcoal/50 truncate">{sub}</span>
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>
+
+              {/* Campi Rapidi Dati Ricevuta (Precompilazione opzionale) */}
+              <div className="space-y-3 pt-1 border-t border-teal-100/70">
+                <p className="text-xs font-semibold text-teal-950 flex items-center gap-1.5">
+                  <span>Dati per ricevuta e attivazione</span>
+                  <span className="text-[10px] font-normal text-charcoal/50">(inseribili anche su Stripe)</span>
+                </p>
+                <div className="grid grid-cols-2 gap-2.5">
+                  <Field label="Nome e Cognome" value={lead.nome} onChange={(v) => setLead({ ...lead, nome: v })} />
+                  <Field label="Telefono" type="tel" value={lead.telefono} onChange={(v) => setLead({ ...lead, telefono: v })} />
+                </div>
+                <Field label="Email per la ricevuta" type="email" value={lead.email} onChange={(v) => setLead({ ...lead, email: v })} />
+              </div>
+
               {error && (
                 <p className="text-xs text-rose-600 bg-rose-50 p-2.5 rounded-xl border border-rose-200">
                   {error}
                 </p>
               )}
-              <div className="space-y-2">
+
+              {/* CTA Principale E-commerce */}
+              <div className="space-y-2 pt-2">
                 <Button
-                  className="w-full flex items-center justify-center gap-2"
+                  className="w-full flex items-center justify-center gap-2 text-sm sm:text-base py-3.5 shadow-md hover:shadow-lg transition-all"
                   size="lg"
                   disabled={loadingStripe}
                   onClick={startStripeCheckout}
                 >
                   {loadingStripe ? (
-                    "Apertura Cassa Protetta..."
+                    "Apertura Cassa Protetta Stripe..."
                   ) : (
                     <>
-                      <ShieldCheck className="h-4 w-4" />
-                      <span>Procedi al Pagamento Sicuro ({formatPrice(tier.price)})</span>
+                      <ShieldCheck className="h-4 w-4 text-emerald-300" />
+                      <span>Procedi al Pagamento Sicuro ({formatPrice(activePrice)})</span>
                     </>
                   )}
                 </Button>
                 <p className="text-center text-[11px] text-charcoal/60 leading-relaxed">
-                  Paga subito o in <strong>3 rate a tasso zero</strong> con Klarna e PayPal. Nessun costo nascosto.
+                  Verrai reindirizzato alla cassa crittografata Stripe di <strong>PRIMECARE SRL</strong>. Paga subito con Carta o in <strong>3 rate a tasso zero</strong> con Klarna e PayPal.
                 </p>
               </div>
             </div>
           )}
 
-          {step === "payment" && isSuMisura && (
+          {isSuMisura && (
             <div className="space-y-4">
               <p className="text-sm leading-relaxed text-charcoal/80">
                 Il percorso {tier.name} viene costruito su misura sulle tue esigenze.
                 Ti abbiamo registrato: sarai ricontattato dal nostro team.
               </p>
-              <Button className="w-full" size="lg" onClick={confirm}>
-                Richiedi informazioni
-              </Button>
-            </div>
-          )}
-
-          {step === "success" && (
-            <div className="flex flex-col items-center py-8 text-center">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-teal-100 text-teal-700">
-                <Check className="h-8 w-8" />
-              </div>
-              <h4 className="mt-5 font-serif text-2xl font-semibold text-teal-900">
-                Richiesta completata
-              </h4>
-              <p className="mt-2 max-w-xs text-sm text-charcoal/70">
-                Grazie {lead.nome || ""}! Ti abbiamo inviato una mail di conferma a{" "}
-                <span className="font-medium text-teal-800">{lead.email}</span>.
-              </p>
-              <Button className="mt-6" onClick={reset}>
+              <Button className="w-full" size="lg" onClick={reset}>
                 Chiudi
               </Button>
             </div>
