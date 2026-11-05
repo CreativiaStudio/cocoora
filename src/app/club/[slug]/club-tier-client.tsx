@@ -7,14 +7,13 @@ import {
   ArrowLeft,
   ArrowRight,
   Check,
-  CreditCard,
   GraduationCap,
   ShieldCheck,
   TrendingDown,
 } from "lucide-react";
 import { useShop } from "@/components/providers";
 import { getDoctorBySlug } from "@/lib/doctors";
-import { computeInstallment, computeSavings, getTierDetail } from "@/lib/club-details";
+import { computeSavings, getTierDetail } from "@/lib/club-details";
 import { redirectToStripeCheckout } from "@/lib/checkout-client";
 import type { ClubTier } from "@/lib/types";
 import { cn, formatPrice } from "@/lib/utils";
@@ -53,9 +52,6 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
     ? computeSavings(activePrice, detail, activeGender)
     : { items: [], totalValue: 0, savings: 0, savingsPercent: 0 };
 
-  const installmentAmount = detail?.installmentCount
-    ? computeInstallment(activePrice, detail.installmentCount)
-    : null;
 
   const [activating, setActivating] = useState(false);
   const [checkoutError, setCheckoutError] = useState("");
@@ -128,7 +124,7 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
                 </div>
               )}
 
-              {/* Prezzo + rateizzazione */}
+              {/* Prezzo */}
               <div className="mx-auto mt-8 max-w-md rounded-3xl border border-teal-100 bg-white/80 p-6 backdrop-blur-sm lg:mx-0">
                 <div className="flex items-baseline gap-3">
                   <span className="font-serif text-5xl font-semibold text-teal-900">
@@ -141,27 +137,10 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
                   )}
                   <span className="text-sm text-charcoal/60">{tier.free ? "Free" : "/ anno"}</span>
                 </div>
-                {!tier.free && activePrice > 0 && (
-                  <div className="mt-3.5 rounded-2xl bg-teal-50/80 p-3.5 border border-teal-100 text-xs">
-                    <p className="flex items-center gap-2 font-semibold text-teal-900">
-                      <CreditCard className="h-4 w-4 shrink-0 text-teal-700" />
-                      Oppure in 3 rate da {formatPrice(Math.round(activePrice / 3))}/mese a tasso zero
-                    </p>
-                    <p className="mt-1 text-charcoal/70">
-                      Disponibile con <strong>Klarna</strong> e <strong>PayPal</strong> (TAN 0% TAEG 0%). Nessun interesse o spesa aggiuntiva.
-                    </p>
-                  </div>
-                )}
                 {SHOW_SAVINGS_CALCULATOR && savings > 0 && (
                   <p className="mt-3 flex items-center gap-2 text-sm font-medium text-charcoal/70">
                     <TrendingDown className="h-4 w-4 shrink-0 text-teal-600" />
                     Valore prestazioni singole: {formatPrice(totalValue)} — risparmi il {savingsPercent}%
-                  </p>
-                )}
-                {!SHOW_SAVINGS_CALCULATOR && !tier.free && (
-                  <p className="mt-3 flex items-center gap-2 text-sm font-medium text-charcoal/70">
-                    <ShieldCheck className="h-4 w-4 shrink-0 text-teal-600" />
-                    Percorso Annuale di Prevenzione Continua
                   </p>
                 )}
               </div>
