@@ -1,22 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Clock, Instagram, Mail, MapPin, Phone, ShieldCheck } from "lucide-react";
+import { Clock, Instagram, Mail, MapPin, Phone, ShieldCheck } from "lucide-react";
 import { SITE } from "@/lib/site";
 import { Logo } from "./logo";
-import { useShop } from "./providers";
 import { Container } from "./ui";
 
 const legalLinks = [
   { label: "Privacy Policy", href: "/contatti" },
   { label: "Cookie Policy", href: "/contatti" },
   { label: "Termini e Condizioni", href: "/contatti" },
-];
-
-const areeMediche = [
-  { label: "Medicina Estetica & Rigenerativa", href: "/servizi/medicina-estetica" },
-  { label: "Odontoiatria & Ortodonzia", href: "/servizi/odontoiatria" },
-  { label: "Visite Specialistiche", href: "/visite" },
 ];
 
 const percorsiClub = [
@@ -28,7 +21,6 @@ const percorsiClub = [
 ];
 
 export function Footer() {
-  const { openBooking } = useShop();
   return (
     <footer className="relative overflow-hidden bg-dark-navy text-teal-100">
       {/* Ambient depth: mesh di luci scure */}
@@ -61,15 +53,15 @@ export function Footer() {
           <span className="hidden h-px flex-1 bg-gradient-to-l from-transparent to-white/20 sm:block" />
         </div>
 
-        <div className="mt-12 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-12">
+        <div className="mt-12 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-x-12">
           {/* Brand */}
-          <div>
+          <div className="lg:col-span-5">
             <Logo variant="white" className="h-9 sm:h-10 w-auto max-w-[75%] object-contain" />
             <p className="mt-4 max-w-xs font-serif text-lg italic leading-snug text-white">
               &ldquo;{SITE.claim}&rdquo;
             </p>
             <span className="mt-3 block h-px w-8 bg-slate-accent/70" />
-            <p className="mt-3 max-w-xs text-xs sm:text-[13px] leading-relaxed text-teal-200/75">
+            <p className="mt-3 max-w-sm text-xs sm:text-[13px] leading-relaxed text-teal-200/75">
               Un unico hub multidisciplinare per la tua salute: azzeriamo attese,
               burocrazia e complessità per ripristinare il vero rapporto
               fiduciario tra medico e paziente.
@@ -85,12 +77,14 @@ export function Footer() {
             </a>
           </div>
 
-          <FooterColumn title="Aree Mediche" links={areeMediche} />
-          <FooterColumn title="Il Tuo Percorso" links={percorsiClub} />
+          {/* Il Tuo Percorso */}
+          <div className="lg:col-span-3 lg:pl-2">
+            <FooterColumn title="Il Tuo Percorso" links={percorsiClub} />
+          </div>
 
-          {/* Contatti */}
-          <div>
-            <FooterHeading>Contatti &amp; Prenotazioni</FooterHeading>
+          {/* Contatti & Orari */}
+          <div className="lg:col-span-4 lg:pl-4">
+            <FooterHeading>Contatti &amp; Orari</FooterHeading>
             <ul className="mt-5 space-y-3 text-xs sm:text-[13px] leading-relaxed text-teal-100/85">
               <li className="flex items-start gap-2.5">
                 <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-slate-accent" />
@@ -123,14 +117,6 @@ export function Footer() {
                 </span>
               </li>
             </ul>
-            <button
-              type="button"
-              onClick={() => openBooking()}
-              className="group mt-5 inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-2.5 text-xs font-semibold text-dark-navy shadow-[0_12px_30px_-12px_rgba(0,0,0,0.55)] ring-1 ring-white/60 transition-all duration-300 hover:-translate-y-0.5 hover:bg-teal-50 hover:shadow-[0_18px_36px_-12px_rgba(128,161,178,0.55)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-accent"
-            >
-              Prenota una visita
-              <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
-            </button>
           </div>
         </div>
 
