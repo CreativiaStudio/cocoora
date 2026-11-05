@@ -10,6 +10,7 @@ import {
   MapPin,
   MessageCircle,
   ShieldCheck,
+  Sparkles,
   Timer,
   X,
 } from "lucide-react";
@@ -19,21 +20,153 @@ import { SITE } from "@/lib/site";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui";
 
-type Specialty = { id: string; label: string; doctor: string };
+export type Specialty = {
+  id: string;
+  label: string;
+  doctor: string;
+  doctorSlug: string;
+  presenceDays: number[]; // 1=Lun, 2=Mar, 3=Mer, 4=Gio, 5=Ven
+  morning: boolean;
+  afternoon: boolean;
+  roomName: string;
+};
 
-const SPECIALTIES: Specialty[] = [
-  { id: "odontoiatria", label: "Odontoiatria & Allineatori", doctor: "Dr. Sorrentino" },
-  { id: "cardiologia", label: "Cardiologia & ECG", doctor: "Dr. Esposito" },
-  { id: "medicina-estetica", label: "Medicina Estetica", doctor: "Dr.ssa Del Prete" },
-  { id: "ginecologia", label: "Ginecologia & Pelvica", doctor: "Dr.ssa Caputo" },
-  { id: "senologia", label: "Senologia & Ecografia", doctor: "Dr.ssa Coppola" },
-  { id: "ecografia", label: "Ecografia Rapida", doctor: "Dr. Iovine" },
-  { id: "oculistica", label: "Oculistica", doctor: "Dr.ssa Russo" },
-  { id: "pediatria", label: "Pediatria", doctor: "Dr.ssa Amato" },
+export const SPECIALTIES: Specialty[] = [
+  {
+    id: "odontoiatria",
+    label: "Odontoiatria & Ortodonzia",
+    doctor: "Dott.ssa Elisa Russo",
+    doctorSlug: "elisa-russo",
+    presenceDays: [3, 5], // Mer (tutto il giorno), Ven (mattina)
+    morning: true,
+    afternoon: true,
+    roomName: "Studio 1",
+  },
+  {
+    id: "chirurgia-orale",
+    label: "Chirurgia Orale & Implantologia",
+    doctor: "Dr. Raffaele D'Alessio",
+    doctorSlug: "raffaele-dalessio",
+    presenceDays: [3], // Mer (pomeriggio ogni 2 sett.)
+    morning: false,
+    afternoon: true,
+    roomName: "Studio 1",
+  },
+  {
+    id: "medicina-estetica",
+    label: "Medicina Estetica & Laser",
+    doctor: "Dott.ssa Alessandra Riccardi",
+    doctorSlug: "alessandra-riccardi",
+    presenceDays: [3], // Mer (pomeriggio)
+    morning: false,
+    afternoon: true,
+    roomName: "Studio 3",
+  },
+  {
+    id: "chirurgia-plastica",
+    label: "Chirurgia Plastica ed Estetica",
+    doctor: "Prof. D'Andrea · Dott.ssa Errico",
+    doctorSlug: "francesco-dandrea",
+    presenceDays: [1, 4], // Lun (mattina), Gio (tutto il giorno)
+    morning: true,
+    afternoon: true,
+    roomName: "Studio 3",
+  },
+  {
+    id: "carbossiterapia",
+    label: "Carbossiterapia & Rigenerativa",
+    doctor: "Dott.ssa Patty Scorzelli",
+    doctorSlug: "patty-scorzelli",
+    presenceDays: [1, 4, 5], // Lun mattina, Gio mattina, Ven tutto il giorno
+    morning: true,
+    afternoon: true,
+    roomName: "Studio 2",
+  },
+  {
+    id: "cardiologia",
+    label: "Cardiologia & Ecocardiogramma",
+    doctor: "Dott.ssa Anna Maria Stillo",
+    doctorSlug: "anna-maria-stillo",
+    presenceDays: [2, 4], // Mar (tutto il giorno), Gio (pomeriggio)
+    morning: true,
+    afternoon: true,
+    roomName: "Studio 4",
+  },
+  {
+    id: "ecografia",
+    label: "Ecografia Clinica",
+    doctor: "Dr. Giuseppe Buono",
+    doctorSlug: "giuseppe-buono",
+    presenceDays: [3], // Mer (pomeriggio)
+    morning: false,
+    afternoon: true,
+    roomName: "Studio 4",
+  },
+  {
+    id: "ginecologia",
+    label: "Ginecologia ed Ecografia",
+    doctor: "Dott.ssa Raffaella Poppiti",
+    doctorSlug: "raffaella-poppiti",
+    presenceDays: [4], // Gio (pomeriggio)
+    morning: false,
+    afternoon: true,
+    roomName: "Studio 4",
+  },
+  {
+    id: "oculistica",
+    label: "Oculistica & Refrattiva",
+    doctor: "Dr. Mario Toro",
+    doctorSlug: "mario-toro",
+    presenceDays: [5], // Ven (tutto il giorno)
+    morning: true,
+    afternoon: true,
+    roomName: "Studio 4",
+  },
+  {
+    id: "psicologia",
+    label: "Psicologia Clinica",
+    doctor: "Dott.ssa Alessandra Totaro",
+    doctorSlug: "alessandra-totaro",
+    presenceDays: [1], // Lun (tutto il giorno)
+    morning: true,
+    afternoon: true,
+    roomName: "Studio 4",
+  },
+  {
+    id: "nutrizione",
+    label: "Nutrizione & Alimentazione",
+    doctor: "Dott.ssa M.G. Polverino / J. De Ceglie",
+    doctorSlug: "maria-grazia-polverino",
+    presenceDays: [3, 4], // Mer pom, Gio pom
+    morning: false,
+    afternoon: true,
+    roomName: "Sala Filtro",
+  },
+  {
+    id: "senologia",
+    label: "Senologia ed Ecografia Mammaria",
+    doctor: "Dott.ssa Martina Pontillo",
+    doctorSlug: "martina-pontillo",
+    presenceDays: [2, 3, 4, 5],
+    morning: true,
+    afternoon: true,
+    roomName: "Studio 4",
+  },
+  {
+    id: "pediatria",
+    label: "Pediatria",
+    doctor: "Dr. Filippo Iaccarino",
+    doctorSlug: "filippo-iaccarino",
+    presenceDays: [1, 2, 3, 4, 5],
+    morning: true,
+    afternoon: true,
+    roomName: "Studio 4",
+  },
 ];
 
-const MORNING = ["09:30", "11:00", "12:15"];
-const AFTERNOON = ["15:30", "17:00", "18:30"];
+// Formula slot: 30 min visita clinica + 30 min pulizia/sanificazione = step 60 min
+const MORNING_SLOTS = ["09:00", "10:00", "11:00", "12:00"];
+const AFTERNOON_SLOTS = ["15:00", "16:00", "17:00", "18:00"];
 
 const STORAGE_KEY = "cocoora-patient-profile";
 
@@ -52,36 +185,54 @@ function findSpecialty(query?: string): Specialty {
   return SPECIALTIES[0];
 }
 
-type SlotDay = { key: string; tag: string; weekday: string; long: string; date: Date };
+type SlotDay = { key: string; tag: string; weekday: string; weekdayNum: number; long: string; date: Date };
 
-function buildDays(): SlotDay[] {
+function buildDaysForSpecialty(spec: Specialty): SlotDay[] {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const days: SlotDay[] = [];
   let offset = 1;
-  while (days.length < 3) {
+
+  while (days.length < 3 && offset < 21) {
     const d = new Date(today);
     d.setDate(today.getDate() + offset);
-    if (d.getDay() !== 0) {
+    const dayOfWeek = d.getDay() === 0 ? 7 : d.getDay();
+
+    if (spec.presenceDays.includes(dayOfWeek)) {
       const tag = offset === 1 ? "Domani" : offset === 2 ? "Dopodomani" : `+${offset} giorni`;
       days.push({
         key: d.toISOString().slice(0, 10),
         tag,
         weekday: d.toLocaleDateString("it-IT", { weekday: "short" }),
+        weekdayNum: dayOfWeek,
         long: d.toLocaleDateString("it-IT", { weekday: "long", day: "numeric", month: "long" }),
         date: d,
       });
     }
     offset += 1;
   }
-  return days;
-}
 
-// Occupazione simulata e deterministica: qualche slot risulta già preso.
-function isTaken(seed: string): boolean {
-  let h = 0;
-  for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) >>> 0;
-  return h % 5 === 0;
+  // Fallback se nessun giorno corrisponde nell'intervallo
+  if (days.length === 0) {
+    let fallbackOffset = 1;
+    while (days.length < 3) {
+      const d = new Date(today);
+      d.setDate(today.getDate() + fallbackOffset);
+      if (d.getDay() !== 0) {
+        days.push({
+          key: d.toISOString().slice(0, 10),
+          tag: fallbackOffset === 1 ? "Domani" : `+${fallbackOffset} giorni`,
+          weekday: d.toLocaleDateString("it-IT", { weekday: "short" }),
+          weekdayNum: d.getDay() === 0 ? 7 : d.getDay(),
+          long: d.toLocaleDateString("it-IT", { weekday: "long", day: "numeric", month: "long" }),
+          date: d,
+        });
+      }
+      fallbackOffset += 1;
+    }
+  }
+
+  return days;
 }
 
 function generatePatientId(): string {
@@ -103,15 +254,58 @@ function BookingDialog({
 }) {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [specialty, setSpecialty] = useState<Specialty>(() => findSpecialty(initialSpecialty));
-  const days = useMemo(buildDays, []);
-  const [dayKey, setDayKey] = useState(days[0].key);
+  const days = useMemo(() => buildDaysForSpecialty(specialty), [specialty]);
+  const [dayKey, setDayKey] = useState(days[0]?.key || "");
   const [time, setTime] = useState<string | null>(null);
   const [form, setForm] = useState({ nome: "", telefono: "", email: "", password: "" });
   const [error, setError] = useState("");
   const [patientId, setPatientId] = useState("");
   const [secondsLeft, setSecondsLeft] = useState(15 * 60);
 
-  const day = days.find((d) => d.key === dayKey) ?? days[0];
+  // Mantieni sincronizzato il giorno selezionato al cambio di specialità
+  useEffect(() => {
+    if (days.length > 0 && !days.some((d) => d.key === dayKey)) {
+      setDayKey(days[0].key);
+    }
+  }, [days, dayKey]);
+
+  const day = days.find((d) => d.key === dayKey) ?? days[0] ?? {
+    key: new Date().toISOString().slice(0, 10),
+    tag: "Oggi",
+    weekday: "Oggi",
+    weekdayNum: 1,
+    long: "Data selezionata",
+    date: new Date(),
+  };
+
+  // Calcola slot disponibili per il giorno selezionato
+  const availableGroups = useMemo(() => {
+    const isFri = day.weekdayNum === 5;
+    const isMonOrThu = day.weekdayNum === 1 || day.weekdayNum === 4;
+
+    let hasMorning = specialty.morning;
+    let hasAfternoon = specialty.afternoon;
+
+    // Regole specifiche da calendario:
+    // Elisa Russo venerdì c'è solo la mattina (09:00 - 13:00)
+    if (specialty.doctorSlug === "elisa-russo" && isFri) {
+      hasAfternoon = false;
+    }
+    // D'Andrea + Errico lunedì mattina (09:00 - 13:00)
+    if (specialty.doctorSlug === "francesco-dandrea" && day.weekdayNum === 1) {
+      hasAfternoon = false;
+    }
+    // Patty Scorzelli lunedì e giovedì mattina (09:00 - 13:00)
+    if (specialty.doctorSlug === "patty-scorzelli" && isMonOrThu) {
+      hasAfternoon = false;
+    }
+
+    const groups: { label: string; slots: string[] }[] = [];
+    if (hasMorning) groups.push({ label: "Mattina (09:00–13:00)", slots: MORNING_SLOTS });
+    if (hasAfternoon) groups.push({ label: "Pomeriggio (15:00–19:00)", slots: AFTERNOON_SLOTS });
+
+    return groups;
+  }, [day, specialty]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -137,7 +331,7 @@ function BookingDialog({
     setStep(2);
   };
 
-  const submit = (e: FormEvent) => {
+  const submit = async (e: FormEvent) => {
     e.preventDefault();
     if (!form.nome.trim() || !form.telefono.trim() || !form.email.trim() || !form.password) {
       setError("Compila tutti i campi per attivare il tuo profilo.");
@@ -155,8 +349,26 @@ function BookingDialog({
 
     const id = generatePatientId();
     trackLead({ email: form.email.trim(), name: form.nome.trim() });
+
     try {
-      // La password non viene mai salvata: in questa demo serve solo a simulare l'onboarding.
+      // Registra opzionalmente l'appuntamento tramite endpoint API
+      fetch("/api/calendar/slots", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          doctorId: specialty.doctorSlug,
+          date: day.key,
+          time,
+          durationMinutes: 60, // 30m visita + 30m pulizia
+          patientName: form.nome.trim(),
+          patientPhone: form.telefono.trim(),
+          patientEmail: form.email.trim(),
+          notes: `Prenotazione online per ${specialty.label}`,
+        }),
+      }).catch(() => {
+        // Fallback silenzioso se in modalità demo/offline
+      });
+
       localStorage.setItem(
         STORAGE_KEY,
         JSON.stringify({
@@ -169,12 +381,13 @@ function BookingDialog({
             doctor: specialty.doctor,
             date: day.key,
             time,
+            formula: "30 min visita + 30 min pulizia/sanificazione",
           },
           createdAt: new Date().toISOString(),
         })
       );
     } catch {
-      // localStorage non disponibile: la demo prosegue comunque.
+      // fallback safe
     }
     setPatientId(id);
     setStep(3);
@@ -210,22 +423,30 @@ function BookingDialog({
 
         {step === 1 && (
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5 text-[11px] font-semibold text-emerald-700 ring-1 ring-emerald-200">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5 text-[11px] font-semibold text-emerald-700 ring-1 ring-emerald-200">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                </span>
+                Calendario Specialisti Confermato · Napoli
               </span>
-              Disponibilità aggiornata · Napoli
-            </span>
+              <span className="inline-flex items-center gap-1 rounded-full bg-teal-50 px-3 py-1.5 text-[11px] font-medium text-teal-800 ring-1 ring-teal-200/60">
+                <Sparkles className="h-3 w-3 text-teal-600" />
+                30m Visita + 30m Sanificazione
+              </span>
+            </div>
+
             <h3 className="mt-4 pr-8 font-serif text-2xl font-semibold text-dark-navy sm:text-3xl">
-              Prenota la tua Visita su Appuntamento
+              Prenota la tua Visita Specialistica
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-charcoal/70">
-              Scegli la branca, il giorno e l&apos;orario che preferisci: blocchiamo lo slot per te.
+              Scegli lo specialista, il giorno di presenza in clinica e l&apos;orario: ogni appuntamento
+              prevede 30 minuti di visita e 30 minuti di sanificazione dedicata della sala.
             </p>
 
             <p className="mt-6 text-xs font-semibold uppercase tracking-wider text-teal-800">
-              1 · Specialità
+              1 · Specialità &amp; Medico
             </p>
             <div className="mt-3 flex flex-wrap gap-2">
               {SPECIALTIES.map((s) => {
@@ -244,7 +465,9 @@ function BookingDialog({
                     )}
                   >
                     {s.label}
-                    <span className={cn("ml-1 font-normal", active ? "text-teal-100" : "text-charcoal/50")}>
+                    <span
+                      className={cn("ml-1 font-normal", active ? "text-teal-100" : "text-charcoal/60")}
+                    >
                       · {s.doctor}
                     </span>
                   </button>
@@ -252,9 +475,12 @@ function BookingDialog({
               })}
             </div>
 
-            <p className="mt-6 text-xs font-semibold uppercase tracking-wider text-teal-800">
-              2 · Giorno
-            </p>
+            <div className="mt-6 flex items-center justify-between">
+              <p className="text-xs font-semibold uppercase tracking-wider text-teal-800">
+                2 · Giorni di presenza a Cocoora Centro Medico ({specialty.roomName})
+              </p>
+            </div>
+
             <div className="mt-3 grid grid-cols-3 gap-2.5">
               {days.map((d) => {
                 const active = d.key === dayKey;
@@ -286,44 +512,37 @@ function BookingDialog({
             </div>
 
             <p className="mt-6 text-xs font-semibold uppercase tracking-wider text-teal-800">
-              3 · Orario
+              3 · Orario Slot (Visita 30 min + Pulizia 30 min)
             </p>
             <div className="mt-3 space-y-3">
-              {[
-                { label: "Mattina", slots: MORNING },
-                { label: "Pomeriggio", slots: AFTERNOON },
-              ].map((group) => (
-                <div key={group.label} className="flex items-center gap-3">
-                  <span className="w-20 shrink-0 text-xs font-medium text-charcoal/60">
-                    {group.label}
-                  </span>
-                  <div className="grid flex-1 grid-cols-3 gap-2">
-                    {group.slots.map((t) => {
-                      const taken = isTaken(`${specialty.id}-${dayKey}-${t}`);
-                      return (
+              {availableGroups.length === 0 ? (
+                <p className="text-xs text-charcoal/60 italic">Nessun turno disponibile per il giorno selezionato.</p>
+              ) : (
+                availableGroups.map((group) => (
+                  <div key={group.label} className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+                    <span className="w-44 shrink-0 text-xs font-medium text-charcoal/70">
+                      {group.label}
+                    </span>
+                    <div className="grid flex-1 grid-cols-2 sm:grid-cols-4 gap-2">
+                      {group.slots.map((t) => (
                         <button
                           key={t}
                           type="button"
-                          disabled={taken}
                           onClick={() => pickSlot(t)}
-                          className={cn(
-                            "rounded-full border py-2.5 text-sm font-semibold transition-all",
-                            taken
-                              ? "cursor-not-allowed border-slate-100 bg-slate-50 text-slate-300 line-through"
-                              : "border-teal-200 bg-white text-teal-900 hover:-translate-y-0.5 hover:border-primary-teal hover:bg-primary-teal hover:text-white hover:shadow-md"
-                          )}
+                          className="rounded-xl border border-teal-200 bg-white py-2 text-center text-xs font-semibold text-teal-900 transition-all hover:-translate-y-0.5 hover:border-primary-teal hover:bg-primary-teal hover:text-white hover:shadow-md"
                         >
-                          {t}
+                          <span className="block text-sm">{t}</span>
+                          <span className="block text-[10px] font-normal opacity-75">30m+30m</span>
                         </button>
-                      );
-                    })}
+                      ))}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))
+              )}
             </div>
             <p className="mt-5 flex items-center gap-2 text-xs text-charcoal/55">
               <Clock className="h-3.5 w-3.5 text-teal-700" />
-              Seleziona un orario per bloccare subito lo slot.
+              Seleziona un orario per bloccare subito lo slot in sicurezza.
             </p>
           </div>
         )}
@@ -335,7 +554,7 @@ function BookingDialog({
               onClick={() => setStep(1)}
               className="inline-flex items-center gap-1.5 text-xs font-medium text-teal-700 hover:text-dark-navy"
             >
-              <ArrowLeft className="h-3.5 w-3.5" /> Cambia slot
+              <ArrowLeft className="h-3.5 w-3.5" /> Cambia specialità o slot
             </button>
 
             <div className="mt-4 rounded-2xl bg-teal-50 p-4 ring-1 ring-teal-100">
@@ -343,10 +562,13 @@ function BookingDialog({
                 <CalendarCheck className="mt-0.5 h-5 w-5 shrink-0 text-teal-700" />
                 <div className="text-sm leading-relaxed text-dark-navy">
                   <p>
-                    <span className="font-semibold">Slot selezionato:</span>{" "}
+                    <span className="font-semibold">Slot riservato:</span>{" "}
                     <span className="capitalize">{day.long}</span> alle ore{" "}
                     <span className="font-semibold">{time}</span> con {specialty.doctor}
-                    <span className="text-charcoal/60"> · {specialty.label}</span>
+                    <span className="text-charcoal/60"> · {specialty.label} ({specialty.roomName})</span>
+                  </p>
+                  <p className="mt-1 text-xs text-charcoal/75">
+                    <strong>Formula Cocoora:</strong> 30 minuti di visita specialistica + 30 minuti di pulizia e sanificazione sala (blocco agenda: 1 ora).
                   </p>
                   <p className="mt-1.5 inline-flex items-center gap-1.5 text-xs font-semibold text-amber-700">
                     <Timer className="h-3.5 w-3.5" />
@@ -362,9 +584,8 @@ function BookingDialog({
               Attiva il tuo Profilo Digitale
             </h3>
             <p className="mt-2 text-sm leading-relaxed text-charcoal/75">
-              Per confermare l&apos;appuntamento senza liste d&apos;attesa e accedere alla tua
-              cartella clinica con referti h24, attiva il tuo Profilo Digitale Cocoora (Accesso
-              Gratuito 0€).
+              Per confermare l&apos;appuntamento e accedere alla tua cartella clinica con referti
+              digitali h24, attiva il tuo Profilo Paziente Cocoora (Accesso Gratuito 0€).
             </p>
 
             <form onSubmit={submit} className="mt-5 grid gap-4 sm:grid-cols-2" noValidate>
@@ -437,7 +658,7 @@ function BookingDialog({
                     <span className="text-emerald-700 font-bold">Rate a Tasso Zero</span>
                   </div>
                   <p className="text-[11px] leading-relaxed text-charcoal/70">
-                    Saldabile direttamente in clinica (Bancomat, Carta, Apple Pay) o a <strong>rate con Klarna e PayPal</strong> per percorsi e piani di cura. Annullamento gratuito fino a 24h prima.
+                    Saldabile direttamente in clinica (Bancomat, Carta, Apple Pay) o a <strong>rate con Klarna e PayPal</strong> per i percorsi sanitari e cure specialistiche. Annullamento gratuito fino a 24h prima.
                   </p>
                 </div>
               </div>
@@ -454,7 +675,7 @@ function BookingDialog({
               Richiesta Confermata &amp; Profilo Attivo!
             </h3>
             <p className="mt-2 text-sm text-charcoal/70">
-              Benvenuto in Cocoora{firstName ? `, ${firstName}` : ""}. La tua area paziente è pronta.
+              Benvenuto nel nostro centro{firstName ? `, ${firstName}` : ""}. La tua area paziente è pronta.
             </p>
 
             <div className="mt-5 w-full max-w-sm rounded-2xl bg-gradient-to-br from-dark-navy to-primary-teal p-5 text-left text-white shadow-xl">
@@ -473,7 +694,13 @@ function BookingDialog({
                 <span>
                   <span className="capitalize">{day.long}</span> alle ore{" "}
                   <span className="font-semibold">{time}</span> · {specialty.label} con{" "}
-                  {specialty.doctor}
+                  {specialty.doctor} ({specialty.roomName})
+                </span>
+              </p>
+              <p className="flex items-start gap-3">
+                <Clock className="mt-0.5 h-4 w-4 shrink-0 text-teal-700" />
+                <span>
+                  Durata: 30 minuti visita clinica + 30 minuti sanificazione sala.
                 </span>
               </p>
               <p className="flex items-start gap-3">
@@ -485,7 +712,7 @@ function BookingDialog({
               <p className="flex items-start gap-3">
                 <MessageCircle className="mt-0.5 h-4 w-4 shrink-0 text-teal-700" />
                 <span>
-                  La segreteria ha inviato la conferma su WhatsApp ed Email. Annullamento gratuito
+                  La segreteria invierà promemoria e conferma su WhatsApp ed Email. Annullamento gratuito
                   fino a 24h prima.
                 </span>
               </p>
@@ -493,7 +720,7 @@ function BookingDialog({
 
             <div className="mt-6 flex w-full flex-col gap-2.5 sm:flex-row sm:justify-center">
               <Button onClick={onClose} size="md">
-                Accedi alla tua Area Paziente (Demo)
+                Accedi alla tua Area Paziente
               </Button>
               <Button onClick={onClose} variant="secondary" size="md">
                 Chiudi

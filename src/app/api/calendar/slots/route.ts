@@ -4,6 +4,7 @@ import {
   firstEmbedded,
   mergeClinicRooms,
   resolveRoomForDoctor,
+  requiresEcograph,
   type ClinicRoomRow,
   type Room,
 } from "@/lib/slot-engine";
@@ -115,14 +116,26 @@ export async function GET(req: Request) {
 
     const { data: existingAppts, error: apptError } = await supabase
       .from("appointments")
-      .select("id, doctor_id, room_id, starts_at, ends_at, status")
+      .select(`
+        id,
+        doctor_id,
+        room_id,
+        starts_at,
+        ends_at,
+        status,
+        doctors (
+          id,
+          full_name,
+          specialty_slug
+        )
+      `)
       .gte("starts_at", startOfDay)
       .lte("starts_at", endOfDay)
       .neq("status", "annullato");
 
     if (apptError) throw apptError;
 
-    // 3. Generate slots by slicing doctor presence into 30m slots
+    // 3. Generate slots (30m visita clinica + 30m sanificazione = blocco 60m)
     type GeneratedSlot = {
       date: string;
       time: string;
@@ -134,6 +147,10 @@ export async function GET(req: Request) {
       roomSlug: string | null;
       isAvailable: boolean;
       conflictReason?: string;
+      visitDurationMinutes?: number;
+      cleaningBufferMinutes?: number;
+      slotDurationMinutes?: number;
+      requiresEcograph?: boolean;
     };
 
     type AvailabilityDoctor = {
@@ -146,11 +163,28 @@ export async function GET(req: Request) {
 
     const slots: GeneratedSlot[] = [];
 
+    const bookedWithEcograph = (existingAppts || []).map((a) => {
+      const doc = firstEmbedded<AvailabilityDoctor>(
+        a.doctors as unknown as AvailabilityDoctor | AvailabilityDoctor[] | null
+      );
+      return {
+        ...a,
+        requiresEcograph: doc
+          ? requiresEcograph({ fullName: doc.full_name, specialtySlug: doc.specialty_slug })
+          : false,
+      };
+    });
+
     for (const av of availabilities || []) {
       const doc = firstEmbedded<AvailabilityDoctor>(
         av.doctors as unknown as AvailabilityDoctor | AvailabilityDoctor[] | null
       );
       if (!doc || !doc.is_active) continue;
+
+      const isEcographDoctor = requiresEcograph({
+        fullName: doc.full_name,
+        specialtySlug: doc.specialty_slug,
+      });
 
       // Sala effettiva: quella legata alla disponibilità, altrimenti la stanza
       // predefinita in base alla specialità del medico.
@@ -167,7 +201,10 @@ export async function GET(req: Request) {
 
       const startMin = timeToMinutes(av.start_time);
       const endMin = timeToMinutes(av.end_time);
-      const step = av.slot_minutes || 30;
+      // Passo predefinito: 60 minuti (30 min visita + 30 min pulizia/sanificazione)
+      const step = av.slot_minutes || 60;
+      const visitDuration = 30;
+      const cleaningBuffer = 30;
 
       for (let m = startMin; m + step <= endMin; m += step) {
         const timeStr = minutesToTime(m);
@@ -175,7 +212,7 @@ export async function GET(req: Request) {
         const slotEnd = slotStart + step * 60 * 1000;
 
         // Check if doctor is already booked in this slot
-        const doctorConflict = (existingAppts || []).some((a) => {
+        const doctorConflict = bookedWithEcograph.some((a) => {
           if (a.doctor_id !== doc.id) return false;
           const aStart = new Date(a.starts_at).getTime();
           const aEnd = new Date(a.ends_at).getTime();
@@ -183,14 +220,29 @@ export async function GET(req: Request) {
         });
 
         // Check if room is already booked by another doctor in this slot
-        const roomConflict = (existingAppts || []).some((a) => {
+        const roomConflict = bookedWithEcograph.some((a) => {
           if (!slotRoom?.id || a.room_id !== slotRoom.id) return false;
           const aStart = new Date(a.starts_at).getTime();
           const aEnd = new Date(a.ends_at).getTime();
           return slotStart < aEnd && slotEnd > aStart;
         });
 
-        const isAvailable = !doctorConflict && !roomConflict;
+        // Check vincolo ecografo: risorsa unica condivisa
+        const ecographConflict =
+          isEcographDoctor &&
+          bookedWithEcograph.some((a) => {
+            if (!a.requiresEcograph) return false;
+            const aStart = new Date(a.starts_at).getTime();
+            const aEnd = new Date(a.ends_at).getTime();
+            return slotStart < aEnd && slotEnd > aStart;
+          });
+
+        const isAvailable = !doctorConflict && !roomConflict && !ecographConflict;
+
+        let conflictReason: string | undefined;
+        if (doctorConflict) conflictReason = "Medico occupato";
+        else if (roomConflict) conflictReason = "Stanza occupata";
+        else if (ecographConflict) conflictReason = "Ecografo riservato da altra visita specialistica";
 
         slots.push({
           date,
@@ -202,7 +254,11 @@ export async function GET(req: Request) {
           roomName: slotRoom?.name ?? "Stanza da assegnare",
           roomSlug: slotRoom?.slug ?? null,
           isAvailable,
-          conflictReason: doctorConflict ? "Medico occupato" : roomConflict ? "Stanza occupata" : undefined,
+          conflictReason,
+          visitDurationMinutes: visitDuration,
+          cleaningBufferMinutes: cleaningBuffer,
+          slotDurationMinutes: step,
+          requiresEcograph: isEcographDoctor,
         });
       }
     }
@@ -227,7 +283,7 @@ export async function POST(req: Request) {
       patientId: directPatientId,
       date,
       time,
-      durationMinutes = 30,
+      durationMinutes = 60, // 30 min visita + 30 min pulizia/sanificazione (blocco slot 60m)
       patientName,
       patientPhone,
       patientEmail,
@@ -248,27 +304,26 @@ export async function POST(req: Request) {
       validServiceId = serviceId;
     }
 
+    // Informazioni medico per stanza e vincolo ecografo
+    const { data: doctor } = await supabase
+      .from("doctors")
+      .select("id, full_name, specialty_slug")
+      .eq("id", doctorId)
+      .maybeSingle();
+
     // Sala: se non indicata, assegna quella predefinita per la specialità del medico
     let resolvedRoomId: string | null = roomId || null;
-    if (!resolvedRoomId) {
-      const { data: doctor } = await supabase
-        .from("doctors")
-        .select("id, full_name, specialty_slug")
-        .eq("id", doctorId)
-        .maybeSingle();
-
-      if (doctor) {
-        const rooms = await loadRooms(supabase);
-        const slotRoom = resolveRoomForDoctor(
-          {
-            fullName: doctor.full_name as string | null,
-            specialtySlug: doctor.specialty_slug as string | null,
-            roomId: null,
-          },
-          rooms
-        );
-        resolvedRoomId = slotRoom?.id ?? null;
-      }
+    if (!resolvedRoomId && doctor) {
+      const rooms = await loadRooms(supabase);
+      const slotRoom = resolveRoomForDoctor(
+        {
+          fullName: doctor.full_name as string | null,
+          specialtySlug: doctor.specialty_slug as string | null,
+          roomId: null,
+        },
+        rooms
+      );
+      resolvedRoomId = slotRoom?.id ?? null;
     }
 
     const startsAt = new Date(`${date}T${time}:00Z`).toISOString();
@@ -299,6 +354,45 @@ export async function POST(req: Request) {
 
       if (roomConflicts && roomConflicts.length > 0) {
         return NextResponse.json({ error: "La stanza è già occupata da un altro specialista in questo orario." }, { status: 409 });
+      }
+    }
+
+    // 3. Conflict Check: vincolo ecografo (risorsa unica del centro)
+    const isEcographDoctor = doctor
+      ? requiresEcograph({ fullName: doctor.full_name, specialtySlug: doctor.specialty_slug })
+      : false;
+
+    if (isEcographDoctor) {
+      const { data: allActiveAppts } = await supabase
+        .from("appointments")
+        .select(`
+          id,
+          doctor_id,
+          starts_at,
+          ends_at,
+          status,
+          doctors (
+            id,
+            full_name,
+            specialty_slug
+          )
+        `)
+        .neq("status", "annullato")
+        .lt("starts_at", endsAt)
+        .gt("ends_at", startsAt);
+
+      const hasEcographConflict = (allActiveAppts || []).some((a) => {
+        const d = firstEmbedded<{ full_name: string | null; specialty_slug: string | null }>(
+          a.doctors as unknown as { full_name: string | null; specialty_slug: string | null } | null
+        );
+        return d ? requiresEcograph({ fullName: d.full_name, specialtySlug: d.specialty_slug }) : false;
+      });
+
+      if (hasEcographConflict) {
+        return NextResponse.json(
+          { error: "L'ecografo è già riservato per un'altra visita specialistica in questo orario." },
+          { status: 409 }
+        );
       }
     }
 

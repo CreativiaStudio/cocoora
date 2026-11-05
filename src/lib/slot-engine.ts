@@ -11,6 +11,10 @@ export type Slot = {
   roomSlug: string | null;
   isAvailable: boolean;
   conflictReason?: string;
+  visitDurationMinutes?: number;
+  cleaningBufferMinutes?: number;
+  slotDurationMinutes?: number;
+  requiresEcograph?: boolean;
 };
 
 export type Room = {
@@ -29,17 +33,18 @@ export type ClinicRoomRow = {
   floor: string | null;
 };
 
-/** Matrice ufficiale delle 5 sale del centro (ordine di esposizione). */
+/** Matrice ufficiale delle sale del centro (ordine di esposizione). */
 export const OFFICIAL_ROOMS: ReadonlyArray<{
   slug: string;
   name: string;
   specialty: string;
 }> = [
-  { slug: "studio-1", name: "Studio 1", specialty: "Odontoiatria" },
-  { slug: "studio-2", name: "Studio 2", specialty: "Chirurgia Ambulatoriale" },
-  { slug: "studio-3", name: "Studio 3", specialty: "Medicina Estetica e Laser" },
-  { slug: "studio-4", name: "Studio 4", specialty: "Oculistica ed Ecografia" },
+  { slug: "studio-1", name: "Studio 1", specialty: "Odontoiatria & Ortodonzia" },
+  { slug: "studio-2", name: "Studio 2", specialty: "Carbossiterapia & Polifunzionale" },
+  { slug: "studio-3", name: "Studio 3", specialty: "Medicina Estetica & Chirurgia Plastica" },
+  { slug: "studio-4", name: "Studio 4", specialty: "Oculistica, Psicologia & Diagnostica Ecografica" },
   { slug: "sala-opt", name: "Sala OPT", specialty: "Radiologia Digitale" },
+  { slug: "sala-filtro", name: "Sala Filtro", specialty: "Nutrizione & Consulenze" },
 ];
 
 function normalizeText(value: string): string {
@@ -47,6 +52,17 @@ function normalizeText(value: string): string {
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "");
+}
+
+/** Medici e prestazioni che necessitano della risorsa unica Ecografo */
+export function requiresEcograph(input: {
+  fullName?: string | null;
+  specialtySlug?: string | null;
+}): boolean {
+  const text = normalizeText(`${input.fullName ?? ""} ${input.specialtySlug ?? ""}`);
+  return /(buono|stillo|poppiti|pontillo|ecograf|ecocardio|ecografia|senolog|ginecolog|cardiolog)/.test(
+    text
+  );
 }
 
 function getWeekdayNumber(dateStr: string): number {
@@ -72,7 +88,7 @@ export function firstEmbedded<T>(value: T | T[] | null | undefined): T | null {
 }
 
 /**
- * Unisce le sale presenti su clinic_rooms con la matrice ufficiale delle 5 stanze:
+ * Unisce le sale presenti su clinic_rooms con la matrice ufficiale delle sale:
  * le stanze ufficiali sono sempre esposte (anche se non ancora inserite a DB) e
  * le eventuali sale extra già censite vengono accodate.
  */
@@ -114,9 +130,7 @@ export function mergeClinicRooms(rows: ClinicRoomRow[]): Room[] {
 }
 
 /**
- * Stanza predefinita in base alla specialità del medico.
- * Dr. Toro / ecografia / oculistica → Studio 4, Odontoiatria → Studio 1,
- * Chirurgia → Studio 2, Laser/Estetica → Studio 3.
+ * Stanza predefinita in base alla specialità e all'assegnazione ufficiale di Simone Papagno.
  */
 export function getDefaultRoomSlugForDoctor(input: {
   fullName?: string | null;
@@ -124,11 +138,12 @@ export function getDefaultRoomSlugForDoctor(input: {
 }): string {
   const text = normalizeText(`${input.fullName ?? ""} ${input.specialtySlug ?? ""}`);
 
-  if (text.includes("toro")) return "studio-4";
-  if (/(odonto|dental|dentist|ortodon|igien)/.test(text)) return "studio-1";
-  if (/(chirurg)/.test(text)) return "studio-2";
-  if (/(ecograf|oculist|radiolog|senolog)/.test(text)) return "studio-4";
-  if (/(laser|estetic|dermat|criolipo|carbossi)/.test(text)) return "studio-3";
+  if (text.includes("scorzelli") || text.includes("carbossi") || text.includes("spera")) return "studio-2";
+  if (text.includes("d'andrea") || text.includes("dandrea") || text.includes("errico") || text.includes("riccardi")) return "studio-3";
+  if (text.includes("russo") || text.includes("d'alessio") || text.includes("dalessio") || /(odonto|dental|dentist|ortodon|igien)/.test(text)) return "studio-1";
+  if (text.includes("polverino") || text.includes("ceglie") || /(nutrizion)/.test(text)) return "sala-filtro";
+  if (/(toro|totaro|stillo|buono|poppiti|pontillo|iaccarino|ecograf|oculist|radiolog|senolog|cardio|gineco|psico|pediatr)/.test(text)) return "studio-4";
+  if (/(laser|estetic|dermat|criolipo|chirurg)/.test(text)) return "studio-3";
 
   return "studio-1";
 }
@@ -253,25 +268,54 @@ export async function computeAvailableSlotsWithRooms(
 
   const { data: existingAppts } = await supabase
     .from("appointments")
-    .select("id, doctor_id, room_id, starts_at, ends_at, status")
+    .select(`
+      id,
+      doctor_id,
+      room_id,
+      starts_at,
+      ends_at,
+      status,
+      doctors (
+        id,
+        full_name,
+        specialty_slug
+      )
+    `)
     .gte("starts_at", startOfDay)
     .lte("starts_at", endOfDay);
 
   const bookedList = (existingAppts || [])
     .filter((app) => !NOT_BLOCKING_STATUSES.has(String(app.status ?? "").toLowerCase()))
-    .map((app) => ({
-      doctorId: app.doctor_id as string | null,
-      roomId: app.room_id as string | null,
-      startMins: new Date(app.starts_at).getUTCHours() * 60 + new Date(app.starts_at).getUTCMinutes(),
-      endMins: new Date(app.ends_at).getUTCHours() * 60 + new Date(app.ends_at).getUTCMinutes(),
-    }));
+    .map((app) => {
+      const doc = firstEmbedded<AvailabilityDoctor>(
+        app.doctors as unknown as AvailabilityDoctor | AvailabilityDoctor[] | null
+      );
+      return {
+        doctorId: app.doctor_id as string | null,
+        roomId: app.room_id as string | null,
+        requiresEcograph: doc
+          ? requiresEcograph({ fullName: doc.full_name, specialtySlug: doc.specialty_slug })
+          : false,
+        startMins:
+          new Date(app.starts_at).getUTCHours() * 60 +
+          new Date(app.starts_at).getUTCMinutes(),
+        endMins:
+          new Date(app.ends_at).getUTCHours() * 60 +
+          new Date(app.ends_at).getUTCMinutes(),
+      };
+    });
 
-  // 3. Generazione slot
+  // 3. Generazione slot (30 min visita + 30 min pulizia/sanificazione = step 60 min)
   const slots: Slot[] = [];
 
   for (const avail of (availabilities as unknown as AvailabilityRow[]) ?? []) {
     const doctor = firstEmbedded<AvailabilityDoctor>(avail.doctors);
     if (!doctor || !doctor.is_active) continue;
+
+    const isEcographDoctor = requiresEcograph({
+      fullName: doctor.full_name,
+      specialtySlug: doctor.specialty_slug,
+    });
 
     const slotRoom = resolveRoomForDoctor(
       {
@@ -288,7 +332,10 @@ export async function computeAvailableSlotsWithRooms(
 
     const startMins = timeToMinutes(avail.start_time);
     const endMins = timeToMinutes(avail.end_time);
-    const step = avail.slot_minutes || 30;
+    // Passo predefinito: 60 minuti (30m visita clinica + 30m pulizia e compensazione ritardi)
+    const step = avail.slot_minutes || 60;
+    const visitDuration = 30;
+    const cleaningBuffer = 30;
 
     for (let m = startMins; m + step <= endMins; m += step) {
       const slotEnd = m + step;
@@ -304,9 +351,16 @@ export async function computeAvailableSlotsWithRooms(
           (b) => b.roomId === slotRoom.id && Math.max(m, b.startMins) < Math.min(slotEnd, b.endMins)
         );
 
+      const hasEcographConflict =
+        isEcographDoctor &&
+        bookedList.some(
+          (b) => b.requiresEcograph && Math.max(m, b.startMins) < Math.min(slotEnd, b.endMins)
+        );
+
       let conflictReason: string | undefined;
       if (hasDoctorConflict) conflictReason = "Medico occupato";
       else if (hasRoomConflict) conflictReason = "Stanza occupata";
+      else if (hasEcographConflict) conflictReason = "Ecografo occupato da altra visita specialistica";
 
       slots.push({
         date,
@@ -317,8 +371,12 @@ export async function computeAvailableSlotsWithRooms(
         roomId: slotRoom?.id ?? null,
         roomName: slotRoom?.name ?? "Stanza non assegnata",
         roomSlug: slotRoom?.slug ?? null,
-        isAvailable: !hasDoctorConflict && !hasRoomConflict,
+        isAvailable: !hasDoctorConflict && !hasRoomConflict && !hasEcographConflict,
         conflictReason,
+        visitDurationMinutes: visitDuration,
+        cleaningBufferMinutes: cleaningBuffer,
+        slotDurationMinutes: step,
+        requiresEcograph: isEcographDoctor,
       });
     }
   }
