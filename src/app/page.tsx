@@ -347,11 +347,27 @@ export default function HomePage() {
       <section id="contatti" className="bg-canvas px-2.5 py-6 sm:px-4 sm:py-10">
         <Reveal>
           <div className="relative isolate overflow-hidden rounded-[2rem] bg-[#002231] px-6 py-20 text-center text-white shadow-[0_36px_90px_-36px_rgba(0,34,49,0.65)] sm:rounded-[2.5rem] sm:py-24">
+            {/* Foto reale studio (FOTO-4.jpg) come sfondo */}
+            <picture className="pointer-events-none absolute inset-0 -z-30 h-full w-full">
+              <source srcSet="/images/centro/foto-4.webp" type="image/webp" />
+              <img
+                src="/images/centro/foto-4.jpg"
+                alt="Studio e accoglienza Cocoora Centro Medico"
+                className="h-full w-full object-cover object-center scale-105 transition-transform duration-1000"
+              />
+            </picture>
+
+            {/* Overlay a gradiente istituzionale per perfetta leggibilità dei testi e contrasto */}
             <div
               aria-hidden
-              className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[520px] w-[820px] -translate-x-1/2 -translate-y-1/3 rounded-full bg-[radial-gradient(closest-side,rgba(128,161,178,0.3),transparent)]"
+              className="pointer-events-none absolute inset-0 -z-20 bg-gradient-to-b from-[#002231]/82 via-[#002231]/75 to-[#002231]/88 backdrop-blur-[0.5px]"
             />
-            <div aria-hidden className="noise pointer-events-none absolute inset-0 -z-10 opacity-40" />
+
+            <div
+              aria-hidden
+              className="pointer-events-none absolute left-1/2 top-0 -z-10 h-[520px] w-[820px] -translate-x-1/2 -translate-y-1/3 rounded-full bg-[radial-gradient(closest-side,rgba(128,161,178,0.22),transparent)]"
+            />
+            <div aria-hidden className="noise pointer-events-none absolute inset-0 -z-10 opacity-30" />
             <div className="mx-auto max-w-2xl">
               <Badge className="bg-white/15 text-white">
                 <ShieldCheck className="h-3.5 w-3.5" /> Accoglienza dedicata · Napoli
