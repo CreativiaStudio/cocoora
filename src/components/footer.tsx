@@ -21,18 +21,17 @@ const areeMediche = [
 
 const percorsiClub = [
   { label: "I Nostri Medici", href: "/medici" },
+  { label: "Area Paziente & Calendario", href: "/area-paziente" },
   { label: "Cocoora Club Memberships", href: "/club" },
   { label: "Cocoora Precision (DNA & Microbiota)", href: "/precision" },
-  { label: "Area Paziente & Referti", href: "/area-paziente" },
-  { label: "La Nostra Filosofia", href: "/chi-siamo" },
+  { label: "La Filosofia Cocoora", href: "/chi-siamo" },
 ];
 
 export function Footer() {
   const { openBooking } = useShop();
-
   return (
     <footer className="relative overflow-hidden bg-dark-navy text-teal-100">
-      {/* Mesh di profondità e luce scura */}
+      {/* Ambient depth: mesh di luci scure */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
@@ -40,116 +39,104 @@ export function Footer() {
             "radial-gradient(60% 50% at 12% 0%, rgba(128,161,178,0.16) 0%, transparent 70%), radial-gradient(50% 45% at 92% 18%, rgba(28,74,92,0.55) 0%, transparent 70%), radial-gradient(70% 55% at 50% 115%, rgba(28,74,92,0.65) 0%, transparent 70%), linear-gradient(180deg, #03354b 0%, #022a3d 100%)",
         }}
       />
-      <div className="noise pointer-events-none absolute inset-0 opacity-70" />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-slate-accent/50 to-transparent" />
+      <div className="noise pointer-events-none absolute inset-0 opacity-80" />
+      <div className="pointer-events-none absolute -top-40 left-1/2 h-72 w-[42rem] -translate-x-1/2 rounded-full bg-slate-accent/10 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-40 -left-24 h-80 w-80 rounded-full bg-[#1c4a5c]/50 blur-3xl" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-slate-accent/60 to-transparent" />
 
-      <Container className="relative py-10 sm:py-12 lg:py-14">
-        {/* 1 · Fascia Orizzontale Moderna: Logo + Badge Sanitario + Canali Rapidi */}
-        <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex flex-wrap items-center gap-3.5 sm:gap-4">
-            <Logo variant="white" className="h-8 sm:h-9 w-auto max-w-[170px] object-contain" />
-            <span className="hidden h-4 w-px bg-white/20 sm:block" />
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.05] px-3 py-1 text-[11px] font-medium tracking-wide text-white/90 backdrop-blur-md">
-              <ShieldCheck className="h-3.5 w-3.5 text-slate-accent" />
-              Centro Medico Autorizzato · Napoli
-            </span>
-          </div>
+      <Container className="relative py-14 lg:py-16">
+        {/* Badge ATS centrato con separatori raffinati */}
+        <div className="flex items-center gap-5">
+          <span className="hidden h-px flex-1 bg-gradient-to-r from-transparent to-white/20 sm:block" />
+          <span
+            className="mx-auto inline-flex max-w-full items-center gap-2.5 rounded-full border border-white/20 bg-white/[0.06] px-5 py-2 text-center text-[11px] font-semibold uppercase leading-relaxed tracking-[0.16em] text-white/90 backdrop-blur-sm sm:mx-0 sm:text-xs"
+            style={{
+              boxShadow:
+                "0 10px 30px -14px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.12)",
+            }}
+          >
+            <ShieldCheck className="h-4 w-4 shrink-0 text-slate-accent" />
+            Centro Medico Autorizzato — Direzione Sanitaria Specialistica
+          </span>
+          <span className="hidden h-px flex-1 bg-gradient-to-l from-transparent to-white/20 sm:block" />
+        </div>
 
-          <div className="flex items-center gap-2.5 sm:gap-3">
-            <a
-              href={`tel:${SITE.phone.replace(/\s/g, "")}`}
-              className="inline-flex items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.04] px-3.5 py-1.5 text-xs font-medium text-teal-100 transition-all hover:border-white/30 hover:bg-white/10"
-            >
-              <Phone className="h-3.5 w-3.5 text-slate-accent" />
-              <span>{SITE.phone}</span>
-            </a>
-
+        <div className="mt-12 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-12">
+          {/* Brand */}
+          <div>
+            <Logo variant="white" className="h-9 sm:h-10 w-auto max-w-[75%] object-contain" />
+            <p className="mt-4 max-w-xs font-serif text-lg italic leading-snug text-white">
+              &ldquo;{SITE.claim}&rdquo;
+            </p>
+            <span className="mt-3 block h-px w-8 bg-slate-accent/70" />
+            <p className="mt-3 max-w-xs text-xs sm:text-[13px] leading-relaxed text-teal-200/75">
+              Un unico hub multidisciplinare per la tua salute: azzeriamo attese,
+              burocrazia e complessità per ripristinare il vero rapporto
+              fiduciario tra medico e paziente.
+            </p>
             <a
               href={SITE.instagram}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram Cocoora"
-              className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/12 bg-white/[0.04] text-white transition-all hover:border-white/30 hover:bg-white/10"
+              className="mt-5 inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/[0.04] text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-white/40 hover:bg-white/10 hover:shadow-[0_10px_24px_-10px_rgba(128,161,178,0.6)]"
             >
-              <Instagram className="h-3.5 w-3.5" />
+              <Instagram className="h-4 w-4" />
             </a>
-
-            <button
-              type="button"
-              onClick={() => openBooking()}
-              className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-1.5 text-xs font-semibold text-dark-navy shadow-sm transition-all hover:bg-teal-50 hover:-translate-y-0.5"
-            >
-              Prenota Visita
-              <ArrowRight className="h-3.5 w-3.5" />
-            </button>
-          </div>
-        </div>
-
-        {/* Separatore leggero */}
-        <div className="my-7 sm:my-8 h-px w-full bg-gradient-to-r from-transparent via-white/12 to-transparent" />
-
-        {/* 2 · Corpo di Navigazione Compatto a 3 Colonne */}
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10">
-          {/* Colonna 1: Aree Mediche */}
-          <div>
-            <FooterHeading>Aree Mediche</FooterHeading>
-            <ul className="mt-4 space-y-2.5">
-              {areeMediche.map((l) => (
-                <li key={l.label}>
-                  <Link
-                    href={l.href}
-                    className="text-xs sm:text-[13px] leading-relaxed text-teal-100/80 transition-colors hover:text-white"
-                  >
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
           </div>
 
-          {/* Colonna 2: Il Tuo Percorso */}
-          <div>
-            <FooterHeading>Il Tuo Percorso</FooterHeading>
-            <ul className="mt-4 space-y-2.5">
-              {percorsiClub.map((l) => (
-                <li key={l.label}>
-                  <Link
-                    href={l.href}
-                    className="text-xs sm:text-[13px] leading-relaxed text-teal-100/80 transition-colors hover:text-white"
-                  >
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <FooterColumn title="Aree Mediche" links={areeMediche} />
+          <FooterColumn title="Il Tuo Percorso" links={percorsiClub} />
 
-          {/* Colonna 3: Sede & Orari Sintetici */}
+          {/* Contatti */}
           <div>
-            <FooterHeading>Sede &amp; Orari</FooterHeading>
-            <ul className="mt-4 space-y-2.5 text-xs sm:text-[13px] text-teal-100/80">
+            <FooterHeading>Contatti &amp; Prenotazioni</FooterHeading>
+            <ul className="mt-5 space-y-3 text-xs sm:text-[13px] leading-relaxed text-teal-100/85">
               <li className="flex items-start gap-2.5">
                 <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-slate-accent" />
                 <span>{SITE.fullAddress}</span>
               </li>
-              <li className="flex items-center gap-2.5">
-                <Clock className="h-3.5 w-3.5 shrink-0 text-slate-accent" />
-                <span>Lun–Ven 8:00–20:00 (Continuato) · Sab 9:00–14:00</span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Mail className="h-3.5 w-3.5 shrink-0 text-slate-accent" />
-                <a href={`mailto:${SITE.email}`} className="hover:text-white transition-colors">
-                  {SITE.email}
+              <li>
+                <a
+                  href={`tel:${SITE.phone.replace(/\s/g, "")}`}
+                  className="flex items-center gap-2.5 transition-colors hover:text-white"
+                >
+                  <Phone className="h-3.5 w-3.5 shrink-0 text-slate-accent" />
+                  {SITE.phone}
                 </a>
               </li>
+              <li>
+                <a
+                  href={`mailto:${SITE.email}`}
+                  className="flex items-center gap-2.5 transition-colors hover:text-white"
+                >
+                  <Mail className="h-3.5 w-3.5 shrink-0 text-slate-accent" />
+                  <span>{SITE.email}</span>
+                </a>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <Clock className="mt-0.5 h-3.5 w-3.5 shrink-0 text-slate-accent" />
+                <span>
+                  Lun–Ven · 8:00–20:00 <span className="text-slate-accent text-xs block sm:inline">(Orario continuato)</span>
+                  <br />
+                  Sab · 9:00–14:00
+                </span>
+              </li>
             </ul>
+            <button
+              type="button"
+              onClick={() => openBooking()}
+              className="group mt-5 inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-2.5 text-xs font-semibold text-dark-navy shadow-[0_12px_30px_-12px_rgba(0,0,0,0.55)] ring-1 ring-white/60 transition-all duration-300 hover:-translate-y-0.5 hover:bg-teal-50 hover:shadow-[0_18px_36px_-12px_rgba(128,161,178,0.55)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-accent"
+            >
+              Prenota una visita
+              <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
+            </button>
           </div>
         </div>
 
-        {/* 3 · Bottom Bar Legale & Direzione Sanitaria */}
-        <div className="mt-8 sm:mt-10 flex flex-col gap-3 border-t border-white/10 pt-6 text-[11px] text-teal-200/55 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} Cocoora Centro Medico · Dir. Sanitaria Dott.ssa Elisa Russo</p>
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5">
+        <div className="mt-12 flex flex-col gap-3 border-t border-white/10 pt-6 text-xs text-teal-200/60 md:flex-row md:items-center md:justify-between">
+          <p>© {new Date().getFullYear()} Cocoora Centro Medico. Tutti i diritti riservati.</p>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
             {legalLinks.map((l) => (
               <Link key={l.label} href={l.href} className="transition-colors hover:text-white">
                 {l.label}
@@ -157,7 +144,7 @@ export function Footer() {
             ))}
             <Link
               href="/admin"
-              className="text-teal-200/35 transition-colors hover:text-white"
+              className="text-teal-200/40 transition-colors hover:text-white"
             >
               Area Agenzia
             </Link>
@@ -170,8 +157,37 @@ export function Footer() {
 
 function FooterHeading({ children }: { children: React.ReactNode }) {
   return (
-    <h4 className="font-sans text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-accent">
-      {children}
-    </h4>
+    <div>
+      <h4 className="font-sans text-xs font-semibold uppercase tracking-[0.2em] text-slate-accent">
+        {children}
+      </h4>
+      <span className="mt-2.5 block h-px w-8 bg-gradient-to-r from-slate-accent/80 to-transparent" />
+    </div>
+  );
+}
+
+function FooterColumn({
+  title,
+  links,
+}: {
+  title: string;
+  links: { label: string; href: string }[];
+}) {
+  return (
+    <div>
+      <FooterHeading>{title}</FooterHeading>
+      <ul className="mt-5 space-y-3">
+        {links.map((l) => (
+          <li key={l.label}>
+            <Link
+              href={l.href}
+              className="text-xs sm:text-[13px] leading-relaxed text-teal-100/85 transition-colors hover:text-white"
+            >
+              {l.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
