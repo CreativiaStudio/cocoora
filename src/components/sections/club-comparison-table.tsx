@@ -72,12 +72,13 @@ export function ClubComparisonTable({
                           : "text-teal-900"
                       )}
                     >
-                      {isActive ? (
-                        <span className="inline-flex items-center gap-1 mb-1.5 rounded-full bg-emerald-500 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-xs">
-                          ● Percorso Attivo
-                        </span>
-                      ) : t.badge ? (
-                        <span className="inline-block mb-1.5 rounded-full bg-teal-800 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-xs">
+                      {t.badge ? (
+                        <span
+                          className={cn(
+                            "inline-block mb-1.5 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider shadow-xs",
+                            isActive ? "bg-white/20 text-white" : "bg-teal-800 text-white"
+                          )}
+                        >
                           {t.badge}
                         </span>
                       ) : null}

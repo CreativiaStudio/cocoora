@@ -20,6 +20,7 @@ import { DiscoverHorizontalCard, PaidTierCard } from "@/components/sections/club
 import { ReelsSection } from "@/components/sections/reels";
 import { HeroCinema } from "@/components/motion/hero-cinema";
 import { AreasShowcase } from "@/components/sections/area-showcase";
+import { StudioWalkIn } from "@/components/sections/studio-walk-in";
 import { Reveal, RevealItem, RevealStagger } from "@/components/motion/reveal";
 
 
@@ -229,6 +230,8 @@ export default function HomePage() {
         closing={closing}
       />
 
+      {/* 3 · Walk-in Studio Experience (Full Width Scroll Dolly Zoom) */}
+      <StudioWalkIn />
 
       {/* 4 · Aree cliniche */}
       <AreasShowcase />
