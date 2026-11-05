@@ -56,6 +56,11 @@ export function CheckoutDrawer() {
 
   const { tier, gender } = checkoutItem;
   const isSuMisura = tier.price === 0 && tier.priceLabel.toLowerCase().includes("misura");
+  const activePrice = tier.genderToggle
+    ? gender === "donna"
+      ? (tier.priceDonna ?? tier.price)
+      : (tier.priceUomo ?? tier.price)
+    : tier.price;
 
   const submitLead = (e: FormEvent) => {
     e.preventDefault();
@@ -66,9 +71,9 @@ export function CheckoutDrawer() {
     setError("");
     persistLead(lead);
     trackLead({ email: lead.email, name: `${lead.nome} ${lead.cognome}`.trim() });
-    trackAddToCart({ item_id: tier.id, item_name: tier.name, price: tier.price });
+    trackAddToCart({ item_id: tier.id, item_name: tier.name, price: activePrice });
     trackBeginCheckout([
-      { item_id: tier.id, item_name: tier.name, price: tier.price },
+      { item_id: tier.id, item_name: tier.name, price: activePrice },
     ]);
     setStep("payment");
   };
@@ -111,8 +116,8 @@ export function CheckoutDrawer() {
     const orderId = `ccr_${Date.now().toString(36)}`;
     trackPurchase({
       transaction_id: orderId,
-      value: tier.price,
-      items: [{ item_id: tier.id, item_name: tier.name, price: tier.price }],
+      value: activePrice,
+      items: [{ item_id: tier.id, item_name: tier.name, price: activePrice }],
     });
     setStep("success");
   };
@@ -141,7 +146,7 @@ export function CheckoutDrawer() {
               {tier.name}
             </h3>
             <p className="mt-1 text-sm text-charcoal/70">
-              {tier.priceLabel}
+              {tier.genderToggle ? `${formatPrice(activePrice)} / anno` : tier.priceLabel}
               {gender ? ` · ${gender === "uomo" ? "Uomo" : "Donna"}` : ""}
             </p>
           </div>
@@ -180,21 +185,21 @@ export function CheckoutDrawer() {
                   <div>
                     <p className="text-[11px] font-semibold uppercase tracking-wider text-teal-800">Totale Quota</p>
                     <p className="font-serif text-3xl font-bold text-teal-950">
-                      {formatPrice(tier.price)}
+                      {formatPrice(activePrice)}
                     </p>
                   </div>
-                  {tier.price > 0 && (
+                  {activePrice > 0 && (
                     <div className="text-right">
                       <span className="inline-block rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 border border-emerald-200">
                         Tasso Zero
                       </span>
                       <p className="text-xs text-charcoal/80 mt-1">
-                        o <strong>3 rate da {formatPrice(Math.round(tier.price / 3))}</strong>
+                        o <strong>3 rate da {formatPrice(Math.round(activePrice / 3))}</strong>
                       </p>
                     </div>
                   )}
                 </div>
-                {tier.price > 0 && (
+                {activePrice > 0 && (
                   <div className="mt-3 pt-2.5 border-t border-teal-200/50 flex items-center justify-between text-[11px] text-teal-900 font-medium">
                     <span className="flex items-center gap-1">
                       <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" /> Transazione Protetta SSL 256-bit

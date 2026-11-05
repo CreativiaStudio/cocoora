@@ -60,24 +60,23 @@ export const CLUB_TIER_DETAILS: ClubTierDetail[] = [
     installmentProviders: ["Klarna", "Scalapay", "PayPal"],
     commonExams: [
       { label: "Tutte le prestazioni incluse nel percorso Care Plus", value: 0 },
-      { label: "Check-up laboratorio ematochimico Completo Uomo / Donna", value: 0 },
       { label: "Visita cardiologica specialistica + ecocardiogramma Color Doppler", value: 0 },
       { label: "Visita oculistica specialistica + skin check-up", value: 0 },
-      { label: "Igiene orale professionale in sede + OPT digitale", value: 0 },
-      { label: "Visita nutrizionale + 1° e 2° controllo di monitoraggio", value: 0 },
-      { label: "Visita di medicina estetica viso/corpo", value: 0 },
-      { label: "Concierge sanitario dedicato e priorità assoluta", value: 0 },
-      { label: "Booklet personale «Il tuo Percorso di Salute»", value: 0 },
+      { label: "2° controllo nutrizionale di monitoraggio", value: 0 },
+      { label: "Booklet personale «Cocoora — Il tuo Percorso di Salute»", value: 0 },
       { label: "Sconto Club 15% su tutte le prestazioni extra non incluse", value: 0 },
     ],
     genderExams: {
-      uomo: [],
+      uomo: [
+        { label: "Check-up laboratorio ematochimico Completo Uomo", value: 0 },
+      ],
       donna: [
-        { label: "Visita senologica specialistica + ecografia mammaria bilaterale", value: 0 },
+        { label: "Check-up laboratorio ematochimico Completo Donna", value: 0 },
+        { label: "Visita senologica specialistica + ecografia mammaria bilaterale (l'eventuale mammografia non si effettua in sede ed è prenotabile presso centro convenzionato)", value: 0 },
       ],
     },
     doctorSlugs: EXPERIENCE_DOCTORS,
-    perks: ["Diagnostica per immagini inclusa", "Concierge sanitario dedicato", "Accesso prioritario assoluto"],
+    perks: ["Diagnostica per immagini inclusa", "Percorsi Uomo / Donna dedicati", "Accesso prioritario assoluto"],
   },
   {
     tierId: "signature",
@@ -85,26 +84,23 @@ export const CLUB_TIER_DETAILS: ClubTierDetail[] = [
     installmentProviders: ["Klarna", "Scalapay", "PayPal"],
     commonExams: [
       { label: "Tutte le prestazioni incluse nel percorso Experience", value: 0 },
-      { label: "Check-up laboratorio Avanzato Uomo/Donna + test FIT (sangue occulto)", value: 0 },
       { label: "Ecografia addome completo ad alta risoluzione", value: 0 },
       { label: "Visita dermatologica specialistica + dermatoscopia (mappatura nei)", value: 0 },
-      { label: "Test genomico DNA 5 + consulenza genetica specialistica", value: 0 },
-      { label: "Visita cardiologica + ecocardiogramma Color Doppler", value: 0 },
-      { label: "Visita oculistica specialistica + skin check-up", value: 0 },
-      { label: "Visita nutrizionale specialistica con doppio follow-up", value: 0 },
-      { label: "Igiene orale professionale + visita odontoiatrica con OPT", value: 0 },
-      { label: "Coordinamento clinico multidisciplinare dedicato dell'équipe", value: 0 },
-      { label: "Booklet personale «Il tuo Percorso di Salute»", value: 0 },
+      { label: "Test genomico Cocoora DNA 5 + consulenza genetica specialistica", value: 0 },
+      { label: "Booklet personale «Cocoora — Il tuo Percorso di Salute»", value: 0 },
       { label: "Sconto Club 20% su tutte le prestazioni extra non incluse", value: 0 },
     ],
     genderExams: {
-      uomo: [],
+      uomo: [
+        { label: "Check-up laboratorio ematochimico Avanzato Uomo + test FIT (sangue occulto)", value: 0 },
+      ],
       donna: [
-        { label: "Visita senologica specialistica + ecografia mammaria bilaterale", value: 0 },
+        { label: "Check-up laboratorio ematochimico Avanzato Donna + test FIT (sangue occulto)", value: 0 },
+        { label: "Visita senologica specialistica + ecografia mammaria bilaterale (l'eventuale mammografia non si effettua in sede ed è prenotabile presso centro convenzionato)", value: 0 },
       ],
     },
     doctorSlugs: EXPERIENCE_DOCTORS,
-    perks: ["Genomica DNA 5 e longevità", "Coordinamento clinico multidisciplinare", "Refertazione prioritaria h24"],
+    perks: ["Genomica DNA 5 e longevità", "Screening avanzato FIT ed ecografia addome", "Refertazione prioritaria h24"],
   },
 ];
 

@@ -38,12 +38,23 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
 
   const detail = getTierDetail(tier.id);
   const activeGender = tier.genderToggle ? gender : undefined;
+  const activePrice = tier.genderToggle
+    ? gender === "donna"
+      ? (tier.priceDonna ?? tier.price)
+      : (tier.priceUomo ?? tier.price)
+    : tier.price;
+
+  const activeDescription =
+    tier.genderToggle && gender === "donna" && tier.descriptionDonna
+      ? tier.descriptionDonna
+      : tier.description;
+
   const { items, totalValue, savings, savingsPercent } = detail
-    ? computeSavings(tier.price, detail, activeGender)
+    ? computeSavings(activePrice, detail, activeGender)
     : { items: [], totalValue: 0, savings: 0, savingsPercent: 0 };
 
   const installmentAmount = detail?.installmentCount
-    ? computeInstallment(tier.price, detail.installmentCount)
+    ? computeInstallment(activePrice, detail.installmentCount)
     : null;
 
   const doctors = (detail?.doctorSlugs ?? [])
@@ -81,7 +92,7 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
                 {displayName}
               </h1>
               <p className="mx-auto mt-6 max-w-xl text-lg leading-relaxed text-charcoal/75 lg:mx-0">
-                {tier.description}
+                {activeDescription}
               </p>
 
               {tier.genderToggle && (
@@ -106,7 +117,7 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
               <div className="mx-auto mt-8 max-w-md rounded-3xl border border-teal-100 bg-white/80 p-6 backdrop-blur-sm lg:mx-0">
                 <div className="flex items-baseline gap-3">
                   <span className="font-serif text-5xl font-semibold text-teal-900">
-                    {tier.free ? "€0" : formatPrice(tier.price)}
+                    {tier.free ? "€0" : formatPrice(activePrice)}
                   </span>
                   {tier.listPrice && (
                     <span className="text-lg text-slate-accent line-through">
@@ -115,11 +126,11 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
                   )}
                   <span className="text-sm text-charcoal/60">{tier.free ? "Free" : "/ anno"}</span>
                 </div>
-                {!tier.free && tier.price > 0 && (
+                {!tier.free && activePrice > 0 && (
                   <div className="mt-3.5 rounded-2xl bg-teal-50/80 p-3.5 border border-teal-100 text-xs">
                     <p className="flex items-center gap-2 font-semibold text-teal-900">
                       <CreditCard className="h-4 w-4 shrink-0 text-teal-700" />
-                      Oppure in 3 rate da {formatPrice(Math.round(tier.price / 3))}/mese a tasso zero
+                      Oppure in 3 rate da {formatPrice(Math.round(activePrice / 3))}/mese a tasso zero
                     </p>
                     <p className="mt-1 text-charcoal/70">
                       Disponibile con <strong>Klarna</strong> e <strong>PayPal</strong> (TAN 0% TAEG 0%). Nessun interesse o spesa aggiuntiva.
@@ -257,7 +268,7 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
                     Con {tier.shortName}
                   </p>
                   <p className="mt-2 font-serif text-3xl font-semibold text-teal-900">
-                    {formatPrice(tier.price)}
+                    {formatPrice(activePrice)}
                   </p>
                 </div>
                 <div className="p-7 text-center">
