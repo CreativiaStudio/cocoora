@@ -1,10 +1,10 @@
 "use client";
 
 import { useRef, useState, type MouseEvent } from "react";
-import { ArrowUpRight, Play, Volume2, VolumeX } from "lucide-react";
+import { Play, Volume2, VolumeX } from "lucide-react";
 import { useCms } from "../providers";
 import type { VideoItem } from "@/lib/types";
-import { Badge, ButtonLink, SectionLabel } from "../ui";
+import { Badge, SectionLabel } from "../ui";
 
 export function ReelsSection() {
   const { videos } = useCms();
@@ -13,18 +13,14 @@ export function ReelsSection() {
   if (visible.length === 0) return null;
 
   return (
-    <section id="trattamenti" className="relative overflow-hidden bg-canvas py-24">
+    <section id="trattamenti" className="relative overflow-hidden border-y border-[#c5dbe3]/60 bg-[#edf4f7] py-20 sm:py-24">
       <div className="mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10">
-        <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
-          <div className="max-w-xl">
+        <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
+          <div className="w-full">
             <SectionLabel>Reels &amp; Trattamenti</SectionLabel>
-            <h2 className="font-serif text-4xl font-semibold leading-tight text-teal-900 sm:text-5xl">
+            <h2 className="font-serif text-3xl font-semibold tracking-[-0.02em] text-[#00344b] sm:text-4xl lg:text-[44px] whitespace-normal sm:whitespace-nowrap">
               Guarda, scopri, prenditi cura di te
             </h2>
-            <p className="mt-4 text-base leading-relaxed text-charcoal/70">
-              Video verticali e anteprime dei nostri percorsi, direttamente dal
-              mondo Cocoora.
-            </p>
           </div>
         </div>
 
@@ -40,8 +36,8 @@ export function ReelsSection() {
 
 function ReelCard({ video }: { video: VideoItem }) {
   return (
-    <article className="group mx-auto flex w-full max-w-[300px] flex-col">
-      <div className="relative aspect-[9/16] w-full overflow-hidden rounded-3xl bg-gradient-to-br from-teal-700 via-dark-navy to-teal-900 shadow-[0_30px_60px_-24px_rgba(3,53,75,0.5)]">
+    <article className="group mx-auto flex w-full max-w-[320px] flex-col">
+      <div className="relative aspect-[9/16] w-full overflow-hidden rounded-3xl bg-gradient-to-br from-teal-700 via-dark-navy to-teal-900 shadow-[0_24px_50px_-16px_rgba(3,53,75,0.4)] transition-all duration-500 group-hover:-translate-y-1 group-hover:shadow-[0_32px_60px_-16px_rgba(3,53,75,0.55)]">
         {video.type === "mp4" && video.url ? (
           <ReelPlayer video={video} />
         ) : video.type === "instagram" && video.url ? (
@@ -57,19 +53,6 @@ function ReelCard({ video }: { video: VideoItem }) {
           </>
         ) : (
           <ReelPoster title={video.title} />
-        )}
-      </div>
-
-      <div className="mt-5 px-1">
-        <h3 className="font-serif text-xl font-semibold text-teal-900">{video.title}</h3>
-        <p className="mt-2 text-sm leading-relaxed text-charcoal/70">{video.caption}</p>
-        {video.ctaLabel && video.ctaLink && (
-          <div className="mt-4">
-            <ButtonLink href={video.ctaLink} variant="secondary" size="sm">
-              {video.ctaLabel}
-              <ArrowUpRight className="h-4 w-4" />
-            </ButtonLink>
-          </div>
         )}
       </div>
     </article>
