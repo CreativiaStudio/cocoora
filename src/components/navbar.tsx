@@ -1152,29 +1152,59 @@ function MegamenuCentro({ onClose }: { onClose: () => void }) {
 function MegamenuPercorsiSalute({ onClose }: { onClose: () => void }) {
   const percorsi = [
     {
+      id: "discover",
       label: "Discover",
-      href: "/club#discover",
-      description: "Il primo passo per entrare nel mondo della prevenzione Cocoora.",
+      href: "/club/discover",
+      price: "€0",
+      pricePeriod: "FREE",
+      badge: "Gratuito",
+      description:
+        "Attivazione profilo sanitario digitale, questionario anamnestico e referti online senza attese.",
     },
     {
+      id: "access",
       label: "Access",
-      href: "/club#access",
-      description: "Accesso strutturato alle prestazioni specialistiche e diagnostiche del centro.",
+      href: "/club/access",
+      price: "€149",
+      pricePeriod: "/ anno",
+      badge: "Essenziale",
+      discount: "Sconto 5%",
+      description:
+        "Prima valutazione dello stato di salute: Check-up Salute (17 voci), Medicina Interna con ECG, OPT e visita estetica.",
     },
     {
-      label: "Care",
-      href: "/club#care",
-      description: "Prevenzione periodica e continuità assistenziale durante tutto l'anno.",
+      id: "care",
+      label: "Care Plus",
+      href: "/club/care",
+      price: "€299",
+      pricePeriod: "/ anno",
+      badge: "Più Scelto",
+      discount: "Sconto 10%",
+      featured: true,
+      description:
+        "Prevenzione e continuità: tutte le prestazioni Access, igiene orale in sede e visita nutrizionale con piano scritto.",
     },
     {
+      id: "experience",
       label: "Experience",
-      href: "/club#experience",
-      description: "Percorso avanzato multidisciplinare per il benessere completo.",
+      href: "/club/experience",
+      price: "da €599",
+      pricePeriod: "/ anno",
+      badge: "Avanzato",
+      discount: "Sconto 15%",
+      description:
+        "Approfondimento con Check-up Completo U/D, cardiologia + ecocardiogramma Color Doppler, oculistica e senologia.",
     },
     {
+      id: "signature",
       label: "Signature",
-      href: "/club#signature",
-      description: "Il percorso esclusivo e onnicomprensivo di longevità e salute dedicata.",
+      href: "/club/signature",
+      price: "da €940",
+      pricePeriod: "/ anno",
+      badge: "Top Longevity",
+      discount: "Sconto 20%",
+      description:
+        "Massima prevenzione e longevità: Check-up Avanzato + FIT, ecografia addome, dermatoscopia e test genomico DNA 5.",
     },
   ];
 
@@ -1202,23 +1232,64 @@ function MegamenuPercorsiSalute({ onClose }: { onClose: () => void }) {
         </Link>
       </div>
 
-      {/* Le 5 tappe del percorso */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4 p-7 lg:p-8">
+      {/* Le 5 card del percorso con prezzi, descrizioni brevi e link alle pagine specifiche */}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3.5 p-6 lg:p-7">
         {percorsi.map((percorso) => (
           <Link
             key={percorso.href}
             href={percorso.href}
             onClick={onClose}
-            className="group rounded-2xl border border-slate-200/80 bg-white p-4 transition-all hover:border-teal-400 hover:shadow-sm"
+            className={cn(
+              "group relative flex flex-col justify-between rounded-2xl border p-4 transition-all duration-200 hover:-translate-y-1 hover:shadow-md",
+              percorso.featured
+                ? "border-teal-500/80 bg-teal-50/30 ring-1 ring-teal-500/20 hover:border-teal-600"
+                : "border-slate-200/85 bg-white hover:border-teal-400"
+            )}
           >
-            <h5 className="font-serif text-sm font-semibold text-dark-navy group-hover:text-teal-800 transition-colors">
-              {percorso.label}
-            </h5>
-            <p className="mt-1.5 text-[11px] leading-relaxed text-charcoal/60">
-              {percorso.description}
-            </p>
-            <span className="mt-3 inline-flex items-center gap-1 text-[11px] font-semibold text-teal-700 group-hover:gap-2 transition-all">
-              Scopri <ArrowRight className="h-3 w-3" />
+            <div>
+              {/* Header card: badge o categoria */}
+              <div className="flex items-center justify-between gap-1 mb-2">
+                <span
+                  className={cn(
+                    "text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full",
+                    percorso.featured
+                      ? "bg-teal-600 text-white"
+                      : "bg-teal-50 text-teal-800 border border-teal-200/80"
+                  )}
+                >
+                  {percorso.badge}
+                </span>
+                {percorso.discount && (
+                  <span className="text-[9px] font-bold text-teal-700 bg-white border border-teal-100 rounded-full px-1.5 py-0.5">
+                    {percorso.discount}
+                  </span>
+                )}
+              </div>
+
+              {/* Titolo */}
+              <h5 className="font-serif text-base font-bold text-dark-navy group-hover:text-teal-800 transition-colors">
+                {percorso.label}
+              </h5>
+
+              {/* Prezzo compatto */}
+              <div className="mt-1 flex items-baseline gap-1">
+                <span className="font-serif text-lg font-bold text-teal-950">
+                  {percorso.price}
+                </span>
+                <span className="text-[10px] font-semibold uppercase tracking-wider text-charcoal/55">
+                  {percorso.pricePeriod}
+                </span>
+              </div>
+
+              {/* Descrizione breve dal brief */}
+              <p className="mt-2 text-[11px] leading-relaxed text-charcoal/70 line-clamp-3">
+                {percorso.description}
+              </p>
+            </div>
+
+            {/* Link footer */}
+            <span className="mt-3.5 inline-flex items-center gap-1 text-[11px] font-semibold text-teal-700 group-hover:gap-1.5 group-hover:text-dark-navy transition-all">
+              Scheda percorso <ArrowRight className="h-3 w-3" />
             </span>
           </Link>
         ))}

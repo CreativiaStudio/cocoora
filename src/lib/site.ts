@@ -260,31 +260,33 @@ export const NAV_NODES: NavNode[] = [
       },
       {
         label: "Discover",
-        href: "/club#discover",
-        description: "Il primo passo per entrare nel mondo della prevenzione Cocoora.",
+        href: "/club/discover",
+        description:
+          "Il percorso gratuito per attivare il profilo sanitario digitale e consultare referti online (Free).",
       },
       {
         label: "Access",
-        href: "/club#access",
+        href: "/club/access",
         description:
-          "Accesso strutturato alle prestazioni specialistiche e diagnostiche del centro.",
+          "Valutazione iniziale essenziale con Check-up Salute 17 voci, Medicina Interna, OPT ed ECG (149 €/anno).",
       },
       {
-        label: "Care",
-        href: "/club#care",
+        label: "Care Plus",
+        href: "/club/care",
         description:
-          "Prevenzione periodica e continuità assistenziale durante tutto l'anno.",
+          "Prevenzione continua con igiene orale, piano nutrizionale scritto e primo controllo (299 €/anno).",
       },
       {
         label: "Experience",
-        href: "/club#experience",
-        description: "Percorso avanzato multidisciplinare per il benessere completo.",
+        href: "/club/experience",
+        description:
+          "Approfondimento completo con Color Doppler, oculistica, skin check-up e senologia (da 599 €/anno).",
       },
       {
         label: "Signature",
-        href: "/club#signature",
+        href: "/club/signature",
         description:
-          "Il percorso esclusivo e onnicomprensivo di longevità e salute dedicata.",
+          "Massima prevenzione e longevità: Check-up Avanzato + FIT, ecografia addome e DNA 5 (da 940 €/anno).",
       },
     ],
   },
