@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowLeft,
@@ -246,8 +247,14 @@ export default function PrenotaPage() {
             <div className="hidden h-6 w-px bg-[#80A1B2]/30 sm:block" />
 
             <div className="flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#03354B] text-sm font-black text-white">
-                C
+              <div className="relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-[#03354B] p-1.5 shadow-xs">
+                <Image
+                  src="/cocoora-symbol.png"
+                  alt="Cocoora"
+                  width={24}
+                  height={24}
+                  className="h-full w-full object-contain"
+                />
               </div>
               <div>
                 <p className="text-sm font-bold leading-tight text-[#03354B]">
