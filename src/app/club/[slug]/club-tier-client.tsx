@@ -15,6 +15,7 @@ import { useShop } from "@/components/providers";
 import { getDoctorBySlug } from "@/lib/doctors";
 import { computeSavings, getTierDetail } from "@/lib/club-details";
 import { redirectToStripeCheckout } from "@/lib/checkout-client";
+import { ClubComparisonTable } from "@/components/sections/club-comparison-table";
 import type { ClubTier } from "@/lib/types";
 import { cn, formatPrice } from "@/lib/utils";
 import { Badge, Button, ButtonLink, Container, SectionLabel } from "@/components/ui";
@@ -229,6 +230,9 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
           </Container>
         </section>
       )}
+
+      {/* ── Tabella Comparativa Ufficiale Percorsi ──────────────────────── */}
+      <ClubComparisonTable activeTierId={tier.id} />
 
       {/* ── Tabella Comparativa: Club vs Singole Prestazioni ────────────── */}
       {SHOW_SAVINGS_CALCULATOR && totalValue > 0 && (
