@@ -8,6 +8,8 @@ import {
   CalendarDays,
   CalendarPlus,
   CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
   Clock,
   DoorOpen,
   Plus,
@@ -167,39 +169,211 @@ const timeFormatter = new Intl.DateTimeFormat("it-IT", {
   timeZone: "Europe/Rome",
 });
 
+function getTodayIso(): string {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function shiftIsoDate(iso: string, deltaDays: number): string {
+  const [y, m, d] = iso.split("-").map(Number);
+  const date = new Date(y, m - 1, d, 12, 0, 0);
+  date.setDate(date.getDate() + deltaDays);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function formatItalianDate(iso: string): string {
+  const [y, m, d] = iso.split("-").map(Number);
+  const date = new Date(y, m - 1, d, 12, 0, 0);
+  return new Intl.DateTimeFormat("it-IT", {
+    weekday: "long",
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  }).format(date);
+}
+
+const POOL_OF_VISITS = [
+  {
+    patient: "Marco Ferri",
+    service: "Visita Odontoiatrica di Controllo",
+    doctor: "Dr. Antonio Sorrentino",
+    roomId: "studio-1",
+    covered: true,
+  },
+  {
+    patient: "Elena Moretti",
+    service: "Ablazione Tartaro & Smacchiamento Airflow",
+    doctor: "Dr.ssa Elisa Russo",
+    roomId: "studio-1",
+    covered: false,
+  },
+  {
+    patient: "Claudio De Angelis",
+    service: "Allineatori Trasparenti Check-up",
+    doctor: "Dr.ssa Elisa Russo",
+    roomId: "studio-1",
+    covered: true,
+  },
+  {
+    patient: "Valentina Romano",
+    service: "Consulenza Nutrizionale & Bioimpedenziometria",
+    doctor: "Dr.ssa Anna Romano",
+    roomId: "studio-2",
+    covered: true,
+  },
+  {
+    patient: "Roberto Galli",
+    service: "Elettrocardiogramma & Visita Cardiologica",
+    doctor: "Dr. Marco Esposito",
+    roomId: "studio-2",
+    covered: false,
+  },
+  {
+    patient: "Chiara Marchetti",
+    service: "Mappatura Nevi in Epiluminescenza",
+    doctor: "Dr.ssa Giulia Ferraro",
+    roomId: "studio-2",
+    covered: true,
+  },
+  {
+    patient: "Stefania Leone",
+    service: "Biorivitalizzazione Viso con Acido Ialuronico",
+    doctor: "Dr.ssa Paola Ruggiero",
+    roomId: "studio-3",
+    covered: true,
+  },
+  {
+    patient: "Matteo Riva",
+    service: "Trattamento Laser Vascolare Couperose",
+    doctor: "Dr.ssa Chiara Del Prete",
+    roomId: "studio-3",
+    covered: false,
+  },
+  {
+    patient: "Simona Rinaldi",
+    service: "Criolipolisi Silhouette Addome",
+    doctor: "Dr.ssa Chiara Del Prete",
+    roomId: "studio-3",
+    covered: false,
+  },
+  {
+    patient: "Carlo Colombo",
+    service: "Visita Oculistica Completa & Fondo Oculare",
+    doctor: "Dr. Luca Costa",
+    roomId: "studio-4",
+    covered: true,
+  },
+  {
+    patient: "Beatrice Villa",
+    service: "Pachimetria Corneale & Tonometria",
+    doctor: "Dr. Luca Costa",
+    roomId: "studio-4",
+    covered: false,
+  },
+  {
+    patient: "Pietro Neri",
+    service: "Ortopantomografia Arcate Dentarie (OPT)",
+    doctor: "Dr. Antonio Sorrentino",
+    roomId: "sala-opt",
+    covered: false,
+  },
+];
+
+function generateSeedAgendaForDate(dateStr: string): AgendaItem[] {
+  const [y, m, d] = dateStr.split("-").map(Number);
+  const dateObj = new Date(y, m - 1, d, 12, 0, 0);
+  const dayOfWeek = dateObj.getDay(); // 0 = Sunday, 6 = Saturday
+
+  if (dayOfWeek === 0) {
+    return [];
+  }
+
+  const seed = (y * 372 + m * 31 + d) % 100;
+  const count = dayOfWeek === 6 ? 4 : 5 + (seed % 4);
+
+  const times = [
+    "08:30",
+    "09:15",
+    "10:00",
+    "10:45",
+    "11:30",
+    "12:15",
+    "15:00",
+    "16:00",
+    "17:00",
+    "18:00",
+  ];
+
+  const items: AgendaItem[] = [];
+  for (let i = 0; i < count; i++) {
+    const poolIndex = (seed + i * 3) % POOL_OF_VISITS.length;
+    const template = POOL_OF_VISITS[poolIndex];
+    const time = times[i % times.length];
+
+    let status: AgendaStatus = "confermato";
+    if (i === 0) status = "in_visita";
+    else if (i === 1) status = "arrivato";
+
+    items.push({
+      id: `gen-${dateStr}-${i}`,
+      time,
+      patient: template.patient,
+      service: template.service,
+      doctor: template.doctor,
+      status,
+      roomId: template.roomId,
+      covered: template.covered,
+    });
+  }
+
+  return items.sort((a, b) => a.time.localeCompare(b.time));
+}
+
 export default function PrenotaPage() {
-  const [open, setOpen] = useState(true);
-  const [agenda, setAgenda] = useState<AgendaItem[]>(INITIAL_AGENDA);
+  const [open, setOpen] = useState(false);
+  const todayIso = useMemo(() => getTodayIso(), []);
+  const [selectedDate, setSelectedDate] = useState<string>(todayIso);
+  const [agendasByDate, setAgendasByDate] = useState<Record<string, AgendaItem[]>>({
+    [todayIso]: INITIAL_AGENDA,
+  });
   const [lastBooked, setLastBooked] = useState<AgendaItem | null>(null);
 
-  const todayLabel = useMemo(
-    () =>
-      new Intl.DateTimeFormat("it-IT", {
-        weekday: "long",
-        day: "2-digit",
-        month: "long",
-        year: "numeric",
-        timeZone: "Europe/Rome",
-      }).format(new Date()),
-    []
+  const isToday = selectedDate === todayIso;
+
+  const selectedDateLabel = useMemo(
+    () => formatItalianDate(selectedDate),
+    [selectedDate]
   );
 
+  const currentAgenda = useMemo(() => {
+    if (agendasByDate[selectedDate]) {
+      return agendasByDate[selectedDate];
+    }
+    return generateSeedAgendaForDate(selectedDate);
+  }, [agendasByDate, selectedDate]);
+
   const counts = useMemo(() => {
-    const inProgress = agenda.filter(
+    const inProgress = currentAgenda.filter(
       (item) => item.status === "in_visita" || item.status === "arrivato"
     ).length;
-    const confirmed = agenda.filter(
+    const confirmed = currentAgenda.filter(
       (item) => item.status === "confermato"
     ).length;
-    const extra = agenda.filter((item) => !item.covered).length;
+    const extra = currentAgenda.filter((item) => !item.covered).length;
 
     return {
-      total: agenda.length,
+      total: currentAgenda.length,
       inProgress,
       confirmed,
       extra,
     };
-  }, [agenda]);
+  }, [currentAgenda]);
 
   function handleBooked(payload: BookingDrawerBookedPayload) {
     const roomId = STUDIOS.some((studio) => studio.id === payload.slot.roomId)
@@ -207,6 +381,9 @@ export default function PrenotaPage() {
       : "studio-2";
 
     const time = timeFormatter.format(new Date(payload.slot.start));
+    const targetDate = payload.slot.start
+      ? new Date(payload.slot.start).toISOString().slice(0, 10)
+      : selectedDate;
 
     const item: AgendaItem = {
       id: payload.appointmentId,
@@ -222,11 +399,17 @@ export default function PrenotaPage() {
       ),
     };
 
-    setAgenda((previous) =>
-      [...previous, item].sort((left, right) =>
+    setAgendasByDate((previous) => {
+      const existing = previous[targetDate] || generateSeedAgendaForDate(targetDate);
+      const updated = [...existing, item].sort((left, right) =>
         left.time.localeCompare(right.time)
-      )
-    );
+      );
+      return {
+        ...previous,
+        [targetDate]: updated,
+      };
+    });
+
     setLastBooked(item);
   }
 
@@ -285,31 +468,87 @@ export default function PrenotaPage() {
       </header>
 
       <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6">
-        {/* INTESTAZIONE PAGINA */}
-        <div className="flex flex-wrap items-end justify-between gap-3">
+        {/* INTESTAZIONE PAGINA CON SELETTORE DATA */}
+        <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-[#80A1B2]/25 bg-white p-4 shadow-xs sm:p-5">
           <div>
-            <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-[#80A1B2]">
-              <Zap className="h-3 w-3" />
-              Flusso a 3 click
-            </p>
+            <div className="flex items-center gap-2">
+              <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-[#80A1B2]">
+                <Zap className="h-3 w-3 text-[#1C4A5C]" />
+                Flusso a 3 click
+              </p>
+              {isToday && (
+                <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-800 border border-emerald-200">
+                  Oggi
+                </span>
+              )}
+            </div>
             <h1 className="mt-1 text-2xl font-bold tracking-tight text-[#03354B] sm:text-3xl">
               Agenda del giorno
             </h1>
-            <p className="mt-1 flex items-center gap-1.5 text-xs capitalize text-[#3D3D3C]/70">
+            <p className="mt-1 flex items-center gap-1.5 text-xs font-semibold capitalize text-[#1C4A5C]">
               <CalendarDays className="h-3.5 w-3.5 text-[#80A1B2]" />
-              {todayLabel}
+              {selectedDateLabel}
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-1.5 text-[10px] text-[#3D3D3C]/65">
-            <span className="inline-flex items-center gap-1 rounded-full border border-[#80A1B2]/35 bg-white px-2 py-1">
-              <Clock className="h-3 w-3 text-[#80A1B2]" />
-              8:00–20:00 · Sab 9:00–14:00
-            </span>
-            <span className="inline-flex items-center gap-1 rounded-full border border-[#80A1B2]/35 bg-white px-2 py-1">
-              <Users className="h-3 w-3 text-[#80A1B2]" />
-              4 studi + OPT
-            </span>
+          {/* CONTROLLI DATA: PREV / OGGI / NEXT / DATE PICKER */}
+          <div className="flex flex-wrap items-center gap-2.5">
+            <div className="flex items-center rounded-xl border border-[#80A1B2]/35 bg-[#F4F8FA] p-1 shadow-2xs">
+              <button
+                type="button"
+                onClick={() => setSelectedDate((d) => shiftIsoDate(d, -1))}
+                title="Giorno precedente"
+                className="flex h-8 w-8 items-center justify-center rounded-lg text-[#1C4A5C] transition hover:bg-white hover:shadow-xs"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setSelectedDate(todayIso)}
+                className={cn(
+                  "px-3 py-1 text-xs font-bold rounded-lg transition",
+                  isToday
+                    ? "bg-[#1C4A5C] text-white shadow-xs"
+                    : "text-[#1C4A5C] hover:bg-white"
+                )}
+              >
+                Oggi
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setSelectedDate((d) => shiftIsoDate(d, 1))}
+                title="Giorno successivo"
+                className="flex h-8 w-8 items-center justify-center rounded-lg text-[#1C4A5C] transition hover:bg-white hover:shadow-xs"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </button>
+            </div>
+
+            {/* Input Data nativo */}
+            <div className="flex items-center gap-1.5 rounded-xl border border-[#80A1B2]/35 bg-white px-2.5 py-1.5 shadow-2xs">
+              <CalendarDays className="h-3.5 w-3.5 text-[#80A1B2]" />
+              <input
+                type="date"
+                value={selectedDate}
+                onChange={(e) => {
+                  if (e.target.value) setSelectedDate(e.target.value);
+                }}
+                className="text-xs font-semibold text-[#03354B] bg-transparent outline-hidden cursor-pointer"
+              />
+            </div>
+
+            <div className="hidden sm:flex flex-wrap items-center gap-1.5 text-[10px] text-[#3D3D3C]/65 ml-1">
+              <span className="inline-flex items-center gap-1 rounded-full border border-[#80A1B2]/35 bg-white px-2 py-1">
+                <Clock className="h-3 w-3 text-[#80A1B2]" />
+                8:00–20:00 · Sab 9:00–14:00
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-full border border-[#80A1B2]/35 bg-white px-2 py-1">
+                <Users className="h-3 w-3 text-[#80A1B2]" />
+                4 studi + OPT
+              </span>
+            </div>
           </div>
         </div>
 
@@ -339,9 +578,9 @@ export default function PrenotaPage() {
         {/* KPI AGENDA */}
         <div className="mt-4 grid grid-cols-2 gap-2.5 lg:grid-cols-4">
           <StatCard
-            label="Appuntamenti oggi"
+            label={isToday ? "Appuntamenti oggi" : "Appuntamenti del giorno"}
             value={counts.total}
-            hint="Agenda aggregata"
+            hint={isToday ? "Agenda aggregata" : `Totale per ${selectedDateLabel}`}
             icon={<CalendarDays className="h-4 w-4" />}
           />
           <StatCard
@@ -372,7 +611,7 @@ export default function PrenotaPage() {
           <div className="mb-3 flex flex-wrap items-center justify-between gap-2 px-1">
             <div>
               <h2 className="text-sm font-bold text-[#03354B]">
-                Agenda del giorno per studio
+                Agenda del giorno per studio · <span className="capitalize text-[#1C4A5C] font-semibold">{selectedDateLabel}</span>
               </h2>
               <p className="text-[10px] text-[#3D3D3C]/60">
                 Incrocio sale, specialisti e prestazioni in tempo reale.
@@ -395,7 +634,7 @@ export default function PrenotaPage() {
 
           <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
             {STUDIOS.map((studio) => {
-              const studioItems = agenda.filter(
+              const studioItems = currentAgenda.filter(
                 (item) => item.roomId === studio.id
               );
 
@@ -553,6 +792,7 @@ export default function PrenotaPage() {
         open={open}
         onClose={() => setOpen(false)}
         onBooked={handleBooked}
+        initialDate={selectedDate}
       />
     </div>
   );
