@@ -5,9 +5,9 @@ import type { ClubExamItem, ClubTierDetail } from "./types";
 // Fonte Unica e Ufficiale: Tabella Comparativa Prestazioni (26/10/2026).
 // ─────────────────────────────────────────────────────────────────────────
 
-const CORE_DOCTORS = ["antonio-sorrentino", "chiara-del-prete", "ferdinando-esposito", "luca-marino"];
-const CARE_DOCTORS = [...CORE_DOCTORS, "ilaria-russo", "marianna-coppola", "federica-caputo"];
-const EXPERIENCE_DOCTORS = [...CARE_DOCTORS, "gennaro-iovine"];
+const CORE_DOCTORS = ["elisa-russo", "alessandra-riccardi", "anna-maria-stillo", "maria-grazia-polverino"];
+const CARE_DOCTORS = [...CORE_DOCTORS, "mario-toro", "martina-pontillo", "raffaella-poppiti"];
+const EXPERIENCE_DOCTORS = [...CARE_DOCTORS, "giuseppe-buono", "francesco-dandrea", "patty-scorzelli"];
 
 export const CLUB_TIER_DETAILS: ClubTierDetail[] = [
   {
