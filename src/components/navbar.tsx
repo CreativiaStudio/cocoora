@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
@@ -287,19 +288,39 @@ const MEDICI_MENU_COLUMNS: { heading: string; doctors: DoctorMenuEntry[] }[] = [
 ];
 
 export function Navbar() {
+  const pathname = usePathname();
+  const isMedici = pathname === "/medici";
   const { openBooking } = useShop();
   const [scrolled, setScrolled] = useState(false);
+  const [scrollDirection, setScrollDirection] = useState<"up" | "down">("up");
+  const lastScrollY = useRef(0);
   const [openDesktop, setOpenDesktop] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileAccordion, setMobileAccordion] = useState<string | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => {
+      const currentY = window.scrollY;
+      setScrolled(currentY > 20);
+
+      if (isMedici) {
+        const diff = currentY - lastScrollY.current;
+        if (Math.abs(diff) >= 8) {
+          if (currentY > 180 && diff > 0) {
+            setScrollDirection("down");
+          } else if (diff < 0) {
+            setScrollDirection("up");
+          }
+          lastScrollY.current = currentY;
+        }
+      }
+    };
+
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [isMedici]);
 
   useEffect(() => {
     if (!mobileOpen) return;
@@ -325,8 +346,15 @@ export function Navbar() {
     setMobileAccordion(null);
   };
 
+  const hideNavbarOnMedici = isMedici && scrollDirection === "down" && scrolled;
+
   return (
-    <header className="fixed inset-x-0 top-0 z-50 transition-all duration-300">
+    <header
+      className={cn(
+        "fixed inset-x-0 top-0 z-50 transition-transform duration-300 ease-out",
+        hideNavbarOnMedici && "-translate-y-full pointer-events-none"
+      )}
+    >
       {/* ── 1. Top Bar Istituzionale & Accesso Rapido ───────────────────── */}
       <div className="bg-dark-navy border-b border-white/10 text-[11px] sm:text-xs text-teal-100/90 py-1.5 px-4 sm:px-8 lg:px-10 transition-all duration-300">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">

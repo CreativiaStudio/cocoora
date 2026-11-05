@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowRight, GraduationCap, Search, X } from "lucide-react";
 import { BRANCHE, DOCTORS } from "@/lib/doctors";
 import { cn } from "@/lib/utils";
@@ -27,6 +27,31 @@ export default function MediciPage() {
   const { openBooking } = useShop();
   const [filter, setFilter] = useState<string>("Tutte");
   const [search, setSearch] = useState<string>("");
+  const [scrollDirection, setScrollDirection] = useState<"up" | "down">("down");
+  const [isPastHero, setIsPastHero] = useState(false);
+  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentY = window.scrollY;
+      setIsPastHero(currentY > 180);
+
+      const diff = currentY - lastScrollY.current;
+      if (Math.abs(diff) < 8) return;
+
+      if (diff > 0) {
+        setScrollDirection("down");
+      } else {
+        setScrollDirection("up");
+      }
+      lastScrollY.current = currentY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const hideFiltersOnScrollUp = isPastHero && scrollDirection === "up";
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -89,7 +114,12 @@ export default function MediciPage() {
       </section>
 
       {/* ── Sezione Ricerca & Filtri per Branca Specialistica (Compatta) ─ */}
-      <section className="bg-canvas/95 border-b border-teal-100/70 py-3 sm:py-3.5 sticky top-14 sm:top-16 z-20 backdrop-blur-md shadow-xs transition-all">
+      <section
+        className={cn(
+          "bg-canvas/95 border-b border-teal-100/70 py-3 sm:py-3.5 sticky top-0 z-40 backdrop-blur-md shadow-xs transition-transform duration-300 ease-out",
+          hideFiltersOnScrollUp && "-translate-y-full pointer-events-none"
+        )}
+      >
         <Container>
           <div className="mx-auto max-w-5xl space-y-2">
             {/* Riga 1: Barra di ricerca snella + Contatore e reset */}
