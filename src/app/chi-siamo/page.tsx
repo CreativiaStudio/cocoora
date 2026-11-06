@@ -31,6 +31,7 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
+  Maximize2,
 } from "lucide-react";
 import { Container, Badge } from "@/components/ui";
 import { useShop } from "@/components/providers";
@@ -187,21 +188,19 @@ export default function ChiSiamoPage() {
   return (
     <main className="bg-white" style={{ color: BODY }}>
       {/* 1. HERO */}
-      <section className="relative isolate flex min-h-[88vh] items-end overflow-hidden">
+      <section className="relative isolate flex min-h-[92vh] items-end overflow-hidden bg-dark-navy">
         <Image
           src="/images/centro/foto-1.webp"
           alt="L'ingresso di Cocoora Centro Medico a Napoli"
           fill
           priority
           sizes="100vw"
-          className="-z-20 object-cover"
+          className="-z-20 object-cover object-[center_16%]"
         />
-        <div
-          className="absolute inset-0 -z-10"
-          style={{
-            background: `linear-gradient(180deg, ${NAVY}66 0%, ${NAVY}B3 55%, ${NAVY}F2 100%)`,
-          }}
-        />
+        {/* Overlay direzionale marcato a sinistra sotto al testo e sfumato verso destra per far vedere la foto e il logo */}
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#03354B]/95 via-[#03354B]/75 to-[#03354B]/20" />
+        {/* Vignettatura verticale in testa e in fondo */}
+        <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#03354B] via-transparent to-[#03354B]/40" />
         <div
           className="pointer-events-none absolute inset-0 -z-10 opacity-[0.12] mix-blend-overlay"
           style={{ backgroundImage: NOISE }}
@@ -308,32 +307,33 @@ export default function ChiSiamoPage() {
             </div>
           </div>
 
-          <div className="mt-12 grid auto-rows-[220px] grid-cols-1 gap-4 sm:grid-cols-2 md:auto-rows-[240px] md:grid-cols-4">
+          {/* Griglia simmetrica a 3 colonne, senza scritte sulla foto, con overlay di ingrandimento su hover */}
+          <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {visible.map((p, i) => (
               <button
                 key={p.src}
                 type="button"
                 onClick={() => setActive(i)}
-                className={`group relative overflow-hidden rounded-3xl text-left focus:outline-none focus-visible:ring-4 ${p.span}`}
-                aria-label={`Apri foto: ${p.title}`}
+                className="group relative aspect-[4/3] w-full overflow-hidden rounded-3xl border border-teal-100/70 bg-slate-100 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-teal-300 hover:shadow-xl focus:outline-none focus-visible:ring-4 focus-visible:ring-teal-700/30"
+                aria-label={`Ingrandisci foto: ${p.title}`}
               >
                 <Image
                   src={p.src}
                   alt={p.caption}
                   fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                  className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                 />
-                <div
-                  className="absolute inset-0 opacity-80 transition-opacity duration-500 group-hover:opacity-100"
-                  style={{ background: `linear-gradient(180deg, transparent 45%, ${NAVY}E6 100%)` }}
-                />
-                <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[11px] font-medium uppercase tracking-wider" style={{ color: TEAL }}>
-                  {CATEGORY_LABEL[p.category]}
-                </span>
-                <span className="absolute bottom-4 left-4 right-4 font-serif text-lg text-white">
-                  {p.title}
-                </span>
+
+                {/* Overlay di ingrandimento al passaggio del mouse */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#03354B]/40 opacity-0 backdrop-blur-[2px] transition-all duration-300 group-hover:opacity-100 p-4 text-center">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-[#03354B] shadow-lg transition-transform duration-300 group-hover:scale-110">
+                    <Maximize2 className="h-5 w-5" />
+                  </span>
+                  <span className="mt-3 rounded-full bg-[#03354B]/85 px-4 py-1.5 text-xs font-semibold text-white shadow-sm backdrop-blur-md">
+                    Clicca per ingrandire
+                  </span>
+                </div>
               </button>
             ))}
           </div>

@@ -8,16 +8,12 @@ import {
   ArrowRight,
   Check,
   ChevronDown,
-  Clock,
-  CreditCard,
-  HeartHandshake,
+  ChevronRight,
   Mail,
   MapPin,
   MessageCircle,
   Phone,
   ShieldCheck,
-  Stethoscope,
-  UserCheck,
   type LucideIcon,
 } from "lucide-react";
 import type { VisitaSpecialistica } from "@/lib/visite-specialistiche";
@@ -36,44 +32,42 @@ const CONTACT_OPTIONS: { value: ContactPreference; icon: LucideIcon }[] = [
   { value: "Email", icon: Mail },
 ];
 
+function scrollToLead() {
+  const el = document.getElementById("prenota") || document.getElementById("lead");
+  if (el) el.scrollIntoView({ behavior: "smooth" });
+}
+
 export function VisitaClient({ visita }: { visita: VisitaSpecialistica }) {
   const { openDiscover } = useShop();
-  const scrollToLead = () => {
-    const el = document.getElementById("prenota");
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-  };
 
   return (
     <>
       <main className="pb-20 md:pb-0 bg-canvas text-charcoal">
-        {/* 1 — Hero Split 50/50 Image-First Luxury */}
+        {/* 1 — Hero Section (Image-First su mobile / Split 50/50 desktop) */}
         <HeroSection visita={visita} onOpenDiscover={openDiscover} />
 
-        {/* 2 — Che cos'è e come funziona */}
+        {/* 2 — Che cos'è e come funziona? */}
         {visita.whatIs && <WhatIsSection visita={visita} />}
 
-        {/* 3 — Esigenze & Sintomi affrontati */}
+        {/* 3 — A cosa serve / Esigenze & Sintomi (Griglia 2x2 simmetrica) */}
         {visita.problemsGrid && visita.problemsGrid.length > 0 && (
           <ProblemsSection visita={visita} />
         )}
 
-        {/* 4 — Come si svolge la visita (Timeline) */}
+        {/* 4 — Come si svolge la visita? (Timeline 3 colonne pareggiate senza icone) */}
         {visita.timelineSteps && visita.timelineSteps.length > 0 && (
           <TimelineSection visita={visita} />
         )}
 
-        {/* 5 — Risultati e Refertazione */}
+        {/* 5 — Risultati e Refertazione (Immagine a sinistra, Testo a destra) */}
         {visita.results && (visita.results.description || (visita.results.paragraphs && visita.results.paragraphs.length > 0)) && (
           <ResultsSection visita={visita} />
         )}
 
-        {/* Banner Funnel: Inizia con il Percorso Base Cocoora (0€) */}
-        <DiscoverFunnelPush onOpenDiscover={openDiscover} />
-
-        {/* 6 — Form di Prenotazione Dedicato */}
+        {/* 6 — Form Lead dedicato */}
         <LeadSection visita={visita} />
 
-        {/* 7 — Domande Frequenti (FAQ) */}
+        {/* 7 — Domande Frequenti (FAQ a 2 colonne) */}
         {visita.faq && visita.faq.length > 0 && <FaqSection faq={visita.faq} />}
 
         {/* 8 — Geo-Local SEO Napoli */}
@@ -110,25 +104,24 @@ function HeroSection({
   onOpenDiscover: () => void;
 }) {
   return (
-    <section className="relative overflow-hidden bg-canvas pb-16 pt-10 sm:pb-20 sm:pt-14 border-b border-teal-100/60">
+    <section className="relative overflow-hidden bg-canvas pb-16 pt-10 sm:pb-20 sm:pt-14">
       <Container>
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-          {/* Colonna testo: su mobile sotto l'immagine, su desktop sinistra */}
+          {/* Colonna testo: su mobile sotto l'immagine, su desktop colonna sinistra */}
           <div className="order-last lg:order-first">
-            <span className="inline-flex items-center gap-2 rounded-full border border-teal-200 bg-teal-50 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-teal-800">
-              <Stethoscope className="h-3.5 w-3.5 text-teal-700" />
+            <p className="text-xs font-semibold uppercase tracking-wider text-teal-800">
               {visita.categoryName}
-            </span>
+            </p>
 
             <h1 className="mt-4 font-serif text-4xl font-semibold tracking-tight text-dark-navy sm:text-5xl lg:text-6xl">
               {visita.title} <span className="italic font-normal text-teal-700">a Napoli</span>
             </h1>
 
-            <p className="mt-4 text-base leading-relaxed text-charcoal/80 sm:text-lg">
+            <p className="mt-4 text-lg leading-relaxed text-charcoal/80">
               {visita.tagline}
             </p>
 
-            <div className="mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
+            <div className="mt-8">
               <button
                 type="button"
                 onClick={onOpenDiscover}
@@ -136,37 +129,10 @@ function HeroSection({
               >
                 Iscriviti gratuitamente al Cocoora Club <ArrowRight className="h-4 w-4" />
               </button>
-
-              <a
-                href={`tel:${SITE.phone}`}
-                className="inline-flex items-center gap-2 rounded-full border border-teal-200 bg-white px-5 py-3.5 text-sm font-medium text-teal-900 shadow-sm transition-colors hover:bg-teal-50"
-              >
-                <Phone className="h-4 w-4 text-teal-700" />
-                {SITE.phone}
-              </a>
-            </div>
-
-            <div className="mt-8 flex flex-wrap items-center gap-6 border-t border-teal-100/80 pt-6 text-xs text-charcoal/70">
-              <div className="flex items-center gap-2">
-                <ShieldCheck className="h-4 w-4 text-teal-700" />
-                <span>Centro Medico Autorizzato</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Stethoscope className="h-4 w-4 text-teal-700" />
-                <span>Specialisti Qualificati</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <HeartHandshake className="h-4 w-4 text-teal-700" />
-                <span>Referto a 24h</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CreditCard className="h-4 w-4 text-teal-700" />
-                <span>Rate Klarna / PayPal</span>
-              </div>
             </div>
           </div>
 
-          {/* Colonna immagine: su mobile in cima ("Image-First"), su desktop destra */}
+          {/* Colonna immagine: su mobile in cima ("Image-First"), su desktop colonna destra */}
           <div className="order-first lg:order-last relative mx-auto aspect-[4/3] w-full max-w-xl overflow-hidden rounded-[2.5rem] shadow-xl sm:aspect-[4/5] lg:mx-0 lg:max-w-none">
             <Image
               src={visita.heroImage}
@@ -199,10 +165,11 @@ function WhatIsSection({ visita }: { visita: VisitaSpecialistica }) {
     : [visita.description];
 
   return (
-    <section className="bg-white py-16 sm:py-20 border-b border-teal-100/60">
+    <section className="bg-canvas py-16 sm:py-20">
       <Container>
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl shadow-md border border-teal-100/60">
+          {/* Colonna sinistra — immagine gesto clinico / tecnologia */}
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl shadow-md">
             <Image
               src={image}
               alt={`${visita.title} — come funziona`}
@@ -212,6 +179,7 @@ function WhatIsSection({ visita }: { visita: VisitaSpecialistica }) {
             />
           </div>
 
+          {/* Colonna destra — testi clinici */}
           <div>
             <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-teal-800">
               Approfondimento Clinico
@@ -219,9 +187,11 @@ function WhatIsSection({ visita }: { visita: VisitaSpecialistica }) {
             <h2 className="font-serif text-3xl font-semibold tracking-tight text-dark-navy sm:text-4xl">
               {whatIs?.title || `In cosa consiste la ${visita.title}?`}
             </h2>
-            <div className="mt-5 space-y-4 text-base leading-relaxed text-charcoal/75">
+            <div className="mt-5 space-y-4">
               {paragraphs.map((p, i) => (
-                <p key={i}>{p}</p>
+                <p key={i} className="text-base leading-relaxed text-charcoal/75">
+                  {p}
+                </p>
               ))}
             </div>
           </div>
@@ -232,41 +202,41 @@ function WhatIsSection({ visita }: { visita: VisitaSpecialistica }) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────
-// BLOCCO 3 — "A cosa serve / Esigenze & Sintomi" (Griglia Card Sagomate)
+// BLOCCO 3 — "A cosa serve / Esigenze & Sintomi" (Griglia 2x2 simmetrica a 4 box)
 // ─────────────────────────────────────────────────────────────────────────
 
 function ProblemsSection({ visita }: { visita: VisitaSpecialistica }) {
+  const problems = visita.problemsGrid.slice(0, 4);
+
   return (
-    <section className="bg-teal-50/40 py-16 sm:py-20 border-b border-teal-100/60">
+    <section className="bg-teal-50/50 py-16 sm:py-20">
       <Container>
         <div className="mx-auto max-w-2xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-wider text-teal-800">
-            Esigenze &amp; Sintomi
-          </p>
-          <h2 className="mt-2 font-serif text-3xl font-semibold tracking-tight text-dark-navy sm:text-4xl">
-            {visita.problemsTitle || "Quando è indicata questa visita?"}
+          <h2 className="font-serif text-3xl font-semibold tracking-tight text-dark-navy sm:text-4xl">
+            {visita.problemsTitle || "A cosa serve questa visita specialistica?"}
           </h2>
-          <p className="mt-3 text-base leading-relaxed text-charcoal/70">
+          <p className="mt-4 text-base leading-relaxed text-charcoal/70">
             I nostri specialisti valutano ciascun caso con attenzione clinica ed esami mirati in sede.
           </p>
         </div>
 
-        {/* Griglia a 4 box perfettamente simmetrica (2x2) */}
+        {/* Griglia a 4 box simmetrica (2x2) */}
         <div className="mt-10 grid gap-5 sm:grid-cols-2">
-          {visita.problemsGrid.map((p, idx) => (
+          {problems.map((p, idx) => (
             <div
               key={idx}
-              className="flex items-start gap-4 rounded-2xl border border-teal-100 bg-white p-6 shadow-xs transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 h-full"
+              className="flex items-start gap-4 rounded-2xl border border-teal-100 bg-white p-6 transition-shadow duration-300 hover:shadow-md"
             >
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-50 text-teal-700">
+              <span className="rounded-xl bg-teal-50 p-2.5 text-teal-700">
                 <Check className="h-5 w-5" />
               </span>
               <div className="min-w-0 flex-1">
-                <h3 className="font-serif text-lg font-bold text-teal-950">{p.title}</h3>
-                <p className="mt-1.5 text-xs sm:text-sm leading-relaxed text-charcoal/70">
+                <h3 className="font-serif text-lg font-bold text-teal-900">{p.title}</h3>
+                <p className="mt-1.5 text-sm leading-relaxed text-charcoal/70">
                   {p.description || "Valutazione specialistica dedicata condotta con strumentazione clinica in sede."}
                 </p>
               </div>
+              <ChevronRight className="mt-1 h-4 w-4 shrink-0 text-teal-400" />
             </div>
           ))}
         </div>
@@ -276,7 +246,7 @@ function ProblemsSection({ visita }: { visita: VisitaSpecialistica }) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────
-// BLOCCO 4 — "Come si svolge la visita?" (Timeline simmetrica senza icone)
+// BLOCCO 4 — "Come si svolge la visita?" (Timeline 3 colonne pareggiate senza icone)
 // ─────────────────────────────────────────────────────────────────────────
 
 function TimelineStepCard({
@@ -351,16 +321,13 @@ function TimelineStepCard({
 
 function TimelineSection({ visita }: { visita: VisitaSpecialistica }) {
   return (
-    <section className="bg-white py-16 sm:py-20 border-b border-teal-100/60">
+    <section className="bg-white py-16 sm:py-20 border-t border-teal-100/40">
       <Container>
         <div className="mx-auto max-w-2xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-wider text-teal-800">
-            Percorso Specialistico
-          </p>
-          <h2 className="mt-2 font-serif text-3xl font-semibold tracking-tight text-dark-navy sm:text-4xl">
+          <h2 className="font-serif text-3xl font-semibold tracking-tight text-dark-navy sm:text-4xl">
             {visita.timelineTitle || "Come si svolge la visita specialistica?"}
           </h2>
-          <p className="mt-3 text-base leading-relaxed text-charcoal/70">
+          <p className="mt-4 text-base leading-relaxed text-charcoal/70">
             Un iter chiaro, tempi dedicati all&apos;ascolto e refertazione puntuale.
           </p>
         </div>
@@ -381,7 +348,7 @@ function TimelineSection({ visita }: { visita: VisitaSpecialistica }) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────
-// BLOCCO 5 — "Risultati e Refertazione"
+// BLOCCO 5 — "Risultati e Refertazione" (Immagine a sinistra, Testo a destra)
 // ─────────────────────────────────────────────────────────────────────────
 
 function ResultsSection({ visita }: { visita: VisitaSpecialistica }) {
@@ -394,24 +361,11 @@ function ResultsSection({ visita }: { visita: VisitaSpecialistica }) {
     : [];
 
   return (
-    <section className="bg-canvas py-16 sm:py-20 border-b border-teal-100/60">
+    <section className="bg-canvas py-16 sm:py-20">
       <Container>
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
-          <div>
-            <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-teal-800">
-              Refertazione &amp; Continuità
-            </p>
-            <h2 className="font-serif text-3xl font-semibold tracking-tight text-dark-navy sm:text-4xl">
-              {results.title}
-            </h2>
-            <div className="mt-5 space-y-4 text-base leading-relaxed text-charcoal/75">
-              {paragraphs.map((p, i) => (
-                <p key={i}>{p}</p>
-              ))}
-            </div>
-          </div>
-
-          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl shadow-md border border-teal-100/60">
+          {/* Colonna sinistra — immagine risultato clinico */}
+          <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl shadow-md">
             <Image
               src={image}
               alt={`${visita.title} — esito e refertazione`}
@@ -420,68 +374,22 @@ function ResultsSection({ visita }: { visita: VisitaSpecialistica }) {
               className="object-cover"
             />
           </div>
-        </div>
-      </Container>
-    </section>
-  );
-}
 
-// ─────────────────────────────────────────────────────────────────────────
-// BANNER CONVERSIONE — "Inizia con il Percorso Base Cocoora (€0)"
-// ─────────────────────────────────────────────────────────────────────────
-
-function DiscoverFunnelPush({ onOpenDiscover }: { onOpenDiscover: () => void }) {
-  return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-[#002231] via-[#00344b] to-[#011e2b] py-14 sm:py-16 text-white border-y border-teal-800/40">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-20 -top-20 h-72 w-72 rounded-full bg-teal-500/15 blur-3xl"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -left-20 -bottom-20 h-72 w-72 rounded-full bg-slate-accent/15 blur-3xl"
-      />
-      <Container className="relative">
-        <div className="mx-auto max-w-3xl rounded-3xl border border-teal-400/20 bg-white/5 p-7 backdrop-blur-md sm:p-10 shadow-2xl">
-          <div className="inline-flex items-center gap-2 rounded-full border border-teal-300/30 bg-teal-500/15 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-teal-200">
-            <UserCheck className="h-3.5 w-3.5 text-teal-300" />
-            Consigliato per nuovi pazienti · €0
-          </div>
-          <h2 className="mt-4 font-serif text-3xl font-semibold leading-tight text-white sm:text-4xl">
-            Inizia con il Percorso Base Cocoora
-          </h2>
-          <p className="mt-3 text-base leading-relaxed text-teal-100/85">
-            Prima di effettuare la tua prima visita specialistica o acquistare un percorso continuativo, crea gratuitamente il tuo profilo clinico digitale in 2 minuti:
-          </p>
-          <div className="mt-6 grid gap-3 sm:grid-cols-2 text-sm text-teal-50/90">
-            <div className="flex items-start gap-2.5">
-              <Check className="mt-0.5 h-4 w-4 shrink-0 text-teal-300" />
-              <span>Accesso prioritario all&apos;agenda degli specialisti</span>
-            </div>
-            <div className="flex items-start gap-2.5">
-              <Check className="mt-0.5 h-4 w-4 shrink-0 text-teal-300" />
-              <span>Cartella clinica e referti digitali sempre disponibili</span>
-            </div>
-            <div className="flex items-start gap-2.5">
-              <Check className="mt-0.5 h-4 w-4 shrink-0 text-teal-300" />
-              <span>Sblocco percorsi con rateizzazione a tasso zero (Klarna / PayPal)</span>
-            </div>
-            <div className="flex items-start gap-2.5">
-              <Check className="mt-0.5 h-4 w-4 shrink-0 text-teal-300" />
-              <span>Nessun costo fisso, attivazione gratuita immediata</span>
-            </div>
-          </div>
-          <div className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-            <button
-              type="button"
-              onClick={onOpenDiscover}
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-dark-navy shadow-lg transition-all hover:bg-teal-50 hover:-translate-y-0.5 cursor-pointer"
-            >
-              Attiva il Percorso Base Gratis (€0) <ArrowRight className="h-4 w-4" />
-            </button>
-            <p className="text-xs text-teal-200/70 text-center sm:text-left">
-              Richiede solo nome ed email · Nessuna carta di credito richiesta
+          {/* Colonna destra — trasparenza clinica e refertazione */}
+          <div>
+            <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-teal-800">
+              Refertazione &amp; Continuità
             </p>
+            <h2 className="font-serif text-3xl font-semibold tracking-tight text-dark-navy sm:text-4xl">
+              {results.title}
+            </h2>
+            <div className="mt-5 space-y-4">
+              {paragraphs.map((p, i) => (
+                <p key={i} className="text-base leading-relaxed text-charcoal/75">
+                  {p}
+                </p>
+              ))}
+            </div>
           </div>
         </div>
       </Container>
@@ -490,7 +398,7 @@ function DiscoverFunnelPush({ onOpenDiscover }: { onOpenDiscover: () => void }) 
 }
 
 // ─────────────────────────────────────────────────────────────────────────
-// BLOCCO 6 — Form Lead (#prenota) Conforme GDPR & Flessibilità Pagamento
+// BLOCCO 6 — Form Lead dedicato (#prenota / #lead)
 // ─────────────────────────────────────────────────────────────────────────
 
 function LeadSection({ visita }: { visita: VisitaSpecialistica }) {
@@ -511,54 +419,43 @@ function LeadSection({ visita }: { visita: VisitaSpecialistica }) {
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
-    if (!form.nome.trim() || !form.telefono.trim() || !form.privacy) {
-      setError("Compila i campi obbligatori (nome, telefono) e accetta l'informativa sulla privacy.");
+    if (!form.nome.trim() || !form.cognome.trim() || !form.telefono.trim() || !form.email.trim() || !form.privacy) {
+      setError("Compila tutti i campi obbligatori e accetta l'informativa sulla privacy.");
       return;
     }
     setError("");
     trackLead({
-      email: form.email || "info@cocoora.it",
+      email: form.email,
       name: `${form.nome} ${form.cognome}`.trim(),
     });
     setSent(true);
   };
 
   return (
-    <section id="prenota" className="scroll-mt-20 bg-white py-16 sm:py-20 border-b border-teal-100/60">
+    <section id="prenota" className="scroll-mt-20 bg-canvas py-16 sm:py-20">
       <Container>
         <div className="rounded-[2.5rem] border border-teal-200/70 bg-gradient-to-br from-teal-50/80 via-white to-teal-50/50 p-8 shadow-lg sm:p-12">
           <div className="grid gap-10 lg:grid-cols-2 lg:gap-14">
-            {/* Colonna sinistra — rassicurazione & condizioni */}
+            {/* Colonna sinistra — messaggio rassicurante */}
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-teal-800">
-                Richiesta Informazioni &amp; Prenotazione
+                RICHIEDI UNA VALUTAZIONE
               </p>
               <h2 className="mt-4 font-serif text-3xl font-semibold tracking-tight text-dark-navy sm:text-4xl">
                 Prenota {visita.title}
               </h2>
               <p className="mt-4 text-base leading-relaxed text-charcoal/75">
-                Lasciaci i tuoi contatti: la nostra segreteria clinica ti ricontatterà per confermare data, orario e dettagli della valutazione medica.
+                Lasciaci i tuoi contatti: la nostra segreteria clinica ti ricontatterà per fornirti maggiori informazioni e aiutarti a organizzare la tua visita specialistica, senza impegno.
               </p>
-
-              <div className="mt-6 rounded-2xl bg-white/90 p-4 border border-teal-100 shadow-2xs space-y-2 text-xs text-charcoal/80">
-                <p className="font-semibold text-teal-950 flex items-center gap-2">
-                  <CreditCard className="h-4 w-4 text-teal-700" />
-                  Zero Anticipo Online &amp; Saldo Flessibile
-                </p>
-                <p className="leading-relaxed">
-                  Nessun pagamento anticipato adesso: il saldo avviene in clinica il giorno della visita (Carta, Bancomat, Contanti). Per piani terapeutici e pacchetti diagnostici è attiva la <strong>rateizzazione in 3 rate a tasso zero con Klarna e PayPal</strong>.
-                </p>
-              </div>
-
-              <div className="mt-6 flex items-start gap-3 text-xs text-charcoal/65">
+              <div className="mt-6 flex items-start gap-3 text-sm text-charcoal/65">
                 <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-teal-700" />
                 <p>
-                  I tuoi dati personali e sanitari sono protetti e trattati nel pieno rispetto della normativa GDPR.
+                  I tuoi dati sono trattati nel pieno rispetto della normativa privacy. Potrai scegliere il canale di contatto che preferisci.
                 </p>
               </div>
             </div>
 
-            {/* Colonna destra — form interattivo */}
+            {/* Colonna destra — form */}
             <div>
               {sent ? (
                 <div className="flex h-full flex-col items-center justify-center rounded-3xl border border-teal-100 bg-white/80 p-8 text-center">
@@ -566,7 +463,7 @@ function LeadSection({ visita }: { visita: VisitaSpecialistica }) {
                     <Check className="h-7 w-7" />
                   </div>
                   <h3 className="mt-4 font-serif text-2xl font-semibold text-teal-900">
-                    Richiesta Inviata
+                    Richiesta inviata
                   </h3>
                   <p className="mt-2 text-sm text-charcoal/70">
                     Grazie {form.nome}! Ti ricontatteremo a breve
@@ -576,10 +473,16 @@ function LeadSection({ visita }: { visita: VisitaSpecialistica }) {
                   </p>
                 </div>
               ) : (
-                <form onSubmit={submit} className="rounded-3xl border border-teal-100 bg-white/80 p-6 shadow-sm sm:p-8" noValidate>
+                <form
+                  onSubmit={submit}
+                  className="rounded-3xl border border-teal-100 bg-white/80 p-6 shadow-sm sm:p-8"
+                  noValidate
+                >
                   <div className="grid gap-4 sm:grid-cols-2">
                     <label className="block">
-                      <span className="mb-1.5 block text-xs font-medium text-teal-900">Nome *</span>
+                      <span className="mb-1.5 block text-xs font-medium text-teal-900">
+                        Nome *
+                      </span>
                       <input
                         type="text"
                         value={form.nome}
@@ -590,20 +493,25 @@ function LeadSection({ visita }: { visita: VisitaSpecialistica }) {
                       />
                     </label>
                     <label className="block">
-                      <span className="mb-1.5 block text-xs font-medium text-teal-900">Cognome</span>
+                      <span className="mb-1.5 block text-xs font-medium text-teal-900">
+                        Cognome *
+                      </span>
                       <input
                         type="text"
                         value={form.cognome}
                         onChange={(e) => setForm({ ...form, cognome: e.target.value })}
                         placeholder="Cognome"
+                        required
                         className={inputClass}
                       />
                     </label>
                   </div>
 
-                  <div className="grid gap-4 sm:grid-cols-2 mt-4">
+                  <div className="mt-4 grid gap-4 sm:grid-cols-2">
                     <label className="block">
-                      <span className="mb-1.5 block text-xs font-medium text-teal-900">Telefono *</span>
+                      <span className="mb-1.5 block text-xs font-medium text-teal-900">
+                        Telefono *
+                      </span>
                       <input
                         type="tel"
                         value={form.telefono}
@@ -614,12 +522,15 @@ function LeadSection({ visita }: { visita: VisitaSpecialistica }) {
                       />
                     </label>
                     <label className="block">
-                      <span className="mb-1.5 block text-xs font-medium text-teal-900">Email</span>
+                      <span className="mb-1.5 block text-xs font-medium text-teal-900">
+                        Email *
+                      </span>
                       <input
                         type="email"
                         value={form.email}
                         onChange={(e) => setForm({ ...form, email: e.target.value })}
                         placeholder="nome@email.it"
+                        required
                         className={inputClass}
                       />
                     </label>
@@ -654,7 +565,7 @@ function LeadSection({ visita }: { visita: VisitaSpecialistica }) {
                     </div>
                   </fieldset>
 
-                  <label className="mt-5 flex items-start gap-3 text-xs sm:text-sm text-charcoal/70">
+                  <label className="mt-5 flex items-start gap-3 text-sm text-charcoal/70">
                     <input
                       type="checkbox"
                       checked={form.privacy}
@@ -664,30 +575,38 @@ function LeadSection({ visita }: { visita: VisitaSpecialistica }) {
                     />
                     <span>
                       Ho letto l&apos;
-                      <Link href="/contatti" className="font-medium text-teal-800 underline underline-offset-2 hover:text-dark-navy">
-                        informativa privacy
+                      <Link
+                        href="/contatti"
+                        className="font-medium text-teal-800 underline underline-offset-2 hover:text-dark-navy"
+                      >
+                        informativa sulla privacy
                       </Link>{" "}
                       e acconsento al trattamento dei dati personali *
                     </span>
                   </label>
 
-                  <label className="mt-3 flex items-start gap-3 text-xs sm:text-sm text-charcoal/70">
+                  <label className="mt-3 flex items-start gap-3 text-sm text-charcoal/70">
                     <input
                       type="checkbox"
                       checked={form.whatsappConsent}
-                      onChange={(e) => setForm({ ...form, whatsappConsent: e.target.checked })}
+                      onChange={(e) =>
+                        setForm({ ...form, whatsappConsent: e.target.checked })
+                      }
                       className="mt-0.5 h-4 w-4 shrink-0 rounded border-teal-300 text-teal-600 focus:ring-teal-500"
                     />
                     <span>
-                      Acconsento a ricevere comunicazioni e promemoria appuntamenti tramite WhatsApp
+                      Desidero ricevere comunicazioni e aggiornamenti personalizzati su WhatsApp da Cocoora
                     </span>
                   </label>
 
-                  {error && <p className="mt-3 text-xs text-rose-600">{error}</p>}
+                  {error && <p className="mt-3 text-sm text-red-500">{error}</p>}
 
-                  <Button type="submit" size="lg" className="mt-6 w-full">
-                    Invia Richiesta di Prenotazione
-                  </Button>
+                  <button
+                    type="submit"
+                    className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-dark-navy px-8 py-3.5 text-sm font-medium text-white shadow-[0_16px_40px_-16px_rgba(3,53,75,0.55)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-teal-900"
+                  >
+                    Invia Richiesta di Prenotazione <ArrowRight className="h-4 w-4" />
+                  </button>
                 </form>
               )}
             </div>
@@ -699,75 +618,97 @@ function LeadSection({ visita }: { visita: VisitaSpecialistica }) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────
-// BLOCCO 7 — Domande Frequenti (FAQ Accordion)
+// BLOCCO 7 — Domande frequenti (accordion a 2 colonne)
 // ─────────────────────────────────────────────────────────────────────────
 
 function FaqSection({ faq }: { faq: Faq[] }) {
+  if (!faq.length) return null;
+
+  const half = Math.ceil(faq.length / 2);
+  const columns = [faq.slice(0, half), faq.slice(half)].filter((c) => c.length > 0);
+
   return (
-    <section className="bg-canvas py-16 sm:py-20 border-b border-teal-100/60">
+    <section className="bg-white py-16 sm:py-20">
       <Container>
-        <div className="mx-auto max-w-3xl">
-          <h2 className="text-center font-serif text-3xl font-semibold tracking-tight text-dark-navy sm:text-4xl">
-            Domande Frequenti
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="font-serif text-3xl font-semibold tracking-tight text-dark-navy sm:text-4xl">
+            Domande frequenti
           </h2>
-          <div className="mt-10 divide-y divide-teal-100/80 rounded-3xl border border-teal-100 bg-white p-6 shadow-sm sm:p-8">
-            {faq.map((item, idx) => (
-              <FaqItem key={idx} item={item} />
-            ))}
-          </div>
+        </div>
+
+        <div className="mt-10 grid gap-x-6 gap-y-4 md:grid-cols-2">
+          {columns.map((column, colIndex) => (
+            <div key={colIndex} className="space-y-4">
+              {column.map((f) => (
+                <details
+                  key={f.q}
+                  className="group rounded-2xl border border-teal-100 bg-white p-6 transition-colors open:border-teal-200 open:bg-teal-50/40"
+                >
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-teal-900 [&::-webkit-details-marker]:hidden">
+                    {f.q}
+                    <ChevronDown className="h-4 w-4 shrink-0 text-teal-400 transition-transform duration-300 group-open:rotate-180" />
+                  </summary>
+                  <p className="mt-3 text-sm leading-relaxed text-charcoal/70">{f.a}</p>
+                </details>
+              ))}
+            </div>
+          ))}
         </div>
       </Container>
     </section>
   );
 }
 
-function FaqItem({ item }: { item: Faq }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <div className="py-4 first:pt-0 last:pb-0">
-      <button
-        type="button"
-        onClick={() => setOpen(!open)}
-        className="flex w-full items-start justify-between gap-4 text-left font-serif text-lg font-medium text-teal-900 transition-colors hover:text-dark-navy"
-      >
-        <span>{item.q}</span>
-        <ChevronDown
-          className={`mt-1 h-5 w-5 shrink-0 text-teal-600 transition-transform duration-200 ${
-            open ? "rotate-180" : ""
-          }`}
-        />
-      </button>
-      {open && (
-        <p className="mt-3 text-sm leading-relaxed text-charcoal/75 animate-fade-in">
-          {item.a}
-        </p>
-      )}
-    </div>
-  );
-}
-
 // ─────────────────────────────────────────────────────────────────────────
-// BLOCCO 8 — Local SEO Napoli
+// BLOCCO 8 — Geo-Local SEO Napoli
 // ─────────────────────────────────────────────────────────────────────────
 
 function LocalSeoSection({ visita }: { visita: VisitaSpecialistica }) {
+  const localSeo = visita.localSeo;
+
   return (
-    <section className="bg-white py-16 sm:py-20 border-b border-teal-100/60">
+    <section className="bg-canvas py-16 sm:py-20">
       <Container>
-        <div className="mx-auto max-w-3xl rounded-3xl border border-teal-200/80 bg-teal-50/40 p-8 sm:p-10">
-          <div className="flex items-center gap-2 text-teal-800 text-xs font-semibold uppercase tracking-wider">
-            <MapPin className="h-4 w-4" />
-            <span>Cocoora Centro Medico · Napoli</span>
-          </div>
-          <h2 className="mt-3 font-serif text-2xl font-semibold text-teal-900 sm:text-3xl">
-            {visita.localSeo.title}
-          </h2>
-          <p className="mt-4 text-sm leading-relaxed text-charcoal/80 sm:text-base">
-            {visita.localSeo.description}
-          </p>
-          <div className="mt-6 flex flex-wrap items-center gap-4 text-xs text-charcoal/70">
-            <span>📍 Via Generale Giovanni De Bonis 81, Napoli</span>
-            <span>🕒 Lun–Ven 8:00–20:00 · Sab 9:00–14:00</span>
+        <div className="overflow-hidden rounded-[2.5rem] border border-teal-100 bg-white shadow-[0_24px_60px_-32px_rgba(3,53,75,0.35)]">
+          <div className="grid lg:grid-cols-2">
+            {/* Sinistra — foto centro */}
+            <div className="relative min-h-[260px] w-full lg:min-h-full">
+              <Image
+                src="/images/centro/foto-8.webp"
+                alt={`${localSeo.title} — Il Centro Cocoora`}
+                fill
+                sizes="(min-width: 1024px) 50vw, 90vw"
+                className="object-cover"
+              />
+            </div>
+
+            {/* Destra — testo + CTA */}
+            <div className="p-8 sm:p-12">
+              <p className="text-xs font-semibold uppercase tracking-wider text-teal-800">
+                VISITE SPECIALISTICHE A NAPOLI
+              </p>
+              <h2 className="mt-4 font-serif text-3xl font-semibold tracking-tight text-dark-navy sm:text-4xl">
+                {localSeo.title}
+              </h2>
+              <p className="mt-4 text-base leading-relaxed text-charcoal/75">
+                {localSeo.description}
+              </p>
+              <div className="mt-6 flex flex-wrap items-center gap-4 text-xs text-charcoal/70">
+                <span className="flex items-center gap-1.5">
+                  <MapPin className="h-3.5 w-3.5 text-teal-700" /> Via Generale Giovanni De Bonis 81, Napoli
+                </span>
+                <span>🕒 Lun–Ven 8:00–20:00 · Sab 9:00–14:00</span>
+              </div>
+              <div className="mt-8">
+                <button
+                  type="button"
+                  onClick={scrollToLead}
+                  className="inline-flex items-center gap-2 rounded-full bg-dark-navy px-7 py-3 text-sm font-medium text-white shadow-md transition-all duration-300 hover:bg-teal-900 hover:-translate-y-0.5"
+                >
+                  {localSeo.cta || "Richiedi una valutazione"} <ArrowRight className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </Container>
