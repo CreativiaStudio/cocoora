@@ -24,6 +24,7 @@ import type { VisitaSpecialistica } from "@/lib/visite-specialistiche";
 import type { Faq } from "@/lib/types";
 import { SITE } from "@/lib/site";
 import { trackLead } from "@/lib/tracking";
+import { cn } from "@/lib/utils";
 import { Button, Container } from "@/components/ui";
 import { useShop } from "@/components/providers";
 
@@ -250,11 +251,12 @@ function ProblemsSection({ visita }: { visita: VisitaSpecialistica }) {
           </p>
         </div>
 
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Griglia a 4 box perfettamente simmetrica (2x2) */}
+        <div className="mt-10 grid gap-5 sm:grid-cols-2">
           {visita.problemsGrid.map((p, idx) => (
             <div
               key={idx}
-              className="flex items-start gap-4 rounded-2xl border border-teal-100 bg-white p-6 shadow-xs transition-all duration-300 hover:shadow-md hover:-translate-y-0.5"
+              className="flex items-start gap-4 rounded-2xl border border-teal-100 bg-white p-6 shadow-xs transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 h-full"
             >
               <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-50 text-teal-700">
                 <Check className="h-5 w-5" />
@@ -274,8 +276,78 @@ function ProblemsSection({ visita }: { visita: VisitaSpecialistica }) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────
-// BLOCCO 4 — "Come si svolge la visita?" (Timeline Step Connessi)
+// BLOCCO 4 — "Come si svolge la visita?" (Timeline simmetrica senza icone)
 // ─────────────────────────────────────────────────────────────────────────
+
+function TimelineStepCard({
+  step,
+  index,
+}: {
+  step: { stepNumber?: string; title: string; description: string };
+  index: number;
+}) {
+  const [expanded, setExpanded] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const isLong = step.description.length > 160;
+  const showFull = expanded || isHovered;
+  const num = step.stepNumber || String(index + 1).padStart(2, "0");
+
+  return (
+    <div
+      onClick={() => isLong && setExpanded((prev) => !prev)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className={cn(
+        "group relative flex flex-col justify-between rounded-3xl border border-teal-100/80 bg-gradient-to-b from-white via-white to-teal-50/25 p-6 sm:p-7 shadow-[0_10px_30px_-18px_rgba(3,53,75,0.08)] transition-all duration-300 hover:border-teal-300 hover:shadow-[0_20px_40px_-20px_rgba(3,53,75,0.16)] hover:-translate-y-1 h-full select-none",
+        isLong && "cursor-pointer"
+      )}
+    >
+      <div>
+        {/* Intestazione: Numero scenico in corsivo elegante + Indicatore Fase */}
+        <div className="flex items-center justify-between mb-5">
+          <span className="flex h-14 w-14 items-center justify-center rounded-2xl border border-teal-200/80 bg-gradient-to-br from-teal-50 via-white to-teal-100/50 font-serif text-3xl font-light italic tracking-tight text-teal-950 shadow-xs transition-transform duration-300 group-hover:scale-105 group-hover:border-teal-400">
+            {num}
+          </span>
+          <span className="rounded-full bg-teal-50 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-teal-800 border border-teal-100">
+            Fase {index + 1}
+          </span>
+        </div>
+
+        {/* Titolo dello step */}
+        <h3 className="font-serif text-xl sm:text-2xl font-semibold text-teal-950 leading-snug">
+          {step.title}
+        </h3>
+
+        {/* Descrizione con altezza pareggiata e apertura al click / hover */}
+        <div className="relative mt-3">
+          <p
+            className={cn(
+              "text-sm leading-relaxed text-charcoal/75 transition-all duration-300",
+              !showFull && isLong && "line-clamp-4"
+            )}
+          >
+            {step.description}
+          </p>
+        </div>
+      </div>
+
+      {/* Trigger espansione per card con testo lungo */}
+      {isLong ? (
+        <div className="mt-5 pt-3.5 border-t border-teal-100/60 flex items-center justify-between text-[11px] font-semibold text-teal-800 transition-colors group-hover:text-dark-navy">
+          <span>{showFull ? "Mostra meno" : "Leggi tutto"}</span>
+          <ChevronDown
+            className={cn(
+              "h-3.5 w-3.5 transition-transform duration-300 text-teal-600",
+              showFull && "rotate-180"
+            )}
+          />
+        </div>
+      ) : (
+        <div className="mt-5 pt-3.5 border-t border-transparent" />
+      )}
+    </div>
+  );
+}
 
 function TimelineSection({ visita }: { visita: VisitaSpecialistica }) {
   return (
@@ -293,32 +365,14 @@ function TimelineSection({ visita }: { visita: VisitaSpecialistica }) {
           </p>
         </div>
 
-        <div className="mt-12 grid gap-8 md:grid-cols-3 md:gap-6">
+        {/* Timeline simmetrica a 3 colonne pareggiate */}
+        <div className="mt-12 grid gap-6 md:grid-cols-3 items-stretch">
           {visita.timelineSteps.map((step, idx) => (
-            <div key={idx} className="relative flex gap-5 md:block">
-              {idx < visita.timelineSteps.length - 1 && (
-                <span
-                  aria-hidden
-                  className="absolute left-6 top-14 h-[calc(100%-2rem)] w-px bg-teal-100 md:hidden"
-                />
-              )}
-              <div className="flex shrink-0 items-center gap-3 md:mb-5">
-                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-teal-100 font-serif text-base font-bold text-teal-800">
-                  {step.stepNumber || `0${idx + 1}`}
-                </span>
-                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-teal-50 text-teal-700">
-                  <Clock className="h-4.5 w-4.5" />
-                </span>
-              </div>
-              <div>
-                <h3 className="font-serif text-xl font-semibold text-teal-900">
-                  {step.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-charcoal/70">
-                  {step.description}
-                </p>
-              </div>
-            </div>
+            <TimelineStepCard
+              key={step.stepNumber || idx}
+              step={step}
+              index={idx}
+            />
           ))}
         </div>
       </Container>
