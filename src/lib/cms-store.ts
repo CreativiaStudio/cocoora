@@ -3,7 +3,7 @@ import { TREATMENTS } from "./content";
 import type { CmsState, Faq, SeoPage, VideoItem } from "./types";
 import { uid } from "./utils";
 
-const STORAGE_KEY = "cocoora_cms_v4_blocks";
+const STORAGE_KEY = "cocoora_cms_v5_blocks";
 
 const HOME_FAQ: Faq[] = [
   {
@@ -34,7 +34,7 @@ function buildTreatmentPages(): SeoPage[] {
     heroImage: t.heroImage,
     galleryImages: t.galleryImages,
     keywords: t.seo ? [t.seo.keywordMain, t.seo.keywordSec].filter(Boolean).join("; ") : undefined,
-    heroCta: "Richiedi una valutazione",
+    heroCta: t.heroCta || "Iscriviti gratuitamente al Cocoora Club",
 
     // Blocco 2 — Che cos'è e come funziona?
     whatIsTitle: t.whatIs?.title || `Che cos'è ${t.title} e come funziona?`,
@@ -46,12 +46,12 @@ function buildTreatmentPages(): SeoPage[] {
     whatIsImage: t.whatIs?.image,
 
     // Blocco 3 — A cosa serve? (4 card)
-    problemsTitle: `A cosa serve ${t.title}?`,
-    problemsSubtitle: "Il medico valuta se il percorso è indicato per queste condizioni, definendo obiettivi realistici e personalizzati.",
+    problemsTitle: t.problemsTitle || `A cosa serve ${t.title}?`,
+    problemsSubtitle: t.problemsSubtitle || "Il medico valuta se il percorso è indicato per queste condizioni, definendo obiettivi realistici e personalizzati.",
     problemsGrid: t.problemsGrid?.map((p) => ({ title: p.title, description: p.description, icon: p.icon })),
 
     // Blocco 4 — Come si svolge una seduta? (3 step)
-    timelineTitle: `Come si svolge una seduta di ${t.title}?`,
+    timelineTitle: t.timelineTitle || `Come si svolge una seduta di ${t.title}?`,
     timelineSteps:
       t.timelineSteps?.map((s) => ({ stepNumber: s.stepNumber, title: s.title, description: s.description })) ||
       t.steps?.map((s, i) => ({ stepNumber: String(i + 1).padStart(2, "0"), title: s.title, description: s.description })),
@@ -76,7 +76,7 @@ function buildTreatmentPages(): SeoPage[] {
     // Blocco 8 — Geo-Local SEO Napoli
     localSeoTitle: t.localSeo?.title || `${t.title} a Napoli`,
     localSeoDescription: t.localSeo?.description,
-    localSeoCta: "Richiedi una valutazione",
+    localSeoCta: t.localSeo?.cta || "Iscriviti gratuitamente al Cocoora Club",
   }));
 }
 

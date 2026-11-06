@@ -21,7 +21,7 @@ const ODON_MAPPING = [
   {
     docKey: 'odontoiatria_allineatori-trasparenti.docx',
     slug: 'allineatori-trasparenti',
-    aliases: ['invisalign-adulti', 'invisalign-adolescenti', 'invisalign-bambini'],
+    aliases: ['allineatori-adulti', 'allineatori-adolescenti', 'allineatori-trasparenti-adulti', 'allineatori-trasparenti-adolescenti'],
     categoryName: 'Ortodonzia specialistica',
     imgPrefix: 'allineatori-trasparenti'
   },
@@ -35,7 +35,7 @@ const ODON_MAPPING = [
   {
     docKey: 'odontoiatria_ortodonzia-intercettiva.docx',
     slug: 'ortodonzia-intercettiva',
-    aliases: [],
+    aliases: ['ortodonzia-intercettiva-bambini'],
     categoryName: 'Ortodonzia specialistica',
     imgPrefix: 'ortodonzia-intercettiva'
   },
@@ -121,7 +121,7 @@ for (const m of ODON_MAPPING) {
     description: d.whatIs.description || d.tagline,
     heroImage,
     galleryImages,
-    heroCta: d.heroCta || 'Richiedi una valutazione',
+    heroCta: 'Iscriviti gratuitamente al Cocoora Club',
     seo: {
       metaTitle: d.metaTitle,
       metaDescription: d.metaDescription,
@@ -135,7 +135,9 @@ for (const m of ODON_MAPPING) {
       image: whatIsImage
     },
     problemsTitle: d.problemsTitle || 'Cosa vorresti migliorare?',
+    problemsSubtitle: d.problemsSubtitle || '',
     problemsGrid: d.problemsGrid,
+    leadForm: d.leadForm && d.leadForm.title ? { title: d.leadForm.title, subtitle: d.leadForm.subtitle || '', cta: d.leadForm.cta || 'Richiedi ora' } : undefined,
     timelineTitle: d.timelineTitle || 'Il percorso clinico passo dopo passo',
     timelineSteps: d.timelineSteps.map((s, idx) => ({
       stepNumber: `0${idx + 1}`,
@@ -153,7 +155,7 @@ for (const m of ODON_MAPPING) {
     localSeo: {
       title: d.localSeo.title || `${d.title} a Napoli`,
       description: d.localSeo.description,
-      cta: d.localSeo.cta || 'Richiedi una valutazione'
+      cta: 'Iscriviti gratuitamente al Cocoora Club'
     }
   };
   odonTreatments.push(treatment);
@@ -284,7 +286,7 @@ for (const m of VISITE_MAPPING) {
     description: d.whatIs.description || d.tagline,
     heroImage,
     galleryImages,
-    heroCta: d.heroCta || 'Richiedi una visita',
+    heroCta: 'Iscriviti gratuitamente al Cocoora Club',
     seo: {
       metaTitle: d.metaTitle,
       metaDescription: d.metaDescription,
@@ -298,7 +300,9 @@ for (const m of VISITE_MAPPING) {
       image: whatIsImage
     },
     problemsTitle: d.problemsTitle || 'Quando è indicata?',
+    problemsSubtitle: d.problemsSubtitle || '',
     problemsGrid: d.problemsGrid,
+    leadForm: d.leadForm && d.leadForm.title ? { title: d.leadForm.title, subtitle: d.leadForm.subtitle || '', cta: d.leadForm.cta || 'Richiedi ora' } : undefined,
     timelineTitle: d.timelineTitle || 'Come si svolge la visita',
     timelineSteps: d.timelineSteps.map((s, idx) => ({
       stepNumber: `0${idx + 1}`,
@@ -315,7 +319,7 @@ for (const m of VISITE_MAPPING) {
     localSeo: {
       title: d.localSeo.title || `${d.title} a Napoli`,
       description: d.localSeo.description,
-      cta: d.localSeo.cta || 'Richiedi una visita'
+      cta: 'Iscriviti gratuitamente al Cocoora Club'
     }
   };
   visiteList.push(item);
@@ -335,7 +339,9 @@ export type VisitaSpecialistica = {
   seo?: { metaTitle?: string; metaDescription?: string; keywordMain?: string; keywordSec?: string };
   whatIs: { title: string; description: string; paragraphs: string[]; image?: string };
   problemsTitle: string;
+  problemsSubtitle?: string;
   problemsGrid: { title: string; description: string }[];
+  leadForm?: { title: string; subtitle: string; cta: string };
   timelineTitle: string;
   timelineSteps: { stepNumber: string; title: string; description: string }[];
   results: { title: string; description: string; paragraphs: string[]; image?: string };

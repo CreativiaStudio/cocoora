@@ -8,7 +8,6 @@ import {
   ArrowRight,
   Check,
   ChevronDown,
-  ChevronRight,
   Mail,
   MapPin,
   MessageCircle,
@@ -31,11 +30,6 @@ const CONTACT_OPTIONS: { value: ContactPreference; icon: LucideIcon }[] = [
   { value: "Telefono", icon: Phone },
   { value: "Email", icon: Mail },
 ];
-
-function scrollToLead() {
-  const el = document.getElementById("prenota") || document.getElementById("lead");
-  if (el) el.scrollIntoView({ behavior: "smooth" });
-}
 
 export function VisitaClient({ visita }: { visita: VisitaSpecialistica }) {
   const { openDiscover } = useShop();
@@ -71,7 +65,9 @@ export function VisitaClient({ visita }: { visita: VisitaSpecialistica }) {
         {visita.faq && visita.faq.length > 0 && <FaqSection faq={visita.faq} />}
 
         {/* 8 — Geo-Local SEO Napoli */}
-        {visita.localSeo && <LocalSeoSection visita={visita} />}
+        {visita.localSeo && (
+          <LocalSeoSection visita={visita} onOpenDiscover={openDiscover} />
+        )}
 
         {/* Link di ritorno */}
         <div className="bg-canvas pb-8">
@@ -154,6 +150,51 @@ function HeroSection({
 // BLOCCO 2 — "Che cos'è e come funziona?"
 // ─────────────────────────────────────────────────────────────────────────
 
+function ExpandableParagraphs({ paragraphs }: { paragraphs: string[] }) {
+  const [expanded, setExpanded] = useState(false);
+  const visible = paragraphs.slice(0, 2);
+  const extra = paragraphs.slice(2);
+
+  return (
+    <>
+      <div className="mt-5 space-y-4">
+        {visible.map((p, i) => (
+          <p key={i} className="text-base leading-relaxed text-charcoal/75">
+            {p}
+          </p>
+        ))}
+      </div>
+
+      {extra.length > 0 && (
+        <>
+          <div
+            className={cn(
+              "grid transition-all duration-300 ease-out",
+              expanded ? "mt-4 grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+            )}
+          >
+            <div className="overflow-hidden space-y-4">
+              {extra.map((p, i) => (
+                <p key={i} className="text-base leading-relaxed text-charcoal/75">
+                  {p}
+                </p>
+              ))}
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => setExpanded((prev) => !prev)}
+            className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-teal-800 transition-colors hover:text-dark-navy"
+          >
+            <span>{expanded ? "Mostra meno" : "Continua a leggere"}</span>
+            <ChevronDown className={cn("h-4 w-4 transition-transform duration-300", expanded && "rotate-180")} />
+          </button>
+        </>
+      )}
+    </>
+  );
+}
+
 function WhatIsSection({ visita }: { visita: VisitaSpecialistica }) {
   const whatIs = visita.whatIs;
   const image = whatIs?.image || visita.galleryImages?.[1] || visita.heroImage;
@@ -187,13 +228,7 @@ function WhatIsSection({ visita }: { visita: VisitaSpecialistica }) {
             <h2 className="font-serif text-3xl font-semibold tracking-tight text-dark-navy sm:text-4xl">
               {whatIs?.title || `In cosa consiste la ${visita.title}?`}
             </h2>
-            <div className="mt-5 space-y-4">
-              {paragraphs.map((p, i) => (
-                <p key={i} className="text-base leading-relaxed text-charcoal/75">
-                  {p}
-                </p>
-              ))}
-            </div>
+            <ExpandableParagraphs paragraphs={paragraphs} />
           </div>
         </div>
       </Container>
@@ -202,11 +237,14 @@ function WhatIsSection({ visita }: { visita: VisitaSpecialistica }) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────
-// BLOCCO 3 — "A cosa serve / Esigenze & Sintomi" (Griglia 2x2 simmetrica a 4 box)
+// BLOCCO 3 — "A cosa serve / Esigenze & Sintomi" (Griglia simmetrica, ultima card centrata se dispari)
 // ─────────────────────────────────────────────────────────────────────────
 
 function ProblemsSection({ visita }: { visita: VisitaSpecialistica }) {
-  const problems = visita.problemsGrid.slice(0, 4);
+  const problems = visita.problemsGrid;
+  const problemsSubtitle =
+    (visita as VisitaSpecialistica & { problemsSubtitle?: string }).problemsSubtitle ||
+    "I nostri specialisti valutano ciascun caso con attenzione clinica ed esami mirati in sede.";
 
   return (
     <section className="bg-teal-50/50 py-16 sm:py-20">
@@ -216,16 +254,21 @@ function ProblemsSection({ visita }: { visita: VisitaSpecialistica }) {
             {visita.problemsTitle || "A cosa serve questa visita specialistica?"}
           </h2>
           <p className="mt-4 text-base leading-relaxed text-charcoal/70">
-            I nostri specialisti valutano ciascun caso con attenzione clinica ed esami mirati in sede.
+            {problemsSubtitle}
           </p>
         </div>
 
-        {/* Griglia a 4 box simmetrica (2x2) */}
+        {/* Griglia simmetrica (2x2; con numero dispari l'ultima card è centrata) */}
         <div className="mt-10 grid gap-5 sm:grid-cols-2">
           {problems.map((p, idx) => (
             <div
               key={idx}
-              className="flex items-start gap-4 rounded-2xl border border-teal-100 bg-white p-6 transition-shadow duration-300 hover:shadow-md"
+              className={cn(
+                "flex items-start gap-4 rounded-2xl border border-teal-100 bg-white p-6 transition-shadow duration-300 hover:shadow-md",
+                problems.length % 2 === 1 &&
+                  idx === problems.length - 1 &&
+                  "sm:col-span-2 sm:mx-auto sm:w-full sm:max-w-[calc(50%-0.625rem)]"
+              )}
             >
               <span className="rounded-xl bg-teal-50 p-2.5 text-teal-700">
                 <Check className="h-5 w-5" />
@@ -236,7 +279,6 @@ function ProblemsSection({ visita }: { visita: VisitaSpecialistica }) {
                   {p.description || "Valutazione specialistica dedicata condotta con strumentazione clinica in sede."}
                 </p>
               </div>
-              <ChevronRight className="mt-1 h-4 w-4 shrink-0 text-teal-400" />
             </div>
           ))}
         </div>
@@ -257,16 +299,14 @@ function TimelineStepCard({
   index: number;
 }) {
   const [expanded, setExpanded] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
   const isLong = step.description.length > 160;
-  const showFull = expanded || isHovered;
+  const showFull = expanded;
   const num = step.stepNumber || String(index + 1).padStart(2, "0");
+  const title = step.title.replace(/^0?\d+\s*[.\-–—:·]\s*/, "");
 
   return (
     <div
       onClick={() => isLong && setExpanded((prev) => !prev)}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
       className={cn(
         "group relative flex flex-col justify-between rounded-3xl border border-teal-100/80 bg-gradient-to-b from-white via-white to-teal-50/25 p-6 sm:p-7 shadow-[0_10px_30px_-18px_rgba(3,53,75,0.08)] transition-all duration-300 hover:border-teal-300 hover:shadow-[0_20px_40px_-20px_rgba(3,53,75,0.16)] hover:-translate-y-1 h-full select-none",
         isLong && "cursor-pointer"
@@ -285,19 +325,32 @@ function TimelineStepCard({
 
         {/* Titolo dello step */}
         <h3 className="font-serif text-xl sm:text-2xl font-semibold text-teal-950 leading-snug">
-          {step.title}
+          {title}
         </h3>
 
-        {/* Descrizione con altezza pareggiata e apertura al click / hover */}
+        {/* Descrizione con altezza pareggiata e apertura al click intenzionale */}
         <div className="relative mt-3">
-          <p
-            className={cn(
-              "text-sm leading-relaxed text-charcoal/75 transition-all duration-300",
-              !showFull && isLong && "line-clamp-4"
-            )}
-          >
-            {step.description}
-          </p>
+          {showFull && step.description.includes("\n\n") ? (
+            <div className="space-y-2.5">
+              {step.description
+                .split(/\n\s*\n/)
+                .filter(Boolean)
+                .map((par, i) => (
+                  <p key={i} className="text-sm leading-relaxed text-charcoal/75">
+                    {par}
+                  </p>
+                ))}
+            </div>
+          ) : (
+            <p
+              className={cn(
+                "text-sm leading-relaxed text-charcoal/75 transition-all duration-300",
+                !showFull && isLong && "line-clamp-4"
+              )}
+            >
+              {step.description.replace(/\n+/g, " ")}
+            </p>
+          )}
         </div>
       </div>
 
@@ -383,13 +436,7 @@ function ResultsSection({ visita }: { visita: VisitaSpecialistica }) {
             <h2 className="font-serif text-3xl font-semibold tracking-tight text-dark-navy sm:text-4xl">
               {results.title}
             </h2>
-            <div className="mt-5 space-y-4">
-              {paragraphs.map((p, i) => (
-                <p key={i} className="text-base leading-relaxed text-charcoal/75">
-                  {p}
-                </p>
-              ))}
-            </div>
+            <ExpandableParagraphs paragraphs={paragraphs} />
           </div>
         </div>
       </Container>
@@ -404,6 +451,11 @@ function ResultsSection({ visita }: { visita: VisitaSpecialistica }) {
 function LeadSection({ visita }: { visita: VisitaSpecialistica }) {
   const [sent, setSent] = useState(false);
   const [error, setError] = useState("");
+  const leadForm = (
+    visita as VisitaSpecialistica & {
+      leadForm?: { title?: string; subtitle?: string; cta?: string };
+    }
+  ).leadForm;
   const [form, setForm] = useState({
     nome: "",
     cognome: "",
@@ -439,13 +491,14 @@ function LeadSection({ visita }: { visita: VisitaSpecialistica }) {
             {/* Colonna sinistra — messaggio rassicurante */}
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-teal-800">
-                RICHIEDI UNA VALUTAZIONE
+                CONTATTO DIRETTO
               </p>
               <h2 className="mt-4 font-serif text-3xl font-semibold tracking-tight text-dark-navy sm:text-4xl">
-                Prenota {visita.title}
+                {leadForm?.title || `Prenota ${visita.title}`}
               </h2>
               <p className="mt-4 text-base leading-relaxed text-charcoal/75">
-                Lasciaci i tuoi contatti: la nostra segreteria clinica ti ricontatterà per fornirti maggiori informazioni e aiutarti a organizzare la tua visita specialistica, senza impegno.
+                {leadForm?.subtitle ||
+                  "Lasciaci i tuoi contatti: la nostra segreteria clinica ti ricontatterà per fornirti maggiori informazioni e aiutarti a organizzare la tua visita specialistica, senza impegno."}
               </p>
               <div className="mt-6 flex items-start gap-3 text-sm text-charcoal/65">
                 <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-teal-700" />
@@ -605,7 +658,7 @@ function LeadSection({ visita }: { visita: VisitaSpecialistica }) {
                     type="submit"
                     className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-dark-navy px-8 py-3.5 text-sm font-medium text-white shadow-[0_16px_40px_-16px_rgba(3,53,75,0.55)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-teal-900"
                   >
-                    Invia Richiesta di Prenotazione <ArrowRight className="h-4 w-4" />
+                    {leadForm?.cta || "Richiedi ora"} <ArrowRight className="h-4 w-4" />
                   </button>
                 </form>
               )}
@@ -663,8 +716,17 @@ function FaqSection({ faq }: { faq: Faq[] }) {
 // BLOCCO 8 — Geo-Local SEO Napoli
 // ─────────────────────────────────────────────────────────────────────────
 
-function LocalSeoSection({ visita }: { visita: VisitaSpecialistica }) {
+function LocalSeoSection({
+  visita,
+  onOpenDiscover,
+}: {
+  visita: VisitaSpecialistica;
+  onOpenDiscover: () => void;
+}) {
   const localSeo = visita.localSeo;
+  const descriptionParagraphs = localSeo.description
+    .split(/\n\s*\n/)
+    .filter(Boolean);
 
   return (
     <section className="bg-canvas py-16 sm:py-20">
@@ -690,9 +752,13 @@ function LocalSeoSection({ visita }: { visita: VisitaSpecialistica }) {
               <h2 className="mt-4 font-serif text-3xl font-semibold tracking-tight text-dark-navy sm:text-4xl">
                 {localSeo.title}
               </h2>
-              <p className="mt-4 text-base leading-relaxed text-charcoal/75">
-                {localSeo.description}
-              </p>
+              <div className="mt-4 space-y-3">
+                {descriptionParagraphs.map((p, i) => (
+                  <p key={i} className="text-base leading-relaxed text-charcoal/75">
+                    {p}
+                  </p>
+                ))}
+              </div>
               <div className="mt-6 flex flex-wrap items-center gap-4 text-xs text-charcoal/70">
                 <span className="flex items-center gap-1.5">
                   <MapPin className="h-3.5 w-3.5 text-teal-700" /> Via Generale Giovanni De Bonis 81, Napoli
@@ -702,10 +768,10 @@ function LocalSeoSection({ visita }: { visita: VisitaSpecialistica }) {
               <div className="mt-8">
                 <button
                   type="button"
-                  onClick={scrollToLead}
+                  onClick={onOpenDiscover}
                   className="inline-flex items-center gap-2 rounded-full bg-dark-navy px-7 py-3 text-sm font-medium text-white shadow-md transition-all duration-300 hover:bg-teal-900 hover:-translate-y-0.5"
                 >
-                  {localSeo.cta || "Richiedi una valutazione"} <ArrowRight className="h-4 w-4" />
+                  Iscriviti gratuitamente al Cocoora Club <ArrowRight className="h-4 w-4" />
                 </button>
               </div>
             </div>

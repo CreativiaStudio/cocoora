@@ -12,7 +12,9 @@ export type VisitaSpecialistica = {
   seo?: { metaTitle?: string; metaDescription?: string; keywordMain?: string; keywordSec?: string };
   whatIs: { title: string; description: string; paragraphs: string[]; image?: string };
   problemsTitle: string;
+  problemsSubtitle?: string;
   problemsGrid: { title: string; description: string }[];
+  leadForm?: { title: string; subtitle: string; cta: string };
   timelineTitle: string;
   timelineSteps: { stepNumber: string; title: string; description: string }[];
   results: { title: string; description: string; paragraphs: string[]; image?: string };
@@ -30,14 +32,14 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     "title": "Visita nutrizionale",
     "categoryName": "Benessere e cura di sé",
     "tagline": "Mangiare bene comincia dal conoscere le proprie abitudini. La visita nutrizionale mette in relazione alimentazione, storia personale e quotidianità, per costruire indicazioni concrete e un percorso che possa trovare spazio nella vita di ogni giorno.",
-    "description": "La visita nutrizionale è una valutazione delle abitudini alimentari e delle esigenze della persona. Considera la storia clinica, gli obiettivi, l’organizzazione dei pasti e ciò che rende semplice o difficile seguire un’alimentazione adeguata.",
+    "description": "La visita nutrizionale è una valutazione delle abitudini alimentari e delle esigenze della persona. Considera la storia clinica, gli obiettivi, l’organizzazione dei pasti e ciò che rende semplice o difficile seguire un’alimentazione adeguata.\n\nIl confronto non si limita a un elenco di alimenti. Orari, preferenze, lavoro, attività quotidiane e percorsi già affrontati aiutano a comprendere il punto di partenza. Gli eventuali esami disponibili e le informazioni sulla salute completano la valutazione.\n\nIl percorso può comprendere un piano alimentare personalizzato e successivi controlli. Da Cocoora l’obiettivo è dare alle indicazioni una direzione chiara, verificandone nel tempo l’adeguatezza rispetto alle esigenze emerse.",
     "heroImage": "/images/visite/nutrizione-napoli-1.jpg",
     "galleryImages": [
       "/images/visite/nutrizione-napoli-1.jpg",
       "/images/visite/nutrizione-napoli-2.jpg",
       "/images/visite/nutrizione-napoli-3.jpg"
     ],
-    "heroCta": "Richiedi una valutazione",
+    "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
       "metaTitle": "Visita nutrizionale a Napoli | Cocoora",
       "metaDescription": "Visita nutrizionale a Napoli: abitudini alimentari, esigenze personali e piano su misura. Scopri come funziona il percorso di nutrizione Cocoora.",
@@ -46,7 +48,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     },
     "whatIs": {
       "title": "Che cos’è la visita nutrizionale e come funziona?",
-      "description": "La visita nutrizionale è una valutazione delle abitudini alimentari e delle esigenze della persona. Considera la storia clinica, gli obiettivi, l’organizzazione dei pasti e ciò che rende semplice o difficile seguire un’alimentazione adeguata.",
+      "description": "La visita nutrizionale è una valutazione delle abitudini alimentari e delle esigenze della persona. Considera la storia clinica, gli obiettivi, l’organizzazione dei pasti e ciò che rende semplice o difficile seguire un’alimentazione adeguata.\n\nIl confronto non si limita a un elenco di alimenti. Orari, preferenze, lavoro, attività quotidiane e percorsi già affrontati aiutano a comprendere il punto di partenza. Gli eventuali esami disponibili e le informazioni sulla salute completano la valutazione.\n\nIl percorso può comprendere un piano alimentare personalizzato e successivi controlli. Da Cocoora l’obiettivo è dare alle indicazioni una direzione chiara, verificandone nel tempo l’adeguatezza rispetto alle esigenze emerse.",
       "paragraphs": [
         "La visita nutrizionale è una valutazione delle abitudini alimentari e delle esigenze della persona. Considera la storia clinica, gli obiettivi, l’organizzazione dei pasti e ciò che rende semplice o difficile seguire un’alimentazione adeguata.",
         "Il confronto non si limita a un elenco di alimenti. Orari, preferenze, lavoro, attività quotidiane e percorsi già affrontati aiutano a comprendere il punto di partenza. Gli eventuali esami disponibili e le informazioni sulla salute completano la valutazione.",
@@ -55,11 +57,8 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
       "image": "/images/visite/nutrizione-napoli-2.jpg"
     },
     "problemsTitle": "A cosa serve una visita nutrizionale?",
+    "problemsSubtitle": "Ci si può rivolgere al professionista per un obiettivo specifico o per riorganizzare il proprio modo di mangiare. Il programma nasce da ciò che serve alla persona, non da uno schema uguale per tutti.",
     "problemsGrid": [
-      {
-        "title": "Ci si può rivolgere al professionista per un obiettivo specifico o per riorganizzare il proprio modo di mangiare",
-        "description": "Ci si può rivolgere al professionista per un obiettivo specifico o per riorganizzare il proprio modo di mangiare. Il programma nasce da ciò che serve alla persona, non da uno schema uguale per tutti."
-      },
       {
         "title": "Organizzare un’alimentazione più equilibrata",
         "description": "La consulenza aiuta a leggere le abitudini attuali e a individuare cambiamenti praticabili. Distribuzione dei pasti, varietà degli alimenti e organizzazione della giornata vengono affrontate con indicazioni comprensibili, da applicare anche fuori casa."
@@ -77,31 +76,35 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
         "description": "I controlli sono utili per capire che cosa sta funzionando e quali aspetti richiedono un adattamento. Un cambio di orari, nuove esigenze o difficoltà nell’organizzare i pasti possono diventare il punto di partenza per rivedere le indicazioni."
       }
     ],
+    "leadForm": {
+      "title": "Costruiamo un percorso intorno alle tue abitudini",
+      "subtitle": "Lascia i tuoi contatti per ricevere informazioni sulla visita nutrizionale. Il team Cocoora ti aiuterà a organizzare il primo appuntamento.",
+      "cta": "Richiedi ora"
+    },
     "timelineTitle": "Come si svolge la visita nutrizionale?",
     "timelineSteps": [
       {
         "stepNumber": "01",
-        "title": "01. Ascolto e storia alimentare",
+        "title": "Ascolto e storia alimentare",
         "description": "Il primo incontro parte dalla richiesta, dalla storia clinica e dal racconto di una giornata abituale. Si approfondiscono preferenze, orari, eventuali percorsi precedenti e aspettative, per mettere a fuoco le priorità."
       },
       {
         "stepNumber": "02",
-        "title": "02. Valutazione delle esigenze",
+        "title": "Valutazione delle esigenze",
         "description": "Il professionista raccoglie i dati utili alla valutazione nutrizionale ed esamina la documentazione disponibile. Queste informazioni vengono lette insieme alle abitudini, per scegliere indicazioni coerenti con il contesto personale."
       },
       {
         "stepNumber": "03",
-        "title": "03. Indicazioni personalizzate e controlli",
+        "title": "Indicazioni personalizzate e controlli",
         "description": "Vengono condivisi gli obiettivi e, quando previsto, il piano alimentare. I successivi incontri permettono di monitorare il percorso, chiarire i dubbi e apportare modifiche in base all’esperienza quotidiana."
       }
     ],
     "results": {
       "title": "Che cosa aspettarsi dal percorso nutrizionale?",
-      "description": "Il primo risultato è comprendere meglio le proprie esigenze e avere indicazioni utilizzabili nella quotidianità. Il percorso può aiutare a dare maggiore regolarità ai pasti e a scegliere con più consapevolezza, senza affidarsi a soluzioni generiche.",
+      "description": "Il primo risultato è comprendere meglio le proprie esigenze e avere indicazioni utilizzabili nella quotidianità. Il percorso può aiutare a dare maggiore regolarità ai pasti e a scegliere con più consapevolezza, senza affidarsi a soluzioni generiche.\n\nGli obiettivi vengono verificati durante i controlli, considerando sia gli eventuali parametri nutrizionali sia la sostenibilità delle abitudini. Tempi e cambiamenti dipendono dal punto di partenza e dal programma condiviso.",
       "paragraphs": [
         "Il primo risultato è comprendere meglio le proprie esigenze e avere indicazioni utilizzabili nella quotidianità. Il percorso può aiutare a dare maggiore regolarità ai pasti e a scegliere con più consapevolezza, senza affidarsi a soluzioni generiche.",
-        "Gli obiettivi vengono verificati durante i controlli, considerando sia gli eventuali parametri nutrizionali sia la sostenibilità delle abitudini. Tempi e cambiamenti dipendono dal punto di partenza e dal programma condiviso.",
-        "Lascia i tuoi contatti per ricevere informazioni sulla visita nutrizionale. Il team Cocoora ti aiuterà a organizzare il primo appuntamento."
+        "Gli obiettivi vengono verificati durante i controlli, considerando sia gli eventuali parametri nutrizionali sia la sostenibilità delle abitudini. Tempi e cambiamenti dipendono dal punto di partenza e dal programma condiviso."
       ],
       "image": "/images/visite/nutrizione-napoli-3.jpg"
     },
@@ -134,7 +137,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     "localSeo": {
       "title": "Visita nutrizionale a Napoli",
       "description": "A Napoli, Cocoora propone un percorso nutrizionale che parte dalle abitudini e dalle esigenze della persona. La valutazione iniziale e i controlli permettono di costruire indicazioni personalizzate e accompagnarne l’applicazione nel tempo.",
-      "cta": "Richiedi una valutazione"
+      "cta": "Iscriviti gratuitamente al Cocoora Club"
     }
   },
   {
@@ -142,14 +145,14 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     "title": "Visita di medicina estetica",
     "categoryName": "Benessere e cura di sé",
     "tagline": "Prima di scegliere un trattamento, serve comprendere che cosa può essere utile. La visita di medicina estetica è un confronto dedicato al viso e al corpo, per mettere in relazione caratteristiche della pelle, desideri e possibilità di intervento.",
-    "description": "La visita di medicina estetica permette di valutare la qualità della pelle e le esigenze estetiche del viso e del corpo. Il medico raccoglie la storia clinica, ascolta la richiesta e osserva le aree interessate, per comprendere quali opzioni possano essere appropriate.",
+    "description": "La visita di medicina estetica permette di valutare la qualità della pelle e le esigenze estetiche del viso e del corpo. Il medico raccoglie la storia clinica, ascolta la richiesta e osserva le aree interessate, per comprendere quali opzioni possano essere appropriate.\n\nIl punto di partenza può essere un desiderio preciso oppure una domanda ancora aperta. Non occorre arrivare conoscendo già il nome del trattamento: la consulenza serve anche a distinguere metodiche con finalità diverse e a capire che cosa aspettarsi da ciascuna.\n\nQuando indicato, vengono illustrate possibilità non chirurgiche o minimamente invasive, spiegando obiettivi e limiti. La visita è un momento di valutazione e scelta; l’eventuale procedura viene concordata in base al percorso definito.",
     "heroImage": "/images/visite/medicina-estetica-napoli-1.jpg",
     "galleryImages": [
       "/images/visite/medicina-estetica-napoli-1.jpg",
       "/images/visite/medicina-estetica-napoli-2.jpg",
       "/images/visite/medicina-estetica-napoli-3.jpg"
     ],
-    "heroCta": "Richiedi una valutazione",
+    "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
       "metaTitle": "Visita di medicina estetica a Napoli | Cocoora",
       "metaDescription": "Visita di medicina estetica a Napoli per viso e corpo. Da Cocoora ascolto, valutazione della pelle e indicazioni personalizzate prima del trattamento.",
@@ -158,7 +161,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     },
     "whatIs": {
       "title": "Che cos’è la visita di medicina estetica e come funziona?",
-      "description": "La visita di medicina estetica permette di valutare la qualità della pelle e le esigenze estetiche del viso e del corpo. Il medico raccoglie la storia clinica, ascolta la richiesta e osserva le aree interessate, per comprendere quali opzioni possano essere appropriate.",
+      "description": "La visita di medicina estetica permette di valutare la qualità della pelle e le esigenze estetiche del viso e del corpo. Il medico raccoglie la storia clinica, ascolta la richiesta e osserva le aree interessate, per comprendere quali opzioni possano essere appropriate.\n\nIl punto di partenza può essere un desiderio preciso oppure una domanda ancora aperta. Non occorre arrivare conoscendo già il nome del trattamento: la consulenza serve anche a distinguere metodiche con finalità diverse e a capire che cosa aspettarsi da ciascuna.\n\nQuando indicato, vengono illustrate possibilità non chirurgiche o minimamente invasive, spiegando obiettivi e limiti. La visita è un momento di valutazione e scelta; l’eventuale procedura viene concordata in base al percorso definito.",
       "paragraphs": [
         "La visita di medicina estetica permette di valutare la qualità della pelle e le esigenze estetiche del viso e del corpo. Il medico raccoglie la storia clinica, ascolta la richiesta e osserva le aree interessate, per comprendere quali opzioni possano essere appropriate.",
         "Il punto di partenza può essere un desiderio preciso oppure una domanda ancora aperta. Non occorre arrivare conoscendo già il nome del trattamento: la consulenza serve anche a distinguere metodiche con finalità diverse e a capire che cosa aspettarsi da ciascuna.",
@@ -167,11 +170,8 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
       "image": "/images/visite/medicina-estetica-napoli-2.jpg"
     },
     "problemsTitle": "A cosa serve la consulenza di medicina estetica?",
+    "problemsSubtitle": "La valutazione consente di dare un significato alla richiesta, distinguendo le caratteristiche della pelle dalle altre componenti che influenzano l’aspetto di una zona.",
     "problemsGrid": [
-      {
-        "title": "La valutazione consente di dare un significato alla richiesta, distinguendo le caratteristiche della pelle dalle altre componenti che influenzano l’aspetto di una zona",
-        "description": "La valutazione consente di dare un significato alla richiesta, distinguendo le caratteristiche della pelle dalle altre componenti che influenzano l’aspetto di una zona."
-      },
       {
         "title": "Valutare la qualità della pelle",
         "description": "Texture, elasticità e aspetto cutaneo vengono osservati insieme alle abitudini di cura e ai trattamenti già eseguiti. Il medico chiarisce quali caratteristiche possono essere affrontate attraverso la medicina estetica e quali richiedono un approfondimento diverso."
@@ -189,31 +189,35 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
         "description": "Quando le esigenze sono più di una, la consulenza permette di decidere da dove iniziare. Il medico illustra le opzioni pertinenti e come potrebbero articolarsi gli appuntamenti, così da valutare il percorso nel suo insieme prima di procedere."
       }
     ],
+    "leadForm": {
+      "title": "Iniziamo da una valutazione, non da un trattamento",
+      "subtitle": "Scrivi al team Cocoora per organizzare una visita di medicina estetica. Potrai approfondire le esigenze di viso e corpo e ricevere indicazioni sul percorso.",
+      "cta": "Richiedi ora"
+    },
     "timelineTitle": "Come si svolge la visita di medicina estetica?",
     "timelineSteps": [
       {
         "stepNumber": "01",
-        "title": "01. Conoscere la richiesta e la storia personale",
+        "title": "Conoscere la richiesta e la storia personale",
         "description": "Il medico ascolta ciò che desideri approfondire, raccoglie le informazioni sulla salute e chiede quali trattamenti siano già stati eseguiti. È il momento per condividere aspettative, dubbi e preferenze."
       },
       {
         "stepNumber": "02",
-        "title": "02. Osservare pelle e aree interessate",
+        "title": "Osservare pelle e aree interessate",
         "description": "La valutazione clinica considera la qualità cutanea e le caratteristiche della zona. Il medico collega quanto osservato alla richiesta, spiegando quali obiettivi siano pertinenti e quali alternative meritino attenzione."
       },
       {
         "stepNumber": "03",
-        "title": "03. Condividere le possibilità di trattamento",
+        "title": "Condividere le possibilità di trattamento",
         "description": "Il confronto si conclude con indicazioni sul percorso proposto, sulle eventuali sedute e sui controlli. Puoi chiarire i passaggi e prenderti il tempo necessario per decidere, senza dover scegliere una procedura prima della visita."
       }
     ],
     "results": {
       "title": "Che cosa aspettarsi dalla visita?",
-      "description": "La consulenza offre una lettura più chiara delle proprie esigenze e delle opzioni disponibili. Il suo risultato è un orientamento personalizzato: quali obiettivi affrontare, con quale approccio e attraverso quali passaggi.",
+      "description": "La consulenza offre una lettura più chiara delle proprie esigenze e delle opzioni disponibili. Il suo risultato è un orientamento personalizzato: quali obiettivi affrontare, con quale approccio e attraverso quali passaggi.\n\nGli eventuali cambiamenti estetici dipenderanno dal trattamento scelto, non dalla sola visita. Prima di iniziare, il medico chiarisce ciò che può essere ragionevolmente atteso rispetto al punto di partenza.",
       "paragraphs": [
         "La consulenza offre una lettura più chiara delle proprie esigenze e delle opzioni disponibili. Il suo risultato è un orientamento personalizzato: quali obiettivi affrontare, con quale approccio e attraverso quali passaggi.",
-        "Gli eventuali cambiamenti estetici dipenderanno dal trattamento scelto, non dalla sola visita. Prima di iniziare, il medico chiarisce ciò che può essere ragionevolmente atteso rispetto al punto di partenza.",
-        "Scrivi al team Cocoora per organizzare una visita di medicina estetica. Potrai approfondire le esigenze di viso e corpo e ricevere indicazioni sul percorso."
+        "Gli eventuali cambiamenti estetici dipenderanno dal trattamento scelto, non dalla sola visita. Prima di iniziare, il medico chiarisce ciò che può essere ragionevolmente atteso rispetto al punto di partenza."
       ],
       "image": "/images/visite/medicina-estetica-napoli-3.jpg"
     },
@@ -246,7 +250,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     "localSeo": {
       "title": "Visita di medicina estetica a Napoli",
       "description": "Da Cocoora, a Napoli, la medicina estetica inizia dall’ascolto e dalla valutazione clinica. La consulenza dedicata al viso e al corpo permette di comprendere le possibilità di intervento e costruire una scelta consapevole, prima di programmare il trattamento.",
-      "cta": "Richiedi una valutazione"
+      "cta": "Iscriviti gratuitamente al Cocoora Club"
     }
   },
   {
@@ -254,14 +258,14 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     "title": "Visita dermatologica",
     "categoryName": "Benessere e cura di sé",
     "tagline": "La pelle racconta cambiamenti che meritano di essere compresi. La visita dermatologica approfondisce la salute di pelle, capelli e unghie, dal controllo dei nei alla valutazione di manifestazioni cutanee, per individuare cure e controlli appropriati.",
-    "description": "La visita dermatologica è una valutazione medica dedicata alle patologie della pelle e dei suoi annessi, come capelli e unghie. Può servire a comprendere una manifestazione nuova, controllare una condizione già nota o esaminare nei e altre lesioni cutanee.",
+    "description": "La visita dermatologica è una valutazione medica dedicata alle patologie della pelle e dei suoi annessi, come capelli e unghie. Può servire a comprendere una manifestazione nuova, controllare una condizione già nota o esaminare nei e altre lesioni cutanee.\n\nIl dermatologo mette in relazione l’aspetto della pelle con la storia dei sintomi, le abitudini e i prodotti o le terapie utilizzati. Un arrossamento o un cambiamento visibile non viene considerato soltanto sul piano estetico: occorre comprenderne la natura.\n\nLa valutazione orienta le indicazioni di cura e l’eventuale necessità di approfondimenti. Da Cocoora il percorso comprende anche la spiegazione dei passaggi successivi, per sapere come seguire le indicazioni e quando tornare a controllo.",
     "heroImage": "/images/visite/dermatologia-napoli-1.jpg",
     "galleryImages": [
       "/images/visite/dermatologia-napoli-1.jpg",
       "/images/visite/dermatologia-napoli-2.jpg",
       "/images/visite/dermatologia-napoli-3.jpg"
     ],
-    "heroCta": "Richiedi una valutazione",
+    "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
       "metaTitle": "Visita dermatologica a Napoli | Cocoora",
       "metaDescription": "Visita dermatologica a Napoli per pelle, nei, capelli e unghie. Cocoora propone una valutazione specialistica e un percorso di cura e controlli.",
@@ -270,7 +274,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     },
     "whatIs": {
       "title": "Che cos’è la visita dermatologica e come funziona?",
-      "description": "La visita dermatologica è una valutazione medica dedicata alle patologie della pelle e dei suoi annessi, come capelli e unghie. Può servire a comprendere una manifestazione nuova, controllare una condizione già nota o esaminare nei e altre lesioni cutanee.",
+      "description": "La visita dermatologica è una valutazione medica dedicata alle patologie della pelle e dei suoi annessi, come capelli e unghie. Può servire a comprendere una manifestazione nuova, controllare una condizione già nota o esaminare nei e altre lesioni cutanee.\n\nIl dermatologo mette in relazione l’aspetto della pelle con la storia dei sintomi, le abitudini e i prodotti o le terapie utilizzati. Un arrossamento o un cambiamento visibile non viene considerato soltanto sul piano estetico: occorre comprenderne la natura.\n\nLa valutazione orienta le indicazioni di cura e l’eventuale necessità di approfondimenti. Da Cocoora il percorso comprende anche la spiegazione dei passaggi successivi, per sapere come seguire le indicazioni e quando tornare a controllo.",
       "paragraphs": [
         "La visita dermatologica è una valutazione medica dedicata alle patologie della pelle e dei suoi annessi, come capelli e unghie. Può servire a comprendere una manifestazione nuova, controllare una condizione già nota o esaminare nei e altre lesioni cutanee.",
         "Il dermatologo mette in relazione l’aspetto della pelle con la storia dei sintomi, le abitudini e i prodotti o le terapie utilizzati. Un arrossamento o un cambiamento visibile non viene considerato soltanto sul piano estetico: occorre comprenderne la natura.",
@@ -278,55 +282,55 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
       ],
       "image": "/images/visite/dermatologia-napoli-2.jpg"
     },
-    "problemsTitle": "Cosa vorresti migliorare?",
+    "problemsTitle": "Quando è utile una visita dermatologica?",
+    "problemsSubtitle": "Le esigenze dermatologiche possono riguardare aree circoscritte o manifestazioni più diffuse. Raccontare quando sono comparse e come sono cambiate aiuta a orientare la visita.",
     "problemsGrid": [
       {
         "title": "Acne e manifestazioni della pelle",
-        "description": ""
+        "description": "La valutazione dell’acne considera distribuzione, andamento e trattamenti già provati. Il dermatologo individua le indicazioni pertinenti e chiarisce come organizzare la cura, senza affidarsi soltanto al tentativo di nuovi prodotti."
       },
       {
         "title": "Dermatiti, prurito e condizioni cutanee ricorrenti",
-        "description": ""
+        "description": "Eczemi, dermatiti e psoriasi richiedono un inquadramento specifico. La visita aiuta a distinguere manifestazioni che possono sembrare simili e a costruire un programma di gestione, considerando anche l’evoluzione nel tempo."
       },
       {
         "title": "Controllo dei nei e delle lesioni cutanee",
-        "description": ""
+        "description": "Il dermatologo esamina nei e lesioni della pelle, raccogliendo le informazioni su eventuali cambiamenti osservati. In base ai riscontri può indicare un controllo successivo o ulteriori accertamenti, spiegandone la finalità."
       },
       {
         "title": "Salute di capelli, cuoio capelluto e unghie",
-        "description": ""
+        "description": "Anche alterazioni di capelli e unghie rientrano nella valutazione dermatologica. Il medico osserva le aree interessate e ne ricostruisce la storia, per orientare la diagnosi e scegliere gli eventuali approfondimenti."
       }
     ],
+    "leadForm": {
+      "title": "Diamo attenzione alla salute della pelle",
+      "subtitle": "Compila il form per organizzare una visita dermatologica. Il team Cocoora ti fornirà le informazioni utili per l’appuntamento e per la documentazione da portare.",
+      "cta": "Richiedi ora"
+    },
     "timelineTitle": "Come si svolge la visita dermatologica?",
     "timelineSteps": [
       {
         "stepNumber": "01",
-        "title": "01. Ricostruire la storia della manifestazione",
+        "title": "Ricostruire la storia della manifestazione",
         "description": "Si approfondiscono comparsa, durata e andamento dei disturbi, oltre a storia clinica, terapie e prodotti utilizzati. Le informazioni sui controlli precedenti aiutano a comprendere il quadro attuale."
       },
       {
         "stepNumber": "02",
-        "title": "02. Esaminare la pelle e le aree interessate",
+        "title": "Esaminare la pelle e le aree interessate",
         "description": "Il dermatologo osserva le manifestazioni e valuta quali elementi siano utili alla diagnosi. Quando l’esame clinico non è sufficiente, indica gli approfondimenti pertinenti invece di proporre un insieme di test uguale per tutti."
       },
       {
         "stepNumber": "03",
-        "title": "03. Definire cura e controlli",
+        "title": "Definire cura e controlli",
         "description": "Al termine vengono spiegate le indicazioni emerse, le modalità dell’eventuale terapia e il programma di monitoraggio. Il percorso può essere aggiornato nei controlli in base all’evoluzione della condizione."
       }
     ],
     "results": {
       "title": "Che cosa aspettarsi dalla valutazione dermatologica?",
-      "description": "Le esigenze dermatologiche possono riguardare aree circoscritte o manifestazioni più diffuse. Raccontare quando sono comparse e come sono cambiate aiuta a orientare la visita.",
+      "description": "La visita permette di dare un inquadramento alle manifestazioni e di individuare una direzione di cura. In alcuni casi la diagnosi può essere formulata durante l’incontro; in altri occorre completarla con accertamenti mirati.\n\nIl miglioramento viene seguito rispetto alla condizione specifica e alla risposta alla terapia. Per i disturbi ricorrenti, i controlli aiutano a gestire le diverse fasi e a mantenere indicazioni adeguate nel tempo.",
       "paragraphs": [
-        "Le esigenze dermatologiche possono riguardare aree circoscritte o manifestazioni più diffuse. Raccontare quando sono comparse e come sono cambiate aiuta a orientare la visita.",
-        "La valutazione dell’acne considera distribuzione, andamento e trattamenti già provati. Il dermatologo individua le indicazioni pertinenti e chiarisce come organizzare la cura, senza affidarsi soltanto al tentativo di nuovi prodotti.",
-        "Eczemi, dermatiti e psoriasi richiedono un inquadramento specifico. La visita aiuta a distinguere manifestazioni che possono sembrare simili e a costruire un programma di gestione, considerando anche l’evoluzione nel tempo.",
-        "Il dermatologo esamina nei e lesioni della pelle, raccogliendo le informazioni su eventuali cambiamenti osservati. In base ai riscontri può indicare un controllo successivo o ulteriori accertamenti, spiegandone la finalità.",
-        "Anche alterazioni di capelli e unghie rientrano nella valutazione dermatologica. Il medico osserva le aree interessate e ne ricostruisce la storia, per orientare la diagnosi e scegliere gli eventuali approfondimenti.",
         "La visita permette di dare un inquadramento alle manifestazioni e di individuare una direzione di cura. In alcuni casi la diagnosi può essere formulata durante l’incontro; in altri occorre completarla con accertamenti mirati.",
-        "Il miglioramento viene seguito rispetto alla condizione specifica e alla risposta alla terapia. Per i disturbi ricorrenti, i controlli aiutano a gestire le diverse fasi e a mantenere indicazioni adeguate nel tempo.",
-        "Compila il form per organizzare una visita dermatologica. Il team Cocoora ti fornirà le informazioni utili per l’appuntamento e per la documentazione da portare."
+        "Il miglioramento viene seguito rispetto alla condizione specifica e alla risposta alla terapia. Per i disturbi ricorrenti, i controlli aiutano a gestire le diverse fasi e a mantenere indicazioni adeguate nel tempo."
       ],
       "image": "/images/visite/dermatologia-napoli-3.jpg"
     },
@@ -359,7 +363,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     "localSeo": {
       "title": "Visita dermatologica a Napoli",
       "description": "Cocoora propone a Napoli visite dermatologiche dedicate a pelle, nei, capelli e unghie. La valutazione specialistica mette in relazione i segni osservati con la storia personale, per orientare diagnosi, cure e controlli.",
-      "cta": "Richiedi una valutazione"
+      "cta": "Iscriviti gratuitamente al Cocoora Club"
     }
   },
   {
@@ -367,14 +371,14 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     "title": "Consulenza di chirurgia plastica",
     "categoryName": "Benessere e cura di sé",
     "tagline": "Uno spazio per comprendere le possibilità, prima di decidere. La consulenza di chirurgia plastica permette di approfondire esigenze estetiche o ricostruttive e confrontarle con le caratteristiche dei tessuti, le alternative e gli obiettivi personali.",
-    "description": "La consulenza di chirurgia plastica è una visita specialistica per valutare richieste di correzione estetica o ricostruzione. Il chirurgo esamina la zona interessata e la storia clinica, ascolta le aspettative e spiega quali possibilità meritino di essere considerate.",
+    "description": "La consulenza di chirurgia plastica è una visita specialistica per valutare richieste di correzione estetica o ricostruzione. Il chirurgo esamina la zona interessata e la storia clinica, ascolta le aspettative e spiega quali possibilità meritino di essere considerate.\n\nL’incontro permette di chiarire non soltanto come si potrebbe intervenire, ma anche quale risultato sia coerente con il punto di partenza. Il confronto comprende le alternative, i passaggi preparatori e l’organizzazione di un eventuale percorso successivo.\n\nIn Cocoora la prestazione è dedicata alla consulenza. Quando viene presa in considerazione una soluzione chirurgica, il professionista ne valuta il successivo svolgimento in una struttura idonea.",
     "heroImage": "/images/visite/chiururgia-plastica-napoli-1.jpg",
     "galleryImages": [
       "/images/visite/chiururgia-plastica-napoli-1.jpg",
       "/images/visite/chiururgia-plastica-napoli-2.jpg",
       "/images/visite/chiururgia-plastica-napoli-3.jpg"
     ],
-    "heroCta": "Richiedi una valutazione",
+    "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
       "metaTitle": "Visita di chirurgia plastica a Napoli | Cocoora",
       "metaDescription": "Consulenza di chirurgia plastica a Napoli. Da Cocoora una valutazione delle esigenze estetiche o ricostruttive, delle alternative e del possibile percorso.",
@@ -383,7 +387,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     },
     "whatIs": {
       "title": "Che cos’è la consulenza di chirurgia plastica?",
-      "description": "La consulenza di chirurgia plastica è una visita specialistica per valutare richieste di correzione estetica o ricostruzione. Il chirurgo esamina la zona interessata e la storia clinica, ascolta le aspettative e spiega quali possibilità meritino di essere considerate.",
+      "description": "La consulenza di chirurgia plastica è una visita specialistica per valutare richieste di correzione estetica o ricostruzione. Il chirurgo esamina la zona interessata e la storia clinica, ascolta le aspettative e spiega quali possibilità meritino di essere considerate.\n\nL’incontro permette di chiarire non soltanto come si potrebbe intervenire, ma anche quale risultato sia coerente con il punto di partenza. Il confronto comprende le alternative, i passaggi preparatori e l’organizzazione di un eventuale percorso successivo.\n\nIn Cocoora la prestazione è dedicata alla consulenza. Quando viene presa in considerazione una soluzione chirurgica, il professionista ne valuta il successivo svolgimento in una struttura idonea.",
       "paragraphs": [
         "La consulenza di chirurgia plastica è una visita specialistica per valutare richieste di correzione estetica o ricostruzione. Il chirurgo esamina la zona interessata e la storia clinica, ascolta le aspettative e spiega quali possibilità meritino di essere considerate.",
         "L’incontro permette di chiarire non soltanto come si potrebbe intervenire, ma anche quale risultato sia coerente con il punto di partenza. Il confronto comprende le alternative, i passaggi preparatori e l’organizzazione di un eventuale percorso successivo.",
@@ -391,55 +395,55 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
       ],
       "image": "/images/visite/chiururgia-plastica-napoli-2.jpg"
     },
-    "problemsTitle": "Cosa vorresti migliorare?",
+    "problemsTitle": "Per quali esigenze si può richiedere la consulenza?",
+    "problemsSubtitle": "La visita può partire da una richiesta estetica o da un’esigenza ricostruttiva. In entrambi i casi, serve a trasformare una domanda generale in una valutazione clinica concreta.",
     "problemsGrid": [
       {
         "title": "Cambiamenti estetici del viso",
-        "description": ""
+        "description": "Il chirurgo valuta le caratteristiche del viso e della zona su cui si desidera un confronto. Il colloquio aiuta a mettere in relazione la richiesta con le proporzioni e i tessuti, per comprendere quali possibilità siano pertinenti."
       },
       {
         "title": "Modifiche del corpo e dei tessuti",
-        "description": ""
+        "description": "Quando la richiesta riguarda il corpo, la visita considera le caratteristiche anatomiche e i cambiamenti intervenuti nel tempo. Si approfondisce l’obiettivo e si chiarisce che cosa un eventuale approccio chirurgico potrebbe affrontare."
       },
       {
         "title": "Esigenze ricostruttive",
-        "description": ""
+        "description": "La consulenza può orientare richieste di recupero della forma o della funzione dei tessuti. La documentazione clinica e la storia degli eventuali trattamenti precedenti permettono di comprendere il caso e individuare il percorso specialistico più appropriato."
       },
       {
         "title": "Confronto tra soluzioni chirurgiche e non chirurgiche",
-        "description": ""
+        "description": "Una stessa richiesta può far sorgere dubbi su approcci differenti. La visita aiuta a comprenderne finalità e limiti, senza considerare automaticamente intercambiabili chirurgia plastica e medicina estetica."
       }
     ],
+    "leadForm": {
+      "title": "Un confronto specialistico per orientare la scelta",
+      "subtitle": "Lascia i tuoi contatti per organizzare una consulenza di chirurgia plastica. Il team Cocoora ti aiuterà a preparare il primo incontro con lo specialista.",
+      "cta": "Richiedi ora"
+    },
     "timelineTitle": "Come si svolge la consulenza di chirurgia plastica?",
     "timelineSteps": [
       {
         "stepNumber": "01",
-        "title": "01. Esprimere obiettivi e aspettative",
+        "title": "Esprimere obiettivi e aspettative",
         "description": "Il colloquio inizia dalla richiesta e dalle informazioni sulla salute. Puoi raccontare ciò che desideri approfondire, eventuali interventi già effettuati e le domande che vorresti chiarire."
       },
       {
         "stepNumber": "02",
-        "title": "02. Valutazione clinica e confronto sulle opzioni",
+        "title": "Valutazione clinica e confronto sulle opzioni",
         "description": "Il chirurgo esamina la zona e illustra le possibilità pertinenti. Il confronto mette in relazione i cambiamenti desiderati con le caratteristiche individuali, considerando anche eventuali alternative."
       },
       {
         "stepNumber": "03",
-        "title": "03. Orientamento dei passaggi successivi",
+        "title": "Orientamento dei passaggi successivi",
         "description": "Se si delinea un possibile percorso, vengono spiegati gli approfondimenti necessari, l’organizzazione delle fasi e gli aspetti da definire prima di decidere. L’incontro lascia spazio anche a una scelta successiva, dopo aver valutato le informazioni ricevute."
       }
     ],
     "results": {
       "title": "Che cosa aspettarsi dalla consulenza?",
-      "description": "La visita può partire da una richiesta estetica o da un’esigenza ricostruttiva. In entrambi i casi, serve a trasformare una domanda generale in una valutazione clinica concreta.",
+      "description": "La consulenza permette di comprendere se la richiesta possa trovare risposta in un percorso chirurgico o in un’altra soluzione. Il risultato dell’incontro è una valutazione motivata, con indicazioni sulle possibilità e sui passaggi da approfondire.\n\nNon è necessario arrivare con una decisione già presa. Il confronto serve proprio a costruirla, distinguendo i desideri dai risultati realisticamente raggiungibili nel caso individuale.",
       "paragraphs": [
-        "La visita può partire da una richiesta estetica o da un’esigenza ricostruttiva. In entrambi i casi, serve a trasformare una domanda generale in una valutazione clinica concreta.",
-        "Il chirurgo valuta le caratteristiche del viso e della zona su cui si desidera un confronto. Il colloquio aiuta a mettere in relazione la richiesta con le proporzioni e i tessuti, per comprendere quali possibilità siano pertinenti.",
-        "Quando la richiesta riguarda il corpo, la visita considera le caratteristiche anatomiche e i cambiamenti intervenuti nel tempo. Si approfondisce l’obiettivo e si chiarisce che cosa un eventuale approccio chirurgico potrebbe affrontare.",
-        "La consulenza può orientare richieste di recupero della forma o della funzione dei tessuti. La documentazione clinica e la storia degli eventuali trattamenti precedenti permettono di comprendere il caso e individuare il percorso specialistico più appropriato.",
-        "Una stessa richiesta può far sorgere dubbi su approcci differenti. La visita aiuta a comprenderne finalità e limiti, senza considerare automaticamente intercambiabili chirurgia plastica e medicina estetica.",
         "La consulenza permette di comprendere se la richiesta possa trovare risposta in un percorso chirurgico o in un’altra soluzione. Il risultato dell’incontro è una valutazione motivata, con indicazioni sulle possibilità e sui passaggi da approfondire.",
-        "Non è necessario arrivare con una decisione già presa. Il confronto serve proprio a costruirla, distinguendo i desideri dai risultati realisticamente raggiungibili nel caso individuale.",
-        "Lascia i tuoi contatti per organizzare una consulenza di chirurgia plastica. Il team Cocoora ti aiuterà a preparare il primo incontro con lo specialista."
+        "Non è necessario arrivare con una decisione già presa. Il confronto serve proprio a costruirla, distinguendo i desideri dai risultati realisticamente raggiungibili nel caso individuale."
       ],
       "image": "/images/visite/chiururgia-plastica-napoli-3.jpg"
     },
@@ -472,7 +476,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     "localSeo": {
       "title": "Consulenza di chirurgia plastica a Napoli",
       "description": "A Napoli, Cocoora offre un confronto specialistico dedicato alle esigenze estetiche e ricostruttive. La consulenza di chirurgia plastica aiuta a comprendere le opzioni, valutare le alternative e orientare gli eventuali passaggi successivi con obiettivi chiari.",
-      "cta": "Richiedi una valutazione"
+      "cta": "Iscriviti gratuitamente al Cocoora Club"
     }
   },
   {
@@ -480,14 +484,14 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     "title": "Radiologia ed ecografie",
     "categoryName": "Diagnostica e prevenzione",
     "tagline": "Un accertamento mirato per conoscere meglio organi e tessuti. Le ecografie utilizzano ultrasuoni per ottenere immagini utili alla valutazione medica, senza radiazioni ionizzanti. L’esame viene scelto in relazione all’area da studiare e alla richiesta clinica.",
-    "description": "L’ecografia è un esame diagnostico che utilizza ultrasuoni per rappresentare organi e tessuti. Durante un’ecografia esterna, una sonda viene appoggiata sulla pelle e spostata sull’area interessata; le immagini vengono osservate dal medico durante l’esame.",
+    "description": "L’ecografia è un esame diagnostico che utilizza ultrasuoni per rappresentare organi e tessuti. Durante un’ecografia esterna, una sonda viene appoggiata sulla pelle e spostata sull’area interessata; le immagini vengono osservate dal medico durante l’esame.\n\nLa valutazione parte da una domanda clinica: approfondire un sintomo, esaminare una zona o controllare un reperto già conosciuto. Il radiologo o lo specialista interpreta ciò che vede alla luce delle informazioni disponibili e redige il referto.\n\nIn Cocoora la diagnostica descritta comprende ecografie addominali e dei tessuti superficiali. Al momento della prenotazione viene verificata la corrispondenza tra l’esame richiesto e la prestazione disponibile.",
     "heroImage": "/images/visite/radiologia-napoli-1.jpg",
     "galleryImages": [
       "/images/visite/radiologia-napoli-1.jpg",
       "/images/visite/radiologia-napoli-2.jpg",
       "/images/visite/radiologia-napoli-3.jpg"
     ],
-    "heroCta": "Richiedi una valutazione",
+    "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
       "metaTitle": "Ecografie a Napoli | Diagnostica Cocoora",
       "metaDescription": "Ecografie a Napoli da Cocoora: esami addominali e dei tessuti superficiali, preparazione e referto. Scopri come organizzare l’accertamento indicato.",
@@ -496,7 +500,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     },
     "whatIs": {
       "title": "Che cos’è un’ecografia e come funziona?",
-      "description": "L’ecografia è un esame diagnostico che utilizza ultrasuoni per rappresentare organi e tessuti. Durante un’ecografia esterna, una sonda viene appoggiata sulla pelle e spostata sull’area interessata; le immagini vengono osservate dal medico durante l’esame.",
+      "description": "L’ecografia è un esame diagnostico che utilizza ultrasuoni per rappresentare organi e tessuti. Durante un’ecografia esterna, una sonda viene appoggiata sulla pelle e spostata sull’area interessata; le immagini vengono osservate dal medico durante l’esame.\n\nLa valutazione parte da una domanda clinica: approfondire un sintomo, esaminare una zona o controllare un reperto già conosciuto. Il radiologo o lo specialista interpreta ciò che vede alla luce delle informazioni disponibili e redige il referto.\n\nIn Cocoora la diagnostica descritta comprende ecografie addominali e dei tessuti superficiali. Al momento della prenotazione viene verificata la corrispondenza tra l’esame richiesto e la prestazione disponibile.",
       "paragraphs": [
         "L’ecografia è un esame diagnostico che utilizza ultrasuoni per rappresentare organi e tessuti. Durante un’ecografia esterna, una sonda viene appoggiata sulla pelle e spostata sull’area interessata; le immagini vengono osservate dal medico durante l’esame.",
         "La valutazione parte da una domanda clinica: approfondire un sintomo, esaminare una zona o controllare un reperto già conosciuto. Il radiologo o lo specialista interpreta ciò che vede alla luce delle informazioni disponibili e redige il referto.",
@@ -505,11 +509,8 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
       "image": "/images/visite/radiologia-napoli-2.jpg"
     },
     "problemsTitle": "A cosa serve la diagnostica ecografica?",
+    "problemsSubtitle": "L’ecografia può contribuire all’inquadramento di esigenze diverse. La scelta della zona da esaminare e del tipo di accertamento dipende dalla domanda a cui il medico cerca una risposta.",
     "problemsGrid": [
-      {
-        "title": "L’ecografia può contribuire all’inquadramento di esigenze diverse",
-        "description": "L’ecografia può contribuire all’inquadramento di esigenze diverse. La scelta della zona da esaminare e del tipo di accertamento dipende dalla domanda a cui il medico cerca una risposta."
-      },
       {
         "title": "Ecografie addominali",
         "description": "Gli esami addominali permettono di studiare gli organi compresi nell’area richiesta. Possono essere indicati per approfondire un quadro clinico o verificare reperti precedenti; la prestazione specifica viene individuata sulla base della richiesta medica."
@@ -527,31 +528,35 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
         "description": "Quando è indicato un monitoraggio, il confronto con le immagini e i referti precedenti aiuta a descrivere l’evoluzione di un reperto. La frequenza dei controlli viene definita in relazione alla situazione clinica."
       }
     ],
+    "leadForm": {
+      "title": "Organizza il tuo esame ecografico",
+      "subtitle": "Lascia i tuoi recapiti e indica il tipo di esame richiesto. Il team Cocoora ti aiuterà a verificare la prestazione e a conoscere la preparazione prevista.",
+      "cta": "Richiedi ora"
+    },
     "timelineTitle": "Come si svolge un’ecografia?",
     "timelineSteps": [
       {
         "stepNumber": "01",
-        "title": "01. Verifica dell’esame e preparazione",
+        "title": "Verifica dell’esame e preparazione",
         "description": "In fase di prenotazione si chiariscono area da esaminare e richiesta clinica. Ricevi le eventuali indicazioni di preparazione, che cambiano in base all’esame e vanno seguite secondo quanto comunicato dallo studio."
       },
       {
         "stepNumber": "02",
-        "title": "02. Esecuzione dell’esame",
+        "title": "Esecuzione dell’esame",
         "description": "Il medico esamina la documentazione e posiziona la sonda sull’area, utilizzando un gel che favorisce il contatto. Durante l’osservazione può chiederti di cambiare posizione o seguire brevi indicazioni utili a ottenere le immagini."
       },
       {
         "stepNumber": "03",
-        "title": "03. Referto e lettura nel percorso clinico",
+        "title": "Referto e lettura nel percorso clinico",
         "description": "Lo specialista descrive i reperti nel referto. Il documento viene poi messo in relazione con i sintomi, la visita e gli altri dati disponibili dal medico che segue il caso, per decidere gli eventuali passaggi successivi."
       }
     ],
     "results": {
-      "title": "Cosa comprende e refertazione",
-      "description": "L’esame offre immagini e una descrizione delle strutture studiate. Può contribuire a chiarire un quesito clinico, orientare un controllo o indicare la necessità di approfondire alcuni aspetti.",
+      "title": "Quali informazioni può fornire un’ecografia?",
+      "description": "L’esame offre immagini e una descrizione delle strutture studiate. Può contribuire a chiarire un quesito clinico, orientare un controllo o indicare la necessità di approfondire alcuni aspetti.\n\nIl referto non va letto isolatamente: il suo significato dipende anche dalla visita e dalla storia della persona. L’obiettivo è ottenere informazioni pertinenti, scegliendo l’accertamento adatto alla domanda clinica.",
       "paragraphs": [
         "L’esame offre immagini e una descrizione delle strutture studiate. Può contribuire a chiarire un quesito clinico, orientare un controllo o indicare la necessità di approfondire alcuni aspetti.",
-        "Il referto non va letto isolatamente: il suo significato dipende anche dalla visita e dalla storia della persona. L’obiettivo è ottenere informazioni pertinenti, scegliendo l’accertamento adatto alla domanda clinica.",
-        "Lascia i tuoi recapiti e indica il tipo di esame richiesto. Il team Cocoora ti aiuterà a verificare la prestazione e a conoscere la preparazione prevista."
+        "Il referto non va letto isolatamente: il suo significato dipende anche dalla visita e dalla storia della persona. L’obiettivo è ottenere informazioni pertinenti, scegliendo l’accertamento adatto alla domanda clinica."
       ],
       "image": "/images/visite/radiologia-napoli-3.jpg"
     },
@@ -584,7 +589,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     "localSeo": {
       "title": "Ecografie a Napoli",
       "description": "Da Cocoora, a Napoli, la diagnostica ecografica comprende esami addominali e dei tessuti superficiali eseguiti e refertati dallo specialista. Il percorso parte dalla richiesta clinica e dalla scelta dell’accertamento, con informazioni sulla preparazione e sull’organizzazione dell’appuntamento.",
-      "cta": "Richiedi una valutazione"
+      "cta": "Iscriviti gratuitamente al Cocoora Club"
     }
   },
   {
@@ -592,14 +597,14 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     "title": "Visita cardiologica",
     "categoryName": "Diagnostica e prevenzione",
     "tagline": "Conoscere la salute del cuore significa mettere insieme sintomi, abitudini e storia personale. La visita cardiologica permette di valutare il quadro cardiovascolare e individuare le indicazioni utili per la prevenzione, gli approfondimenti e i controlli.",
-    "description": "La visita cardiologica è una valutazione specialistica della salute del cuore e dei principali fattori di rischio cardiovascolare. Può essere richiesta per approfondire un disturbo, controllare una condizione già conosciuta o definire un percorso di prevenzione.",
+    "description": "La visita cardiologica è una valutazione specialistica della salute del cuore e dei principali fattori di rischio cardiovascolare. Può essere richiesta per approfondire un disturbo, controllare una condizione già conosciuta o definire un percorso di prevenzione.\n\nIl cardiologo considera la storia clinica e familiare, le abitudini quotidiane, i farmaci assunti e gli esami disponibili. Queste informazioni aiutano a comprendere i riscontri della visita nel contesto della persona.\n\nGli eventuali esami strumentali vengono scelti in base alla domanda clinica. Da Cocoora il confronto con lo specialista serve a dare ordine ai passaggi: che cosa approfondire, quali indicazioni seguire e quando programmare un controllo.",
     "heroImage": "/images/visite/cardiologia-napoli-1.jpg",
     "galleryImages": [
       "/images/visite/cardiologia-napoli-1.jpg",
       "/images/visite/cardiologia-napoli-2.jpg",
       "/images/visite/cardiologia-napoli-3.jpg"
     ],
-    "heroCta": "Richiedi una valutazione",
+    "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
       "metaTitle": "Visita cardiologica a Napoli | Cocoora",
       "metaDescription": "Visita cardiologica a Napoli: valutazione del cuore, pressione e fattori di rischio. Cocoora propone un percorso specialistico e controlli personalizzati.",
@@ -608,7 +613,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     },
     "whatIs": {
       "title": "Che cos’è la visita cardiologica e come funziona?",
-      "description": "La visita cardiologica è una valutazione specialistica della salute del cuore e dei principali fattori di rischio cardiovascolare. Può essere richiesta per approfondire un disturbo, controllare una condizione già conosciuta o definire un percorso di prevenzione.",
+      "description": "La visita cardiologica è una valutazione specialistica della salute del cuore e dei principali fattori di rischio cardiovascolare. Può essere richiesta per approfondire un disturbo, controllare una condizione già conosciuta o definire un percorso di prevenzione.\n\nIl cardiologo considera la storia clinica e familiare, le abitudini quotidiane, i farmaci assunti e gli esami disponibili. Queste informazioni aiutano a comprendere i riscontri della visita nel contesto della persona.\n\nGli eventuali esami strumentali vengono scelti in base alla domanda clinica. Da Cocoora il confronto con lo specialista serve a dare ordine ai passaggi: che cosa approfondire, quali indicazioni seguire e quando programmare un controllo.",
       "paragraphs": [
         "La visita cardiologica è una valutazione specialistica della salute del cuore e dei principali fattori di rischio cardiovascolare. Può essere richiesta per approfondire un disturbo, controllare una condizione già conosciuta o definire un percorso di prevenzione.",
         "Il cardiologo considera la storia clinica e familiare, le abitudini quotidiane, i farmaci assunti e gli esami disponibili. Queste informazioni aiutano a comprendere i riscontri della visita nel contesto della persona.",
@@ -617,11 +622,8 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
       "image": "/images/visite/cardiologia-napoli-2.jpg"
     },
     "problemsTitle": "A cosa serve una visita cardiologica?",
+    "problemsSubtitle": "Un controllo del cuore può rispondere a esigenze differenti. Il motivo dell’appuntamento orienta la valutazione e permette di concentrarsi sulle informazioni davvero utili.",
     "problemsGrid": [
-      {
-        "title": "Un controllo del cuore può rispondere a esigenze differenti",
-        "description": "Un controllo del cuore può rispondere a esigenze differenti. Il motivo dell’appuntamento orienta la valutazione e permette di concentrarsi sulle informazioni davvero utili."
-      },
       {
         "title": "Valutazione della pressione arteriosa",
         "description": "Valori pressori alterati o una diagnosi di ipertensione possono richiedere un approfondimento cardiologico. Lo specialista considera le misurazioni disponibili e il quadro generale, per definire o rivedere le indicazioni di gestione."
@@ -639,31 +641,35 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
         "description": "Per chi segue già un percorso cardiologico, la visita offre un momento di rivalutazione. Il medico esamina l’andamento clinico, i risultati degli accertamenti e la terapia, organizzando il monitoraggio successivo."
       }
     ],
+    "leadForm": {
+      "title": "Programma il tuo controllo cardiologico",
+      "subtitle": "Lascia i tuoi contatti per ricevere informazioni sulla visita cardiologica. Il team Cocoora ti aiuterà a organizzare l’appuntamento e a conoscere la documentazione utile.",
+      "cta": "Richiedi ora"
+    },
     "timelineTitle": "Come si svolge la visita cardiologica?",
     "timelineSteps": [
       {
         "stepNumber": "01",
-        "title": "01. Storia clinica e motivo del controllo",
+        "title": "Storia clinica e motivo del controllo",
         "description": "Il cardiologo raccoglie informazioni sui disturbi, sulle condizioni già diagnosticate e sulle terapie. I referti precedenti e le eventuali misurazioni pressorie già disponibili aiutano a ricostruire l’andamento nel tempo."
       },
       {
         "stepNumber": "02",
-        "title": "02. Valutazione clinica del cuore",
+        "title": "Valutazione clinica del cuore",
         "description": "L’esame clinico comprende le verifiche pertinenti, come l’auscultazione e la misurazione della pressione. In relazione ai riscontri, il medico valuta se servano approfondimenti strumentali."
       },
       {
         "stepNumber": "03",
-        "title": "03. Indicazioni e programma di monitoraggio",
+        "title": "Indicazioni e programma di monitoraggio",
         "description": "Al termine vengono condivise le indicazioni emerse e gli eventuali esami da eseguire. Lo specialista chiarisce anche come organizzare i controlli e il rapporto con le cure già seguite."
       }
     ],
     "results": {
       "title": "Che cosa aspettarsi dalla visita cardiologica?",
-      "description": "La valutazione offre una lettura del quadro cardiovascolare e un orientamento sui passaggi successivi. Può chiarire le priorità della prevenzione, completare il monitoraggio di una condizione o individuare un approfondimento diagnostico.",
+      "description": "La valutazione offre una lettura del quadro cardiovascolare e un orientamento sui passaggi successivi. Può chiarire le priorità della prevenzione, completare il monitoraggio di una condizione o individuare un approfondimento diagnostico.\n\nQuando il percorso richiede altri esami, le conclusioni vengono costruite insieme ai loro risultati. La continuità dei controlli permette di aggiornare le indicazioni rispetto all’evoluzione della salute.",
       "paragraphs": [
         "La valutazione offre una lettura del quadro cardiovascolare e un orientamento sui passaggi successivi. Può chiarire le priorità della prevenzione, completare il monitoraggio di una condizione o individuare un approfondimento diagnostico.",
-        "Quando il percorso richiede altri esami, le conclusioni vengono costruite insieme ai loro risultati. La continuità dei controlli permette di aggiornare le indicazioni rispetto all’evoluzione della salute.",
-        "Lascia i tuoi contatti per ricevere informazioni sulla visita cardiologica. Il team Cocoora ti aiuterà a organizzare l’appuntamento e a conoscere la documentazione utile."
+        "Quando il percorso richiede altri esami, le conclusioni vengono costruite insieme ai loro risultati. La continuità dei controlli permette di aggiornare le indicazioni rispetto all’evoluzione della salute."
       ],
       "image": "/images/visite/cardiologia-napoli-3.jpg"
     },
@@ -696,7 +702,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     "localSeo": {
       "title": "Visita cardiologica a Napoli",
       "description": "A Napoli, Cocoora propone visite cardiologiche per la valutazione del cuore e dei fattori di rischio cardiovascolare. Il percorso specialistico collega storia clinica, visita ed eventuali accertamenti, con indicazioni dedicate alla prevenzione e al monitoraggio.",
-      "cta": "Richiedi una valutazione"
+      "cta": "Iscriviti gratuitamente al Cocoora Club"
     }
   },
   {
@@ -704,14 +710,14 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     "title": "Visita diabetologica",
     "categoryName": "Diagnostica e prevenzione",
     "tagline": "Dare un significato ai valori della glicemia e costruire una gestione adatta alla quotidianità. La visita diabetologica è dedicata a chi convive con il diabete o deve approfondire alterazioni glicemiche, con attenzione a esami, terapie e abitudini.",
-    "description": "La visita diabetologica valuta il diabete e le alterazioni della glicemia attraverso la storia clinica, gli esami e le informazioni sulla vita quotidiana. Può essere un primo inquadramento oppure un controllo all’interno di un percorso già avviato.",
+    "description": "La visita diabetologica valuta il diabete e le alterazioni della glicemia attraverso la storia clinica, gli esami e le informazioni sulla vita quotidiana. Può essere un primo inquadramento oppure un controllo all’interno di un percorso già avviato.\n\nLo specialista considera l’andamento dei valori, le eventuali terapie e il modo in cui vengono gestiti l’alimentazione, l’attività fisica e il monitoraggio. L’obiettivo è collegare i dati alle esigenze reali della persona, anziché leggere un singolo risultato in modo isolato.\n\nIl programma può comprendere indicazioni terapeutiche, approfondimenti e controlli successivi. Cocoora offre un confronto dedicato a comprendere il percorso e a renderne chiari gli obiettivi.",
     "heroImage": "/images/visite/diabetologia-napoli-1.jpg",
     "galleryImages": [
       "/images/visite/diabetologia-napoli-1.jpg",
       "/images/visite/diabetologia-napoli-2.jpg",
       "/images/visite/diabetologia-napoli-3.jpg"
     ],
-    "heroCta": "Richiedi una valutazione",
+    "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
       "metaTitle": "Visita diabetologica a Napoli | Cocoora",
       "metaDescription": "Visita diabetologica a Napoli per diabete e alterazioni della glicemia. Cocoora propone valutazione, indicazioni personalizzate e controlli nel tempo.",
@@ -720,7 +726,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     },
     "whatIs": {
       "title": "Che cos’è la visita diabetologica e come funziona?",
-      "description": "La visita diabetologica valuta il diabete e le alterazioni della glicemia attraverso la storia clinica, gli esami e le informazioni sulla vita quotidiana. Può essere un primo inquadramento oppure un controllo all’interno di un percorso già avviato.",
+      "description": "La visita diabetologica valuta il diabete e le alterazioni della glicemia attraverso la storia clinica, gli esami e le informazioni sulla vita quotidiana. Può essere un primo inquadramento oppure un controllo all’interno di un percorso già avviato.\n\nLo specialista considera l’andamento dei valori, le eventuali terapie e il modo in cui vengono gestiti l’alimentazione, l’attività fisica e il monitoraggio. L’obiettivo è collegare i dati alle esigenze reali della persona, anziché leggere un singolo risultato in modo isolato.\n\nIl programma può comprendere indicazioni terapeutiche, approfondimenti e controlli successivi. Cocoora offre un confronto dedicato a comprendere il percorso e a renderne chiari gli obiettivi.",
       "paragraphs": [
         "La visita diabetologica valuta il diabete e le alterazioni della glicemia attraverso la storia clinica, gli esami e le informazioni sulla vita quotidiana. Può essere un primo inquadramento oppure un controllo all’interno di un percorso già avviato.",
         "Lo specialista considera l’andamento dei valori, le eventuali terapie e il modo in cui vengono gestiti l’alimentazione, l’attività fisica e il monitoraggio. L’obiettivo è collegare i dati alle esigenze reali della persona, anziché leggere un singolo risultato in modo isolato.",
@@ -728,55 +734,55 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
       ],
       "image": "/images/visite/diabetologia-napoli-2.jpg"
     },
-    "problemsTitle": "Cosa vorresti migliorare?",
+    "problemsTitle": "Quando è utile la visita diabetologica?",
+    "problemsSubtitle": "La richiesta può nascere da un esame alterato, da una diagnosi recente o dall’esigenza di rivedere una gestione già in corso. Ogni situazione richiede un punto di partenza diverso.",
     "problemsGrid": [
       {
         "title": "Approfondire valori della glicemia alterati",
-        "description": ""
+        "description": "Lo specialista interpreta i risultati nel contesto clinico e stabilisce se occorrano altri accertamenti. La visita aiuta a comprendere il significato dei valori e a definire i passaggi utili per un corretto inquadramento."
       },
       {
         "title": "Orientarsi dopo una diagnosi di diabete",
-        "description": ""
+        "description": "Una diagnosi può portare molte domande su alimentazione, controlli e terapia. Il confronto permette di chiarire le priorità e capire come organizzare le indicazioni ricevute nella vita quotidiana."
       },
       {
         "title": "Rivalutare il diabete e le terapie nel tempo",
-        "description": ""
+        "description": "Durante i controlli vengono esaminati gli esami e l’andamento del percorso. Il medico valuta se le indicazioni in corso restino adeguate e quali adattamenti possano essere necessari rispetto alla situazione attuale."
       },
       {
         "title": "Integrare abitudini e programma di prevenzione",
-        "description": ""
+        "description": "La gestione del diabete comprende anche alimentazione, movimento e controlli mirati. La visita aiuta a coordinare questi aspetti e a individuare gli eventuali approfondimenti con altre competenze, secondo le necessità cliniche."
       }
     ],
+    "leadForm": {
+      "title": "Organizziamo il prossimo passo del percorso",
+      "subtitle": "Contatta il team Cocoora per una prima valutazione o un controllo diabetologico. Ti aiuteremo a preparare l’appuntamento e la documentazione utile.",
+      "cta": "Richiedi ora"
+    },
     "timelineTitle": "Come si svolge la visita diabetologica?",
     "timelineSteps": [
       {
         "stepNumber": "01",
-        "title": "01. Raccogliere dati e storia del percorso",
+        "title": "Raccogliere dati e storia del percorso",
         "description": "Si parte dagli esami, dalla storia clinica e dall’elenco delle terapie. Se già previsto nel percorso, il diario delle misurazioni o i dati del monitoraggio aiutano a descrivere l’andamento della glicemia."
       },
       {
         "stepNumber": "02",
-        "title": "02. Valutazione clinica e confronto sulla quotidianità",
+        "title": "Valutazione clinica e confronto sulla quotidianità",
         "description": "Il medico considera lo stato di salute insieme alle abitudini e alle eventuali difficoltà di gestione. Il confronto permette di capire quali aspetti approfondire e di dare spazio alle domande su terapia e monitoraggio."
       },
       {
         "stepNumber": "03",
-        "title": "03. Definire indicazioni e controlli",
+        "title": "Definire indicazioni e controlli",
         "description": "Vengono condivise le indicazioni individuali e gli eventuali accertamenti successivi. Il programma dei controlli serve a verificare l’andamento e ad aggiornare il percorso quando necessario."
       }
     ],
     "results": {
       "title": "Che cosa aspettarsi dal percorso diabetologico?",
-      "description": "La richiesta può nascere da un esame alterato, da una diagnosi recente o dall’esigenza di rivedere una gestione già in corso. Ogni situazione richiede un punto di partenza diverso.",
+      "description": "La visita permette di comprendere meglio la situazione glicemica e avere indicazioni personalizzate per la gestione. Per chi ha già una diagnosi, offre un momento di verifica e confronto sulle esigenze che emergono nel tempo.\n\nIl controllo del diabete si costruisce attraverso continuità terapeutica, abitudini e monitoraggio. Gli obiettivi vengono definiti individualmente e rivalutati sulla base dei dati e della risposta al percorso.",
       "paragraphs": [
-        "La richiesta può nascere da un esame alterato, da una diagnosi recente o dall’esigenza di rivedere una gestione già in corso. Ogni situazione richiede un punto di partenza diverso.",
-        "Lo specialista interpreta i risultati nel contesto clinico e stabilisce se occorrano altri accertamenti. La visita aiuta a comprendere il significato dei valori e a definire i passaggi utili per un corretto inquadramento.",
-        "Una diagnosi può portare molte domande su alimentazione, controlli e terapia. Il confronto permette di chiarire le priorità e capire come organizzare le indicazioni ricevute nella vita quotidiana.",
-        "Durante i controlli vengono esaminati gli esami e l’andamento del percorso. Il medico valuta se le indicazioni in corso restino adeguate e quali adattamenti possano essere necessari rispetto alla situazione attuale.",
-        "La gestione del diabete comprende anche alimentazione, movimento e controlli mirati. La visita aiuta a coordinare questi aspetti e a individuare gli eventuali approfondimenti con altre competenze, secondo le necessità cliniche.",
         "La visita permette di comprendere meglio la situazione glicemica e avere indicazioni personalizzate per la gestione. Per chi ha già una diagnosi, offre un momento di verifica e confronto sulle esigenze che emergono nel tempo.",
-        "Il controllo del diabete si costruisce attraverso continuità terapeutica, abitudini e monitoraggio. Gli obiettivi vengono definiti individualmente e rivalutati sulla base dei dati e della risposta al percorso.",
-        "Contatta il team Cocoora per una prima valutazione o un controllo diabetologico. Ti aiuteremo a preparare l’appuntamento e la documentazione utile."
+        "Il controllo del diabete si costruisce attraverso continuità terapeutica, abitudini e monitoraggio. Gli obiettivi vengono definiti individualmente e rivalutati sulla base dei dati e della risposta al percorso."
       ],
       "image": "/images/visite/diabetologia-napoli-3.jpg"
     },
@@ -809,7 +815,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     "localSeo": {
       "title": "Visita diabetologica a Napoli",
       "description": "Cocoora propone a Napoli un percorso diabetologico dedicato alla valutazione della glicemia e alla gestione del diabete. Il confronto specialistico unisce esami, terapie e abitudini personali, con indicazioni e controlli costruiti intorno alla situazione clinica.",
-      "cta": "Richiedi una valutazione"
+      "cta": "Iscriviti gratuitamente al Cocoora Club"
     }
   },
   {
@@ -817,14 +823,14 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     "title": "Visita ginecologica",
     "categoryName": "Diagnostica e prevenzione",
     "tagline": "La salute ginecologica cambia insieme alle fasi della vita. La visita permette di approfondire disturbi, dubbi e necessità di prevenzione, mettendo in relazione sintomi, storia personale e caratteristiche individuali.",
-    "description": "La visita ginecologica è una valutazione specialistica dedicata alla salute dell’apparato genitale femminile. Può essere richiesta per un controllo periodico, per approfondire un sintomo o per affrontare esigenze che cambiano dall’età fertile alla menopausa.",
+    "description": "La visita ginecologica è una valutazione specialistica dedicata alla salute dell’apparato genitale femminile. Può essere richiesta per un controllo periodico, per approfondire un sintomo o per affrontare esigenze che cambiano dall’età fertile alla menopausa.\n\nIl medico raccoglie la storia clinica e ginecologica, ascolta il motivo dell’appuntamento e approfondisce aspetti come ciclo mestruale, eventuali disturbi, terapie e controlli già effettuati. La valutazione viene adattata all’età, alla storia personale e alla richiesta.\n\nQuando servono ulteriori accertamenti, il ginecologo spiega quali possono essere utili e come inserirli nel percorso. Visita, ecografia, Pap test e altri esami sono prestazioni diverse: ciò che viene eseguito o programmato dipende dall’indicazione e dall’appuntamento organizzato.",
     "heroImage": "/images/visite/ginecologia-napoli-1.jpg",
     "galleryImages": [
       "/images/visite/ginecologia-napoli-1.jpg",
       "/images/visite/ginecologia-napoli-2.jpg",
       "/images/visite/ginecologia-napoli-3.jpg"
     ],
-    "heroCta": "Richiedi una valutazione",
+    "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
       "metaTitle": "Visita ginecologica a Napoli | Cocoora",
       "metaDescription": "Visita ginecologica a Napoli per controlli, disturbi del ciclo, prevenzione e salute nelle diverse fasi della vita. Scopri il percorso Cocoora.",
@@ -833,7 +839,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     },
     "whatIs": {
       "title": "Che cos’è la visita ginecologica e come funziona?",
-      "description": "La visita ginecologica è una valutazione specialistica dedicata alla salute dell’apparato genitale femminile. Può essere richiesta per un controllo periodico, per approfondire un sintomo o per affrontare esigenze che cambiano dall’età fertile alla menopausa.",
+      "description": "La visita ginecologica è una valutazione specialistica dedicata alla salute dell’apparato genitale femminile. Può essere richiesta per un controllo periodico, per approfondire un sintomo o per affrontare esigenze che cambiano dall’età fertile alla menopausa.\n\nIl medico raccoglie la storia clinica e ginecologica, ascolta il motivo dell’appuntamento e approfondisce aspetti come ciclo mestruale, eventuali disturbi, terapie e controlli già effettuati. La valutazione viene adattata all’età, alla storia personale e alla richiesta.\n\nQuando servono ulteriori accertamenti, il ginecologo spiega quali possono essere utili e come inserirli nel percorso. Visita, ecografia, Pap test e altri esami sono prestazioni diverse: ciò che viene eseguito o programmato dipende dall’indicazione e dall’appuntamento organizzato.",
       "paragraphs": [
         "La visita ginecologica è una valutazione specialistica dedicata alla salute dell’apparato genitale femminile. Può essere richiesta per un controllo periodico, per approfondire un sintomo o per affrontare esigenze che cambiano dall’età fertile alla menopausa.",
         "Il medico raccoglie la storia clinica e ginecologica, ascolta il motivo dell’appuntamento e approfondisce aspetti come ciclo mestruale, eventuali disturbi, terapie e controlli già effettuati. La valutazione viene adattata all’età, alla storia personale e alla richiesta.",
@@ -841,60 +847,59 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
       ],
       "image": "/images/visite/ginecologia-napoli-2.jpg"
     },
-    "problemsTitle": "Cosa vorresti migliorare?",
+    "problemsTitle": "Quando è utile una visita ginecologica?",
+    "problemsSubtitle": "Non serve aspettare che compaia un problema importante. Il controllo può essere utile per prevenzione, per capire un cambiamento o per avere indicazioni più chiare su una fase della propria vita.",
     "problemsGrid": [
       {
         "title": "Ciclo irregolare, doloroso o cambiato nel tempo",
-        "description": ""
+        "description": "Variazioni nella regolarità, nella durata o nell’intensità del ciclo possono essere approfondite durante la visita. Il ginecologo raccoglie le informazioni sull’andamento mestruale e valuta se siano necessari ulteriori accertamenti."
       },
       {
         "title": "Dolore, fastidio o altri sintomi ginecologici",
-        "description": ""
+        "description": "Dolore pelvico, perdite insolite, prurito o altri cambiamenti meritano un inquadramento quando persistono o creano dubbi. La visita aiuta a comprenderne le caratteristiche e a orientare le eventuali cure o verifiche."
       },
       {
         "title": "Prevenzione e controlli periodici",
-        "description": ""
+        "description": "La visita può essere anche un momento dedicato alla prevenzione. In base all’età, alla storia clinica e ai controlli già effettuati, il medico chiarisce quali esami o appuntamenti siano pertinenti e con quale frequenza."
       },
       {
         "title": "Contraccezione e salute riproduttiva",
-        "description": ""
+        "description": "Quando la richiesta riguarda la contraccezione o un progetto di gravidanza, il colloquio permette di affrontare dubbi e necessità personali. Le indicazioni vengono definite rispetto alla storia clinica e agli obiettivi individuali."
       },
       {
         "title": "Menopausa e cambiamenti della fase adulta",
-        "description": ""
+        "description": "La menopausa può accompagnarsi a cambiamenti del ciclo e a sintomi che incidono sulla quotidianità. La visita offre uno spazio per valutarli e comprendere quali indicazioni o approfondimenti possano essere utili."
       }
     ],
+    "leadForm": {
+      "title": "Dedica uno spazio alla tua salute ginecologica",
+      "subtitle": "Lascia i tuoi contatti per ricevere informazioni sulla visita ginecologica. Il team Cocoora ti aiuterà a organizzare l’appuntamento e a capire quale documentazione portare.",
+      "cta": "Richiedi ora"
+    },
     "timelineTitle": "Come si svolge la visita ginecologica?",
     "timelineSteps": [
       {
         "stepNumber": "01",
-        "title": "01. Colloquio e storia ginecologica",
+        "title": "Colloquio e storia ginecologica",
         "description": "L’incontro parte dal motivo della visita. Il medico raccoglie informazioni sul ciclo, sui sintomi, sulle terapie, su eventuali gravidanze, interventi e controlli precedenti, lasciando spazio alle domande della persona."
       },
       {
         "stepNumber": "02",
-        "title": "02. Valutazione clinica",
+        "title": "Valutazione clinica",
         "description": "La visita viene organizzata in base all’età e alla situazione individuale. Il ginecologo esegue le valutazioni cliniche appropriate alla richiesta e tiene conto della documentazione disponibile."
       },
       {
         "stepNumber": "03",
-        "title": "03. Indicazioni e controlli successivi",
+        "title": "Indicazioni e controlli successivi",
         "description": "Al termine vengono spiegati i riscontri e gli eventuali passi successivi. Se sono necessari esami, terapie o controlli, il medico ne chiarisce la finalità e come inserirli nel percorso."
       }
     ],
     "results": {
       "title": "Che cosa aspettarsi dalla visita ginecologica?",
-      "description": "Non serve aspettare che compaia un problema importante. Il controllo può essere utile per prevenzione, per capire un cambiamento o per avere indicazioni più chiare su una fase della propria vita.",
+      "description": "La visita aiuta a comprendere meglio la propria salute ginecologica e a dare una direzione alle domande emerse. Può confermare che non servano ulteriori interventi, suggerire un monitoraggio o indicare approfondimenti mirati.\n\nIl percorso non è uguale per tutte: età, sintomi, storia personale e obiettivi cambiano le priorità. Per questo la visita serve soprattutto a costruire indicazioni coerenti con la persona e con la fase di vita che sta attraversando.",
       "paragraphs": [
-        "Non serve aspettare che compaia un problema importante. Il controllo può essere utile per prevenzione, per capire un cambiamento o per avere indicazioni più chiare su una fase della propria vita.",
-        "Variazioni nella regolarità, nella durata o nell’intensità del ciclo possono essere approfondite durante la visita. Il ginecologo raccoglie le informazioni sull’andamento mestruale e valuta se siano necessari ulteriori accertamenti.",
-        "Dolore pelvico, perdite insolite, prurito o altri cambiamenti meritano un inquadramento quando persistono o creano dubbi. La visita aiuta a comprenderne le caratteristiche e a orientare le eventuali cure o verifiche.",
-        "La visita può essere anche un momento dedicato alla prevenzione. In base all’età, alla storia clinica e ai controlli già effettuati, il medico chiarisce quali esami o appuntamenti siano pertinenti e con quale frequenza.",
-        "Quando la richiesta riguarda la contraccezione o un progetto di gravidanza, il colloquio permette di affrontare dubbi e necessità personali. Le indicazioni vengono definite rispetto alla storia clinica e agli obiettivi individuali.",
-        "La menopausa può accompagnarsi a cambiamenti del ciclo e a sintomi che incidono sulla quotidianità. La visita offre uno spazio per valutarli e comprendere quali indicazioni o approfondimenti possano essere utili.",
         "La visita aiuta a comprendere meglio la propria salute ginecologica e a dare una direzione alle domande emerse. Può confermare che non servano ulteriori interventi, suggerire un monitoraggio o indicare approfondimenti mirati.",
-        "Il percorso non è uguale per tutte: età, sintomi, storia personale e obiettivi cambiano le priorità. Per questo la visita serve soprattutto a costruire indicazioni coerenti con la persona e con la fase di vita che sta attraversando.",
-        "Lascia i tuoi contatti per ricevere informazioni sulla visita ginecologica. Il team Cocoora ti aiuterà a organizzare l’appuntamento e a capire quale documentazione portare."
+        "Il percorso non è uguale per tutte: età, sintomi, storia personale e obiettivi cambiano le priorità. Per questo la visita serve soprattutto a costruire indicazioni coerenti con la persona e con la fase di vita che sta attraversando."
       ],
       "image": "/images/visite/ginecologia-napoli-3.jpg"
     },
@@ -927,7 +932,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     "localSeo": {
       "title": "Visita ginecologica a Napoli",
       "description": "A Napoli, Cocoora propone visite ginecologiche dedicate alla prevenzione e alla salute nelle diverse fasi della vita. Il percorso parte dall’ascolto della richiesta e dalla valutazione specialistica, per orientare controlli, eventuali approfondimenti e indicazioni personalizzate.",
-      "cta": "Richiedi una valutazione"
+      "cta": "Iscriviti gratuitamente al Cocoora Club"
     }
   },
   {
@@ -935,14 +940,14 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     "title": "Visita pediatrica",
     "categoryName": "Diagnostica e prevenzione",
     "tagline": "Crescere significa cambiare continuamente. La visita pediatrica accompagna bambini, ragazzi e famiglie nei controlli di salute, nella valutazione della crescita e nell’approfondimento dei disturbi più comuni dell’età evolutiva.",
-    "description": "La visita pediatrica è una valutazione dedicata alla salute e allo sviluppo di bambini e ragazzi. Può essere programmata come controllo periodico oppure richiesta quando emerge un disturbo, un cambiamento o una domanda che la famiglia desidera approfondire.",
+    "description": "La visita pediatrica è una valutazione dedicata alla salute e allo sviluppo di bambini e ragazzi. Può essere programmata come controllo periodico oppure richiesta quando emerge un disturbo, un cambiamento o una domanda che la famiglia desidera approfondire.\n\nIl pediatra raccoglie le informazioni sulla storia del bambino, osserva crescita e sviluppo e considera alimentazione, sonno, attività quotidiane e altri aspetti utili in relazione all’età. I dati vengono letti nel loro insieme, non come valori isolati.\n\nQuando è necessario un approfondimento, il medico indica gli eventuali controlli o il coinvolgimento di altre competenze. Da Cocoora il percorso è pensato per dare alla famiglia indicazioni chiare sui passi successivi.",
     "heroImage": "/images/visite/pediatria-napoli-1.jpg",
     "galleryImages": [
       "/images/visite/pediatria-napoli-1.jpg",
       "/images/visite/pediatria-napoli-2.jpg",
       "/images/visite/pediatria-napoli-3.jpg"
     ],
-    "heroCta": "Richiedi una valutazione",
+    "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
       "metaTitle": "Visita pediatrica a Napoli | Cocoora",
       "metaDescription": "Visita pediatrica a Napoli per salute, crescita e sviluppo di bambini e ragazzi. Scopri il percorso Cocoora e come organizzare il controllo.",
@@ -951,7 +956,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     },
     "whatIs": {
       "title": "Che cos’è la visita pediatrica e come funziona?",
-      "description": "La visita pediatrica è una valutazione dedicata alla salute e allo sviluppo di bambini e ragazzi. Può essere programmata come controllo periodico oppure richiesta quando emerge un disturbo, un cambiamento o una domanda che la famiglia desidera approfondire.",
+      "description": "La visita pediatrica è una valutazione dedicata alla salute e allo sviluppo di bambini e ragazzi. Può essere programmata come controllo periodico oppure richiesta quando emerge un disturbo, un cambiamento o una domanda che la famiglia desidera approfondire.\n\nIl pediatra raccoglie le informazioni sulla storia del bambino, osserva crescita e sviluppo e considera alimentazione, sonno, attività quotidiane e altri aspetti utili in relazione all’età. I dati vengono letti nel loro insieme, non come valori isolati.\n\nQuando è necessario un approfondimento, il medico indica gli eventuali controlli o il coinvolgimento di altre competenze. Da Cocoora il percorso è pensato per dare alla famiglia indicazioni chiare sui passi successivi.",
       "paragraphs": [
         "La visita pediatrica è una valutazione dedicata alla salute e allo sviluppo di bambini e ragazzi. Può essere programmata come controllo periodico oppure richiesta quando emerge un disturbo, un cambiamento o una domanda che la famiglia desidera approfondire.",
         "Il pediatra raccoglie le informazioni sulla storia del bambino, osserva crescita e sviluppo e considera alimentazione, sonno, attività quotidiane e altri aspetti utili in relazione all’età. I dati vengono letti nel loro insieme, non come valori isolati.",
@@ -959,60 +964,59 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
       ],
       "image": "/images/visite/pediatria-napoli-2.jpg"
     },
-    "problemsTitle": "Cosa vorresti migliorare?",
+    "problemsTitle": "Quando è utile una visita pediatrica?",
+    "problemsSubtitle": "La visita può rispondere a esigenze molto diverse nel corso della crescita. Un appuntamento non serve soltanto quando il bambino è malato: può essere anche un momento di verifica e confronto.",
     "problemsGrid": [
       {
         "title": "Controllare crescita e sviluppo",
-        "description": ""
+        "description": "Peso, altezza e cambiamenti legati all’età vengono osservati nel tempo e messi in relazione con la storia del bambino. Il pediatra valuta il percorso di crescita nel suo complesso e chiarisce eventuali aspetti da monitorare."
       },
       {
         "title": "Approfondire disturbi comuni dell’età evolutiva",
-        "description": ""
+        "description": "Febbre ricorrente, disturbi gastrointestinali, tosse, problemi cutanei o altri sintomi frequenti possono essere inquadrati dal pediatra, che valuta quando siano sufficienti indicazioni generali e quando servano approfondimenti."
       },
       {
         "title": "Alimentazione e abitudini quotidiane",
-        "description": ""
+        "description": "Cambiamenti nell’appetito, organizzazione dei pasti, sonno e attività fisica possono essere discussi durante la visita. Le indicazioni vengono adattate all’età e alle caratteristiche del bambino, evitando schemi uguali per tutti."
       },
       {
         "title": "Dubbi su sviluppo e comportamento",
-        "description": ""
+        "description": "La famiglia può portare domande su tappe dello sviluppo, autonomia, sonno o altri cambiamenti osservati. Il pediatra aiuta a capire quali aspetti rientrino nella variabilità della crescita e quali meritino un approfondimento."
       },
       {
         "title": "Controlli periodici anche in assenza di disturbi",
-        "description": ""
+        "description": "I controlli programmati permettono di seguire l’evoluzione del bambino e aggiornare le indicazioni nel tempo. La frequenza viene definita in base all’età, alla storia personale e alle esigenze emerse."
       }
     ],
+    "leadForm": {
+      "title": "Un appuntamento dedicato alla crescita",
+      "subtitle": "Lascia i tuoi contatti per ricevere informazioni sulla visita pediatrica. Il team Cocoora ti aiuterà a organizzare l’appuntamento e a preparare la documentazione utile.",
+      "cta": "Richiedi ora"
+    },
     "timelineTitle": "Come si svolge la visita pediatrica?",
     "timelineSteps": [
       {
         "stepNumber": "01",
-        "title": "01. Ascolto della famiglia e storia del bambino",
+        "title": "Ascolto della famiglia e storia del bambino",
         "description": "Il pediatra raccoglie il motivo dell’appuntamento, la storia clinica e le informazioni utili sulla quotidianità. Referti precedenti, terapie e controlli già effettuati aiutano a ricostruire il percorso."
       },
       {
         "stepNumber": "02",
-        "title": "02. Valutazione clinica e della crescita",
+        "title": "Valutazione clinica e della crescita",
         "description": "La visita comprende le verifiche appropriate all’età e alla richiesta. Il medico osserva le condizioni generali e, quando pertinente, considera i parametri di crescita e gli aspetti dello sviluppo."
       },
       {
         "stepNumber": "03",
-        "title": "03. Indicazioni e prossimi controlli",
+        "title": "Indicazioni e prossimi controlli",
         "description": "Al termine vengono spiegati i riscontri e le indicazioni. Se servono altri esami o una valutazione specialistica, il pediatra chiarisce il motivo e aiuta a orientare i passaggi successivi."
       }
     ],
     "results": {
       "title": "Che cosa aspettarsi dalla visita pediatrica?",
-      "description": "La visita può rispondere a esigenze molto diverse nel corso della crescita. Un appuntamento non serve soltanto quando il bambino è malato: può essere anche un momento di verifica e confronto.",
+      "description": "La visita offre alla famiglia un punto di riferimento per comprendere la situazione attuale e sapere come proseguire. In alcuni casi il controllo conferma un andamento regolare; in altri permette di individuare aspetti da seguire nel tempo o da approfondire.\n\nIl valore del percorso sta anche nella continuità. Confrontare visite e informazioni nel tempo aiuta a leggere i cambiamenti della crescita e ad adattare le indicazioni alle nuove esigenze del bambino.",
       "paragraphs": [
-        "La visita può rispondere a esigenze molto diverse nel corso della crescita. Un appuntamento non serve soltanto quando il bambino è malato: può essere anche un momento di verifica e confronto.",
-        "Peso, altezza e cambiamenti legati all’età vengono osservati nel tempo e messi in relazione con la storia del bambino. Il pediatra valuta il percorso di crescita nel suo complesso e chiarisce eventuali aspetti da monitorare.",
-        "Febbre ricorrente, disturbi gastrointestinali, tosse, problemi cutanei o altri sintomi frequenti possono essere inquadrati dal pediatra, che valuta quando siano sufficienti indicazioni generali e quando servano approfondimenti.",
-        "Cambiamenti nell’appetito, organizzazione dei pasti, sonno e attività fisica possono essere discussi durante la visita. Le indicazioni vengono adattate all’età e alle caratteristiche del bambino, evitando schemi uguali per tutti.",
-        "La famiglia può portare domande su tappe dello sviluppo, autonomia, sonno o altri cambiamenti osservati. Il pediatra aiuta a capire quali aspetti rientrino nella variabilità della crescita e quali meritino un approfondimento.",
-        "I controlli programmati permettono di seguire l’evoluzione del bambino e aggiornare le indicazioni nel tempo. La frequenza viene definita in base all’età, alla storia personale e alle esigenze emerse.",
         "La visita offre alla famiglia un punto di riferimento per comprendere la situazione attuale e sapere come proseguire. In alcuni casi il controllo conferma un andamento regolare; in altri permette di individuare aspetti da seguire nel tempo o da approfondire.",
-        "Il valore del percorso sta anche nella continuità. Confrontare visite e informazioni nel tempo aiuta a leggere i cambiamenti della crescita e ad adattare le indicazioni alle nuove esigenze del bambino.",
-        "Lascia i tuoi contatti per ricevere informazioni sulla visita pediatrica. Il team Cocoora ti aiuterà a organizzare l’appuntamento e a preparare la documentazione utile."
+        "Il valore del percorso sta anche nella continuità. Confrontare visite e informazioni nel tempo aiuta a leggere i cambiamenti della crescita e ad adattare le indicazioni alle nuove esigenze del bambino."
       ],
       "image": "/images/visite/pediatria-napoli-3.jpg"
     },
@@ -1045,7 +1049,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     "localSeo": {
       "title": "Visita pediatrica a Napoli",
       "description": "A Napoli, Cocoora propone visite pediatriche dedicate alla salute, alla crescita e allo sviluppo di bambini e ragazzi. Il pediatra accompagna la famiglia nella valutazione dei bisogni del momento e nell’organizzazione degli eventuali controlli successivi.",
-      "cta": "Richiedi una valutazione"
+      "cta": "Iscriviti gratuitamente al Cocoora Club"
     }
   },
   {
@@ -1053,14 +1057,14 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     "title": "Visita oculistica",
     "categoryName": "Diagnostica e prevenzione",
     "tagline": "Vedere bene e conoscere la salute degli occhi sono aspetti dello stesso percorso. La visita oculistica valuta la funzione visiva, approfondisce gli eventuali disturbi e orienta controlli, correzioni o ulteriori accertamenti.",
-    "description": "La visita oculistica è una valutazione medica della vista e della salute degli occhi. Non si limita alla gradazione degli occhiali: mette in relazione la capacità visiva con le condizioni oculari, la storia personale e gli eventuali sintomi.",
+    "description": "La visita oculistica è una valutazione medica della vista e della salute degli occhi. Non si limita alla gradazione degli occhiali: mette in relazione la capacità visiva con le condizioni oculari, la storia personale e gli eventuali sintomi.\n\nL’oculista raccoglie le informazioni sulle difficoltà riscontrate, sulle correzioni utilizzate e sui controlli già effettuati. Esamina poi gli occhi e la funzione visiva attraverso le verifiche appropriate alla richiesta.\n\nIn base ai riscontri, può indicare una correzione, una cura, ulteriori esami o un programma di monitoraggio. Da Cocoora la visita aiuta a comprendere quale attenzione dedicare agli occhi e come organizzare i passaggi successivi.",
     "heroImage": "/images/visite/oculistica-napoli-1.jpg",
     "galleryImages": [
       "/images/visite/oculistica-napoli-1.jpg",
       "/images/visite/oculistica-napoli-2.jpg",
       "/images/visite/oculistica-napoli-3.jpg"
     ],
-    "heroCta": "Richiedi una valutazione",
+    "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
       "metaTitle": "Visita oculistica a Napoli | Cocoora",
       "metaDescription": "Visita oculistica a Napoli per valutare vista e salute degli occhi. Cocoora propone un controllo specialistico e indicazioni sugli eventuali approfondimenti.",
@@ -1069,7 +1073,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     },
     "whatIs": {
       "title": "Che cos’è la visita oculistica e come funziona?",
-      "description": "La visita oculistica è una valutazione medica della vista e della salute degli occhi. Non si limita alla gradazione degli occhiali: mette in relazione la capacità visiva con le condizioni oculari, la storia personale e gli eventuali sintomi.",
+      "description": "La visita oculistica è una valutazione medica della vista e della salute degli occhi. Non si limita alla gradazione degli occhiali: mette in relazione la capacità visiva con le condizioni oculari, la storia personale e gli eventuali sintomi.\n\nL’oculista raccoglie le informazioni sulle difficoltà riscontrate, sulle correzioni utilizzate e sui controlli già effettuati. Esamina poi gli occhi e la funzione visiva attraverso le verifiche appropriate alla richiesta.\n\nIn base ai riscontri, può indicare una correzione, una cura, ulteriori esami o un programma di monitoraggio. Da Cocoora la visita aiuta a comprendere quale attenzione dedicare agli occhi e come organizzare i passaggi successivi.",
       "paragraphs": [
         "La visita oculistica è una valutazione medica della vista e della salute degli occhi. Non si limita alla gradazione degli occhiali: mette in relazione la capacità visiva con le condizioni oculari, la storia personale e gli eventuali sintomi.",
         "L’oculista raccoglie le informazioni sulle difficoltà riscontrate, sulle correzioni utilizzate e sui controlli già effettuati. Esamina poi gli occhi e la funzione visiva attraverso le verifiche appropriate alla richiesta.",
@@ -1077,55 +1081,55 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
       ],
       "image": "/images/visite/oculistica-napoli-2.jpg"
     },
-    "problemsTitle": "Cosa vorresti migliorare?",
+    "problemsTitle": "Per quali esigenze è utile una visita oculistica?",
+    "problemsSubtitle": "La valutazione può riguardare una difficoltà precisa oppure un controllo della salute oculare. Le abitudini di lettura, lavoro e utilizzo degli occhiali aiutano a descrivere l’esperienza visiva quotidiana.",
     "problemsGrid": [
       {
         "title": "Difficoltà a vedere da vicino o da lontano",
-        "description": ""
+        "description": "Quando la lettura o la visione a distanza risultano meno nitide, l’oculista valuta la funzione visiva e l’eventuale necessità di una correzione. La visita considera anche gli occhiali già utilizzati e i cambiamenti riferiti."
       },
       {
         "title": "Disturbi visivi da approfondire",
-        "description": ""
+        "description": "Un disturbo della vista richiede di comprenderne caratteristiche e andamento. Il medico raccoglie il racconto della persona e lo collega all’esame degli occhi, per orientare gli eventuali approfondimenti."
       },
       {
         "title": "Controlli di condizioni oculari già note",
-        "description": ""
+        "description": "Chi segue già un percorso oculistico può utilizzare la visita per verificare la situazione e confrontare gli esami nel tempo. Il controllo permette di aggiornare le indicazioni e organizzare il monitoraggio successivo."
       },
       {
         "title": "Prevenzione in relazione alla storia personale",
-        "description": ""
+        "description": "Età, familiarità e condizioni di salute possono orientare l’attenzione verso specifici aspetti oculari. La valutazione aiuta a scegliere controlli pertinenti, anche quando la richiesta non riguarda un nuovo paio di occhiali."
       }
     ],
+    "leadForm": {
+      "title": "Dedica un appuntamento alla salute degli occhi",
+      "subtitle": "Lascia i tuoi recapiti per ricevere informazioni sulla visita oculistica. Il team Cocoora ti aiuterà a programmare il controllo e a preparare la documentazione.",
+      "cta": "Richiedi ora"
+    },
     "timelineTitle": "Come si svolge la visita oculistica?",
     "timelineSteps": [
       {
         "stepNumber": "01",
-        "title": "01. Conoscere la storia visiva",
+        "title": "Conoscere la storia visiva",
         "description": "L’oculista chiede quali difficoltà siano presenti, da quando e in quali situazioni. Valuta la documentazione, le terapie seguite e le correzioni già utilizzate, raccogliendo anche le informazioni familiari pertinenti."
       },
       {
         "stepNumber": "02",
-        "title": "02. Esame degli occhi e della funzione visiva",
+        "title": "Esame degli occhi e della funzione visiva",
         "description": "Il medico esegue le verifiche cliniche necessarie per valutare vista e strutture oculari. La scelta degli eventuali esami aggiuntivi dipende dai riscontri e dalla situazione individuale."
       },
       {
         "stepNumber": "03",
-        "title": "03. Spiegazione delle indicazioni",
+        "title": "Spiegazione delle indicazioni",
         "description": "Al termine viene illustrato ciò che è emerso, chiarendo le eventuali indicazioni sulla correzione visiva, sulle cure o sugli approfondimenti. Quando serve, si definisce il prossimo controllo."
       }
     ],
     "results": {
       "title": "Che cosa aspettarsi dal controllo oculistico?",
-      "description": "La valutazione può riguardare una difficoltà precisa oppure un controllo della salute oculare. Le abitudini di lettura, lavoro e utilizzo degli occhiali aiutano a descrivere l’esperienza visiva quotidiana.",
+      "description": "La visita offre un quadro della funzione visiva e della salute degli occhi, con indicazioni collegate alle esigenze emerse. Può aiutare a comprendere una difficoltà, verificare una correzione o dare continuità a un percorso già in corso.\n\nAlcune situazioni richiedono esami ulteriori prima di completare la valutazione. Lo specialista ne chiarisce la finalità, così da sapere perché vengono proposti e come si inseriscono nel percorso.",
       "paragraphs": [
-        "La valutazione può riguardare una difficoltà precisa oppure un controllo della salute oculare. Le abitudini di lettura, lavoro e utilizzo degli occhiali aiutano a descrivere l’esperienza visiva quotidiana.",
-        "Quando la lettura o la visione a distanza risultano meno nitide, l’oculista valuta la funzione visiva e l’eventuale necessità di una correzione. La visita considera anche gli occhiali già utilizzati e i cambiamenti riferiti.",
-        "Un disturbo della vista richiede di comprenderne caratteristiche e andamento. Il medico raccoglie il racconto della persona e lo collega all’esame degli occhi, per orientare gli eventuali approfondimenti.",
-        "Chi segue già un percorso oculistico può utilizzare la visita per verificare la situazione e confrontare gli esami nel tempo. Il controllo permette di aggiornare le indicazioni e organizzare il monitoraggio successivo.",
-        "Età, familiarità e condizioni di salute possono orientare l’attenzione verso specifici aspetti oculari. La valutazione aiuta a scegliere controlli pertinenti, anche quando la richiesta non riguarda un nuovo paio di occhiali.",
         "La visita offre un quadro della funzione visiva e della salute degli occhi, con indicazioni collegate alle esigenze emerse. Può aiutare a comprendere una difficoltà, verificare una correzione o dare continuità a un percorso già in corso.",
-        "Alcune situazioni richiedono esami ulteriori prima di completare la valutazione. Lo specialista ne chiarisce la finalità, così da sapere perché vengono proposti e come si inseriscono nel percorso.",
-        "Lascia i tuoi recapiti per ricevere informazioni sulla visita oculistica. Il team Cocoora ti aiuterà a programmare il controllo e a preparare la documentazione."
+        "Alcune situazioni richiedono esami ulteriori prima di completare la valutazione. Lo specialista ne chiarisce la finalità, così da sapere perché vengono proposti e come si inseriscono nel percorso."
       ],
       "image": "/images/visite/oculistica-napoli-3.jpg"
     },
@@ -1158,7 +1162,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     "localSeo": {
       "title": "Visita oculistica a Napoli",
       "description": "Da Cocoora, a Napoli, la visita oculistica è dedicata alla funzione visiva e alla salute degli occhi. Il controllo specialistico parte dalla storia personale e dalle difficoltà riferite, per orientare le indicazioni e l’eventuale programma di monitoraggio.",
-      "cta": "Richiedi una valutazione"
+      "cta": "Iscriviti gratuitamente al Cocoora Club"
     }
   },
   {
@@ -1166,14 +1170,14 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     "title": "Colloquio psicologico",
     "categoryName": "Specialistiche per la famiglia",
     "tagline": "Non serve avere già tutte le parole per iniziare. Il colloquio psicologico offre uno spazio di ascolto per comprendere difficoltà emotive, stress, cambiamenti e relazioni, dando forma insieme al professionista alla richiesta di sostegno.",
-    "description": "Il colloquio psicologico è un incontro professionale dedicato alla comprensione di ciò che una persona sta vivendo. Attraverso l’ascolto e il confronto, lo psicologo aiuta a mettere a fuoco la richiesta, le difficoltà e le risorse su cui poter lavorare.",
+    "description": "Il colloquio psicologico è un incontro professionale dedicato alla comprensione di ciò che una persona sta vivendo. Attraverso l’ascolto e il confronto, lo psicologo aiuta a mettere a fuoco la richiesta, le difficoltà e le risorse su cui poter lavorare.\n\nSi può partire da un problema riconoscibile oppure dalla sensazione di attraversare un momento complesso. Il primo incontro non richiede un racconto perfettamente ordinato: il dialogo permette di individuare gli aspetti da approfondire.\n\nDa Cocoora la valutazione iniziale può orientare un percorso di sostegno o, quando più appropriato, un confronto con altri professionisti. Obiettivi e modalità vengono condivisi, senza proporre lo stesso percorso a ogni persona.",
     "heroImage": "/images/visite/psicologia-napoli-1.jpg",
     "galleryImages": [
       "/images/visite/psicologia-napoli-1.jpg",
       "/images/visite/psicologia-napoli-2.jpg",
       "/images/visite/psicologia-napoli-3.jpg"
     ],
-    "heroCta": "Richiedi una valutazione",
+    "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
       "metaTitle": "Psicologo a Napoli | Colloquio psicologico Cocoora",
       "metaDescription": "Colloqui psicologici a Napoli per difficoltà emotive, stress e cambiamenti personali. Scopri come iniziare un percorso di ascolto e sostegno da Cocoora.",
@@ -1182,7 +1186,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     },
     "whatIs": {
       "title": "Che cos’è il colloquio psicologico e come funziona?",
-      "description": "Il colloquio psicologico è un incontro professionale dedicato alla comprensione di ciò che una persona sta vivendo. Attraverso l’ascolto e il confronto, lo psicologo aiuta a mettere a fuoco la richiesta, le difficoltà e le risorse su cui poter lavorare.",
+      "description": "Il colloquio psicologico è un incontro professionale dedicato alla comprensione di ciò che una persona sta vivendo. Attraverso l’ascolto e il confronto, lo psicologo aiuta a mettere a fuoco la richiesta, le difficoltà e le risorse su cui poter lavorare.\n\nSi può partire da un problema riconoscibile oppure dalla sensazione di attraversare un momento complesso. Il primo incontro non richiede un racconto perfettamente ordinato: il dialogo permette di individuare gli aspetti da approfondire.\n\nDa Cocoora la valutazione iniziale può orientare un percorso di sostegno o, quando più appropriato, un confronto con altri professionisti. Obiettivi e modalità vengono condivisi, senza proporre lo stesso percorso a ogni persona.",
       "paragraphs": [
         "Il colloquio psicologico è un incontro professionale dedicato alla comprensione di ciò che una persona sta vivendo. Attraverso l’ascolto e il confronto, lo psicologo aiuta a mettere a fuoco la richiesta, le difficoltà e le risorse su cui poter lavorare.",
         "Si può partire da un problema riconoscibile oppure dalla sensazione di attraversare un momento complesso. Il primo incontro non richiede un racconto perfettamente ordinato: il dialogo permette di individuare gli aspetti da approfondire.",
@@ -1190,55 +1194,55 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
       ],
       "image": "/images/visite/psicologia-napoli-2.jpg"
     },
-    "problemsTitle": "Cosa vorresti migliorare?",
+    "problemsTitle": "Per quali esigenze si può chiedere un colloquio?",
+    "problemsSubtitle": "Chiedere un confronto può essere un modo per dare attenzione a ciò che occupa spazio nella propria quotidianità. Il motivo dell’incontro non deve essere uguale a quello di qualcun altro.",
     "problemsGrid": [
       {
         "title": "Stress e difficoltà emotive",
-        "description": ""
+        "description": "Quando gli impegni o le preoccupazioni diventano difficili da gestire, il colloquio permette di esplorare come vengono vissuti. Lo psicologo aiuta a riconoscere i contesti e i modi di reagire che meritano attenzione."
       },
       {
         "title": "Cambiamenti e passaggi personali",
-        "description": ""
+        "description": "Un cambiamento nella vita, nel lavoro o negli equilibri quotidiani può richiedere un tempo di elaborazione. Il sostegno offre uno spazio per comprendere le emozioni e affrontare le domande che accompagnano questa fase."
       },
       {
         "title": "Difficoltà nelle relazioni",
-        "description": ""
+        "description": "Il colloquio individuale può aiutare a riflettere sul modo di vivere i rapporti, comunicare i bisogni o affrontare i conflitti. L’attenzione è rivolta all’esperienza della persona e alle situazioni che desidera comprendere meglio."
       },
       {
         "title": "Orientamento verso il sostegno più adatto",
-        "description": ""
+        "description": "Non sempre è chiaro quale aiuto cercare. La valutazione iniziale serve anche a definire la richiesta e a capire se proseguire con un sostegno psicologico o coinvolgere competenze diverse, in relazione a ciò che emerge."
       }
     ],
+    "leadForm": {
+      "title": "Il primo passo può essere una richiesta di informazioni",
+      "subtitle": "Lascia i tuoi contatti per conoscere le modalità del colloquio psicologico. Non occorre raccontare dettagli personali nel form: potrai approfondirli direttamente con il professionista.",
+      "cta": "Richiedi ora"
+    },
     "timelineTitle": "Come si svolge il primo colloquio psicologico?",
     "timelineSteps": [
       {
         "stepNumber": "01",
-        "title": "01. Accoglienza e racconto della richiesta",
+        "title": "Accoglienza e racconto della richiesta",
         "description": "Lo psicologo presenta le modalità dell’incontro e lascia spazio a ciò che ti ha portato a chiedere un confronto. Puoi iniziare da un episodio, da una domanda o da una difficoltà attuale."
       },
       {
         "stepNumber": "02",
-        "title": "02. Comprensione del contesto",
+        "title": "Comprensione del contesto",
         "description": "Il dialogo approfondisce la storia e le situazioni rilevanti, senza fermarsi al singolo episodio. Si mettono a fuoco le esigenze e gli aspetti su cui può essere utile lavorare."
       },
       {
         "stepNumber": "03",
-        "title": "03. Condivisione dei possibili passi successivi",
+        "title": "Condivisione dei possibili passi successivi",
         "description": "Al termine viene discusso come proseguire. Se è indicato un percorso, si chiariscono finalità, organizzazione e frequenza degli incontri; in altri casi il colloquio può orientare verso un diverso tipo di supporto."
       }
     ],
     "results": {
       "title": "Che cosa aspettarsi dal sostegno psicologico?",
-      "description": "Chiedere un confronto può essere un modo per dare attenzione a ciò che occupa spazio nella propria quotidianità. Il motivo dell’incontro non deve essere uguale a quello di qualcun altro.",
+      "description": "Il percorso può aiutare a comprendere meglio le proprie difficoltà, riconoscere risorse e individuare modalità più consapevoli di affrontare situazioni ed emozioni. Il primo incontro serve soprattutto a costruire una comprensione condivisa della richiesta.\n\nI cambiamenti vengono osservati rispetto agli obiettivi personali. Tempi e modalità si definiscono nel confronto con lo psicologo: il sostegno non è una sequenza di soluzioni preconfezionate, ma un lavoro costruito insieme.",
       "paragraphs": [
-        "Chiedere un confronto può essere un modo per dare attenzione a ciò che occupa spazio nella propria quotidianità. Il motivo dell’incontro non deve essere uguale a quello di qualcun altro.",
-        "Quando gli impegni o le preoccupazioni diventano difficili da gestire, il colloquio permette di esplorare come vengono vissuti. Lo psicologo aiuta a riconoscere i contesti e i modi di reagire che meritano attenzione.",
-        "Un cambiamento nella vita, nel lavoro o negli equilibri quotidiani può richiedere un tempo di elaborazione. Il sostegno offre uno spazio per comprendere le emozioni e affrontare le domande che accompagnano questa fase.",
-        "Il colloquio individuale può aiutare a riflettere sul modo di vivere i rapporti, comunicare i bisogni o affrontare i conflitti. L’attenzione è rivolta all’esperienza della persona e alle situazioni che desidera comprendere meglio.",
-        "Non sempre è chiaro quale aiuto cercare. La valutazione iniziale serve anche a definire la richiesta e a capire se proseguire con un sostegno psicologico o coinvolgere competenze diverse, in relazione a ciò che emerge.",
         "Il percorso può aiutare a comprendere meglio le proprie difficoltà, riconoscere risorse e individuare modalità più consapevoli di affrontare situazioni ed emozioni. Il primo incontro serve soprattutto a costruire una comprensione condivisa della richiesta.",
-        "I cambiamenti vengono osservati rispetto agli obiettivi personali. Tempi e modalità si definiscono nel confronto con lo psicologo: il sostegno non è una sequenza di soluzioni preconfezionate, ma un lavoro costruito insieme.",
-        "Lascia i tuoi contatti per conoscere le modalità del colloquio psicologico. Non occorre raccontare dettagli personali nel form: potrai approfondirli direttamente con il professionista."
+        "I cambiamenti vengono osservati rispetto agli obiettivi personali. Tempi e modalità si definiscono nel confronto con lo psicologo: il sostegno non è una sequenza di soluzioni preconfezionate, ma un lavoro costruito insieme."
       ],
       "image": "/images/visite/psicologia-napoli-3.jpg"
     },
@@ -1271,7 +1275,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     "localSeo": {
       "title": "Colloqui psicologici a Napoli",
       "description": "A Napoli, Cocoora propone colloqui psicologici dedicati all’ascolto e alla comprensione delle difficoltà emotive e relazionali. La valutazione iniziale aiuta a individuare il sostegno appropriato, con attenzione alla storia e alle esigenze della persona.",
-      "cta": "Richiedi una valutazione"
+      "cta": "Iscriviti gratuitamente al Cocoora Club"
     }
   },
   {
@@ -1279,14 +1283,14 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     "title": "Visita di medicina dello sport",
     "categoryName": "Specialistiche per la famiglia",
     "tagline": "L’attività fisica merita indicazioni coerenti con la propria salute. La visita di medicina dello sport mette in relazione condizioni personali, abitudini e pratica sportiva, per orientare il movimento e gli eventuali approfondimenti.",
-    "description": "La visita di medicina dello sport valuta le condizioni di salute in relazione all’attività fisica e ai fattori di rischio individuali. Il confronto considera ciò che si pratica, con quale frequenza e quali obiettivi, insieme alla storia clinica.",
+    "description": "La visita di medicina dello sport valuta le condizioni di salute in relazione all’attività fisica e ai fattori di rischio individuali. Il confronto considera ciò che si pratica, con quale frequenza e quali obiettivi, insieme alla storia clinica.\n\nIl medico aiuta a comprendere come inserire il movimento nel contesto personale e se siano utili accertamenti mirati. La valutazione può riguardare chi è già attivo o chi desidera iniziare o riprendere una pratica sportiva.\n\nDa Cocoora, il percorso descritto è una valutazione specialistica. Eventuali richieste di certificazione seguono requisiti e percorsi specifici: il tipo di prestazione deve essere chiarito prima della prenotazione.",
     "heroImage": "/images/visite/medicina-dello-sport-napoli-1.jpg",
     "galleryImages": [
       "/images/visite/medicina-dello-sport-napoli-1.jpg",
       "/images/visite/medicina-dello-sport-napoli-2.jpg",
       "/images/visite/medicina-dello-sport-napoli-3.jpg"
     ],
-    "heroCta": "Richiedi una valutazione",
+    "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
       "metaTitle": "Visita di medicina dello sport a Napoli | Cocoora",
       "metaDescription": "Medicina dello sport a Napoli: valutazione della salute in relazione all’attività fisica, indicazioni individuali e orientamento del percorso da Cocoora.",
@@ -1295,7 +1299,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     },
     "whatIs": {
       "title": "Che cos’è la visita di medicina dello sport?",
-      "description": "La visita di medicina dello sport valuta le condizioni di salute in relazione all’attività fisica e ai fattori di rischio individuali. Il confronto considera ciò che si pratica, con quale frequenza e quali obiettivi, insieme alla storia clinica.",
+      "description": "La visita di medicina dello sport valuta le condizioni di salute in relazione all’attività fisica e ai fattori di rischio individuali. Il confronto considera ciò che si pratica, con quale frequenza e quali obiettivi, insieme alla storia clinica.\n\nIl medico aiuta a comprendere come inserire il movimento nel contesto personale e se siano utili accertamenti mirati. La valutazione può riguardare chi è già attivo o chi desidera iniziare o riprendere una pratica sportiva.\n\nDa Cocoora, il percorso descritto è una valutazione specialistica. Eventuali richieste di certificazione seguono requisiti e percorsi specifici: il tipo di prestazione deve essere chiarito prima della prenotazione.",
       "paragraphs": [
         "La visita di medicina dello sport valuta le condizioni di salute in relazione all’attività fisica e ai fattori di rischio individuali. Il confronto considera ciò che si pratica, con quale frequenza e quali obiettivi, insieme alla storia clinica.",
         "Il medico aiuta a comprendere come inserire il movimento nel contesto personale e se siano utili accertamenti mirati. La valutazione può riguardare chi è già attivo o chi desidera iniziare o riprendere una pratica sportiva.",
@@ -1304,11 +1308,8 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
       "image": "/images/visite/medicina-dello-sport-napoli-2.jpg"
     },
     "problemsTitle": "A cosa serve una valutazione medico-sportiva?",
+    "problemsSubtitle": "Non conta soltanto quale sport si svolge, ma anche la situazione da cui si parte. Il colloquio aiuta a collegare la richiesta alle esigenze di salute e al percorso appropriato.",
     "problemsGrid": [
-      {
-        "title": "Non conta soltanto quale sport si svolge, ma anche la situazione da cui si parte",
-        "description": "Non conta soltanto quale sport si svolge, ma anche la situazione da cui si parte. Il colloquio aiuta a collegare la richiesta alle esigenze di salute e al percorso appropriato."
-      },
       {
         "title": "Iniziare o riprendere attività fisica",
         "description": "Dopo un periodo di inattività, può essere utile confrontarsi sulle proprie condizioni e sull’attività che si desidera praticare. La visita permette di individuare gli aspetti da considerare prima di organizzare la ripresa."
@@ -1326,31 +1327,35 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
         "description": "Quando una società o un’organizzazione sportiva richiede documentazione, è importante chiarire esattamente la prestazione necessaria. Il confronto permette di distinguere una consulenza clinica da uno specifico percorso certificativo."
       }
     ],
+    "leadForm": {
+      "title": "Parliamo della tua attività fisica",
+      "subtitle": "Contatta Cocoora indicando il motivo della richiesta e lo sport praticato. Il team ti aiuterà a verificare la prestazione e a organizzare l’appuntamento appropriato.",
+      "cta": "Richiedi ora"
+    },
     "timelineTitle": "Come si svolge la visita di medicina dello sport?",
     "timelineSteps": [
       {
         "stepNumber": "01",
-        "title": "01. Definire attività e motivo dell’appuntamento",
+        "title": "Definire attività e motivo dell’appuntamento",
         "description": "Il medico raccoglie informazioni sulla pratica sportiva, sulla frequenza degli allenamenti e sugli obiettivi. Vengono considerate la storia clinica, le eventuali terapie e le ragioni della richiesta."
       },
       {
         "stepNumber": "02",
-        "title": "02. Valutare il quadro di salute",
+        "title": "Valutare il quadro di salute",
         "description": "La visita clinica e la documentazione disponibile permettono di individuare gli aspetti rilevanti rispetto all’attività fisica. Gli eventuali accertamenti vengono definiti in funzione del caso e del percorso richiesto."
       },
       {
         "stepNumber": "03",
-        "title": "03. Condividere indicazioni e passaggi successivi",
+        "title": "Condividere indicazioni e passaggi successivi",
         "description": "Lo specialista illustra le indicazioni pertinenti e chiarisce se proseguire con controlli o approfondimenti. Se la richiesta riguarda una certificazione, devono essere verificati separatamente i requisiti e la prestazione prevista."
       }
     ],
     "results": {
       "title": "Che cosa aspettarsi dalla valutazione medico-sportiva?",
-      "description": "L’incontro aiuta a comprendere il rapporto tra stato di salute e attività fisica, con indicazioni individuali e una direzione per gli eventuali controlli. L’obiettivo è orientare la pratica, non promettere un miglioramento automatico della prestazione sportiva.",
+      "description": "L’incontro aiuta a comprendere il rapporto tra stato di salute e attività fisica, con indicazioni individuali e una direzione per gli eventuali controlli. L’obiettivo è orientare la pratica, non promettere un miglioramento automatico della prestazione sportiva.\n\nL’esito dipende dalla richiesta e dai riscontri clinici. Una visita di consulenza non coincide automaticamente con il rilascio di un certificato: questo aspetto viene chiarito in relazione al percorso effettivamente disponibile.",
       "paragraphs": [
         "L’incontro aiuta a comprendere il rapporto tra stato di salute e attività fisica, con indicazioni individuali e una direzione per gli eventuali controlli. L’obiettivo è orientare la pratica, non promettere un miglioramento automatico della prestazione sportiva.",
-        "L’esito dipende dalla richiesta e dai riscontri clinici. Una visita di consulenza non coincide automaticamente con il rilascio di un certificato: questo aspetto viene chiarito in relazione al percorso effettivamente disponibile.",
-        "Contatta Cocoora indicando il motivo della richiesta e lo sport praticato. Il team ti aiuterà a verificare la prestazione e a organizzare l’appuntamento appropriato."
+        "L’esito dipende dalla richiesta e dai riscontri clinici. Una visita di consulenza non coincide automaticamente con il rilascio di un certificato: questo aspetto viene chiarito in relazione al percorso effettivamente disponibile."
       ],
       "image": "/images/visite/medicina-dello-sport-napoli-3.jpg"
     },
@@ -1383,7 +1388,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     "localSeo": {
       "title": "Medicina dello sport a Napoli",
       "description": "A Napoli, Cocoora propone una valutazione di medicina dello sport dedicata alla salute in relazione all’attività fisica. Il confronto specialistico considera la storia personale e la pratica svolta, per orientare indicazioni, approfondimenti e controlli.",
-      "cta": "Richiedi una valutazione"
+      "cta": "Iscriviti gratuitamente al Cocoora Club"
     }
   },
   {
@@ -1391,14 +1396,14 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     "title": "Visita senologica",
     "categoryName": "Specialistiche per la famiglia",
     "tagline": "Un controllo dedicato alla salute del seno, alle domande e ai cambiamenti da approfondire. La visita senologica collega storia personale, esame clinico e documentazione, per individuare gli eventuali accertamenti e programmare i controlli.",
-    "description": "La visita senologica è una valutazione clinica della mammella. Consente di approfondire eventuali sintomi, alterazioni palpabili o risultati di controlli precedenti, mettendoli in relazione con la storia personale e familiare.",
+    "description": "La visita senologica è una valutazione clinica della mammella. Consente di approfondire eventuali sintomi, alterazioni palpabili o risultati di controlli precedenti, mettendoli in relazione con la storia personale e familiare.\n\nIl medico ascolta il motivo dell’appuntamento, esamina la documentazione e valuta il seno attraverso l’osservazione e la palpazione. La visita aiuta a comprendere se siano sufficienti le informazioni disponibili o se occorrano altri accertamenti.\n\nIn Cocoora il percorso può comprendere un’ecografia mammaria eseguita dallo specialista, quando clinicamente indicata. Gli eventuali ulteriori esami vengono orientati secondo le esigenze emerse.",
     "heroImage": "/images/visite/senologia-napoli-1.jpg",
     "galleryImages": [
       "/images/visite/senologia-napoli-1.jpg",
       "/images/visite/senologia-napoli-2.jpg",
       "/images/visite/senologia-napoli-3.jpg"
     ],
-    "heroCta": "Richiedi una valutazione",
+    "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
       "metaTitle": "Visita senologica a Napoli | Cocoora",
       "metaDescription": "Visita senologica a Napoli per la salute del seno. Cocoora propone valutazione specialistica, ecografia mammaria quando indicata e orientamento dei controlli.",
@@ -1407,7 +1412,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     },
     "whatIs": {
       "title": "Che cos’è la visita senologica e come funziona?",
-      "description": "La visita senologica è una valutazione clinica della mammella. Consente di approfondire eventuali sintomi, alterazioni palpabili o risultati di controlli precedenti, mettendoli in relazione con la storia personale e familiare.",
+      "description": "La visita senologica è una valutazione clinica della mammella. Consente di approfondire eventuali sintomi, alterazioni palpabili o risultati di controlli precedenti, mettendoli in relazione con la storia personale e familiare.\n\nIl medico ascolta il motivo dell’appuntamento, esamina la documentazione e valuta il seno attraverso l’osservazione e la palpazione. La visita aiuta a comprendere se siano sufficienti le informazioni disponibili o se occorrano altri accertamenti.\n\nIn Cocoora il percorso può comprendere un’ecografia mammaria eseguita dallo specialista, quando clinicamente indicata. Gli eventuali ulteriori esami vengono orientati secondo le esigenze emerse.",
       "paragraphs": [
         "La visita senologica è una valutazione clinica della mammella. Consente di approfondire eventuali sintomi, alterazioni palpabili o risultati di controlli precedenti, mettendoli in relazione con la storia personale e familiare.",
         "Il medico ascolta il motivo dell’appuntamento, esamina la documentazione e valuta il seno attraverso l’osservazione e la palpazione. La visita aiuta a comprendere se siano sufficienti le informazioni disponibili o se occorrano altri accertamenti.",
@@ -1415,55 +1420,55 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
       ],
       "image": "/images/visite/senologia-napoli-2.jpg"
     },
-    "problemsTitle": "Cosa vorresti migliorare?",
+    "problemsTitle": "Quando è utile una visita senologica?",
+    "problemsSubtitle": "Il confronto può nascere da un cambiamento osservato, da un referto o dalla necessità di organizzare i controlli. Il punto di partenza orienta il percorso.",
     "problemsGrid": [
       {
         "title": "Valutazione della salute del seno",
-        "description": ""
+        "description": "La visita consente di considerare la situazione mammaria insieme alla storia personale e familiare. Il medico chiarisce quali controlli siano pertinenti e come inserirli nel percorso individuale."
       },
       {
         "title": "Noduli e alterazioni palpabili",
-        "description": ""
+        "description": "Una zona che appare diversa al tatto può richiedere una valutazione senologica. L’esame clinico e gli accertamenti eventualmente indicati aiutano a comprenderne le caratteristiche, senza trarre conclusioni dalla sola percezione del cambiamento."
       },
       {
         "title": "Dolore e altri cambiamenti del seno",
-        "description": ""
+        "description": "Il medico approfondisce natura, durata e andamento dei sintomi, collegandoli alla visita. Raccontare quando compaiono e come si sono modificati aiuta a individuare gli aspetti da esaminare."
       },
       {
         "title": "Lettura dei referti e controlli successivi",
-        "description": ""
+        "description": "La consulenza può servire a mettere in relazione esami già effettuati e quadro clinico. Il confronto con la documentazione precedente permette di orientare gli eventuali approfondimenti e la programmazione dei controlli."
       }
     ],
+    "leadForm": {
+      "title": "Organizza il tuo appuntamento senologico",
+      "subtitle": "Lascia i tuoi contatti per ricevere informazioni sulla visita. Il team Cocoora ti aiuterà a preparare la documentazione e a chiarire le prestazioni previste nell’appuntamento.",
+      "cta": "Richiedi ora"
+    },
     "timelineTitle": "Come si svolge la visita senologica?",
     "timelineSteps": [
       {
         "stepNumber": "01",
-        "title": "01. Ascolto e documentazione clinica",
+        "title": "Ascolto e documentazione clinica",
         "description": "Il medico raccoglie il motivo della visita, la storia personale e familiare e le informazioni sulle terapie. Prende visione degli esami già svolti, considerando anche le eventuali immagini disponibili."
       },
       {
         "stepNumber": "02",
-        "title": "02. Esame clinico della mammella",
+        "title": "Esame clinico della mammella",
         "description": "La valutazione comprende osservazione e palpazione delle mammelle. Quando indicata e organizzata nell’appuntamento, l’ecografia mammaria può aggiungere informazioni allo studio clinico."
       },
       {
         "stepNumber": "03",
-        "title": "03. Orientamento di accertamenti e controlli",
+        "title": "Orientamento di accertamenti e controlli",
         "description": "Lo specialista spiega ciò che è emerso e chiarisce se servano altri esami. Il programma successivo viene definito in base alla valutazione, collegando eventuali approfondimenti e monitoraggio."
       }
     ],
     "results": {
       "title": "Che cosa aspettarsi dalla valutazione senologica?",
-      "description": "Il confronto può nascere da un cambiamento osservato, da un referto o dalla necessità di organizzare i controlli. Il punto di partenza orienta il percorso.",
+      "description": "La visita offre un inquadramento della richiesta e una direzione per i passaggi successivi. Può aiutare a comprendere un sintomo, interpretare un reperto o organizzare il controllo di una situazione già conosciuta.\n\nQuando sono necessari ulteriori accertamenti, il percorso diagnostico prosegue attraverso gli esami indicati. Visita ed ecografia vengono utilizzate per le informazioni che possono fornire, senza considerarle automaticamente sostitutive di ogni altro controllo.",
       "paragraphs": [
-        "Il confronto può nascere da un cambiamento osservato, da un referto o dalla necessità di organizzare i controlli. Il punto di partenza orienta il percorso.",
-        "La visita consente di considerare la situazione mammaria insieme alla storia personale e familiare. Il medico chiarisce quali controlli siano pertinenti e come inserirli nel percorso individuale.",
-        "Una zona che appare diversa al tatto può richiedere una valutazione senologica. L’esame clinico e gli accertamenti eventualmente indicati aiutano a comprenderne le caratteristiche, senza trarre conclusioni dalla sola percezione del cambiamento.",
-        "Il medico approfondisce natura, durata e andamento dei sintomi, collegandoli alla visita. Raccontare quando compaiono e come si sono modificati aiuta a individuare gli aspetti da esaminare.",
-        "La consulenza può servire a mettere in relazione esami già effettuati e quadro clinico. Il confronto con la documentazione precedente permette di orientare gli eventuali approfondimenti e la programmazione dei controlli.",
         "La visita offre un inquadramento della richiesta e una direzione per i passaggi successivi. Può aiutare a comprendere un sintomo, interpretare un reperto o organizzare il controllo di una situazione già conosciuta.",
-        "Quando sono necessari ulteriori accertamenti, il percorso diagnostico prosegue attraverso gli esami indicati. Visita ed ecografia vengono utilizzate per le informazioni che possono fornire, senza considerarle automaticamente sostitutive di ogni altro controllo.",
-        "Lascia i tuoi contatti per ricevere informazioni sulla visita. Il team Cocoora ti aiuterà a preparare la documentazione e a chiarire le prestazioni previste nell’appuntamento."
+        "Quando sono necessari ulteriori accertamenti, il percorso diagnostico prosegue attraverso gli esami indicati. Visita ed ecografia vengono utilizzate per le informazioni che possono fornire, senza considerarle automaticamente sostitutive di ogni altro controllo."
       ],
       "image": "/images/visite/senologia-napoli-3.jpg"
     },
@@ -1496,7 +1501,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     "localSeo": {
       "title": "Visita senologica a Napoli",
       "description": "Da Cocoora, a Napoli, la senologia è dedicata alla valutazione clinica del seno e all’orientamento degli accertamenti. La visita può essere integrata con ecografia mammaria quando indicata, con attenzione alla storia personale e alla continuità dei controlli.",
-      "cta": "Richiedi una valutazione"
+      "cta": "Iscriviti gratuitamente al Cocoora Club"
     }
   },
   {
@@ -1504,14 +1509,14 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     "title": "Visita oncologica",
     "categoryName": "Specialistiche per la famiglia",
     "tagline": "Comprendere i referti e avere una direzione per i passi successivi. La visita oncologica offre un confronto specialistico per valutare la situazione clinica, approfondire le domande e orientare gli accertamenti o i controlli in coordinamento con i centri di cura.",
-    "description": "La visita oncologica è una valutazione specialistica rivolta a persone con una diagnosi oncologica o che necessitano di un inquadramento e di controlli successivi. L’oncologo mette in relazione la storia clinica, la documentazione e le condizioni attuali.",
+    "description": "La visita oncologica è una valutazione specialistica rivolta a persone con una diagnosi oncologica o che necessitano di un inquadramento e di controlli successivi. L’oncologo mette in relazione la storia clinica, la documentazione e le condizioni attuali.\n\nIl colloquio aiuta a comprendere quali informazioni siano già disponibili e quali aspetti richiedano ulteriori accertamenti. Le domande della persona fanno parte dell’incontro, insieme all’esame dei referti e alla valutazione clinica.\n\nIn Cocoora la consulenza si inserisce in un percorso coordinato con i centri di cura. Lo scopo è dare continuità alle informazioni e orientare i passaggi pertinenti, nel rispetto del programma clinico seguito.",
     "heroImage": "/images/visite/oncologia-napoli-1.jpg",
     "galleryImages": [
       "/images/visite/oncologia-napoli-1.jpg",
       "/images/visite/oncologia-napoli-2.jpg",
       "/images/visite/oncologia-napoli-3.jpg"
     ],
-    "heroCta": "Richiedi una valutazione",
+    "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
       "metaTitle": "Visita oncologica a Napoli | Cocoora",
       "metaDescription": "Visita oncologica a Napoli: valutazione della documentazione, confronto specialistico e orientamento dei controlli, in coordinamento con i centri di cura.",
@@ -1520,7 +1525,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     },
     "whatIs": {
       "title": "Che cos’è la visita oncologica e come funziona?",
-      "description": "La visita oncologica è una valutazione specialistica rivolta a persone con una diagnosi oncologica o che necessitano di un inquadramento e di controlli successivi. L’oncologo mette in relazione la storia clinica, la documentazione e le condizioni attuali.",
+      "description": "La visita oncologica è una valutazione specialistica rivolta a persone con una diagnosi oncologica o che necessitano di un inquadramento e di controlli successivi. L’oncologo mette in relazione la storia clinica, la documentazione e le condizioni attuali.\n\nIl colloquio aiuta a comprendere quali informazioni siano già disponibili e quali aspetti richiedano ulteriori accertamenti. Le domande della persona fanno parte dell’incontro, insieme all’esame dei referti e alla valutazione clinica.\n\nIn Cocoora la consulenza si inserisce in un percorso coordinato con i centri di cura. Lo scopo è dare continuità alle informazioni e orientare i passaggi pertinenti, nel rispetto del programma clinico seguito.",
       "paragraphs": [
         "La visita oncologica è una valutazione specialistica rivolta a persone con una diagnosi oncologica o che necessitano di un inquadramento e di controlli successivi. L’oncologo mette in relazione la storia clinica, la documentazione e le condizioni attuali.",
         "Il colloquio aiuta a comprendere quali informazioni siano già disponibili e quali aspetti richiedano ulteriori accertamenti. Le domande della persona fanno parte dell’incontro, insieme all’esame dei referti e alla valutazione clinica.",
@@ -1528,55 +1533,55 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
       ],
       "image": "/images/visite/oncologia-napoli-2.jpg"
     },
-    "problemsTitle": "Cosa vorresti migliorare?",
+    "problemsTitle": "Per quali esigenze si può richiedere una visita oncologica?",
+    "problemsSubtitle": "Il motivo dell’appuntamento e la documentazione disponibile aiutano a preparare un confronto utile. La visita può collocarsi in momenti differenti del percorso.",
     "problemsGrid": [
       {
         "title": "Valutazione dopo una diagnosi oncologica",
-        "description": ""
+        "description": "L’oncologo esamina gli elementi che hanno portato alla diagnosi e ricostruisce la situazione clinica. Il colloquio permette di chiarire il significato delle informazioni e quali aspetti siano ancora da approfondire."
       },
       {
         "title": "Approfondimento di una richiesta specialistica",
-        "description": ""
+        "description": "Quando il medico che segue il caso indica un confronto oncologico, la visita aiuta a leggere i risultati degli esami nel contesto complessivo. Lo specialista valuta se siano necessari altri accertamenti per completare l’inquadramento."
       },
       {
         "title": "Controlli e follow-up",
-        "description": ""
+        "description": "Le visite di controllo permettono di rivalutare il quadro clinico e la documentazione aggiornata. Modalità e tempi vengono collegati al programma del centro di cura, per mantenere coerenza tra i diversi passaggi."
       },
       {
         "title": "Chiarimento del percorso e delle priorità",
-        "description": ""
+        "description": "Referti e appuntamenti possono sollevare domande su ciò che viene prima e su come proseguire. La consulenza offre un momento dedicato a riorganizzare le informazioni e a discutere gli aspetti da condividere con l’équipe di riferimento."
       }
     ],
+    "leadForm": {
+      "title": "Organizziamo il confronto con lo specialista",
+      "subtitle": "Lascia i tuoi recapiti per ricevere informazioni sulla visita oncologica. Il team Cocoora ti aiuterà a preparare l’appuntamento; la documentazione clinica potrà essere condivisa secondo le modalità indicate.",
+      "cta": "Richiedi ora"
+    },
     "timelineTitle": "Come si svolge la visita oncologica?",
     "timelineSteps": [
       {
         "stepNumber": "01",
-        "title": "01. Ricostruzione della storia clinica",
+        "title": "Ricostruzione della storia clinica",
         "description": "L’oncologo raccoglie le informazioni sulla salute e sui percorsi già effettuati. La lettura ordinata dei referti, delle immagini e delle relazioni dei centri di cura aiuta a ricostruire il quadro."
       },
       {
         "stepNumber": "02",
-        "title": "02. Valutazione e confronto sulle domande",
+        "title": "Valutazione e confronto sulle domande",
         "description": "Il medico valuta le condizioni attuali e mette in relazione i dati disponibili. Durante l’incontro puoi approfondire i dubbi sulla documentazione e sugli obiettivi dei passaggi già programmati."
       },
       {
         "stepNumber": "03",
-        "title": "03. Indicazioni in coordinamento con il centro di cura",
+        "title": "Indicazioni in coordinamento con il centro di cura",
         "description": "La visita si conclude con indicazioni sugli eventuali approfondimenti e sui controlli. Il percorso viene orientato in coordinamento con i professionisti e i centri che seguono la situazione clinica."
       }
     ],
     "results": {
       "title": "Che cosa aspettarsi dal confronto oncologico?",
-      "description": "Il motivo dell’appuntamento e la documentazione disponibile aiutano a preparare un confronto utile. La visita può collocarsi in momenti differenti del percorso.",
+      "description": "Il valore della visita è una lettura specialistica della situazione e una maggiore chiarezza sulle priorità. Può contribuire a completare l’inquadramento, orientare accertamenti o dare continuità ai controlli.\n\nLe conclusioni dipendono dalle informazioni disponibili e dagli eventuali esami da completare. Il colloquio non promette esiti terapeutici: offre indicazioni cliniche da inserire nel percorso di cura individuale.",
       "paragraphs": [
-        "Il motivo dell’appuntamento e la documentazione disponibile aiutano a preparare un confronto utile. La visita può collocarsi in momenti differenti del percorso.",
-        "L’oncologo esamina gli elementi che hanno portato alla diagnosi e ricostruisce la situazione clinica. Il colloquio permette di chiarire il significato delle informazioni e quali aspetti siano ancora da approfondire.",
-        "Quando il medico che segue il caso indica un confronto oncologico, la visita aiuta a leggere i risultati degli esami nel contesto complessivo. Lo specialista valuta se siano necessari altri accertamenti per completare l’inquadramento.",
-        "Le visite di controllo permettono di rivalutare il quadro clinico e la documentazione aggiornata. Modalità e tempi vengono collegati al programma del centro di cura, per mantenere coerenza tra i diversi passaggi.",
-        "Referti e appuntamenti possono sollevare domande su ciò che viene prima e su come proseguire. La consulenza offre un momento dedicato a riorganizzare le informazioni e a discutere gli aspetti da condividere con l’équipe di riferimento.",
         "Il valore della visita è una lettura specialistica della situazione e una maggiore chiarezza sulle priorità. Può contribuire a completare l’inquadramento, orientare accertamenti o dare continuità ai controlli.",
-        "Le conclusioni dipendono dalle informazioni disponibili e dagli eventuali esami da completare. Il colloquio non promette esiti terapeutici: offre indicazioni cliniche da inserire nel percorso di cura individuale.",
-        "Lascia i tuoi recapiti per ricevere informazioni sulla visita oncologica. Il team Cocoora ti aiuterà a preparare l’appuntamento; la documentazione clinica potrà essere condivisa secondo le modalità indicate."
+        "Le conclusioni dipendono dalle informazioni disponibili e dagli eventuali esami da completare. Il colloquio non promette esiti terapeutici: offre indicazioni cliniche da inserire nel percorso di cura individuale."
       ],
       "image": "/images/visite/oncologia-napoli-3.jpg"
     },
@@ -1609,7 +1614,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     "localSeo": {
       "title": "Visita oncologica a Napoli",
       "description": "Cocoora propone a Napoli visite oncologiche dedicate alla valutazione clinica, alla lettura della documentazione e all’orientamento dei controlli. Il confronto specialistico si svolge in coordinamento con i centri di cura, per dare continuità al percorso della persona.",
-      "cta": "Richiedi una valutazione"
+      "cta": "Iscriviti gratuitamente al Cocoora Club"
     }
   }
 ];

@@ -303,7 +303,7 @@ export function TreatmentClient({ treatment }: { treatment: Treatment }) {
   const h1 = page?.h1 || treatment.title;
   const intro = page?.h2 || treatment.tagline || treatment.description;
   const heroImage = page?.heroImage || treatment.heroImage || heroFallbackImage(treatment);
-  const heroCta = page?.heroCta || treatment.heroCta || "Richiedi una valutazione";
+  const heroCta = page?.heroCta || treatment.heroCta || "Iscriviti gratuitamente al Cocoora Club";
   const faq = page?.faq?.length ? page.faq : treatment.faq ?? [];
 
   if (canvasMode) {
@@ -471,6 +471,64 @@ function QuickCard({
 }
 
 // ─────────────────────────────────────────────────────────────────────────
+// Testi espandibili — primi 2 paragrafi sempre visibili, resto nel DOM per la SEO
+// ─────────────────────────────────────────────────────────────────────────
+
+function ExpandableParagraphs({ paragraphs }: { paragraphs: string[] }) {
+  const [expanded, setExpanded] = useState(false);
+  const visibleParagraphs = paragraphs.slice(0, 2);
+  const hiddenParagraphs = paragraphs.slice(2);
+  const canExpand = hiddenParagraphs.length > 0;
+
+  return (
+    <div className="mt-5 space-y-4">
+      {visibleParagraphs.map((p, i) => (
+        <p key={`${i}-${p.slice(0, 40)}`} className="text-base leading-relaxed text-charcoal/75">
+          {p}
+        </p>
+      ))}
+
+      {canExpand && (
+        <>
+          <div
+            className={cn(
+              "grid transition-all duration-300 ease-out",
+              expanded ? "mt-4 grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+            )}
+          >
+            <div className="overflow-hidden space-y-4">
+              {hiddenParagraphs.map((p, i) => (
+                <p
+                  key={`${i}-${p.slice(0, 40)}`}
+                  className="text-base leading-relaxed text-charcoal/75"
+                >
+                  {p}
+                </p>
+              ))}
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setExpanded((prev) => !prev)}
+            aria-expanded={expanded}
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-teal-800 transition-colors hover:text-dark-navy"
+          >
+            {expanded ? "Mostra meno" : "Continua a leggere"}
+            <ChevronDown
+              className={cn(
+                "h-4 w-4 transition-transform duration-300",
+                expanded && "rotate-180"
+              )}
+            />
+          </button>
+        </>
+      )}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────
 // BLOCCO 2 — "Che cos'è e come funziona?"
 // ─────────────────────────────────────────────────────────────────────────
 
@@ -521,13 +579,12 @@ function WhatIsSection({ treatment, page }: { treatment: Treatment; page?: SeoPa
             <h2 className="font-serif text-3xl font-semibold tracking-tight text-dark-navy sm:text-4xl">
               {title}
             </h2>
-            <div className="mt-5 space-y-4">
-              {paragraphs.map((p) => (
-                <p key={p.slice(0, 40)} className="text-base leading-relaxed text-charcoal/75">
-                  {p}
-                </p>
-              ))}
-            </div>
+            <ExpandableParagraphs paragraphs={paragraphs} />
+            {whatIs?.callout && (
+              <p className="border-l-2 border-teal-300 pl-4 text-sm italic text-charcoal/70 mt-4">
+                {whatIs.callout}
+              </p>
+            )}
           </div>
         </div>
       </Container>
@@ -548,13 +605,13 @@ function ProblemsSection({ treatment, page }: { treatment: Treatment; page?: Seo
         : getTreatmentProblems(treatment);
 
   const title =
-    page?.problemsTitle ||
     treatment.problemsTitle ||
+    page?.problemsTitle ||
     `A cosa serve ${withArticle(treatment.title)}?`;
 
   const subtitle =
-    page?.problemsSubtitle ||
     treatment.problemsSubtitle ||
+    page?.problemsSubtitle ||
     (treatment.category === "odontoiatria"
       ? "Il medico valuta se il percorso è indicato per queste condizioni, definendo obiettivi realistici e personalizzati durante la visita."
       : "Il medico valuta se il trattamento è indicato per queste condizioni, definendo obiettivi realistici e personalizzati durante la valutazione.");
@@ -570,12 +627,17 @@ function ProblemsSection({ treatment, page }: { treatment: Treatment; page?: Seo
         </div>
 
         <div className="mt-10 grid gap-5 sm:grid-cols-2">
-          {problems.slice(0, 4).map((p) => {
+          {problems.map((p, idx) => {
             const Icon = PROBLEM_ICONS[p.icon ?? ""] ?? Check;
+            const isLastOdd =
+              problems.length % 2 === 1 && idx === problems.length - 1;
             return (
               <div
                 key={p.title}
-                className="flex items-start gap-4 rounded-2xl border border-teal-100 bg-white p-6 transition-shadow duration-300 hover:shadow-md"
+                className={cn(
+                  "flex items-start gap-4 rounded-2xl border border-teal-100 bg-white p-6 transition-shadow duration-300 hover:shadow-md",
+                  isLastOdd && "sm:col-span-2 sm:mx-auto sm:w-full sm:max-w-[calc(50%-0.625rem)]"
+                )}
               >
                 <span className="rounded-xl bg-teal-50 p-2.5 text-teal-700">
                   <Icon className="h-5 w-5" />
@@ -586,7 +648,6 @@ function ProblemsSection({ treatment, page }: { treatment: Treatment; page?: Seo
                     {p.description}
                   </p>
                 </div>
-                <ChevronRight className="mt-1 h-4 w-4 shrink-0 text-teal-400" />
               </div>
             );
           })}
@@ -608,16 +669,18 @@ function TimelineStepCard({
   index: number;
 }) {
   const [expanded, setExpanded] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
   const isLong = step.description.length > 160;
-  const showFull = expanded || isHovered;
+  const showFull = expanded;
   const num = step.stepNumber || String(index + 1).padStart(2, "0");
+  const cleanTitle = step.title.replace(/^0?\d+\s*[\.\·\-–—:]\s*/, "");
+  const descriptionParagraphs = step.description
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter(Boolean);
 
   return (
     <div
       onClick={() => isLong && setExpanded((prev) => !prev)}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
       className={cn(
         "group relative flex flex-col justify-between rounded-3xl border border-teal-100/80 bg-gradient-to-b from-white via-white to-teal-50/25 p-6 sm:p-7 shadow-[0_10px_30px_-18px_rgba(3,53,75,0.08)] transition-all duration-300 hover:border-teal-300 hover:shadow-[0_20px_40px_-20px_rgba(3,53,75,0.16)] hover:-translate-y-1 h-full select-none",
         isLong && "cursor-pointer"
@@ -636,19 +699,32 @@ function TimelineStepCard({
 
         {/* Titolo dello step */}
         <h3 className="font-serif text-xl sm:text-2xl font-semibold text-teal-950 leading-snug">
-          {step.title}
+          {cleanTitle}
         </h3>
 
-        {/* Descrizione con altezza pareggiata e apertura al click / hover */}
+        {/* Descrizione con altezza pareggiata e apertura al click intenzionale */}
         <div className="relative mt-3">
-          <p
-            className={cn(
-              "text-sm leading-relaxed text-charcoal/75 transition-all duration-300",
-              !showFull && isLong && "line-clamp-4"
-            )}
-          >
-            {step.description}
-          </p>
+          {showFull ? (
+            <div className="space-y-2.5">
+              {descriptionParagraphs.map((p, i) => (
+                <p
+                  key={`${i}-${p.slice(0, 40)}`}
+                  className="text-sm leading-relaxed text-charcoal/75"
+                >
+                  {p}
+                </p>
+              ))}
+            </div>
+          ) : (
+            <p
+              className={cn(
+                "text-sm leading-relaxed text-charcoal/75",
+                isLong && "line-clamp-4"
+              )}
+            >
+              {step.description.replace(/\n+/g, " ")}
+            </p>
+          )}
         </div>
       </div>
 
@@ -677,8 +753,8 @@ function TimelineSection({ treatment, page }: { treatment: Treatment; page?: Seo
       : getTimelineSteps(treatment).slice(0, 3);
 
   const title =
-    page?.timelineTitle ||
     treatment.timelineTitle ||
+    page?.timelineTitle ||
     `Come si svolge una seduta di ${withArticle(treatment.title)}?`;
 
   return (
@@ -743,7 +819,7 @@ function ResultsSection({ treatment, page }: { treatment: Treatment; page?: SeoP
     results?.image ||
     treatment.galleryImages?.[2] ||
     treatment.galleryImages?.[1] ||
-    (treatment.category === "odontoiatria" ? "/images/invisalign-smile.jpg" : "/images/aesthetic-skin.jpg");
+    (treatment.category === "odontoiatria" ? "/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-1.jpg" : "/images/aesthetic-skin.jpg");
 
   return (
     <section className="bg-canvas py-16 sm:py-20">
@@ -770,13 +846,7 @@ function ResultsSection({ treatment, page }: { treatment: Treatment; page?: SeoP
             <h2 className="font-serif text-3xl font-semibold tracking-tight text-dark-navy sm:text-4xl">
               {title}
             </h2>
-            <div className="mt-5 space-y-4">
-              {paragraphs.map((p) => (
-                <p key={p.slice(0, 40)} className="text-base leading-relaxed text-charcoal/75">
-                  {p}
-                </p>
-              ))}
-            </div>
+            <ExpandableParagraphs paragraphs={paragraphs} />
           </div>
         </div>
       </Container>
@@ -809,7 +879,7 @@ function LeadSection({ treatment, page }: { treatment: Treatment; page?: SeoPage
     whatsappConsent: false,
   });
 
-  const overline = treatment.leadForm?.overline ?? "RICHIEDI UNA VALUTAZIONE";
+  const overline = treatment.leadForm?.overline ?? "CONTATTO DIRETTO";
   const title =
     page?.leadTitle ||
     treatment.leadForm?.title ||
@@ -1076,6 +1146,7 @@ function FaqSection({ faq }: { faq: { q: string; a: string }[] }) {
 // ─────────────────────────────────────────────────────────────────────────
 
 function LocalSeoSection({ treatment, page }: { treatment: Treatment; page?: SeoPage }) {
+  const { openDiscover } = useShop();
   const localSeo = treatment.localSeo;
   const overline =
     localSeo?.overline ??
@@ -1093,7 +1164,12 @@ function LocalSeoSection({ treatment, page }: { treatment: Treatment; page?: Seo
   const ctaText =
     page?.localSeoCta ||
     localSeo?.cta ||
-    "Richiedi una valutazione";
+    "Iscriviti gratuitamente al Cocoora Club";
+
+  const descriptionParagraphs = description
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter(Boolean);
 
   return (
     <section className="bg-canvas py-16 sm:py-20">
@@ -1119,9 +1195,16 @@ function LocalSeoSection({ treatment, page }: { treatment: Treatment; page?: Seo
               <h2 className="mt-4 font-serif text-3xl font-semibold tracking-tight text-dark-navy sm:text-4xl">
                 {title}
               </h2>
-              <p className="mt-4 text-base leading-relaxed text-charcoal/75">
-                {description}
-              </p>
+              <div className="mt-4 space-y-3">
+                {descriptionParagraphs.map((p, i) => (
+                  <p
+                    key={`${i}-${p.slice(0, 40)}`}
+                    className="text-base leading-relaxed text-charcoal/75"
+                  >
+                    {p}
+                  </p>
+                ))}
+              </div>
 
               <div className="mt-6 space-y-3">
                 <p className="flex items-start gap-3 text-sm text-charcoal/70">
@@ -1137,7 +1220,7 @@ function LocalSeoSection({ treatment, page }: { treatment: Treatment; page?: Seo
               <div className="mt-8">
                 <button
                   type="button"
-                  onClick={scrollToLead}
+                  onClick={openDiscover}
                   className="inline-flex items-center gap-2 rounded-full bg-dark-navy px-8 py-3.5 text-sm font-medium text-white shadow-[0_16px_40px_-16px_rgba(3,53,75,0.55)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-teal-900"
                 >
                   {ctaText} <ArrowRight className="h-4 w-4" />
