@@ -28,6 +28,7 @@ import { CLUB_TIERS } from "@/lib/club";
 import { SITE } from "@/lib/site";
 import type { Treatment, SeoPage } from "@/lib/types";
 import { trackLead } from "@/lib/tracking";
+import { cn } from "@/lib/utils";
 import { Button, Container } from "@/components/ui";
 import { Logo } from "@/components/logo";
 
@@ -596,8 +597,78 @@ function ProblemsSection({ treatment, page }: { treatment: Treatment; page?: Seo
 }
 
 // ─────────────────────────────────────────────────────────────────────────
-// BLOCCO 4 — "Come si svolge una seduta?" (timeline 3 step)
+// BLOCCO 4 — "Come si svolge una seduta?" (timeline 3 step pareggiata e simmetrica)
 // ─────────────────────────────────────────────────────────────────────────
+
+function TimelineStepCard({
+  step,
+  index,
+}: {
+  step: { stepNumber?: string; title: string; description: string };
+  index: number;
+}) {
+  const [expanded, setExpanded] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const isLong = step.description.length > 160;
+  const showFull = expanded || isHovered;
+  const num = step.stepNumber || String(index + 1).padStart(2, "0");
+
+  return (
+    <div
+      onClick={() => isLong && setExpanded((prev) => !prev)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className={cn(
+        "group relative flex flex-col justify-between rounded-3xl border border-teal-100/80 bg-gradient-to-b from-white via-white to-teal-50/25 p-6 sm:p-7 shadow-[0_10px_30px_-18px_rgba(3,53,75,0.08)] transition-all duration-300 hover:border-teal-300 hover:shadow-[0_20px_40px_-20px_rgba(3,53,75,0.16)] hover:-translate-y-1 h-full select-none",
+        isLong && "cursor-pointer"
+      )}
+    >
+      <div>
+        {/* Intestazione: Numero scenico in corsivo elegante + Indicatore Fase */}
+        <div className="flex items-center justify-between mb-5">
+          <span className="flex h-14 w-14 items-center justify-center rounded-2xl border border-teal-200/80 bg-gradient-to-br from-teal-50 via-white to-teal-100/50 font-serif text-3xl font-light italic tracking-tight text-teal-950 shadow-xs transition-transform duration-300 group-hover:scale-105 group-hover:border-teal-400">
+            {num}
+          </span>
+          <span className="rounded-full bg-teal-50 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-teal-800 border border-teal-100">
+            Fase {index + 1}
+          </span>
+        </div>
+
+        {/* Titolo dello step */}
+        <h3 className="font-serif text-xl sm:text-2xl font-semibold text-teal-950 leading-snug">
+          {step.title}
+        </h3>
+
+        {/* Descrizione con altezza pareggiata e apertura al click / hover */}
+        <div className="relative mt-3">
+          <p
+            className={cn(
+              "text-sm leading-relaxed text-charcoal/75 transition-all duration-300",
+              !showFull && isLong && "line-clamp-4"
+            )}
+          >
+            {step.description}
+          </p>
+        </div>
+      </div>
+
+      {/* Trigger espansione per card con testo lungo */}
+      {isLong ? (
+        <div className="mt-5 pt-3.5 border-t border-teal-100/60 flex items-center justify-between text-[11px] font-semibold text-teal-800 transition-colors group-hover:text-dark-navy">
+          <span>{showFull ? "Mostra meno" : "Leggi tutto"}</span>
+          <ChevronDown
+            className={cn(
+              "h-3.5 w-3.5 transition-transform duration-300 text-teal-600",
+              showFull && "rotate-180"
+            )}
+          />
+        </div>
+      ) : (
+        <div className="mt-5 pt-3.5 border-t border-transparent" />
+      )}
+    </div>
+  );
+}
 
 function TimelineSection({ treatment, page }: { treatment: Treatment; page?: SeoPage }) {
   const steps =
@@ -611,7 +682,7 @@ function TimelineSection({ treatment, page }: { treatment: Treatment; page?: Seo
     `Come si svolge una seduta di ${withArticle(treatment.title)}?`;
 
   return (
-    <section className="bg-white py-16 sm:py-20">
+    <section className="bg-white py-16 sm:py-20 border-t border-teal-100/40">
       <Container>
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="font-serif text-3xl font-semibold tracking-tight text-dark-navy sm:text-4xl">
@@ -626,38 +697,11 @@ function TimelineSection({ treatment, page }: { treatment: Treatment; page?: Seo
           </p>
         </div>
 
-        {/* Timeline — verticale su mobile, orizzontale su desktop */}
-        <div className="mt-12 grid gap-8 md:grid-cols-3 md:gap-6">
-          {steps.map((step, i) => {
-            const Icon = TIMELINE_ICONS[i] ?? Check;
-            return (
-              <div key={step.stepNumber} className="relative flex gap-5 md:block">
-                {/* Linea di collegamento verticale (mobile) */}
-                {i < steps.length - 1 && (
-                  <span
-                    aria-hidden
-                    className="absolute left-6 top-14 h-[calc(100%-2rem)] w-px bg-teal-100 md:hidden"
-                  />
-                )}
-                <div className="flex shrink-0 items-center gap-3 md:mb-5">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-full bg-teal-100 font-serif text-base font-bold text-teal-700">
-                    {step.stepNumber}
-                  </span>
-                  <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-teal-50 text-teal-700">
-                    <Icon className="h-4.5 w-4.5" />
-                  </span>
-                </div>
-                <div className="md:mt-0">
-                  <h3 className="font-serif text-xl font-semibold text-teal-900">
-                    {step.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-charcoal/70">
-                    {step.description}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
+        {/* Timeline simmetrica con colonne pareggiate a 3 colonne */}
+        <div className="mt-12 grid gap-6 md:grid-cols-3 items-stretch">
+          {steps.map((step, i) => (
+            <TimelineStepCard key={step.stepNumber || i} step={step} index={i} />
+          ))}
         </div>
       </Container>
     </section>

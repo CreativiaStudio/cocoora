@@ -84,12 +84,12 @@ export default function MediciPage() {
       <section className="relative w-full overflow-hidden bg-dark-navy pt-20 sm:pt-24">
         <div className="relative h-[180px] sm:h-[210px] lg:h-[230px] w-full overflow-hidden">
           <Image
-            src="/images/medici-hero-banner.jpg"
+            src="/images/centro/foto-13.webp"
             alt="Équipe medica e clinica Cocoora a Napoli"
             fill
             priority
             sizes="100vw"
-            className="object-cover object-center"
+            className="object-cover object-[center_35%]"
           />
           {/* Gradienti per leggibilità e texture */}
           <div className="absolute inset-0 bg-gradient-to-r from-dark-navy/95 via-dark-navy/80 to-dark-navy/40" />

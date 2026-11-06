@@ -9,28 +9,30 @@ import { Badge, Container, SectionLabel } from "@/components/ui";
 export default function VisitePage() {
   return (
     <>
-      {/* ── Banner Hero ──────────────────────────────────────────────── */}
-      <div className="relative z-10 h-64 w-full overflow-hidden rounded-b-[2.5rem] border-b border-slate-200/80 shadow-xl shadow-dark-navy/10 sm:h-72">
-        <Image
-          src="/images/visite/radiologia-napoli-1.jpg"
-          alt="Centro medico e visite specialistiche Cocoora Napoli"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center"
-        />
-        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-dark-navy/60 via-dark-navy/15 to-transparent" />
-      </div>
+      {/* ── Hero Unificata Immersiva con Foto Studio ────────────────── */}
+      <section className="relative overflow-hidden bg-dark-navy pb-20 pt-32 sm:pb-24 sm:pt-36">
+        <div className="absolute inset-0">
+          <Image
+            src="/images/centro/foto-8.webp"
+            alt="Ambulatori specialistici e clinica Cocoora Napoli"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-[center_35%]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-dark-navy/95 via-dark-navy/85 to-dark-navy/90" />
+          <div className="noise pointer-events-none absolute inset-0" />
+        </div>
 
-      {/* ── Hero Testuale ────────────────────────────────────────────── */}
-      <section className="hero-mesh relative overflow-hidden pb-16 pt-8 sm:pt-12">
-        <Container className="relative">
+        <Container className="relative z-10">
           <div className="mx-auto max-w-3xl text-center">
-            <Badge className="mx-auto shadow-sm">Équipe Specialistica · Prenotazione su Appuntamento</Badge>
-            <h1 className="mt-6 font-serif text-5xl font-semibold leading-[1.05] tracking-tight text-dark-navy sm:text-6xl">
+            <Badge className="mx-auto shadow-md bg-white/15 text-teal-100 border border-white/20 backdrop-blur-md">
+              Équipe Specialistica · Prenotazione su Appuntamento
+            </Badge>
+            <h1 className="mt-6 font-serif text-4xl font-semibold leading-[1.08] tracking-tight text-white sm:text-5xl md:text-6xl">
               Visite Specialistiche Private a Napoli
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-charcoal/75">
+            <p className="mx-auto mt-6 max-w-2xl text-base sm:text-lg leading-relaxed text-teal-100/90">
               14 branche specialistiche coordinate, con tempi dedicati all&apos;ascolto e
               refertazione strutturata. Scegli la visita di cui hai bisogno e
               prenota la tua valutazione dedicata.

@@ -1,436 +1,565 @@
 "use client";
 
-import type { ReactNode } from "react";
+/**
+ * Pagina "Il Centro" — Cocoora Centro Medico (Napoli)
+ *
+ * Note di allineamento al Brand Vault (adattamenti rispetto al brief):
+ * - Le statistiche non verificate ("18+ medici", "14 branche") sono state sostituite con dati certi.
+ * - "0 Attese Burocratiche" è stato rimosso perché vietato ("Zero Attese").
+ * - Le "4 card pilastri" diventano "La nostra filosofia" ("Pilastri" è vietato).
+ * - La destinazione degli Studi segue la mappa CRM decisa nella call del 23/10.
+ * - "Longevità e prevenzione predittiva" è formulato senza promettere score o diagnosi automatiche.
+ * - La palette segue i colori ufficiali: #1C4A5C, #03354B, #80A1B2, #3D3D3C, #FFFFFF.
+ * - I testi vanno sottoposti alla revisione di Silvia Monticelli prima della pubblicazione.
+ */
+
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
-import { ButtonLink, Badge } from "@/components/ui";
+import Link from "next/link";
 import {
-  Building2,
+  ArrowRight,
   Clock,
   GraduationCap,
+  HeartHandshake,
   MapPin,
   Phone,
-  ArrowRight,
-  Quote,
-  Scan,
-  Activity,
-  Zap,
-  CheckCircle2,
-  type LucideIcon,
+  ScanLine,
+  ShieldCheck,
+  Sparkles,
+  Stethoscope,
+  Users,
+  X,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
+import { Container, Badge } from "@/components/ui";
+import { useShop } from "@/components/providers";
 
-const principles = [
+const NAVY = "#03354B";
+const TEAL = "#1C4A5C";
+const SLATE = "#80A1B2";
+const BODY = "#3D3D3C";
+
+const NOISE =
+  "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.5'/></svg>\")";
+
+type Category = "accoglienza" | "studi" | "clinica";
+type Filter = "tutti" | Category;
+
+interface Photo {
+  src: string;
+  title: string;
+  caption: string;
+  category: Category;
+  span: string;
+}
+
+const CATEGORY_LABEL: Record<Category, string> = {
+  accoglienza: "Accoglienza & Lounge",
+  studi: "Studi Medici & Consulti",
+  clinica: "Aree Cliniche & Tecnologia",
+};
+
+const FILTERS: { id: Filter; label: string }[] = [
+  { id: "tutti", label: "Tutti gli Spazi" },
+  { id: "accoglienza", label: "Accoglienza & Lounge" },
+  { id: "studi", label: "Studi Medici & Consulti" },
+  { id: "clinica", label: "Aree Cliniche & Tecnologia" },
+];
+
+const PHOTOS: Photo[] = [
+  { src: "/images/centro/foto-1.webp", title: "L'ingresso", caption: "La parete d'ingresso con il logo Cocoora: il primo sguardo sul centro.", category: "accoglienza", span: "md:col-span-2 md:row-span-2" },
+  { src: "/images/centro/foto-20.webp", title: "Reception", caption: "Il desk di accoglienza, dove la segreteria segue ogni paziente dall'arrivo alla visita.", category: "accoglienza", span: "md:col-span-2" },
+  { src: "/images/centro/foto-3.webp", title: "Sala d'attesa", caption: "La sala d'attesa del centro.", category: "accoglienza", span: "" },
+  { src: "/images/centro/foto-18.webp", title: "Accoglienza", caption: "La segreteria accoglie i pazienti e organizza appuntamenti e percorsi.", category: "accoglienza", span: "" },
+  { src: "/images/centro/foto-9.webp", title: "Studio 1", caption: "Studio 1 — Odontoiatria e Ortodonzia.", category: "studi", span: "md:row-span-2" },
+  { src: "/images/centro/foto-6.webp", title: "Studio 2", caption: "Studio 2 — Medicina Estetica.", category: "studi", span: "" },
+  { src: "/images/centro/foto-10.webp", title: "Studio 3", caption: "Studio 3 — Medicina Estetica e tecnologie laser.", category: "studi", span: "" },
+  { src: "/images/centro/foto-11.webp", title: "Studio 4", caption: "Studio 4 — Visite Specialistiche.", category: "studi", span: "md:col-span-2" },
+  { src: "/images/centro/foto-12.webp", title: "Studio di consulto", caption: "Uno spazio riservato al colloquio con lo specialista.", category: "studi", span: "" },
+  { src: "/images/centro/foto-13.webp", title: "Studio di consulto", caption: "Lo studio di consulto, in una vista d'insieme.", category: "studi", span: "" },
+  { src: "/images/centro/foto-14.webp", title: "Studio di consulto", caption: "Lo studio di consulto, in una vista frontale.", category: "studi", span: "md:col-span-2" },
+  { src: "/images/centro/foto-5.webp", title: "Area diagnostica", caption: "Il corridoio clinico che conduce alla Sala RX / OPT / TAC.", category: "clinica", span: "md:col-span-2" },
+  { src: "/images/centro/foto-8.webp", title: "Riunito odontoiatrico", caption: "La postazione odontoiatrica dello Studio 1.", category: "clinica", span: "md:row-span-2" },
+  { src: "/images/centro/foto-7.webp", title: "Strumentazione", caption: "Un dettaglio della strumentazione clinica.", category: "clinica", span: "" },
+  { src: "/images/centro/foto-4.webp", title: "Accoglienza", caption: "Uno scorcio dell'area di accoglienza.", category: "accoglienza", span: "" },
+  { src: "/images/centro/foto-2.webp", title: "Dettagli", caption: "Un dettaglio degli spazi comuni.", category: "accoglienza", span: "" },
+  { src: "/images/centro/foto-19.webp", title: "Reception", caption: "Il desk di reception, in una prospettiva laterale.", category: "accoglienza", span: "" },
+  { src: "/images/centro/foto-21.webp", title: "Reception", caption: "La reception con il logo Cocoora.", category: "accoglienza", span: "" },
+];
+
+const STATS = [
+  { value: "4", label: "Studi Clinici" },
+  { value: "+1", label: "Sala RX / OPT / TAC" },
+  { value: "3", label: "Aree Mediche integrate" },
+  { value: "2", label: "Atenei: Federico II & Vanvitelli" },
+];
+
+const FILOSOFIA = [
   {
-    title: "Precisione Clinica",
-    text: "Diagnostica digitale di ultima generazione, scanner 3D e protocolli validati a supporto di ogni decisione terapeutica.",
+    icon: HeartHandshake,
+    title: "Il tempo giusto per l'ascolto",
+    text: "Ogni visita parte da un colloquio. Comprendere la persona, la sua storia e le sue esigenze è il primo atto di cura.",
   },
   {
-    title: "Ascolto Autentico",
-    text: "Nessun consulto affrettato. Ogni visita inizia con il dialogo: raccogliamo la tua storia clinica e personale prima di ogni diagnosi.",
+    icon: ScanLine,
+    title: "Diagnostica in sede",
+    text: "La Sala RX / OPT / TAC del centro permette di affiancare alla visita gli approfondimenti per immagini, senza spostamenti.",
   },
   {
-    title: "Prevenzione Reale",
-    text: "Un approccio predittivo multidisciplinare per intercettare i bisogni prima della comparsa del sintomo. La longevità attiva.",
+    icon: Users,
+    title: "Approccio multidisciplinare",
+    text: "Medicina Estetica, Odontoiatria e Visite Specialistiche dialogano sotto un'unica Direzione Sanitaria, con un unico riferimento: il Centro.",
   },
   {
-    title: "Il Tempo Giusto",
-    text: "Agende con tempi dedicati e dilatati per consentire visite approfondite e spiegazioni chiare, nel pieno rispetto del tuo tempo.",
+    icon: Sparkles,
+    title: "Prevenzione nel tempo",
+    text: "Con i Percorsi Salute del Cocoora Club, la prevenzione diventa un percorso consapevole, seguito con cura, nel tempo.",
   },
 ];
 
-const rooms = [
+const STUDI = [
   {
-    number: "01",
-    title: "Area Clinica Odontoiatrica & Ortodonzia",
-    subtitle: "Accoglienza & Precisione Digitale",
-    description:
-      "Ambiente clinico ad elevata ergonomia, progettato per mettere a proprio agio il paziente durante ogni trattamento ortodontico e di prevenzione del sorriso, con protocolli di igiene e comfort ai massimi standard.",
-    equipment: ["Ergonomia e Insonorizzazione", "Flussi Digitali Integrati", "Massima Riservatezza"],
-    image: "/images/dental-operatory.jpg",
-    icon: Scan,
+    n: "Studio 1",
+    title: "Odontoiatria e Ortodonzia",
+    img: "/images/centro/foto-9.webp",
+    text: "La postazione odontoiatrica fissa del centro, dedicata alla salute della bocca: dalla visita con OPT all'igiene orale, dall'ortodonzia con allineatori trasparenti alle cure conservative e implantari.",
   },
   {
-    number: "02",
-    title: "Ambulatorio Medicina Rigenerativa & Benessere",
-    subtitle: "Privacy, Luce Naturale & Rilassamento",
-    description:
-      "Spazio distensivo e luminoso dedicato ai percorsi personalizzati di medicina estetica e rigenerativa, dove tecnologie cliniche mobili d'avanguardia incontrano il massimo relax.",
-    equipment: ["Ambiente Riservato", "Tecnologie Cliniche Avanzate", "Protocolli Rigenerativi Personalizzati"],
-    image: "/images/laser-technology.jpg",
-    icon: Zap,
+    n: "Studio 2",
+    title: "Medicina Estetica",
+    img: "/images/centro/foto-6.webp",
+    text: "Lo studio dedicato ai trattamenti per il corpo e la silhouette, tra cui la criolipolisi, gli ultrasuoni focalizzati e la carbossiterapia.",
   },
   {
-    number: "03",
-    title: "Ambulatorio Specialistico & Diagnostica",
-    subtitle: "Ascolto Autentico & Approccio Multidisciplinare",
-    description:
-      "Ambulatorio dedicato ai consulti con la nostra équipe di docenti universitari e specialisti: tempi dedicati, ascolto attento e refertazione integrata per la tua prevenzione.",
-    equipment: ["Visite Senza Fretta", "Diagnostica Clinica Coordinata", "Cartella Clinica Unica Integrata"],
-    image: "/images/diagnostics-lab.jpg",
-    icon: Activity,
-  },
-];
-
-const universities = [
-  {
-    name: "Università degli Studi di Napoli Federico II",
-    role: "Collaborazione Clinico-Scientifica",
-    detail:
-      "Docenti universitari e specialisti ospedalieri convenzionati operano regolarmente nel nostro centro, garantendo protocolli diagnostici all'apice della ricerca medica contemporanea.",
-    badge: "Docenti & Ricerca Clinica",
+    n: "Studio 3",
+    title: "Medicina Estetica e Laser",
+    img: "/images/centro/foto-10.webp",
+    text: "Lo studio che ospita la piattaforma laser per i trattamenti di viso e pelle, oltre ai trattamenti di medicina estetica e rigenerativa.",
   },
   {
-    name: "Università della Campania Luigi Vanvitelli",
-    role: "Protocolli Specialistici Integrati",
-    detail:
-      "Condivisione di linee guida cliniche validate per la prevenzione cardiovascolare, metabolica e ginecologica, per unire rigore accademico e tempestività ambulatoriale.",
-    badge: "Linee Guida Validate",
+    n: "Studio 4",
+    title: "Visite Specialistiche",
+    img: "/images/centro/foto-11.webp",
+    text: "Lo studio dedicato alle visite specialistiche e agli esami ecografici: oculistica, cardiologia, ginecologia ed ecografia.",
   },
 ];
 
 export default function ChiSiamoPage() {
+  const shop = useShop() as unknown as { openDiscover?: () => void; openBooking?: () => void };
+  const [filter, setFilter] = useState<Filter>("tutti");
+  const [active, setActive] = useState<number | null>(null);
+
+  const visible = useMemo(
+    () => (filter === "tutti" ? PHOTOS : PHOTOS.filter((p) => p.category === filter)),
+    [filter]
+  );
+
+  const close = useCallback(() => setActive(null), []);
+  const step = useCallback(
+    (dir: 1 | -1) =>
+      setActive((i) => (i === null ? i : (i + dir + visible.length) % visible.length)),
+    [visible.length]
+  );
+
+  useEffect(() => {
+    if (active === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close();
+      if (e.key === "ArrowRight") step(1);
+      if (e.key === "ArrowLeft") step(-1);
+    };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [active, close, step]);
+
+  const handleClub = () => {
+    if (shop?.openDiscover) shop.openDiscover();
+    else if (shop?.openBooking) shop.openBooking();
+  };
+
+  const current = active !== null ? visible[active] : null;
+
   return (
-    <main className="bg-canvas text-charcoal">
-      {/* ============ HERO ============ */}
-      <section className="relative flex min-h-[85vh] items-end overflow-hidden bg-dark-navy">
-        <div className="absolute inset-0">
-          <Image
-            src="/images/clinic-lounge.jpg"
-            alt="Interno Cocoora Centro Medico"
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover opacity-40"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-dark-navy via-dark-navy/80 to-dark-navy/25" />
-          <div className="absolute inset-0 bg-gradient-to-r from-dark-navy/80 via-dark-navy/10 to-dark-navy/60" />
-          <div className="absolute -left-32 top-1/4 h-96 w-96 rounded-full bg-teal-500/20 blur-3xl" />
-          <div className="absolute -right-24 bottom-0 h-80 w-80 rounded-full bg-slate-accent/20 blur-3xl" />
-        </div>
-
-        <div className="relative z-10 mx-auto w-full max-w-6xl px-6 pb-24 pt-40 sm:px-10">
-          <Badge className="mb-8 border border-white/20 bg-white/10 px-4 py-1.5 text-teal-200 backdrop-blur-md">
-            <Building2 className="h-3.5 w-3.5" />
-            Il Centro &amp; La Visione
+    <main className="bg-white" style={{ color: BODY }}>
+      {/* 1. HERO */}
+      <section className="relative isolate flex min-h-[88vh] items-end overflow-hidden">
+        <Image
+          src="/images/centro/foto-1.webp"
+          alt="L'ingresso di Cocoora Centro Medico a Napoli"
+          fill
+          priority
+          sizes="100vw"
+          className="-z-20 object-cover"
+        />
+        <div
+          className="absolute inset-0 -z-10"
+          style={{
+            background: `linear-gradient(180deg, ${NAVY}66 0%, ${NAVY}B3 55%, ${NAVY}F2 100%)`,
+          }}
+        />
+        <div
+          className="pointer-events-none absolute inset-0 -z-10 opacity-[0.12] mix-blend-overlay"
+          style={{ backgroundImage: NOISE }}
+        />
+        <Container className="w-full pb-16 pt-40 md:pb-24">
+          <Badge className="mb-6 inline-flex border border-white/30 bg-white/10 px-4 py-1.5 text-xs uppercase tracking-[0.2em] text-white backdrop-blur">
+            Il Centro Medico · Napoli
           </Badge>
-
-          <h1 className="max-w-4xl font-serif text-5xl font-semibold leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-7xl">
-            Un centro medico pensato come
-            <span className="mt-1 block italic text-teal-200">un luogo per respirare.</span>
+          <h1 className="max-w-4xl font-serif text-4xl leading-[1.05] text-white sm:text-5xl md:text-7xl">
+            Connessi alla tua salute.
+            <span className="block italic" style={{ color: "#C9DAE3" }}>
+              Seguita con cura, nel tempo.
+            </span>
           </h1>
-
-          <p className="mt-8 max-w-2xl text-lg leading-[1.75] text-teal-100/85 sm:text-xl">
-            A Napoli, in via Giovanni De Bonis 81, il nostro centro nasce per ridefinire l&apos;esperienza sanitaria:
-            eccellenza clinica multispecialistica, docenti universitari e un&apos;accoglienza calda e riservata
-            ispirata ai più alti standard europei.
+          <p className="mt-6 max-w-2xl text-base leading-relaxed text-white/85 md:text-lg">
+            Cocoora è un Centro Medico Autorizzato nel cuore di Napoli: specialisti e docenti
+            universitari che lavorano insieme, sotto la Direzione Sanitaria della Dott.ssa Elisa
+            Russo, perché prendersi cura di sé non sia un&apos;emergenza, ma un percorso consapevole.
           </p>
-
-          <div className="mt-11 flex flex-wrap items-center gap-4">
-            <ButtonLink
-              href="/contatti"
-              size="lg"
-              className="bg-white px-8 text-dark-navy hover:bg-teal-50"
-            >
-              Prenota una Visita
-              <ArrowRight className="h-4 w-4" />
-            </ButtonLink>
-            <ButtonLink
-              href="#filosofia"
-              size="lg"
-              variant="outline-dark"
-              className="border-white/30 bg-white/5 px-8 backdrop-blur-sm hover:bg-white/10"
-            >
-              La Nostra Filosofia
-            </ButtonLink>
-          </div>
-        </div>
+          <dl className="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/15 bg-white/10 backdrop-blur-md md:grid-cols-4">
+            {STATS.map((s) => (
+              <div key={s.label} className="bg-white/5 px-5 py-6">
+                <dt className="font-serif text-3xl text-white md:text-4xl">{s.value}</dt>
+                <dd className="mt-1 text-xs uppercase tracking-wider text-white/70">{s.label}</dd>
+              </div>
+            ))}
+          </dl>
+        </Container>
       </section>
 
-      {/* ============ LA NOSTRA FILOSOFIA ============ */}
-      <section id="filosofia" className="mx-auto max-w-6xl px-6 py-28 sm:px-10">
-        <div className="mx-auto mb-16 max-w-2xl text-center">
-          <SectionEyebrow>Il Metodo</SectionEyebrow>
-          <h2 className="font-serif text-4xl font-semibold leading-[1.1] text-teal-900 sm:text-5xl">
-            La nostra filosofia
-          </h2>
-          <p className="mt-6 text-base leading-[1.8] text-charcoal/70 sm:text-lg">
-            Un metodo di cura che unisce rigore scientifico e sensibilità umana,
-            applicato in ogni ambulatorio, in ogni consulto e in ogni dettaglio.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {principles.map((p, idx) => (
-            <div
-              key={p.title}
-              className="group flex flex-col rounded-3xl border border-teal-100 bg-white p-8 shadow-[0_18px_50px_-28px_rgba(3,53,75,0.28)] transition-all duration-300 hover:-translate-y-1.5 hover:border-teal-200 hover:shadow-[0_30px_70px_-24px_rgba(3,53,75,0.32)]"
-            >
-              <span className="mb-8 font-serif text-3xl font-semibold text-slate-accent/60">
-                {String(idx + 1).padStart(2, "0")}
-              </span>
-              <h3 className="mb-3 font-serif text-2xl font-semibold leading-tight text-teal-900">
-                {p.title}
-              </h3>
-              <p className="text-[15px] leading-[1.75] text-charcoal/70">{p.text}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ============ GLI SPAZI DEL CENTRO (IN STANDBY PER IL GO-LIVE COME CONCORDATO CON SIMONE E VALENTINA IN ATTESA DELLO SHOOTING) ============ */}
-      {/*
-      <section id="ambienti" className="relative overflow-hidden bg-dark-navy py-28">
-        ... Sezione ambienti in standby ...
-      </section>
-      */}
-
-      {/* ============ MANIFESTO ============ */}
-      <section className="section-alt relative overflow-hidden py-28">
-        <div className="mx-auto max-w-4xl px-6 text-center sm:px-10">
-          <Quote className="mx-auto mb-8 h-10 w-10 text-slate-accent" strokeWidth={1.2} />
-          <p className="font-serif text-3xl font-medium italic leading-[1.5] text-teal-900 sm:text-4xl">
-            &ldquo;La medicina deve ritrovare il suo tempo. Il tempo di ascoltare,
-            di osservare, di comprendere prima di agire. Nel nostro centro abbiamo costruito
-            uno spazio dove la tecnologia più avanzata convive con la lentezza
-            necessaria a prendersi davvero cura di una persona.&rdquo;
-          </p>
-          <div className="mx-auto mt-10 h-px w-16 bg-slate-accent/60" />
-          <div className="mt-8 flex flex-col items-center gap-1.5">
-            <span className="text-sm font-semibold uppercase tracking-[0.2em] text-teal-900">
-              Manifesto Clinico
-            </span>
-            <span className="text-xs font-medium uppercase tracking-[0.2em] text-charcoal/60">
-              Équipe Medica &amp; Governance — Cocoora Centro Medico
-            </span>
-          </div>
-        </div>
-      </section>
-
-      {/* ============ DIREZIONE SANITARIA — DOTT.SSA ELISA RUSSO ============ */}
-      <section className="mx-auto max-w-6xl px-6 py-28 sm:px-10">
-        <div className="mx-auto mb-16 max-w-2xl text-center">
-          <SectionEyebrow>La Direzione Sanitaria</SectionEyebrow>
-          <h2 className="font-serif text-4xl font-semibold leading-[1.1] text-teal-900 sm:text-5xl">
-            Dott.ssa Elisa Russo
-          </h2>
-          <p className="mt-4 text-sm font-semibold uppercase tracking-[0.18em] text-slate-accent">
-            Odontoiatra e Specialista in Ortodonzia — Direttrice Sanitaria
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
-          {/* Monogramma istituzionale */}
-          <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-[2.5rem] bg-dark-navy shadow-[0_35px_80px_-30px_rgba(3,53,75,0.55)]">
-            <div className="pointer-events-none absolute -left-20 -top-20 h-56 w-56 rounded-full bg-teal-500/25 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-24 -right-16 h-56 w-56 rounded-full bg-slate-accent/25 blur-3xl" />
-            <div className="relative flex h-full flex-col items-center justify-center gap-5">
-              <span className="font-serif text-7xl font-semibold tracking-tight text-teal-200">
-                ER
-              </span>
-              <div className="h-px w-14 bg-white/25" />
-              <span className="px-8 text-center text-xs font-semibold uppercase tracking-[0.24em] text-teal-100/75">
-                Direzione Sanitaria
-              </span>
-            </div>
-          </div>
-
-          {/* Visione e presentazione */}
-          <div>
-            <Quote className="mb-6 h-8 w-8 text-slate-accent" strokeWidth={1.4} />
-            <p className="font-serif text-2xl font-medium italic leading-[1.5] text-teal-900 sm:text-[1.7rem]">
-              &ldquo;Curare significa prima di tutto prendersi una responsabilità: verso la
-              persona che abbiamo di fronte, verso l&apos;équipe che coordino e verso la
-              qualità di ogni decisione clinica.&rdquo;
+      {/* 2. FILOSOFIA */}
+      <section className="py-20 md:py-28">
+        <Container>
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ color: SLATE }}>
+              La nostra filosofia
             </p>
-            <div className="mt-8 space-y-5">
-              <p className="text-base leading-[1.8] text-charcoal/70">
-                Odontoiatra e Specialista in Ortodonzia, la Dott.ssa Elisa Russo ricopre il ruolo di
-                Direttrice Sanitaria: garantisce il rispetto dei protocolli clinici, l&apos;appropriatezza
-                delle prescrizioni e la qualità di ogni percorso di cura offerto nel nostro centro.
-              </p>
-              <p className="text-base leading-[1.8] text-charcoal/70">
-                Sotto la sua direzione, l&apos;équipe multidisciplinare lavora in modo coordinato:
-                ogni piano terapeutico nasce dal confronto tra specialisti e viene condiviso con il
-                paziente in modo chiaro e trasparente, nel segno del rigore clinico e dell&apos;etica medica.
-              </p>
-            </div>
-            <ul className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
-              {[
-                "Rigore clinico e protocolli validati",
-                "Etica medica e appropriatezza prescrittiva",
-                "Coordinamento multidisciplinare dell'équipe",
-                "Attenzione autentica alla persona",
-              ].map((item) => (
-                <li
-                  key={item}
-                  className="flex items-start gap-2.5 text-sm font-medium text-charcoal/80"
+            <h2 className="mt-4 font-serif text-3xl md:text-5xl" style={{ color: TEAL }}>
+              La salute ritrova il suo tempo
+            </h2>
+            <p className="mt-5 text-lg leading-relaxed">
+              Il Centro fa da garante della tua salute: un unico luogo, un&apos;unica Direzione
+              Sanitaria, specialisti che si confrontano tra loro.
+            </p>
+          </div>
+          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {FILOSOFIA.map(({ icon: Icon, title, text }) => (
+              <article
+                key={title}
+                className="group rounded-3xl border bg-white p-7 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl"
+                style={{ borderColor: `${SLATE}40` }}
+              >
+                <div
+                  className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-2xl"
+                  style={{ backgroundColor: `${SLATE}22`, color: TEAL }}
                 >
-                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-slate-accent" />
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* ============ CATTEDRE UNIVERSITARIE ============ */}
-      <section className="mx-auto max-w-6xl px-6 py-28 sm:px-10">
-        <div className="mx-auto mb-16 max-w-2xl text-center">
-          <SectionEyebrow>Governance Clinica</SectionEyebrow>
-          <h2 className="font-serif text-4xl font-semibold leading-[1.1] text-teal-900 sm:text-5xl">
-            Docenti Universitari &amp; Ricerca Clinica
-          </h2>
-          <p className="mt-6 text-base leading-[1.8] text-charcoal/70 sm:text-lg">
-            La qualità clinica del nostro centro si fonda sul legame diretto con le cattedre
-            universitarie campane, garanzia di aggiornamento costante, seconda opinione
-            qualificata e sicurezza terapeutica.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-          {universities.map((u) => (
-            <div
-              key={u.name}
-              className="flex flex-col justify-between rounded-3xl border border-teal-100 bg-white p-9 shadow-[0_18px_50px_-28px_rgba(3,53,75,0.28)] transition-all duration-300 hover:border-teal-200 hover:shadow-[0_30px_70px_-24px_rgba(3,53,75,0.32)]"
-            >
-              <div>
-                <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-teal-100 bg-teal-50 px-3.5 py-1 text-xs font-semibold text-teal-800">
-                  <GraduationCap className="h-4 w-4" />
-                  {u.badge}
+                  <Icon className="h-6 w-6" strokeWidth={1.5} />
                 </div>
-                <h3 className="font-serif text-2xl font-semibold leading-tight text-teal-900 sm:text-[1.75rem]">
-                  {u.name}
+                <h3 className="font-serif text-xl" style={{ color: NAVY }}>
+                  {title}
                 </h3>
-                <p className="mt-3 text-xs font-semibold uppercase tracking-[0.18em] text-slate-accent">
-                  {u.role}
-                </p>
-                <p className="mt-5 text-[15px] leading-[1.8] text-charcoal/70">{u.detail}</p>
-              </div>
-              <div className="mt-8 flex items-center gap-2 border-t border-teal-100 pt-5 text-xs font-medium text-teal-800">
-                <CheckCircle2 className="h-4 w-4 text-slate-accent" />
-                Specialisti accreditati e convenzionati attivi in sede
-              </div>
-            </div>
-          ))}
-        </div>
+                <p className="mt-3 text-sm leading-relaxed">{text}</p>
+              </article>
+            ))}
+          </div>
+        </Container>
       </section>
 
-      {/* ============ DOVE SIAMO & COME RAGGIUNGERCI ============ */}
-      <section className="section-alt border-t border-teal-100 py-28">
-        <div className="mx-auto max-w-6xl px-6 sm:px-10">
-          <div className="grid grid-cols-1 gap-14 lg:grid-cols-2 lg:items-center">
+      {/* 3. GALLERIA */}
+      <section className="py-20 md:py-28" style={{ backgroundColor: "#F5F8FA" }}>
+        <Container>
+          <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
             <div>
-              <SectionEyebrow align="left">La Sede di Napoli</SectionEyebrow>
-              <h2 className="font-serif text-4xl font-semibold leading-[1.1] text-teal-900 sm:text-5xl">
-                Un centro medico facilmente raggiungibile, nel cuore della città
-              </h2>
-              <p className="mt-6 text-base leading-[1.8] text-charcoal/70 sm:text-lg">
-                Il nostro centro si trova in <strong className="font-semibold text-teal-900">Via Giovanni De Bonis 81</strong>, in una
-                posizione riservata e strategica tra Posillipo e Chiaia. Un ambiente esclusivo ma comodo da
-                raggiungere da ogni zona di Napoli.
+              <p className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ color: SLATE }}>
+                Gli Spazi del Centro
               </p>
-
-              <div className="mt-10 space-y-6">
-                <ContactRow icon={MapPin} title="Indirizzo">
-                  Via Giovanni De Bonis 81, Napoli (NA)
-                </ContactRow>
-                <ContactRow icon={Phone} title="Centralino & WhatsApp Dedicato">
-                  Tel:{" "}
-                  <a href="tel:08118182091" className="font-medium text-teal-800 hover:underline">
-                    081 18182091
-                  </a>{" "}
-                  · Risposta tempestiva per appuntamenti ed emergenze
-                </ContactRow>
-                <ContactRow icon={Clock} title="Orari di Apertura">
-                  Lun–Ven 8:00–20:00 (Orario continuato), Sab 9:00–14:00
-                </ContactRow>
-              </div>
+              <h2 className="mt-4 font-serif text-3xl md:text-5xl" style={{ color: TEAL }}>
+                Esplora il nostro centro
+              </h2>
             </div>
+            <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 md:mx-0 md:flex-wrap md:px-0">
+              {FILTERS.map((f) => {
+                const on = filter === f.id;
+                return (
+                  <button
+                    key={f.id}
+                    type="button"
+                    onClick={() => {
+                      setFilter(f.id);
+                      setActive(null);
+                    }}
+                    aria-pressed={on}
+                    className="whitespace-nowrap rounded-full border px-4 py-2 text-sm transition-colors"
+                    style={{
+                      backgroundColor: on ? TEAL : "#FFFFFF",
+                      color: on ? "#FFFFFF" : TEAL,
+                      borderColor: on ? TEAL : `${SLATE}66`,
+                    }}
+                  >
+                    {f.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
 
-            <div className="relative overflow-hidden rounded-[2.5rem] bg-dark-navy p-10 text-white shadow-[0_40px_80px_-30px_rgba(3,53,75,0.6)] sm:p-12">
-              <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-teal-500/20 blur-3xl" />
-              <div className="pointer-events-none absolute -bottom-24 -left-16 h-64 w-64 rounded-full bg-slate-accent/20 blur-3xl" />
-              <div className="relative">
-                <span className="text-xs font-semibold uppercase tracking-[0.24em] text-teal-200">
-                  Prenotazioni &amp; Accoglienza
+          <div className="mt-12 grid auto-rows-[220px] grid-cols-1 gap-4 sm:grid-cols-2 md:auto-rows-[240px] md:grid-cols-4">
+            {visible.map((p, i) => (
+              <button
+                key={p.src}
+                type="button"
+                onClick={() => setActive(i)}
+                className={`group relative overflow-hidden rounded-3xl text-left focus:outline-none focus-visible:ring-4 ${p.span}`}
+                aria-label={`Apri foto: ${p.title}`}
+              >
+                <Image
+                  src={p.src}
+                  alt={p.caption}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-105"
+                />
+                <div
+                  className="absolute inset-0 opacity-80 transition-opacity duration-500 group-hover:opacity-100"
+                  style={{ background: `linear-gradient(180deg, transparent 45%, ${NAVY}E6 100%)` }}
+                />
+                <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[11px] font-medium uppercase tracking-wider" style={{ color: TEAL }}>
+                  {CATEGORY_LABEL[p.category]}
                 </span>
-                <h3 className="mt-4 font-serif text-3xl font-semibold leading-[1.15] sm:text-4xl">
-                  Vivi l&apos;esperienza Cocoora
-                </h3>
-                <p className="mt-5 text-[15px] leading-[1.8] text-teal-100/80">
-                  Che tu desideri iniziare un percorso con i nostri specialisti o richiedere una valutazione per il
-                  tuo sorriso o il tuo benessere, il nostro team è a tua completa disposizione.
-                </p>
+                <span className="absolute bottom-4 left-4 right-4 font-serif text-lg text-white">
+                  {p.title}
+                </span>
+              </button>
+            ))}
+          </div>
+        </Container>
+      </section>
 
-                <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                  <ButtonLink
-                    href="/contatti"
-                    size="md"
-                    className="bg-white text-dark-navy hover:bg-teal-50"
-                  >
-                    Prenota una Visita
-                  </ButtonLink>
-                  <ButtonLink
-                    href="/club"
-                    size="md"
-                    variant="outline-dark"
-                    className="border-white/25 bg-white/5 hover:bg-white/10"
-                  >
-                    Scopri i Percorsi Salute
-                  </ButtonLink>
-                </div>
+      {/* LIGHTBOX */}
+      {current && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={current.title}
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 backdrop-blur-sm md:p-10"
+          style={{ backgroundColor: `${NAVY}F2` }}
+          onClick={close}
+        >
+          <button
+            type="button"
+            onClick={close}
+            className="absolute right-4 top-4 rounded-full bg-white/10 p-3 text-white hover:bg-white/20"
+            aria-label="Chiudi"
+          >
+            <X className="h-5 w-5" />
+          </button>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              step(-1);
+            }}
+            className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white hover:bg-white/20 md:left-6"
+            aria-label="Foto precedente"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              step(1);
+            }}
+            className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-white/10 p-3 text-white hover:bg-white/20 md:right-6"
+            aria-label="Foto successiva"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+          <figure className="w-full max-w-5xl" onClick={(e) => e.stopPropagation()}>
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl md:aspect-[16/10]">
+              <Image src={current.src} alt={current.caption} fill sizes="100vw" className="object-contain" />
+            </div>
+            <figcaption className="mt-5 text-center text-white">
+              <span className="text-xs uppercase tracking-[0.2em]" style={{ color: "#C9DAE3" }}>
+                {CATEGORY_LABEL[current.category]}
+              </span>
+              <p className="mt-2 font-serif text-2xl">{current.title}</p>
+              <p className="mx-auto mt-2 max-w-2xl text-sm text-white/80">{current.caption}</p>
+            </figcaption>
+          </figure>
+        </div>
+      )}
 
-                <div className="mt-9 border-t border-white/10 pt-5 text-xs leading-relaxed text-teal-100/60">
-                  * Orario continuato: Lun–Ven 8:00–20:00 · Sab 9:00–14:00. Il nostro team
-                  risponde tempestivamente a ogni richiesta di appuntamento.
+      {/* 4. AMBIENTI CLINICI */}
+      <section className="py-20 md:py-28">
+        <Container>
+          <div className="max-w-3xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ color: SLATE }}>
+              Gli ambienti clinici
+            </p>
+            <h2 className="mt-4 font-serif text-3xl md:text-5xl" style={{ color: TEAL }}>
+              Quattro studi, una sola regia clinica
+            </h2>
+            <p className="mt-5 text-lg leading-relaxed">
+              Nel nostro centro ogni studio ha una destinazione precisa. A questi si aggiunge la
+              Sala RX / OPT / TAC, condivisa tra le diverse aree mediche.
+            </p>
+          </div>
+          <div className="mt-14 grid gap-8 md:grid-cols-2">
+            {STUDI.map((s) => (
+              <article
+                key={s.n}
+                className="group overflow-hidden rounded-3xl border bg-white"
+                style={{ borderColor: `${SLATE}40` }}
+              >
+                <div className="relative aspect-[16/10] overflow-hidden">
+                  <Image
+                    src={s.img}
+                    alt={`${s.n} — ${s.title}`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover transition-transform duration-[1200ms] group-hover:scale-105"
+                  />
                 </div>
+                <div className="p-7 md:p-9">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em]" style={{ color: SLATE }}>
+                    {s.n}
+                  </p>
+                  <h3 className="mt-2 font-serif text-2xl" style={{ color: NAVY }}>
+                    {s.title}
+                  </h3>
+                  <p className="mt-3 leading-relaxed">{s.text}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+          <div
+            className="mt-8 flex flex-col gap-4 rounded-3xl p-7 md:flex-row md:items-center md:p-9"
+            style={{ backgroundColor: `${SLATE}1A` }}
+          >
+            <ShieldCheck className="h-8 w-8 shrink-0" style={{ color: TEAL }} strokeWidth={1.5} />
+            <p className="leading-relaxed">
+              <strong style={{ color: NAVY }}>Riservatezza e sicurezza.</strong> Le prenotazioni
+              sono organizzate in modo che ogni studio e ogni apparecchiatura siano dedicati a un
+              solo paziente alla volta, con il tempo necessario alla sanificazione tra una visita e
+              l&apos;altra.
+            </p>
+          </div>
+        </Container>
+      </section>
+
+      {/* 5. RIGORE SCIENTIFICO */}
+      <section className="relative isolate overflow-hidden py-20 md:py-28" style={{ backgroundColor: NAVY }}>
+        <div className="pointer-events-none absolute inset-0 -z-10 opacity-[0.08] mix-blend-overlay" style={{ backgroundImage: NOISE }} />
+        <Container>
+          <div className="grid items-center gap-12 lg:grid-cols-2">
+            <div className="text-white">
+              <p className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ color: "#C9DAE3" }}>
+                Il rigore scientifico
+              </p>
+              <h2 className="mt-4 font-serif text-3xl md:text-5xl">
+                Docenti Università Federico II &amp; Vanvitelli a Napoli
+              </h2>
+              <p className="mt-6 text-lg leading-relaxed text-white/80">
+                Nel nostro centro operano specialisti che insegnano nelle due grandi università
+                napoletane. La pratica clinica quotidiana si fonda sulla formazione accademica e
+                sull&apos;aggiornamento continuo.
+              </p>
+              <ul className="mt-8 space-y-4">
+                {[
+                  { icon: GraduationCap, t: "Specialisti con esperienza accademica e clinica" },
+                  { icon: Stethoscope, t: "Direzione Sanitaria della Dott.ssa Elisa Russo" },
+                  { icon: Users, t: "Confronto tra specialità diverse sullo stesso paziente" },
+                ].map(({ icon: Icon, t }) => (
+                  <li key={t} className="flex items-start gap-3 text-white/90">
+                    <Icon className="mt-0.5 h-5 w-5 shrink-0" style={{ color: "#C9DAE3" }} strokeWidth={1.5} />
+                    <span>{t}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="relative aspect-[4/5] overflow-hidden rounded-3xl lg:aspect-[4/5]">
+              <Image
+                src="/images/centro/foto-12.webp"
+                alt="Studio di consulto di Cocoora Centro Medico"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-cover"
+              />
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* 6. CTA FINALE */}
+      <section className="py-20 md:py-28">
+        <Container>
+          <div className="overflow-hidden rounded-[2rem] border bg-white md:grid md:grid-cols-2" style={{ borderColor: `${SLATE}40` }}>
+            <div className="relative min-h-[280px]">
+              <Image
+                src="/images/centro/foto-20.webp"
+                alt="La reception di Cocoora Centro Medico"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover"
+              />
+            </div>
+            <div className="p-8 md:p-12">
+              <p className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ color: SLATE }}>
+                Vieni a trovarci
+              </p>
+              <h2 className="mt-4 font-serif text-3xl md:text-4xl" style={{ color: TEAL }}>
+                Il tuo benessere senza ostacoli
+              </h2>
+              <ul className="mt-8 space-y-4">
+                <li className="flex gap-3">
+                  <MapPin className="mt-0.5 h-5 w-5 shrink-0" style={{ color: TEAL }} />
+                  <span>Via Generale Giovanni De Bonis, 81 — 80123 Napoli (NA)</span>
+                </li>
+                <li className="flex gap-3">
+                  <Clock className="mt-0.5 h-5 w-5 shrink-0" style={{ color: TEAL }} />
+                  <span>
+                    Lun–Ven 8:00–20:00 (Orario continuato)
+                    <br />
+                    Sab 9:00–14:00
+                  </span>
+                </li>
+                <li className="flex gap-3">
+                  <Phone className="mt-0.5 h-5 w-5 shrink-0" style={{ color: TEAL }} />
+                  <a href="tel:+390818182091" className="hover:underline">
+                    081 18182091
+                  </a>
+                </li>
+              </ul>
+              <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+                <button
+                  type="button"
+                  onClick={handleClub}
+                  className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-medium text-white transition-opacity hover:opacity-90"
+                  style={{ backgroundColor: TEAL }}
+                >
+                  Iscriviti gratuitamente al Cocoora Club
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+                <Link
+                  href="https://wa.me/3908118182091"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border px-6 py-3.5 text-sm font-medium transition-colors hover:bg-slate-50"
+                  style={{ borderColor: TEAL, color: TEAL }}
+                >
+                  Contatta la segreteria
+                </Link>
               </div>
             </div>
           </div>
-        </div>
+        </Container>
       </section>
     </main>
-  );
-}
-
-function SectionEyebrow({
-  children,
-  tone = "light",
-  align = "center",
-}: {
-  children: ReactNode;
-  tone?: "light" | "dark";
-  align?: "center" | "left";
-}) {
-  return (
-    <p
-      className={`mb-5 text-xs font-semibold uppercase tracking-[0.28em] ${
-        tone === "dark" ? "text-teal-200" : "text-slate-accent"
-      } ${align === "center" ? "text-center" : "text-left"}`}
-    >
-      {children}
-    </p>
-  );
-}
-
-function ContactRow({
-  icon: Icon,
-  title,
-  children,
-}: {
-  icon: LucideIcon;
-  title: string;
-  children: ReactNode;
-}) {
-  return (
-    <div className="flex items-start gap-4">
-      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-teal-100 bg-white shadow-sm">
-        <Icon className="h-5 w-5 text-teal-800" strokeWidth={1.6} />
-      </div>
-      <div>
-        <h4 className="text-sm font-semibold text-teal-900">{title}</h4>
-        <p className="mt-1 text-sm leading-[1.7] text-charcoal/70">{children}</p>
-      </div>
-    </div>
   );
 }

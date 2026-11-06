@@ -21,11 +21,11 @@ import { cn, formatPrice } from "@/lib/utils";
 import { Badge, Button, ButtonLink, Container, SectionLabel } from "@/components/ui";
 
 const TIER_IMAGES: Record<string, string> = {
-  discover: "/images/clinic-lounge.jpg",
-  access: "/images/medici-hero-banner.jpg",
-  care: "/images/diagnostics-lab.jpg",
-  experience: "/images/laser-technology.jpg",
-  signature: "/images/hero-clinic.jpg",
+  discover: "/images/centro/foto-3.webp",
+  access: "/images/centro/foto-14.webp",
+  care: "/images/centro/foto-8.webp",
+  experience: "/images/centro/foto-5.webp",
+  signature: "/images/centro/foto-20.webp",
 };
 
 // Feature flag: oscura il Calcolatore del Risparmio sul sito pubblico.

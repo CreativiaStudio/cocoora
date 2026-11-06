@@ -167,42 +167,48 @@ export function CheckoutDrawer() {
                     <span className="flex items-center gap-1">
                       <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" /> Transazione Protetta SSL 256-bit
                     </span>
-                    <span className="text-charcoal/60">Incasso Primecare SRL</span>
+                    <span className="text-emerald-700 font-semibold flex items-center gap-1">
+                      <Check className="h-3 w-3" /> Attivazione Immediata
+                    </span>
                   </div>
                 )}
               </div>
 
-              {/* Informazioni fiscali Primecare */}
-              <div className="rounded-xl border border-teal-100 bg-white p-3.5 text-[11px] text-charcoal/75 space-y-1">
-                <div className="flex justify-between">
-                  <span className="font-medium text-teal-950">Fatturazione &amp; Incasso:</span>
-                  <span className="font-semibold text-teal-900">PRIMECARE SRL</span>
+              {/* Striscia Compatta Loghi Metodi di Pagamento Accettati */}
+              <div className="rounded-xl border border-teal-100/90 bg-white p-3 shadow-2xs space-y-2">
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="font-semibold text-teal-950 uppercase tracking-wide text-[10px]">
+                    Metodi di pagamento accettati
+                  </span>
+                  <span className="text-[10px] text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                    Anche in 3 Rate a Tasso Zero
+                  </span>
                 </div>
-                <div className="flex justify-between text-[10px] text-charcoal/60">
-                  <span>Accredito Bancario Ufficiale:</span>
-                  <span className="font-mono">Banca Patrimoni Sella &amp; C.</span>
-                </div>
-              </div>
-
-              {/* Metodi di Pagamento Accettati */}
-              <div>
-                <div className="mb-2.5 flex items-center justify-between">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-teal-900">Metodi di pagamento accettati</p>
-                  <span className="text-[10px] text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">Klarna &amp; PayPal 3 Rate</span>
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  {PAYMENT_METHODS.map(({ id, label, sub, Icon }) => (
-                    <div
-                      key={id}
-                      className="flex items-center gap-2.5 rounded-xl border border-teal-100 bg-white p-2.5 text-left text-xs"
-                    >
-                      <Icon className="h-4 w-4 shrink-0 text-teal-700" />
-                      <div className="min-w-0">
-                        <span className="block font-medium text-teal-950 leading-tight truncate">{label}</span>
-                        <span className="block text-[10px] text-charcoal/50 truncate">{sub}</span>
-                      </div>
-                    </div>
-                  ))}
+                <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+                  <span className="inline-flex items-center rounded-md border border-slate-200 bg-slate-50/80 px-2.5 py-1 text-[11px] font-bold text-slate-800 shadow-2xs">
+                    Visa
+                  </span>
+                  <span className="inline-flex items-center rounded-md border border-slate-200 bg-slate-50/80 px-2.5 py-1 text-[11px] font-bold text-slate-800 shadow-2xs">
+                    Mastercard
+                  </span>
+                  <span className="inline-flex items-center rounded-md border border-sky-200 bg-sky-50/80 px-2.5 py-1 text-[11px] font-bold text-sky-800 shadow-2xs">
+                    Amex
+                  </span>
+                  <span className="inline-flex items-center rounded-md border border-slate-300 bg-white px-2.5 py-1 text-[11px] font-bold text-slate-900 shadow-2xs">
+                     Pay
+                  </span>
+                  <span className="inline-flex items-center rounded-md border border-slate-200 bg-white px-2.5 py-1 text-[11px] font-bold text-slate-700 shadow-2xs">
+                    G Pay
+                  </span>
+                  <span className="inline-flex items-center rounded-md border border-pink-200 bg-pink-50 px-2.5 py-1 text-[11px] font-bold text-pink-700 shadow-2xs">
+                    Klarna <span className="ml-1 text-[9px] font-medium text-pink-600">3 rate</span>
+                  </span>
+                  <span className="inline-flex items-center rounded-md border border-blue-200 bg-blue-50 px-2.5 py-1 text-[11px] font-bold text-blue-700 shadow-2xs">
+                    PayPal <span className="ml-1 text-[9px] font-medium text-blue-600">3 rate</span>
+                  </span>
+                  <span className="inline-flex items-center rounded-md border border-slate-200 bg-slate-50/80 px-2.5 py-1 text-[11px] font-bold text-slate-800 shadow-2xs">
+                    Revolut
+                  </span>
                 </div>
               </div>
 
@@ -243,7 +249,7 @@ export function CheckoutDrawer() {
                   )}
                 </Button>
                 <p className="text-center text-[11px] text-charcoal/60 leading-relaxed">
-                  Verrai reindirizzato alla cassa crittografata Stripe di <strong>PRIMECARE SRL</strong>. Paga subito con Carta o in <strong>3 rate a tasso zero</strong> con Klarna e PayPal.
+                  Verrai reindirizzato alla cassa crittografata e protetta Stripe. Paga subito con Carta o in <strong>3 rate a tasso zero</strong> con Klarna e PayPal.
                 </p>
               </div>
             </div>
