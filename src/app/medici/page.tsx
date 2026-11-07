@@ -1,9 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ArrowRight, GraduationCap, Search, X } from "lucide-react";
+import { ArrowRight, Search, X } from "lucide-react";
 import { BRANCHE, DOCTORS } from "@/lib/doctors";
 import { cn } from "@/lib/utils";
 import { Button, ButtonLink, Container, SectionLabel } from "@/components/ui";
@@ -14,13 +13,18 @@ const BRANCA_SHORT_LABELS: Record<string, string> = {
   "Tutte": "Tutti gli Specialisti",
   "Odontoiatria & Ortodonzia Digitale": "Odontoiatria & Ortodonzia",
   "Medicina Estetica Avanzata": "Medicina Estetica",
-  "Cardiologia & Prevenzione Cardiovascolare": "Cardiologia",
-  "Senologia & Prevenzione Donna": "Senologia",
-  "Ecografia & Diagnostica per Immagini": "Ecografia & Diagnostica",
-  "Oculistica & Salute della Vista": "Oculistica",
-  "Pediatria & Cura della Crescita": "Pediatria",
-  "Ginecologia & Benessere Intimo": "Ginecologia",
+  "Dermatologia & Salute della Pelle": "Dermatologia",
+  "Cardiologia & Diagnostica Vascolare": "Cardiologia",
+  "Diagnostica Ecografica": "Ecografia",
+  "Psicologia & Benessere Integrato": "Psicologia",
   "Nutrizione Clinica & Metabolismo": "Nutrizione Clinica",
+  "Senologia & Prevenzione Donna": "Senologia",
+  "Oculistica & Salute della Vista": "Oculistica",
+  "Ginecologia & Benessere Donna": "Ginecologia",
+  "Oncologia & Prevenzione Clinica": "Oncologia",
+  "Chirurgia Generale & Ambulatoriale": "Chirurgia Generale",
+  "Medicina dello Sport & Valutazione Funzionale": "Medicina dello Sport",
+  "Pediatria & Cura della Crescita": "Pediatria",
 };
 
 export default function MediciPage() {
@@ -132,7 +136,7 @@ export default function MediciPage() {
                   type="text"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Cerca per medico, prestazione o branca (es. Sorrentino, Allineatori, Cuore, Ecografia)..."
+                  placeholder="Cerca per medico, specializzazione o branca (es. Russo, Dermatologia, Cardiologia, Ecografia)..."
                   className="w-full rounded-xl border border-teal-200/80 bg-white py-2 pl-9 pr-9 text-xs sm:text-sm text-charcoal placeholder:text-charcoal/45 shadow-xs transition-all focus:border-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-700/15"
                 />
                 {search && (
@@ -209,40 +213,37 @@ export default function MediciPage() {
                       sizes="(min-width: 1024px) 400px, 90vw"
                       className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-dark-navy/90 via-dark-navy/20 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-dark-navy/95 via-dark-navy/35 to-transparent" />
 
-                    {/* Nome e Branca in overlay inferiore sul ritratto */}
+                    {doctor.badge && (
+                      <span className="absolute left-4 top-4 z-10 inline-flex items-center rounded-full bg-white/90 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-teal-900 shadow-xs backdrop-blur-md">
+                        {doctor.badge}
+                      </span>
+                    )}
+
+                    {/* Nome e Dicitura Ufficiale Specialista subito sotto sul ritratto */}
                     <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
                       <p className="font-serif text-xl sm:text-2xl font-semibold leading-snug text-white drop-shadow-sm">
                         {doctor.name}
                       </p>
-                      <p className="mt-1 text-xs font-medium uppercase tracking-wide text-teal-200">
-                        {doctor.branca}
+                      <p className="mt-1.5 text-xs sm:text-[13px] font-medium leading-relaxed text-teal-100/95">
+                        {doctor.title}
                       </p>
                     </div>
                   </div>
 
-                  {/* Dati Clinici e Approccio */}
-                  <div className="flex flex-1 flex-col p-6">
-                    <p className="flex items-start gap-2 text-xs leading-relaxed text-charcoal/65">
-                      <GraduationCap className="mt-0.5 h-4 w-4 shrink-0 text-slate-accent" />
-                      <span>{doctor.affiliation}</span>
-                    </p>
-                    <p className="mt-3.5 flex-1 text-sm leading-relaxed text-charcoal/75 line-clamp-3">
-                      {doctor.approach}
-                    </p>
-                    <div className="mt-5 flex items-center justify-between gap-3 border-t border-teal-50 pt-4">
-                      <span className="inline-flex items-center gap-1.5 rounded-full bg-teal-50 px-3 py-1 text-[11px] font-semibold text-teal-800">
-                        Équipe Cocoora
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => openBooking(doctor.branca)}
-                        className="inline-flex items-center gap-1.5 rounded-full bg-teal-900 px-3.5 py-1.5 text-xs font-semibold text-white shadow-xs transition-colors hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-700/20"
-                      >
-                        Prenota con lo Specialista <ArrowRight className="h-3.5 w-3.5" />
-                      </button>
-                    </div>
+                  {/* Barra azione elegante e compatta */}
+                  <div className="flex items-center justify-between gap-3 border-t border-teal-100/70 bg-white px-5 py-4 sm:px-6">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-teal-50 px-3 py-1 text-[11px] font-semibold text-teal-800">
+                      Équipe Cocoora
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => openBooking(doctor.branca)}
+                      className="inline-flex items-center gap-1.5 rounded-full bg-teal-900 px-4 py-2 text-xs font-semibold text-white shadow-xs transition-all hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-700/20 cursor-pointer"
+                    >
+                      Prenota con lo Specialista <ArrowRight className="h-3.5 w-3.5" />
+                    </button>
                   </div>
                 </div>
               ))}

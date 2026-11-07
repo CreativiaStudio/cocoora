@@ -67,10 +67,6 @@ export function DoctorClient({ doctor }: { doctor: Doctor }) {
                 {doctor.name}
               </h1>
               <p className="mt-3 text-lg font-medium text-teal-700">{doctor.title}</p>
-              <p className="mx-auto mt-4 flex max-w-xl items-start justify-center gap-2 text-sm leading-relaxed text-charcoal/65 lg:mx-0 lg:justify-start">
-                <GraduationCap className="mt-0.5 h-4 w-4 shrink-0 text-slate-accent" />
-                {doctor.affiliation}
-              </p>
               <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-charcoal/75 lg:mx-0">
                 {doctor.bio}
               </p>

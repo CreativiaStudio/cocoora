@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, GraduationCap, ShieldCheck } from "lucide-react";
+import { ArrowRight, ShieldCheck } from "lucide-react";
 import type { ClubTier, Doctor } from "@/lib/types";
 import { formatPrice } from "@/lib/utils";
 import { Badge, Container, SectionLabel } from "@/components/ui";
@@ -37,31 +37,27 @@ export function DoctorsReferenceSection({
               href="/medici"
               className="group flex flex-col overflow-hidden rounded-[1.75rem] border border-teal-100 bg-white shadow-[0_16px_40px_-28px_rgba(3,53,75,0.3)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_28px_60px_-24px_rgba(3,53,75,0.4)]"
             >
-              <div className="relative aspect-[16/10] w-full overflow-hidden">
+              <div className="relative aspect-[3/4] w-full overflow-hidden bg-teal-50">
                 <Image
                   src={doctor.image}
                   alt={doctor.name}
                   fill
                   sizes="(min-width: 1024px) 360px, 90vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-dark-navy/80 via-dark-navy/10 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-dark-navy/95 via-dark-navy/35 to-transparent" />
                 <span className="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-teal-800 backdrop-blur-sm">
                   <ShieldCheck className="h-3 w-3" /> Équipe Dedicata
                 </span>
                 <div className="absolute inset-x-0 bottom-0 p-5">
                   <p className="font-serif text-lg font-semibold text-white">{doctor.name}</p>
-                  <p className="mt-0.5 text-xs font-medium uppercase tracking-wide text-teal-200/90">
-                    {doctor.branca}
+                  <p className="mt-1 text-xs font-medium leading-relaxed text-teal-100/95">
+                    {doctor.title}
                   </p>
                 </div>
               </div>
-              <div className="flex flex-1 flex-col p-5">
-                <p className="flex items-start gap-2 text-xs leading-relaxed text-charcoal/55">
-                  <GraduationCap className="mt-0.5 h-3.5 w-3.5 shrink-0 text-slate-accent" />
-                  {doctor.affiliation}
-                </p>
-                <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-teal-700 transition-colors group-hover:text-dark-navy">
+              <div className="flex items-center justify-between border-t border-teal-100/70 bg-white px-5 py-4">
+                <span className="inline-flex items-center gap-1.5 text-sm font-medium text-teal-700 transition-colors group-hover:text-dark-navy">
                   Scopri l&apos;équipe{" "}
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </span>

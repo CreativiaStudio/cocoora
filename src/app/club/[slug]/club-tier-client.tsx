@@ -326,9 +326,9 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
                     <p className="font-serif text-lg font-semibold leading-tight text-teal-900">
                       {doctor!.name}
                     </p>
-                    <p className="mt-1 flex items-start gap-1.5 text-xs text-charcoal/60">
+                    <p className="mt-1.5 flex items-start gap-1.5 text-xs leading-relaxed text-charcoal/70">
                       <GraduationCap className="mt-0.5 h-3.5 w-3.5 shrink-0 text-slate-accent" />
-                      {doctor!.branca}
+                      <span>{doctor!.title}</span>
                     </p>
                   </div>
                 </Link>
