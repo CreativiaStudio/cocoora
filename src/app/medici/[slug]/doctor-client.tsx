@@ -81,7 +81,7 @@ export function DoctorClient({ doctor }: { doctor: Doctor }) {
                 <Button size="lg" onClick={handlePrimaryCta}>
                   Scopri i Percorsi Salute <ArrowRight className="h-4 w-4" />
                 </Button>
-                <ButtonLink href="/contatti" variant="secondary" size="lg">
+                <ButtonLink href="/club/discover" variant="secondary" size="lg">
                   Prenota Visita su Appuntamento
                 </ButtonLink>
               </div>
@@ -185,7 +185,7 @@ export function DoctorClient({ doctor }: { doctor: Doctor }) {
               <Button size="lg" onClick={handlePrimaryCta}>
                 Scopri i Percorsi Salute <ArrowRight className="h-4 w-4" />
               </Button>
-              <ButtonLink href="/contatti" variant="secondary" size="lg">
+              <ButtonLink href="/club/discover" variant="secondary" size="lg">
                 Prenota Visita su Appuntamento
               </ButtonLink>
             </div>

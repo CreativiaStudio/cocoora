@@ -7,7 +7,7 @@ import type { ClubExamItem, ClubTierDetail } from "./types";
 
 const CORE_DOCTORS = ["elisa-russo", "alessandra-riccardi", "anna-maria-stillo", "jessica-de-ceglie"];
 const CARE_DOCTORS = [...CORE_DOCTORS, "mario-toro", "martina-pontillo", "raffaella-poppiti"];
-const EXPERIENCE_DOCTORS = [...CARE_DOCTORS, "giuseppe-buono", "titti-errico", "patty-scorzelli"];
+const EXPERIENCE_DOCTORS = [...CARE_DOCTORS, "giuseppe-buono", "titti-errico", "patty-scorzelli", "mirella-dandrea"];
 
 export const CLUB_TIER_DETAILS: ClubTierDetail[] = [
   {

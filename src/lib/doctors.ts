@@ -3,18 +3,19 @@ import type { Doctor } from "./types";
 // ─────────────────────────────────────────────────────────────────────────
 // Database Specialisti Cocoora Centro Medico.
 // Organico ufficiale desunto dal calendario clinico (Novembre 2026).
+// Nomenclatura ufficiale: nomi senza prefissi Dr./Dott.ssa e titoli per esteso.
 // ─────────────────────────────────────────────────────────────────────────
 
 export const DOCTORS: Doctor[] = [
   {
     slug: "elisa-russo",
-    name: "Dott.ssa Elisa Russo",
-    title: "Direttrice Sanitaria · Specialista in Ortognatodonzia e Odontoiatria Pediatrica",
+    name: "Elisa Russo",
+    title: "Odontoiatra, Specialista in Ortognatodonzia · Direttrice Sanitaria",
     branca: "Odontoiatria & Ortodonzia Digitale",
     affiliation: "Direttrice Sanitaria — Cocoora Centro Medico",
     badge: "Direzione Sanitaria",
     image: "/images/doctors/elisa-russo.jpg",
-    bio: "La Dott.ssa Elisa Russo guida la direzione sanitaria del centro con una visione incentrata sulla prevenzione precoce, sull'ortodonzia digitale con allineatori trasparenti e sul benessere odontoiatrico completo di adulti e bambini.",
+    bio: "Elisa Russo guida la direzione sanitaria del centro con una visione incentrata sulla prevenzione precoce, sull'ortodonzia digitale con allineatori trasparenti e sul benessere odontoiatrico completo di adulti e bambini.",
     approach:
       "La salute del cavo orale è il primo presidio di salute sistemica: pianifichiamo ogni percorso con diagnosi digitale 3D, garantendo trattamenti confortevoli, predicibili e senza sorprese.",
     curriculum: [
@@ -41,12 +42,12 @@ export const DOCTORS: Doctor[] = [
   },
   {
     slug: "raffaele-dalessio",
-    name: "Dr. Raffaele D'Alessio",
-    title: "Chirurgo Orale e Implantologo",
+    name: "Raffaele D'Alessio",
+    title: "Odontoiatria, Chirurgia e Implantologia",
     branca: "Odontoiatria & Ortodonzia Digitale",
     affiliation: "Specialista in Chirurgia Orale e Implantologia Guidata",
     image: "/images/doctors/raffaele-dalessio.jpg",
-    bio: "Il Dr. D'Alessio è chirurgo orale dedicato alla riabilitazione complessa, all'implantologia computer-guidata a carico immediato e alla chirurgia ossea piezoelettrica mininvasiva.",
+    bio: "Raffaele D'Alessio è chirurgo orale dedicato alla riabilitazione complessa, all'implantologia computer-guidata a carico immediato e alla chirurgia ossea piezoelettrica mininvasiva.",
     approach:
       "Precisione millimetrica e massimo comfort: la chirurgia guidata 3D permette di ripristinare funzionalità ed estetica con tempi di guarigione minimi.",
     curriculum: [
@@ -65,12 +66,12 @@ export const DOCTORS: Doctor[] = [
   },
   {
     slug: "alessandra-riccardi",
-    name: "Dott.ssa Alessandra Riccardi",
-    title: "Medico Estetico e Rigenerativo",
+    name: "Alessandra Riccardi",
+    title: "Medico Chirurgo – Medicina Estetica",
     branca: "Medicina Estetica Avanzata",
     affiliation: "Specialista in Medicina Rigenerativa e Trattamenti Laser",
     image: "/images/doctors/alessandra-riccardi.jpg",
-    bio: "La Dott.ssa Alessandra Riccardi unisce la medicina estetica alla biostimolazione rigenerativa, focalizzandosi su trattamenti viso e corpo che esaltano l'armonia naturale senza alterare l'espressività.",
+    bio: "Alessandra Riccardi unisce la medicina estetica alla biostimolazione rigenerativa, focalizzandosi su trattamenti viso e corpo che esaltano l'armonia naturale senza alterare l'espressività.",
     approach:
       "La medicina estetica d'eccellenza non stravolge: rigenera la qualità biologica dei tessuti con tecnologie laser all'avanguardia e protocolli su misura.",
     curriculum: [
@@ -94,12 +95,12 @@ export const DOCTORS: Doctor[] = [
   },
   {
     slug: "titti-errico",
-    name: "Dott.ssa Titti Errico",
-    title: "Specialista in Chirurgia Plastica, Ricostruttiva ed Estetica",
+    name: "Concetta Errico",
+    title: "Medico Chirurgo e Specialista in Chirurgia Plastica e Ricostruttiva",
     branca: "Medicina Estetica Avanzata",
     affiliation: "Specialista in Chirurgia Estetica e Protocolli Rigenerativi",
     image: "/images/doctors/titti-errico.jpg",
-    bio: "La Dott.ssa Titti Errico opera in sinergia con il Prof. D'Andrea, dedicandosi alla medicina estetica avanzata, alla chirurgia ambulatoriale mininvasiva e al ringiovanimento cutaneo profondo.",
+    bio: "Concetta Errico si dedica alla medicina estetica avanzata, alla chirurgia ambulatoriale mininvasiva e al ringiovanimento cutaneo profondo con approccio sartoriale.",
     approach:
       "Ogni persona ha un'armonia propria: definiamo interventi personalizzati che valorizzano la bellezza autentica nel rispetto della fisionomia.",
     curriculum: [
@@ -142,12 +143,12 @@ export const DOCTORS: Doctor[] = [
   },
   {
     slug: "anna-maria-stillo",
-    name: "Dott.ssa Anna Maria Stillo",
-    title: "Specialista in Cardiologia ed Ecografia Cardiaca",
+    name: "Anna Maria Stillo",
+    title: "Medico Chirurgo Specialista in Malattie dell’Apparato Cardiovascolare",
     branca: "Cardiologia & Diagnostica Vascolare",
     affiliation: "Specialista in Cardiologia Clinica ed Imaging Cardiovascolare",
     image: "/images/doctors/anna-maria-stillo.jpg",
-    bio: "La Dott.ssa Anna Maria Stillo è cardiologa dedicata alla prevenzione cardiovascolare primaria e secondaria, all'elettrocardiografia ad alta definizione e all'ecocardiografia color-Doppler.",
+    bio: "Anna Maria Stillo è cardiologa dedicata alla prevenzione cardiovascolare primaria e secondaria, all'elettrocardiografia ad alta definizione e all'ecocardiografia color-Doppler.",
     approach:
       "La tutela del cuore richiede ascolto clinico meticoloso e diagnostica per immagini puntuale, prima ancora che insorgano sintomi clinici conclamati.",
     curriculum: [
@@ -167,12 +168,12 @@ export const DOCTORS: Doctor[] = [
   },
   {
     slug: "giuseppe-buono",
-    name: "Dr. Giuseppe Buono",
-    title: "Specialista in Diagnostica per Immagini ed Ecografia Clinica",
+    name: "Giuseppe Buono",
+    title: "Medico Chirurgo Specialista in Radiodiagnostica",
     branca: "Diagnostica Ecografica",
     affiliation: "Specialista in Radiodiagnostica ed Ecografia Internistica",
     image: "/images/doctors/giuseppe-buono.jpg",
-    bio: "Il Dr. Giuseppe Buono gestisce il servizio di diagnostica ecografica con ecografo digitale di ultima generazione, assicurando refertazione accurata e tempi rapidi per tutte le indagini internistiche.",
+    bio: "Giuseppe Buono gestisce il servizio di diagnostica ecografica con ecografo digitale di ultima generazione, assicurando refertazione accurata e tempi rapidi per tutte le indagini internistiche.",
     approach:
       "Un'ecografia ad alta definizione costituisce la base oggettiva per orientare le scelte terapeutiche di tutte le specialità del centro.",
     curriculum: [
@@ -192,12 +193,12 @@ export const DOCTORS: Doctor[] = [
   },
   {
     slug: "mario-toro",
-    name: "Dr. Mario Toro",
-    title: "Specialista in Oculistica e Chirurgia Refrattiva",
+    name: "Mario Toro",
+    title: "Medico Chirurgo Specialista in Oftalmologia e Chirurgia Vitreo-Retinica",
     branca: "Oculistica & Salute della Vista",
     affiliation: "Specialista in Oftalmologia e Diagnostica Oculare",
     image: "/images/doctors/mario-toro.jpg",
-    bio: "Il Dr. Mario Toro si occupa della salute della vista e della prevenzione oftalmologica, dalla misurazione della pressione intraoculare all'esame del fondo oculare e biomicroscopia del segmento anteriore.",
+    bio: "Mario Toro si occupa della salute della vista e della prevenzione oftalmologica, dalla misurazione della pressione intraoculare all'esame del fondo oculare e biomicroscopia del segmento anteriore.",
     approach:
       "La vista è il senso primario attraverso cui percepiamo il mondo: controlli periodici accurati preservano la qualità visiva a ogni età.",
     curriculum: [
@@ -217,12 +218,12 @@ export const DOCTORS: Doctor[] = [
   },
   {
     slug: "raffaella-poppiti",
-    name: "Dott.ssa Raffaella Poppiti",
-    title: "Specialista in Ginecologia, Ostetricia ed Ecografia Pelvica",
+    name: "Raffaella Poppiti",
+    title: "Medico Chirurgo Specialista in Ginecologia ed Ostetricia",
     branca: "Ginecologia & Benessere Donna",
     affiliation: "Specialista in Ginecologia Clinica e Prevenzione di Genere",
     image: "/images/doctors/raffaella-poppiti.jpg",
-    bio: "La Dott.ssa Raffaella Poppiti segue la salute femminile nelle diverse fasi della vita, dalla prevenzione adolescenziale e contraccettiva alla maternità e al benessere in menopausa.",
+    bio: "Raffaella Poppiti segue la salute femminile nelle diverse fasi della vita, dalla prevenzione adolescenziale e contraccettiva alla maternità e al benessere in menopausa.",
     approach:
       "Accoglienza, riservatezza e ascolto empatico per una prevenzione ginecologica serena, integrata con l'ecografia pelvica e transvaginale.",
     curriculum: [
@@ -242,12 +243,12 @@ export const DOCTORS: Doctor[] = [
   },
   {
     slug: "alessandra-totaro",
-    name: "Dott.ssa Alessandra Totaro",
-    title: "Psicologa Clinica e Psicoterapeuta",
+    name: "Alessandra Totaro",
+    title: "Psicologa, Psicoterapeuta",
     branca: "Psicologia & Benessere Integrato",
     affiliation: "Psicologa e Psicoterapeuta ad Orientamento Integrato",
     image: "/images/doctors/alessandra-totaro.jpg",
-    bio: "La Dott.ssa Alessandra Totaro offre percorsi di sostegno psicologico, gestione dell'ansia e dello stress e percorsi di consapevolezza emotiva integrati con la salute fisica.",
+    bio: "Alessandra Totaro offre percorsi di sostegno psicologico, gestione dell'ansia e dello stress e percorsi di consapevolezza emotiva integrati con la salute fisica.",
     approach:
       "Il corpo e la mente dialogano costantemente: la vera longevità e salute richiedono un equilibrio emotivo solido e armonioso.",
     curriculum: [
@@ -266,12 +267,12 @@ export const DOCTORS: Doctor[] = [
   },
   {
     slug: "jessica-de-ceglie",
-    name: "Dott.ssa Jessica De Ceglie",
-    title: "Biologa Nutrizionista Specialista in Educazione Alimentare",
+    name: "Jessica De Ceglie",
+    title: "Biologa, Nutrizionista",
     branca: "Nutrizione Clinica & Metabolismo",
     affiliation: "Biologa Nutrizionista Clinica",
     image: "/images/doctors/jessica-de-ceglie.jpg",
-    bio: "La Dott.ssa Jessica De Ceglie è dedicata alla nutrizione clinica e ai protocolli mirati per il metabolismo, il supporto all'attività fisica e la prevenzione infiammatoria.",
+    bio: "Jessica De Ceglie è dedicata alla nutrizione clinica e ai protocolli mirati per il metabolismo, il supporto all'attività fisica e la prevenzione infiammatoria.",
     approach:
       "Il cibo è medicina preventiva: la nutrizione mirata migliora energia, longevità e forma fisica in modo misurabile e costante.",
     curriculum: [
@@ -289,12 +290,12 @@ export const DOCTORS: Doctor[] = [
   },
   {
     slug: "martina-pontillo",
-    name: "Dott.ssa Martina Pontillo",
-    title: "Specialista in Senologia ed Ecografia Mammaria",
+    name: "Martina Pontillo",
+    title: "Medico Chirurgo – Senologia e Chirurgia Senologica",
     branca: "Senologia & Prevenzione Donna",
     affiliation: "Specialista in Senologia Diagnostica",
     image: "/images/doctors/martina-pontillo.jpg",
-    bio: "La Dott.ssa Martina Pontillo si dedica alla prevenzione senologica con visita clinica accurata ed ecografia mammaria ad alta risoluzione (si ricorda che la mammografia non è eseguita in sede).",
+    bio: "Martina Pontillo si dedica alla prevenzione senologica con visita clinica accurata ed ecografia mammaria ad alta risoluzione (si ricorda che la mammografia non è eseguita in sede).",
     approach:
       "La prevenzione senologica regolare è il dono più prezioso che ogni donna possa fare a se stessa, affrontata con serenità e competenza specialistica.",
     curriculum: [
@@ -312,13 +313,38 @@ export const DOCTORS: Doctor[] = [
     tariffaVisita: 0,
   },
   {
+    slug: "mirella-dandrea",
+    name: "Mirella D'Andrea",
+    title: "Medico Chirurgo, Specialista in Dermatologia e Venerologia",
+    branca: "Dermatologia & Salute della Pelle",
+    affiliation: "Specialista in Dermatologia e Venereologia",
+    image: "/images/doctors/mirella-dandrea.jpg",
+    bio: "Mirella D'Andrea è medico chirurgo specialista in dermatologia e venereologia. Si dedica alla diagnosi e cura delle affezioni cutanee, al controllo dei nei e al benessere di pelle, unghie e capelli.",
+    approach:
+      "La salute della pelle è fondamentale per il benessere complessivo: un approccio clinico scrupoloso e preventivo permette di intercettare precocemente ogni alterazione.",
+    curriculum: [
+      "Laurea in Medicina e Chirurgia",
+      "Specializzazione in Dermatologia e Venereologia",
+      "Perfezionamento in Dermatoscopia clinica e controllo nei",
+    ],
+    servizi: [
+      "Visita dermatologica specialistica",
+      "Dermatoscopia per il controllo dei nei",
+      "Trattamento di dermatiti, affezioni cutanee e acne",
+      "Valutazione della salute di capelli e unghie",
+    ],
+    specialtyId: "dermatologia",
+    clubTierIds: ["experience", "signature"],
+    tariffaVisita: 0,
+  },
+  {
     slug: "vittorio-riccio",
-    name: "Dr. Vittorio Riccio",
-    title: "Specialista in Oncologia Medica e Prevenzione",
+    name: "Vittorio Riccio",
+    title: "Medico Chirurgo – Oncologia Medica",
     branca: "Oncologia & Prevenzione Clinica",
     affiliation: "Specialista in Oncologia Medica",
     image: "/images/doctors/vittorio-riccio.jpg",
-    bio: "Il Dr. Vittorio Riccio si occupa di prevenzione oncologica primaria, consulenze specialistiche per la valutazione dei fattori di rischio e percorsi di follow-up.",
+    bio: "Vittorio Riccio si occupa di prevenzione oncologica primaria, consulenze specialistiche per la valutazione dei fattori di rischio e percorsi di follow-up.",
     approach:
       "Prevenire significa conoscere i propri fattori biologici e intervenire tempestivamente con percorsi diagnostici appropriati.",
     curriculum: [
@@ -337,12 +363,12 @@ export const DOCTORS: Doctor[] = [
   },
   {
     slug: "guido-ciorra",
-    name: "Dr. Guido Ciorra",
-    title: "Specialista in Chirurgia Generale e Ambulatoriale Mininvasiva",
+    name: "Guido Ciorra",
+    title: "Medico Chirurgo Specialista in Chirurgia Generale",
     branca: "Chirurgia Generale & Ambulatoriale",
     affiliation: "Specialista in Chirurgia Generale e Mininvasiva",
     image: "/images/doctors/guido-ciorra.jpg",
-    bio: "Il Dr. Guido Ciorra è chirurgo dedicato alla diagnostica e al trattamento ambulatoriale delle patologie di interesse chirurgico generale, dermatologico e dei tessuti molli.",
+    bio: "Guido Ciorra è chirurgo dedicato alla diagnostica e al trattamento ambulatoriale delle patologie di interesse chirurgico generale, dermatologico e dei tessuti molli.",
     approach:
       "La chirurgia ambulatoriale moderna unisce rigore tecnico e mininvasività per risolvere problematiche cliniche in sicurezza e senza degenza.",
     curriculum: [
@@ -361,12 +387,12 @@ export const DOCTORS: Doctor[] = [
   },
   {
     slug: "rocco-spera",
-    name: "Dr. Rocco Spera",
-    title: "Specialista in Medicina dello Sport e Valutazione Funzionale",
+    name: "Rocco Spera",
+    title: "Medico Chirurgo Specialista in Medicina dello Sport",
     branca: "Medicina dello Sport & Valutazione Funzionale",
     affiliation: "Specialista in Medicina dello Sport",
     image: "/images/doctors/rocco-spera.jpg",
-    bio: "Il Dr. Rocco Spera effettua valutazioni clinico-funzionali per sportivi agonisti e amatori, promuovendo l'attività fisica come strumento insostituibile di prevenzione e longevità.",
+    bio: "Rocco Spera effettua valutazioni clinico-funzionali per sportivi agonisti e amatori, promuovendo l'attività fisica come strumento insostituibile di prevenzione e longevità.",
     approach:
       "Lo sport praticato in sicurezza è la prima terapia per il sistema cardiovascolare e metabolico: valutiamo con rigore l'idoneità fisica.",
     curriculum: [
@@ -385,12 +411,12 @@ export const DOCTORS: Doctor[] = [
   },
   {
     slug: "filippo-iaccarino",
-    name: "Dr. Filippo Iaccarino",
-    title: "Specialista in Pediatria e Cura dell'Accrescimento",
+    name: "Filippo Iaccarino",
+    title: "Medico Chirurgo Specialista in Pediatria e Neonatologia",
     branca: "Pediatria & Cura della Crescita",
     affiliation: "Specialista in Pediatria Clinica e Cure Pediatriche",
     image: "/images/doctors/filippo-iaccarino.jpg",
-    bio: "Il Dr. Filippo Iaccarino accoglie le famiglie e i piccoli pazienti con disponibilità ed empatia, seguendo i bilanci di salute e le tappe fondamentali dello sviluppo pediatrico.",
+    bio: "Filippo Iaccarino accoglie le famiglie e i piccoli pazienti con disponibilità ed empatia, seguendo i bilanci di salute e le tappe fondamentali dello sviluppo pediatrico.",
     approach:
       "Ogni bambino merita un ambiente rilassante e rassicurante: la visita pediatrica deve essere un'esperienza positiva sia per il bambino sia per i genitori.",
     curriculum: [

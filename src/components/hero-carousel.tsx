@@ -148,7 +148,7 @@ export function HeroCarousel({
             <Button size="lg" onClick={openDiscover} variant="white">
               Inizia gratis con il Club <Plus className="h-4 w-4" />
             </Button>
-            <ButtonLink href="/contatti" variant="outline-dark" size="lg">
+            <ButtonLink href="/club/discover" variant="outline-dark" size="lg">
               Prenota Visita
             </ButtonLink>
           </div>

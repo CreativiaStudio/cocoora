@@ -384,7 +384,7 @@ export default function HomePage() {
                 <Button onClick={openDiscover} variant="white" size="lg">
                   Inizia gratis <ArrowRight className="h-4 w-4" />
                 </Button>
-                <ButtonLink href="/contatti" variant="outline-dark" size="lg">
+                <ButtonLink href="/club/discover" variant="outline-dark" size="lg">
                   Prenota Visita
                 </ButtonLink>
               </div>

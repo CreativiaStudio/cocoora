@@ -196,7 +196,7 @@ export default function DiagnosticaPage() {
                 <Button size="lg" onClick={openDiscover}>
                   Inizia gratis
                 </Button>
-                <ButtonLink href="/contatti" variant="outline-dark" size="lg">
+                <ButtonLink href="/club/discover" variant="outline-dark" size="lg">
                   Prenota Visita
                 </ButtonLink>
               </div>
