@@ -524,9 +524,9 @@ export default function ChiSiamoPage() {
                 <li className="flex gap-3">
                   <Clock className="mt-0.5 h-5 w-5 shrink-0" style={{ color: TEAL }} />
                   <span>
-                    Lun–Ven 8:00–20:00 (Orario continuato)
+                    Lun–Ven 9:00–19:00 (Orario continuato)
                     <br />
-                    Sab 9:00–14:00
+                    Sabato chiuso
                   </span>
                 </li>
                 <li className="flex gap-3">

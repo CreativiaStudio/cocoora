@@ -30,7 +30,7 @@ type MegamenuLink = {
 };
 type MegamenuCategory = { heading: string; links: MegamenuLink[] };
 
-const TOPBAR_HOURS = "Lun–Ven 8:00–20:00 (Orario continuato) · Sab 9:00–14:00";
+const TOPBAR_HOURS = "Lun–Ven 9:00–19:00 (Orario continuato) · Sabato chiuso";
 
 // 1. Medicina Estetica & Rigenerativa (spec Silvia Monticelli — email 25/10/2026)
 const MEDICINA_ESTETICA_CATEGORIES: MegamenuCategory[] = [
@@ -159,19 +159,18 @@ const VISITE_SPECIALISTICHE_CATEGORIES: MegamenuCategory[] = [
     links: [
       { label: "Radiologia", href: "/visite/radiologia" },
       { label: "Cardiologia", href: "/visite/cardiologia" },
-      { label: "Diabetologia", href: "/visite/diabetologia" },
       { label: "Ginecologia", href: "/visite/ginecologia" },
-      { label: "Pediatria", href: "/visite/pediatria" },
-      { label: "Oculistica", href: "/visite/oculistica" },
+      { label: "Senologia", href: "/visite/senologia" },
+      { label: "Oncologia", href: "/visite/oncologia" },
     ],
   },
   {
     heading: "Specialistiche per la famiglia",
     links: [
+      { label: "Pediatria", href: "/visite/pediatria" },
+      { label: "Oculistica", href: "/visite/oculistica" },
       { label: "Psicologia", href: "/visite/psicologia" },
       { label: "Medicina dello sport", href: "/visite/medicina-dello-sport" },
-      { label: "Senologia", href: "/visite/senologia" },
-      { label: "Oncologia", href: "/visite/oncologia" },
     ],
   },
 ];
@@ -1095,7 +1094,7 @@ function MegamenuMedici({
       <div className="border-t border-slate-100/80 bg-slate-50/70 backdrop-blur-md px-8 py-3.5 flex items-center justify-between text-xs text-charcoal/75">
         <span className="flex items-center gap-2">
           <Clock className="h-3.5 w-3.5 text-teal-700 shrink-0" />
-          <span>Ricevimento su appuntamento: <strong className="text-dark-navy">Lun–Ven 8:00–20:00 (Orario continuato) · Sab 9:00–14:00</strong></span>
+          <span>Ricevimento su appuntamento: <strong className="text-dark-navy">Lun–Ven 9:00–19:00 (Orario continuato) · Sabato chiuso</strong></span>
         </span>
         <Link
           href="/medici"
@@ -1148,7 +1147,7 @@ function MegamenuCentro({ onClose }: { onClose: () => void }) {
               Via De Bonis 81, Napoli
             </h4>
             <p className="mt-2 text-xs leading-relaxed text-charcoal/70">
-              Struttura medica autorizzata facilmente raggiungibile da Fuorigrotta, Posillipo e Vomero. Orario continuato Lun–Ven 8:00–20:00 e Sab 9:00–14:00.
+              Struttura medica autorizzata facilmente raggiungibile da Fuorigrotta, Posillipo e Vomero. Orario continuato Lun–Ven 9:00–19:00, Sabato chiuso.
             </p>
           </div>
           <span className="mt-5 inline-flex items-center gap-1.5 text-xs font-semibold text-teal-800 group-hover:gap-2.5 transition-all">

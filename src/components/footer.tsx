@@ -111,9 +111,9 @@ export function Footer() {
               <li className="flex items-start gap-2.5">
                 <Clock className="mt-0.5 h-3.5 w-3.5 shrink-0 text-slate-accent" />
                 <span>
-                  Lun–Ven · 8:00–20:00 <span className="text-slate-accent text-xs block sm:inline">(Orario continuato)</span>
+                  Lun–Ven · 9:00–19:00 <span className="text-slate-accent text-xs block sm:inline">(Orario continuato)</span>
                   <br />
-                  Sab · 9:00–14:00
+                  Sabato chiuso
                 </span>
               </li>
             </ul>

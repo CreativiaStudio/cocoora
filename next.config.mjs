@@ -26,6 +26,11 @@ const nextConfig = {
         destination: "/visite/radiologia",
         permanent: true,
       },
+      {
+        source: "/visite/diabetologia",
+        destination: "/visite",
+        permanent: true,
+      },
     ];
   },
 };

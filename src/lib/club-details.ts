@@ -5,9 +5,9 @@ import type { ClubExamItem, ClubTierDetail } from "./types";
 // Fonte Unica e Ufficiale: Tabella Comparativa Prestazioni (26/10/2026).
 // ─────────────────────────────────────────────────────────────────────────
 
-const CORE_DOCTORS = ["elisa-russo", "alessandra-riccardi", "anna-maria-stillo", "maria-grazia-polverino"];
+const CORE_DOCTORS = ["elisa-russo", "alessandra-riccardi", "anna-maria-stillo", "jessica-de-ceglie"];
 const CARE_DOCTORS = [...CORE_DOCTORS, "mario-toro", "martina-pontillo", "raffaella-poppiti"];
-const EXPERIENCE_DOCTORS = [...CARE_DOCTORS, "giuseppe-buono", "francesco-dandrea", "patty-scorzelli"];
+const EXPERIENCE_DOCTORS = [...CARE_DOCTORS, "giuseppe-buono", "titti-errico", "patty-scorzelli"];
 
 export const CLUB_TIER_DETAILS: ClubTierDetail[] = [
   {
@@ -25,11 +25,12 @@ export const CLUB_TIER_DETAILS: ClubTierDetail[] = [
     installmentCount: 3,
     installmentProviders: ["Klarna", "Scalapay", "PayPal"],
     commonExams: [
-      { label: "Check-up laboratorio ematochimico Salute (17 voci, urine incluse)", value: 0 },
+      { label: "Check-up laboratorio ematochimico Salute (17 parametri)", value: 0 },
+      { label: "Visita medica: anamnesi, esame obiettivo, diagnosi e prescrizione", value: 0 },
       { label: "Medicina interna + ECG a 12 derivazioni a riposo con referto", value: 0 },
       { label: "Visita odontoiatrica specialistica + OPT digitale (panoramica)", value: 0 },
       { label: "Visita di medicina estetica viso/corpo (valutazione clinica)", value: 0 },
-      { label: "Booklet personale «Il tuo Percorso di Salute»", value: 0 },
+      { label: "Booklet personale «Il tuo Percorso di Salute» — Documento personale che riunisce risultati, referti e indicazioni dei professionisti Cocoora per comprendere la tua salute e i prossimi passi", value: 0 },
       { label: "Sconto Club 5% su tutte le prestazioni extra non incluse", value: 0 },
     ],
     doctorSlugs: CORE_DOCTORS,
@@ -41,14 +42,14 @@ export const CLUB_TIER_DETAILS: ClubTierDetail[] = [
     installmentProviders: ["Klarna", "Scalapay", "PayPal"],
     commonExams: [
       { label: "Tutte le prestazioni incluse nel percorso Access", value: 0 },
-      { label: "Check-up laboratorio ematochimico Salute (17 voci, urine incluse)", value: 0 },
+      { label: "Check-up laboratorio ematochimico Salute (17 parametri)", value: 0 },
       { label: "Medicina interna + ECG a 12 derivazioni con referto", value: 0 },
       { label: "Seduta di igiene orale professionale in sede", value: 0 },
       { label: "Visita odontoiatrica specialistica + OPT digitale", value: 0 },
-      { label: "Visita nutrizionale specialistica + piano alimentare scritto", value: 0 },
+      { label: "Visita nutrizionale specialistica + piano alimentare personalizzato", value: 0 },
       { label: "1° controllo nutrizionale di monitoraggio", value: 0 },
       { label: "Visita di medicina estetica viso/corpo (valutazione clinica)", value: 0 },
-      { label: "Booklet personale «Il tuo Percorso di Salute»", value: 0 },
+      { label: "Booklet personale «Il tuo Percorso di Salute» — Documento personale che riunisce risultati, referti e indicazioni dei professionisti Cocoora per comprendere la tua salute e i prossimi passi", value: 0 },
       { label: "Sconto Club 10% su tutte le prestazioni extra non incluse", value: 0 },
     ],
     doctorSlugs: CARE_DOCTORS,
@@ -61,9 +62,10 @@ export const CLUB_TIER_DETAILS: ClubTierDetail[] = [
     commonExams: [
       { label: "Tutte le prestazioni incluse nel percorso Care Plus", value: 0 },
       { label: "Visita cardiologica specialistica + ecocardiogramma Color Doppler", value: 0 },
-      { label: "Visita oculistica specialistica + skin check-up", value: 0 },
+      { label: "Visita oculistica specialistica", value: 0 },
+      { label: "Skin check-up", value: 0 },
       { label: "2° controllo nutrizionale di monitoraggio", value: 0 },
-      { label: "Booklet personale «Cocoora — Il tuo Percorso di Salute»", value: 0 },
+      { label: "Booklet personale «Il tuo Percorso di Salute» — Documento personale che riunisce risultati, referti e indicazioni dei professionisti Cocoora per comprendere la tua salute e i prossimi passi", value: 0 },
       { label: "Sconto Club 15% su tutte le prestazioni extra non incluse", value: 0 },
     ],
     genderExams: {
@@ -87,7 +89,7 @@ export const CLUB_TIER_DETAILS: ClubTierDetail[] = [
       { label: "Ecografia addome completo ad alta risoluzione", value: 0 },
       { label: "Visita dermatologica specialistica + dermatoscopia (mappatura nei)", value: 0 },
       { label: "Test genomico Cocoora DNA 5 + consulenza genetica specialistica", value: 0 },
-      { label: "Booklet personale «Cocoora — Il tuo Percorso di Salute»", value: 0 },
+      { label: "Booklet personale «Il tuo Percorso di Salute» — Documento personale che riunisce risultati, referti e indicazioni dei professionisti Cocoora per comprendere la tua salute e i prossimi passi", value: 0 },
       { label: "Sconto Club 20% su tutte le prestazioni extra non incluse", value: 0 },
     ],
     genderExams: {

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Check, Minus, ArrowRight } from "lucide-react";
 import { CLUB_BENEFITS } from "@/lib/club";
 import { Container, SectionLabel } from "@/components/ui";
+import { ParametriEmatochimiciModal } from "@/components/club/parametri-ematochimici-modal";
 import { cn } from "@/lib/utils";
 
 export type ComparisonTierCol = {
@@ -132,7 +133,12 @@ export function ClubComparisonTable({
                   }
                 >
                   <td className="p-4 sm:p-5">
-                    <span className="font-medium text-teal-950 block">{b.label}</span>
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5">
+                      <span className="font-medium text-teal-950 block">{b.label}</span>
+                      {b.label.includes("ematochimico") && (
+                        <ParametriEmatochimiciModal triggerText="Dettaglio 17 parametri" />
+                      )}
+                    </div>
                     {b.note && (
                       <span className="text-[11px] text-charcoal/55 block mt-0.5 italic">
                         * {b.note}

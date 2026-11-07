@@ -97,13 +97,13 @@ export function PaidTierCard({
   // Box descrittivo "Comprende" in prosa compatta
   const comprendeText =
     tier.id === "access"
-      ? "Check-up Salute (17 voci, urine incluse), Medicina Interna con ECG a 12 derivazioni, visita odontoiatrica con OPT, visita medicina estetica viso/corpo e booklet personale."
+      ? "Check-up Salute (17 parametri), Visita medica (anamnesi, esame obiettivo, diagnosi e prescrizione), Medicina Interna con ECG a 12 derivazioni, visita odontoiatrica con OPT, visita medicina estetica viso/corpo e booklet personale."
       : tier.id === "care"
-      ? "Tutte le prestazioni Access, igiene orale professionale in sede, visita nutrizionale con piano alimentare scritto e 1° controllo di monitoraggio."
+      ? "Tutte le prestazioni Access, igiene orale professionale in sede, visita nutrizionale con piano alimentare personalizzato e 1° controllo di monitoraggio."
       : tier.id === "experience"
       ? cardGender === "donna"
-        ? "Tutte le prestazioni Care Plus con Check-up Completo Donna, visita senologica con ecografia mammaria bilaterale, cardiologia + ecocardiogramma Color Doppler e oculistica."
-        : "Tutte le prestazioni Care Plus con Check-up Completo Uomo, cardiologia con ecocardiogramma Color Doppler, oculistica specialistica, skin check-up e 2° controllo nutrizionale."
+        ? "Tutte le prestazioni Care Plus con Check-up Completo Donna, visita senologica con ecografia mammaria bilaterale, cardiologia + ecocardiogramma Color Doppler, visita oculistica e skin check-up."
+        : "Tutte le prestazioni Care Plus con Check-up Completo Uomo, cardiologia con ecocardiogramma Color Doppler, visita oculistica specialistica, skin check-up e 2° controllo nutrizionale."
       : cardGender === "donna"
       ? "Tutte le prestazioni Experience Donna con Check-up Avanzato Donna + FIT, senologia con eco mammaria bilaterale, ecografia addominale e DNA 5 con consulenza genetica."
       : "Tutte le prestazioni Experience Uomo con Check-up Avanzato Uomo + FIT, ecografia addominale completa, dermatologia con dermatoscopia e test DNA 5 con consulenza genetica.";

@@ -706,119 +706,6 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
     }
   },
   {
-    "slug": "diabetologia",
-    "title": "Visita diabetologica",
-    "categoryName": "Diagnostica e prevenzione",
-    "tagline": "Dare un significato ai valori della glicemia e costruire una gestione adatta alla quotidianità. La visita diabetologica è dedicata a chi convive con il diabete o deve approfondire alterazioni glicemiche, con attenzione a esami, terapie e abitudini.",
-    "description": "La visita diabetologica valuta il diabete e le alterazioni della glicemia attraverso la storia clinica, gli esami e le informazioni sulla vita quotidiana. Può essere un primo inquadramento oppure un controllo all’interno di un percorso già avviato.\n\nLo specialista considera l’andamento dei valori, le eventuali terapie e il modo in cui vengono gestiti l’alimentazione, l’attività fisica e il monitoraggio. L’obiettivo è collegare i dati alle esigenze reali della persona, anziché leggere un singolo risultato in modo isolato.\n\nIl programma può comprendere indicazioni terapeutiche, approfondimenti e controlli successivi. Cocoora offre un confronto dedicato a comprendere il percorso e a renderne chiari gli obiettivi.",
-    "heroImage": "/images/visite/diabetologia-napoli-1.jpg",
-    "galleryImages": [
-      "/images/visite/diabetologia-napoli-1.jpg",
-      "/images/visite/diabetologia-napoli-2.jpg",
-      "/images/visite/diabetologia-napoli-3.jpg"
-    ],
-    "heroCta": "Iscriviti gratuitamente al Cocoora Club",
-    "seo": {
-      "metaTitle": "Visita diabetologica a Napoli | Cocoora",
-      "metaDescription": "Visita diabetologica a Napoli per diabete e alterazioni della glicemia. Cocoora propone valutazione, indicazioni personalizzate e controlli nel tempo.",
-      "keywordMain": "visita diabetologica Napoli.",
-      "keywordSec": "diabetologo Napoli; controllo diabete Napoli; glicemia alta visita Napoli; monitoraggio diabete; prima visita diabetologica."
-    },
-    "whatIs": {
-      "title": "Che cos’è la visita diabetologica e come funziona?",
-      "description": "La visita diabetologica valuta il diabete e le alterazioni della glicemia attraverso la storia clinica, gli esami e le informazioni sulla vita quotidiana. Può essere un primo inquadramento oppure un controllo all’interno di un percorso già avviato.\n\nLo specialista considera l’andamento dei valori, le eventuali terapie e il modo in cui vengono gestiti l’alimentazione, l’attività fisica e il monitoraggio. L’obiettivo è collegare i dati alle esigenze reali della persona, anziché leggere un singolo risultato in modo isolato.\n\nIl programma può comprendere indicazioni terapeutiche, approfondimenti e controlli successivi. Cocoora offre un confronto dedicato a comprendere il percorso e a renderne chiari gli obiettivi.",
-      "paragraphs": [
-        "La visita diabetologica valuta il diabete e le alterazioni della glicemia attraverso la storia clinica, gli esami e le informazioni sulla vita quotidiana. Può essere un primo inquadramento oppure un controllo all’interno di un percorso già avviato.",
-        "Lo specialista considera l’andamento dei valori, le eventuali terapie e il modo in cui vengono gestiti l’alimentazione, l’attività fisica e il monitoraggio. L’obiettivo è collegare i dati alle esigenze reali della persona, anziché leggere un singolo risultato in modo isolato.",
-        "Il programma può comprendere indicazioni terapeutiche, approfondimenti e controlli successivi. Cocoora offre un confronto dedicato a comprendere il percorso e a renderne chiari gli obiettivi."
-      ],
-      "image": "/images/visite/diabetologia-napoli-2.jpg"
-    },
-    "problemsTitle": "Quando è utile la visita diabetologica?",
-    "problemsSubtitle": "La richiesta può nascere da un esame alterato, da una diagnosi recente o dall’esigenza di rivedere una gestione già in corso. Ogni situazione richiede un punto di partenza diverso.",
-    "problemsGrid": [
-      {
-        "title": "Approfondire valori della glicemia alterati",
-        "description": "Lo specialista interpreta i risultati nel contesto clinico e stabilisce se occorrano altri accertamenti. La visita aiuta a comprendere il significato dei valori e a definire i passaggi utili per un corretto inquadramento."
-      },
-      {
-        "title": "Orientarsi dopo una diagnosi di diabete",
-        "description": "Una diagnosi può portare molte domande su alimentazione, controlli e terapia. Il confronto permette di chiarire le priorità e capire come organizzare le indicazioni ricevute nella vita quotidiana."
-      },
-      {
-        "title": "Rivalutare il diabete e le terapie nel tempo",
-        "description": "Durante i controlli vengono esaminati gli esami e l’andamento del percorso. Il medico valuta se le indicazioni in corso restino adeguate e quali adattamenti possano essere necessari rispetto alla situazione attuale."
-      },
-      {
-        "title": "Integrare abitudini e programma di prevenzione",
-        "description": "La gestione del diabete comprende anche alimentazione, movimento e controlli mirati. La visita aiuta a coordinare questi aspetti e a individuare gli eventuali approfondimenti con altre competenze, secondo le necessità cliniche."
-      }
-    ],
-    "leadForm": {
-      "title": "Organizziamo il prossimo passo del percorso",
-      "subtitle": "Contatta il team Cocoora per una prima valutazione o un controllo diabetologico. Ti aiuteremo a preparare l’appuntamento e la documentazione utile.",
-      "cta": "Richiedi ora"
-    },
-    "timelineTitle": "Come si svolge la visita diabetologica?",
-    "timelineSteps": [
-      {
-        "stepNumber": "01",
-        "title": "Raccogliere dati e storia del percorso",
-        "description": "Si parte dagli esami, dalla storia clinica e dall’elenco delle terapie. Se già previsto nel percorso, il diario delle misurazioni o i dati del monitoraggio aiutano a descrivere l’andamento della glicemia."
-      },
-      {
-        "stepNumber": "02",
-        "title": "Valutazione clinica e confronto sulla quotidianità",
-        "description": "Il medico considera lo stato di salute insieme alle abitudini e alle eventuali difficoltà di gestione. Il confronto permette di capire quali aspetti approfondire e di dare spazio alle domande su terapia e monitoraggio."
-      },
-      {
-        "stepNumber": "03",
-        "title": "Definire indicazioni e controlli",
-        "description": "Vengono condivise le indicazioni individuali e gli eventuali accertamenti successivi. Il programma dei controlli serve a verificare l’andamento e ad aggiornare il percorso quando necessario."
-      }
-    ],
-    "results": {
-      "title": "Che cosa aspettarsi dal percorso diabetologico?",
-      "description": "La visita permette di comprendere meglio la situazione glicemica e avere indicazioni personalizzate per la gestione. Per chi ha già una diagnosi, offre un momento di verifica e confronto sulle esigenze che emergono nel tempo.\n\nIl controllo del diabete si costruisce attraverso continuità terapeutica, abitudini e monitoraggio. Gli obiettivi vengono definiti individualmente e rivalutati sulla base dei dati e della risposta al percorso.",
-      "paragraphs": [
-        "La visita permette di comprendere meglio la situazione glicemica e avere indicazioni personalizzate per la gestione. Per chi ha già una diagnosi, offre un momento di verifica e confronto sulle esigenze che emergono nel tempo.",
-        "Il controllo del diabete si costruisce attraverso continuità terapeutica, abitudini e monitoraggio. Gli obiettivi vengono definiti individualmente e rivalutati sulla base dei dati e della risposta al percorso."
-      ],
-      "image": "/images/visite/diabetologia-napoli-3.jpg"
-    },
-    "faq": [
-      {
-        "q": "Posso fare la visita senza una diagnosi di diabete?",
-        "a": "Sì, la valutazione può essere indicata per approfondire alterazioni della glicemia. Lo specialista esamina gli esami disponibili e stabilisce gli eventuali accertamenti necessari."
-      },
-      {
-        "q": "Quali documenti devo portare?",
-        "a": "Esami recenti, referti precedenti ed elenco dei farmaci. Se utilizzi già un programma di automonitoraggio, porta anche i dati raccolti secondo le indicazioni del medico."
-      },
-      {
-        "q": "Un valore alto della glicemia basta per capire la situazione?",
-        "a": "Il risultato deve essere interpretato insieme alle condizioni in cui è stato rilevato e alla storia clinica. Il medico chiarisce se sia necessario confermarlo o completarlo con altri esami."
-      },
-      {
-        "q": "Il percorso riguarda anche alimentazione e attività fisica?",
-        "a": "Sì. Le abitudini quotidiane fanno parte della gestione, insieme alle eventuali terapie. Le indicazioni nutrizionali e sul movimento vengono inserite nel quadro clinico individuale."
-      },
-      {
-        "q": "Servono controlli anche quando mi sento bene?",
-        "a": "Il monitoraggio non si basa soltanto sui sintomi. I controlli concordati permettono di valutare l’andamento degli esami e mantenere aggiornate le indicazioni di cura e prevenzione."
-      },
-      {
-        "q": "Quanto costa una visita diabetologica a Napoli?",
-        "a": "Il team Cocoora può indicare il costo della prima visita e dei controlli. Gli eventuali esami richiesti vengono distinti dalla prestazione specialistica, così da chiarire l’organizzazione del percorso."
-      }
-    ],
-    "localSeo": {
-      "title": "Visita diabetologica a Napoli",
-      "description": "Cocoora propone a Napoli un percorso diabetologico dedicato alla valutazione della glicemia e alla gestione del diabete. Il confronto specialistico unisce esami, terapie e abitudini personali, con indicazioni e controlli costruiti intorno alla situazione clinica.",
-      "cta": "Iscriviti gratuitamente al Cocoora Club"
-    }
-  },
-  {
     "slug": "ginecologia",
     "title": "Visita ginecologica",
     "categoryName": "Diagnostica e prevenzione",
@@ -938,7 +825,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
   {
     "slug": "pediatria",
     "title": "Visita pediatrica",
-    "categoryName": "Diagnostica e prevenzione",
+    "categoryName": "Specialistiche per la famiglia",
     "tagline": "Crescere significa cambiare continuamente. La visita pediatrica accompagna bambini, ragazzi e famiglie nei controlli di salute, nella valutazione della crescita e nell’approfondimento dei disturbi più comuni dell’età evolutiva.",
     "description": "La visita pediatrica è una valutazione dedicata alla salute e allo sviluppo di bambini e ragazzi. Può essere programmata come controllo periodico oppure richiesta quando emerge un disturbo, un cambiamento o una domanda che la famiglia desidera approfondire.\n\nIl pediatra raccoglie le informazioni sulla storia del bambino, osserva crescita e sviluppo e considera alimentazione, sonno, attività quotidiane e altri aspetti utili in relazione all’età. I dati vengono letti nel loro insieme, non come valori isolati.\n\nQuando è necessario un approfondimento, il medico indica gli eventuali controlli o il coinvolgimento di altre competenze. Da Cocoora il percorso è pensato per dare alla famiglia indicazioni chiare sui passi successivi.",
     "heroImage": "/images/visite/pediatria-napoli-1.jpg",
@@ -1055,7 +942,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
   {
     "slug": "oculistica",
     "title": "Visita oculistica",
-    "categoryName": "Diagnostica e prevenzione",
+    "categoryName": "Specialistiche per la famiglia",
     "tagline": "Vedere bene e conoscere la salute degli occhi sono aspetti dello stesso percorso. La visita oculistica valuta la funzione visiva, approfondisce gli eventuali disturbi e orienta controlli, correzioni o ulteriori accertamenti.",
     "description": "La visita oculistica è una valutazione medica della vista e della salute degli occhi. Non si limita alla gradazione degli occhiali: mette in relazione la capacità visiva con le condizioni oculari, la storia personale e gli eventuali sintomi.\n\nL’oculista raccoglie le informazioni sulle difficoltà riscontrate, sulle correzioni utilizzate e sui controlli già effettuati. Esamina poi gli occhi e la funzione visiva attraverso le verifiche appropriate alla richiesta.\n\nIn base ai riscontri, può indicare una correzione, una cura, ulteriori esami o un programma di monitoraggio. Da Cocoora la visita aiuta a comprendere quale attenzione dedicare agli occhi e come organizzare i passaggi successivi.",
     "heroImage": "/images/visite/oculistica-napoli-1.jpg",
@@ -1394,7 +1281,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
   {
     "slug": "senologia",
     "title": "Visita senologica",
-    "categoryName": "Specialistiche per la famiglia",
+    "categoryName": "Diagnostica e prevenzione",
     "tagline": "Un controllo dedicato alla salute del seno, alle domande e ai cambiamenti da approfondire. La visita senologica collega storia personale, esame clinico e documentazione, per individuare gli eventuali accertamenti e programmare i controlli.",
     "description": "La visita senologica è una valutazione clinica della mammella. Consente di approfondire eventuali sintomi, alterazioni palpabili o risultati di controlli precedenti, mettendoli in relazione con la storia personale e familiare.\n\nIl medico ascolta il motivo dell’appuntamento, esamina la documentazione e valuta il seno attraverso l’osservazione e la palpazione. La visita aiuta a comprendere se siano sufficienti le informazioni disponibili o se occorrano altri accertamenti.\n\nIn Cocoora il percorso può comprendere un’ecografia mammaria eseguita dallo specialista, quando clinicamente indicata. Gli eventuali ulteriori esami vengono orientati secondo le esigenze emerse.",
     "heroImage": "/images/visite/senologia-napoli-1.jpg",
@@ -1507,7 +1394,7 @@ export const VISITE_SPECIALISTICHE: VisitaSpecialistica[] = [
   {
     "slug": "oncologia",
     "title": "Visita oncologica",
-    "categoryName": "Specialistiche per la famiglia",
+    "categoryName": "Diagnostica e prevenzione",
     "tagline": "Comprendere i referti e avere una direzione per i passi successivi. La visita oncologica offre un confronto specialistico per valutare la situazione clinica, approfondire le domande e orientare gli accertamenti o i controlli in coordinamento con i centri di cura.",
     "description": "La visita oncologica è una valutazione specialistica rivolta a persone con una diagnosi oncologica o che necessitano di un inquadramento e di controlli successivi. L’oncologo mette in relazione la storia clinica, la documentazione e le condizioni attuali.\n\nIl colloquio aiuta a comprendere quali informazioni siano già disponibili e quali aspetti richiedano ulteriori accertamenti. Le domande della persona fanno parte dell’incontro, insieme all’esame dei referti e alla valutazione clinica.\n\nIn Cocoora la consulenza si inserisce in un percorso coordinato con i centri di cura. Lo scopo è dare continuità alle informazioni e orientare i passaggi pertinenti, nel rispetto del programma clinico seguito.",
     "heroImage": "/images/visite/oncologia-napoli-1.jpg",

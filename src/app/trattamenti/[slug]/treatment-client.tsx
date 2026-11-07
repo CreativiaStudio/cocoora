@@ -1179,7 +1179,7 @@ function LocalSeoSection({ treatment, page }: { treatment: Treatment; page?: Seo
             {/* Sinistra — foto panorama / centro */}
             <div className="relative min-h-[260px] w-full lg:min-h-full">
               <Image
-                src={localSeo?.image ?? "/images/hero-clinic.jpg"}
+                src="/images/dental-operatory.jpg"
                 alt={`${title} — Il Centro Cocoora`}
                 fill
                 sizes="(min-width: 1024px) 50vw, 90vw"
@@ -1213,7 +1213,7 @@ function LocalSeoSection({ treatment, page }: { treatment: Treatment; page?: Seo
                 </p>
                 <p className="flex items-start gap-3 text-sm text-charcoal/70">
                   <Phone className="mt-0.5 h-4 w-4 shrink-0 text-teal-700" />
-                  {SITE.phone} — Lun–Ven 8:00–20:00 (orario continuato), Sab 9:00–14:00
+                  {SITE.phone} — Lun–Ven 9:00–19:00 (orario continuato) · Sabato chiuso
                 </p>
               </div>
 

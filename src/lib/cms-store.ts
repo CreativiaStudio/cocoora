@@ -232,7 +232,7 @@ function buildDefaultPages(): SeoPage[] {
       faq: [
         {
           q: "Quali sono gli orari di apertura?",
-          a: "Siamo aperti dal Lunedì al Venerdì dalle 8:00 alle 20:00 (orario continuato) e il Sabato dalle 9:00 alle 14:00.",
+          a: "Siamo aperti dal Lunedì al Venerdì dalle 9:00 alle 19:00 (orario continuato). Il Sabato la struttura è chiusa.",
         },
         {
           q: "Come posso raggiungervi con i mezzi pubblici?",

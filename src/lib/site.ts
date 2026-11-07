@@ -25,7 +25,7 @@ export const SITE = {
   fullAddress: "Via Generale Giovanni De Bonis, 81 - 80123 Napoli",
   whatsapp: "https://wa.me/3908118182091",
   instagram: "https://www.instagram.com/",
-  hours: "Lun–Ven · 8:00–20:00 (Orario continuato) — Sab · 9:00–14:00",
+  hours: "Lun–Ven · 9:00–19:00 (Orario continuato) — Sabato chiuso",
 };
 
 export const NAV_NODES: NavNode[] = [
@@ -180,27 +180,34 @@ export const NAV_NODES: NavNode[] = [
         image: "/images/visite/cardiologia-napoli-1.jpg",
       },
       {
-        label: "Diabetologia",
-        href: "/visite/diabetologia",
-        description: "Diagnostica e prevenzione · Prevenzione metabolica ed endocrinologica.",
-        image: "/images/visite/diabetologia-napoli-1.jpg",
-      },
-      {
         label: "Ginecologia",
         href: "/visite/ginecologia",
         description: "Diagnostica e prevenzione · Visita ed ecografia ginecologica.",
         image: "/images/visite/ginecologia-napoli-1.jpg",
       },
       {
+        label: "Senologia",
+        href: "/visite/senologia",
+        description: "Diagnostica e prevenzione · Prevenzione senologica ed ecografia mammaria.",
+        image: "/images/visite/senologia-napoli-1.jpg",
+      },
+      {
+        label: "Oncologia",
+        href: "/visite/oncologia",
+        description:
+          "Diagnostica e prevenzione · Prevenzione oncologica e percorsi multidisciplinari.",
+        image: "/images/visite/oncologia-napoli-1.jpg",
+      },
+      {
         label: "Pediatria",
         href: "/visite/pediatria",
-        description: "Diagnostica e prevenzione · Salute e bilanci di crescita.",
+        description: "Specialistiche per la famiglia · Salute e bilanci di crescita.",
         image: "/images/visite/pediatria-napoli-1.jpg",
       },
       {
         label: "Oculistica",
         href: "/visite/oculistica",
-        description: "Diagnostica e prevenzione · Screening della vista e fondo oculare.",
+        description: "Specialistiche per la famiglia · Screening della vista e fondo oculare.",
         image: "/images/visite/oculistica-napoli-1.jpg",
       },
       {
@@ -218,24 +225,11 @@ export const NAV_NODES: NavNode[] = [
         image: "/images/visite/medicina-dello-sport-napoli-1.jpg",
       },
       {
-        label: "Senologia",
-        href: "/visite/senologia",
-        description: "Specialistiche per la famiglia · Prevenzione senologica ed ecografia mammaria.",
-        image: "/images/visite/senologia-napoli-1.jpg",
-      },
-      {
-        label: "Oncologia",
-        href: "/visite/oncologia",
-        description:
-          "Specialistiche per la famiglia · Prevenzione oncologica e percorsi multidisciplinari.",
-        image: "/images/visite/oncologia-napoli-1.jpg",
-      },
-      {
         label: "Cocoora Precision (Genomica & Longevità)",
         href: "/precision",
         description:
           "Medicina predittiva e preventiva: test DNA 5, Kit Microbiota e longevità attiva.",
-        image: "/images/visite/diabetologia-napoli-2.jpg",
+        image: "/images/dna-genomics.jpg",
       },
     ],
   },
@@ -268,19 +262,19 @@ export const NAV_NODES: NavNode[] = [
         label: "Access",
         href: "/club/access",
         description:
-          "Valutazione iniziale essenziale con Check-up Salute 17 voci, Medicina Interna, OPT ed ECG (149 €/anno).",
+          "Valutazione iniziale con Check-up Salute 17 parametri, Visita medica, Medicina Interna, OPT ed ECG (149 €/anno).",
       },
       {
         label: "Care Plus",
         href: "/club/care",
         description:
-          "Prevenzione continua con igiene orale, piano nutrizionale scritto e primo controllo (299 €/anno).",
+          "Prevenzione continua con igiene orale, piano nutrizionale personalizzato e primo controllo (299 €/anno).",
       },
       {
         label: "Experience",
         href: "/club/experience",
         description:
-          "Approfondimento completo con Color Doppler, oculistica, skin check-up e senologia (da 599 €/anno).",
+          "Approfondimento completo con Color Doppler, visita oculistica, skin check-up e senologia (da 599 €/anno).",
       },
       {
         label: "Signature",

@@ -389,7 +389,7 @@ export default function HomePage() {
                 </ButtonLink>
               </div>
               <p className="mt-8 text-xs tracking-wide text-white/55">
-                Lun–Ven 8:00–20:00 (Orario continuato), Sab 9:00–14:00
+                Lun–Ven 9:00–19:00 (Orario continuato) — Sabato chiuso
               </p>
             </div>
           </div>

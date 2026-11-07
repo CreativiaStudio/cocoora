@@ -16,6 +16,7 @@ import { getDoctorBySlug } from "@/lib/doctors";
 import { computeSavings, getTierDetail } from "@/lib/club-details";
 import { redirectToStripeCheckout } from "@/lib/checkout-client";
 import { ClubComparisonTable } from "@/components/sections/club-comparison-table";
+import { ParametriEmatochimiciModal } from "@/components/club/parametri-ematochimici-modal";
 import type { ClubTier } from "@/lib/types";
 import { cn, formatPrice } from "@/lib/utils";
 import { Badge, Button, ButtonLink, Container, SectionLabel } from "@/components/ui";
@@ -217,10 +218,18 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
                   key={item.label}
                   className="flex items-center justify-between gap-4 rounded-2xl border border-teal-100 bg-white px-5 py-4"
                 >
-                  <span className="flex items-start gap-2.5 text-sm text-charcoal/80">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-teal-600" />
-                    {item.label}
-                  </span>
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                    <span className="flex items-start gap-2.5 text-sm text-charcoal/80">
+                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-teal-600" />
+                      {item.label}
+                    </span>
+                    {item.label.toLowerCase().includes("17 parametri") && (
+                      <ParametriEmatochimiciModal
+                        triggerText="Dettaglio 17 parametri"
+                        className="ml-6 sm:ml-0 self-start sm:self-center"
+                      />
+                    )}
+                  </div>
                   <span className="shrink-0 rounded-full bg-teal-50 px-2.5 py-1 text-xs font-semibold text-teal-800">
                     Incluso
                   </span>

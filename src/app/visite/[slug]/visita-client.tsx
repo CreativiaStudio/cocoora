@@ -736,7 +736,7 @@ function LocalSeoSection({
             {/* Sinistra — foto centro */}
             <div className="relative min-h-[260px] w-full lg:min-h-full">
               <Image
-                src="/images/centro/foto-8.webp"
+                src="/images/dental-operatory.jpg"
                 alt={`${localSeo.title} — Il Centro Cocoora`}
                 fill
                 sizes="(min-width: 1024px) 50vw, 90vw"
@@ -763,7 +763,7 @@ function LocalSeoSection({
                 <span className="flex items-center gap-1.5">
                   <MapPin className="h-3.5 w-3.5 text-teal-700" /> Via Generale Giovanni De Bonis 81, Napoli
                 </span>
-                <span>🕒 Lun–Ven 8:00–20:00 · Sab 9:00–14:00</span>
+                <span>🕒 Lun–Ven 9:00–19:00 (orario continuato) · Sabato chiuso</span>
               </div>
               <div className="mt-8">
                 <button
