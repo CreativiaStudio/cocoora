@@ -145,13 +145,17 @@ export default function SegreteriaPage() {
                 <p className="text-[10px] text-[#787c82]">Accoglienza &amp; Cassa Desk</p>
               </div>
             </div>
-            <Link
-              href="/"
-              title="Esci dal gestionale"
-              className="rounded p-1.5 text-[#787c82] hover:bg-[#2c3338] hover:text-white transition-colors"
+            <button
+              type="button"
+              onClick={async () => {
+                await fetch("/api/auth/logout", { method: "POST" });
+                window.location.href = "/login";
+              }}
+              title="Disconnetti sessione sicura"
+              className="rounded p-1.5 text-[#787c82] hover:bg-[#2c3338] hover:text-white transition-colors cursor-pointer"
             >
               <LogOut className="h-4 w-4" />
-            </Link>
+            </button>
           </div>
         </div>
       </aside>

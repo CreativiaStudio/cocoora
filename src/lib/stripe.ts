@@ -28,18 +28,6 @@ export const BILLING_ENTITIES: Record<
   },
 };
 
-// Fallback sandbox test keys (identici a .env.local e verificati su Creativia Hub)
-// Garantiscono funzionamento immediato in produzione anche se le variabili d'ambiente Vercel tardano a propagarsi.
-const FALLBACK_PRIMECARE_KEY = Buffer.from(
-  "c2tfdGVzdF81MVVXR2tvNENqcDJtSnJvU0gySkZ4UUhxUUdHbjhFVW91bGloTElpUGRaQ1JHVURZMDBnaWpmQWQ3NE1RMnhSZkFGeDE0YmJnOFRGc3FON1o4c2RXSXdzdjAwS3VzdnFndXc=",
-  "base64"
-).toString("utf8");
-
-const FALLBACK_COCOORA_STP_KEY = Buffer.from(
-  "c2tfdGVzdF81MVRNVFJ5M1Z1T0JicllvcDhiMFZmMWxSdDJNMEV2cEVHakt3c3JSZ1RSc243MzVZelkxRlRjWVh0OUZSNWpkY1puRzhmVVNkQlVodEpkSWZvNWxmanR6ejAwcHJPSFd2aGw=",
-  "base64"
-).toString("utf8");
-
 /**
  * Ritorna l'istanza Stripe appropriata per l'entità contabile richiesta.
  * Per i Percorsi Salute e il Cocoora Club, l'entità ufficiale è PRIMECARE SRL.
@@ -50,14 +38,13 @@ export function getStripe(entity: BillingEntity = "primecare"): Stripe {
       ? process.env.STRIPE_SECRET_KEY_PRIMECARE || process.env.STRIPE_SECRET_KEY
       : process.env.STRIPE_SECRET_KEY;
 
-  const apiKey =
-    envKey && envKey.startsWith("sk_")
-      ? envKey
-      : entity === "primecare"
-      ? FALLBACK_PRIMECARE_KEY
-      : FALLBACK_COCOORA_STP_KEY;
+  if (!envKey || !envKey.startsWith("sk_")) {
+    throw new Error(
+      `STRIPE_SECRET_KEY per entità '${entity}' non configurata nelle variabili d'ambiente server.`
+    );
+  }
 
-  return new Stripe(apiKey, {
+  return new Stripe(envKey, {
     apiVersion: "2025-02-24.acacia" as any,
   });
 }

@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
+import type { UserSession } from "@/lib/auth-session";
 import {
   Activity,
   AlertTriangle,
@@ -38,6 +39,7 @@ import {
 } from "lucide-react";
 import { VideosManager } from "@/components/admin/videos-manager";
 import { SeoManager } from "@/components/admin/seo-manager";
+import { AnalyticsDashboard } from "@/components/admin/analytics-dashboard";
 import { DoctorsManager } from "@/components/admin/doctors-manager";
 import { RoomsManager } from "@/components/admin/rooms-manager";
 import { CalendarMatrix } from "@/components/admin/calendar-matrix";
@@ -53,10 +55,27 @@ type Tab =
   | "crm"
   | "cassa"
   | "videos"
-  | "seo";
+  | "seo"
+  | "analytics";
 
 export default function AdminPage() {
+  const [currentUser, setCurrentUser] = useState<UserSession | null>(null);
+  const isAgency = currentUser?.role === "agenzia";
   const [tab, setTab] = useState<Tab>("calendar");
+
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (d?.user) {
+          setCurrentUser(d.user);
+          if (d.user.role === "agenzia") {
+            setTab("analytics");
+          }
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#f0f0f1] text-[#2c3338] font-sans antialiased">
@@ -102,45 +121,49 @@ export default function AdminPage() {
               label="Dashboard Panoramica"
             />
 
-            <SidebarItem
-              active={tab === "calendar"}
-              onClick={() => setTab("calendar")}
-              icon={<Calendar className="h-4 w-4" />}
-              label="Calendario & Incrocio"
-              badge="4 Studi + OPT"
-            />
+            {!isAgency && (
+              <>
+                <SidebarItem
+                  active={tab === "calendar"}
+                  onClick={() => setTab("calendar")}
+                  icon={<Calendar className="h-4 w-4" />}
+                  label="Calendario & Incrocio"
+                  badge="4 Studi + OPT"
+                />
 
-            <SidebarItem
-              active={tab === "doctors"}
-              onClick={() => setTab("doctors")}
-              icon={<Stethoscope className="h-4 w-4" />}
-              label="Corpo Medico & Turni"
-              badge="18"
-            />
+                <SidebarItem
+                  active={tab === "doctors"}
+                  onClick={() => setTab("doctors")}
+                  icon={<Stethoscope className="h-4 w-4" />}
+                  label="Corpo Medico & Turni"
+                  badge="18"
+                />
 
-            <SidebarItem
-              active={tab === "rooms"}
-              onClick={() => setTab("rooms")}
-              icon={<DoorOpen className="h-4 w-4" />}
-              label="Stanze & Spazi"
-              badge="4 Studi + OPT"
-            />
+                <SidebarItem
+                  active={tab === "rooms"}
+                  onClick={() => setTab("rooms")}
+                  icon={<DoorOpen className="h-4 w-4" />}
+                  label="Stanze & Spazi"
+                  badge="4 Studi + OPT"
+                />
 
-            <SidebarItem
-              active={tab === "crm"}
-              onClick={() => setTab("crm")}
-              icon={<Users className="h-4 w-4" />}
-              label="CRM pazienti"
-              badge="3 attivi"
-            />
+                <SidebarItem
+                  active={tab === "crm"}
+                  onClick={() => setTab("crm")}
+                  icon={<Users className="h-4 w-4" />}
+                  label="CRM pazienti"
+                  badge="3 attivi"
+                />
 
-            <SidebarItem
-              active={tab === "cassa"}
-              onClick={() => setTab("cassa")}
-              icon={<CreditCard className="h-4 w-4" />}
-              label="Cassa & Flussi"
-              badge="Fatture/Rate"
-            />
+                <SidebarItem
+                  active={tab === "cassa"}
+                  onClick={() => setTab("cassa")}
+                  icon={<CreditCard className="h-4 w-4" />}
+                  label="Cassa & Flussi"
+                  badge="Fatture/Rate"
+                />
+              </>
+            )}
 
             <Link
               href="/admin/catalogo"
@@ -175,6 +198,14 @@ export default function AdminPage() {
               label="SEO & Indicizzazione"
             />
 
+            <SidebarItem
+              active={tab === "analytics"}
+              onClick={() => setTab("analytics")}
+              icon={<Activity className="h-4 w-4" />}
+              label="Analytics & SEO Silvia"
+              badge="Live"
+            />
+
 
           </nav>
         </div>
@@ -183,21 +214,35 @@ export default function AdminPage() {
         <div className="border-t border-[#2c3338] bg-[#101517] p-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-teal-800 text-white font-bold text-xs border border-teal-600">
-                ER
+              <div
+                className={`flex h-8 w-8 items-center justify-center rounded-full text-white font-bold text-xs border ${
+                  isAgency
+                    ? "bg-sky-800 border-sky-500"
+                    : "bg-teal-800 border-teal-600"
+                }`}
+              >
+                {isAgency ? "AG" : "ER"}
               </div>
               <div className="leading-tight">
-                <p className="text-xs font-semibold text-white">Dott.ssa Elisa Russo</p>
-                <p className="text-[10px] text-[#787c82]">Direttrice Sanitaria</p>
+                <p className="text-xs font-semibold text-white">
+                  {isAgency ? "Silvia (Agenzia SEO)" : "Dott.ssa Elisa Russo"}
+                </p>
+                <p className="text-[10px] text-[#787c82]">
+                  {isAgency ? "Accesso Marketing & Contenuti" : "Direttrice Sanitaria"}
+                </p>
               </div>
             </div>
-            <Link
-              href="/"
-              title="Esci dal gestionale e torna al sito"
-              className="rounded p-1.5 text-[#787c82] hover:bg-[#2c3338] hover:text-white transition-colors"
+            <button
+              type="button"
+              onClick={async () => {
+                await fetch("/api/auth/logout", { method: "POST" });
+                window.location.href = "/login";
+              }}
+              title="Disconnetti sessione e torna al login"
+              className="rounded p-1.5 text-[#787c82] hover:bg-[#2c3338] hover:text-white transition-colors cursor-pointer"
             >
               <LogOut className="h-4 w-4" />
-            </Link>
+            </button>
           </div>
         </div>
       </aside>
@@ -217,6 +262,7 @@ export default function AdminPage() {
             {tab === "cassa" && "Gestione Flusso di Cassa & Piani Rateali"}
             {tab === "videos" && "Video Verticali Reels"}
             {tab === "seo" && "SEO & Pagine Pubbliche"}
+            {tab === "analytics" && "Analytics, Server-Side Tracking & Box ID Silvia"}
           </span>
         </div>
 
@@ -664,6 +710,9 @@ export default function AdminPage() {
 
         {/* TAB 7: SEO & PAGINE */}
         {tab === "seo" && <SeoManager />}
+
+        {/* TAB 8: ANALYTICS & MONITORAGGIO SILVIA */}
+        {tab === "analytics" && <AnalyticsDashboard />}
       </main>
     </div>
   );

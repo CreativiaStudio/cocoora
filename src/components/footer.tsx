@@ -7,9 +7,9 @@ import { Logo } from "./logo";
 import { Container } from "./ui";
 
 const legalLinks = [
-  { label: "Privacy Policy", href: "/contatti" },
-  { label: "Cookie Policy", href: "/contatti" },
-  { label: "Termini e Condizioni", href: "/contatti" },
+  { label: "Privacy Policy", href: "/privacy-policy" },
+  { label: "Cookie Policy", href: "/cookie-policy" },
+  { label: "Termini e Condizioni", href: "/termini" },
 ];
 
 const percorsiClub = [
@@ -128,11 +128,23 @@ export function Footer() {
                 {l.label}
               </Link>
             ))}
-            <Link
-              href="/admin"
-              className="text-teal-200/40 transition-colors hover:text-white"
+            <button
+              type="button"
+              onClick={() => {
+                if (typeof window !== "undefined") {
+                  window.dispatchEvent(new CustomEvent("cocoora_open_cookie_preferences"));
+                }
+              }}
+              className="text-teal-200/70 transition-colors hover:text-white underline underline-offset-4 cursor-pointer"
             >
-              Area Agenzia
+              Preferenze Cookie
+            </button>
+            <Link
+              href="/login"
+              className="text-teal-200/40 transition-colors hover:text-teal-200"
+              title="Accesso Operatori e Sanitario"
+            >
+              Accesso Riservato
             </Link>
           </div>
         </div>
