@@ -496,7 +496,35 @@ function LoginForm() {
               </form>
             )}
 
-            <div className="mt-5 border-t border-teal-500/10 pt-3 text-[11px] text-teal-200/50">
+            {/* Scorciatoia Rapida Switcher per Mario & Demo Cliente */}
+            <div className="mt-4 pt-3 border-t border-teal-500/15">
+              <button
+                type="button"
+                onClick={async () => {
+                  setLoading(true);
+                  try {
+                    const res = await fetch("/api/auth/switch-role", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ targetRole: "admin" }),
+                    });
+                    const d = await res.json();
+                    if (d.ok && d.redirectUrl) {
+                      window.location.href = d.redirectUrl;
+                    }
+                  } catch {
+                    setLoading(false);
+                  }
+                }}
+                disabled={loading}
+                className="w-full flex items-center justify-center gap-2 rounded-xl border border-teal-400/40 bg-teal-900/40 py-2.5 text-xs font-semibold text-teal-200 hover:bg-teal-800/60 hover:text-white transition cursor-pointer"
+              >
+                <Sparkles className="h-3.5 w-3.5 text-amber-300" />
+                <span>Accesso Rapido Progettazione &amp; Switcher Viste (1-Click)</span>
+              </button>
+            </div>
+
+            <div className="mt-4 border-t border-teal-500/10 pt-3 text-[11px] text-teal-200/50">
               <p>
                 Infrastruttura conforme all&apos;Art. 32 GDPR: rate limiting per IP, crittografia TLS 1.3
                 e sessioni mediche circoscritte al turno di visita (12h).

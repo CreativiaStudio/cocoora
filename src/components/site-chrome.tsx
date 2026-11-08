@@ -26,9 +26,11 @@ export function SiteChrome({ children }: { children: ReactNode }) {
     return <main>{children}</main>;
   }
 
-  // Se siamo nel pannello admin o nella segreteria, escludiamo header e footer del sito
+  // Se siamo nel pannello admin, nella segreteria o nell'area medico, escludiamo header e footer standard del sito
   const isBackoffice =
-    pathname.startsWith("/admin") || pathname.startsWith("/segreteria");
+    pathname.startsWith("/admin") ||
+    pathname.startsWith("/segreteria") ||
+    pathname.startsWith("/medico");
 
   if (isBackoffice) {
     return (
@@ -52,6 +54,7 @@ export function SiteChrome({ children }: { children: ReactNode }) {
       <CheckoutDrawer />
       <DiscoverModal />
       <BookingModal />
+      <DemoRoleSwitcher />
     </>
   );
 }
