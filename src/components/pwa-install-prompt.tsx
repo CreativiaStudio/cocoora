@@ -81,7 +81,12 @@ export function PwaInstallPrompt() {
 
     window.addEventListener("cocoora_open_pwa_install", handleOpenManual);
 
-    if (!standalone && !dismissed) {
+    const isMobileDevice =
+      /android|iphone|ipad|ipod|mobile/i.test(window.navigator.userAgent) ||
+      window.innerWidth < 768;
+
+    // Il popup automatico deve uscire SOLO ed ESCLUSIVAMENTE quando l'utente naviga da smartphone/tablet
+    if (!standalone && !dismissed && isMobileDevice) {
       setVisible(true);
     }
 
@@ -140,7 +145,7 @@ export function PwaInstallPrompt() {
   return (
     <>
       <div
-        className="fixed inset-x-4 bottom-4 z-50 sm:inset-x-auto sm:right-6 sm:bottom-6 sm:w-full sm:max-w-md"
+        className="fixed inset-x-4 bottom-4 z-50 md:hidden"
         role="complementary"
         aria-label="Installa l'app Cocoora"
       >
