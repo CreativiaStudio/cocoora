@@ -137,7 +137,7 @@ export function Footer() {
               }}
               className="inline-flex items-center gap-1.5 text-teal-200/80 transition-colors hover:text-white underline underline-offset-4 cursor-pointer font-medium"
             >
-              <span>📱</span> Installa Web App
+              <span>📱</span> Scarica l&apos;App Cocoora
             </button>
             <button
               type="button"
