@@ -139,13 +139,6 @@ export function Footer() {
             >
               Preferenze Cookie
             </button>
-            <Link
-              href="/login"
-              className="text-teal-200/40 transition-colors hover:text-teal-200"
-              title="Accesso Operatori e Sanitario"
-            >
-              Accesso Riservato
-            </Link>
           </div>
         </div>
       </Container>

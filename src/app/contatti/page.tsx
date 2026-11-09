@@ -144,24 +144,13 @@ export default function ContattiPage() {
                   </li>
                   <li className="flex items-start gap-3">
                     <Mail className="mt-0.5 h-5 w-5 shrink-0 text-teal-700" />
-                    <div className="space-y-1.5">
+                    <div className="space-y-1">
                       <p className="text-xs font-semibold uppercase tracking-wider text-teal-900">
-                        Email Istituzionali
+                        Email Ufficiale
                       </p>
-                      <div className="grid gap-1">
-                        <a href={`mailto:${SITE.emails.info}`} className="block hover:text-teal-800">
-                          <span className="font-medium text-dark-navy">Informazioni:</span> {SITE.emails.info}
-                        </a>
-                        <a href={`mailto:${SITE.emails.prenotazioni}`} className="block hover:text-teal-800">
-                          <span className="font-medium text-dark-navy">Prenotazioni:</span> {SITE.emails.prenotazioni}
-                        </a>
-                        <a href={`mailto:${SITE.emails.amministrazione}`} className="block hover:text-teal-800">
-                          <span className="font-medium text-dark-navy">Amministrazione:</span> {SITE.emails.amministrazione}
-                        </a>
-                        <a href={`mailto:${SITE.emails.direzioneSanitaria}`} className="block hover:text-teal-800">
-                          <span className="font-medium text-dark-navy">Direzione Sanitaria:</span> {SITE.emails.direzioneSanitaria}
-                        </a>
-                      </div>
+                      <a href={`mailto:${SITE.email}`} className="block font-medium text-dark-navy hover:text-teal-700">
+                        {SITE.email}
+                      </a>
                     </div>
                   </li>
                   <li className="flex items-start gap-3">

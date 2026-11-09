@@ -93,7 +93,7 @@ export default function PrivacyPolicyPage() {
                 <div className="mt-4 space-y-1.5 text-xs text-charcoal/70">
                   <p><strong>Sede Operativa:</strong> {SITE.fullAddress}</p>
                   <p><strong>Direzione Sanitaria:</strong> Dott.ssa Elisa Russo</p>
-                  <p><strong>Email Privacy:</strong> privacy@cocoora.it</p>
+                  <p><strong>Email:</strong> info@cocoora.it</p>
                   <p><strong>Telefono:</strong> {SITE.phone}</p>
                 </div>
               </div>
@@ -111,8 +111,8 @@ export default function PrivacyPolicyPage() {
                 </p>
                 <div className="mt-4 space-y-1.5 text-xs text-charcoal/70">
                   <p><strong>Sede Legale:</strong> Napoli (NA), Italia</p>
-                  <p><strong>Email Contabile:</strong> amministrazione@cocoora.it</p>
-                  <p><strong>Contatto DPO:</strong> dpo@cocoora.it</p>
+                  <p><strong>Email:</strong> info@cocoora.it</p>
+                  <p><strong>Telefono:</strong> {SITE.phone}</p>
                 </div>
               </div>
             </div>
@@ -312,8 +312,8 @@ export default function PrivacyPolicyPage() {
             </div>
             <p className="text-xs text-charcoal/80">
               Per esercitare i tuoi diritti puoi inviare una richiesta scritta a:{" "}
-              <a href="mailto:privacy@cocoora.it" className="font-semibold text-teal-700 underline">
-                privacy@cocoora.it
+              <a href="mailto:info@cocoora.it" className="font-semibold text-teal-700 underline">
+                info@cocoora.it
               </a>{" "}
               oppure contattare la Direzione Sanitaria presso la nostra sede di Napoli. Hai inoltre il diritto di proporre reclamo all&apos;Autorità Garante per la Protezione dei Dati Personali (
               <a href="https://www.garanteprivacy.it" target="_blank" rel="noopener noreferrer" className="text-teal-700 underline">
@@ -342,7 +342,7 @@ export default function PrivacyPolicyPage() {
               </span>
               <span className="flex items-center gap-2">
                 <Mail className="h-4 w-4 text-teal-700" />
-                privacy@cocoora.it
+                info@cocoora.it
               </span>
             </div>
           </section>
