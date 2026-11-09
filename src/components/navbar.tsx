@@ -12,6 +12,7 @@ import {
   Menu,
   MessageCircle,
   Phone,
+  Smartphone,
   X,
 } from "lucide-react";
 import { NAV_NODES, SITE } from "@/lib/site";
@@ -369,8 +370,20 @@ export function Navbar() {
             </span>
           </div>
 
-          {/* Contatti diretti e Area Paziente */}
+          {/* Contatti diretti, Scarica App e Area Paziente */}
           <div className="flex shrink-0 items-center gap-4 sm:gap-6">
+            <button
+              type="button"
+              onClick={() => {
+                if (typeof window !== "undefined") {
+                  window.dispatchEvent(new CustomEvent("cocoora_open_pwa_install"));
+                }
+              }}
+              className="hidden md:inline-flex items-center gap-1.5 font-medium text-slate-accent hover:text-white transition-colors cursor-pointer"
+            >
+              <Smartphone className="h-3 w-3" />
+              <span>Scarica l&apos;App Cocoora</span>
+            </button>
             <a
               href="tel:08118182091"
               className="flex items-center gap-1.5 hover:text-white transition-colors"
@@ -784,6 +797,19 @@ export function Navbar() {
             >
               Prenota Visita
             </Button>
+            <button
+              type="button"
+              onClick={() => {
+                closeAll();
+                if (typeof window !== "undefined") {
+                  window.dispatchEvent(new CustomEvent("cocoora_open_pwa_install"));
+                }
+              }}
+              className="flex w-full items-center justify-center gap-2 rounded-full border border-teal-200 bg-white py-2.5 text-xs font-semibold text-dark-navy shadow-xs transition-colors hover:bg-teal-50 cursor-pointer"
+            >
+              <Smartphone className="h-4 w-4 text-[#1C4A5C]" />
+              <span>Scarica l&apos;App Cocoora</span>
+            </button>
             <div className="grid grid-cols-2 gap-2">
               <a
                 href="tel:08118182091"

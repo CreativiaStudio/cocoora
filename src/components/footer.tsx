@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Clock, Instagram, Mail, MapPin, Phone, ShieldCheck } from "lucide-react";
+import { Clock, Instagram, Mail, MapPin, Phone, ShieldCheck, Smartphone } from "lucide-react";
 import { SITE } from "@/lib/site";
 import { Logo } from "./logo";
 import { Container } from "./ui";
@@ -189,6 +189,20 @@ function FooterColumn({
             </Link>
           </li>
         ))}
+        <li className="pt-1.5">
+          <button
+            type="button"
+            onClick={() => {
+              if (typeof window !== "undefined") {
+                window.dispatchEvent(new CustomEvent("cocoora_open_pwa_install"));
+              }
+            }}
+            className="inline-flex items-center gap-2 text-xs sm:text-[13px] font-semibold text-slate-accent hover:text-white transition-colors cursor-pointer"
+          >
+            <Smartphone className="h-3.5 w-3.5" />
+            <span>Scarica l&apos;App Cocoora</span>
+          </button>
+        </li>
       </ul>
     </div>
   );
