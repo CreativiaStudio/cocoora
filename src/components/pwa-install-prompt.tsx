@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Download, Plus, Share, X } from "lucide-react";
 
@@ -16,6 +16,7 @@ export function PwaInstallPrompt() {
   const [visible, setVisible] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const deferredPromptRef = useRef<BeforeInstallPromptEvent | null>(null);
   const [showSheet, setShowSheet] = useState(false);
   const [installing, setInstalling] = useState(false);
 
@@ -35,31 +36,54 @@ export function PwaInstallPrompt() {
       dismissed = false;
     }
 
-    if (standalone || dismissed) return;
-
     const ios = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
     setIsIOS(ios);
 
     const handleBeforeInstallPrompt = (event: Event) => {
       event.preventDefault();
-      setDeferredPrompt(event as BeforeInstallPromptEvent);
+      const promptEvent = event as BeforeInstallPromptEvent;
+      setDeferredPrompt(promptEvent);
+      deferredPromptRef.current = promptEvent;
     };
 
     const handleAppInstalled = () => {
       setVisible(false);
       setShowSheet(false);
       setDeferredPrompt(null);
+      deferredPromptRef.current = null;
     };
 
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     window.addEventListener("appinstalled", handleAppInstalled);
 
-    const handleOpenManual = () => {
+    // Quando l'utente clicca dal Footer o dal Menu:
+    // Se il browser supporta l'installazione nativa (Android/Chrome/Edge), parte subito il prompt a 1 click!
+    const handleOpenManual = async () => {
+      if (deferredPromptRef.current) {
+        try {
+          await deferredPromptRef.current.prompt();
+          const choice = await deferredPromptRef.current.userChoice;
+          if (choice.outcome === "accepted") {
+            setVisible(false);
+            setShowSheet(false);
+          }
+          deferredPromptRef.current = null;
+          setDeferredPrompt(null);
+          return;
+        } catch (e) {
+          console.error("Install prompt error", e);
+        }
+      }
+      // Se siamo su iOS (Safari non permette il prompt da codice) o se il prompt non è pronto, apri il mini-avviso rapido
       setVisible(true);
       setShowSheet(true);
     };
+
     window.addEventListener("cocoora_open_pwa_install", handleOpenManual);
-    setVisible(true);
+
+    if (!standalone && !dismissed) {
+      setVisible(true);
+    }
 
     return () => {
       window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
