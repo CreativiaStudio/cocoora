@@ -60,7 +60,7 @@ export function requiresEcograph(input: {
   specialtySlug?: string | null;
 }): boolean {
   const text = normalizeText(`${input.fullName ?? ""} ${input.specialtySlug ?? ""}`);
-  return /(buono|stillo|poppiti|pontillo|ecograf|ecocardio|ecografia|senolog|ginecolog|cardiolog)/.test(
+  return /(buono|stillo|pontillo|ecograf|ecocardio|ecografia|senolog|ginecolog|cardiolog)/.test(
     text
   );
 }
@@ -142,7 +142,7 @@ export function getDefaultRoomSlugForDoctor(input: {
   if (text.includes("d'andrea") || text.includes("dandrea") || text.includes("errico") || text.includes("riccardi")) return "studio-3";
   if (text.includes("russo") || text.includes("d'alessio") || text.includes("dalessio") || /(odonto|dental|dentist|ortodon|igien)/.test(text)) return "studio-1";
   if (text.includes("polverino") || text.includes("ceglie") || /(nutrizion)/.test(text)) return "sala-filtro";
-  if (/(toro|totaro|stillo|buono|poppiti|pontillo|iaccarino|ecograf|oculist|radiolog|senolog|cardio|gineco|psico|pediatr)/.test(text)) return "studio-4";
+  if (/(toro|totaro|stillo|buono|pontillo|iaccarino|ecograf|oculist|radiolog|senolog|cardio|gineco|psico|pediatr)/.test(text)) return "studio-4";
   if (/(laser|estetic|dermat|criolipo|chirurg)/.test(text)) return "studio-3";
 
   return "studio-1";

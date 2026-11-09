@@ -103,16 +103,6 @@ export const SPECIALTIES: Specialty[] = [
     roomName: "Studio 4",
   },
   {
-    id: "ginecologia",
-    label: "Ginecologia ed Ecografia",
-    doctor: "Dott.ssa Raffaella Poppiti",
-    doctorSlug: "raffaella-poppiti",
-    presenceDays: [4], // Gio (pomeriggio)
-    morning: false,
-    afternoon: true,
-    roomName: "Studio 4",
-  },
-  {
     id: "oculistica",
     label: "Oculistica & Refrattiva",
     doctor: "Dr. Mario Toro",

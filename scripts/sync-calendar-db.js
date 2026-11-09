@@ -125,13 +125,6 @@ async function sync() {
       is_active: true
     },
     {
-      slug: 'raffaella-poppiti',
-      full_name: 'Dott.ssa Raffaella Poppiti',
-      title: 'Specialista in Ginecologia, Ostetricia ed Ecografia Pelvica',
-      specialty_slug: 'ginecologia',
-      is_active: true
-    },
-    {
       slug: 'mario-toro',
       full_name: 'Dr. Mario Toro',
       title: 'Specialista in Oculistica e Chirurgia Refrattiva',
@@ -150,13 +143,6 @@ async function sync() {
       full_name: 'Dr. Vittorio Riccio',
       title: 'Specialista in Oncologia Medica e Prevenzione',
       specialty_slug: 'oncologia',
-      is_active: true
-    },
-    {
-      slug: 'guido-ciorra',
-      full_name: 'Dr. Guido Ciorra',
-      title: 'Specialista in Chirurgia Generale e Ambulatoriale Mininvasiva',
-      specialty_slug: 'chirurgia-generale',
       is_active: true
     },
     {
@@ -239,8 +225,6 @@ async function sync() {
     { docSlug: 'francesco-dandrea', roomSlug: 'studio-3', weekday: 4, start: '15:00:00', end: '19:00:00' },
     { docSlug: 'titti-errico', roomSlug: 'studio-3', weekday: 4, start: '09:00:00', end: '13:00:00' },
     { docSlug: 'titti-errico', roomSlug: 'studio-3', weekday: 4, start: '15:00:00', end: '19:00:00' },
-    // Raffaella Poppiti - Ginecologia - Studio 4 (Giovedì pomeriggio: 15:00 - 19:00)
-    { docSlug: 'raffaella-poppiti', roomSlug: 'studio-4', weekday: 4, start: '15:00:00', end: '19:00:00' },
     // Anna Maria Stillo - Cardiologia (opzione Giovedì pomeriggio: 15:00 - 19:00 se presente in calendario 1)
     // Jessica De Ceglie - Nutrizione - Sala Filtro (Giovedì pomeriggio: 15:00 - 19:00)
     { docSlug: 'jessica-de-ceglie', roomSlug: 'sala-filtro', weekday: 4, start: '15:00:00', end: '19:00:00' },

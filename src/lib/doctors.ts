@@ -316,31 +316,6 @@ export const DOCTORS: Doctor[] = [
     tariffaVisita: 0,
   },
   {
-    slug: "raffaella-poppiti",
-    name: "Raffaella Poppiti",
-    title: "Medico Chirurgo Specialista in Ginecologia ed Ostetricia",
-    branca: "Ginecologia & Benessere Donna",
-    affiliation: "Medico Chirurgo Specialista in Ginecologia ed Ostetricia",
-    image: "/images/doctors/raffaella-poppiti.jpg",
-    bio: "Raffaella Poppiti segue la salute femminile nelle diverse fasi della vita, dalla prevenzione adolescenziale e contraccettiva alla maternità e al benessere in menopausa.",
-    approach:
-      "Accoglienza, riservatezza e ascolto empatico per una prevenzione ginecologica serena, integrata con l'ecografia pelvica e transvaginale.",
-    curriculum: [
-      "Laurea in Medicina e Chirurgia con lode",
-      "Specializzazione in Ginecologia e Ostetricia",
-      "Master in Ecografia Ostetrico-Ginecologica",
-    ],
-    servizi: [
-      "Visita ginecologica specialistica",
-      "Ecografia pelvica transvaginale e sovrapubica",
-      "Consulenza contraccettiva e preconcezionale",
-      "Prevenzione e gestione ormonale della menopausa",
-    ],
-    specialtyId: "ginecologia",
-    clubTierIds: ["care", "experience", "signature"],
-    tariffaVisita: 0,
-  },
-  {
     slug: "vittorio-riccio",
     name: "Vittorio Riccio",
     title: "Medico Chirurgo – Oncologia Medica",
@@ -362,30 +337,6 @@ export const DOCTORS: Doctor[] = [
     ],
     specialtyId: "oncologia",
     clubTierIds: ["experience", "signature"],
-    tariffaVisita: 0,
-  },
-  {
-    slug: "guido-ciorra",
-    name: "Guido Ciorra",
-    title: "Medico Chirurgo Specialista in Chirurgia Generale",
-    branca: "Chirurgia Generale & Ambulatoriale",
-    affiliation: "Medico Chirurgo Specialista in Chirurgia Generale",
-    image: "/images/doctors/guido-ciorra.jpg",
-    bio: "Guido Ciorra è chirurgo dedicato alla diagnostica e al trattamento ambulatoriale delle patologie di interesse chirurgico generale, dermatologico e dei tessuti molli.",
-    approach:
-      "La chirurgia ambulatoriale moderna unisce rigore tecnico e mininvasività per risolvere problematiche cliniche in sicurezza e senza degenza.",
-    curriculum: [
-      "Laurea in Medicina e Chirurgia",
-      "Specializzazione in Chirurgia Generale",
-      "Esperienza in chirurgia ambulatoriale mininvasiva",
-    ],
-    servizi: [
-      "Visita di chirurgia generale specialistica",
-      "Chirurgia dermatologica ambulatoriale",
-      "Valutazione delle lesioni dei tessuti molli",
-    ],
-    specialtyId: "chirurgia-generale",
-    clubTierIds: ["care", "experience", "signature"],
     tariffaVisita: 0,
   },
   {

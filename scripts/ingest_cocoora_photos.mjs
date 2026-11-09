@@ -77,13 +77,11 @@ const DOCTORS_ROSTER = [
   { slug: 'anna-maria-stillo', gender: 'F', name: 'Dott.ssa Anna Maria Stillo', hasPhoto: true },
   { slug: 'giuseppe-buono', gender: 'M', name: 'Dr. Giuseppe Buono', hasPhoto: true },
   { slug: 'mario-toro', gender: 'M', name: 'Dr. Mario Toro', hasPhoto: false },
-  { slug: 'raffaella-poppiti', gender: 'F', name: 'Dott.ssa Raffaella Poppiti', hasPhoto: false },
   { slug: 'alessandra-totaro', gender: 'F', name: 'Dott.ssa Alessandra Totaro', hasPhoto: false },
   { slug: 'maria-grazia-polverino', gender: 'F', name: 'Dott.ssa Maria Grazia Polverino', hasPhoto: false },
   { slug: 'jessica-de-ceglie', gender: 'F', name: 'Dott.ssa Jessica De Ceglie', hasPhoto: true },
   { slug: 'martina-pontillo', gender: 'F', name: 'Dott.ssa Martina Pontillo', hasPhoto: false },
   { slug: 'vittorio-riccio', gender: 'M', name: 'Dr. Vittorio Riccio', hasPhoto: false },
-  { slug: 'guido-ciorra', gender: 'M', name: 'Dr. Guido Ciorra', hasPhoto: false },
   { slug: 'rocco-spera', gender: 'M', name: 'Dr. Rocco Spera', hasPhoto: false },
   { slug: 'filippo-iaccarino', gender: 'M', name: 'Dr. Filippo Iaccarino', hasPhoto: false },
 ];
