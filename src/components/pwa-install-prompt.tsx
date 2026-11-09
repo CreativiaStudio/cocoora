@@ -199,14 +199,19 @@ export function PwaInstallPrompt() {
           <div className="w-full max-w-md overflow-hidden rounded-t-2xl border border-[#C5A880]/40 bg-white shadow-2xl sm:rounded-2xl">
             <div className="flex items-start justify-between gap-4 border-b border-[#80A1B2]/25 px-5 py-4">
               <div>
-                <p className="text-[11px] font-semibold tracking-[0.18em] text-[#80A1B2] uppercase">
-                  Cocoora Club
-                </p>
+                <Image
+                  src="/cocoora-logo-horizontal.png"
+                  alt="Cocoora Centro Medico"
+                  width={150}
+                  height={30}
+                  className="h-7 w-auto object-contain"
+                  priority
+                />
                 <h2
                   id="cocoora-pwa-sheet-title"
-                  className="mt-1 text-lg font-semibold text-[#1C4A5C]"
+                  className="mt-2 text-base font-semibold text-[#1C4A5C]"
                 >
-                  {isIOS ? "Aggiungi Cocoora alla Home" : "Installa l'app Cocoora"}
+                  {isIOS ? "Aggiungi Cocoora alla schermata Home" : "Installa l'app Cocoora"}
                 </h2>
               </div>
               <button
@@ -239,11 +244,17 @@ export function PwaInstallPrompt() {
               </div>
 
               <div className="flex items-start gap-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#C5A880]/15 text-[#1C4A5C]">
-                  <Download className="h-4 w-4" />
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-[#C5A880]/30 bg-white p-1 shadow-xs">
+                  <Image
+                    src="/apple-touch-icon.png"
+                    alt="Icona Cocoora"
+                    width={28}
+                    height={28}
+                    className="h-full w-full object-contain"
+                  />
                 </div>
                 <p className="pt-1.5 text-sm leading-relaxed text-[#3D3D3C]">
-                  L&apos;App Cocoora sarà disponibile direttamente sulla tua schermata iniziale!
+                  L&apos;icona ufficiale Cocoora in blu sarà salvata direttamente sulla tua schermata iniziale!
                 </p>
               </div>
             </div>
