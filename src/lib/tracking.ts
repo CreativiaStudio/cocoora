@@ -38,6 +38,28 @@ function ensureDataLayer(): Record<string, unknown>[] {
   return window.dataLayer;
 }
 
+export function sendInternalTelemetry(type: string, metadata: Record<string, unknown> = {}) {
+  if (typeof window === "undefined") return;
+  try {
+    const payload = JSON.stringify({
+      type,
+      pathname: window.location.pathname,
+      timestamp: new Date().toISOString(),
+      metadata,
+    });
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon("/api/analytics/track", payload);
+    } else {
+      fetch("/api/analytics/track", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: payload,
+        keepalive: true,
+      }).catch(() => {});
+    }
+  } catch {}
+}
+
 export function pushToDataLayer(
   event: DataLayerEvent,
   data: Record<string, unknown> = {}
@@ -63,6 +85,7 @@ export function trackViewItem(item: {
   currency?: string;
   item_category?: string;
 }): string {
+  sendInternalTelemetry("view_item", { itemId: item.item_id, itemName: item.item_name, price: item.price });
   return pushToDataLayer("view_item", {
     ecommerce: {
       currency: item.currency ?? "EUR",
@@ -85,6 +108,7 @@ export function trackAddToCart(item: {
   price: number;
   currency?: string;
 }): string {
+  sendInternalTelemetry("cart_add", { itemId: item.item_id, itemName: item.item_name, price: item.price });
   return pushToDataLayer("add_to_cart", {
     ecommerce: {
       currency: item.currency ?? "EUR",
@@ -110,6 +134,7 @@ export function trackBeginCheckout(items: {
     (sum, item) => sum + item.price * (item.quantity ?? 1),
     0
   );
+  sendInternalTelemetry("checkout_begin", { itemsCount: items.length, totalValue: value });
   return pushToDataLayer("begin_checkout", {
     ecommerce: {
       currency: "EUR",
@@ -124,6 +149,7 @@ export function trackPurchase(order: {
   value: number;
   items: { item_id: string; item_name: string; price: number }[];
 }): string {
+  sendInternalTelemetry("purchase", { transactionId: order.transaction_id, totalValue: order.value });
   return pushToDataLayer("purchase", {
     ecommerce: {
       currency: "EUR",
@@ -135,6 +161,7 @@ export function trackPurchase(order: {
 }
 
 export function trackLead(data: { email: string; name?: string }): string {
+  sendInternalTelemetry("lead_submit", { email: data.email, name: data.name });
   return pushToDataLayer("lead", { lead: data });
 }
 

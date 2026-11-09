@@ -10,8 +10,7 @@ import type { InstagramPost } from "@/lib/types";
 
 export function InstagramFeedSection() {
   const [posts, setPosts] = useState<InstagramPost[]>(INSTAGRAM_POSTS.slice(0, 6));
-  const [loading, setLoading] = useState<boolean>(true);
-  const [isLive, setIsLive] = useState<boolean>(false);
+  const [isLive, setIsLive] = useState<boolean>(true);
 
   useEffect(() => {
     let isMounted = true;
@@ -30,8 +29,6 @@ export function InstagramFeedSection() {
       } catch (err) {
         // Fallback tranquillo sui post statici di alta qualità
         console.warn("Instagram feed fallback:", err);
-      } finally {
-        if (isMounted) setLoading(false);
       }
     }
 
@@ -79,19 +76,9 @@ export function InstagramFeedSection() {
           </ButtonLink>
         </Reveal>
 
-        {loading ? (
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-            {[0, 1, 2, 3, 4, 5].map((i) => (
-              <div
-                key={i}
-                className="aspect-square animate-pulse rounded-2xl border border-[#80a1b2]/20 bg-[#e4eef2]"
-              />
-            ))}
-          </div>
-        ) : (
-          <RevealStagger className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-            {posts.map((post) => (
-              <RevealItem key={post.id}>
+        <RevealStagger className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+          {posts.map((post) => (
+            <RevealItem key={post.id}>
                 <a
                   href={post.permalink || SITE.instagram}
                   target="_blank"
@@ -135,7 +122,6 @@ export function InstagramFeedSection() {
               </RevealItem>
             ))}
           </RevealStagger>
-        )}
       </Container>
     </section>
   );

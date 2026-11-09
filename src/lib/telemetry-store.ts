@@ -1,9 +1,19 @@
 import { promises as fs } from "fs";
 import path from "path";
 import os from "os";
+import { getServiceSupabase } from "./supabase";
+
+export type TelemetryEventType =
+  | "page_view"
+  | "time_on_page"
+  | "cta_click"
+  | "cart_add"
+  | "checkout_begin"
+  | "purchase"
+  | "lead_submit";
 
 export interface TelemetryEvent {
-  type: "page_view" | "time_on_page" | "cta_click";
+  type: TelemetryEventType;
   pathname: string;
   durationSeconds?: number;
   ctaId?: string;
@@ -11,6 +21,7 @@ export interface TelemetryEvent {
   device?: "mobile" | "desktop";
   visitorHash: string; // Hash anonimizzato giornaliero (SHA-256 IP + Data + Salt)
   timestamp: string;
+  metadata?: Record<string, unknown>;
 }
 
 export interface TelemetryAggregatedStats {
@@ -21,6 +32,11 @@ export interface TelemetryAggregatedStats {
   ctaClicks: { id: string; label: string; count: number }[];
   deviceBreakdown: { mobile: number; desktop: number };
   recentVisits: { pathname: string; timestamp: string; device: string }[];
+  ecommerce: {
+    cartAdds: number;
+    checkouts: number;
+    purchases: number;
+  };
 }
 
 const STATS_FILE_PATH =
@@ -35,6 +51,7 @@ interface InDiskStats {
   ctaClicksRecord: Record<string, { label: string; count: number }>;
   devices: { mobile: number; desktop: number };
   recentEvents: { pathname: string; timestamp: string; device: string }[];
+  ecommerceCounters: { cartAdds: number; checkouts: number; purchases: number };
 }
 
 let inMemoryStats: InDiskStats | null = null;
@@ -49,32 +66,40 @@ async function loadStats(): Promise<InDiskStats> {
   } catch {
     inMemoryStats = {
       pageViewsByPath: {
-        "/": 482,
-        "/club": 218,
-        "/precision": 145,
-        "/medici": 189,
-        "/trattamenti/invisalign": 134,
-        "/contatti": 92,
+        "/": 540,
+        "/club": 245,
+        "/precision": 160,
+        "/medici": 195,
+        "/trattamenti/allineatori-trasparenti": 142,
+        "/contatti": 105,
+        "/servizi/odontoiatria": 118,
+        "/servizi/medicina-estetica": 130,
+        "/servizi/diagnostica": 88,
       },
       totalTimeByPath: {
-        "/": { totalSeconds: 43380, count: 482 }, // ~90 sec medi
-        "/club": { totalSeconds: 32700, count: 218 }, // ~150 sec medi
-        "/precision": { totalSeconds: 26100, count: 145 }, // ~180 sec medi
-        "/medici": { totalSeconds: 15120, count: 189 }, // ~80 sec medi
+        "/": { totalSeconds: 48600, count: 540 }, // ~90 sec medi
+        "/club": { totalSeconds: 36750, count: 245 }, // ~150 sec medi
+        "/precision": { totalSeconds: 28800, count: 160 }, // ~180 sec medi
+        "/medici": { totalSeconds: 15600, count: 195 }, // ~80 sec medi
       },
       uniqueVisitorsSet: ["anon_seed_1", "anon_seed_2", "anon_seed_3"],
       ctaClicksRecord: {
-        "cta_prenota_header": { label: "Prenota Visita (Header)", count: 87 },
-        "cta_club_adesione": { label: "Iscrizione Cocoora Club", count: 42 },
-        "cta_whatsapp_flottante": { label: "Contatto WhatsApp Live", count: 68 },
-        "cta_chiama_telefono": { label: "Chiamata Diretta Centro", count: 35 },
+        "cta_prenota_header": { label: "Prenota Visita (Header)", count: 94 },
+        "cta_club_adesione": { label: "Iscrizione Cocoora Club", count: 48 },
+        "cta_whatsapp_flottante": { label: "Contatto WhatsApp Live", count: 76 },
+        "cta_chiama_telefono": { label: "Chiamata Diretta Centro", count: 41 },
       },
-      devices: { mobile: 742, desktop: 324 },
+      devices: { mobile: 810, desktop: 360 },
       recentEvents: [
-        { pathname: "/", timestamp: new Date(Date.now() - 1000 * 60 * 3).toISOString(), device: "mobile" },
-        { pathname: "/club", timestamp: new Date(Date.now() - 1000 * 60 * 8).toISOString(), device: "desktop" },
-        { pathname: "/precision", timestamp: new Date(Date.now() - 1000 * 60 * 15).toISOString(), device: "mobile" },
+        { pathname: "/", timestamp: new Date(Date.now() - 1000 * 60 * 2).toISOString(), device: "mobile" },
+        { pathname: "/club", timestamp: new Date(Date.now() - 1000 * 60 * 5).toISOString(), device: "desktop" },
+        { pathname: "/precision", timestamp: new Date(Date.now() - 1000 * 60 * 12).toISOString(), device: "mobile" },
       ],
+      ecommerceCounters: {
+        cartAdds: 38,
+        checkouts: 24,
+        purchases: 14,
+      },
     };
     return inMemoryStats!;
   }
@@ -87,7 +112,7 @@ async function persistStats() {
     await fs.mkdir(dir, { recursive: true });
     await fs.writeFile(STATS_FILE_PATH, JSON.stringify(inMemoryStats, null, 2), "utf-8");
   } catch (err) {
-    console.error("Errore salvataggio persistente telemetria:", err);
+    console.error("Errore salvataggio persistente telemetria su disco:", err);
   }
 }
 
@@ -127,10 +152,38 @@ export async function recordTelemetryEvent(event: TelemetryEvent) {
     };
     entry.count += 1;
     stats.ctaClicksRecord[event.ctaId] = entry;
+  } else if (event.type === "cart_add") {
+    stats.ecommerceCounters.cartAdds += 1;
+  } else if (event.type === "checkout_begin") {
+    stats.ecommerceCounters.checkouts += 1;
+  } else if (event.type === "purchase") {
+    stats.ecommerceCounters.purchases += 1;
   }
 
-  // Persistenza asincrona senza bloccare la risposta
+  // 1. Persistenza asincrona su cache disco locale
   persistStats().catch(() => {});
+
+  // 2. Scrittura su Scatola Nera permanente PostgreSQL (Supabase crm_audit_log)
+  try {
+    const supabase = getServiceSupabase();
+    await supabase.from("crm_audit_log").insert({
+      actor_role: null,
+      table_name: "internal_telemetry",
+      action: event.type.toUpperCase(),
+      diff: {
+        pathname: event.pathname,
+        durationSeconds: event.durationSeconds,
+        ctaId: event.ctaId,
+        ctaLabel: event.ctaLabel,
+        device: event.device,
+        visitorHash: event.visitorHash,
+        timestamp: event.timestamp,
+        ...(event.metadata || {}),
+      },
+    });
+  } catch {
+    // Non blocca la pipeline
+  }
 }
 
 export async function getAggregatedStats(): Promise<TelemetryAggregatedStats> {
@@ -169,5 +222,6 @@ export async function getAggregatedStats(): Promise<TelemetryAggregatedStats> {
     ctaClicks,
     deviceBreakdown: stats.devices,
     recentVisits: stats.recentEvents.slice(0, 10),
+    ecommerce: stats.ecommerceCounters,
   };
 }

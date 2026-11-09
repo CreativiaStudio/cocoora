@@ -47,6 +47,15 @@ export function ReceptionDeskLive({ onOpenPatient, onOpenCassa }: ReceptionDeskL
   const [patients, setPatients] = useState<any[]>([]);
   const [plans, setPlans] = useState<any[]>([]);
   const [installments, setInstallments] = useState<any[]>([]);
+  const [currentTime, setCurrentTime] = useState<number>(Date.now());
+
+  // Aggiorna il timer live ogni 30s per calcolare attese e durate in tempo reale
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(Date.now());
+    }, 30000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Modali
   const [showWalkInModal, setShowWalkInModal] = useState(false);
@@ -130,17 +139,36 @@ export function ReceptionDeskLive({ onOpenPatient, onOpenCassa }: ReceptionDeskL
     fetchDeskData();
   }, []);
 
-  // Avanzamento stato accoglienza visita
+  // Avanzamento stato accoglienza visita con telemetria clinica (scatola nera)
   const handleUpdateStatus = async (appointmentId: string, newStatus: string) => {
     try {
       setAppointments((prev) =>
         prev.map((a) => (a.id === appointmentId ? { ...a, status: newStatus } : a))
       );
 
-      await supabase
-        .from("appointments")
-        .update({ status: newStatus, updated_at: new Date().toISOString() })
-        .eq("id", appointmentId);
+      const res = await fetch("/api/reception/desk", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "update_status",
+          appointmentId,
+          status: newStatus,
+        }),
+      });
+
+      if (res.ok) {
+        const json = await res.json();
+        if (json?.data?.notes) {
+          setAppointments((prev) =>
+            prev.map((a) => (a.id === appointmentId ? { ...a, notes: json.data.notes } : a))
+          );
+        }
+      } else {
+        await supabase
+          .from("appointments")
+          .update({ status: newStatus, updated_at: new Date().toISOString() })
+          .eq("id", appointmentId);
+      }
     } catch (e) {
       console.error("Errore aggiornamento stato visita:", e);
     }
@@ -392,6 +420,19 @@ export function ReceptionDeskLive({ onOpenPatient, onOpenCassa }: ReceptionDeskL
   const showUpRate =
     totalCount > 0 ? Math.round(((totalCount - cancelledCount - noShowCount) / totalCount) * 100) : 100;
 
+  // Calcolo tempo medio reale di attesa dai log clinici
+  const waitTimes: number[] = [];
+  appointments.forEach((a) => {
+    const m = a.notes?.match(/\[Attesa:\s*(\d+)m\]/);
+    if (m && m[1]) {
+      waitTimes.push(parseInt(m[1], 10));
+    }
+  });
+  const avgWaitMinutes =
+    waitTimes.length > 0
+      ? Math.round(waitTimes.reduce((acc, curr) => acc + curr, 0) / waitTimes.length)
+      : 5;
+
   return (
     <div className="space-y-6">
       {/* ── BANNER DESK OPERATIVO & KPI ── */}
@@ -489,12 +530,14 @@ export function ReceptionDeskLive({ onOpenPatient, onOpenCassa }: ReceptionDeskL
           </div>
 
           <div className="flex items-center gap-2.5 rounded-xl bg-teal-50/70 p-3 border border-teal-100">
-            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-teal-100 text-teal-800 font-bold text-xs">
-              5m
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-teal-100 text-teal-800 font-bold text-xs font-mono">
+              {avgWaitMinutes}m
             </span>
             <div>
               <p className="text-[10px] font-bold uppercase tracking-wider text-teal-800">Attesa Media Sala</p>
-              <p className="text-xs text-teal-950 font-medium">Target &lt; 7 min rispettato 🟢</p>
+              <p className="text-xs text-teal-950 font-medium">
+                {avgWaitMinutes <= 7 ? "Target < 7 min rispettato 🟢" : "Attesa da ottimizzare 🟡"}
+              </p>
             </div>
           </div>
 
@@ -614,11 +657,71 @@ export function ReceptionDeskLive({ onOpenPatient, onOpenCassa }: ReceptionDeskL
                         )}
                       </div>
 
-                      {app.notes && (
-                        <p className="text-[11px] text-slate-400 italic mt-0.5">
-                          Note: {app.notes}
-                        </p>
-                      )}
+                      {/* Telemetria Clinica Live: Sala d'Attesa & Visita */}
+                      {(() => {
+                        const notes = app.notes || "";
+                        if (app.status === "in_attesa") {
+                          const arrivoMatch = notes.match(/\[Arrivo:\s*([^\]]+)\]/);
+                          let waitMins = 0;
+                          if (arrivoMatch && arrivoMatch[1]) {
+                            const arrTime = new Date(arrivoMatch[1]).getTime();
+                            waitMins = Math.max(0, Math.floor((currentTime - arrTime) / 60000));
+                          }
+                          return (
+                            <div className="mt-1.5 flex items-center gap-1.5">
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-amber-100 text-amber-900 border border-amber-300">
+                                <span className="h-1.5 w-1.5 rounded-full bg-amber-600 animate-ping" />
+                                ⏳ In attesa in sala da {waitMins} min
+                              </span>
+                            </div>
+                          );
+                        }
+                        if (app.status === "in_visita") {
+                          const startMatch = notes.match(/\[InizioVisita:\s*([^\]]+)\]/);
+                          const waitMatch = notes.match(/\[Attesa:\s*(\d+)m\]/);
+                          let visitMins = 0;
+                          if (startMatch && startMatch[1]) {
+                            const stTime = new Date(startMatch[1]).getTime();
+                            visitMins = Math.max(0, Math.floor((currentTime - stTime) / 60000));
+                          }
+                          return (
+                            <div className="mt-1.5 flex items-center gap-1.5">
+                              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-mono font-semibold bg-teal-100 text-teal-900 border border-teal-300">
+                                <span className="h-1.5 w-1.5 rounded-full bg-teal-600 animate-pulse" />
+                                🩺 In visita da {visitMins} min {waitMatch ? `· Atteso ${waitMatch[1]}m` : ""}
+                              </span>
+                            </div>
+                          );
+                        }
+                        if (app.status === "completato") {
+                          const durMatch = notes.match(/\[Durata:\s*(\d+)m\]/);
+                          const waitMatch = notes.match(/\[Attesa:\s*(\d+)m\]/);
+                          if (durMatch || waitMatch) {
+                            return (
+                              <div className="mt-1.5 flex items-center gap-1.5">
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-mono font-medium bg-slate-100 text-slate-700 border border-slate-200">
+                                  ✓ Visita: {durMatch ? `${durMatch[1]}m` : "N/D"} · Attesa sala: {waitMatch ? `${waitMatch[1]}m` : "N/D"}
+                                </span>
+                              </div>
+                            );
+                          }
+                        }
+                        return null;
+                      })()}
+
+                      {(() => {
+                        const cleanNotes = app.notes
+                          ?.replace(/\[(Arrivo|InizioVisita|FineVisita|Attesa|Durata):[^\]]+\]/g, "")
+                          .trim();
+                        if (cleanNotes) {
+                          return (
+                            <p className="text-[11px] text-slate-400 italic mt-0.5">
+                              Note: {cleanNotes}
+                            </p>
+                          );
+                        }
+                        return null;
+                      })()}
                     </div>
                   </div>
 

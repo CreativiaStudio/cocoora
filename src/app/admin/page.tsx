@@ -46,6 +46,7 @@ import { CalendarMatrix } from "@/components/admin/calendar-matrix";
 import { PatientsCrmAdmin } from "@/components/admin/patients-crm-admin";
 import { CashFlowManager } from "@/components/admin/cash-flow-manager";
 import { ConsentsLedgerAdmin } from "@/components/admin/consents-ledger-admin";
+import { ScatolaNeraDashboard } from "@/components/admin/scatola-nera-dashboard";
 import { cn } from "@/lib/utils";
 
 type Tab =
@@ -58,7 +59,8 @@ type Tab =
   | "consensi"
   | "videos"
   | "seo"
-  | "analytics";
+  | "analytics"
+  | "scatola-nera";
 
 export default function AdminPage() {
   const [currentUser, setCurrentUser] = useState<UserSession | null>(null);
@@ -214,6 +216,14 @@ export default function AdminPage() {
               icon={<Activity className="h-4 w-4" />}
               label="Analytics & SEO Silvia"
               badge="Live"
+            />
+
+            <SidebarItem
+              active={tab === "scatola-nera"}
+              onClick={() => setTab("scatola-nera")}
+              icon={<Shield className="h-4 w-4 text-emerald-400" />}
+              label="Scatola Nera & Telemetria"
+              badge="100% Interna"
             />
 
 
@@ -726,6 +736,9 @@ export default function AdminPage() {
 
         {/* TAB 8: ANALYTICS & MONITORAGGIO SILVIA */}
         {tab === "analytics" && <AnalyticsDashboard />}
+
+        {/* TAB 9: SCATOLA NERA & TELEMETRIA INTERNA (100% DATI PROPRIETARI) */}
+        {tab === "scatola-nera" && <ScatolaNeraDashboard />}
       </main>
     </div>
   );

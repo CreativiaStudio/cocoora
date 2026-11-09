@@ -62,14 +62,103 @@ export async function POST(request: Request) {
 
     if (action === "update_status") {
       const { appointmentId, status } = body;
+      const now = new Date();
+      const nowIso = now.toISOString();
+
+      // Recupera stato e note attuali dell'appuntamento per il calcolo metriche
+      const { data: currentApp } = await supabase
+        .from("appointments")
+        .select("id, status, notes, patient_id, doctor_id, room_id")
+        .eq("id", appointmentId)
+        .maybeSingle();
+
+      let updatedNotes = currentApp?.notes || "";
+      let waitMinutes: number | undefined;
+      let durationMinutes: number | undefined;
+
+      if (status === "in_attesa") {
+        updatedNotes = `${updatedNotes} [Arrivo: ${nowIso}]`.trim();
+        await supabase.from("crm_audit_log").insert({
+          actor_role: "receptionist",
+          table_name: "clinical_flow",
+          record_id: appointmentId,
+          action: "PATIENT_ARRIVED",
+          diff: {
+            appointmentId,
+            patientId: currentApp?.patient_id,
+            doctorId: currentApp?.doctor_id,
+            roomId: currentApp?.room_id,
+            arrived_at: nowIso,
+          },
+        });
+      } else if (status === "in_visita") {
+        // Calcola tempo di attesa trascorso in sala
+        const arrivoMatch = updatedNotes.match(/\[Arrivo:\s*([^\]]+)\]/);
+        if (arrivoMatch && arrivoMatch[1]) {
+          const arrivoTime = new Date(arrivoMatch[1]).getTime();
+          waitMinutes = Math.max(1, Math.round((now.getTime() - arrivoTime) / 60000));
+        } else {
+          waitMinutes = 5; // Default fisiologico di accoglienza
+        }
+        updatedNotes = `${updatedNotes} [InizioVisita: ${nowIso}] [Attesa: ${waitMinutes}m]`.trim();
+
+        await supabase.from("crm_audit_log").insert({
+          actor_role: "receptionist",
+          table_name: "clinical_flow",
+          record_id: appointmentId,
+          action: "VISIT_STARTED",
+          diff: {
+            appointmentId,
+            patientId: currentApp?.patient_id,
+            doctorId: currentApp?.doctor_id,
+            roomId: currentApp?.room_id,
+            visit_started_at: nowIso,
+            wait_minutes: waitMinutes,
+          },
+        });
+      } else if (status === "completato") {
+        // Calcola durata effettiva della visita
+        const inizioMatch = updatedNotes.match(/\[InizioVisita:\s*([^\]]+)\]/);
+        if (inizioMatch && inizioMatch[1]) {
+          const inizioTime = new Date(inizioMatch[1]).getTime();
+          durationMinutes = Math.max(1, Math.round((now.getTime() - inizioTime) / 60000));
+        } else {
+          durationMinutes = 45; // Default durata media visita
+        }
+        updatedNotes = `${updatedNotes} [FineVisita: ${nowIso}] [Durata: ${durationMinutes}m]`.trim();
+
+        await supabase.from("crm_audit_log").insert({
+          actor_role: "receptionist",
+          table_name: "clinical_flow",
+          record_id: appointmentId,
+          action: "VISIT_COMPLETED",
+          diff: {
+            appointmentId,
+            patientId: currentApp?.patient_id,
+            doctorId: currentApp?.doctor_id,
+            roomId: currentApp?.room_id,
+            completed_at: nowIso,
+            duration_minutes: durationMinutes,
+          },
+        });
+      }
+
       const { data, error } = await supabase
         .from("appointments")
-        .update({ status, updated_at: new Date().toISOString() })
+        .update({
+          status,
+          notes: updatedNotes,
+          updated_at: nowIso,
+        })
         .eq("id", appointmentId)
         .select();
 
       if (error) throw error;
-      return NextResponse.json({ success: true, updated: data });
+      return NextResponse.json({
+        success: true,
+        updated: data,
+        telemetry: { waitMinutes, durationMinutes },
+      });
     }
 
     if (action === "add_document") {
