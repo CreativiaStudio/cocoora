@@ -4,20 +4,18 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import {
   ArrowRight,
-  Heart,
-  Instagram,
-  MessageCircle,
   Plus,
   ShieldCheck,
 } from "lucide-react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { useCms, useShop } from "@/components/providers";
-import { INSTAGRAM_POSTS, MANIFESTO } from "@/lib/site";
+import { MANIFESTO } from "@/lib/site";
 import { CLUB_TIERS } from "@/lib/club";
 import type { ClubTier } from "@/lib/types";
 import { Badge, Button, ButtonLink, Container, SectionLabel } from "@/components/ui";
 import { DiscoverHorizontalCard, PaidTierCard } from "@/components/sections/club-showcase";
 import { ReelsSection } from "@/components/sections/reels";
+import { InstagramFeedSection } from "@/components/sections/instagram-feed";
 import { HeroCinema } from "@/components/motion/hero-cinema";
 import { AreasShowcase } from "@/components/sections/area-showcase";
 import { StudioWalkIn } from "@/components/sections/studio-walk-in";
@@ -396,62 +394,9 @@ export default function HomePage() {
         </Reveal>
       </section>
 
-      {/* 9 · Reels e Instagram */}
+      {/* 9 · Reels e Instagram Live Feed */}
       <ReelsSection />
-
-      <section className="bg-canvas pb-24 pt-8 sm:pb-28">
-        <Container>
-          <Reveal className="mb-10 flex flex-col items-center justify-between gap-4 sm:flex-row">
-            <div className="flex items-center gap-3">
-              <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#1c4a5c] text-white">
-                <Instagram className="h-5 w-5" />
-              </span>
-              <div>
-                <p className="font-serif text-2xl font-semibold tracking-[-0.02em] text-[#00344b]">@cocoora</p>
-                <p className="text-sm text-charcoal/65">Connessi alla tua salute, ogni giorno.</p>
-              </div>
-            </div>
-            <ButtonLink href="https://www.instagram.com/" variant="secondary">
-              Seguici su Instagram <ArrowRight className="h-4 w-4" />
-            </ButtonLink>
-          </Reveal>
-          <RevealStagger className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
-            {INSTAGRAM_POSTS.slice(0, 6).map((post) => (
-              <RevealItem key={post.id}>
-                <a
-                  href="https://www.instagram.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group relative block aspect-square overflow-hidden rounded-2xl border border-[#80a1b2]/20"
-                >
-                  <Image
-                    src={post.image}
-                    alt={post.caption}
-                    fill
-                    sizes="(min-width: 1024px) 16vw, (min-width: 640px) 33vw, 50vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-[#002231]/80 via-transparent to-transparent p-3 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    <span className="text-[11px] font-semibold uppercase tracking-wider text-[#c5dbe3]">
-                      {post.tag}
-                    </span>
-                    <div className="mt-1 flex items-center gap-3 text-xs text-white">
-                      <span className="flex items-center gap-1">
-                        <Heart className="h-3.5 w-3.5" /> {post.likes}
-                      </span>
-                      {typeof post.comments === "number" && (
-                        <span className="flex items-center gap-1">
-                          <MessageCircle className="h-3.5 w-3.5" /> {post.comments}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </a>
-              </RevealItem>
-            ))}
-          </RevealStagger>
-        </Container>
-      </section>
+      <InstagramFeedSection />
     </div>
   );
 }

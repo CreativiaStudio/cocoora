@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { Eye, EyeOff, Pencil, Plus, Trash2, X } from "lucide-react";
+import { ExternalLink, Eye, EyeOff, Instagram, Pencil, Plus, Trash2, X } from "lucide-react";
 import { cmsStore } from "@/lib/cms-store";
 import { useCms } from "../providers";
 import type { VideoItem } from "@/lib/types";
@@ -104,61 +104,86 @@ export function VideosManager() {
         )}
       </div>
 
-      <form onSubmit={submit} className="h-fit rounded-3xl border border-teal-100 bg-white p-6 shadow-[0_20px_50px_-28px_rgba(3,53,75,0.4)]">
-        <div className="mb-5 flex items-center justify-between">
-          <h3 className="font-serif text-lg font-semibold text-teal-900">
-            {editing ? "Modifica video" : "Aggiungi video"}
-          </h3>
-          {editing && (
-            <button type="button" onClick={startAdd} className="text-charcoal/40 hover:text-charcoal">
-              <X className="h-5 w-5" />
-            </button>
-          )}
-        </div>
-
-        <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-2">
-            <button
-              type="button"
-              onClick={() => setForm({ ...form, type: "instagram" })}
-              className={`rounded-xl border px-3 py-2.5 text-sm font-medium transition-colors ${
-                form.type === "instagram" ? "border-teal-600 bg-teal-50 text-teal-800" : "border-teal-100 text-charcoal/60"
-              }`}
-            >
-              Instagram / Reels
-            </button>
-            <button
-              type="button"
-              onClick={() => setForm({ ...form, type: "mp4" })}
-              className={`rounded-xl border px-3 py-2.5 text-sm font-medium transition-colors ${
-                form.type === "mp4" ? "border-teal-600 bg-teal-50 text-teal-800" : "border-teal-100 text-charcoal/60"
-              }`}
-            >
-              Video MP4
-            </button>
+      <div className="space-y-6">
+        <form onSubmit={submit} className="h-fit rounded-3xl border border-teal-100 bg-white p-6 shadow-[0_20px_50px_-28px_rgba(3,53,75,0.4)]">
+          <div className="mb-5 flex items-center justify-between">
+            <h3 className="font-serif text-lg font-semibold text-teal-900">
+              {editing ? "Modifica video" : "Aggiungi video"}
+            </h3>
+            {editing && (
+              <button type="button" onClick={startAdd} className="text-charcoal/40 hover:text-charcoal">
+                <X className="h-5 w-5" />
+              </button>
+            )}
           </div>
 
-          <Field label="Link video" value={form.url} onChange={(url) => setForm({ ...form, url })} placeholder="https://..." />
-          <Field label="Titolo" value={form.title} onChange={(title) => setForm({ ...form, title })} />
-          <Field label="Caption" value={form.caption} onChange={(caption) => setForm({ ...form, caption })} />
-          <Field label="Testo bottone CTA (opzionale)" value={form.ctaLabel ?? ""} onChange={(ctaLabel) => setForm({ ...form, ctaLabel })} />
-          <Field label="Link bottone CTA (opzionale)" value={form.ctaLink ?? ""} onChange={(ctaLink) => setForm({ ...form, ctaLink })} placeholder="/servizi/..." />
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => setForm({ ...form, type: "instagram" })}
+                className={`rounded-xl border px-3 py-2.5 text-sm font-medium transition-colors ${
+                  form.type === "instagram" ? "border-teal-600 bg-teal-50 text-teal-800" : "border-teal-100 text-charcoal/60"
+                }`}
+              >
+                Instagram / Reels
+              </button>
+              <button
+                type="button"
+                onClick={() => setForm({ ...form, type: "mp4" })}
+                className={`rounded-xl border px-3 py-2.5 text-sm font-medium transition-colors ${
+                  form.type === "mp4" ? "border-teal-600 bg-teal-50 text-teal-800" : "border-teal-100 text-charcoal/60"
+                }`}
+              >
+                Video MP4
+              </button>
+            </div>
 
-          <label className="flex items-center gap-3 rounded-xl border border-teal-100 p-3">
-            <input
-              type="checkbox"
-              checked={form.visible}
-              onChange={(e) => setForm({ ...form, visible: e.target.checked })}
-              className="h-4 w-4 accent-teal-700"
-            />
-            <span className="text-sm font-medium text-teal-900">Visibile sul sito</span>
-          </label>
+            <Field label="Link video" value={form.url} onChange={(url) => setForm({ ...form, url })} placeholder="https://..." />
+            <Field label="Titolo" value={form.title} onChange={(title) => setForm({ ...form, title })} />
+            <Field label="Caption" value={form.caption} onChange={(caption) => setForm({ ...form, caption })} />
+            <Field label="Testo bottone CTA (opzionale)" value={form.ctaLabel ?? ""} onChange={(ctaLabel) => setForm({ ...form, ctaLabel })} />
+            <Field label="Link bottone CTA (opzionale)" value={form.ctaLink ?? ""} onChange={(ctaLink) => setForm({ ...form, ctaLink })} placeholder="/servizi/..." />
 
-          <Button type="submit" className="w-full">
-            {editing ? "Salva modifiche" : "Aggiungi video"}
-          </Button>
+            <label className="flex items-center gap-3 rounded-xl border border-teal-100 p-3">
+              <input
+                type="checkbox"
+                checked={form.visible}
+                onChange={(e) => setForm({ ...form, visible: e.target.checked })}
+                className="h-4 w-4 accent-teal-700"
+              />
+              <span className="text-sm font-medium text-teal-900">Visibile sul sito</span>
+            </label>
+
+            <Button type="submit" className="w-full">
+              {editing ? "Salva modifiche" : "Aggiungi video"}
+            </Button>
+          </div>
+        </form>
+
+        <div className="rounded-3xl border border-teal-100 bg-[#f4f8fa] p-5 shadow-sm">
+          <div className="flex items-center gap-3">
+            <span className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#1c4a5c] text-white">
+              <Instagram className="h-5 w-5" />
+            </span>
+            <div>
+              <h4 className="font-serif text-sm font-semibold text-[#00344b]">Canale Instagram Ufficiale</h4>
+              <p className="text-xs font-mono text-teal-800">@cocoora_official</p>
+            </div>
+          </div>
+          <p className="mt-3 text-xs text-charcoal/70 leading-relaxed">
+            I post e le foto in Home sono sincronizzati tramite l&apos;API <code className="rounded bg-teal-100/70 px-1 py-0.5 text-[11px] font-mono">/api/instagram/feed</code> con fallback sui contenuti ufficiali.
+          </p>
+          <a
+            href="https://www.instagram.com/cocoora_official/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-[#1c4a5c] hover:text-[#00344b] underline"
+          >
+            Visualizza profilo live <ExternalLink className="h-3.5 w-3.5" />
+          </a>
         </div>
-      </form>
+      </div>
     </div>
   );
 }

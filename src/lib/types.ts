@@ -192,12 +192,14 @@ export type ServiceArea = {
 };
 
 export type InstagramPost = {
-  id: number;
+  id: number | string;
   image: string;
   caption: string;
-  likes: number;
+  likes?: number;
   comments?: number;
   tag?: string;
+  permalink?: string;
+  timestamp?: string;
 };
 
 export type VideoItem = {

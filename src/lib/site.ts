@@ -24,7 +24,7 @@ export const SITE = {
   city: "Napoli",
   fullAddress: "Via Generale Giovanni De Bonis, 81 - 80123 Napoli",
   whatsapp: "https://wa.me/3908118182091",
-  instagram: "https://www.instagram.com/",
+  instagram: "https://www.instagram.com/cocoora_official/",
   hours: "Lun–Ven · 9:00–19:00 (Orario continuato) — Sabato chiuso",
 };
 
@@ -390,6 +390,7 @@ export const INSTAGRAM_POSTS: InstagramPost[] = [
     likes: 184,
     comments: 14,
     tag: "Il Centro",
+    permalink: "https://www.instagram.com/cocoora_official/",
   },
   {
     id: 2,
@@ -399,6 +400,7 @@ export const INSTAGRAM_POSTS: InstagramPost[] = [
     likes: 242,
     comments: 19,
     tag: "Odontoiatria",
+    permalink: "https://www.instagram.com/cocoora_official/",
   },
   {
     id: 3,
@@ -408,6 +410,7 @@ export const INSTAGRAM_POSTS: InstagramPost[] = [
     likes: 310,
     comments: 27,
     tag: "Medicina Estetica",
+    permalink: "https://www.instagram.com/cocoora_official/",
   },
   {
     id: 4,
@@ -417,6 +420,7 @@ export const INSTAGRAM_POSTS: InstagramPost[] = [
     likes: 198,
     comments: 16,
     tag: "Filosofia Clinica",
+    permalink: "https://www.instagram.com/cocoora_official/",
   },
   {
     id: 5,
@@ -426,6 +430,7 @@ export const INSTAGRAM_POSTS: InstagramPost[] = [
     likes: 156,
     comments: 11,
     tag: "Tecnologia",
+    permalink: "https://www.instagram.com/cocoora_official/",
   },
   {
     id: 6,
@@ -435,5 +440,6 @@ export const INSTAGRAM_POSTS: InstagramPost[] = [
     likes: 275,
     comments: 23,
     tag: "Precision",
+    permalink: "https://www.instagram.com/cocoora_official/",
   },
 ];

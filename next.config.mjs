@@ -17,6 +17,21 @@ const nextConfig = {
         hostname: "pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "*.cdninstagram.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "*.fbcdn.net",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "scontent*.cdninstagram.com",
+        pathname: "/**",
+      },
     ],
   },
   async redirects() {
