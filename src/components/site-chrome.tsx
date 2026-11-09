@@ -13,6 +13,7 @@ import { SeoHead } from "./seo-head";
 import { DemoRoleSwitcher } from "./role-switcher/demo-role-switcher";
 import { TelemetryProvider } from "./telemetry-provider";
 import { AnalyticsTracker } from "./analytics-tracker";
+import { PwaInstallPrompt } from "./pwa-install-prompt";
 
 export function SiteChrome({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -54,6 +55,7 @@ export function SiteChrome({ children }: { children: ReactNode }) {
       <CheckoutDrawer />
       <DiscoverModal />
       <BookingModal />
+      <PwaInstallPrompt />
       <DemoRoleSwitcher />
     </>
   );
