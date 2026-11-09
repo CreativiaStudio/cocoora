@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServiceSupabase } from "@/lib/supabase";
+import { recordConsent } from "@/lib/consent-ledger";
 
 export async function POST(req: Request) {
   try {
@@ -206,6 +207,34 @@ export async function POST(req: Request) {
         });
       } catch {
         // Ignora errori di audit secondari
+      }
+
+      // Registrazione della prova del consenso ex Art. 7.1 GDPR nel Consent Ledger
+      try {
+        const forwardedFor = req.headers.get("x-forwarded-for");
+        const clientIp =
+          req.headers.get("cf-connecting-ip") ||
+          req.headers.get("x-real-ip") ||
+          (forwardedFor ? forwardedFor.split(",")[0] : "127.0.0.1");
+        const userAgent = req.headers.get("user-agent") || "Web Browser";
+
+        await recordConsent({
+          channel: "form_contatti",
+          rawIp: clientIp,
+          userAgent,
+          userIdentifier: trimmedEmail,
+          policyVersion: "v1.2 - Novembre 2026",
+          preferences: {
+            technical: true,
+            analytics: true,
+            marketing: Boolean(consensoMarketing),
+            sanitaryDataArt9: true,
+            directMarketingWhatsapp: Boolean(consensoMarketing),
+          },
+          notes: `Richiesta info contatto per servizio: ${trimmedServizio}`,
+        });
+      } catch (consentErr) {
+        console.warn("Registrazione prova consenso contact form:", consentErr);
       }
 
       return NextResponse.json({

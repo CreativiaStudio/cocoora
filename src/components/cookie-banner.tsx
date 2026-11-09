@@ -41,6 +41,7 @@ function loadStored(): ConsentState | null {
 export function CookieBanner() {
   const [visible, setVisible] = useState(false);
   const [customizing, setCustomizing] = useState(false);
+  const [consentId, setConsentId] = useState<string | null>(null);
 
   // Stati personalizzazione granulare
   const [analyticsConsent, setAnalyticsConsent] = useState(false);
@@ -54,6 +55,11 @@ export function CookieBanner() {
       // Inizializza gli stati con quanto salvato in precedenza
       setAnalyticsConsent(stored.analytics_storage === "granted");
       setMarketingConsent(stored.ad_storage === "granted");
+    }
+
+    if (typeof window !== "undefined") {
+      const savedId = window.localStorage.getItem("cocoora_consent_id");
+      if (savedId) setConsentId(savedId);
     }
 
     // Listener per riaprire il banner dal footer o dalla Cookie Policy
@@ -74,6 +80,35 @@ export function CookieBanner() {
       // Salva anche cookie leggero per compatibilità server
       document.cookie = `${STORAGE_KEY}=${consent.analytics_storage === "granted" ? "analytics" : "denied"}; path=/; max-age=31536000; SameSite=Lax`;
       window.dispatchEvent(new CustomEvent("cocoora_consent_changed", { detail: consent }));
+
+      // Registrazione della prova del consenso ex Art. 7.1 GDPR con IP anonimizzato server-side
+      fetch("/api/consent/record", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          channel: "cookie_banner",
+          preferences: {
+            technical: true,
+            analytics: consent.analytics_storage === "granted",
+            marketing: consent.ad_storage === "granted",
+          },
+          policyVersion: "v1.2 - Novembre 2026",
+          notes:
+            consent.analytics_storage === "granted" && consent.ad_storage === "granted"
+              ? "Accettazione totale dal banner"
+              : consent.analytics_storage === "denied" && consent.ad_storage === "denied"
+              ? "Solo necessari (rifiuto non tecnici)"
+              : "Personalizzazione granulare",
+        }),
+      })
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => {
+          if (data?.consentId) {
+            window.localStorage.setItem("cocoora_consent_id", data.consentId);
+            setConsentId(data.consentId);
+          }
+        })
+        .catch(() => {});
     }
     pushConsentUpdate(consent);
     setVisible(false);
@@ -298,6 +333,12 @@ export function CookieBanner() {
                 </button>
               </div>
             </div>
+
+            {consentId && (
+              <div className="pt-2 text-[10px] text-teal-800/70 font-mono text-center border-t border-teal-50">
+                Ricevuta Trasparenza GDPR · ID Prova Consenso: <span className="font-bold text-teal-950">{consentId}</span>
+              </div>
+            )}
           </div>
         )}
       </div>

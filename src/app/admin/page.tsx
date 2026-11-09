@@ -45,6 +45,7 @@ import { RoomsManager } from "@/components/admin/rooms-manager";
 import { CalendarMatrix } from "@/components/admin/calendar-matrix";
 import { PatientsCrmAdmin } from "@/components/admin/patients-crm-admin";
 import { CashFlowManager } from "@/components/admin/cash-flow-manager";
+import { ConsentsLedgerAdmin } from "@/components/admin/consents-ledger-admin";
 import { cn } from "@/lib/utils";
 
 type Tab =
@@ -54,6 +55,7 @@ type Tab =
   | "rooms"
   | "crm"
   | "cassa"
+  | "consensi"
   | "videos"
   | "seo"
   | "analytics";
@@ -161,6 +163,14 @@ export default function AdminPage() {
                   icon={<CreditCard className="h-4 w-4" />}
                   label="Cassa & Flussi"
                   badge="Fatture/Rate"
+                />
+
+                <SidebarItem
+                  active={tab === "consensi"}
+                  onClick={() => setTab("consensi")}
+                  icon={<ShieldCheck className="h-4 w-4 text-emerald-400" />}
+                  label="Registro Consensi GDPR"
+                  badge="Art. 7"
                 />
               </>
             )}
@@ -704,6 +714,9 @@ export default function AdminPage() {
 
         {/* TAB 5: CASSA & FLUSSI */}
         {tab === "cassa" && <CashFlowManager onOpenPatient={() => setTab("crm")} />}
+
+        {/* TAB 5B: REGISTRO CONSENSI GDPR ART. 7 */}
+        {tab === "consensi" && <ConsentsLedgerAdmin />}
 
         {/* TAB 6: VIDEO VERTICALI */}
         {tab === "videos" && <VideosManager />}
