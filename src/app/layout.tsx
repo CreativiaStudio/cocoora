@@ -33,7 +33,8 @@ export const metadata: Metadata = {
     title: "Cocoora",
   },
   icons: {
-    icon: "/cocoora-symbol.png",
+    icon: "/apple-touch-icon.png",
+    shortcut: "/apple-touch-icon.png",
     apple: "/apple-touch-icon.png",
   },
   robots: { index: true, follow: true },

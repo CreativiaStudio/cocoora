@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import Image from "next/image";
 import { Download, Plus, Share, X } from "lucide-react";
 
 type BeforeInstallPromptEvent = Event & {
@@ -131,8 +132,14 @@ export function PwaInstallPrompt() {
           </button>
 
           <div className="flex items-start gap-3 px-5 py-4 pr-12">
-            <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#1C4A5C]">
-              <Download className="h-5 w-5 text-white" />
+            <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-[#C5A880]/40 bg-white p-1 shadow-sm">
+              <Image
+                src="/apple-touch-icon.png"
+                alt="Cocoora Logo"
+                width={36}
+                height={36}
+                className="h-full w-full object-contain"
+              />
             </div>
             <div className="min-w-0">
               <p className="text-sm font-semibold tracking-wide text-[#1C4A5C]">
