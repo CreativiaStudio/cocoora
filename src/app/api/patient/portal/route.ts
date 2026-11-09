@@ -16,17 +16,7 @@ export async function GET(request: Request) {
       .maybeSingle();
 
     if (pErr || !patient) {
-      // Se non trovato, recupera il primo paziente disponibile
-      const { data: fallback } = await supabase
-        .from("patient_profiles")
-        .select("*")
-        .limit(1)
-        .maybeSingle();
-
-      if (!fallback) {
-        return NextResponse.json({ error: "Paziente non trovato" }, { status: 404 });
-      }
-      return await getPatientData(supabase, fallback);
+      return NextResponse.json({ error: "Paziente non trovato per il codice fornito." }, { status: 404 });
     }
 
     return await getPatientData(supabase, patient);

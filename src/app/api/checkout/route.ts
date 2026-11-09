@@ -25,29 +25,131 @@ export async function POST(req: Request) {
 
     // Se percorso gratuito (Discover), salva nel CRM e ritorna successo immediato
     if (tier.price === 0) {
+      let patientCode = "";
       if (lead?.email && lead?.nome) {
         try {
           const supabase = getServiceSupabase();
-          await supabase.from("patient_profiles").upsert(
-            {
-              first_name: lead.nome.trim(),
-              last_name: (lead.cognome || "").trim() || "Paziente",
-              email: lead.email.trim(),
-              phone: (lead.telefono || "").trim(),
-              notes: `Iscrizione Cocoora Club Gratuita — Percorso Discover (${new Date().toLocaleDateString("it-IT")})`,
-            },
-            { onConflict: "email" }
-          );
+          const cleanEmail = lead.email.trim().toLowerCase();
+          const cleanPhone = (lead.telefono || "").trim();
+          const cleanNome = lead.nome.trim();
+          const cleanCognome = (lead.cognome || "").trim() || "Paziente";
+          const notesText = `[Lead Iscrizione Club] Percorso Discover Free (€0) — ${new Date().toLocaleDateString("it-IT")}`;
+
+          // Verifica se esiste già un profilo per email o telefono
+          let existingQuery = supabase
+            .from("patient_profiles")
+            .select("id, patient_code, notes");
+          
+          if (cleanPhone) {
+            existingQuery = existingQuery.or(`email.eq.${cleanEmail},phone.eq.${cleanPhone}`);
+          } else {
+            existingQuery = existingQuery.eq("email", cleanEmail);
+          }
+
+          const { data: existing } = await existingQuery.limit(1).maybeSingle();
+
+          if (existing) {
+            patientCode = existing.patient_code;
+            const updatedNotes = existing.notes ? `${existing.notes}\n${notesText}` : notesText;
+            await supabase
+              .from("patient_profiles")
+              .update({
+                notes: updatedNotes,
+                health_path_id: "0344a8b6-9d6b-4ab5-9360-a1f2974f9598", // Discover path
+                updated_at: new Date().toISOString(),
+              })
+              .eq("id", existing.id);
+          } else {
+            const { data: inserted, error: insErr } = await supabase
+              .from("patient_profiles")
+              .insert({
+                first_name: cleanNome,
+                last_name: cleanCognome,
+                email: cleanEmail,
+                phone: cleanPhone || null,
+                notes: notesText,
+                health_path_id: "0344a8b6-9d6b-4ab5-9360-a1f2974f9598", // Discover path
+                health_path_started_on: new Date().toISOString().split("T")[0],
+                gdpr_consent_at: new Date().toISOString(),
+                gdpr_marketing: true,
+              })
+              .select("id, patient_code")
+              .maybeSingle();
+
+            if (!insErr && inserted) {
+              patientCode = inserted.patient_code;
+            } else if (insErr) {
+              console.error("Errore inserimento profilo Discover:", insErr);
+            }
+          }
         } catch (err) {
-          console.warn("Errore salvataggio profilo Discover in Supabase", err);
+          console.warn("Errore salvataggio profilo Discover in Supabase:", err);
         }
       }
 
       return NextResponse.json({
         success: true,
         free: true,
-        url: `/club/success?tier=discover&name=${encodeURIComponent(lead?.nome || "Paziente")}`,
+        patientCode: patientCode || undefined,
+        url: `/club/success?tier=discover&name=${encodeURIComponent(lead?.nome || "Paziente")}${patientCode ? `&code=${patientCode}` : ""}`,
       });
+    }
+
+    // Registrazione preventiva lead nel CRM per i percorsi a pagamento (Zero Input Persi)
+    let leadPatientId: string | null = null;
+    let leadPatientCode: string | null = null;
+    if (lead?.email || lead?.nome) {
+      try {
+        const supabase = getServiceSupabase();
+        const cleanEmail = (lead.email || "").trim().toLowerCase();
+        const cleanPhone = (lead.telefono || "").trim();
+        const cleanNome = (lead.nome || "Lead").trim();
+        const cleanCognome = (lead.cognome || "Interessato").trim();
+        const notesText = `[Lead Pre-Checkout] Percorso ${tier.name} (€${tier.price}) — Inizio procedura di pagamento (${new Date().toLocaleDateString("it-IT")})`;
+
+        let existingQuery = supabase
+          .from("patient_profiles")
+          .select("id, patient_code, notes");
+        if (cleanEmail && cleanPhone) {
+          existingQuery = existingQuery.or(`email.eq.${cleanEmail},phone.eq.${cleanPhone}`);
+        } else if (cleanEmail) {
+          existingQuery = existingQuery.eq("email", cleanEmail);
+        } else if (cleanPhone) {
+          existingQuery = existingQuery.eq("phone", cleanPhone);
+        }
+
+        const { data: existing } = await existingQuery.limit(1).maybeSingle();
+        if (existing) {
+          leadPatientId = existing.id;
+          leadPatientCode = existing.patient_code;
+          const updatedNotes = existing.notes ? `${existing.notes}\n${notesText}` : notesText;
+          await supabase
+            .from("patient_profiles")
+            .update({ notes: updatedNotes, updated_at: new Date().toISOString() })
+            .eq("id", existing.id);
+        } else if (cleanEmail) {
+          const { data: inserted } = await supabase
+            .from("patient_profiles")
+            .insert({
+              first_name: cleanNome,
+              last_name: cleanCognome,
+              email: cleanEmail,
+              phone: cleanPhone || null,
+              notes: notesText,
+              gdpr_consent_at: new Date().toISOString(),
+              gdpr_marketing: true,
+            })
+            .select("id, patient_code")
+            .maybeSingle();
+
+          if (inserted) {
+            leadPatientId = inserted.id;
+            leadPatientCode = inserted.patient_code;
+          }
+        }
+      } catch (leadSaveErr) {
+        console.warn("Avviso salvataggio lead pre-checkout:", leadSaveErr);
+      }
     }
 
     // Calcolo prezzo (con eventuale differenziazione Uomo / Donna)
@@ -96,6 +198,8 @@ export async function POST(req: Request) {
         tier_id: tier.id,
         tier_name: tier.name,
         gender: gender || "",
+        patient_id: leadPatientId || "",
+        patient_code: leadPatientCode || "",
         customer_name: lead?.nome ? `${lead.nome} ${lead.cognome || ""}`.trim() : "",
         customer_phone: (lead?.telefono || "").trim(),
         customer_email: (lead?.email || "").trim(),

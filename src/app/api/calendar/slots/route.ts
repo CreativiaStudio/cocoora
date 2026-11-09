@@ -304,12 +304,21 @@ export async function POST(req: Request) {
       validServiceId = serviceId;
     }
 
-    // Informazioni medico per stanza e vincolo ecografo
-    const { data: doctor } = await supabase
-      .from("doctors")
-      .select("id, full_name, specialty_slug")
-      .eq("id", doctorId)
-      .maybeSingle();
+    // Informazioni medico per stanza e vincolo ecografo (supporta sia UUID che slug)
+    const isDoctorUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(doctorId);
+    const { data: doctor } = isDoctorUuid
+      ? await supabase
+          .from("doctors")
+          .select("id, full_name, specialty_slug")
+          .eq("id", doctorId)
+          .maybeSingle()
+      : await supabase
+          .from("doctors")
+          .select("id, full_name, specialty_slug")
+          .eq("slug", doctorId)
+          .maybeSingle();
+
+    const actualDoctorId = doctor?.id || doctorId;
 
     // Sala: se non indicata, assegna quella predefinita per la specialità del medico
     let resolvedRoomId: string | null = roomId || null;
@@ -333,7 +342,7 @@ export async function POST(req: Request) {
     const { data: docConflicts } = await supabase
       .from("appointments")
       .select("id")
-      .eq("doctor_id", doctorId)
+      .eq("doctor_id", actualDoctorId)
       .neq("status", "annullato")
       .lt("starts_at", endsAt)
       .gt("ends_at", startsAt);
@@ -434,7 +443,7 @@ export async function POST(req: Request) {
     const { data: appointment, error: aError } = await supabase
       .from("appointments")
       .insert({
-        doctor_id: doctorId,
+        doctor_id: actualDoctorId,
         room_id: resolvedRoomId,
         service_id: validServiceId,
         patient_id: patientId,

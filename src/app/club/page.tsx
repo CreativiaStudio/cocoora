@@ -83,7 +83,7 @@ export default function ClubPage() {
             </h2>
             <p className="mx-auto mt-3 max-w-2xl text-sm text-charcoal/70">
               Attivabili esclusivamente in abbinamento a un Percorso Salute con
-              quota pari o superiore ad Access (€99 / anno). Non attivabili su
+              quota pari o superiore ad Access (€149 / anno). Non attivabili su
               profilo Discover Free.
             </p>
           </div>

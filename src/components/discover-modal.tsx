@@ -14,10 +14,11 @@ export function DiscoverModal() {
   const [privacyAccepted, setPrivacyAccepted] = useState(false);
   const [trackingAccepted, setTrackingAccepted] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   if (!discoverOpen) return null;
 
-  const submit = (e: FormEvent) => {
+  const submit = async (e: FormEvent) => {
     e.preventDefault();
     if (!form.nome.trim() || !form.email.trim() || !form.telefono.trim()) {
       setError("Compila tutti i campi per generare il tuo profilo.");
@@ -28,9 +29,37 @@ export function DiscoverModal() {
       return;
     }
     setError("");
-    trackLead({ email: form.email, name: form.nome });
-    setProfileId(`CCR-${Math.random().toString(36).slice(2, 8).toUpperCase()}`);
-    setDone(true);
+    setLoading(true);
+
+    try {
+      trackLead({ email: form.email, name: form.nome });
+
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          tierId: "discover",
+          lead: {
+            nome: form.nome.trim(),
+            email: form.email.trim(),
+            telefono: form.telefono.trim(),
+          },
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || "Impossibile completare la registrazione al Club.");
+      }
+
+      setProfileId(data.patientCode || `CCR-${Math.random().toString(36).slice(2, 8).toUpperCase()}`);
+      setDone(true);
+    } catch (err: unknown) {
+      console.error("Errore registrazione Discover:", err);
+      setError(err instanceof Error ? err.message : "Errore durante l'iscrizione. Riprova.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const reset = () => {
@@ -129,8 +158,8 @@ export function DiscoverModal() {
                 </label>
               </div>
               {error && <p className="text-sm text-red-500">{error}</p>}
-              <Button type="submit" className="w-full" size="lg">
-                Iscriviti al Club
+              <Button type="submit" className="w-full" size="lg" disabled={loading}>
+                {loading ? "Attivazione profilo in corso..." : "Iscriviti al Club"}
               </Button>
             </form>
           </>
