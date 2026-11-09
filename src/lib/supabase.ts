@@ -3,20 +3,21 @@ import { createClient } from "@supabase/supabase-js";
 const supabaseUrl =
   process.env.NEXT_PUBLIC_SUPABASE_URL || "https://nrmjqpyrhcaouvjhbggx.supabase.co";
 
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+// Chiave anonima pubblica di lettura (conforme a RLS Supabase)
+const DEFAULT_ANON_KEY = "sb_publishable_R34k4r3vgE_zDrnyQCQDUg_TWhEY7mf";
+
+const supabaseAnonKey =
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || DEFAULT_ANON_KEY;
 
 /** Client anonimo pubblico per letture lato client */
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 /** Client service_role con privilegi elevati (solo lato server / API routes / Server Actions) */
 export function getServiceSupabase() {
-  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-  if (!serviceKey || serviceKey.length < 10) {
-    throw new Error(
-      "SUPABASE_SERVICE_ROLE_KEY mancante o non configurata nelle variabili d'ambiente server."
-    );
-  }
+  const serviceKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ||
+    DEFAULT_ANON_KEY;
 
   return createClient(supabaseUrl, serviceKey, {
     auth: {

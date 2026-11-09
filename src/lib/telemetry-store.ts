@@ -1,5 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
+import os from "os";
 
 export interface TelemetryEvent {
   type: "page_view" | "time_on_page" | "cta_click";
@@ -22,7 +23,10 @@ export interface TelemetryAggregatedStats {
   recentVisits: { pathname: string; timestamp: string; device: string }[];
 }
 
-const STATS_FILE_PATH = path.join(process.cwd(), "scratch", "telemetry-stats.json");
+const STATS_FILE_PATH =
+  process.env.VERCEL || process.env.NODE_ENV === "production"
+    ? path.join(os.tmpdir(), "cocoora-telemetry-stats.json")
+    : path.join(process.cwd(), "scratch", "telemetry-stats.json");
 
 interface InDiskStats {
   pageViewsByPath: Record<string, number>;

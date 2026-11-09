@@ -1,5 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
+import os from "os";
 
 export interface TrackingConfig {
   gaMeasurementId: string;
@@ -24,7 +25,10 @@ const DEFAULT_CONFIG: TrackingConfig = {
 // In-memory cache per performance elevate lato server
 let cachedConfig: TrackingConfig | null = null;
 
-const CONFIG_FILE_PATH = path.join(process.cwd(), "scratch", "tracking-config.json");
+const CONFIG_FILE_PATH =
+  process.env.VERCEL || process.env.NODE_ENV === "production"
+    ? path.join(os.tmpdir(), "cocoora-tracking-config.json")
+    : path.join(process.cwd(), "scratch", "tracking-config.json");
 
 export async function getTrackingConfig(): Promise<TrackingConfig> {
   if (cachedConfig) {
