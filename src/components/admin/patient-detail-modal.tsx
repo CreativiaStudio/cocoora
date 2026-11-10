@@ -261,9 +261,16 @@ export function PatientDetailModal({
                 <span className="rounded-full bg-teal-500/20 px-2.5 py-0.5 text-xs font-mono font-semibold text-teal-300 border border-teal-500/40">
                   {patient.patient_code}
                 </span>
-                <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[11px] font-semibold text-emerald-300 border border-emerald-500/30">
-                  Paziente Attivo
-                </span>
+                {patient.last_name?.includes("(demo)") || patient.notes?.includes("demo") ? (
+                  <span className="rounded-full bg-amber-500/30 px-2.5 py-0.5 text-[11px] font-bold text-amber-300 border border-amber-400/50">
+                    PROFILO DEMO TEST
+                  </span>
+                ) : (
+                  <span className="rounded-full bg-emerald-500/20 px-2.5 py-0.5 text-[11px] font-semibold text-emerald-300 border border-emerald-500/30 flex items-center gap-1">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    PAZIENTE REALE LIVE
+                  </span>
+                )}
               </div>
               <p className="text-xs text-slate-300 mt-1 flex flex-wrap items-center gap-3">
                 <span>Codice Fiscale: <strong className="text-white font-mono">{patient.fiscal_code || "Non specificato"}</strong></span>

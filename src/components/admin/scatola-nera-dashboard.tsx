@@ -126,13 +126,34 @@ export function ScatolaNeraDashboard() {
           <div className="flex items-center gap-3">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-800 border border-emerald-200">
               <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
-              100% Dati Interni · Zero Tool Terzi
+              100% Dati Reali Supabase · Zero Mock
             </span>
             <Button size="sm" variant="outline" onClick={fetchData} className="gap-1.5 text-xs">
               <RefreshCw className={`h-3 w-3 ${loading ? "animate-spin" : ""}`} />
               Aggiorna Telemetria
             </Button>
           </div>
+        </div>
+
+        {/* Banner Stato Live Scatola Nera */}
+        <div className="mt-3.5 rounded-xl border border-teal-200 bg-teal-50/70 p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-teal-950">
+          <div className="flex items-center gap-2">
+            <span className="relative flex h-2.5 w-2.5 shrink-0">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-600"></span>
+            </span>
+            <span className="font-semibold">
+              Scatola Nera Attiva:
+            </span>
+            <span className="text-teal-800">
+              {webStats.totalPageViews === 0
+                ? `Ledger collegato a ${rawLogs.length} eventi operativi su PostgreSQL. In attesa di traffico web reale (Zero dati simulati).`
+                : `${webStats.uniqueVisitors} visitatori unici reali · ${webStats.totalPageViews} pagine viste registrate.`}
+            </span>
+          </div>
+          <span className="text-[10px] font-mono bg-white/90 border border-teal-200 px-2 py-0.5 rounded text-teal-800 self-start sm:self-auto">
+            Fonte: crm_audit_log
+          </span>
         </div>
 
         {/* ── SUB-TAB NAVIGATOR ────────────────────────────────────────── */}
@@ -198,21 +219,21 @@ export function ScatolaNeraDashboard() {
             />
             <KpiCard
               label="Attesa Media in Sala"
-              value={`${clinicalStats.avgWaitMinutes} min`}
+              value={clinicalStats.avgWaitMinutes > 0 ? `${clinicalStats.avgWaitMinutes} min` : "In calcolo"}
               sub="Accoglienza al banco"
               icon={<Timer className="h-4 w-4 text-amber-700" />}
               color="amber"
             />
             <KpiCard
               label="Durata Media Visita"
-              value={`${clinicalStats.avgDurationMinutes} min`}
+              value={clinicalStats.avgDurationMinutes > 0 ? `${clinicalStats.avgDurationMinutes} min` : "In calcolo"}
               sub="Nello studio medico"
               icon={<Stethoscope className="h-4 w-4 text-emerald-700" />}
               color="emerald"
             />
             <KpiCard
               label="Iscrizioni &amp; Acquisti"
-              value={webStats.ecommerce.purchases + 12}
+              value={webStats.ecommerce.purchases}
               sub="Club Discover + Stripe"
               icon={<CreditCard className="h-4 w-4 text-indigo-700" />}
               color="indigo"
@@ -327,30 +348,36 @@ export function ScatolaNeraDashboard() {
               </div>
 
               <div className="mt-4 divide-y divide-slate-100">
-                {webStats.topPages.map((page: any, i: number) => (
-                  <div key={page.path} className="py-3 flex items-center justify-between hover:bg-slate-50/60 p-2 rounded-xl transition-colors text-xs">
-                    <div className="flex items-center gap-3">
-                      <span className="flex h-6 w-6 items-center justify-center rounded-md bg-slate-100 text-slate-700 font-bold text-[11px]">
-                        {i + 1}
-                      </span>
-                      <div>
-                        <p className="font-bold text-slate-900">{page.path}</p>
-                        <p className="text-[11px] text-slate-500">
-                          {page.views} visualizzazioni uniche
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-6">
-                      <div className="text-right">
-                        <span className="text-[10px] text-slate-400 block uppercase font-semibold">Permanenza</span>
-                        <span className="font-mono font-bold text-teal-800">
-                          {formatSeconds(page.avgDuration)}
-                        </span>
-                      </div>
-                    </div>
+                {webStats.topPages.length === 0 ? (
+                  <div className="py-8 text-center text-xs text-slate-400">
+                    Nessuna pagina registrata finora. La telemetria registrerà le visite non appena gli utenti navigano sul sito.
                   </div>
-                ))}
+                ) : (
+                  webStats.topPages.map((page: any, i: number) => (
+                    <div key={page.path} className="py-3 flex items-center justify-between hover:bg-slate-50/60 p-2 rounded-xl transition-colors text-xs">
+                      <div className="flex items-center gap-3">
+                        <span className="flex h-6 w-6 items-center justify-center rounded-md bg-slate-100 text-slate-700 font-bold text-[11px]">
+                          {i + 1}
+                        </span>
+                        <div>
+                          <p className="font-bold text-slate-900">{page.path}</p>
+                          <p className="text-[11px] text-slate-500">
+                            {page.views} visualizzazioni uniche
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-6">
+                        <div className="text-right">
+                          <span className="text-[10px] text-slate-400 block uppercase font-semibold">Permanenza</span>
+                          <span className="font-mono font-bold text-teal-800">
+                            {formatSeconds(page.avgDuration)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
             </div>
 
@@ -367,17 +394,23 @@ export function ScatolaNeraDashboard() {
               </div>
 
               <div className="space-y-3 pt-2">
-                {webStats.ctaClicks.map((cta: any) => (
-                  <div key={cta.id} className="rounded-xl border border-slate-100 bg-slate-50/70 p-3 flex items-center justify-between">
-                    <div>
-                      <p className="text-xs font-bold text-slate-900">{cta.label}</p>
-                      <p className="text-[10px] font-mono text-slate-400">{cta.id}</p>
-                    </div>
-                    <span className="rounded-full bg-teal-100 px-3 py-1 font-mono text-xs font-bold text-teal-900">
-                      {cta.count} click
-                    </span>
+                {webStats.ctaClicks.length === 0 ? (
+                  <div className="py-6 text-center text-xs text-slate-400">
+                    Nessun clic su CTA registrato al momento.
                   </div>
-                ))}
+                ) : (
+                  webStats.ctaClicks.map((cta: any) => (
+                    <div key={cta.id} className="rounded-xl border border-slate-100 bg-slate-50/70 p-3 flex items-center justify-between">
+                      <div>
+                        <p className="text-xs font-bold text-slate-900">{cta.label}</p>
+                        <p className="text-[10px] font-mono text-slate-400">{cta.id}</p>
+                      </div>
+                      <span className="rounded-full bg-teal-100 px-3 py-1 font-mono text-xs font-bold text-teal-900">
+                        {cta.count} click
+                      </span>
+                    </div>
+                  ))
+                )}
               </div>
 
               {/* Ripartizione Device */}
@@ -487,7 +520,18 @@ export function ScatolaNeraDashboard() {
                     .map((j: any) => (
                       <tr key={j.id} className="hover:bg-slate-50/70 transition-colors">
                         <td className="py-3 font-bold text-slate-900">
-                          {j.patientName}
+                          <div className="flex items-center gap-1.5">
+                            <span>{j.patientName}</span>
+                            {j.patientName?.includes("(demo)") ? (
+                              <span className="rounded bg-amber-100 text-amber-900 border border-amber-300 px-1.5 py-0.2 text-[9px] font-bold">
+                                DEMO
+                              </span>
+                            ) : (
+                              <span className="rounded bg-emerald-100 text-emerald-800 border border-emerald-300 px-1.5 py-0.2 text-[9px] font-bold">
+                                REALE
+                              </span>
+                            )}
+                          </div>
                           <span className="block text-[10px] font-mono font-normal text-slate-500">
                             {j.patientCode}
                           </span>
@@ -547,34 +591,43 @@ export function ScatolaNeraDashboard() {
             </p>
 
             <div className="mt-6 grid grid-cols-1 sm:grid-cols-4 gap-4">
-              <FunnelStep
-                step="1"
-                title="Pagine Club Visitate"
-                count={webStats.topPages.find((p: any) => p.path === "/club")?.views || 245}
-                pct="100%"
-                color="border-teal-300 bg-teal-50/50"
-              />
-              <FunnelStep
-                step="2"
-                title="Aperture Cassa / Drawer"
-                count={webStats.ecommerce.cartAdds}
-                pct={`${Math.round((webStats.ecommerce.cartAdds / 245) * 100)}%`}
-                color="border-blue-300 bg-blue-50/50"
-              />
-              <FunnelStep
-                step="3"
-                title="Checkout Stripe Avviati"
-                count={webStats.ecommerce.checkouts}
-                pct={`${Math.round((webStats.ecommerce.checkouts / 245) * 100)}%`}
-                color="border-purple-300 bg-purple-50/50"
-              />
-              <FunnelStep
-                step="4"
-                title="Iscrizioni &amp; Acquisti Saldati"
-                count={webStats.ecommerce.purchases}
-                pct={`${Math.round((webStats.ecommerce.purchases / 245) * 100)}%`}
-                color="border-emerald-400 bg-emerald-50"
-              />
+              {(() => {
+                const clubViews = webStats.topPages.find((p: any) => p.path === "/club")?.views || 0;
+                const calcPct = (val: number) => (clubViews > 0 ? `${Math.min(100, Math.round((val / clubViews) * 100))}%` : "0%");
+
+                return (
+                  <>
+                    <FunnelStep
+                      step="1"
+                      title="Pagine Club Visitate"
+                      count={clubViews}
+                      pct={clubViews > 0 ? "100%" : "0%"}
+                      color="border-teal-300 bg-teal-50/50"
+                    />
+                    <FunnelStep
+                      step="2"
+                      title="Aperture Cassa / Drawer"
+                      count={webStats.ecommerce.cartAdds}
+                      pct={calcPct(webStats.ecommerce.cartAdds)}
+                      color="border-blue-300 bg-blue-50/50"
+                    />
+                    <FunnelStep
+                      step="3"
+                      title="Checkout Stripe Avviati"
+                      count={webStats.ecommerce.checkouts}
+                      pct={calcPct(webStats.ecommerce.checkouts)}
+                      color="border-purple-300 bg-purple-50/50"
+                    />
+                    <FunnelStep
+                      step="4"
+                      title="Iscrizioni &amp; Acquisti Saldati"
+                      count={webStats.ecommerce.purchases}
+                      pct={calcPct(webStats.ecommerce.purchases)}
+                      color="border-emerald-400 bg-emerald-50"
+                    />
+                  </>
+                );
+              })()}
             </div>
 
             {/* Dettaglio Routing Entità Contabili */}

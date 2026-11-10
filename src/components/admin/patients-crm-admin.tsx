@@ -29,7 +29,7 @@ export function PatientsCrmAdmin({ onOpenCassa }: PatientsCrmAdminProps) {
   const [installments, setInstallments] = useState<any[]>([]);
   const [plans, setPlans] = useState<any[]>([]);
   const [search, setSearch] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState<"tutti" | "clinici" | "lead">("tutti");
+  const [categoryFilter, setCategoryFilter] = useState<"tutti" | "live" | "demo" | "clinici" | "lead">("tutti");
   const [selectedPatient, setSelectedPatient] = useState<any | null>(null);
 
   const fetchData = async () => {
@@ -85,6 +85,15 @@ export function PatientsCrmAdmin({ onOpenCassa }: PatientsCrmAdminProps) {
     fetchData();
   }, []);
 
+  const isDemo = (p: any) =>
+    Boolean(
+      p.last_name?.toLowerCase().includes("(demo)") ||
+      p.first_name?.toLowerCase().includes("(demo)") ||
+      p.notes?.toLowerCase().includes("demo") ||
+      p.email?.includes("@email.it") ||
+      p.email?.includes("@example.com")
+    );
+
   const isLead = (p: any) =>
     (p.notes && (
       p.notes.toLowerCase().includes("lead") ||
@@ -93,6 +102,11 @@ export function PatientsCrmAdmin({ onOpenCassa }: PatientsCrmAdminProps) {
       p.notes.toLowerCase().includes("form")
     )) ||
     (!p.fiscal_code && p.patient_code?.startsWith("COC-"));
+
+  const totalDemo = patients.filter(isDemo).length;
+  const totalLive = patients.filter((p) => !isDemo(p)).length;
+  const totalLeads = patients.filter(isLead).length;
+  const totalClinici = patients.filter((p) => !isLead(p)).length;
 
   const filteredPatients = patients.filter((p) => {
     const q = search.toLowerCase();
@@ -105,13 +119,12 @@ export function PatientsCrmAdmin({ onOpenCassa }: PatientsCrmAdminProps) {
       p.phone?.toLowerCase().includes(q);
 
     if (!matchesSearch) return false;
+    if (categoryFilter === "live") return !isDemo(p);
+    if (categoryFilter === "demo") return isDemo(p);
     if (categoryFilter === "clinici") return !isLead(p);
     if (categoryFilter === "lead") return isLead(p);
     return true;
   });
-
-  const totalLeads = patients.filter(isLead).length;
-  const totalClinici = patients.filter((p) => !isLead(p)).length;
 
   return (
     <div className="space-y-6">
@@ -151,7 +164,7 @@ export function PatientsCrmAdmin({ onOpenCassa }: PatientsCrmAdminProps) {
         </div>
 
         {/* Filtri Categoria Rapidi */}
-        <div className="flex items-center gap-2 pt-3 pb-1">
+        <div className="flex flex-wrap items-center gap-2 pt-3 pb-1">
           <button
             type="button"
             onClick={() => setCategoryFilter("tutti")}
@@ -162,6 +175,29 @@ export function PatientsCrmAdmin({ onOpenCassa }: PatientsCrmAdminProps) {
             }`}
           >
             Tutti ({patients.length})
+          </button>
+          <button
+            type="button"
+            onClick={() => setCategoryFilter("live")}
+            className={`rounded-full px-3 py-1 text-xs font-semibold transition-all flex items-center gap-1.5 ${
+              categoryFilter === "live"
+                ? "bg-emerald-700 text-white shadow-2xs"
+                : "bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100"
+            }`}
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            Pazienti &amp; Lead Reali Live ({totalLive})
+          </button>
+          <button
+            type="button"
+            onClick={() => setCategoryFilter("demo")}
+            className={`rounded-full px-3 py-1 text-xs font-semibold transition-all ${
+              categoryFilter === "demo"
+                ? "bg-amber-600 text-white shadow-2xs"
+                : "bg-amber-50 text-amber-900 border border-amber-300 hover:bg-amber-100"
+            }`}
+          >
+            Dati Demo ({totalDemo})
           </button>
           <button
             type="button"
@@ -179,8 +215,8 @@ export function PatientsCrmAdmin({ onOpenCassa }: PatientsCrmAdminProps) {
             onClick={() => setCategoryFilter("lead")}
             className={`rounded-full px-3 py-1 text-xs font-semibold transition-all ${
               categoryFilter === "lead"
-                ? "bg-emerald-800 text-white shadow-2xs"
-                : "bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100"
+                ? "bg-sky-800 text-white shadow-2xs"
+                : "bg-sky-50 text-sky-800 border border-sky-200 hover:bg-sky-100"
             }`}
           >
             Lead Web &amp; Iscritti Club ({totalLeads})
@@ -228,8 +264,18 @@ export function PatientsCrmAdmin({ onOpenCassa }: PatientsCrmAdminProps) {
                         <span className="rounded-md bg-slate-100 px-2 py-0.5 text-[10px] font-mono font-semibold text-slate-700">
                           {p.patient_code}
                         </span>
+                        {isDemo(p) ? (
+                          <span className="rounded-full bg-amber-100 text-amber-900 border border-amber-300 text-[10px] font-bold px-2 py-0.5">
+                            DEMO
+                          </span>
+                        ) : (
+                          <span className="rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300 text-[10px] font-bold px-2 py-0.5 flex items-center gap-1">
+                            <span className="h-1.5 w-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
+                            LIVE REALE
+                          </span>
+                        )}
                         {isLead(p) && (
-                          <span className="rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold px-2 py-0.5 border border-emerald-200">
+                          <span className="rounded-full bg-sky-100 text-sky-800 text-[10px] font-bold px-2 py-0.5 border border-sky-200">
                             Lead Web / Club
                           </span>
                         )}

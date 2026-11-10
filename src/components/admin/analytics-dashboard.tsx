@@ -103,7 +103,7 @@ export function AnalyticsDashboard() {
                   {stats.uniqueVisitors.toLocaleString("it-IT")}
                 </p>
                 <p className="mt-1 text-[11px] text-charcoal/60">
-                  Sessioni distinte stimate
+                  Hash univoci reali (GDPR)
                 </p>
               </div>
 
@@ -155,22 +155,28 @@ export function AnalyticsDashboard() {
                       <span className="w-16 text-right">Tempo</span>
                     </div>
                   </div>
-                  {stats.topPages.map((p) => (
-                    <div
-                      key={p.path}
-                      className="flex items-center justify-between p-2.5 hover:bg-teal-50/30 transition"
-                    >
-                      <span className="font-mono text-teal-900 truncate max-w-[200px] sm:max-w-[280px]">
-                        {p.path}
-                      </span>
-                      <div className="flex items-center gap-6">
-                        <span className="font-semibold text-charcoal/80">{p.views}</span>
-                        <span className="w-16 text-right text-charcoal/60 font-mono">
-                          {formatSeconds(p.avgDuration)}
-                        </span>
-                      </div>
+                  {stats.topPages.length === 0 ? (
+                    <div className="p-6 text-center text-xs text-charcoal/50">
+                      Nessuna pagina registrata finora. La telemetria interna è attiva e registrerà le visite non appena gli utenti navigano sul sito.
                     </div>
-                  ))}
+                  ) : (
+                    stats.topPages.map((p) => (
+                      <div
+                        key={p.path}
+                        className="flex items-center justify-between p-2.5 hover:bg-teal-50/30 transition"
+                      >
+                        <span className="font-mono text-teal-900 truncate max-w-[200px] sm:max-w-[280px]">
+                          {p.path}
+                        </span>
+                        <div className="flex items-center gap-6">
+                          <span className="font-semibold text-charcoal/80">{p.views}</span>
+                          <span className="w-16 text-right text-charcoal/60 font-mono">
+                            {formatSeconds(p.avgDuration)}
+                          </span>
+                        </div>
+                      </div>
+                    ))
+                  )}
                 </div>
               </div>
 
@@ -182,19 +188,25 @@ export function AnalyticsDashboard() {
                     Punti di Conversione &amp; Click
                   </h4>
                   <div className="mt-3 space-y-2">
-                    {stats.ctaClicks.map((cta) => (
-                      <div
-                        key={cta.id}
-                        className="flex items-center justify-between rounded-xl border border-teal-50 bg-teal-50/20 p-2.5 text-xs"
-                      >
-                        <span className="font-medium text-teal-950 truncate max-w-[180px]">
-                          {cta.label}
-                        </span>
-                        <span className="rounded-full bg-teal-100 px-2.5 py-0.5 font-bold text-teal-900">
-                          {cta.count} click
-                        </span>
-                      </div>
-                    ))}
+                    {stats.ctaClicks.length === 0 ? (
+                      <p className="text-center py-4 text-xs text-charcoal/50">
+                        Nessun clic su CTA registrato al momento.
+                      </p>
+                    ) : (
+                      stats.ctaClicks.map((cta) => (
+                        <div
+                          key={cta.id}
+                          className="flex items-center justify-between rounded-xl border border-teal-50 bg-teal-50/20 p-2.5 text-xs"
+                        >
+                          <span className="font-medium text-teal-950 truncate max-w-[180px]">
+                            {cta.label}
+                          </span>
+                          <span className="rounded-full bg-teal-100 px-2.5 py-0.5 font-bold text-teal-900">
+                            {cta.count} click
+                          </span>
+                        </div>
+                      ))
+                    )}
                   </div>
                 </div>
 

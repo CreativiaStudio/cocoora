@@ -369,6 +369,16 @@ export function CashFlowManager({ onOpenPatient }: CashFlowManagerProps) {
                         <span className="rounded-md bg-slate-100 px-2 py-0.5 text-[10px] font-mono font-semibold text-slate-700">
                           {p.patient_profiles?.patient_code}
                         </span>
+                        {patientName.includes("(demo)") ? (
+                          <span className="rounded bg-amber-100 text-amber-900 border border-amber-300 text-[9px] font-bold px-1.5 py-0.2">
+                            DEMO
+                          </span>
+                        ) : (
+                          <span className="rounded bg-emerald-100 text-emerald-800 border border-emerald-300 text-[9px] font-bold px-1.5 py-0.2 flex items-center gap-1">
+                            <span className="h-1 w-1 rounded-full bg-emerald-600 animate-pulse"></span>
+                            REALE
+                          </span>
+                        )}
                       </div>
                       <p className="text-xs text-teal-900 font-medium mt-0.5 font-serif">
                         {p.title}
@@ -500,9 +510,16 @@ export function CashFlowManager({ onOpenPatient }: CashFlowManagerProps) {
                         : t.due_date || "—"}
                     </td>
                     <td className="py-3 px-3">
-                      <span className="font-bold text-slate-900 block">
-                        {t.patient_profiles?.first_name} {t.patient_profiles?.last_name}
-                      </span>
+                      <div className="flex items-center gap-1.5">
+                        <span className="font-bold text-slate-900 block">
+                          {t.patient_profiles?.first_name} {t.patient_profiles?.last_name}
+                        </span>
+                        {t.patient_profiles?.last_name?.includes("(demo)") && (
+                          <span className="rounded bg-amber-100 text-amber-900 border border-amber-300 text-[9px] font-bold px-1.5 py-0.2">
+                            DEMO
+                          </span>
+                        )}
+                      </div>
                       <span className="text-[10px] font-mono text-slate-400">
                         {t.patient_profiles?.patient_code}
                       </span>

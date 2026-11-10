@@ -102,14 +102,14 @@ export async function GET() {
       }
     }
 
-    const avgWaitMinutes = countWait > 0 ? Math.round(totalWaitMin / countWait) : 6;
-    const avgDurationMinutes = countDuration > 0 ? Math.round(totalDurationMin / countDuration) : 48;
+    const avgWaitMinutes = countWait > 0 ? Math.round(totalWaitMin / countWait) : 0;
+    const avgDurationMinutes = countDuration > 0 ? Math.round(totalDurationMin / countDuration) : 0;
 
     const doctorAverages = Object.values(doctorMetricsMap).map((d) => ({
       doctorName: d.doctorName,
       visitsCount: d.visitsCount,
-      avgWaitMinutes: d.countWait > 0 ? Math.round(d.sumWait / d.countWait) : 5,
-      avgDurationMinutes: d.countDuration > 0 ? Math.round(d.sumDuration / d.countDuration) : 45,
+      avgWaitMinutes: d.countWait > 0 ? Math.round(d.sumWait / d.countWait) : 0,
+      avgDurationMinutes: d.countDuration > 0 ? Math.round(d.sumDuration / d.countDuration) : 0,
     }));
 
     // 4. Analisi Aree di Interesse (Medicina Estetica, Odontoiatria, Visite Specialistiche, Club)

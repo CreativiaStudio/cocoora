@@ -1,6 +1,3 @@
-import { promises as fs } from "fs";
-import path from "path";
-import os from "os";
 import { getServiceSupabase } from "./supabase";
 
 export type TelemetryEventType =
@@ -19,7 +16,7 @@ export interface TelemetryEvent {
   ctaId?: string;
   ctaLabel?: string;
   device?: "mobile" | "desktop";
-  visitorHash: string; // Hash anonimizzato giornaliero (SHA-256 IP + Data + Salt)
+  visitorHash: string; // Hash anonimizzato a 1 via (SHA-256 IP + Data + Salt)
   timestamp: string;
   metadata?: Record<string, unknown>;
 }
@@ -39,131 +36,11 @@ export interface TelemetryAggregatedStats {
   };
 }
 
-const STATS_FILE_PATH =
-  process.env.VERCEL || process.env.NODE_ENV === "production"
-    ? path.join(os.tmpdir(), "cocoora-telemetry-stats.json")
-    : path.join(process.cwd(), "scratch", "telemetry-stats.json");
-
-interface InDiskStats {
-  pageViewsByPath: Record<string, number>;
-  totalTimeByPath: Record<string, { totalSeconds: number; count: number }>;
-  uniqueVisitorsSet: string[]; // array di hash anonimi
-  ctaClicksRecord: Record<string, { label: string; count: number }>;
-  devices: { mobile: number; desktop: number };
-  recentEvents: { pathname: string; timestamp: string; device: string }[];
-  ecommerceCounters: { cartAdds: number; checkouts: number; purchases: number };
-}
-
-let inMemoryStats: InDiskStats | null = null;
-
-async function loadStats(): Promise<InDiskStats> {
-  if (inMemoryStats) return inMemoryStats;
-
-  try {
-    const raw = await fs.readFile(STATS_FILE_PATH, "utf-8");
-    inMemoryStats = JSON.parse(raw);
-    return inMemoryStats!;
-  } catch {
-    inMemoryStats = {
-      pageViewsByPath: {
-        "/": 540,
-        "/club": 245,
-        "/precision": 160,
-        "/medici": 195,
-        "/trattamenti/allineatori-trasparenti": 142,
-        "/contatti": 105,
-        "/servizi/odontoiatria": 118,
-        "/servizi/medicina-estetica": 130,
-        "/servizi/diagnostica": 88,
-      },
-      totalTimeByPath: {
-        "/": { totalSeconds: 48600, count: 540 }, // ~90 sec medi
-        "/club": { totalSeconds: 36750, count: 245 }, // ~150 sec medi
-        "/precision": { totalSeconds: 28800, count: 160 }, // ~180 sec medi
-        "/medici": { totalSeconds: 15600, count: 195 }, // ~80 sec medi
-      },
-      uniqueVisitorsSet: ["anon_seed_1", "anon_seed_2", "anon_seed_3"],
-      ctaClicksRecord: {
-        "cta_prenota_header": { label: "Prenota Visita (Header)", count: 94 },
-        "cta_club_adesione": { label: "Iscrizione Cocoora Club", count: 48 },
-        "cta_whatsapp_flottante": { label: "Contatto WhatsApp Live", count: 76 },
-        "cta_chiama_telefono": { label: "Chiamata Diretta Centro", count: 41 },
-      },
-      devices: { mobile: 810, desktop: 360 },
-      recentEvents: [
-        { pathname: "/", timestamp: new Date(Date.now() - 1000 * 60 * 2).toISOString(), device: "mobile" },
-        { pathname: "/club", timestamp: new Date(Date.now() - 1000 * 60 * 5).toISOString(), device: "desktop" },
-        { pathname: "/precision", timestamp: new Date(Date.now() - 1000 * 60 * 12).toISOString(), device: "mobile" },
-      ],
-      ecommerceCounters: {
-        cartAdds: 38,
-        checkouts: 24,
-        purchases: 14,
-      },
-    };
-    return inMemoryStats!;
-  }
-}
-
-async function persistStats() {
-  if (!inMemoryStats) return;
-  try {
-    const dir = path.dirname(STATS_FILE_PATH);
-    await fs.mkdir(dir, { recursive: true });
-    await fs.writeFile(STATS_FILE_PATH, JSON.stringify(inMemoryStats, null, 2), "utf-8");
-  } catch (err) {
-    console.error("Errore salvataggio persistente telemetria su disco:", err);
-  }
-}
-
-export async function recordTelemetryEvent(event: TelemetryEvent) {
-  const stats = await loadStats();
-
-  if (event.type === "page_view") {
-    stats.pageViewsByPath[event.pathname] = (stats.pageViewsByPath[event.pathname] || 0) + 1;
-    if (!stats.uniqueVisitorsSet.includes(event.visitorHash)) {
-      stats.uniqueVisitorsSet.push(event.visitorHash);
-      if (stats.uniqueVisitorsSet.length > 5000) {
-        stats.uniqueVisitorsSet.shift();
-      }
-    }
-    if (event.device === "mobile") {
-      stats.devices.mobile += 1;
-    } else {
-      stats.devices.desktop += 1;
-    }
-    stats.recentEvents.unshift({
-      pathname: event.pathname,
-      timestamp: event.timestamp,
-      device: event.device || "desktop",
-    });
-    if (stats.recentEvents.length > 30) {
-      stats.recentEvents.pop();
-    }
-  } else if (event.type === "time_on_page" && event.durationSeconds) {
-    const entry = stats.totalTimeByPath[event.pathname] || { totalSeconds: 0, count: 0 };
-    entry.totalSeconds += Math.min(event.durationSeconds, 1800); // capped a 30m max per sessione
-    entry.count += 1;
-    stats.totalTimeByPath[event.pathname] = entry;
-  } else if (event.type === "cta_click" && event.ctaId) {
-    const entry = stats.ctaClicksRecord[event.ctaId] || {
-      label: event.ctaLabel || event.ctaId,
-      count: 0,
-    };
-    entry.count += 1;
-    stats.ctaClicksRecord[event.ctaId] = entry;
-  } else if (event.type === "cart_add") {
-    stats.ecommerceCounters.cartAdds += 1;
-  } else if (event.type === "checkout_begin") {
-    stats.ecommerceCounters.checkouts += 1;
-  } else if (event.type === "purchase") {
-    stats.ecommerceCounters.purchases += 1;
-  }
-
-  // 1. Persistenza asincrona su cache disco locale
-  persistStats().catch(() => {});
-
-  // 2. Scrittura su Scatola Nera permanente PostgreSQL (Supabase crm_audit_log)
+/**
+ * Registra un evento di telemetria proprietaria nella Scatola Nera permanente (crm_audit_log su PostgreSQL).
+ * 100% First-party, senza passare da server terzi, AdBlocker-proof e pienamente GDPR-compliant.
+ */
+export async function recordTelemetryEvent(event: TelemetryEvent): Promise<void> {
   try {
     const supabase = getServiceSupabase();
     await supabase.from("crm_audit_log").insert({
@@ -181,47 +58,144 @@ export async function recordTelemetryEvent(event: TelemetryEvent) {
         ...(event.metadata || {}),
       },
     });
-  } catch {
-    // Non blocca la pipeline
+  } catch (err) {
+    console.error("Errore scrittura telemetria interna in crm_audit_log:", err);
   }
 }
 
+/**
+ * Calcola le metriche aggregate reali interrogando DIRETTAMENTE gli eventi registrati
+ * nella tabella `crm_audit_log` (table_name = 'internal_telemetry').
+ *
+ * ZERO DATI FITTIZI / ZERO MOCK: se non ci sono eventi, i contatori valgono 0.
+ */
 export async function getAggregatedStats(): Promise<TelemetryAggregatedStats> {
-  const stats = await loadStats();
+  try {
+    const supabase = getServiceSupabase();
+    const { data: logs, error } = await supabase
+      .from("crm_audit_log")
+      .select("action, diff, created_at")
+      .eq("table_name", "internal_telemetry")
+      .order("created_at", { ascending: false })
+      .limit(5000);
 
-  let totalViews = 0;
-  const topPages: { path: string; views: number; avgDuration: number }[] = [];
+    if (error || !logs || logs.length === 0) {
+      return {
+        totalPageViews: 0,
+        uniqueVisitors: 0,
+        avgDurationSeconds: 0,
+        topPages: [],
+        ctaClicks: [],
+        deviceBreakdown: { mobile: 0, desktop: 0 },
+        recentVisits: [],
+        ecommerce: {
+          cartAdds: 0,
+          checkouts: 0,
+          purchases: 0,
+        },
+      };
+    }
 
-  for (const [pathStr, views] of Object.entries(stats.pageViewsByPath)) {
-    totalViews += views;
-    const timeData = stats.totalTimeByPath[pathStr];
-    const avgDuration =
-      timeData && timeData.count > 0 ? Math.round(timeData.totalSeconds / timeData.count) : 60;
-    topPages.push({ path: pathStr, views, avgDuration });
+    const pageViewsByPath: Record<string, number> = {};
+    const totalTimeByPath: Record<string, { totalSeconds: number; count: number }> = {};
+    const uniqueVisitorsSet = new Set<string>();
+    const ctaClicksRecord: Record<string, { label: string; count: number }> = {};
+    const devices = { mobile: 0, desktop: 0 };
+    const recentVisits: { pathname: string; timestamp: string; device: string }[] = [];
+    const ecommerce = { cartAdds: 0, checkouts: 0, purchases: 0 };
+
+    for (const log of logs) {
+      const action = log.action;
+      const diff = (log.diff || {}) as any;
+
+      if (diff.visitorHash) {
+        uniqueVisitorsSet.add(diff.visitorHash);
+      }
+
+      if (diff.device === "mobile") {
+        devices.mobile += 1;
+      } else if (diff.device === "desktop") {
+        devices.desktop += 1;
+      }
+
+      if (action === "PAGE_VIEW") {
+        const path = diff.pathname || "/";
+        pageViewsByPath[path] = (pageViewsByPath[path] || 0) + 1;
+        if (recentVisits.length < 15) {
+          recentVisits.push({
+            pathname: path,
+            timestamp: diff.timestamp || log.created_at,
+            device: diff.device || "desktop",
+          });
+        }
+      } else if (action === "TIME_ON_PAGE") {
+        const path = diff.pathname || "/";
+        const dur = typeof diff.durationSeconds === "number" ? diff.durationSeconds : 0;
+        if (dur > 0) {
+          const entry = totalTimeByPath[path] || { totalSeconds: 0, count: 0 };
+          entry.totalSeconds += dur;
+          entry.count += 1;
+          totalTimeByPath[path] = entry;
+        }
+      } else if (action === "CTA_CLICK") {
+        const ctaId = diff.ctaId || "cta_sconosciuta";
+        const ctaLabel = diff.ctaLabel || ctaId;
+        const entry = ctaClicksRecord[ctaId] || { label: ctaLabel, count: 0 };
+        entry.count += 1;
+        ctaClicksRecord[ctaId] = entry;
+      } else if (action === "CART_ADD") {
+        ecommerce.cartAdds += 1;
+      } else if (action === "CHECKOUT_BEGIN") {
+        ecommerce.checkouts += 1;
+      } else if (action === "PURCHASE") {
+        ecommerce.purchases += 1;
+      }
+    }
+
+    let totalViews = 0;
+    const topPages: { path: string; views: number; avgDuration: number }[] = [];
+    for (const [pathStr, views] of Object.entries(pageViewsByPath)) {
+      totalViews += views;
+      const timeData = totalTimeByPath[pathStr];
+      const avgDuration =
+        timeData && timeData.count > 0 ? Math.round(timeData.totalSeconds / timeData.count) : 0;
+      topPages.push({ path: pathStr, views, avgDuration });
+    }
+    topPages.sort((a, b) => b.views - a.views);
+
+    let sumSeconds = 0;
+    let countRecords = 0;
+    for (const item of Object.values(totalTimeByPath)) {
+      sumSeconds += item.totalSeconds;
+      countRecords += item.count;
+    }
+    const overallAvgDuration = countRecords > 0 ? Math.round(sumSeconds / countRecords) : 0;
+
+    const ctaClicks = Object.entries(ctaClicksRecord)
+      .map(([id, val]) => ({ id, label: val.label, count: val.count }))
+      .sort((a, b) => b.count - a.count);
+
+    return {
+      totalPageViews: totalViews,
+      uniqueVisitors: uniqueVisitorsSet.size, // CONTEGGIO REALE DEI VISITATORI UNICI DIRETTAMENTE DAL DATABASE
+      avgDurationSeconds: overallAvgDuration,
+      topPages: topPages.slice(0, 10),
+      ctaClicks,
+      deviceBreakdown: devices,
+      recentVisits,
+      ecommerce,
+    };
+  } catch (e) {
+    console.error("Errore aggregazione telemetria da Supabase crm_audit_log:", e);
+    return {
+      totalPageViews: 0,
+      uniqueVisitors: 0,
+      avgDurationSeconds: 0,
+      topPages: [],
+      ctaClicks: [],
+      deviceBreakdown: { mobile: 0, desktop: 0 },
+      recentVisits: [],
+      ecommerce: { cartAdds: 0, checkouts: 0, purchases: 0 },
+    };
   }
-
-  topPages.sort((a, b) => b.views - a.views);
-
-  let sumSeconds = 0;
-  let countRecords = 0;
-  for (const item of Object.values(stats.totalTimeByPath)) {
-    sumSeconds += item.totalSeconds;
-    countRecords += item.count;
-  }
-  const overallAvgDuration = countRecords > 0 ? Math.round(sumSeconds / countRecords) : 95;
-
-  const ctaClicks = Object.entries(stats.ctaClicksRecord)
-    .map(([id, val]) => ({ id, label: val.label, count: val.count }))
-    .sort((a, b) => b.count - a.count);
-
-  return {
-    totalPageViews: totalViews,
-    uniqueVisitors: Math.max(stats.uniqueVisitorsSet.length, Math.round(totalViews * 0.65)),
-    avgDurationSeconds: overallAvgDuration,
-    topPages: topPages.slice(0, 10),
-    ctaClicks,
-    deviceBreakdown: stats.devices,
-    recentVisits: stats.recentEvents.slice(0, 10),
-    ecommerce: stats.ecommerceCounters,
-  };
 }

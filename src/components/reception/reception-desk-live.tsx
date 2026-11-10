@@ -620,6 +620,16 @@ export function ReceptionDeskLive({ onOpenPatient, onOpenCassa }: ReceptionDeskL
                         <span className="rounded-md bg-slate-100 px-2 py-0.5 text-[10px] font-mono text-slate-700">
                           {p?.patient_code || "N/A"}
                         </span>
+                        {p?.last_name?.includes("(demo)") || p?.notes?.includes("demo") ? (
+                          <span className="rounded bg-amber-100 text-amber-900 border border-amber-300 px-1.5 py-0.2 text-[9px] font-bold">
+                            DEMO
+                          </span>
+                        ) : (
+                          <span className="rounded bg-emerald-100 text-emerald-800 border border-emerald-300 px-1.5 py-0.2 text-[9px] font-bold flex items-center gap-1">
+                            <span className="h-1 w-1 rounded-full bg-emerald-600 animate-pulse"></span>
+                            PAZIENTE REALE
+                          </span>
+                        )}
                         {app.is_first_visit && (
                           <span className="rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.2 text-[10px] font-semibold">
                             Prima Visita
