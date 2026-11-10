@@ -26,17 +26,19 @@ export function SiteChrome({ children }: { children: ReactNode }) {
     return <main>{children}</main>;
   }
 
-  // Se siamo nel pannello admin, nella segreteria o nell'area medico, escludiamo header e footer standard del sito
-  const isBackoffice =
+  // Se siamo nel pannello admin, nella segreteria, nell'area medico o nelle pagine di autenticazione/accesso dedicate, escludiamo header e footer standard del sito
+  const isBackofficeOrAuth =
     pathname.startsWith("/admin") ||
     pathname.startsWith("/segreteria") ||
-    pathname.startsWith("/medico");
+    pathname.startsWith("/medico") ||
+    pathname.startsWith("/accesso-") ||
+    pathname === "/login";
 
-  if (isBackoffice) {
+  if (isBackofficeOrAuth) {
     return (
       <>
         <SeoHead page={page} />
-        <main className="min-h-screen bg-[#f0f0f1]">{children}</main>
+        <main className="min-h-screen">{children}</main>
       </>
     );
   }

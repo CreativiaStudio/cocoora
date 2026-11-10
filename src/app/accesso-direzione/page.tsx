@@ -56,8 +56,6 @@ function DirezioneLoginForm() {
       if (response.ok && data.ok) {
         const redirectTo =
           data.redirectUrl || searchParams.get("from") || "/admin";
-        // Redirect nativo: forza il refresh completo così il cookie di sessione
-        // HttpOnly impostato dalla API viene letto dalle route protette.
         window.location.href = redirectTo;
         return;
       }
@@ -68,9 +66,12 @@ function DirezioneLoginForm() {
             "Accesso temporaneamente sospeso per troppi tentativi. Riprova più tardi."
         );
       } else if (response.status === 401) {
+        const remaining = data.remainingAttempts;
         setError(
           data.error ||
-            "Credenziali non corrette. Verifica email e password e riprova."
+            (typeof remaining === "number"
+              ? `Credenziali non valide. Tentativi rimasti: ${remaining}.`
+              : "Email o password non corretti. Verifica i dati inseriti.")
         );
       } else {
         setError(
@@ -88,11 +89,11 @@ function DirezioneLoginForm() {
   };
 
   return (
-    <div className="relative w-full max-w-md">
+    <div className="relative w-full max-w-md my-auto">
       {/* Alone luminoso dietro la card */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -inset-10 rounded-[3rem] opacity-60 blur-3xl"
+        className="pointer-events-none absolute -inset-6 rounded-[2.5rem] opacity-50 blur-2xl"
         style={{
           background:
             "radial-gradient(60% 60% at 50% 35%, rgba(197, 168, 128, 0.18) 0%, rgba(10, 55, 62, 0) 70%)",
@@ -100,12 +101,12 @@ function DirezioneLoginForm() {
       />
 
       <div
-        className="relative overflow-hidden rounded-3xl border p-8 shadow-2xl backdrop-blur-md sm:p-10"
+        className="relative overflow-hidden rounded-2xl sm:rounded-3xl border p-5 sm:p-7 shadow-2xl backdrop-blur-md"
         style={{
-          backgroundColor: "rgba(10, 55, 62, 0.92)",
+          backgroundColor: "rgba(10, 55, 62, 0.94)",
           borderColor: "rgba(197, 168, 128, 0.25)",
           boxShadow:
-            "0 24px 80px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(197, 168, 128, 0.12)",
+            "0 20px 60px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(197, 168, 128, 0.12)",
         }}
       >
         {/* Filo dorato superiore */}
@@ -121,14 +122,14 @@ function DirezioneLoginForm() {
         {/* Header */}
         <div className="flex flex-col items-center text-center">
           <div
-            className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl border"
+            className="mb-2.5 flex h-11 w-11 items-center justify-center rounded-xl border"
             style={{
               borderColor: "rgba(197, 168, 128, 0.35)",
               backgroundColor: "rgba(197, 168, 128, 0.08)",
             }}
           >
             <ShieldCheck
-              className="h-7 w-7"
+              className="h-6 w-6"
               style={{ color: "#C5A880" }}
               strokeWidth={1.6}
               aria-hidden="true"
@@ -136,7 +137,7 @@ function DirezioneLoginForm() {
           </div>
 
           <span
-            className="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.22em]"
+            className="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[9px] font-semibold uppercase tracking-[0.22em]"
             style={{
               borderColor: "rgba(197, 168, 128, 0.35)",
               backgroundColor: "rgba(197, 168, 128, 0.07)",
@@ -152,7 +153,7 @@ function DirezioneLoginForm() {
           </span>
 
           <h1
-            className="mt-5 text-2xl leading-tight font-semibold tracking-tight sm:text-3xl"
+            className="mt-2 text-xl sm:text-2xl leading-tight font-semibold tracking-tight"
             style={{
               color: "#F4EFE6",
               fontFamily: "Georgia, 'Times New Roman', serif",
@@ -162,7 +163,7 @@ function DirezioneLoginForm() {
           </h1>
 
           <p
-            className="mt-3 max-w-sm text-sm leading-relaxed"
+            className="mt-1 max-w-sm text-xs leading-relaxed"
             style={{ color: "rgba(244, 239, 230, 0.62)" }}
           >
             Controllo di Gestione, Flussi Finanziari e Scudo Legale
@@ -171,7 +172,7 @@ function DirezioneLoginForm() {
 
         {/* Badge di sicurezza */}
         <div
-          className="mt-6 flex items-start gap-2 rounded-xl border px-3.5 py-2.5 text-[11px] leading-relaxed"
+          className="mt-3 flex items-center gap-2 rounded-xl border px-3 py-1.5 text-[10px] leading-relaxed"
           style={{
             borderColor: "rgba(197, 168, 128, 0.2)",
             backgroundColor: "rgba(6, 40, 46, 0.65)",
@@ -179,13 +180,12 @@ function DirezioneLoginForm() {
           }}
         >
           <Lock
-            className="mt-0.5 h-3.5 w-3.5 shrink-0"
+            className="h-3 w-3 shrink-0"
             style={{ color: "#C5A880" }}
             aria-hidden="true"
           />
           <span>
-            🔐 Crittografia HMAC-SHA256 · Rate Limiting Anti-Brute Force (Art. 32
-            GDPR)
+            Crittografia HMAC-SHA256 · Rate Limiting (Art. 32 GDPR)
           </span>
         </div>
 
@@ -194,7 +194,7 @@ function DirezioneLoginForm() {
           <div
             role="alert"
             aria-live="assertive"
-            className="mt-5 flex items-start gap-2.5 rounded-xl border px-3.5 py-3 text-xs leading-relaxed"
+            className="mt-3 flex items-start gap-2 rounded-xl border px-3 py-2 text-xs leading-relaxed"
             style={{
               borderColor: "rgba(214, 106, 106, 0.45)",
               backgroundColor: "rgba(214, 106, 106, 0.1)",
@@ -202,7 +202,7 @@ function DirezioneLoginForm() {
             }}
           >
             <AlertTriangle
-              className="mt-0.5 h-4 w-4 shrink-0"
+              className="mt-0.5 h-3.5 w-3.5 shrink-0"
               style={{ color: "#E39C9C" }}
               aria-hidden="true"
             />
@@ -211,18 +211,18 @@ function DirezioneLoginForm() {
         ) : null}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="mt-6 space-y-5" noValidate>
+        <form onSubmit={handleSubmit} className="mt-4 space-y-3" noValidate>
           <div>
             <label
               htmlFor="direzione-email"
-              className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.16em]"
+              className="mb-1 block text-[10px] font-semibold uppercase tracking-[0.16em]"
               style={{ color: "rgba(244, 239, 230, 0.55)" }}
             >
               Email
             </label>
             <div className="relative">
               <Mail
-                className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2"
+                className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2"
                 style={{ color: "rgba(197, 168, 128, 0.75)" }}
                 aria-hidden="true"
               />
@@ -236,7 +236,7 @@ function DirezioneLoginForm() {
                 onChange={(event) => setEmail(event.target.value)}
                 required
                 disabled={loading}
-                className="w-full rounded-xl border py-3 pl-10 pr-3.5 text-sm outline-none transition disabled:cursor-not-allowed disabled:opacity-60"
+                className="w-full rounded-xl border py-2.5 pl-9 pr-3 text-xs outline-none transition disabled:cursor-not-allowed disabled:opacity-60"
                 style={{
                   backgroundColor: "rgba(6, 40, 46, 0.7)",
                   borderColor: "rgba(197, 168, 128, 0.25)",
@@ -249,14 +249,14 @@ function DirezioneLoginForm() {
           <div>
             <label
               htmlFor="direzione-password"
-              className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.16em]"
+              className="mb-1 block text-[10px] font-semibold uppercase tracking-[0.16em]"
               style={{ color: "rgba(244, 239, 230, 0.55)" }}
             >
               Password
             </label>
             <div className="relative">
               <Lock
-                className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2"
+                className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2"
                 style={{ color: "rgba(197, 168, 128, 0.75)" }}
                 aria-hidden="true"
               />
@@ -265,12 +265,12 @@ function DirezioneLoginForm() {
                 name="password"
                 type={showPassword ? "text" : "password"}
                 autoComplete="current-password"
-                placeholder="••••••••••••"
+                placeholder="Inserisci la password master"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 required
                 disabled={loading}
-                className="w-full rounded-xl border py-3 pl-10 pr-11 text-sm outline-none transition disabled:cursor-not-allowed disabled:opacity-60"
+                className="w-full rounded-xl border py-2.5 pl-9 pr-9 text-xs outline-none transition disabled:cursor-not-allowed disabled:opacity-60"
                 style={{
                   backgroundColor: "rgba(6, 40, 46, 0.7)",
                   borderColor: "rgba(197, 168, 128, 0.25)",
@@ -279,19 +279,15 @@ function DirezioneLoginForm() {
               />
               <button
                 type="button"
-                onClick={() => setShowPassword((value) => !value)}
-                aria-label={
-                  showPassword ? "Nascondi password" : "Mostra password"
-                }
-                aria-pressed={showPassword}
-                disabled={loading}
-                className="absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-lg transition hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-50"
-                style={{ color: "rgba(197, 168, 128, 0.8)" }}
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 p-1 text-xs transition"
+                style={{ color: "rgba(197, 168, 128, 0.75)" }}
+                aria-label={showPassword ? "Nascondi password" : "Mostra password"}
               >
                 {showPassword ? (
-                  <EyeOff className="h-4 w-4" aria-hidden="true" />
+                  <EyeOff className="h-3.5 w-3.5" aria-hidden="true" />
                 ) : (
-                  <Eye className="h-4 w-4" aria-hidden="true" />
+                  <Eye className="h-3.5 w-3.5" aria-hidden="true" />
                 )}
               </button>
             </div>
@@ -300,24 +296,24 @@ function DirezioneLoginForm() {
           <button
             type="submit"
             disabled={loading}
-            className="group relative flex w-full items-center justify-center gap-2.5 rounded-xl px-4 py-3.5 text-sm font-semibold tracking-wide transition hover:brightness-105 active:scale-[0.995] disabled:cursor-not-allowed disabled:opacity-70"
+            className="group relative flex w-full items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-xs font-semibold tracking-wide transition hover:brightness-105 active:scale-[0.995] disabled:cursor-not-allowed disabled:opacity-70 shadow-sm"
             style={{
               backgroundColor: "#C5A880",
               color: "#06282E",
-              boxShadow: "0 10px 30px rgba(197, 168, 128, 0.22)",
+              boxShadow: "0 8px 24px rgba(197, 168, 128, 0.22)",
             }}
           >
             {loading ? (
               <>
                 <Loader2
-                  className="h-4 w-4 animate-spin"
+                  className="h-3.5 w-3.5 animate-spin"
                   aria-hidden="true"
                 />
-                Verifica credenziali…
+                Verifica in corso…
               </>
             ) : (
               <>
-                <Lock className="h-4 w-4" aria-hidden="true" />
+                <Lock className="h-3.5 w-3.5" aria-hidden="true" />
                 Accedi al Portale Direzione
               </>
             )}
@@ -325,20 +321,20 @@ function DirezioneLoginForm() {
         </form>
 
         {/* Footer card */}
-        <div className="mt-7 flex items-center justify-between gap-4 border-t pt-5"
+        <div className="mt-4 flex items-center justify-between gap-3 border-t pt-3"
           style={{ borderColor: "rgba(197, 168, 128, 0.15)" }}
         >
           <Link
             href="/"
-            className="inline-flex items-center gap-1.5 text-xs transition hover:opacity-80"
+            className="inline-flex items-center gap-1 text-xs transition hover:opacity-80"
             style={{ color: "rgba(244, 239, 230, 0.55)" }}
           >
-            <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
+            <ArrowLeft className="h-3 w-3" aria-hidden="true" />
             Torna al sito
           </Link>
 
           <span
-            className="text-[10px] uppercase tracking-[0.18em]"
+            className="text-[9px] uppercase tracking-[0.18em]"
             style={{ color: "rgba(197, 168, 128, 0.55)" }}
           >
             Sessione protetta
@@ -353,7 +349,7 @@ function LoginFallback() {
   return (
     <div className="w-full max-w-md">
       <div
-        className="flex flex-col items-center justify-center gap-4 rounded-3xl border p-10"
+        className="flex flex-col items-center justify-center gap-3 rounded-2xl border p-8"
         style={{
           backgroundColor: "rgba(10, 55, 62, 0.92)",
           borderColor: "rgba(197, 168, 128, 0.25)",
@@ -378,7 +374,7 @@ function LoginFallback() {
 export default function Page() {
   return (
     <main
-      className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-12"
+      className="relative flex h-screen max-h-screen w-screen items-center justify-center overflow-hidden p-3 sm:p-4"
       style={{
         backgroundColor: "#06282E",
         backgroundImage:
@@ -405,7 +401,7 @@ export default function Page() {
       </Suspense>
 
       <p
-        className="absolute bottom-5 left-0 right-0 text-center text-[10px] uppercase tracking-[0.24em]"
+        className="absolute bottom-3 left-0 right-0 text-center text-[9px] uppercase tracking-[0.24em]"
         style={{ color: "rgba(244, 239, 230, 0.28)" }}
       >
         Cocoora — Accesso riservato alla Direzione

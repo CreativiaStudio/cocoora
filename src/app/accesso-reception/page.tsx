@@ -70,87 +70,88 @@ function DeskLoginContent() {
 
   return (
     <main
-      className="relative flex min-h-screen items-center justify-center px-4 py-10 sm:px-6"
+      className="relative flex h-screen max-h-screen w-screen items-center justify-center p-3 sm:p-4 overflow-hidden"
       style={{
         backgroundColor: "#FAF8F5",
         backgroundImage:
           "radial-gradient(1100px 520px at 50% -120px, #F3EFEA 0%, #FAF8F5 62%, #FAF8F5 100%)",
       }}
     >
-      <div className="w-full max-w-md">
-        <div className="rounded-3xl border border-[#E8E2DA] bg-white p-7 shadow-[0_24px_70px_-32px_rgba(15,76,92,0.35)] sm:p-9">
-          <div className="flex items-start justify-between gap-4">
+      <div className="w-full max-w-md my-auto">
+        <div className="rounded-2xl sm:rounded-3xl border border-[#E8E2DA] bg-white p-5 sm:p-7 shadow-[0_20px_60px_-30px_rgba(15,76,92,0.35)]">
+          {/* Header icon + badge */}
+          <div className="flex items-center justify-between gap-3">
             <div
-              className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl"
+              className="relative flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
               style={{
                 backgroundColor: "#EAF3F1",
                 border: "1px solid #D3E5E1",
               }}
             >
               <Users
-                className="h-7 w-7"
+                className="h-5 w-5"
                 style={{ color: "#0F4C5C" }}
                 strokeWidth={1.8}
                 aria-hidden="true"
               />
-              <span className="absolute -bottom-0.5 -right-0.5 flex h-3.5 w-3.5">
+              <span className="absolute -bottom-0.5 -right-0.5 flex h-3 w-3">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-70" />
-                <span className="relative inline-flex h-3.5 w-3.5 rounded-full border-2 border-white bg-emerald-500" />
+                <span className="relative inline-flex h-3 w-3 rounded-full border-2 border-white bg-emerald-500" />
               </span>
             </div>
 
-            <div className="flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5">
+            <div className="flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1">
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
               </span>
-              <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-emerald-700">
+              <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-emerald-700">
                 Postazione Desk Attiva
               </span>
             </div>
           </div>
 
-          <div className="mt-6">
+          {/* Title & subtitle */}
+          <div className="mt-3.5">
             <h1
-              className="font-serif text-3xl leading-tight sm:text-[2rem]"
+              className="font-serif text-2xl font-bold leading-tight sm:text-[1.65rem]"
               style={{ color: "#0F4C5C" }}
             >
               Desk &amp; Accoglienza Pazienti
             </h1>
             <p
-              className="mt-2.5 text-sm leading-relaxed"
+              className="mt-1 text-xs leading-relaxed"
               style={{ color: "#5B6470" }}
             >
-              Check-in Pazienti, Gestione Flussi Sala d&apos;Attesa e Pagamenti
-              in Sede
+              Check-in Pazienti, Gestione Flussi Sala d&apos;Attesa e Pagamenti in Sede
             </p>
           </div>
 
+          {/* Info pill */}
           <div
-            className="mt-6 rounded-2xl border px-4 py-3.5"
+            className="mt-3 rounded-xl border px-3 py-2"
             style={{ backgroundColor: "#F1F7F4", borderColor: "#D8E8DF" }}
           >
             <p
-              className="text-[13px] leading-relaxed"
+              className="text-[11px] leading-relaxed"
               style={{ color: "#2F5A4C" }}
             >
-              📋 Postazione abilitata per l&apos;accettazione dei pazienti in
-              arrivo, chiamata in ambulatorio ed emissione ricevute immediate.
+              📋 Accettazione pazienti in arrivo, chiamata in studio e cassa.
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="mt-7 space-y-5">
+          <form onSubmit={handleSubmit} className="mt-4 space-y-3">
             <div>
               <label
                 htmlFor="desk-email"
-                className="mb-2 block text-[13px] font-semibold"
+                className="mb-1 block text-xs font-semibold"
                 style={{ color: "#0F4C5C" }}
               >
                 Email Segreteria
               </label>
               <div className="relative">
                 <Mail
-                  className="pointer-events-none absolute left-3.5 top-1/2 h-[18px] w-[18px] -translate-y-1/2"
+                  className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2"
                   style={{ color: "#7C8B96" }}
                   strokeWidth={1.8}
                   aria-hidden="true"
@@ -166,7 +167,7 @@ function DeskLoginContent() {
                   onChange={(event) => setEmail(event.target.value)}
                   required
                   disabled={isLoading}
-                  className="h-12 w-full rounded-xl border border-[#DCD5CC] bg-white pl-11 pr-4 text-[15px] text-[#2A2F33] outline-none transition placeholder:text-[#9AA5AE] focus:border-[#0F4C5C] focus:ring-4 focus:ring-[#0F4C5C]/10 disabled:opacity-60"
+                  className="h-10.5 w-full rounded-xl border border-[#DCD5CC] bg-white pl-10 pr-3 text-sm text-[#2A2F33] outline-none transition placeholder:text-[#9AA5AE] focus:border-[#0F4C5C] focus:ring-3 focus:ring-[#0F4C5C]/10 disabled:opacity-60"
                 />
               </div>
             </div>
@@ -174,14 +175,14 @@ function DeskLoginContent() {
             <div>
               <label
                 htmlFor="desk-password"
-                className="mb-2 block text-[13px] font-semibold"
+                className="mb-1 block text-xs font-semibold"
                 style={{ color: "#0F4C5C" }}
               >
                 Password Desk
               </label>
               <div className="relative">
                 <Lock
-                  className="pointer-events-none absolute left-3.5 top-1/2 h-[18px] w-[18px] -translate-y-1/2"
+                  className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2"
                   style={{ color: "#7C8B96" }}
                   strokeWidth={1.8}
                   aria-hidden="true"
@@ -196,7 +197,7 @@ function DeskLoginContent() {
                   onChange={(event) => setPassword(event.target.value)}
                   required
                   disabled={isLoading}
-                  className="h-12 w-full rounded-xl border border-[#DCD5CC] bg-white pl-11 pr-12 text-[15px] text-[#2A2F33] outline-none transition placeholder:text-[#9AA5AE] focus:border-[#0F4C5C] focus:ring-4 focus:ring-[#0F4C5C]/10 disabled:opacity-60"
+                  className="h-10.5 w-full rounded-xl border border-[#DCD5CC] bg-white pl-10 pr-10 text-sm text-[#2A2F33] outline-none transition placeholder:text-[#9AA5AE] focus:border-[#0F4C5C] focus:ring-3 focus:ring-[#0F4C5C]/10 disabled:opacity-60"
                 />
                 <button
                   type="button"
@@ -205,13 +206,13 @@ function DeskLoginContent() {
                     showPassword ? "Nascondi password" : "Mostra password"
                   }
                   aria-pressed={showPassword}
-                  className="absolute right-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-lg transition hover:bg-[#F1F5F6] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0F4C5C]/30"
+                  className="absolute right-1.5 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-lg transition hover:bg-[#F1F5F6]"
                   style={{ color: "#7C8B96" }}
                 >
                   {showPassword ? (
-                    <EyeOff className="h-[18px] w-[18px]" strokeWidth={1.8} />
+                    <EyeOff className="h-4 w-4" strokeWidth={1.8} />
                   ) : (
-                    <Eye className="h-[18px] w-[18px]" strokeWidth={1.8} />
+                    <Eye className="h-4 w-4" strokeWidth={1.8} />
                   )}
                 </button>
               </div>
@@ -221,7 +222,7 @@ function DeskLoginContent() {
               <div
                 role="alert"
                 aria-live="polite"
-                className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-[13px] leading-relaxed text-red-700"
+                className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-xs leading-relaxed text-red-700"
               >
                 {error}
               </div>
@@ -230,13 +231,13 @@ function DeskLoginContent() {
             <button
               type="submit"
               disabled={isLoading}
-              className="flex h-12 w-full items-center justify-center gap-2.5 rounded-xl text-[15px] font-semibold text-white transition hover:brightness-110 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#0F4C5C]/25 disabled:cursor-not-allowed disabled:opacity-70"
+              className="flex h-11 w-full items-center justify-center gap-2 rounded-xl text-sm font-semibold text-white transition hover:brightness-110 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#0F4C5C]/25 disabled:cursor-not-allowed disabled:opacity-70 shadow-sm"
               style={{ backgroundColor: "#0F4C5C" }}
             >
               {isLoading ? (
                 <>
                   <Loader2
-                    className="h-[18px] w-[18px] animate-spin"
+                    className="h-4 w-4 animate-spin"
                     aria-hidden="true"
                   />
                   Avvio sessione in corso…
@@ -247,22 +248,22 @@ function DeskLoginContent() {
             </button>
           </form>
 
-          <div className="mt-6 flex items-center justify-between gap-4 border-t border-[#EFEAE3] pt-5">
+          <div className="mt-4 flex items-center justify-between gap-3 border-t border-[#EFEAE3] pt-3">
             <a
               href="/"
-              className="inline-flex items-center gap-1.5 text-[13px] font-medium transition hover:opacity-70"
+              className="inline-flex items-center gap-1.5 text-xs font-medium transition hover:opacity-70"
               style={{ color: "#7C8B96" }}
             >
-              <ArrowLeft className="h-4 w-4" strokeWidth={1.8} />
+              <ArrowLeft className="h-3.5 w-3.5" strokeWidth={1.8} />
               Torna al sito
             </a>
-            <span className="text-[11px] text-[#9AA5AE]">
-              Accesso riservato al personale autorizzato
+            <span className="text-[10px] text-[#9AA5AE]">
+              Accesso riservato autorizzato
             </span>
           </div>
         </div>
 
-        <p className="mt-6 text-center text-[11px] tracking-wide text-[#9AA5AE]">
+        <p className="mt-3 text-center text-[10px] tracking-wide text-[#9AA5AE]">
           Cocoora Centro Medico · Postazione Desk &amp; Accoglienza
         </p>
       </div>
@@ -273,20 +274,18 @@ function DeskLoginContent() {
 function DeskLoginFallback() {
   return (
     <main
-      className="flex min-h-screen items-center justify-center px-4"
+      className="flex h-screen w-screen items-center justify-center px-4"
       style={{
         backgroundColor: "#FAF8F5",
-        backgroundImage:
-          "radial-gradient(1100px 520px at 50% -120px, #F3EFEA 0%, #FAF8F5 62%, #FAF8F5 100%)",
       }}
     >
-      <div className="flex flex-col items-center gap-3">
+      <div className="flex flex-col items-center gap-2">
         <Loader2
-          className="h-7 w-7 animate-spin"
+          className="h-6 w-6 animate-spin"
           style={{ color: "#0F4C5C" }}
           aria-hidden="true"
         />
-        <span className="text-[13px] text-[#7C8B96]">
+        <span className="text-xs text-[#7C8B96]">
           Caricamento postazione desk…
         </span>
       </div>
