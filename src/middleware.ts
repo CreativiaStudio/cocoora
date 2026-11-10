@@ -48,7 +48,16 @@ export async function middleware(request: NextRequest) {
 
   // Se è una route pagina protetta e non c'è utente
   if (!user) {
-    const loginUrl = new URL("/login", request.url);
+    let targetLogin = "/login";
+    if (isAdminRoute) {
+      targetLogin = "/accesso-direzione";
+    } else if (isSegreteriaRoute) {
+      targetLogin = "/accesso-reception";
+    } else if (isMedicoRoute) {
+      targetLogin = "/accesso-medici";
+    }
+
+    const loginUrl = new URL(targetLogin, request.url);
     loginUrl.searchParams.set("from", pathname);
     return NextResponse.redirect(loginUrl);
   }
