@@ -124,9 +124,21 @@ function LoginGatewayContent() {
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Torna al sito Cocoora</span>
         </Link>
-        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-[11px] font-medium">
-          <Lock className="w-3 h-3 text-slate-500" />
-          <span>Gateway Cifrato SSL/TLS</span>
+        <div className="flex items-center gap-2">
+          <a
+            href="/guide-accesso/COCOORA-MASTER-ACCESSI-CREDENZIALI.pdf"
+            download
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-950 text-[11px] font-semibold transition-all shadow-xs"
+            title="Scarica il Dossier Master completo con tutti gli accessi e credenziali per la Direzione"
+          >
+            <FileText className="w-3 h-3 text-amber-700" />
+            <span>Dossier Master Direzione (PDF)</span>
+            <Download className="w-3 h-3 text-amber-700" />
+          </a>
+          <div className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-[11px] font-medium">
+            <Lock className="w-3 h-3 text-slate-500" />
+            <span>Gateway SSL</span>
+          </div>
         </div>
       </header>
 
