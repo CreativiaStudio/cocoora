@@ -10,7 +10,6 @@ import { CheckoutDrawer } from "./checkout-drawer";
 import { DiscoverModal } from "./discover-modal";
 import { BookingModal } from "./booking-modal";
 import { SeoHead } from "./seo-head";
-import { DemoRoleSwitcher } from "./role-switcher/demo-role-switcher";
 import { TelemetryProvider } from "./telemetry-provider";
 import { AnalyticsTracker } from "./analytics-tracker";
 import { PwaInstallPrompt } from "./pwa-install-prompt";
@@ -38,7 +37,6 @@ export function SiteChrome({ children }: { children: ReactNode }) {
       <>
         <SeoHead page={page} />
         <main className="min-h-screen bg-[#f0f0f1]">{children}</main>
-        <DemoRoleSwitcher />
       </>
     );
   }
@@ -56,7 +54,6 @@ export function SiteChrome({ children }: { children: ReactNode }) {
       <DiscoverModal />
       <BookingModal />
       <PwaInstallPrompt />
-      <DemoRoleSwitcher />
     </>
   );
 }

@@ -20,13 +20,16 @@ export async function POST(request: Request) {
     const url = new URL(request.url);
     const magicLinkUrl = `${url.origin}/api/auth/verify-magic?token=${encodeURIComponent(token)}`;
 
+    // In produzione l'URL viene inviato solo via email/SMS sanitario al medico, mai esposto nella response pubblica
+    const isProduction = process.env.NODE_ENV === "production";
+
     return NextResponse.json({
       ok: true,
       doctorName: doctor.name,
       doctorEmail: doctor.email,
-      magicLinkUrl,
+      magicLinkUrl: isProduction ? undefined : magicLinkUrl,
       expiresInMinutes: 15,
-      message: `Magic Link 1-Tap generato con successo per ${doctor.name}. Valido 15 minuti a uso singolo.`,
+      message: `Link di accesso inviato all'indirizzo istituzionale del medico (${doctor.email}). Valido 15 minuti a uso singolo.`,
     });
   } catch (err) {
     console.error("Errore generazione magic link:", err);

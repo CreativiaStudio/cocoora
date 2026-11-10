@@ -267,49 +267,49 @@ export const DEMO_CREDENTIALS: Record<
   { password: string; user: Omit<UserSession, 'expiresAt'> }
 > = {
   'admin@cocoora.it': {
-    password: 'cocoora2026',
+    password: process.env.ADMIN_PASSWORD || '%Cocoora26%',
     user: {
-      userId: 'demo-admin',
+      userId: 'usr-admin-cocoora',
       email: 'admin@cocoora.it',
-      name: 'Direzione Sanitaria',
+      name: 'Mario Pepe / Direzione Sanitaria',
+      role: 'admin',
+    },
+  },
+  'info@cocoora.it': {
+    password: process.env.ADMIN_PASSWORD || '%Cocoora26%',
+    user: {
+      userId: 'usr-info-cocoora',
+      email: 'info@cocoora.it',
+      name: 'Mario Pepe / Direzione Sanitaria',
       role: 'admin',
     },
   },
   'silvia@agenzia.it': {
-    password: 'cocoora2026',
+    password: process.env.SILVIA_PASSWORD || '%SilviaCocoora26%',
     user: {
-      userId: 'demo-silvia',
+      userId: 'usr-silvia-agenzia',
       email: 'silvia@agenzia.it',
       name: 'Silvia — Agenzia SEO & Contenuti',
       role: 'agenzia',
     },
   },
   'segreteria@cocoora.it': {
-    password: 'cocoora2026',
+    password: process.env.SEGRETERIA_PASSWORD || '%SegreteriaCocoora26%',
     user: {
-      userId: 'demo-segreteria',
+      userId: 'usr-segreteria-desk',
       email: 'segreteria@cocoora.it',
-      name: 'Reception Cocoora',
+      name: 'Reception & Desk Accoglienza',
       role: 'segreteria',
     },
   },
   'dott.russo@cocoora.it': {
-    password: 'cocoora2026',
+    password: process.env.DOCTOR_RUSSO_PASSWORD || '%RussoCocoora26%',
     user: {
-      userId: 'demo-elisarusso',
+      userId: 'usr-elisarusso',
       email: 'dott.russo@cocoora.it',
-      name: 'Dott.ssa Elisa Russo',
+      name: 'Dott.ssa Elisa Russo (D.S.)',
       role: 'medico',
       doctorSlug: 'elisa-russo',
-    },
-  },
-  'paziente@cocoora.it': {
-    password: 'cocoora2026',
-    user: {
-      userId: 'demo-paziente',
-      email: 'paziente@cocoora.it',
-      name: 'Paziente Test',
-      role: 'paziente',
     },
   },
 };
@@ -400,8 +400,8 @@ export function authenticateDoctorByPin(
   const doc = SMART_DOCTORS.find((d) => d.slug === slug);
   if (!doc) return null;
 
-  // Accetta il PIN personale univoco a 6 cifre del medico (o fallback di sicurezza demo 2026 durante il test)
-  if (pin !== doc.securePin && pin !== '2026') {
+  // Accetta SOLO il PIN personale univoco a 6 cifre del medico
+  if (pin !== doc.securePin) {
     return null;
   }
 
