@@ -1,3 +1,5 @@
+"use client";
+
 export const R2_PUBLIC_URL =
   process.env.NEXT_PUBLIC_R2_PUBLIC_URL ||
   "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev";
