@@ -1,28 +1,29 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import {
   AlertCircle,
   ArrowLeft,
+  ArrowRight,
   Calendar as CalendarIcon,
   Check,
   CheckCircle2,
   ChevronLeft,
   ChevronRight,
   Clock,
-  DoorOpen,
+  Loader2,
   MapPin,
+  Pencil,
   Phone,
-  Search,
   Sparkles,
   Stethoscope,
   User,
-  UserCheck,
-  X,
 } from "lucide-react";
 import { Button } from "@/components/ui";
 import { computeAvailableSlots, type Slot } from "@/lib/slot-engine";
 import { supabase } from "@/lib/supabase";
+import { cn } from "@/lib/utils";
 
 export type LoggedPatient = {
   id: string;
@@ -41,44 +42,237 @@ export type PatientCalendarProps = {
 
 type MedicalService = {
   id: string;
-  code: string;
+  code?: string | null;
   name: string;
-  category: string;
-  duration_minutes: number;
-  is_bookable_online: boolean;
+  category?: string | null;
+  duration_minutes?: number | null;
+  is_bookable_online?: boolean | null;
   room?: string | null;
 };
 
+type AreaId = "odontoiatria" | "estetica" | "specialistiche";
 type Step = 1 | 2 | 3 | 4;
 
-const CATEGORY_TABS = [
-  { id: "all", label: "Tutte le Visite" },
-  { id: "odontoiatria", label: "🦷 Odontoiatria & Igiene" },
-  { id: "medicina_estetica", label: "✨ Medicina Estetica & Laser" },
-  { id: "specialistica", label: "🩺 Visite Specialistiche & Diagnostica" },
+const CLINIC_PHONE = "081 18182091";
+
+const AREAS: ReadonlyArray<{
+  id: AreaId;
+  label: string;
+  emoji: string;
+  description: string;
+}> = [
+  {
+    id: "odontoiatria",
+    label: "Odontoiatria",
+    emoji: "🦷",
+    description: "Prevenzione, igiene e cura del sorriso",
+  },
+  {
+    id: "estetica",
+    label: "Medicina Estetica",
+    emoji: "✨",
+    description: "Viso, corpo e tecnologie medicali",
+  },
+  {
+    id: "specialistiche",
+    label: "Visite Specialistiche",
+    emoji: "🩺",
+    description: "Specialisti, diagnostica e prevenzione",
+  },
+];
+
+/** Keyword utilizzate per abbinare gli slot del giorno all'area scelta. */
+const AREA_DOCTOR_KEYWORDS: Record<AreaId, string[]> = {
+  odontoiatria: ["odonto", "dent", "ortodon", "igien", "parodon", "implant", "protesi"],
+  estetica: ["estetic", "dermat", "laser", "criolipo", "carbossi", "medicina estetica"],
+  specialistiche: [
+    "ocul",
+    "cardio",
+    "gineco",
+    "pediat",
+    "senolo",
+    "ecograf",
+    "radiolog",
+    "endocrin",
+    "nutrizion",
+    "ortoped",
+    "otorin",
+    "neurolog",
+    "urolog",
+    "androlog",
+    "flebolog",
+    "pneumolog",
+    "gastroenter",
+    "reumatolog",
+    "psicolog",
+    "chirurg",
+    "dermatolog",
+  ],
+};
+
+/** Indizi di specialità ricavati dal nome della prestazione scelta. */
+const SERVICE_SPECIALTY_HINTS: ReadonlyArray<{ pattern: RegExp; keywords: string[] }> = [
+  { pattern: /nei|mappatura|dermat|pelle|skin/, keywords: ["dermat"] },
+  { pattern: /ocul|visus|vista|refraz/, keywords: ["ocul"] },
+  { pattern: /gineco|ostetric/, keywords: ["gineco"] },
+  { pattern: /pediatr/, keywords: ["pediat"] },
+  { pattern: /cardiolog|elettrocardiogramma|ecg/, keywords: ["cardio"] },
+  { pattern: /senolog|mammar/, keywords: ["senolo", "senolog", "mammar"] },
+  { pattern: /odonto|dental|dente|denti|igiene|ortodon|allineator/, keywords: ["odonto", "dent", "ortodon", "igien"] },
+  {
+    pattern: /estetic|filler|botulin|tossina|biorivital|biostimol|peeling|prx|laser|criolip|carbossi|mesoterap|intralipo|ultrasuoni/,
+    keywords: ["estetic", "dermat", "laser"],
+  },
+];
+
+const STOP_WORDS = new Set([
+  "della",
+  "dello",
+  "delle",
+  "degli",
+  "della",
+  "delle",
+  "dello",
+  "della",
+  "della",
+  "visita",
+  "seduta",
+  "prima",
+  "dopo",
+  "controllo",
+  "completa",
+  "completo",
+  "professionale",
+  "medicina",
+  "medico",
+  "medica",
+  "specialistica",
+  "specialistico",
+  "trattamento",
+  "trattamenti",
+  "bilaterale",
+  "online",
+]);
+
+const REFERENCE_SPECIALISTS: Partial<Record<AreaId, { name: string; title: string }>> = {
+  odontoiatria: {
+    name: "Dott.ssa Elisa Russo",
+    title: "Odontoiatra e Specialista in Ortodonzia · Direttrice Sanitaria",
+  },
+};
+
+function normalizeText(value: string): string {
+  return value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+function toISODate(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function formatLongDate(isoDate: string): string {
+  return new Date(`${isoDate}T00:00:00`).toLocaleDateString("it-IT", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+}
+
+function resolveServiceArea(service: MedicalService): AreaId {
+  const category = normalizeText(service.category ?? "");
+  const name = normalizeText(service.name);
+
+  if (category === "medicina_estetica") return "estetica";
+  if (category === "odontoiatria") return "odontoiatria";
+  if (category === "igiene_prevenzione") {
+    return /igien|dent|odont|tartaro|placca/.test(name) ? "odontoiatria" : "specialistiche";
+  }
+  if (
+    category === "visita_specialistica" ||
+    category === "diagnostica" ||
+    category === "precision" ||
+    category === "altro"
+  ) {
+    return "specialistiche";
+  }
+
+  if (/odont|igien|ortodon|allineator|implant|endodon|parodont|protesi|conservativa|dental/.test(name)) {
+    return "odontoiatria";
+  }
+  if (
+    /estetic|filler|botulin|tossina|biorivital|biostimol|peeling|prx|criolip|carbossi|mesoterap|intralipo|laser|ultrasuoni/.test(
+      name
+    )
+  ) {
+    return "estetica";
+  }
+  return "specialistiche";
+}
+
+function buildDoctorKeywords(area: AreaId, service: MedicalService | null): string[] {
+  const keywords = new Set<string>(AREA_DOCTOR_KEYWORDS[area] ?? []);
+
+  if (service) {
+    const serviceName = normalizeText(service.name);
+    for (const hint of SERVICE_SPECIALTY_HINTS) {
+      if (hint.pattern.test(serviceName)) {
+        hint.keywords.forEach((keyword) => keywords.add(keyword));
+      }
+    }
+    for (const word of serviceName.split(/[^a-z0-9]+/)) {
+      if (word.length >= 6 && !STOP_WORDS.has(word)) {
+        keywords.add(word.slice(0, 6));
+      }
+    }
+  }
+
+  return Array.from(keywords);
+}
+
+function slotMatchesDoctorKeywords(slot: Slot, keywords: string[]): boolean {
+  const haystack = normalizeText(`${slot.doctorName} ${slot.doctorTitle ?? ""}`);
+  return keywords.some((keyword) => haystack.includes(keyword));
+}
+
+function makeReminderCode(appointmentId?: string | null): string {
+  if (appointmentId) {
+    const compact = appointmentId.replace(/[^a-zA-Z0-9]/g, "").toUpperCase();
+    if (compact.length >= 6) return `COC-${compact.slice(0, 6)}`;
+  }
+  return `COC-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
+}
+
+const STEPS: ReadonlyArray<{ id: 1 | 2 | 3; label: string }> = [
+  { id: 1, label: "Prestazione" },
+  { id: 2, label: "Giorno e orario" },
+  { id: 3, label: "Conferma" },
 ];
 
 export function PatientCalendar({ patient, onBookingComplete }: PatientCalendarProps = {}) {
   const [step, setStep] = useState<Step>(1);
-
-  // STEP 1 STATE: SERVICES
+  const [area, setArea] = useState<AreaId>("odontoiatria");
   const [services, setServices] = useState<MedicalService[]>([]);
   const [loadingServices, setLoadingServices] = useState(true);
-  const [activeCategory, setActiveCategory] = useState("all");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [servicesError, setServicesError] = useState(false);
   const [selectedService, setSelectedService] = useState<MedicalService | null>(null);
 
-  // STEP 2 STATE: DATE & SLOTS
+  const todayISO = useMemo(() => toISODate(new Date()), []);
+
   const [selectedDate, setSelectedDate] = useState<string>(() => {
-    const d = new Date();
-    d.setDate(d.getDate() + 1); // Domani
-    return d.toISOString().split("T")[0];
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return toISODate(tomorrow);
   });
   const [slots, setSlots] = useState<Slot[]>([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [selectedSlot, setSelectedSlot] = useState<Slot | null>(null);
 
-  // STEP 3 STATE: PATIENT FORM
   const [form, setForm] = useState({
     name: "",
     phone: "",
@@ -87,45 +281,46 @@ export function PatientCalendar({ patient, onBookingComplete }: PatientCalendarP
   });
   const [submitting, setSubmitting] = useState(false);
   const [bookingError, setBookingError] = useState<string | null>(null);
-  const [confirmedBookingId, setConfirmedBookingId] = useState<string | null>(null);
+  const [confirmationCode, setConfirmationCode] = useState<string | null>(null);
 
-  // Auto-prefill se il paziente è già autenticato nell'area riservata
+  // Precompila i recapiti se il paziente è già autenticato nell'Area Paziente.
   useEffect(() => {
-    if (patient) {
-      setForm((prev) => ({
-        ...prev,
-        name: `${patient.first_name || ""} ${patient.last_name || ""}`.trim(),
-        phone: patient.phone || prev.phone,
-        email: patient.email || prev.email,
-      }));
-    }
+    if (!patient) return;
+    setForm((prev) => ({
+      ...prev,
+      name: `${patient.first_name || ""} ${patient.last_name || ""}`.trim(),
+      phone: patient.phone || prev.phone,
+      email: patient.email || prev.email,
+    }));
   }, [patient]);
 
-  // 1. Carica il catalogo prestazioni mediche attive prenotabili online
+  // Carica il catalogo delle prestazioni prenotabili online.
   useEffect(() => {
+    let cancelled = false;
+
     async function loadServices() {
+      setLoadingServices(true);
+      setServicesError(false);
+      let loaded = false;
+
       try {
-        setLoadingServices(true);
-        let loaded = false;
-
-        try {
-          const res = await fetch("/api/services");
-          if (res.ok) {
-            const data = await res.json();
-            if (data.services && Array.isArray(data.services) && data.services.length > 0) {
-              const onlineOnly = data.services.filter(
-                (s: MedicalService) => s.is_bookable_online !== false
-              );
-              setServices(onlineOnly);
-              loaded = true;
-            }
+        const res = await fetch("/api/services");
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data?.services) && data.services.length > 0) {
+            const bookable = (data.services as MedicalService[]).filter(
+              (service) => service.is_bookable_online === true
+            );
+            if (!cancelled) setServices(bookable);
+            loaded = true;
           }
-        } catch (err) {
-          console.warn("Fallback caricamento prestazioni diretto Supabase", err);
         }
+      } catch (error) {
+        console.warn("Recupero prestazioni tramite Supabase", error);
+      }
 
-        if (!loaded) {
-          // Fallback Supabase client
+      if (!loaded) {
+        try {
           const { data } = await supabase
             .from("medical_services")
             .select("id, code, name, category, duration_minutes, is_bookable_online, room")
@@ -133,847 +328,980 @@ export function PatientCalendar({ patient, onBookingComplete }: PatientCalendarP
             .eq("is_bookable_online", true)
             .order("name", { ascending: true });
 
-          if (data && data.length > 0) {
-            setServices(data);
+          if (!cancelled) {
+            if (data && data.length > 0) {
+              setServices(data as MedicalService[]);
+            } else {
+              setServicesError(true);
+            }
           }
+        } catch (error) {
+          console.error("Errore recupero prestazioni", error);
+          if (!cancelled) setServicesError(true);
         }
-      } catch (e) {
-        console.error("Errore fetch prestazioni", e);
-      } finally {
-        setLoadingServices(false);
       }
+
+      if (!cancelled) setLoadingServices(false);
     }
 
     loadServices();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  // 2. Carica gli slot quando cambia la data o il servizio
-  const fetchSlots = async () => {
+  async function fetchSlots() {
     try {
       setLoadingSlots(true);
       let loaded = false;
 
       try {
-        const queryParams = new URLSearchParams({ date: selectedDate });
-        if (selectedService?.id) queryParams.set("serviceId", selectedService.id);
-        const res = await fetch(`/api/calendar/slots?${queryParams.toString()}`);
+        const res = await fetch(`/api/calendar/slots?date=${encodeURIComponent(selectedDate)}`);
         if (res.ok) {
           const data = await res.json();
-          if (data.slots && Array.isArray(data.slots)) {
-            setSlots(data.slots);
+          if (Array.isArray(data?.slots)) {
+            setSlots(data.slots as Slot[]);
             loaded = true;
           }
         }
-      } catch {}
+      } catch {
+        // Fallback sul motore di calcolo locale.
+      }
 
       if (!loaded) {
-        // Fallback slot engine
         const directSlots = await computeAvailableSlots(selectedDate);
         setSlots(directSlots);
       }
-    } catch (e) {
-      console.error("Errore recupero slot", e);
+    } catch (error) {
+      console.error("Errore recupero disponibilità", error);
+      setSlots([]);
     } finally {
       setLoadingSlots(false);
     }
-  };
+  }
 
   useEffect(() => {
-    if (step >= 2) {
+    if (step === 2) {
       fetchSlots();
     }
-  }, [selectedDate, step, selectedService]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step, selectedDate]);
 
-  // Filtro prestazioni
-  const filteredServices = useMemo(() => {
-    return services.filter((s) => {
-      // Filtro categoria
-      if (activeCategory === "odontoiatria") {
-        const c = s.category?.toLowerCase() || "";
-        if (!c.includes("odont") && !c.includes("igiene")) return false;
-      } else if (activeCategory === "medicina_estetica") {
-        const c = s.category?.toLowerCase() || "";
-        if (!c.includes("estet") && !c.includes("laser")) return false;
-      } else if (activeCategory === "specialistica") {
-        const c = s.category?.toLowerCase() || "";
-        if (c.includes("odont") || c.includes("igiene") || c.includes("estet")) return false;
+  const areaServices = useMemo(
+    () => services.filter((service) => resolveServiceArea(service) === area),
+    [services, area]
+  );
+
+  const availableSlots = useMemo(() => slots.filter((slot) => slot.isAvailable), [slots]);
+
+  const doctorKeywords = useMemo(
+    () => buildDoctorKeywords(area, selectedService),
+    [area, selectedService]
+  );
+
+  const visibleSlots = useMemo(() => {
+    // 1. La stanza indicata nel catalogo per la prestazione è l'indizio più preciso.
+    const serviceRoom = normalizeText(selectedService?.room ?? "");
+    if (serviceRoom) {
+      const roomMatched = availableSlots.filter(
+        (slot) => normalizeText(slot.roomName ?? "") === serviceRoom
+      );
+      if (roomMatched.length > 0) return roomMatched;
+    }
+
+    // 2. Abbinamento per specialità ricavata dal nome del medico o della prestazione.
+    const areaSpecific = availableSlots.filter((slot) => slotMatchesDoctorKeywords(slot, doctorKeywords));
+    if (areaSpecific.length > 0) return areaSpecific;
+
+    // 3. Se la specialità non è deducibile mostriamo la disponibilità reale della giornata.
+    return availableSlots;
+  }, [availableSlots, doctorKeywords, selectedService]);
+
+  const slotTimes = useMemo(() => {
+    const byTime = new Map<string, Slot>();
+    for (const slot of visibleSlots) {
+      if (!byTime.has(slot.time)) byTime.set(slot.time, slot);
+    }
+    return Array.from(byTime.values()).sort((a, b) => a.time.localeCompare(b.time));
+  }, [visibleSlots]);
+
+  const availableDoctors = useMemo(() => {
+    const byDoctor = new Map<string, { id: string; name: string; title: string | null }>();
+    for (const slot of visibleSlots) {
+      if (!byDoctor.has(slot.doctorId)) {
+        byDoctor.set(slot.doctorId, {
+          id: slot.doctorId,
+          name: slot.doctorName,
+          title: slot.doctorTitle,
+        });
       }
+    }
+    return Array.from(byDoctor.values());
+  }, [visibleSlots]);
 
-      // Filtro ricerca
-      if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase();
-        const matchName = s.name.toLowerCase().includes(q);
-        const matchCat = s.category?.toLowerCase().includes(q);
-        const matchCode = s.code?.toLowerCase().includes(q);
-        if (!matchName && !matchCat && !matchCode) return false;
-      }
+  const referenceSpecialist = REFERENCE_SPECIALISTS[area] ?? null;
+  const formattedDate = formatLongDate(selectedDate);
+  const selectedDuration = selectedService?.duration_minutes || 30;
 
-      return true;
-    });
-  }, [services, activeCategory, searchQuery]);
+  function changeDateByDays(days: number) {
+    const date = new Date(`${selectedDate}T00:00:00`);
+    date.setDate(date.getDate() + days);
+    const nextDate = toISODate(date);
+    if (nextDate < todayISO) return;
+    setSelectedDate(nextDate);
+  }
 
-  // Gestione Date
-  const changeDateByDays = (days: number) => {
-    const d = new Date(selectedDate + "T00:00:00Z");
-    d.setUTCDate(d.getUTCDate() + days);
-    setSelectedDate(d.toISOString().split("T")[0]);
-  };
+  function setRelativeDay(offsetDays: number) {
+    const date = new Date();
+    date.setDate(date.getDate() + offsetDays);
+    setSelectedDate(toISODate(date));
+  }
 
-  const setRelativeDay = (offsetDays: number) => {
-    const d = new Date();
-    d.setDate(d.getDate() + offsetDays);
-    setSelectedDate(d.toISOString().split("T")[0]);
-  };
+  function handleSelectService(service: MedicalService) {
+    setSelectedService(service);
+    setSelectedSlot(null);
+    setBookingError(null);
+    setStep(2);
+  }
 
-  // Raggruppamento Slot (Mattina / Pomeriggio)
-  const availableSlots = slots.filter((s) => s.isAvailable);
+  function handleSelectSlot(slot: Slot) {
+    setSelectedSlot(slot);
+    setBookingError(null);
+    setStep(3);
+  }
 
-  const morningSlots = availableSlots.filter((s) => {
-    const hour = parseInt(s.time.split(":")[0], 10);
-    return hour < 14;
-  });
+  function resetBookingFlow() {
+    setStep(1);
+    setSelectedService(null);
+    setSelectedSlot(null);
+    setConfirmationCode(null);
+    setBookingError(null);
+    if (!patient) {
+      setForm({ name: "", phone: "", email: "", notes: "" });
+    } else {
+      setForm((prev) => ({ ...prev, notes: "" }));
+    }
+  }
 
-  const afternoonSlots = availableSlots.filter((s) => {
-    const hour = parseInt(s.time.split(":")[0], 10);
-    return hour >= 14;
-  });
+  async function handleConfirmBooking(event: React.FormEvent) {
+    event.preventDefault();
+    if (!selectedService || !selectedSlot) return;
 
-  // Conferma finale della prenotazione
-  const handleConfirmBooking = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!selectedSlot) return;
+    const patientName = form.name.trim();
+    const patientPhone = form.phone.trim();
+
+    if (!patientName || !patientPhone) {
+      setBookingError("Inserisci nome e cognome e un numero di telefono per confermare la prenotazione.");
+      return;
+    }
 
     setSubmitting(true);
     setBookingError(null);
 
-    const duration = selectedService?.duration_minutes || 30;
-    const patientName = (patient ? `${patient.first_name} ${patient.last_name}` : form.name).trim();
-    const patientPhone = (patient ? (patient.phone || form.phone) : form.phone).trim();
-    const patientEmail = (patient ? (patient.email || form.email) : form.email).trim();
-    const patientId = patient?.id;
+    const duration = selectedDuration;
 
     try {
-      const res = await fetch("/api/calendar/slots", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          doctorId: selectedSlot.doctorId,
-          roomId: selectedSlot.roomId,
-          serviceId: selectedService?.id,
-          patientId: patientId,
-          date: selectedSlot.date,
-          time: selectedSlot.time,
-          durationMinutes: duration,
-          patientName,
-          patientPhone,
-          patientEmail: patientEmail || undefined,
-          notes: form.notes.trim() || undefined,
-        }),
-      });
+      let appointmentId: string | null = null;
+      let booked = false;
 
-      if (res.ok) {
-        const data = await res.json();
-        if (data.success) {
-          setConfirmedBookingId(data.appointmentId || `COC-APT-${Math.floor(10000 + Math.random() * 90000)}`);
-          setStep(4);
-          if (onBookingComplete) onBookingComplete();
+      try {
+        const res = await fetch("/api/calendar/slots", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            doctorId: selectedSlot.doctorId,
+            roomId: selectedSlot.roomId,
+            serviceId: selectedService.id,
+            patientId: patient?.id,
+            date: selectedSlot.date,
+            time: selectedSlot.time,
+            durationMinutes: duration,
+            patientName,
+            patientPhone,
+            patientEmail: form.email.trim() || undefined,
+            notes: form.notes.trim() || undefined,
+          }),
+        });
+
+        let payload: { success?: boolean; appointmentId?: string; error?: string } | null = null;
+        try {
+          payload = await res.json();
+        } catch {
+          payload = null;
+        }
+
+        if (res.ok && payload?.success) {
+          booked = true;
+          appointmentId = payload.appointmentId ?? null;
+        } else if (res.status === 400 || res.status === 409) {
+          setBookingError(
+            payload?.error || "Questo orario non è più disponibile: scegli un altro orario."
+          );
+          setSubmitting(false);
+          setStep(2);
           return;
         }
+      } catch {
+        // Se l'API non è raggiungibile procediamo con l'inserimento diretto.
       }
 
-      // Fallback Supabase diretto
-      let pId: string | null = patientId || null;
-      if (!pId) {
-        const nameParts = patientName.split(" ");
-        const firstName = nameParts[0] || "Paziente";
-        const lastName = nameParts.slice(1).join(" ") || "Cocoora";
+      // Fallback diretto su Supabase (ambienti statici / API non disponibile).
+      if (!booked) {
+        let patientId: string | null = patient?.id ?? null;
 
-        const { data: pData } = await supabase
-          .from("patient_profiles")
+        if (!patientId) {
+          const nameParts = patientName.split(" ");
+          const firstName = nameParts[0] || "Paziente";
+          const lastName = nameParts.slice(1).join(" ") || "Cocoora";
+
+          const { data: createdPatient } = await supabase
+            .from("patient_profiles")
+            .insert({
+              patient_code: `COC-${new Date().getFullYear()}-${Math.floor(10000 + Math.random() * 90000)}`,
+              first_name: firstName,
+              last_name: lastName,
+              phone: patientPhone,
+              email: form.email.trim() || null,
+            })
+            .select("id")
+            .single();
+
+          if (createdPatient) patientId = createdPatient.id;
+        }
+
+        const startsAt = new Date(`${selectedSlot.date}T${selectedSlot.time}:00Z`).toISOString();
+        const endsAt = new Date(new Date(startsAt).getTime() + duration * 60 * 1000).toISOString();
+
+        const { data: createdAppointment, error: appointmentError } = await supabase
+          .from("appointments")
           .insert({
-            patient_code: `COC-PZ-${Math.floor(10000 + Math.random() * 90000)}`,
-            first_name: firstName,
-            last_name: lastName,
-            phone: patientPhone,
-            email: patientEmail || null,
+            patient_id: patientId,
+            doctor_id: selectedSlot.doctorId,
+            room_id: selectedSlot.roomId,
+            service_id: selectedService.id,
+            starts_at: startsAt,
+            ends_at: endsAt,
+            status: "confermato",
+            is_first_visit: true,
+            notes: form.notes.trim()
+              ? `Prenotazione Area Paziente: ${form.notes.trim()}`
+              : `Prenotazione Area Paziente · ${patientName} (${patientPhone})`,
           })
           .select("id")
           .single();
 
-        if (pData) pId = pData.id;
+        if (appointmentError) throw appointmentError;
+        appointmentId = createdAppointment?.id ?? null;
       }
 
-      const startsAt = new Date(`${selectedSlot.date}T${selectedSlot.time}:00Z`).toISOString();
-      const endsAt = new Date(new Date(startsAt).getTime() + duration * 60 * 1000).toISOString();
-
-      const { data: apptData, error: apptErr } = await supabase
-        .from("appointments")
-        .insert({
-          patient_id: pId,
-          doctor_id: selectedSlot.doctorId,
-          room_id: selectedSlot.roomId,
-          service_id: selectedService?.id || null,
-          starts_at: startsAt,
-          ends_at: endsAt,
-          status: "confermato",
-          is_first_visit: true,
-          notes: form.notes ? `Prenotazione Paziente: ${form.notes}` : "Prenotazione online autonoma paziente",
-        })
-        .select("id")
-        .single();
-
-      if (apptErr) throw apptErr;
-
-      setConfirmedBookingId(apptData?.id || `COC-APT-${Math.floor(10000 + Math.random() * 90000)}`);
+      setConfirmationCode(makeReminderCode(appointmentId));
       setStep(4);
-      if (onBookingComplete) onBookingComplete();
-    } catch (err: unknown) {
-      console.error("Errore prenotazione", err);
-      setBookingError("Non è stato possibile completare la prenotazione. Contatta la nostra reception al 081 18182091.");
+      onBookingComplete?.();
+    } catch (error) {
+      console.error("Errore prenotazione", error);
+      setBookingError(
+        `Non è stato possibile completare la prenotazione. Riprova o contatta la reception al ${CLINIC_PHONE}.`
+      );
     } finally {
       setSubmitting(false);
     }
-  };
-
-  const formattedDate = new Date(selectedDate + "T00:00:00Z").toLocaleDateString("it-IT", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  }
 
   return (
     <div className="space-y-6">
-      {/* ── STEPPER HEADER ──────────────────────────────────────────────── */}
-      <div className="grid grid-cols-3 gap-2 sm:gap-4 pb-4 border-b border-slate-100">
-        <button
-          type="button"
-          onClick={() => setStep(1)}
-          className={`flex items-center gap-2 py-2 px-3 sm:px-4 rounded-xl text-left transition-all ${
-            step === 1
-              ? "bg-[#1C4A5C] text-white shadow-xs font-semibold"
-              : step > 1
-              ? "bg-emerald-50 text-emerald-900 border border-emerald-200/80 font-medium"
-              : "bg-slate-50 text-slate-400 border border-slate-200/60"
-          }`}
-        >
-          <span
-            className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
-              step === 1
-                ? "bg-white text-[#1C4A5C]"
-                : step > 1
-                ? "bg-emerald-600 text-white"
-                : "bg-slate-200 text-slate-600"
-            }`}
-          >
-            {step > 1 ? <Check className="h-3.5 w-3.5" /> : "1"}
+      {/* Intestazione e claim */}
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-teal-50 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-teal-800 border border-teal-100">
+            <Sparkles className="h-3 w-3" /> Connessi alla tua salute
           </span>
-          <div className="truncate">
-            <p className="text-xs sm:text-sm leading-tight">1. Prestazione</p>
-            {selectedService && step > 1 && (
-              <p className="text-[10px] text-emerald-700 truncate">{selectedService.name}</p>
-            )}
-          </div>
-        </button>
-
-        <button
-          type="button"
-          disabled={!selectedService}
-          onClick={() => selectedService && setStep(2)}
-          className={`flex items-center gap-2 py-2 px-3 sm:px-4 rounded-xl text-left transition-all ${
-            step === 2
-              ? "bg-[#1C4A5C] text-white shadow-xs font-semibold"
-              : step > 2
-              ? "bg-emerald-50 text-emerald-900 border border-emerald-200/80 font-medium"
-              : "bg-slate-50 text-slate-400 border border-slate-200/60 disabled:cursor-not-allowed"
-          }`}
+          <h3 className="mt-2 font-serif text-xl sm:text-2xl font-bold text-dark-navy">
+            Prenota la tua visita
+          </h3>
+          <p className="mt-1 text-xs sm:text-sm text-charcoal/70">
+            Tre passaggi semplici: scegli la prestazione, il giorno e l&apos;orario. Al resto pensiamo noi.
+          </p>
+        </div>
+        <a
+          href={`tel:${CLINIC_PHONE.replace(/\s+/g, "")}`}
+          className="inline-flex items-center gap-2 self-start rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-dark-navy transition-colors hover:border-teal-300 hover:bg-teal-50"
         >
-          <span
-            className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
-              step === 2
-                ? "bg-white text-[#1C4A5C]"
-                : step > 2
-                ? "bg-emerald-600 text-white"
-                : "bg-slate-200 text-slate-600"
-            }`}
-          >
-            {step > 2 ? <Check className="h-3.5 w-3.5" /> : "2"}
-          </span>
-          <div className="truncate">
-            <p className="text-xs sm:text-sm leading-tight">2. Data & Ora</p>
-            {selectedSlot && step > 2 && (
-              <p className="text-[10px] text-emerald-700 truncate">Ore {selectedSlot.time}</p>
-            )}
-          </div>
-        </button>
-
-        <button
-          type="button"
-          disabled={!selectedSlot}
-          onClick={() => selectedSlot && setStep(3)}
-          className={`flex items-center gap-2 py-2 px-3 sm:px-4 rounded-xl text-left transition-all ${
-            step >= 3
-              ? "bg-[#1C4A5C] text-white shadow-xs font-semibold"
-              : "bg-slate-50 text-slate-400 border border-slate-200/60 disabled:cursor-not-allowed"
-          }`}
-        >
-          <span
-            className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
-              step >= 3 ? "bg-white text-[#1C4A5C]" : "bg-slate-200 text-slate-600"
-            }`}
-          >
-            3
-          </span>
-          <div className="truncate">
-            <p className="text-xs sm:text-sm leading-tight">3. Conferma</p>
-            <p className="text-[10px] opacity-75 truncate">Dati personali</p>
-          </div>
-        </button>
+          <Phone className="h-3.5 w-3.5 text-teal-700" />
+          {CLINIC_PHONE}
+        </a>
       </div>
 
-      {/* ── PASSO 1: SELEZIONE PRESTAZIONE ─────────────────────────────── */}
-      {step === 1 && (
-        <div className="space-y-6">
-          <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
-            <div className="relative flex-1">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Cerca prestazione (es. prima visita, igiene, oculistica, filler...)"
-                className="w-full pl-10 pr-4 py-2.5 rounded-2xl border border-slate-200 text-sm focus:border-[#1C4A5C] focus:outline-none bg-white"
-              />
-              {searchQuery && (
-                <button
-                  type="button"
-                  onClick={() => setSearchQuery("")}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+      {/* Stepper */}
+      {step !== 4 && (
+        <ol className="flex items-center gap-1.5 sm:gap-3 rounded-2xl border border-slate-200/90 bg-white p-3 sm:p-4">
+          {STEPS.map((item, index) => {
+            const isDone = step > item.id;
+            const isCurrent = step === item.id;
+            return (
+              <li key={item.id} className="flex flex-1 items-center gap-1.5 sm:gap-2.5">
+                <span
+                  className={cn(
+                    "flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold transition-colors",
+                    isDone && "bg-emerald-600 text-white",
+                    isCurrent && "bg-primary-teal text-white shadow-sm",
+                    !isDone && !isCurrent && "border border-slate-200 bg-slate-50 text-slate-500"
+                  )}
+                  aria-hidden="true"
                 >
-                  <X className="h-4 w-4" />
-                </button>
-              )}
-            </div>
+                  {isDone ? <Check className="h-4 w-4" /> : item.id}
+                </span>
+                <span
+                  className={cn(
+                    "truncate text-[11px] sm:text-xs font-semibold",
+                    isCurrent ? "text-dark-navy" : isDone ? "text-emerald-700" : "text-slate-400"
+                  )}
+                >
+                  {item.id}. {item.label}
+                </span>
+                {index < STEPS.length - 1 && (
+                  <span
+                    className={cn(
+                      "hidden h-px flex-1 sm:block",
+                      step > item.id ? "bg-emerald-200" : "bg-slate-200"
+                    )}
+                    aria-hidden="true"
+                  />
+                )}
+              </li>
+            );
+          })}
+        </ol>
+      )}
 
-            {/* Pillole categorie */}
-            <div className="flex flex-wrap gap-1.5">
-              {CATEGORY_TABS.map((tab) => (
-                <button
-                  key={tab.id}
-                  type="button"
-                  onClick={() => setActiveCategory(tab.id)}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all ${
-                    activeCategory === tab.id
-                      ? "bg-[#1C4A5C] text-white shadow-xs font-semibold"
-                      : "bg-slate-100 hover:bg-slate-200 text-slate-700"
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
+      {/* ── STEP 1 · PRESTAZIONE ─────────────────────────────────────── */}
+      {step === 1 && (
+        <div className="space-y-5">
+          <div>
+            <h4 className="font-serif text-base sm:text-lg font-semibold text-dark-navy">
+              1. Scegli la visita o trattamento
+            </h4>
+            <p className="mt-0.5 text-xs text-charcoal/60">
+              Seleziona l&apos;area medica e poi la prestazione che ti interessa.
+            </p>
           </div>
 
-          {/* Griglia prestazioni */}
-          {loadingServices ? (
-            <div className="p-16 text-center text-sm text-slate-500 bg-white rounded-3xl border border-slate-200">
-              Caricamento catalogo prestazioni...
+          {/* Aree mediche */}
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+            {AREAS.map((item) => {
+              const isActive = area === item.id;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  aria-pressed={isActive}
+                  onClick={() => setArea(item.id)}
+                  className={cn(
+                    "flex items-center gap-3 rounded-2xl border p-4 text-left transition-all sm:flex-col sm:items-start sm:gap-2 sm:p-5",
+                    isActive
+                      ? "border-primary-teal bg-teal-50/80 shadow-sm ring-2 ring-primary-teal/15"
+                      : "border-slate-200 bg-white hover:-translate-y-0.5 hover:border-teal-300 hover:shadow-sm"
+                  )}
+                >
+                  <span className="text-2xl leading-none" aria-hidden="true">
+                    {item.emoji}
+                  </span>
+                  <span className="min-w-0">
+                    <span
+                      className={cn(
+                        "block font-serif text-sm sm:text-base font-semibold",
+                        isActive ? "text-dark-navy" : "text-dark-navy/90"
+                      )}
+                    >
+                      {item.label}
+                    </span>
+                    <span className="mt-0.5 block text-[11px] leading-snug text-charcoal/60">
+                      {item.description}
+                    </span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Prestazioni dell'area selezionata */}
+          <div className="rounded-2xl border border-slate-200/90 bg-white p-4 sm:p-5">
+            <div className="flex items-center justify-between gap-3 border-b border-slate-100 pb-3">
+              <h5 className="font-serif text-sm font-semibold text-dark-navy">
+                Prestazioni disponibili online
+              </h5>
+              <span className="rounded-full bg-slate-50 px-2.5 py-1 text-[11px] font-semibold text-charcoal/60">
+                {areaServices.length} {areaServices.length === 1 ? "prestazione" : "prestazioni"}
+              </span>
             </div>
-          ) : filteredServices.length === 0 ? (
-            <div className="p-12 text-center bg-white rounded-3xl border border-dashed border-slate-200">
-              <Stethoscope className="mx-auto h-8 w-8 text-slate-400 mb-2" />
-              <p className="text-base font-semibold text-slate-800">Nessuna prestazione trovata.</p>
-              <p className="text-xs text-slate-500 mt-1">
-                Prova a modificare il testo di ricerca o contatta la segreteria al centralino <strong>081 18182091</strong>.
-              </p>
-            </div>
-          ) : (
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {filteredServices.map((service) => {
-                const isSelected = selectedService?.id === service.id;
-                return (
-                  <div
+
+            {loadingServices ? (
+              <div className="flex flex-col items-center justify-center gap-2 py-12 text-center">
+                <Loader2 className="h-6 w-6 animate-spin text-teal-700" />
+                <p className="text-xs text-charcoal/60">Caricamento delle prestazioni del centro…</p>
+              </div>
+            ) : servicesError && services.length === 0 ? (
+              <div className="py-10 text-center">
+                <AlertCircle className="mx-auto mb-2 h-7 w-7 text-rose-500" />
+                <p className="text-sm font-semibold text-dark-navy">
+                  Non riusciamo a caricare le prestazioni.
+                </p>
+                <p className="mt-1 text-xs text-charcoal/60">
+                  Riprova tra poco oppure chiama la reception al{" "}
+                  <a href={`tel:${CLINIC_PHONE.replace(/\s+/g, "")}`} className="font-semibold text-teal-800 underline">
+                    {CLINIC_PHONE}
+                  </a>
+                  .
+                </p>
+              </div>
+            ) : areaServices.length === 0 ? (
+              <div className="py-10 text-center">
+                <Stethoscope className="mx-auto mb-2 h-7 w-7 text-teal-600/70" />
+                <p className="text-sm font-semibold text-dark-navy">
+                  Nessuna prestazione prenotabile online in quest&apos;area.
+                </p>
+                <p className="mt-1 text-xs text-charcoal/60">
+                  Chiama la reception al{" "}
+                  <a href={`tel:${CLINIC_PHONE.replace(/\s+/g, "")}`} className="font-semibold text-teal-800 underline">
+                    {CLINIC_PHONE}
+                  </a>{" "}
+                  per fissare l&apos;appuntamento.
+                </p>
+              </div>
+            ) : (
+              <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                {areaServices.map((service) => (
+                  <button
                     key={service.id}
-                    onClick={() => {
-                      setSelectedService(service);
-                      setStep(2);
-                    }}
-                    className={`cursor-pointer rounded-2xl p-5 border transition-all text-left flex flex-col justify-between ${
-                      isSelected
-                        ? "border-[#1C4A5C] bg-[#EEF6FA] shadow-md ring-2 ring-[#1C4A5C]/20"
-                        : "border-slate-200/90 bg-white hover:border-[#1C4A5C]/60 hover:shadow-sm"
-                    }`}
+                    type="button"
+                    onClick={() => handleSelectService(service)}
+                    className="group flex w-full items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-4 text-left transition-all hover:border-primary-teal/60 hover:bg-teal-50/40 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-teal/30"
                   >
-                    <div>
-                      <div className="flex items-center justify-between gap-2">
-                        <span className="text-[11px] font-semibold text-teal-800 bg-teal-50 px-2.5 py-0.5 rounded-full border border-teal-100/80">
-                          {service.category?.replace(/_/g, " ").toUpperCase() || "VISITA"}
+                    <span className="flex min-w-0 items-center gap-3">
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-50 text-teal-700 group-hover:bg-white">
+                        <Stethoscope className="h-5 w-5" />
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block font-serif text-sm sm:text-base font-semibold leading-snug text-dark-navy">
+                          {service.name}
                         </span>
-                        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-slate-500 bg-slate-50 px-2 py-0.5 rounded-md">
-                          <Clock className="h-3 w-3 text-slate-400" />
+                        <span className="mt-1 inline-flex items-center gap-1 text-[11px] font-medium text-charcoal/60">
+                          <Clock className="h-3 w-3 text-teal-700" />
                           {service.duration_minutes || 30} min
                         </span>
-                      </div>
-
-                      <h4 className="mt-3 font-serif text-base font-bold text-slate-900 leading-snug">
-                        {service.name}
-                      </h4>
-                    </div>
-
-                    <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
-                      <span className="text-xs font-semibold text-[#1C4A5C] flex items-center gap-1 group-hover:underline">
-                        Scegli orario →
                       </span>
-                      <span className="text-[11px] text-emerald-700 font-medium flex items-center gap-1">
-                        <Sparkles className="h-3 w-3 text-emerald-600" /> Prenotabile
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
+                    </span>
+                    <span className="flex shrink-0 items-center gap-1 text-[11px] font-bold text-primary-teal">
+                      Scegli
+                      <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
+                    </span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       )}
 
-      {/* ── PASSO 2: SELEZIONE DATA & ORARIO ──────────────────────────── */}
+      {/* ── STEP 2 · GIORNO E ORARIO ─────────────────────────────────── */}
       {step === 2 && selectedService && (
-        <div className="space-y-6">
-          {/* Banner di riepilogo prestazione selezionata */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-[#EEF6FA] rounded-2xl border border-[#80A1B2]/30 gap-3">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl bg-[#1C4A5C] text-white flex items-center justify-center shrink-0">
+        <div className="space-y-5">
+          <div>
+            <h4 className="font-serif text-base sm:text-lg font-semibold text-dark-navy">
+              2. Scegli giorno e orario
+            </h4>
+            <p className="mt-0.5 text-xs text-charcoal/60">
+              Gli orari mostrati sono aggiornati in tempo reale.
+            </p>
+          </div>
+
+          {/* Riepilogo prestazione con badge */}
+          <div className="flex flex-col gap-3 rounded-2xl border border-[#80A1B2]/40 bg-teal-50/60 p-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex min-w-0 items-center gap-3">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary-teal text-white">
                 <Stethoscope className="h-5 w-5" />
-              </div>
-              <div>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-teal-700">
-                  Prestazione Selezionata
+              </span>
+              <div className="min-w-0">
+                <span className="inline-flex items-center gap-1 rounded-full border border-teal-200 bg-white px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-teal-800">
+                  <Check className="h-3 w-3" /> Prestazione scelta
                 </span>
-                <h4 className="text-sm sm:text-base font-serif font-bold text-slate-900">
+                <p className="mt-1 truncate font-serif text-sm sm:text-base font-semibold text-dark-navy">
                   {selectedService.name}
-                </h4>
-                <p className="text-xs text-slate-600">
-                  Durata stimata: {selectedService.duration_minutes || 30} minuti
+                </p>
+                <p className="flex items-center gap-1 text-[11px] text-charcoal/60">
+                  <Clock className="h-3 w-3 text-teal-700" />
+                  Durata stimata {selectedDuration} min
                 </p>
               </div>
             </div>
             <button
               type="button"
               onClick={() => setStep(1)}
-              className="text-xs font-semibold text-[#1C4A5C] hover:underline self-start sm:self-center"
+              className="inline-flex shrink-0 items-center gap-1.5 self-start rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-[11px] font-semibold text-primary-teal transition-colors hover:border-teal-300 hover:bg-teal-50 sm:self-center"
             >
-              ← Cambia prestazione
+              <Pencil className="h-3 w-3" /> Modifica
             </button>
           </div>
 
-          {/* Selettore Giorno */}
-          <div className="bg-white rounded-2xl p-5 border border-slate-200/90 space-y-4">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-              <div className="flex items-center gap-2">
+          {/* Specialista */}
+          <div className="rounded-2xl border border-slate-200/90 bg-white p-4 sm:p-5">
+            <p className="text-[11px] font-bold uppercase tracking-wider text-teal-700">
+              {availableDoctors.length > 0
+                ? availableDoctors.length === 1
+                  ? "Il tuo specialista"
+                  : "Specialisti disponibili"
+                : "Specialista di riferimento"}
+            </p>
+
+            {loadingSlots ? (
+              <div className="mt-3 flex items-center gap-2 text-xs text-charcoal/60">
+                <Loader2 className="h-4 w-4 animate-spin text-teal-700" />
+                Verifica degli specialisti disponibili…
+              </div>
+            ) : availableDoctors.length > 0 ? (
+              <div className="mt-3 space-y-2">
+                {availableDoctors.slice(0, 3).map((doctor) => (
+                  <div key={doctor.id} className="flex items-start gap-2.5">
+                    <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-teal-50 text-teal-700">
+                      <User className="h-4 w-4" />
+                    </span>
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold text-dark-navy">{doctor.name}</p>
+                      {doctor.title && (
+                        <p className="text-[11px] leading-snug text-charcoal/60">{doctor.title}</p>
+                      )}
+                    </div>
+                  </div>
+                ))}
+                {availableDoctors.length > 3 && (
+                  <p className="pl-10 text-[11px] font-medium text-charcoal/50">
+                    + altri specialisti disponibili in questa giornata
+                  </p>
+                )}
+              </div>
+            ) : (
+              <div className="mt-3 flex items-start gap-2.5">
+                <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-teal-50 text-teal-700">
+                  <User className="h-4 w-4" />
+                </span>
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-dark-navy">
+                    {referenceSpecialist?.name ?? "Specialista del centro Cocoora"}
+                  </p>
+                  <p className="text-[11px] leading-snug text-charcoal/60">
+                    {referenceSpecialist?.title ??
+                      "Assegnato in base alla prestazione selezionata dalla Direzione Sanitaria."}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            <p className="mt-3 flex items-center gap-1.5 border-t border-slate-100 pt-3 text-[11px] text-charcoal/60">
+              <Sparkles className="h-3.5 w-3.5 shrink-0 text-emerald-600" />
+              L&apos;assegnazione della stanza è automatica: non devi preoccuparti di nulla.
+            </p>
+          </div>
+
+          {/* Navigatore data */}
+          <div className="rounded-2xl border border-slate-200/90 bg-white p-4 sm:p-5">
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center justify-between gap-2">
                 <button
                   type="button"
                   onClick={() => changeDateByDays(-1)}
-                  className="p-2 rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors text-slate-700"
+                  disabled={selectedDate <= todayISO}
                   aria-label="Giorno precedente"
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-slate-200 text-charcoal/70 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   <ChevronLeft className="h-4 w-4" />
                 </button>
-                <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-teal-50 border border-teal-100">
-                  <CalendarIcon className="h-4 w-4 text-teal-700" />
-                  <span className="font-serif text-sm sm:text-base font-semibold text-slate-900 capitalize">
+
+                <div className="flex min-w-0 flex-1 items-center justify-center gap-2 rounded-xl bg-teal-50 px-3 py-2 text-center">
+                  <CalendarIcon className="h-4 w-4 shrink-0 text-teal-700" />
+                  <span className="truncate font-serif text-sm font-semibold capitalize text-dark-navy">
                     {formattedDate}
                   </span>
                 </div>
+
                 <button
                   type="button"
                   onClick={() => changeDateByDays(1)}
-                  className="p-2 rounded-xl border border-slate-200 hover:bg-slate-50 transition-colors text-slate-700"
                   aria-label="Giorno successivo"
+                  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-slate-200 text-charcoal/70 transition-colors hover:bg-slate-50"
                 >
                   <ChevronRight className="h-4 w-4" />
                 </button>
               </div>
 
-              {/* Tasti rapidi e date picker */}
-              <div className="flex items-center gap-2 flex-wrap">
+              <div className="flex flex-wrap items-center gap-2">
                 <button
                   type="button"
                   onClick={() => setRelativeDay(0)}
-                  className="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-700 hover:bg-slate-50"
+                  className={cn(
+                    "rounded-full border px-3 py-1.5 text-[11px] font-semibold transition-colors",
+                    selectedDate === todayISO
+                      ? "border-primary-teal bg-primary-teal text-white"
+                      : "border-slate-200 text-charcoal/70 hover:bg-slate-50"
+                  )}
                 >
                   Oggi
                 </button>
                 <button
                   type="button"
                   onClick={() => setRelativeDay(1)}
-                  className="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-700 hover:bg-slate-50"
+                  className="rounded-full border border-slate-200 px-3 py-1.5 text-[11px] font-semibold text-charcoal/70 transition-colors hover:bg-slate-50"
                 >
                   Domani
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setRelativeDay(2)}
-                  className="px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-medium text-slate-700 hover:bg-slate-50"
-                >
-                  Dopodomani
                 </button>
                 <input
                   type="date"
                   value={selectedDate}
-                  onChange={(e) => setSelectedDate(e.target.value)}
-                  className="rounded-lg border border-slate-200 px-2.5 py-1 text-xs text-slate-800 font-semibold focus:border-[#1C4A5C] focus:outline-none"
+                  min={todayISO}
+                  onChange={(event) => {
+                    if (event.target.value) setSelectedDate(event.target.value);
+                  }}
+                  aria-label="Scegli la data"
+                  className="rounded-xl border border-slate-200 px-2.5 py-1.5 text-[11px] font-semibold text-dark-navy focus:border-primary-teal focus:outline-none"
                 />
               </div>
             </div>
           </div>
 
-          {/* Elenco Slot divisi per Mattina / Pomeriggio */}
-          {loadingSlots ? (
-            <div className="p-16 text-center text-sm text-slate-500 bg-white rounded-3xl border border-slate-200">
-              Verifica disponibilità specialisti in clinica...
-            </div>
-          ) : availableSlots.length === 0 ? (
-            <div className="rounded-3xl border border-dashed border-teal-200 bg-white p-12 text-center text-slate-600">
-              <CalendarIcon className="mx-auto h-8 w-8 text-teal-600 mb-2 opacity-60" />
-              <p className="font-serif text-base font-semibold text-slate-900">
-                Nessun orario disponibile per {formattedDate}.
-              </p>
-              <p className="mt-1 text-xs text-slate-500">
-                Prova a selezionare il giorno successivo con la freccia oppure chiama la reception al <strong>081 18182091</strong>.
-              </p>
-              <div className="mt-4">
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => changeDateByDays(1)}
-                >
-                  Vedi Giorno Successivo →
-                </Button>
-              </div>
-            </div>
-          ) : (
-            <div className="space-y-6">
-              {/* Sezione Mattina */}
-              {morningSlots.length > 0 && (
-                <div className="bg-white rounded-2xl p-5 border border-slate-200/90 space-y-3">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-                    ☀️ Mattina (09:00 - 13:00)
-                  </h4>
-                  <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                    {morningSlots.map((slot, idx) => (
-                      <button
-                        key={`m-${idx}`}
-                        type="button"
-                        onClick={() => {
-                          setSelectedSlot(slot);
-                          setStep(3);
-                        }}
-                        className="group p-3.5 rounded-xl border border-slate-200 hover:border-[#1C4A5C] hover:bg-[#EEF6FA] text-left transition-all"
-                      >
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm font-bold text-slate-900 group-hover:text-[#1C4A5C]">
-                            Ore {slot.time}
-                          </span>
-                          <span className="text-[10px] font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">
-                            {slot.roomName || "Studio"}
-                          </span>
-                        </div>
-                        <p className="mt-1 text-xs font-medium text-slate-700 truncate">
-                          {slot.doctorName}
-                        </p>
-                        <p className="text-[10px] text-emerald-700 font-semibold mt-1">
-                          ✓ Seleziona
-                        </p>
-                      </button>
-                    ))}
-                  </div>
-                </div>
+          {/* Griglia orari */}
+          <div className="rounded-2xl border border-slate-200/90 bg-white p-4 sm:p-5">
+            <div className="flex items-center justify-between gap-3 border-b border-slate-100 pb-3">
+              <h5 className="font-serif text-sm font-semibold text-dark-navy">Orari disponibili</h5>
+              {!loadingSlots && slotTimes.length > 0 && (
+                <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-semibold text-emerald-700">
+                  {slotTimes.length} {slotTimes.length === 1 ? "orario" : "orari"}
+                </span>
               )}
+            </div>
 
-              {/* Sezione Pomeriggio */}
-              {afternoonSlots.length > 0 && (
-                <div className="bg-white rounded-2xl p-5 border border-slate-200/90 space-y-3">
-                  <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-                    ⛅ Pomeriggio (14:30 - 19:30)
-                  </h4>
-                  <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                    {afternoonSlots.map((slot, idx) => (
-                      <button
-                        key={`p-${idx}`}
-                        type="button"
-                        onClick={() => {
-                          setSelectedSlot(slot);
-                          setStep(3);
-                        }}
-                        className="group p-3.5 rounded-xl border border-slate-200 hover:border-[#1C4A5C] hover:bg-[#EEF6FA] text-left transition-all"
-                      >
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm font-bold text-slate-900 group-hover:text-[#1C4A5C]">
-                            Ore {slot.time}
-                          </span>
-                          <span className="text-[10px] font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">
-                            {slot.roomName || "Studio"}
-                          </span>
-                        </div>
-                        <p className="mt-1 text-xs font-medium text-slate-700 truncate">
-                          {slot.doctorName}
-                        </p>
-                        <p className="text-[10px] text-emerald-700 font-semibold mt-1">
-                          ✓ Seleziona
-                        </p>
-                      </button>
-                    ))}
-                  </div>
+            {loadingSlots ? (
+              <div className="flex flex-col items-center justify-center gap-2 py-10 text-center">
+                <Loader2 className="h-6 w-6 animate-spin text-teal-700" />
+                <p className="text-xs text-charcoal/60">Ricerca degli orari liberi in agenda…</p>
+              </div>
+            ) : slotTimes.length === 0 ? (
+              <div className="py-10 text-center">
+                <CalendarIcon className="mx-auto mb-2 h-7 w-7 text-teal-600/70" />
+                <p className="text-sm font-semibold text-dark-navy">
+                  Nessun orario disponibile in questa data.
+                </p>
+                <p className="mt-1 text-xs text-charcoal/60">
+                  Prova con un altro giorno oppure chiama la reception al{" "}
+                  <a href={`tel:${CLINIC_PHONE.replace(/\s+/g, "")}`} className="font-semibold text-teal-800 underline">
+                    {CLINIC_PHONE}
+                  </a>
+                  .
+                </p>
+                <div className="mt-4 flex justify-center">
+                  <Button type="button" variant="secondary" size="sm" onClick={() => changeDateByDays(1)}>
+                    Vedi il giorno successivo
+                    <ArrowRight className="h-3.5 w-3.5" />
+                  </Button>
                 </div>
-              )}
-            </div>
-          )}
+              </div>
+            ) : (
+              <div className="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-4 lg:grid-cols-6">
+                {slotTimes.map((slot) => (
+                  <button
+                    key={`${slot.date}-${slot.time}`}
+                    type="button"
+                    title={`${slot.time} · ${slot.doctorName}`}
+                    onClick={() => handleSelectSlot(slot)}
+                    className="group inline-flex items-center justify-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-2.5 text-sm font-bold text-emerald-800 transition-all hover:-translate-y-0.5 hover:border-emerald-600 hover:bg-emerald-600 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500/40"
+                  >
+                    <Clock className="h-3.5 w-3.5 opacity-70 group-hover:opacity-100" />
+                    {slot.time}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            <p className="mt-4 text-[11px] leading-snug text-charcoal/50">
+              Orari ufficiali del centro: Lun–Ven 8:00–20:00 (orario continuato), Sab 9:00–14:00.
+            </p>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <button
+              type="button"
+              onClick={() => setStep(1)}
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-charcoal/60 transition-colors hover:text-dark-navy"
+            >
+              <ArrowLeft className="h-3.5 w-3.5" /> Cambia prestazione
+            </button>
+          </div>
         </div>
       )}
 
-      {/* ── PASSO 3: DATI PAZIENTE & CONFERMA ──────────────────────────── */}
+      {/* ── STEP 3 · RECAPITI E CONFERMA ─────────────────────────────── */}
       {step === 3 && selectedService && selectedSlot && (
-        <div className="space-y-6 max-w-2xl mx-auto">
-          {/* Card di Riepilogo Sintetico e Rassicurante */}
-          <div className="bg-[#1C4A5C] text-white rounded-3xl p-6 sm:p-7 shadow-lg space-y-4">
-            <div className="flex items-center justify-between border-b border-white/15 pb-3">
-              <span className="text-xs uppercase tracking-wider font-semibold text-teal-200">
-                Riepilogo Visita Scelta
-              </span>
+        <div className="space-y-5">
+          <div>
+            <h4 className="font-serif text-base sm:text-lg font-semibold text-dark-navy">
+              3. I tuoi recapiti e conferma
+            </h4>
+            <p className="mt-0.5 text-xs text-charcoal/60">
+              Ti invieremo il promemoria dell&apos;appuntamento via SMS o WhatsApp.
+            </p>
+          </div>
+
+          {/* Riepilogo completa */}
+          <div className="rounded-2xl border border-slate-200/90 bg-white p-4 sm:p-5">
+            <div className="flex items-start justify-between gap-3 border-b border-slate-100 pb-3">
+              <div className="min-w-0">
+                <p className="text-[10px] font-bold uppercase tracking-wider text-teal-700">
+                  Riepilogo prenotazione
+                </p>
+                <h5 className="mt-0.5 font-serif text-base font-semibold text-dark-navy">
+                  {selectedService.name}
+                </h5>
+                <span className="mt-1 inline-flex items-center gap-1 rounded-full bg-slate-50 px-2.5 py-0.5 text-[10px] font-semibold text-charcoal/60">
+                  <Clock className="h-3 w-3 text-teal-700" />
+                  {selectedDuration} min
+                </span>
+              </div>
               <button
                 type="button"
                 onClick={() => setStep(2)}
-                className="text-xs text-white/80 hover:text-white underline"
+                className="inline-flex shrink-0 items-center gap-1 text-[11px] font-semibold text-primary-teal hover:underline"
               >
-                Modifica data/orario
+                <Pencil className="h-3 w-3" /> Modifica
               </button>
             </div>
 
-            <div className="space-y-2">
-              <h3 className="font-serif text-lg sm:text-xl font-bold">
-                {selectedService.name}
-              </h3>
-              <div className="grid sm:grid-cols-2 gap-3 pt-2 text-xs text-white/90">
-                <div className="flex items-center gap-2">
-                  <CalendarIcon className="h-4 w-4 text-teal-300" />
-                  <span className="capitalize">{formattedDate}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-teal-300" />
-                  <span>Ore {selectedSlot.time} ({selectedService.duration_minutes || 30} min)</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <User className="h-4 w-4 text-teal-300" />
-                  <span>{selectedSlot.doctorName}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <DoorOpen className="h-4 w-4 text-teal-300" />
-                  <span>{selectedSlot.roomName || "Studio Clinico"}</span>
-                </div>
+            <dl className="mt-3 grid gap-3 sm:grid-cols-2">
+              <div>
+                <dt className="text-[10px] font-bold uppercase tracking-wider text-charcoal/45">
+                  Medico specialista
+                </dt>
+                <dd className="mt-0.5 text-sm font-semibold text-dark-navy">
+                  {selectedSlot.doctorName}
+                </dd>
+                {selectedSlot.doctorTitle && (
+                  <dd className="text-[11px] leading-snug text-charcoal/60">{selectedSlot.doctorTitle}</dd>
+                )}
               </div>
-
-              <div className="pt-3 border-t border-white/10 flex items-center gap-2 text-[11px] text-teal-200">
-                <MapPin className="h-3.5 w-3.5 shrink-0" />
-                <span>Cocoora Centro Medico · Via De Bonis, Napoli (NA)</span>
+              <div>
+                <dt className="text-[10px] font-bold uppercase tracking-wider text-charcoal/45">
+                  Data e orario
+                </dt>
+                <dd className="mt-0.5 text-sm font-semibold capitalize text-dark-navy">
+                  {formattedDate}
+                </dd>
+                <dd className="text-[11px] text-charcoal/60">Ore {selectedSlot.time}</dd>
               </div>
-            </div>
+              <div className="sm:col-span-2">
+                <dt className="text-[10px] font-bold uppercase tracking-wider text-charcoal/45">
+                  Sede
+                </dt>
+                <dd className="mt-0.5 flex items-center gap-1.5 text-sm font-semibold text-dark-navy">
+                  <MapPin className="h-3.5 w-3.5 text-teal-700" />
+                  Cocoora Centro Medico · Via De Bonis, Napoli
+                </dd>
+              </div>
+            </dl>
           </div>
 
-          {/* Form Inserimento Dati */}
+          {/* Form recapiti */}
           <form
             onSubmit={handleConfirmBooking}
-            className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/90 shadow-xs space-y-4"
+            className="space-y-4 rounded-2xl border border-slate-200/90 bg-white p-4 sm:p-5"
           >
-            {patient ? (
-              <div className="rounded-2xl bg-teal-50/70 p-5 border border-teal-100/90 space-y-3">
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                  <div className="flex items-center gap-2.5">
-                    <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1C4A5C] text-white shrink-0">
-                      <UserCheck className="h-5 w-5" />
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-teal-800">
-                        Paziente Riconosciuto · Area Personale
-                      </span>
-                      <h4 className="font-serif text-base font-bold text-slate-900">
-                        {patient.first_name} {patient.last_name}
-                      </h4>
-                    </div>
-                  </div>
-                  {patient.patient_code && (
-                    <span className="self-start sm:self-center text-xs font-mono font-bold text-teal-900 bg-white px-2.5 py-1 rounded-lg border border-teal-200">
-                      {patient.patient_code}
-                    </span>
-                  )}
+            {patient && (
+              <div className="flex items-center gap-2.5 rounded-xl border border-teal-100 bg-teal-50/70 p-3">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary-teal text-white">
+                  <Check className="h-4 w-4" />
+                </span>
+                <div className="min-w-0">
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-teal-800">
+                    Stai prenotando come
+                  </p>
+                  <p className="text-xs font-semibold text-dark-navy">
+                    {patient.first_name} {patient.last_name}
+                    {patient.patient_code ? ` · ${patient.patient_code}` : ""}
+                  </p>
                 </div>
-
-                <div className="grid sm:grid-cols-2 gap-3 pt-3 border-t border-teal-100 text-xs text-slate-700">
-                  <div className="flex items-center gap-2">
-                    <Phone className="h-3.5 w-3.5 text-teal-700 shrink-0" />
-                    <span>Conferma SMS: <strong>{patient.phone || "Registrato nel fascicolo"}</strong></span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <User className="h-3.5 w-3.5 text-teal-700 shrink-0" />
-                    <span>Email promemoria: <strong>{patient.email || "Registrata nel fascicolo"}</strong></span>
-                  </div>
-                </div>
-
-                <p className="text-[11px] text-teal-800/80">
-                  ✓ Nessun dato da digitare: l&apos;appuntamento verrà collegato automaticamente al tuo fascicolo sanitario Cocoora.
-                </p>
               </div>
-            ) : (
-              <>
-                <h4 className="font-serif text-base font-bold text-slate-900 border-b border-slate-100 pb-3">
-                  Inserisci i tuoi dati di contatto per la conferma
-                </h4>
-
-                <div>
-                  <label className="block text-xs font-semibold text-slate-900 mb-1">
-                    Nome e Cognome *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={form.name}
-                    onChange={(e) => setForm({ ...form, name: e.target.value })}
-                    placeholder="es. Mario Rossi"
-                    className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm text-slate-800 focus:border-[#1C4A5C] focus:outline-none"
-                  />
-                </div>
-
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-900 mb-1">
-                      Numero di Telefono (per conferma SMS) *
-                    </label>
-                    <input
-                      type="tel"
-                      required
-                      value={form.phone}
-                      onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                      placeholder="333 1234567"
-                      className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm text-slate-800 focus:border-[#1C4A5C] focus:outline-none"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-900 mb-1">
-                      Email (per promemoria digitale)
-                    </label>
-                    <input
-                      type="email"
-                      value={form.email}
-                      onChange={(e) => setForm({ ...form, email: e.target.value })}
-                      placeholder="mario.rossi@email.it"
-                      className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm text-slate-800 focus:border-[#1C4A5C] focus:outline-none"
-                    />
-                  </div>
-                </div>
-              </>
             )}
 
             <div>
-              <label className="block text-xs font-semibold text-slate-900 mb-1">
-                Eventuali note per lo specialista o la reception (opzionale)
+              <label htmlFor="patient-name" className="mb-1 block text-xs font-semibold text-dark-navy">
+                Nome e Cognome *
+              </label>
+              <input
+                id="patient-name"
+                type="text"
+                required
+                autoComplete="name"
+                value={form.name}
+                onChange={(event) => setForm({ ...form, name: event.target.value })}
+                placeholder="Mario Rossi"
+                className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm text-charcoal focus:border-primary-teal focus:outline-none focus:ring-2 focus:ring-primary-teal/15"
+              />
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label htmlFor="patient-phone" className="mb-1 block text-xs font-semibold text-dark-navy">
+                  Telefono cellulare *
+                </label>
+                <input
+                  id="patient-phone"
+                  type="tel"
+                  required
+                  autoComplete="tel"
+                  inputMode="tel"
+                  value={form.phone}
+                  onChange={(event) => setForm({ ...form, phone: event.target.value })}
+                  placeholder="333 1234567"
+                  className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm text-charcoal focus:border-primary-teal focus:outline-none focus:ring-2 focus:ring-primary-teal/15"
+                />
+                <p className="mt-1 text-[10px] text-charcoal/50">
+                  Per il promemoria dell&apos;appuntamento via SMS o WhatsApp.
+                </p>
+              </div>
+
+              <div>
+                <label htmlFor="patient-email" className="mb-1 block text-xs font-semibold text-dark-navy">
+                  Email <span className="font-normal text-charcoal/50">(opzionale)</span>
+                </label>
+                <input
+                  id="patient-email"
+                  type="email"
+                  autoComplete="email"
+                  value={form.email}
+                  onChange={(event) => setForm({ ...form, email: event.target.value })}
+                  placeholder="mario.rossi@email.it"
+                  className="w-full rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm text-charcoal focus:border-primary-teal focus:outline-none focus:ring-2 focus:ring-primary-teal/15"
+                />
+                <p className="mt-1 text-[10px] text-charcoal/50">Per ricevere la ricevuta dell&apos;appuntamento.</p>
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="patient-notes" className="mb-1 block text-xs font-semibold text-dark-navy">
+                Note <span className="font-normal text-charcoal/50">(opzionale)</span>
               </label>
               <textarea
+                id="patient-notes"
                 rows={2}
                 value={form.notes}
-                onChange={(e) => setForm({ ...form, notes: e.target.value })}
-                placeholder="Es. Richiesta controllo particolare, preferenze orario..."
-                className="w-full rounded-xl border border-slate-200 px-3.5 py-2 text-sm text-slate-800 focus:border-[#1C4A5C] focus:outline-none resize-none"
+                onChange={(event) => setForm({ ...form, notes: event.target.value })}
+                placeholder="Es. prima visita, controllo, preferenze particolari…"
+                className="w-full resize-none rounded-xl border border-slate-200 px-3.5 py-2.5 text-sm text-charcoal focus:border-primary-teal focus:outline-none focus:ring-2 focus:ring-primary-teal/15"
               />
             </div>
 
             {bookingError && (
-              <div className="flex items-center gap-2 rounded-xl bg-rose-50 p-3 text-xs text-rose-800 border border-rose-200">
-                <AlertCircle className="h-4 w-4 shrink-0" />
+              <div className="flex items-start gap-2 rounded-xl border border-rose-200 bg-rose-50 p-3 text-xs text-rose-800">
+                <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
                 <span>{bookingError}</span>
               </div>
             )}
 
-            <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+            <div className="border-t border-slate-100 pt-4">
+              <Button
+                type="submit"
+                size="lg"
+                disabled={submitting}
+                className="w-full bg-emerald-600 text-white shadow-[0_12px_30px_-12px_rgba(5,150,105,0.65)] hover:bg-emerald-700 hover:shadow-[0_16px_40px_-12px_rgba(5,150,105,0.75)]"
+              >
+                {submitting ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" /> Prenotazione in corso…
+                  </>
+                ) : (
+                  <>
+                    <Check className="h-5 w-5" /> Conferma Prenotazione
+                  </>
+                )}
+              </Button>
+              <p className="mt-2 text-center text-[10px] leading-snug text-charcoal/50">
+                Confermando accetti di essere ricontattato dalla reception per eventuali variazioni
+                dell&apos;appuntamento.
+              </p>
+            </div>
+
+            <div className="flex justify-start">
               <button
                 type="button"
                 onClick={() => setStep(2)}
-                className="rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50 transition-colors"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-charcoal/60 transition-colors hover:text-dark-navy"
               >
-                ← Torna agli orari
+                <ArrowLeft className="h-3.5 w-3.5" /> Torna agli orari
               </button>
-              <Button type="submit" size="md" disabled={submitting}>
-                {submitting
-                  ? "Registrazione in corso..."
-                  : patient
-                  ? "Conferma Prenotazione Istantanea"
-                  : "Conferma Prenotazione"}
-              </Button>
             </div>
           </form>
         </div>
       )}
 
-      {/* ── PASSO 4: CONFERMA AVVENUTA CON SUCCESSO ────────────────────── */}
-      {step === 4 && (
-        <div className="bg-white rounded-3xl p-8 sm:p-10 border border-emerald-100 shadow-sm max-w-xl mx-auto text-center space-y-5">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-600">
-            <CheckCircle2 className="h-10 w-10" />
+      {/* ── STEP 4 · CONFERMA ────────────────────────────────────────── */}
+      {step === 4 && selectedService && selectedSlot && (
+        <div className="mx-auto max-w-xl space-y-5 rounded-3xl border border-emerald-100 bg-white p-6 text-center shadow-sm sm:p-9">
+          <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 ring-8 ring-emerald-50">
+            <CheckCircle2 className="h-11 w-11" />
           </div>
 
           <div>
-            <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-              Prenotazione Registrata
-            </span>
-            <h3 className="font-serif text-2xl font-bold text-slate-900 mt-3">
-              Ti aspettiamo da Cocoora!
-            </h3>
-            <p className="text-sm text-slate-600 mt-1">
-              Abbiamo inserito il tuo appuntamento nell&apos;agenda dello specialista.
+            <h4 className="font-serif text-2xl font-bold text-dark-navy">Prenotazione confermata</h4>
+            <p className="mt-1 text-sm text-charcoal/70">
+              Ti aspettiamo da Cocoora. La tua richiesta è già in agenda.
             </p>
           </div>
 
-          <div className="rounded-2xl bg-slate-50 p-5 border border-slate-100 text-left text-xs space-y-2">
-            <div className="flex justify-between border-b border-slate-200/60 pb-2">
-              <span className="text-slate-500">Codice Appuntamento:</span>
-              <span className="font-mono font-bold text-slate-900">{confirmedBookingId}</span>
-            </div>
-            <div className="flex justify-between border-b border-slate-200/60 pb-2">
-              <span className="text-slate-500">Prestazione:</span>
-              <span className="font-semibold text-slate-900">{selectedService?.name}</span>
-            </div>
-            <div className="flex justify-between border-b border-slate-200/60 pb-2">
-              <span className="text-slate-500">Specialista:</span>
-              <span className="font-semibold text-slate-900">{selectedSlot?.doctorName}</span>
-            </div>
-            <div className="flex justify-between border-b border-slate-200/60 pb-2">
-              <span className="text-slate-500">Data e Ora:</span>
-              <span className="font-semibold text-slate-900 capitalize">
-                {formattedDate} ore {selectedSlot?.time}
-              </span>
-            </div>
-            <div className="flex justify-between pt-1">
-              <span className="text-slate-500">Sede:</span>
-              <span className="font-semibold text-slate-900">Via De Bonis, Napoli</span>
-            </div>
+          <div className="rounded-2xl border border-emerald-100 bg-emerald-50/60 px-4 py-3">
+            <p className="text-[10px] font-bold uppercase tracking-wider text-emerald-700">
+              Codice promemoria
+            </p>
+            <p className="mt-0.5 font-mono text-xl font-bold tracking-wider text-emerald-900">
+              {confirmationCode}
+            </p>
           </div>
 
-          <p className="text-xs text-slate-500">
-            Riceverai una conferma via SMS sul numero indicato. Ti consigliamo di arrivare in clinica con circa 10 minuti di anticipo.
+          <dl className="space-y-2 rounded-2xl border border-slate-100 bg-slate-50/70 p-4 text-left text-xs">
+            <div className="flex items-start justify-between gap-3 border-b border-slate-200/60 pb-2">
+              <dt className="text-charcoal/50">Prestazione</dt>
+              <dd className="text-right font-semibold text-dark-navy">{selectedService.name}</dd>
+            </div>
+            <div className="flex items-start justify-between gap-3 border-b border-slate-200/60 pb-2">
+              <dt className="text-charcoal/50">Medico specialista</dt>
+              <dd className="text-right font-semibold text-dark-navy">
+                {selectedSlot.doctorName}
+              </dd>
+            </div>
+            <div className="flex items-start justify-between gap-3 border-b border-slate-200/60 pb-2">
+              <dt className="text-charcoal/50">Data e orario</dt>
+              <dd className="text-right font-semibold capitalize text-dark-navy">
+                {formattedDate} · Ore {selectedSlot.time}
+              </dd>
+            </div>
+            <div className="flex items-start justify-between gap-3">
+              <dt className="text-charcoal/50">Sede</dt>
+              <dd className="text-right font-semibold text-dark-navy">
+                Via De Bonis, Napoli
+              </dd>
+            </div>
+          </dl>
+
+          <p className="text-[11px] leading-relaxed text-charcoal/55">
+            Riceverai il promemoria sul numero indicato. Ti consigliamo di arrivare con qualche
+            minuto di anticipo: la reception ti accompagnerà nella stanza assegnata.
           </p>
 
-          <div className="pt-2">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => {
-                setStep(1);
-                setSelectedSlot(null);
-                setForm({ name: "", phone: "", email: "", notes: "" });
-              }}
-            >
+          <div className="flex flex-col gap-2 sm:flex-row sm:justify-center">
+            <Button type="button" variant="secondary" size="md" onClick={resetBookingFlow}>
               Prenota un&apos;altra visita
             </Button>
+            <Link
+              href="/area-paziente"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-primary-teal px-6 py-3 text-sm font-medium text-white shadow-[0_10px_30px_-12px_rgba(28,74,92,0.55)] transition-all hover:-translate-y-0.5 hover:bg-dark-navy"
+            >
+              Torna all&apos;Area Paziente
+            </Link>
           </div>
         </div>
       )}

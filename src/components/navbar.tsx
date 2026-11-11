@@ -143,7 +143,7 @@ const ODONTOIATRIA_CATEGORIES: MegamenuCategory[] = [
   },
 ];
 
-// 3. Visite Specialistiche (spec Silvia Monticelli — email 28/10/2026)
+// 3. Visite Specialistiche (spec Valentina Mercurio — chat 29/10/2026)
 const VISITE_SPECIALISTICHE_CATEGORIES: MegamenuCategory[] = [
   {
     heading: "Benessere e cura di sé",
@@ -358,15 +358,11 @@ export function Navbar() {
       {/* ── 1. Top Bar Istituzionale & Accesso Rapido ───────────────────── */}
       <div className="bg-dark-navy border-b border-white/10 text-[11px] sm:text-xs text-teal-100/90 py-1.5 px-4 sm:px-8 lg:px-10 transition-all duration-300">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
-          {/* Docenti universitari e orari */}
+          {/* Orari di apertura */}
           <div className="flex items-center gap-3 min-w-0">
-            <span className="font-medium text-teal-200/90 truncate">
-              Docenti Università Federico II &amp; Vanvitelli a Napoli
-            </span>
-            <span className="hidden md:inline text-white/30">•</span>
-            <span className="hidden md:inline-flex items-center gap-1.5 text-teal-200/75 whitespace-nowrap">
-              <Clock className="h-3 w-3 text-slate-accent" />
-              {TOPBAR_HOURS}
+            <span className="inline-flex items-center gap-1.5 text-teal-200/75 truncate">
+              <Clock className="h-3 w-3 shrink-0 text-slate-accent" />
+              <span className="truncate">{TOPBAR_HOURS}</span>
             </span>
           </div>
 
@@ -502,6 +498,8 @@ export function Navbar() {
               {openDesktop === "Medicina Estetica" && <MegamenuMedicinaEstetica onClose={closeAll} />}
               {openDesktop === "Odontoiatria" && <MegamenuOdontoiatria onClose={closeAll} />}
               {openDesktop === "Visite Specialistiche" && <MegamenuVisiteSpecialistiche onClose={closeAll} />}
+              {openDesktop === "I Medici" && <MegamenuMedici onClose={closeAll} onOpenBooking={openBooking} />}
+              {openDesktop === "Il Centro" && <MegamenuCentro onClose={closeAll} />}
               {openDesktop === "Percorsi Salute" && <MegamenuPercorsiSalute onClose={closeAll} />}
             </div>
           </div>
@@ -547,7 +545,7 @@ export function Navbar() {
 
           {/* Recapito Istituzionale Mobile */}
           <div className="bg-teal-50/70 border-b border-teal-100/70 px-6 py-2.5 text-xs text-teal-900">
-            Docenti Università Federico II &amp; Vanvitelli · {TOPBAR_HOURS}
+            {TOPBAR_HOURS}
           </div>
 
           {/* Elenco Pagine Accordion */}

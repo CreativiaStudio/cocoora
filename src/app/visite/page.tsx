@@ -33,7 +33,7 @@ export default function VisitePage() {
               Visite Specialistiche Private a Napoli
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-base sm:text-lg leading-relaxed text-teal-100/90">
-              14 branche specialistiche coordinate, con tempi dedicati all&apos;ascolto e
+              13 branche specialistiche coordinate, con tempi dedicati all&apos;ascolto e
               refertazione strutturata. Scegli la visita di cui hai bisogno e
               prenota la tua valutazione dedicata.
             </p>

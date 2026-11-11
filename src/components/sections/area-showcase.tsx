@@ -128,7 +128,7 @@ const AREAS: readonly AreaDefinition[] = [
     checks: [
       { label: "Benessere, nutrizione e salute cutanea", matchCategory: "Benessere e cura di sé", jumpIndex: 0 },
       { label: "Diagnostica ecografica e prevenzione clinica", matchCategory: "Diagnostica e prevenzione", jumpIndex: 3 },
-      { label: "Specialistiche dedicate a tutta la famiglia", matchCategory: "Specialistiche per la famiglia", jumpIndex: 9 },
+      { label: "Specialistiche dedicate a tutta la famiglia", matchCategory: "Specialistiche per la famiglia", jumpIndex: 8 },
     ],
     items: [
       { id: "vs-nutrizione", label: "Nutrizione", category: "Benessere e cura di sé", href: "/visite/nutrizione", image: "/images/visite/nutrizione-napoli-1.jpg" },
@@ -138,7 +138,6 @@ const AREAS: readonly AreaDefinition[] = [
       { id: "vs-ginecologia", label: "Ginecologia", category: "Diagnostica e prevenzione", href: "/visite/ginecologia", image: "/images/visite/ginecologia-napoli-1.jpg" },
       { id: "vs-oculistica", label: "Oculistica", category: "Diagnostica e prevenzione", href: "/visite/oculistica", image: "/images/visite/oculistica-napoli-1.jpg" },
       { id: "vs-radiologia", label: "Radiologia ed ecografia", category: "Diagnostica e prevenzione", href: "/visite/radiologia", image: "/images/visite/radiologia-napoli-1.jpg" },
-      { id: "vs-diabetologia", label: "Diabetologia", category: "Diagnostica e prevenzione", href: "/visite/diabetologia", image: "/images/visite/diabetologia-napoli-2.jpg" },
       { id: "vs-pediatria", label: "Pediatria", category: "Diagnostica e prevenzione", href: "/visite/pediatria", image: "/images/visite/pediatria-napoli-1.jpg" },
       { id: "vs-senologia", label: "Senologia", category: "Specialistiche per la famiglia", href: "/visite/senologia", image: "/images/visite/senologia-napoli-1.jpg" },
       { id: "vs-sport", label: "Medicina dello sport", category: "Specialistiche per la famiglia", href: "/visite/medicina-dello-sport", image: "/images/visite/medicina-dello-sport-napoli-1.jpg" },

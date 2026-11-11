@@ -326,7 +326,6 @@ export const SERVICE_AREAS: ServiceArea[] = [
       "Cardiologia",
       "Neurologia",
       "Endocrinologia",
-      "Diabetologia",
       "Oftalmologia",
     ],
   },
