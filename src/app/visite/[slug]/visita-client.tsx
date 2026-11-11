@@ -736,7 +736,7 @@ function LocalSeoSection({
             {/* Sinistra — foto centro */}
             <div className="relative min-h-[260px] w-full lg:min-h-full">
               <Image
-                src="/images/dental-operatory.jpg"
+                src="/images/centro/foto-2.webp"
                 alt={`${localSeo.title} — Il Centro Cocoora`}
                 fill
                 sizes="(min-width: 1024px) 50vw, 90vw"

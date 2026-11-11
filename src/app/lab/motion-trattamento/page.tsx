@@ -1028,7 +1028,7 @@ function LocalSeoSection({ treatment }: { treatment: Treatment }) {
             {/* Foto Architettonica Sede (5 col) */}
             <div className="relative min-h-[350px] lg:col-span-5">
               <Image
-                src="/images/hero-clinic.jpg"
+                src="/images/centro/foto-2.webp"
                 alt="Cocoora Centro Medico - Napoli"
                 fill
                 sizes="(min-width: 1024px) 40vw, 100vw"
