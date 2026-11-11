@@ -7,22 +7,22 @@ import { Button, ButtonLink } from "@/components/ui";
 
 const SLIDES = [
   {
-    src: "/images/clinic-lounge.jpg",
+    src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/clinic-lounge.jpg",
     alt: "Sala d'attesa premium Cocoora — lounge accogliente e moderna",
     position: "object-center",
   },
   {
-    src: "/images/medici-hero-banner.jpg",
+    src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/medici-hero-banner.jpg",
     alt: "Visita medica personalizzata con uno specialista Cocoora",
     position: "object-top",
   },
   {
-    src: "/images/aesthetic-skin.jpg",
+    src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/aesthetic-skin.jpg",
     alt: "Medicina estetica avanzata e rigenerativa a Napoli",
     position: "object-center",
   },
   {
-    src: "/images/invisalign-smile.jpg",
+    src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/invisalign-smile.jpg",
     alt: "Sorriso armonico con allineatori trasparenti — odontoiatria Cocoora",
     position: "object-center",
   },

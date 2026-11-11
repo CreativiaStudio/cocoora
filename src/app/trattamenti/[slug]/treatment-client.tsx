@@ -286,8 +286,8 @@ function categoryLabel(treatment: Treatment): string {
 
 function heroFallbackImage(treatment: Treatment): string {
   return treatment.category === "odontoiatria"
-    ? "/images/dental-operatory.jpg"
-    : "/images/aesthetic-skin.jpg";
+    ? "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/dental-operatory.jpg"
+    : "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/aesthetic-skin.jpg";
 }
 
 // ─────────────────────────────────────────────────────────────────────────
@@ -417,12 +417,13 @@ function HeroSection({
           </div>
 
           {/* Colonna immagine: su mobile in cima ("Image-First"), su desktop colonna destra */}
-          <div className="order-first lg:order-last relative mx-auto aspect-[4/3] w-full max-w-xl overflow-hidden rounded-[2.5rem] shadow-xl sm:aspect-[4/5] lg:mx-0 lg:max-w-none">
+          <div className="order-first lg:order-last relative mx-auto aspect-square w-full max-w-lg overflow-hidden rounded-[2.5rem] shadow-xl lg:mx-0 lg:ml-auto">
             <Image
               src={heroImage ?? treatment.heroImage ?? heroFallbackImage(treatment)}
               alt={treatment.title}
               fill
               priority
+              quality={95}
               sizes="(min-width: 1024px) 50vw, 90vw"
               className="object-cover"
             />
@@ -552,7 +553,7 @@ function WhatIsSection({ treatment, page }: { treatment: Treatment; page?: SeoPa
     page?.whatIsImage ||
     whatIs?.image ||
     treatment.galleryImages?.[1] ||
-    (treatment.category === "odontoiatria" ? "/images/dental-operatory.jpg" : "/images/laser-technology.jpg");
+    (treatment.category === "odontoiatria" ? "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/dental-operatory.jpg" : "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/laser-technology.jpg");
 
   return (
     <section className="bg-canvas py-16 sm:py-20">
@@ -819,7 +820,7 @@ function ResultsSection({ treatment, page }: { treatment: Treatment; page?: SeoP
     results?.image ||
     treatment.galleryImages?.[2] ||
     treatment.galleryImages?.[1] ||
-    (treatment.category === "odontoiatria" ? "/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-1.jpg" : "/images/aesthetic-skin.jpg");
+    (treatment.category === "odontoiatria" ? "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-1.jpg" : "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/aesthetic-skin.jpg");
 
   return (
     <section className="bg-canvas py-16 sm:py-20">
@@ -1179,7 +1180,7 @@ function LocalSeoSection({ treatment, page }: { treatment: Treatment; page?: Seo
             {/* Sinistra — foto panorama / centro */}
             <div className="relative min-h-[260px] w-full lg:min-h-full">
               <Image
-                src="/images/centro/foto-2.webp"
+                src="https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-2.webp"
                 alt={`${title} — Il Centro Cocoora`}
                 fill
                 sizes="(min-width: 1024px) 50vw, 90vw"

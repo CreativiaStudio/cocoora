@@ -60,7 +60,7 @@ async function fetchFromInstagramEmbed(): Promise<InstagramPost[] | null> {
       const shortcode = sm.shortcode;
       // Per garantire caricamento istantaneo a prova di blocco CDN Instagram,
       // usiamo la versione ottimizzata locale / R2, con fallback su display_url
-      const localImage = `/images/instagram/post-${idx + 1}-${shortcode}.jpg`;
+      const localImage = `https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/instagram/post-${idx + 1}-${shortcode}.jpg`;
       const fallbackImage = sm.display_url || INSTAGRAM_POSTS[idx % INSTAGRAM_POSTS.length].image;
       const caption =
         sm.edge_media_to_caption?.edges?.[0]?.node?.text ||

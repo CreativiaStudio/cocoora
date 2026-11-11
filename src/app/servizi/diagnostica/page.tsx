@@ -46,7 +46,7 @@ export default function DiagnosticaPage() {
       {/* ── Banner Hero ──────────────────────────────────────────────── */}
       <div className="relative z-10 h-72 w-full overflow-hidden rounded-b-[2.5rem] border-b border-slate-200/80 shadow-xl shadow-dark-navy/10 sm:h-80 md:h-96">
         <Image
-          src="/images/diagnostics-lab.jpg"
+          src="https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/diagnostics-lab.jpg"
           alt="Laboratorio diagnostico e centro specialistico Cocoora Napoli"
           fill
           priority
@@ -150,7 +150,7 @@ export default function DiagnosticaPage() {
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
             <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[2.5rem] shadow-[0_30px_70px_-28px_rgba(3,53,75,0.35)]">
               <Image
-                src="/images/pediatric-family.jpg"
+                src="https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/pediatric-family.jpg"
                 alt="Visita pediatrica e famiglia presso Cocoora Centro Medico"
                 fill
                 sizes="(min-width: 1024px) 560px, 90vw"

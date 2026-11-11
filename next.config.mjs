@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const R2_PUBLIC_URL = "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev";
+
 const nextConfig = {
   reactStrictMode: true,
   eslint: {
@@ -11,6 +13,8 @@ const nextConfig = {
     ignoreBuildErrors: false,
   },
   images: {
+    loader: "custom",
+    loaderFile: "./src/lib/r2-image-loader.ts",
     remotePatterns: [
       {
         protocol: "https",
@@ -33,6 +37,18 @@ const nextConfig = {
         pathname: "/**",
       },
     ],
+  },
+  async rewrites() {
+    return [
+      {
+        source: "/images/:path*",
+        destination: `${R2_PUBLIC_URL}/images/:path*`,
+      },
+      {
+        source: "/videos/:path*",
+        destination: `${R2_PUBLIC_URL}/videos/:path*`,
+      },
+    ];
   },
   async redirects() {
     return [

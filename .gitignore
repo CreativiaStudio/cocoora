@@ -40,3 +40,5 @@ supabase/.temp/
 .temp/
 scratch/
 .agents/
+/public/images/
+/public/videos/

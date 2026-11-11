@@ -13,7 +13,7 @@ export default function VisitePage() {
       <section className="relative overflow-hidden bg-dark-navy pb-20 pt-32 sm:pb-24 sm:pt-36">
         <div className="absolute inset-0">
           <Image
-            src="/images/centro/foto-8.webp"
+            src="https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-8.webp"
             alt="Ambulatori specialistici e clinica Cocoora Napoli"
             fill
             priority

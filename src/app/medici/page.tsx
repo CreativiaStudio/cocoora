@@ -88,7 +88,7 @@ export default function MediciPage() {
       <section className="relative w-full overflow-hidden bg-dark-navy pt-20 sm:pt-24">
         <div className="relative h-[180px] sm:h-[210px] lg:h-[230px] w-full overflow-hidden">
           <Image
-            src="/images/centro/foto-13.webp"
+            src="https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-13.webp"
             alt="Équipe medica e clinica Cocoora a Napoli"
             fill
             priority

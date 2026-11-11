@@ -30,32 +30,32 @@ export const PRINCIPLES: Principle[] = [
 export const CLINIC_GALLERY: GalleryItem[] = [
   {
     id: "lounge",
-    image: "/images/clinic-lounge.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/clinic-lounge.jpg",
     caption: "La Lounge di Benvenuto: arredi tortora, luce soffusa e un'atmosfera lontana dai cliché ospedalieri.",
   },
   {
     id: "reception",
-    image: "/images/hero-clinic.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/hero-clinic.jpg",
     caption: "L'Atrio Centrale: accoglienza digitale e check-in rapido con QR code.",
   },
   {
     id: "dental-suite",
-    image: "/images/dental-operatory.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/dental-operatory.jpg",
     caption: "Suite Odontoiatrica: tecnologia digitale 3D, scanner intraorale e poltrone ad alto comfort.",
   },
   {
     id: "laser-room",
-    image: "/images/laser-technology.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/laser-technology.jpg",
     caption: "Area Medicina Estetica: piattaforma laser medicale multifunzionale e Cryoliposculpt.",
   },
   {
     id: "diagnostics",
-    image: "/images/diagnostics-lab.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/diagnostics-lab.jpg",
     caption: "Ambulatorio Diagnostico: ecocardiografia e diagnostica per immagini ad alta definizione.",
   },
   {
     id: "consultation",
-    image: "/images/medici-hero-banner.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/medici-hero-banner.jpg",
     caption: "Spazi di Consultazione: riservatezza, ascolto e tempo dedicato tra medico e paziente.",
   },
 ];
@@ -65,25 +65,25 @@ export const SHOWROOM_TILES: ShowroomTile[] = [
     id: "allineatori",
     title: "Allineatori Trasparenti",
     text: "Scansione digitale 3D e pianificazione ortodontica specialistica per allineare il sorriso con mascherine trasparenti rimovibili.",
-    image: "/images/invisalign-smile.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/invisalign-smile.jpg",
   },
   {
     id: "cryoliposculpt",
     title: "Cryoliposculpt & Rimodellamento",
     text: "Raffreddamento medicale controllato per adiposità localizzate e tonicità tessutale senza aghi.",
-    image: "/images/body-wellness.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/body-wellness.jpg",
   },
   {
     id: "laser-platform",
     title: "Piattaforma Laser Quadri-Manipolo",
     text: "QS NPP, Erbium:YAG, CPL e Laser CO2 per macchie, cicatrici, rossori e texture cutanea radiosa.",
-    image: "/images/laser-technology.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/laser-technology.jpg",
   },
   {
     id: "genomics-lab",
     title: "Genomica & Microbiota NGS",
     text: "Sequenziamento del DNA e microbioma intestinale per guidare longevità, prevenzione e nutrizione.",
-    image: "/images/dna-genomics.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/dna-genomics.jpg",
   },
 ];
 

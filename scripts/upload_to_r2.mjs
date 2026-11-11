@@ -2,11 +2,16 @@ import fs from "node:fs";
 import path from "node:path";
 import { S3Client, PutObjectCommand, HeadObjectCommand } from "@aws-sdk/client-s3";
 
+if (fs.existsSync(".env.local")) process.loadEnvFile(".env.local");
+
 const R2_ACCOUNT_ID = process.env.R2_ACCOUNT_ID || "f373473b18636b9e8f351faed67280fd";
 const R2_BUCKET_NAME = process.env.R2_BUCKET_NAME || "cocoora";
 const R2_ENDPOINT = process.env.R2_ENDPOINT || `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`;
-const R2_ACCESS_KEY_ID = process.env.R2_ACCESS_KEY_ID || "97425f90759bdef31d828b6ffd69b5bb";
-const R2_SECRET_ACCESS_KEY = process.env.R2_SECRET_ACCESS_KEY || "7b8c806e049e30f9178baa4c37e4817c72629e10e7dd3a55f8360150b8c3c60f";
+const R2_ACCESS_KEY_ID = process.env.R2_ACCESS_KEY_ID;
+const R2_SECRET_ACCESS_KEY = process.env.R2_SECRET_ACCESS_KEY;
+if (!R2_ACCESS_KEY_ID || !R2_SECRET_ACCESS_KEY) {
+  throw new Error("R2_ACCESS_KEY_ID e R2_SECRET_ACCESS_KEY mancanti (definirle in .env.local)");
+}
 const R2_PUBLIC_URL = process.env.R2_PUBLIC_URL || "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev";
 
 const s3 = new S3Client({

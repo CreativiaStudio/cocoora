@@ -38,11 +38,11 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
     "categoryName": "Viso e rigenerazione",
     "tagline": "Il filler di acido ialuronico è un trattamento medico iniettivo impiegato per armonizzare alcuni volumi del viso e valorizzarne le proporzioni, dopo un’attenta valutazione anatomica.",
     "description": "Il filler di acido ialuronico è un trattamento medico iniettivo impiegato per armonizzare alcuni volumi del viso e valorizzarne le proporzioni, dopo un’attenta valutazione anatomica.",
-    "heroImage": "/images/trattamenti/medicina-estetica/filler-viso-napoli-1.jpg",
+    "heroImage": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/filler-viso-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/medicina-estetica/filler-viso-napoli-1.jpg",
-      "/images/trattamenti/medicina-estetica/filler-viso-napoli-2.jpg",
-      "/images/trattamenti/medicina-estetica/filler-viso-napoli-3.jpg"
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/filler-viso-napoli-1.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/filler-viso-napoli-2.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/filler-viso-napoli-3.jpg"
     ],
     "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
@@ -59,7 +59,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "Il filler a base di acido ialuronico è utilizzato in medicina estetica per intervenire su volumi e proporzioni del viso. La visita non consiste nel decidere una quantità di prodotto: si osservano anatomia, simmetrie, espressioni e qualità dei tessuti, per valutare se il trattamento sia appropriato e in quali aree."
       ],
       "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
-      "image": "/images/trattamenti/medicina-estetica/filler-viso-napoli-2.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/filler-viso-napoli-2.jpg"
     },
     "problemsTitle": "A cosa serve il filler viso con acido ialuronico?",
     "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
@@ -125,7 +125,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "Un esito armonico dipende dalla proporzione rispetto ai lineamenti e non da un volume prefissato. La durata degli effetti è variabile e non si può stabilire per tutti un identico intervallo di mantenimento.",
         "Ogni risultato deve essere interpretato alla luce del punto di partenza e della risposta individuale. Durante la consulenza vengono chiariti i limiti della procedura, le possibili alternative e i tempi più appropriati per un eventuale controllo."
       ],
-      "image": "/images/trattamenti/medicina-estetica/filler-viso-napoli-3.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/filler-viso-napoli-3.jpg"
     },
     "leadForm": {
       "title": "Hai domande sul trattamento?",
@@ -166,11 +166,11 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
     "categoryName": "Viso e rigenerazione",
     "tagline": "Un trattamento medico indicato in casi selezionati per attenuare le rughe legate alla contrazione dei muscoli mimici, preservando l’equilibrio dell’espressività.",
     "description": "Un trattamento medico indicato in casi selezionati per attenuare le rughe legate alla contrazione dei muscoli mimici, preservando l’equilibrio dell’espressività.",
-    "heroImage": "/images/trattamenti/medicina-estetica/tossina-botulinica-napoli-1.jpg",
+    "heroImage": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/tossina-botulinica-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/medicina-estetica/tossina-botulinica-napoli-1.jpg",
-      "/images/trattamenti/medicina-estetica/tossina-botulinica-napoli-2.jpg",
-      "/images/trattamenti/medicina-estetica/tossina-botulinica-napoli-3.jpg"
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/tossina-botulinica-napoli-1.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/tossina-botulinica-napoli-2.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/tossina-botulinica-napoli-3.jpg"
     ],
     "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
@@ -187,7 +187,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "La tossina botulinica agisce riducendo temporaneamente l’attività di muscoli selezionati. Le rughe che compaiono durante l’espressione non sono identiche ai segni presenti a riposo: distinguerle è importante per impostare aspettative realistiche e decidere se il trattamento sia indicato."
       ],
       "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
-      "image": "/images/trattamenti/medicina-estetica/tossina-botulinica-napoli-2.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/tossina-botulinica-napoli-2.jpg"
     },
     "problemsTitle": "A cosa serve la tossina botulinica per le rughe dinamiche?",
     "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
@@ -253,7 +253,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "L’obiettivo non è annullare ogni movimento, ma definire insieme al professionista un risultato compatibile con le caratteristiche del volto. Le rughe statiche e la qualità generale della pelle possono richiedere valutazioni diverse.",
         "Ogni risultato deve essere interpretato alla luce del punto di partenza e della risposta individuale. Durante la consulenza vengono chiariti i limiti della procedura, le possibili alternative e i tempi più appropriati per un eventuale controllo."
       ],
-      "image": "/images/trattamenti/medicina-estetica/tossina-botulinica-napoli-3.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/tossina-botulinica-napoli-3.jpg"
     },
     "leadForm": {
       "title": "Hai domande sul trattamento?",
@@ -294,11 +294,11 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
     "categoryName": "Viso e rigenerazione",
     "tagline": "La biostimolazione è un trattamento medico che mira a sostenere i processi fisiologici della pelle, con attenzione alla luminosità, all'elasticità e alla qualità dei tessuti.",
     "description": "La biostimolazione è un trattamento medico che mira a sostenere i processi fisiologici della pelle, con attenzione alla luminosità, all'elasticità e alla qualità dei tessuti.",
-    "heroImage": "/images/trattamenti/medicina-estetica/biostimolazione-napoli-1.jpg",
+    "heroImage": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biostimolazione-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/medicina-estetica/biostimolazione-napoli-1.jpg",
-      "/images/trattamenti/medicina-estetica/biostimolazione-napoli-2.jpg",
-      "/images/trattamenti/medicina-estetica/biostimolazione-napoli-3.jpg"
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biostimolazione-napoli-1.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biostimolazione-napoli-2.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biostimolazione-napoli-3.jpg"
     ],
     "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
@@ -315,7 +315,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "A differenza dei filler, che intervengono principalmente sui volumi del viso, la biostimolazione si concentra sulla qualità dei tessuti cutanei, aiutando la pelle a mantenere un aspetto più fresco, uniforme e vitale. Il trattamento viene personalizzato dal medico in base alle caratteristiche della pelle, alle esigenze individuali e agli obiettivi desiderati."
       ],
       "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
-      "image": "/images/trattamenti/medicina-estetica/biostimolazione-napoli-2.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biostimolazione-napoli-2.jpg"
     },
     "problemsTitle": "A cosa serve la biostimolazione della pelle?",
     "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
@@ -381,7 +381,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "I miglioramenti si sviluppano gradualmente, seguendo i naturali processi di rinnovamento cutaneo. Tempi e risultati possono variare in base alle condizioni iniziali della pelle, alla metodica utilizzata e alla risposta individuale.",
         "Durante la visita specialistica, il medico definisce il percorso più adatto alle esigenze della persona, stabilendo il numero di sedute e gli eventuali controlli per valutare l’evoluzione dei risultati nel tempo."
       ],
-      "image": "/images/trattamenti/medicina-estetica/biostimolazione-napoli-3.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biostimolazione-napoli-3.jpg"
     },
     "leadForm": {
       "title": "Hai domande sul trattamento?",
@@ -419,11 +419,11 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
     "categoryName": "Viso e rigenerazione",
     "tagline": "Un approccio di medicina estetica rigenerativa che punta a sostenere la vitalità e la qualità dei tessuti, con protocolli definiti a partire dalla valutazione medica.",
     "description": "Un approccio di medicina estetica rigenerativa che punta a sostenere la vitalità e la qualità dei tessuti, con protocolli definiti a partire dalla valutazione medica.",
-    "heroImage": "/images/trattamenti/medicina-estetica/biorigenerazione-napoli-1.jpg",
+    "heroImage": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biorigenerazione-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/medicina-estetica/biorigenerazione-napoli-1.jpg",
-      "/images/trattamenti/medicina-estetica/biorigenerazione-napoli-2.jpg",
-      "/images/trattamenti/medicina-estetica/biorigenerazione-napoli-3.jpg"
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biorigenerazione-napoli-1.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biorigenerazione-napoli-2.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biorigenerazione-napoli-3.jpg"
     ],
     "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
@@ -441,7 +441,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "La biorigenerazione privilegia un approccio graduale, orientato a valorizzare la naturale bellezza della pelle e a preservarne la qualità nel tempo."
       ],
       "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
-      "image": "/images/trattamenti/medicina-estetica/biorigenerazione-napoli-2.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biorigenerazione-napoli-2.jpg"
     },
     "problemsTitle": "A cosa serve la biorigenerazione?",
     "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
@@ -507,7 +507,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "I miglioramenti si sviluppano gradualmente, accompagnando i processi fisiologici di rinnovamento cutaneo. I tempi e l’entità dei risultati dipendono dalle condizioni iniziali della pelle, dalla metodologia utilizzata e dalla risposta individuale.",
         "Durante la visita specialistica, il medico definisce un percorso personalizzato, individuando le sedute più appropriate e gli eventuali controlli per valutare l’evoluzione dei risultati nel tempo."
       ],
-      "image": "/images/trattamenti/medicina-estetica/biorigenerazione-napoli-3.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biorigenerazione-napoli-3.jpg"
     },
     "leadForm": {
       "title": "Hai domande sul trattamento?",
@@ -548,11 +548,11 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
     "categoryName": "Viso e rigenerazione",
     "tagline": "Trattamenti medici iniettivi con sostanze biostimolanti, tra cui acido polilattico e idrossiapatite di calcio, impiegati in casi selezionati per sostenere la qualità e la struttura dei tessuti.",
     "description": "Trattamenti medici iniettivi con sostanze biostimolanti, tra cui acido polilattico e idrossiapatite di calcio, impiegati in casi selezionati per sostenere la qualità e la struttura dei tessuti.",
-    "heroImage": "/images/trattamenti/medicina-estetica/biostimolatori-napoli-1.jpg",
+    "heroImage": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biostimolatori-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/medicina-estetica/biostimolatori-napoli-1.jpg",
-      "/images/trattamenti/medicina-estetica/biostimolatori-napoli-2.jpg",
-      "/images/trattamenti/medicina-estetica/biostimolatori-napoli-3.jpg"
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biostimolatori-napoli-1.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biostimolatori-napoli-2.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biostimolatori-napoli-3.jpg"
     ],
     "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
@@ -569,7 +569,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "I biostimolatori descritti dal medico comprendono sostanze come acido polilattico e idrossiapatite di calcio. Vengono considerati in protocolli mirati al sostegno dei tessuti e alla stimolazione della produzione di collagene, con risultati che possono svilupparsi progressivamente."
       ],
       "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
-      "image": "/images/trattamenti/medicina-estetica/biostimolatori-napoli-2.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biostimolatori-napoli-2.jpg"
     },
     "problemsTitle": "A cosa servono i biostimolatori per il viso?",
     "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
@@ -635,7 +635,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "A differenza dei filler volumizzanti, i biostimolatori agiscono nel tempo, accompagnando i naturali processi di rimodellamento dei tessuti. I primi miglioramenti possono diventare visibili nelle settimane successive al trattamento, con tempi e risultati che variano in base al prodotto utilizzato e alla risposta individuale.",
         "Durante la visita specialistica, il medico definisce un percorso personalizzato, valutando le caratteristiche della pelle, gli obiettivi desiderati e il numero di sedute più appropriato per ottenere un risultato armonioso e naturale."
       ],
-      "image": "/images/trattamenti/medicina-estetica/biostimolatori-napoli-3.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biostimolatori-napoli-3.jpg"
     },
     "leadForm": {
       "title": "Hai domande sul trattamento?",
@@ -677,11 +677,11 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
     "categoryName": "Viso e rigenerazione",
     "tagline": "Un trattamento esfoliante eseguito in ambito medico per intervenire su texture, discromie e alcune imperfezioni cutanee, secondo la formulazione scelta dallo specialista.",
     "description": "Un trattamento esfoliante eseguito in ambito medico per intervenire su texture, discromie e alcune imperfezioni cutanee, secondo la formulazione scelta dallo specialista.",
-    "heroImage": "/images/trattamenti/medicina-estetica/peeling-chimico-napoli-1.jpg",
+    "heroImage": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/peeling-chimico-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/medicina-estetica/peeling-chimico-napoli-1.jpg",
-      "/images/trattamenti/medicina-estetica/peeling-chimico-napoli-2.jpg",
-      "/images/trattamenti/medicina-estetica/peeling-chimico-napoli-3.jpg"
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/peeling-chimico-napoli-1.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/peeling-chimico-napoli-2.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/peeling-chimico-napoli-3.jpg"
     ],
     "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
@@ -698,7 +698,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "La scelta non dipende soltanto dall’inestetismo visibile: il medico considera la barriera cutanea, l’eventuale tendenza alle macchie post-infiammatorie, le terapie in corso e la sensibilità individuale. Un peeling superficiale non ha lo stesso obiettivo né gli stessi tempi di recupero di uno più intenso. Per questo non esiste un’unica formulazione adatta a tutte le pelli."
       ],
       "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
-      "image": "/images/trattamenti/medicina-estetica/peeling-chimico-napoli-2.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/peeling-chimico-napoli-2.jpg"
     },
     "problemsTitle": "A cosa serve il peeling chimico?",
     "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
@@ -764,7 +764,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "I miglioramenti si sviluppano gradualmente, seguendo i naturali tempi di rinnovamento della pelle. In base alla tipologia e all’intensità del peeling, possono verificarsi rossore e una leggera desquamazione nei giorni successivi, parte del processo di recupero cutaneo.",
         "Durante la visita specialistica, il medico seleziona il peeling più indicato in base alle caratteristiche della pelle e agli obiettivi del trattamento, definendo le eventuali sedute successive e le indicazioni per preservare i risultati nel tempo, inclusa un’adeguata protezione solare."
       ],
-      "image": "/images/trattamenti/medicina-estetica/peeling-chimico-napoli-3.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/peeling-chimico-napoli-3.jpg"
     },
     "leadForm": {
       "title": "Hai domande sul trattamento?",
@@ -802,11 +802,11 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
     "categoryName": "Viso e rigenerazione",
     "tagline": "Il PRX è un protocollo medico di trattamento cutaneo senza aghi, proposto da Cocoora per lavorare su luminosità, texture e compattezza della pelle.",
     "description": "Il PRX è un protocollo medico di trattamento cutaneo senza aghi, proposto da Cocoora per lavorare su luminosità, texture e compattezza della pelle.",
-    "heroImage": "/images/trattamenti/medicina-estetica/prx-napoli-1.jpg",
+    "heroImage": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/prx-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/medicina-estetica/prx-napoli-1.jpg",
-      "/images/trattamenti/medicina-estetica/prx-napoli-2.jpg",
-      "/images/trattamenti/medicina-estetica/prx-napoli-3.jpg"
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/prx-napoli-1.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/prx-napoli-2.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/prx-napoli-3.jpg"
     ],
     "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
@@ -824,7 +824,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "Può essere inserito in percorsi dedicati al miglioramento della texture, dell’elasticità e dei primi segni dell’invecchiamento cutaneo, valorizzando la naturale qualità della pelle."
       ],
       "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
-      "image": "/images/trattamenti/medicina-estetica/prx-napoli-2.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/prx-napoli-2.jpg"
     },
     "problemsTitle": "A cosa serve il PRX?",
     "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
@@ -890,7 +890,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "I miglioramenti possono essere apprezzabili progressivamente, con tempi e risultati che dipendono dalle caratteristiche iniziali della pelle e dalla risposta individuale. Il PRX si inserisce in un percorso di biostimolazione orientato a migliorare la qualità cutanea senza ricorrere a trattamenti iniettivi.",
         "Durante la visita specialistica, il medico valuta le esigenze della pelle e definisce un protocollo personalizzato, stabilendo il numero di sedute e gli eventuali controlli per accompagnare e mantenere i risultati nel tempo."
       ],
-      "image": "/images/trattamenti/medicina-estetica/prx-napoli-3.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/prx-napoli-3.jpg"
     },
     "leadForm": {
       "title": "Hai domande sul trattamento?",
@@ -931,11 +931,11 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
     "categoryName": "Corpo e silhouette",
     "tagline": "Una tecnologia non invasiva rivolta al trattamento di accumuli adiposi localizzati in aree selezionate, dopo un inquadramento medico della silhouette e dei tessuti.",
     "description": "Una tecnologia non invasiva rivolta al trattamento di accumuli adiposi localizzati in aree selezionate, dopo un inquadramento medico della silhouette e dei tessuti.",
-    "heroImage": "/images/trattamenti/medicina-estetica/criolipolisi-napoli-1.jpg",
+    "heroImage": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/criolipolisi-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/medicina-estetica/criolipolisi-napoli-1.jpg",
-      "/images/trattamenti/medicina-estetica/criolipolisi-napoli-2.jpg",
-      "/images/trattamenti/medicina-estetica/criolipolisi-napoli-3.jpg"
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/criolipolisi-napoli-1.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/criolipolisi-napoli-2.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/criolipolisi-napoli-3.jpg"
     ],
     "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
@@ -953,7 +953,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "La criolipolisi può essere indicata per intervenire su zone come addome, fianchi e cosce, con un percorso personalizzato definito dal medico in base alla distribuzione del tessuto adiposo e alle caratteristiche individuali."
       ],
       "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
-      "image": "/images/trattamenti/medicina-estetica/criolipolisi-napoli-2.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/criolipolisi-napoli-2.jpg"
     },
     "problemsTitle": "A cosa serve la criolipolisi per adiposità localizzate?",
     "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
@@ -1019,7 +1019,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "I risultati si sviluppano gradualmente nelle settimane e nei mesi successivi al trattamento, seguendo i naturali processi con cui l’organismo elimina le cellule adipose interessate dal raffreddamento controllato. L’entità del miglioramento varia in base alla zona trattata, alle caratteristiche del tessuto adiposo e alla risposta individuale.",
         "Durante la visita specialistica, il medico valuta le aree su cui intervenire e definisce un percorso personalizzato, stabilendo gli eventuali controlli per osservare l’evoluzione dei risultati nel tempo. Vengono inoltre illustrate le possibili reazioni al trattamento, per affrontare ogni fase con informazioni chiare e aspettative realistiche."
       ],
-      "image": "/images/trattamenti/medicina-estetica/criolipolisi-napoli-3.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/criolipolisi-napoli-3.jpg"
     },
     "leadForm": {
       "title": "Hai domande sul trattamento?",
@@ -1057,11 +1057,11 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
     "categoryName": "Corpo e silhouette",
     "tagline": "Un trattamento medico che impiega anidride carbonica medicale in protocolli selezionati dedicati al microcircolo e alla qualità dei tessuti.",
     "description": "Un trattamento medico che impiega anidride carbonica medicale in protocolli selezionati dedicati al microcircolo e alla qualità dei tessuti.",
-    "heroImage": "/images/trattamenti/medicina-estetica/carbossiterapia-napoli-1.jpg",
+    "heroImage": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/carbossiterapia-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/medicina-estetica/carbossiterapia-napoli-1.jpg",
-      "/images/trattamenti/medicina-estetica/carbossiterapia-napoli-2.jpg",
-      "/images/trattamenti/medicina-estetica/carbossiterapia-napoli-3.jpg"
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/carbossiterapia-napoli-1.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/carbossiterapia-napoli-2.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/carbossiterapia-napoli-3.jpg"
     ],
     "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
@@ -1078,7 +1078,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "La carbossiterapia utilizza anidride carbonica medicale somministrata secondo un protocollo medico. Nelle indicazioni fornite da Cocoora trova spazio in percorsi rivolti alla qualità dei tessuti e all’aspetto della cellulite, con attenzione al microcircolo locale."
       ],
       "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
-      "image": "/images/trattamenti/medicina-estetica/carbossiterapia-napoli-2.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/carbossiterapia-napoli-2.jpg"
     },
     "problemsTitle": "A cosa serve la carbossiterapia?",
     "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
@@ -1144,7 +1144,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "I miglioramenti si sviluppano gradualmente e possono variare in base alle caratteristiche della pelle, alla zona trattata e alla risposta individuale. Il medico definisce un percorso personalizzato, individuando il numero di sedute più appropriato per gli obiettivi desiderati.",
         "Durante i controlli viene valutata l’evoluzione dei risultati, così da adattare il percorso alle esigenze individuali e favorire il mantenimento dei benefici nel tempo."
       ],
-      "image": "/images/trattamenti/medicina-estetica/carbossiterapia-napoli-3.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/carbossiterapia-napoli-3.jpg"
     },
     "leadForm": {
       "title": "Hai domande sul trattamento?",
@@ -1182,11 +1182,11 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
     "categoryName": "Corpo e silhouette",
     "tagline": "Una procedura medica che utilizza microiniezioni superficiali, considerata da Cocoora in percorsi per microcircolo, cellulite e texture cutanea.",
     "description": "Una procedura medica che utilizza microiniezioni superficiali, considerata da Cocoora in percorsi per microcircolo, cellulite e texture cutanea.",
-    "heroImage": "/images/trattamenti/medicina-estetica/mesoterapia-napoli-1.jpg",
+    "heroImage": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/mesoterapia-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/medicina-estetica/mesoterapia-napoli-1.jpg",
-      "/images/trattamenti/medicina-estetica/mesoterapia-napoli-2.jpg",
-      "/images/trattamenti/medicina-estetica/mesoterapia-napoli-3.jpg"
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/mesoterapia-napoli-1.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/mesoterapia-napoli-2.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/mesoterapia-napoli-3.jpg"
     ],
     "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
@@ -1203,7 +1203,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "Può contribuire a migliorare il microcircolo, attenuare l’aspetto della cellulite e favorire una pelle più uniforme e levigata. Il trattamento viene personalizzato in base alle zone interessate e alle esigenze individuali, all’interno di un percorso mirato al miglioramento della qualità dei tessuti."
       ],
       "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
-      "image": "/images/trattamenti/medicina-estetica/mesoterapia-napoli-2.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/mesoterapia-napoli-2.jpg"
     },
     "problemsTitle": "A cosa serve la mesoterapia?",
     "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
@@ -1269,7 +1269,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "I risultati si sviluppano gradualmente e variano in base alle caratteristiche della pelle, alle sostanze utilizzate e alla risposta individuale. Il medico definisce un percorso personalizzato, individuando il numero di sedute più appropriato in funzione delle esigenze e degli obiettivi del trattamento.",
         "Durante le visite di controllo viene monitorata l’evoluzione dei risultati, con la possibilità di adattare il percorso per valorizzare e mantenere nel tempo i benefici ottenuti."
       ],
-      "image": "/images/trattamenti/medicina-estetica/mesoterapia-napoli-3.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/mesoterapia-napoli-3.jpg"
     },
     "leadForm": {
       "title": "Hai domande sul trattamento?",
@@ -1307,11 +1307,11 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
     "categoryName": "Corpo e silhouette",
     "tagline": "Un trattamento medico-estetico iniettivo che stimola la produzione di collagene per migliorare progressivamente la tonicità, la compattezza e la qualità della pelle del corpo.",
     "description": "Un trattamento medico-estetico iniettivo che stimola la produzione di collagene per migliorare progressivamente la tonicità, la compattezza e la qualità della pelle del corpo.",
-    "heroImage": "/images/trattamenti/medicina-estetica/biostimolazione-corpo-napoli-1.jpg",
+    "heroImage": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biostimolazione-corpo-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/medicina-estetica/biostimolazione-corpo-napoli-1.jpg",
-      "/images/trattamenti/medicina-estetica/biostimolazione-corpo-napoli-2.jpg",
-      "/images/trattamenti/medicina-estetica/biostimolazione-corpo-napoli-3.jpg"
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biostimolazione-corpo-napoli-1.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biostimolazione-corpo-napoli-2.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biostimolazione-corpo-napoli-3.jpg"
     ],
     "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
@@ -1329,7 +1329,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "A differenza dei trattamenti destinati alla riduzione delle adiposità localizzate, la biostimolazione non agisce sul grasso corporeo e non ha finalità dimagranti. È indicata in situazioni selezionate di lassità cutanea, dopo un'attenta valutazione medica."
       ],
       "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
-      "image": "/images/trattamenti/medicina-estetica/biostimolazione-corpo-napoli-2.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biostimolazione-corpo-napoli-2.jpg"
     },
     "problemsTitle": "A cosa serve la biostimolazione corpo?",
     "problemsSubtitle": "La biostimolazione può essere valutata per diverse aree del corpo in cui si desidera migliorare la qualità e il sostegno della pelle. La scelta della zona da trattare, del prodotto e della tecnica dipende dalle caratteristiche dei tessuti e dagli obiettivi definiti durante la visita.",
@@ -1394,7 +1394,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "La biostimolazione corpo ha l'obiettivo di migliorare progressivamente la qualità cutanea attraverso la produzione di nuovo collagene. I cambiamenti possono riguardare una maggiore compattezza, un miglioramento dell'elasticità e un aspetto più uniforme dei tessuti nelle zone trattate.",
         "I risultati non sono immediati: la risposta biologica richiede tempo e i miglioramenti possono diventare osservabili nel corso delle settimane e dei mesi successivi al trattamento. L'entità e la durata degli effetti dipendono da diversi fattori, tra cui le caratteristiche iniziali della pelle, il prodotto utilizzato, il protocollo e la risposta individuale."
       ],
-      "image": "/images/trattamenti/medicina-estetica/biostimolazione-corpo-napoli-3.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biostimolazione-corpo-napoli-3.jpg"
     },
     "leadForm": {
       "title": "Hai domande sul trattamento?",
@@ -1432,11 +1432,11 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
     "categoryName": "Corpo e silhouette",
     "tagline": "Un trattamento medico iniettivo che può essere indicato per accumuli adiposi circoscritti, solo dopo un’attenta selezione della persona e dell’area.",
     "description": "Un trattamento medico iniettivo che può essere indicato per accumuli adiposi circoscritti, solo dopo un’attenta selezione della persona e dell’area.",
-    "heroImage": "/images/trattamenti/medicina-estetica/intralipoterapia-napoli-1.jpg",
+    "heroImage": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/intralipoterapia-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/medicina-estetica/intralipoterapia-napoli-1.jpg",
-      "/images/trattamenti/medicina-estetica/intralipoterapia-napoli-2.jpg",
-      "/images/trattamenti/medicina-estetica/intralipoterapia-napoli-3.jpg"
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/intralipoterapia-napoli-1.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/intralipoterapia-napoli-2.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/intralipoterapia-napoli-3.jpg"
     ],
     "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
@@ -1454,7 +1454,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "Prima del trattamento, il medico valuta la distribuzione del tessuto adiposo, le caratteristiche della pelle e gli obiettivi della persona. Sulla base di questa analisi viene definito un percorso personalizzato, che tiene conto delle aree da trattare e dei risultati che è realisticamente possibile ottenere."
       ],
       "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
-      "image": "/images/trattamenti/medicina-estetica/intralipoterapia-napoli-2.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/intralipoterapia-napoli-2.jpg"
     },
     "problemsTitle": "A cosa serve l'intralipoterapia per adiposità localizzate?",
     "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
@@ -1520,7 +1520,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "I risultati si sviluppano gradualmente, seguendo i tempi di risposta dell’organismo. L'entità del miglioramento varia in base alla zona interessata, alle caratteristiche del tessuto adiposo e al protocollo definito dal medico. In alcuni casi possono essere indicate più sedute per raggiungere gli obiettivi concordati.",
         "La valutazione specialistica permette di individuare le aree su cui intervenire, definire aspettative realistiche e pianificare un percorso personalizzato, con controlli dedicati a osservare l’evoluzione del trattamento nel tempo."
       ],
-      "image": "/images/trattamenti/medicina-estetica/intralipoterapia-napoli-3.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/intralipoterapia-napoli-3.jpg"
     },
     "leadForm": {
       "title": "Hai domande sul trattamento?",
@@ -1562,11 +1562,11 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
     "categoryName": "Laser e tecnologie",
     "tagline": "Tecnologie selezionate dal medico per valutare discromie, rossori e alterazioni superficiali della pelle, scegliendo la sorgente più adatta a ciascuna indicazione.",
     "description": "Tecnologie selezionate dal medico per valutare discromie, rossori e alterazioni superficiali della pelle, scegliendo la sorgente più adatta a ciascuna indicazione.",
-    "heroImage": "/images/trattamenti/medicina-estetica/laser-luce-pulsata-napoli-1.jpg",
+    "heroImage": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/laser-luce-pulsata-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/medicina-estetica/laser-luce-pulsata-napoli-1.jpg",
-      "/images/trattamenti/medicina-estetica/laser-luce-pulsata-napoli-2.jpg",
-      "/images/trattamenti/medicina-estetica/laser-luce-pulsata-napoli-3.jpg"
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/laser-luce-pulsata-napoli-1.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/laser-luce-pulsata-napoli-2.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/laser-luce-pulsata-napoli-3.jpg"
     ],
     "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
@@ -1583,7 +1583,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "Laser e sorgenti luminose non sono sinonimi: differiscono per caratteristiche fisiche e modalità di interazione con la cute. Cocoora cita QS NPP per pigmentazioni selezionate e CPL per rossori, macchie solari e segni di fotodanneggiamento. La scelta dipende dalla diagnosi e dal fototipo."
       ],
       "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
-      "image": "/images/trattamenti/medicina-estetica/laser-luce-pulsata-napoli-2.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/laser-luce-pulsata-napoli-2.jpg"
     },
     "problemsTitle": "A cosa serve il laser per macchie e rossori?",
     "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
@@ -1649,7 +1649,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "La fotoprotezione è fondamentale dopo il trattamento, come riportato nella documentazione clinica. La ricomparsa di alcune pigmentazioni è possibile e il risultato non può essere promesso in modo definitivo.",
         "Ogni risultato deve essere interpretato alla luce del punto di partenza e della risposta individuale. Durante la consulenza vengono chiariti i limiti della procedura, le possibili alternative e i tempi più appropriati per un eventuale controllo."
       ],
-      "image": "/images/trattamenti/medicina-estetica/laser-luce-pulsata-napoli-3.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/laser-luce-pulsata-napoli-3.jpg"
     },
     "leadForm": {
       "title": "Hai domande sul trattamento?",
@@ -1687,11 +1687,11 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
     "categoryName": "Laser e tecnologie",
     "tagline": "Un trattamento medico basato su tecnologie laser per lavorare su irregolarità della superficie cutanea, cicatrici selezionate e alcuni segni del fotoinvecchiamento.",
     "description": "Un trattamento medico basato su tecnologie laser per lavorare su irregolarità della superficie cutanea, cicatrici selezionate e alcuni segni del fotoinvecchiamento.",
-    "heroImage": "/images/trattamenti/medicina-estetica/laser-resurfacing-napoli-1.jpg",
+    "heroImage": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/laser-resurfacing-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/medicina-estetica/laser-resurfacing-napoli-1.jpg",
-      "/images/trattamenti/medicina-estetica/laser-resurfacing-napoli-2.jpg",
-      "/images/trattamenti/medicina-estetica/laser-resurfacing-napoli-3.jpg"
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/laser-resurfacing-napoli-1.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/laser-resurfacing-napoli-2.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/laser-resurfacing-napoli-3.jpg"
     ],
     "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
@@ -1707,7 +1707,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "Il laser resurfacing è un trattamento che favorisce il rinnovamento cutaneo, migliorando la texture della pelle e attenuando rughe e cicatrici da acne. A seconda delle esigenze, il medico può utilizzare il laser Erbium:YAG per intervenire sulle irregolarità più superficiali oppure il laser CO₂ per trattamenti più profondi."
       ],
       "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
-      "image": "/images/trattamenti/medicina-estetica/laser-resurfacing-napoli-2.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/laser-resurfacing-napoli-2.jpg"
     },
     "problemsTitle": "A cosa serve il laser resurfacing?",
     "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
@@ -1773,7 +1773,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "I risultati si sviluppano gradualmente, seguendo i naturali processi di rigenerazione cutanea. Tempi di recupero e miglioramenti variano in base alla profondità del trattamento, alla tecnologia utilizzata e alle caratteristiche individuali della pelle.",
         "Durante la visita specialistica, il medico definisce il percorso più indicato e fornisce le indicazioni per il recupero, comprese le precauzioni e la protezione solare necessarie per accompagnare la guarigione e preservare i risultati nel tempo."
       ],
-      "image": "/images/trattamenti/medicina-estetica/laser-resurfacing-napoli-3.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/laser-resurfacing-napoli-3.jpg"
     },
     "leadForm": {
       "title": "Hai domande sul trattamento?",
@@ -1814,11 +1814,11 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
     "categoryName": "Laser e tecnologie",
     "tagline": "Un trattamento non chirurgico che utilizza ultrasuoni focalizzati a profondità selezionate per stimolare i tessuti e favorire un miglioramento progressivo del loro aspetto.",
     "description": "Un trattamento non chirurgico che utilizza ultrasuoni focalizzati a profondità selezionate per stimolare i tessuti e favorire un miglioramento progressivo del loro aspetto.",
-    "heroImage": "/images/trattamenti/medicina-estetica/ultrasuoni-cfu-napoli-1.jpg",
+    "heroImage": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/ultrasuoni-cfu-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/medicina-estetica/ultrasuoni-cfu-napoli-1.jpg",
-      "/images/trattamenti/medicina-estetica/ultrasuoni-cfu-napoli-2.jpg",
-      "/images/trattamenti/medicina-estetica/ultrasuoni-cfu-napoli-3.jpg"
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/ultrasuoni-cfu-napoli-1.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/ultrasuoni-cfu-napoli-2.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/ultrasuoni-cfu-napoli-3.jpg"
     ],
     "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
@@ -1836,7 +1836,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "Durante la visita specialistica, il medico valuta le caratteristiche della pelle e il grado di lassità per individuare le zone da trattare e definire un percorso personalizzato. I miglioramenti si sviluppano gradualmente, seguendo i naturali tempi di risposta dei tessuti."
       ],
       "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
-      "image": "/images/trattamenti/medicina-estetica/ultrasuoni-cfu-napoli-2.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/ultrasuoni-cfu-napoli-2.jpg"
     },
     "problemsTitle": "A cosa serve l'ultrasuono focalizzato cfu?",
     "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
@@ -1902,7 +1902,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "I miglioramenti si sviluppano gradualmente nelle settimane e nei mesi successivi alla seduta, seguendo i naturali processi di rimodellamento del collagene. Tempi ed entità dei risultati variano in base alla zona trattata, alle caratteristiche della pelle e alla risposta individuale.",
         "Durante la visita specialistica, il medico valuta il grado di lassità cutanea e definisce un percorso personalizzato, individuando le aree su cui intervenire e gli eventuali controlli per monitorare l’evoluzione dei risultati nel tempo."
       ],
-      "image": "/images/trattamenti/medicina-estetica/ultrasuoni-cfu-napoli-3.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/ultrasuoni-cfu-napoli-3.jpg"
     },
     "leadForm": {
       "title": "Hai domande sul trattamento?",
@@ -1943,11 +1943,11 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
     "categoryName": "Percorsi specialistici",
     "tagline": "Un percorso di valutazione specialistica dedicato a due condizioni differenti, che richiedono un corretto inquadramento clinico e, quando necessario, il contributo di più professionisti.",
     "description": "Un percorso di valutazione specialistica dedicato a due condizioni differenti, che richiedono un corretto inquadramento clinico e, quando necessario, il contributo di più professionisti.",
-    "heroImage": "/images/trattamenti/medicina-estetica/lipedema-linfedema-napoli-1.jpg",
+    "heroImage": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/lipedema-linfedema-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/medicina-estetica/lipedema-linfedema-napoli-1.jpg",
-      "/images/trattamenti/medicina-estetica/lipedema-linfedema-napoli-2.jpg",
-      "/images/trattamenti/medicina-estetica/lipedema-linfedema-napoli-3.jpg"
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/lipedema-linfedema-napoli-1.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/lipedema-linfedema-napoli-2.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/lipedema-linfedema-napoli-3.jpg"
     ],
     "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
@@ -1964,7 +1964,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "Lipedema e linfedema richiedono un inquadramento differenziale: il primo è una condizione cronica che interessa la distribuzione del tessuto adiposo, prevalentemente agli arti; il secondo riguarda l’accumulo di liquido linfatico nei tessuti. Sintomi e segni possono sovrapporsi, ma non sono la stessa diagnosi."
       ],
       "callout": "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.",
-      "image": "/images/trattamenti/medicina-estetica/lipedema-linfedema-napoli-2.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/lipedema-linfedema-napoli-2.jpg"
     },
     "problemsTitle": "A cosa serve la valutazione specialistica per lipedema e linfedema?",
     "problemsSubtitle": "Le indicazioni dipendono dalle condizioni individuali e dall’inquadramento medico. Le quattro applicazioni che seguono chiariscono bisogni distinti e non sostituiscono la valutazione specialistica.",
@@ -2030,7 +2030,7 @@ export const MEDICINA_ESTETICA_TREATMENTS: Treatment[] = [
         "Il valore della visita è individuare una direzione appropriata, chiarire i passaggi successivi e riconoscere le situazioni in cui sono necessari altri specialisti. Le decisioni devono essere costruite sulla condizione clinica individuale.",
         "Ogni risultato deve essere interpretato alla luce del punto di partenza e della risposta individuale. Durante la consulenza vengono chiariti i limiti della procedura, le possibili alternative e i tempi più appropriati per un eventuale controllo."
       ],
-      "image": "/images/trattamenti/medicina-estetica/lipedema-linfedema-napoli-3.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/lipedema-linfedema-napoli-3.jpg"
     },
     "leadForm": {
       "title": "Hai domande sul percorso specialistico?",

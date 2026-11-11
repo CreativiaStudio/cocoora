@@ -22,7 +22,7 @@ export const TREATMENTS_MAP: Record<string, TreatmentRef> = {
     overline: "VISO",
     title: "Tossina botulinica",
     description: "Per distendere le rughe d'espressione e armonizzare alcune aree del viso.",
-    image: "/images/trattamenti/medicina-estetica/tossina-botulinica-napoli-1.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/tossina-botulinica-napoli-1.jpg",
   },
   "Filler viso": {
     name: "Filler viso",
@@ -30,7 +30,7 @@ export const TREATMENTS_MAP: Record<string, TreatmentRef> = {
     overline: "VISO",
     title: "Filler viso con acido ialuronico",
     description: "Per valorizzare proporzioni e volumi del viso in modo naturale.",
-    image: "/images/trattamenti/medicina-estetica/filler-viso-napoli-1.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/filler-viso-napoli-1.jpg",
   },
   "Ultrasuoni CFU": {
     name: "Ultrasuoni CFU",
@@ -38,7 +38,7 @@ export const TREATMENTS_MAP: Record<string, TreatmentRef> = {
     overline: "TECNOLOGIE",
     title: "Ultrasuoni focalizzati CFU",
     description: "Per il tono dei tessuti e la definizione di alcune aree del viso e del collo.",
-    image: "/images/trattamenti/medicina-estetica/ultrasuoni-cfu-napoli-1.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/ultrasuoni-cfu-napoli-1.jpg",
   },
   "Biostimolatori": {
     name: "Biostimolatori",
@@ -46,7 +46,7 @@ export const TREATMENTS_MAP: Record<string, TreatmentRef> = {
     overline: "RIGENERAZIONE",
     title: "Biostimolatori",
     description: "Per supportare la qualità della pelle e accompagnare il viso nel tempo.",
-    image: "/images/trattamenti/medicina-estetica/biostimolatori-napoli-1.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biostimolatori-napoli-1.jpg",
   },
   "Biostimolazione": {
     name: "Biostimolazione",
@@ -54,7 +54,7 @@ export const TREATMENTS_MAP: Record<string, TreatmentRef> = {
     overline: "RIGENERAZIONE",
     title: "Biostimolazione cutanea",
     description: "Per stimolare idratazione profonda, luminosità e qualità del tessuto cutaneo.",
-    image: "/images/trattamenti/medicina-estetica/biostimolazione-napoli-1.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biostimolazione-napoli-1.jpg",
   },
   "Biorigenerazione": {
     name: "Biorigenerazione",
@@ -62,7 +62,7 @@ export const TREATMENTS_MAP: Record<string, TreatmentRef> = {
     overline: "RIGENERAZIONE",
     title: "Biorigenerazione",
     description: "Per favorire la rigenerazione e la vitalità biologica dei tessuti cutanei.",
-    image: "/images/trattamenti/medicina-estetica/biorigenerazione-napoli-1.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biorigenerazione-napoli-1.jpg",
   },
   "PRX": {
     name: "PRX",
@@ -70,7 +70,7 @@ export const TREATMENTS_MAP: Record<string, TreatmentRef> = {
     overline: "RIGENERAZIONE",
     title: "PRX biostimolazione senza aghi",
     description: "Biostimolazione non invasiva per restituire luminosità e compattezza.",
-    image: "/images/trattamenti/medicina-estetica/prx-napoli-1.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/prx-napoli-1.jpg",
   },
   "Laser e luce pulsata": {
     name: "Laser e luce pulsata",
@@ -78,7 +78,7 @@ export const TREATMENTS_MAP: Record<string, TreatmentRef> = {
     overline: "TECNOLOGIE",
     title: "Laser e luce pulsata",
     description: "Piattaforma avanzata per intervenire su macchie, discromie e rossori.",
-    image: "/images/trattamenti/medicina-estetica/laser-luce-pulsata-napoli-1.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/laser-luce-pulsata-napoli-1.jpg",
   },
   "Peeling chimico": {
     name: "Peeling chimico",
@@ -86,7 +86,7 @@ export const TREATMENTS_MAP: Record<string, TreatmentRef> = {
     overline: "RIGENERAZIONE",
     title: "Peeling chimico medicale",
     description: "Esfoliazione controllata per rinnovare la texture e uniformare il colorito.",
-    image: "/images/trattamenti/medicina-estetica/peeling-chimico-napoli-1.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/peeling-chimico-napoli-1.jpg",
   },
   "Laser resurfacing": {
     name: "Laser resurfacing",
@@ -94,7 +94,7 @@ export const TREATMENTS_MAP: Record<string, TreatmentRef> = {
     overline: "TECNOLOGIE",
     title: "Laser resurfacing",
     description: "Protocolli laser per cicatrici da acne, rughe sottili e texture cutanea.",
-    image: "/images/trattamenti/medicina-estetica/laser-resurfacing-napoli-1.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/laser-resurfacing-napoli-1.jpg",
   },
   "Criolipolisi": {
     name: "Criolipolisi",
@@ -102,7 +102,7 @@ export const TREATMENTS_MAP: Record<string, TreatmentRef> = {
     overline: "CORPO",
     title: "Criolipolisi",
     description: "Rimodellamento non invasivo per le adiposità localizzate resistenti.",
-    image: "/images/trattamenti/medicina-estetica/criolipolisi-napoli-1.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/criolipolisi-napoli-1.jpg",
   },
   "Intralipoterapia": {
     name: "Intralipoterapia",
@@ -110,7 +110,7 @@ export const TREATMENTS_MAP: Record<string, TreatmentRef> = {
     overline: "CORPO",
     title: "Intralipoterapia",
     description: "Trattamento iniettivo mirato alla riduzione del grasso localizzato.",
-    image: "/images/trattamenti/medicina-estetica/intralipoterapia-napoli-1.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/intralipoterapia-napoli-1.jpg",
   },
   "Carbossiterapia": {
     name: "Carbossiterapia",
@@ -118,7 +118,7 @@ export const TREATMENTS_MAP: Record<string, TreatmentRef> = {
     overline: "CORPO",
     title: "Carbossiterapia medicale",
     description: "CO2 medicale per microcircolo, cellulite e compattezza dei tessuti.",
-    image: "/images/trattamenti/medicina-estetica/carbossiterapia-napoli-1.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/carbossiterapia-napoli-1.jpg",
   },
   "Mesoterapia": {
     name: "Mesoterapia",
@@ -126,7 +126,7 @@ export const TREATMENTS_MAP: Record<string, TreatmentRef> = {
     overline: "CORPO",
     title: "Mesoterapia",
     description: "Micro-iniezioni intradermiche per contrastare ritenzione e cellulite.",
-    image: "/images/trattamenti/medicina-estetica/mesoterapia-napoli-1.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/mesoterapia-napoli-1.jpg",
   },
   "Biostimolazione corpo": {
     name: "Biostimolazione corpo",
@@ -134,7 +134,7 @@ export const TREATMENTS_MAP: Record<string, TreatmentRef> = {
     overline: "CORPO",
     title: "Biostimolazione corpo",
     description: "Stimolazione del collagene per lassità e compattezza di glutei, cosce e braccia.",
-    image: "/images/trattamenti/medicina-estetica/biostimolazione-corpo-napoli-1.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biostimolazione-corpo-napoli-1.jpg",
   },
 };
 

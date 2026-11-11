@@ -58,7 +58,7 @@ export default function OdontoiatriaPage() {
     <>
       <div className="relative z-10 h-72 w-full overflow-hidden rounded-b-[2.5rem] border-b border-slate-200/80 shadow-xl shadow-dark-navy/10 sm:h-80 md:h-96">
         <Image
-          src="/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-1.jpg"
+          src="https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-1.jpg"
           alt="Il tuo sorriso, la nostra visione — Odontoiatria e ortodonzia specialistica Cocoora Napoli"
           fill
           priority
@@ -101,7 +101,7 @@ export default function OdontoiatriaPage() {
 
             <div className="relative mx-auto aspect-[4/3] w-full max-w-xl overflow-hidden rounded-[2.5rem] shadow-[0_30px_70px_-28px_rgba(3,53,75,0.4)] lg:mx-0">
               <Image
-                src="/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-1.jpg"
+                src="https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-1.jpg"
                 alt="Odontoiatria, ortodonzia specialistica ed estetica del sorriso nel nostro centro Cocoora"
                 fill
                 priority
@@ -166,7 +166,7 @@ export default function OdontoiatriaPage() {
 
             <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl shadow-[0_24px_60px_-24px_rgba(0,0,0,0.5)]">
               <Image
-                src="/images/dental-operatory.jpg"
+                src="https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/dental-operatory.jpg"
                 alt="Suite odontoiatrica digitale nel nostro centro Cocoora Napoli"
                 fill
                 sizes="(min-width: 1024px) 560px, 90vw"

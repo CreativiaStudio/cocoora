@@ -15,7 +15,7 @@ export const DOCTORS: Doctor[] = [
     branca: "Odontoiatria & Ortodonzia Digitale",
     affiliation: "Odontoiatra, Specialista in Ortognatodonzia · Direttrice Sanitaria",
     badge: "Direzione Sanitaria",
-    image: "/images/doctors/elisa-russo.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/doctors/elisa-russo.jpg",
     bio: "Elisa Russo guida la direzione sanitaria del centro con una visione incentrata sulla prevenzione precoce, sull'ortodonzia digitale con allineatori trasparenti e sul benessere odontoiatrico completo di adulti e bambini.",
     approach:
       "La salute del cavo orale è il primo presidio di salute sistemica: pianifichiamo ogni percorso con diagnosi digitale 3D, garantendo trattamenti confortevoli, predicibili e senza sorprese.",
@@ -47,7 +47,7 @@ export const DOCTORS: Doctor[] = [
     title: "Medico Chirurgo e Specialista in Chirurgia Plastica e Ricostruttiva",
     branca: "Medicina Estetica Avanzata",
     affiliation: "Medico Chirurgo e Specialista in Chirurgia Plastica e Ricostruttiva",
-    image: "/images/doctors/titti-errico.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/doctors/titti-errico.jpg",
     bio: "Concetta Errico si dedica alla medicina estetica avanzata, alla chirurgia ambulatoriale mininvasiva e al ringiovanimento cutaneo profondo con approccio sartoriale.",
     approach:
       "Ogni persona ha un'armonia propria: definiamo interventi personalizzati che valorizzano la bellezza autentica nel rispetto della fisionomia.",
@@ -71,7 +71,7 @@ export const DOCTORS: Doctor[] = [
     title: "Medico Chirurgo, Specialista in Dermatologia e Venereologia",
     branca: "Dermatologia & Salute della Pelle",
     affiliation: "Medico Chirurgo, Specialista in Dermatologia e Venereologia",
-    image: "/images/doctors/mirella-dandrea.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/doctors/mirella-dandrea.jpg",
     bio: "Mirella D'Andrea è medico chirurgo specialista in dermatologia e venereologia. Si dedica alla diagnosi e cura delle affezioni cutanee, al controllo dei nei e al benessere di pelle, unghie e capelli.",
     approach:
       "La salute della pelle è fondamentale per il benessere complessivo: un approccio clinico scrupoloso e preventivo permette di intercettare precocemente ogni alterazione.",
@@ -96,7 +96,7 @@ export const DOCTORS: Doctor[] = [
     title: "Medico Chirurgo Specialista in Malattie dell’Apparato Cardiovascolare",
     branca: "Cardiologia & Diagnostica Vascolare",
     affiliation: "Medico Chirurgo Specialista in Malattie dell’Apparato Cardiovascolare",
-    image: "/images/doctors/anna-maria-stillo.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/doctors/anna-maria-stillo.jpg",
     bio: "Anna Maria Stillo è cardiologa dedicata alla prevenzione cardiovascolare primaria e secondaria, all'elettrocardiografia ad alta definizione e all'ecocardiografia color-Doppler.",
     approach:
       "La tutela del cuore richiede ascolto clinico meticoloso e diagnostica per immagini puntuale, prima ancora che insorgano sintomi clinici conclamati.",
@@ -121,7 +121,7 @@ export const DOCTORS: Doctor[] = [
     title: "Medico Chirurgo Specialista in Radiodiagnostica",
     branca: "Diagnostica Ecografica",
     affiliation: "Medico Chirurgo Specialista in Radiodiagnostica",
-    image: "/images/doctors/giuseppe-buono.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/doctors/giuseppe-buono.jpg",
     bio: "Giuseppe Buono gestisce il servizio di diagnostica ecografica con ecografo digitale di ultima generazione, assicurando refertazione accurata e tempi rapidi per tutte le indagini internistiche.",
     approach:
       "Un'ecografia ad alta definizione costituisce la base oggettiva per orientare le scelte terapeutiche di tutte le specialità del centro.",
@@ -146,7 +146,7 @@ export const DOCTORS: Doctor[] = [
     title: "Psicologa, Psicoterapeuta",
     branca: "Psicologia & Benessere Integrato",
     affiliation: "Psicologa, Psicoterapeuta",
-    image: "/images/doctors/alessandra-totaro.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/doctors/alessandra-totaro.jpg",
     bio: "Alessandra Totaro offre percorsi di sostegno psicologico, gestione dell'ansia e dello stress e percorsi di consapevolezza emotiva integrati con la salute fisica.",
     approach:
       "Il corpo e la mente dialogano costantemente: la vera longevità e salute richiedono un equilibrio emotivo solido e armonioso.",
@@ -170,7 +170,7 @@ export const DOCTORS: Doctor[] = [
     title: "Biologa, Nutrizionista",
     branca: "Nutrizione Clinica & Metabolismo",
     affiliation: "Biologa, Nutrizionista",
-    image: "/images/doctors/jessica-de-ceglie.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/doctors/jessica-de-ceglie.jpg",
     bio: "Jessica De Ceglie è dedicata alla nutrizione clinica e ai protocolli mirati per il metabolismo, il supporto all'attività fisica e la prevenzione infiammatoria.",
     approach:
       "Il cibo è medicina preventiva: la nutrizione mirata migliora energia, longevità e forma fisica in modo misurabile e costante.",
@@ -193,7 +193,7 @@ export const DOCTORS: Doctor[] = [
     title: "Operatrice Estetica",
     branca: "Medicina Estetica Avanzata",
     affiliation: "Operatrice Estetica",
-    image: "/images/doctors/patty-scorzelli.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/doctors/patty-scorzelli.jpg",
     bio: "Patrizia Scorzelli è operatrice estetica specializzata in trattamenti corpo, silhouette e tecnologie estetiche avanzate per il benessere dei tessuti.",
     approach:
       "Protocolli estetici personalizzati per la cura della persona, con approccio dedicato e massima attenzione al benessere dei tessuti.",
@@ -217,7 +217,7 @@ export const DOCTORS: Doctor[] = [
     title: "Medico Chirurgo Specialista in Pediatria e Neonatologia",
     branca: "Pediatria & Cura della Crescita",
     affiliation: "Medico Chirurgo Specialista in Pediatria e Neonatologia",
-    image: "/images/doctors/filippo-iaccarino.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/doctors/filippo-iaccarino.jpg",
     bio: "Filippo Iaccarino accoglie le famiglie e i piccoli pazienti con disponibilità ed empatia, seguendo i bilanci di salute e le tappe fondamentali dello sviluppo pediatrico.",
     approach:
       "Ogni bambino merita un ambiente rilassante e rassicurante: la visita pediatrica deve essere un'esperienza positiva sia per il bambino sia per i genitori.",
@@ -243,7 +243,7 @@ export const DOCTORS: Doctor[] = [
     title: "Odontoiatria, Chirurgia e Implantologia",
     branca: "Odontoiatria & Ortodonzia Digitale",
     affiliation: "Odontoiatria, Chirurgia e Implantologia",
-    image: "/images/doctors/raffaele-dalessio.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/doctors/raffaele-dalessio.jpg",
     bio: "Raffaele D'Alessio è chirurgo orale dedicato alla riabilitazione complessa, all'implantologia computer-guidata a carico immediato e alla chirurgia ossea piezoelettrica mininvasiva.",
     approach:
       "Precisione millimetrica e massimo comfort: la chirurgia guidata 3D permette di ripristinare funzionalità ed estetica con tempi di guarigione minimi.",
@@ -267,7 +267,7 @@ export const DOCTORS: Doctor[] = [
     title: "Medico Chirurgo – Medicina Estetica",
     branca: "Medicina Estetica Avanzata",
     affiliation: "Medico Chirurgo – Medicina Estetica",
-    image: "/images/doctors/alessandra-riccardi.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/doctors/alessandra-riccardi.jpg",
     bio: "Alessandra Riccardi unisce la medicina estetica alla biostimolazione rigenerativa, focalizzandosi su trattamenti viso e corpo che esaltano l'armonia naturale senza alterare l'espressività.",
     approach:
       "La medicina estetica d'eccellenza non stravolge: rigenera la qualità biologica dei tessuti con tecnologie laser all'avanguardia e protocolli su misura.",
@@ -296,7 +296,7 @@ export const DOCTORS: Doctor[] = [
     title: "Medico Chirurgo – Senologia e Chirurgia Senologica",
     branca: "Senologia & Prevenzione Donna",
     affiliation: "Medico Chirurgo – Senologia e Chirurgia Senologica",
-    image: "/images/doctors/martina-pontillo.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/doctors/martina-pontillo.jpg",
     bio: "Martina Pontillo si dedica alla prevenzione senologica con visita clinica accurata ed ecografia mammaria ad alta risoluzione (si ricorda che la mammografia non è eseguita in sede).",
     approach:
       "La prevenzione senologica regolare è il dono più prezioso che ogni donna possa fare a se stessa, affrontata con serenità e competenza specialistica.",
@@ -320,7 +320,7 @@ export const DOCTORS: Doctor[] = [
     title: "Medico Chirurgo Specialista in Oftalmologia e Chirurgia Vitreo-Retinica",
     branca: "Oculistica & Salute della Vista",
     affiliation: "Medico Chirurgo Specialista in Oftalmologia e Chirurgia Vitreo-Retinica",
-    image: "/images/doctors/mario-toro.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/doctors/mario-toro.jpg",
     bio: "Mario Toro si occupa della salute della vista e della prevenzione oftalmologica, dalla misurazione della pressione intraoculare all'esame del fondo oculare e biomicroscopia del segmento anteriore.",
     approach:
       "La vista è il senso primario attraverso cui percepiamo il mondo: controlli periodici accurati preservano la qualità visiva a ogni età.",
@@ -345,7 +345,7 @@ export const DOCTORS: Doctor[] = [
     title: "Medico Chirurgo – Oncologia Medica",
     branca: "Oncologia & Prevenzione Clinica",
     affiliation: "Medico Chirurgo – Oncologia Medica",
-    image: "/images/doctors/vittorio-riccio.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/doctors/vittorio-riccio.jpg",
     bio: "Vittorio Riccio si occupa di prevenzione oncologica primaria, consulenze specialistiche per la valutazione dei fattori di rischio e percorsi di follow-up.",
     approach:
       "Prevenire significa conoscere i propri fattori biologici e intervenire tempestivamente con percorsi diagnostici appropriati.",
@@ -369,7 +369,7 @@ export const DOCTORS: Doctor[] = [
     title: "Medico Chirurgo Specialista in Medicina dello Sport",
     branca: "Medicina dello Sport & Valutazione Funzionale",
     affiliation: "Medico Chirurgo Specialista in Medicina dello Sport",
-    image: "/images/doctors/rocco-spera.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/doctors/rocco-spera.jpg",
     bio: "Rocco Spera effettua valutazioni clinico-funzionali per sportivi agonisti e amatori, promuovendo l'attività fisica come strumento insostituibile di prevenzione e longevità.",
     approach:
       "Lo sport praticato in sicurezza è la prima terapia per il sistema cardiovascolare e metabolico: valutiamo con rigore l'idoneità fisica.",

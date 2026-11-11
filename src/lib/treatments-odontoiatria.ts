@@ -18,11 +18,11 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
     "categoryName": "Ortodonzia specialistica",
     "tagline": "Apparecchi rimovibili su misura per accompagnare i denti verso la posizione programmata. Un percorso per bambini, adolescenti e adulti, progettato e seguito dallo specialista in ortodonzia in base alle esigenze di ogni sorriso.",
     "description": "Gli allineatori trasparenti sono mascherine ortodontiche realizzate su misura per la forma delle arcate dentali. Si utilizzano in sequenza: ogni dispositivo contribuisce a piccoli spostamenti, fino a raggiungere gli obiettivi definiti nel piano di trattamento.\n\nDa Cocoora il progetto è guidato dallo specialista in ortodonzia. La scansione intraorale e la pianificazione digitale aiutano a studiare i movimenti e a spiegare il percorso. La simulazione 3D permette di visualizzare il progetto, mentre i controlli verificano come si comporta nella realtà.\n\nLe mascherine si rimuovono per mangiare e per lavare i denti. La loro efficacia dipende anche dalla regolarità con cui vengono indossate, secondo le indicazioni ricevute. Quando servono, piccoli elementi in composito applicati ai denti, chiamati attachment, aiutano a ottenere determinati movimenti.",
-    "heroImage": "/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-1.jpg",
+    "heroImage": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-1.jpg",
-      "/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-2.jpg",
-      "/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-3.jpg"
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-1.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-2.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-3.jpg"
     ],
     "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
@@ -39,7 +39,7 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
         "Da Cocoora il progetto è guidato dallo specialista in ortodonzia. La scansione intraorale e la pianificazione digitale aiutano a studiare i movimenti e a spiegare il percorso. La simulazione 3D permette di visualizzare il progetto, mentre i controlli verificano come si comporta nella realtà.",
         "Le mascherine si rimuovono per mangiare e per lavare i denti. La loro efficacia dipende anche dalla regolarità con cui vengono indossate, secondo le indicazioni ricevute. Quando servono, piccoli elementi in composito applicati ai denti, chiamati attachment, aiutano a ottenere determinati movimenti."
       ],
-      "image": "/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-2.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-2.jpg"
     },
     "problemsTitle": "A cosa servono gli allineatori trasparenti?",
     "problemsSubtitle": "La scelta parte dalla posizione dei denti e dal modo in cui le arcate si incontrano. Età, crescita e abitudini quotidiane contribuiscono a definire il percorso.",
@@ -105,7 +105,7 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
         "Il risultato viene valutato rispetto al punto di partenza: posizione dei denti, spazi, rapporti tra le arcate e armonia complessiva del sorriso. I cambiamenti si costruiscono nel tempo e vengono osservati durante i controlli.",
         "La durata dipende dai movimenti programmati e dalla risposta individuale. Indossare gli allineatori con costanza, seguire le indicazioni e completare il mantenimento permettono di dare continuità al lavoro dello specialista."
       ],
-      "image": "/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-3.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-3.jpg"
     },
     "faq": [
       {
@@ -147,11 +147,11 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
     "categoryName": "Ortodonzia specialistica",
     "tagline": "Un trattamento ortodontico per migliorare l’allineamento dei denti e il modo in cui le arcate si incontrano. Per adolescenti e adulti, con un progetto specialistico e controlli che accompagnano ogni fase del cambiamento.",
     "description": "L’apparecchio fisso utilizza piccoli attacchi, chiamati bracket, applicati ai denti e collegati da un filo ortodontico. Questo sistema esercita forze controllate che guidano gradualmente i denti verso la posizione prevista dal piano di cura.\n\nIl dispositivo resta in bocca durante il trattamento e viene regolato dallo specialista nei controlli programmati. A seconda degli obiettivi possono essere associati elastici o altri ausili.\n\nDa Cocoora la scelta dell’apparecchio è parte di una valutazione più ampia: posizione dei denti, salute delle gengive e rapporti tra le arcate vengono considerati insieme. Il percorso viene spiegato prima di iniziare, con indicazioni su tempi orientativi, appuntamenti e gestione quotidiana.",
-    "heroImage": "/images/trattamenti/odontoiatria/apparecchio-fisso-napoli-1.jpg",
+    "heroImage": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/apparecchio-fisso-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/odontoiatria/apparecchio-fisso-napoli-1.jpg",
-      "/images/trattamenti/odontoiatria/apparecchio-fisso-napoli-2.jpg",
-      "/images/trattamenti/odontoiatria/apparecchio-fisso-napoli-3.jpg"
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/apparecchio-fisso-napoli-1.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/apparecchio-fisso-napoli-2.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/apparecchio-fisso-napoli-3.jpg"
     ],
     "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
@@ -168,7 +168,7 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
         "Il dispositivo resta in bocca durante il trattamento e viene regolato dallo specialista nei controlli programmati. A seconda degli obiettivi possono essere associati elastici o altri ausili.",
         "Da Cocoora la scelta dell’apparecchio è parte di una valutazione più ampia: posizione dei denti, salute delle gengive e rapporti tra le arcate vengono considerati insieme. Il percorso viene spiegato prima di iniziare, con indicazioni su tempi orientativi, appuntamenti e gestione quotidiana."
       ],
-      "image": "/images/trattamenti/odontoiatria/apparecchio-fisso-napoli-2.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/apparecchio-fisso-napoli-2.jpg"
     },
     "problemsTitle": "A cosa serve l’apparecchio fisso?",
     "problemsSubtitle": "L’ortodonzia fissa permette di lavorare su diversi movimenti dentali. La scelta dipende da ciò che occorre correggere, non soltanto dall’aspetto del sorriso.",
@@ -234,7 +234,7 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
         "L’obiettivo è ottenere denti meglio allineati e rapporti occlusali coerenti con il piano di trattamento. Il cambiamento riguarda il sorriso nel suo insieme, non soltanto la posizione di un singolo dente.",
         "Il percorso richiede continuità: controlli, igiene quotidiana e utilizzo degli eventuali elastici contribuiscono al lavoro ortodontico. Tempi e risultati vengono discussi rispetto alla situazione iniziale; la contenzione completa il trattamento anche quando l’apparecchio non è più visibile."
       ],
-      "image": "/images/trattamenti/odontoiatria/apparecchio-fisso-napoli-3.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/apparecchio-fisso-napoli-3.jpg"
     },
     "faq": [
       {
@@ -278,11 +278,11 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
     "categoryName": "Ortodonzia specialistica",
     "tagline": "Seguire la crescita della bocca e intervenire quando è utile. Un percorso per bambini e adolescenti che considera lo sviluppo delle arcate, l'eruzione dei denti e la fase di crescita, per scegliere il momento adatto alla cura.",
     "description": "L’ortodonzia intercettiva riconosce e affronta specifiche alterazioni mentre denti e arcate sono ancora in sviluppo. L’obiettivo è intervenire sui problemi per i quali la fase di crescita offre una possibilità terapeutica, anziché attendere automaticamente il completamento della dentizione.\n\nNon significa mettere l’apparecchio a tutti i bambini. La valutazione può portare a iniziare un trattamento oppure a programmare controlli per osservare come evolve la bocca. La scelta dipende dalla diagnosi, non soltanto dall’età anagrafica.\n\nNegli adolescenti lo specialista verifica la dentizione e la crescita residua per distinguere gli obiettivi ancora affrontabili con un approccio intercettivo da quelli di un trattamento ortodontico completo. Da Cocoora il percorso è guidato dallo specialista in ortodonzia, con indicazioni comprensibili per ragazzi e genitori.",
-    "heroImage": "/images/trattamenti/odontoiatria/ortodonzia-intercettiva-napoli-1.jpg",
+    "heroImage": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/ortodonzia-intercettiva-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/odontoiatria/ortodonzia-intercettiva-napoli-1.jpg",
-      "/images/trattamenti/odontoiatria/ortodonzia-intercettiva-napoli-2.jpg",
-      "/images/trattamenti/odontoiatria/ortodonzia-intercettiva-napoli-3.jpg"
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/ortodonzia-intercettiva-napoli-1.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/ortodonzia-intercettiva-napoli-2.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/ortodonzia-intercettiva-napoli-3.jpg"
     ],
     "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
@@ -299,7 +299,7 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
         "Non significa mettere l’apparecchio a tutti i bambini. La valutazione può portare a iniziare un trattamento oppure a programmare controlli per osservare come evolve la bocca. La scelta dipende dalla diagnosi, non soltanto dall’età anagrafica.",
         "Negli adolescenti lo specialista verifica la dentizione e la crescita residua per distinguere gli obiettivi ancora affrontabili con un approccio intercettivo da quelli di un trattamento ortodontico completo. Da Cocoora il percorso è guidato dallo specialista in ortodonzia, con indicazioni comprensibili per ragazzi e genitori."
       ],
-      "image": "/images/trattamenti/odontoiatria/ortodonzia-intercettiva-napoli-2.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/ortodonzia-intercettiva-napoli-2.jpg"
     },
     "problemsTitle": "A cosa serve l’ortodonzia intercettiva?",
     "problemsSubtitle": "Durante la crescita alcune situazioni meritano attenzione prima di altre. La visita aiuta a riconoscerle e a scegliere se intervenire, come farlo e con quali obiettivi.",
@@ -365,7 +365,7 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
         "Il risultato viene valutato rispetto al problema affrontato: migliorare un rapporto tra le arcate, gestire lo spazio o accompagnare una fase di sviluppo dentale. Non coincide necessariamente con l’allineamento definitivo di tutti i denti.",
         "Intervenire nel momento appropriato permette di affrontare ciò che è utile trattare durante la crescita. Alcuni bambini e adolescenti avranno bisogno di ulteriori fasi ortodontiche; per altri il percorso potrà proseguire con l’osservazione. Questa prospettiva viene condivisa fin dall’inizio."
       ],
-      "image": "/images/trattamenti/odontoiatria/ortodonzia-intercettiva-napoli-3.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/ortodonzia-intercettiva-napoli-3.jpg"
     },
     "faq": [
       {
@@ -407,11 +407,11 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
     "categoryName": "Ortodonzia specialistica",
     "tagline": "L’allineamento si costruisce durante il trattamento e si accompagna nel tempo. La contenzione è la fase dedicata al mantenimento della posizione dei denti dopo l’apparecchio fisso o gli allineatori trasparenti, con dispositivi e controlli personalizzati.",
     "description": "La contenzione utilizza dispositivi, chiamati anche retainer, progettati per mantenere i denti nella posizione raggiunta al termine della fase attiva. È parte del percorso ortodontico e aiuta a limitare gli spostamenti che possono verificarsi nel tempo.\n\nPuò essere fissa, con un sottile filo applicato sulla superficie interna di alcuni denti, oppure rimovibile, con un dispositivo realizzato su misura da indossare secondo le indicazioni dello specialista. In alcune situazioni vengono associate modalità diverse.\n\nLa scelta considera il trattamento effettuato, l’occlusione e le esigenze di mantenimento. In Cocoora questa fase viene collegata al progetto iniziale, così da chiarire fin dall’inizio che la cura del risultato prosegue anche dopo l’allineamento.",
-    "heroImage": "/images/trattamenti/odontoiatria/contenzione-napoli-1.jpg",
+    "heroImage": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/contenzione-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/odontoiatria/contenzione-napoli-1.jpg",
-      "/images/trattamenti/odontoiatria/contenzione-napoli-2.jpg",
-      "/images/trattamenti/odontoiatria/contenzione-napoli-3.jpg"
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/contenzione-napoli-1.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/contenzione-napoli-2.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/contenzione-napoli-3.jpg"
     ],
     "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
@@ -428,7 +428,7 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
         "Può essere fissa, con un sottile filo applicato sulla superficie interna di alcuni denti, oppure rimovibile, con un dispositivo realizzato su misura da indossare secondo le indicazioni dello specialista. In alcune situazioni vengono associate modalità diverse.",
         "La scelta considera il trattamento effettuato, l’occlusione e le esigenze di mantenimento. In Cocoora questa fase viene collegata al progetto iniziale, così da chiarire fin dall’inizio che la cura del risultato prosegue anche dopo l’allineamento."
       ],
-      "image": "/images/trattamenti/odontoiatria/contenzione-napoli-2.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/contenzione-napoli-2.jpg"
     },
     "problemsTitle": "A cosa serve la contenzione ortodontica?",
     "problemsSubtitle": "Il compito della contenzione non è iniziare nuovi movimenti: è dare continuità al risultato ottenuto e seguirne la stabilità.",
@@ -494,7 +494,7 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
         "L’obiettivo è mantenere l’allineamento e sostenere la stabilità del risultato ortodontico. Per questo il successo della contenzione si osserva nel tempo, non attraverso un nuovo cambiamento estetico immediato.",
         "L'utilizzo regolare del dispositivo, l'igiene e i controlli sono parti complementari del mantenimento. Se i denti hanno già cambiato posizione, una valutazione permette di distinguere ciò che può essere gestito nella contenzione da ciò che richiede un nuovo progetto ortodontico."
       ],
-      "image": "/images/trattamenti/odontoiatria/contenzione-napoli-3.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/contenzione-napoli-3.jpg"
     },
     "faq": [
       {
@@ -536,11 +536,11 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
     "categoryName": "Salute e prevenzione",
     "tagline": "Il punto di partenza per conoscere la salute della bocca e capire come prendersene cura. Una valutazione di denti, gengive e occlusione, con il tempo necessario per ascoltare le esigenze e definire le priorità.",
     "description": "La visita odontoiatrica è un esame clinico della bocca che permette di valutare la salute orale, riconoscere eventuali necessità di trattamento e programmare la prevenzione. Non riguarda soltanto i denti: comprende gengive, mucose, restauri presenti e il modo in cui le arcate si incontrano.\n\nIl confronto inizia dalla storia personale, dalle abitudini e dalle ragioni dell’appuntamento. L’odontoiatra collega queste informazioni ai riscontri della visita, spiegando ciò che osserva con parole comprensibili.\n\nDa Cocoora il piano nasce da questa visione d’insieme. Quando occorre, vengono coinvolte competenze diverse, dall’ortodonzia alla parodontologia, per costruire un percorso ordinato e riconoscibile in ogni passaggio.",
-    "heroImage": "/images/trattamenti/odontoiatria/visita-odontoiatrica-napoli-1.jpg",
+    "heroImage": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/visita-odontoiatrica-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/odontoiatria/visita-odontoiatrica-napoli-1.jpg",
-      "/images/trattamenti/odontoiatria/visita-odontoiatrica-napoli-2.jpg",
-      "/images/trattamenti/odontoiatria/visita-odontoiatrica-napoli-3.jpg"
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/visita-odontoiatrica-napoli-1.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/visita-odontoiatrica-napoli-2.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/visita-odontoiatrica-napoli-3.jpg"
     ],
     "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
@@ -557,7 +557,7 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
         "Il confronto inizia dalla storia personale, dalle abitudini e dalle ragioni dell’appuntamento. L’odontoiatra collega queste informazioni ai riscontri della visita, spiegando ciò che osserva con parole comprensibili.",
         "Da Cocoora il piano nasce da questa visione d’insieme. Quando occorre, vengono coinvolte competenze diverse, dall’ortodonzia alla parodontologia, per costruire un percorso ordinato e riconoscibile in ogni passaggio."
       ],
-      "image": "/images/trattamenti/odontoiatria/visita-odontoiatrica-napoli-2.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/visita-odontoiatrica-napoli-2.jpg"
     },
     "problemsTitle": "A cosa serve una visita odontoiatrica?",
     "problemsSubtitle": "Si può prenotare una visita per un’esigenza precisa oppure per un controllo, anche quando la bocca non dà particolari segnali.",
@@ -623,7 +623,7 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
         "La visita permette di avere un quadro più chiaro della salute orale e una direzione concreta: cosa curare, cosa tenere sotto osservazione e come migliorare le abitudini quotidiane.",
         "Non coincide automaticamente con l’inizio di un trattamento. Il suo valore è costruire decisioni informate, con obiettivi comprensibili e un piano proporzionato alle necessità. Alcuni casi richiedono ulteriori accertamenti prima di completare la proposta di cura."
       ],
-      "image": "/images/trattamenti/odontoiatria/visita-odontoiatrica-napoli-3.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/visita-odontoiatrica-napoli-3.jpg"
     },
     "faq": [
       {
@@ -667,11 +667,11 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
     "categoryName": "Salute e prevenzione",
     "tagline": "La pulizia dei denti in studio completa la cura quotidiana della bocca. Rimuove i depositi di placca e tartaro e offre indicazioni pratiche per mantenere denti e gengive puliti, con attenzioni adeguate alle proprie esigenze.",
     "description": "L’igiene orale professionale, comunemente chiamata pulizia dei denti, comprende la rimozione dei depositi che si accumulano sulle superfici dentali. La placca è una pellicola batterica; quando si mineralizza forma il tartaro, che non viene eliminato dal normale spazzolamento.\n\nIl professionista utilizza strumenti adatti alle superfici da trattare e alle condizioni della bocca. La seduta può comprendere anche la rimozione di pigmentazioni esterne e la rifinitura delle superfici.\n\nLa prevenzione prosegue fuori dallo studio: scegliere lo spazzolino, usare correttamente filo o scovolini e raggiungere le zone più difficili rendono la pulizia quotidiana più efficace. In Cocoora questi consigli vengono inseriti nel percorso di salute orale, non lasciati come indicazioni generiche.",
-    "heroImage": "/images/trattamenti/odontoiatria/igiene-orale-professionale-napoli-1.jpg",
+    "heroImage": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/igiene-orale-professionale-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/odontoiatria/igiene-orale-professionale-napoli-1.jpg",
-      "/images/trattamenti/odontoiatria/igiene-orale-professionale-napoli-2.jpg",
-      "/images/trattamenti/odontoiatria/igiene-orale-professionale-napoli-3.jpg"
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/igiene-orale-professionale-napoli-1.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/igiene-orale-professionale-napoli-2.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/igiene-orale-professionale-napoli-3.jpg"
     ],
     "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
@@ -688,7 +688,7 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
         "Il professionista utilizza strumenti adatti alle superfici da trattare e alle condizioni della bocca. La seduta può comprendere anche la rimozione di pigmentazioni esterne e la rifinitura delle superfici.",
         "La prevenzione prosegue fuori dallo studio: scegliere lo spazzolino, usare correttamente filo o scovolini e raggiungere le zone più difficili rendono la pulizia quotidiana più efficace. In Cocoora questi consigli vengono inseriti nel percorso di salute orale, non lasciati come indicazioni generiche."
       ],
-      "image": "/images/trattamenti/odontoiatria/igiene-orale-professionale-napoli-2.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/igiene-orale-professionale-napoli-2.jpg"
     },
     "problemsTitle": "A cosa serve l’igiene orale professionale?",
     "problemsSubtitle": "La seduta sostiene la salute dei denti e delle gengive e aiuta a rendere più semplice il mantenimento quotidiano, anche in presenza di apparecchi o riabilitazioni dentali.",
@@ -754,7 +754,7 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
         "La rimozione dei depositi restituisce superfici più pulite e rende più efficace il mantenimento a casa. Le gengive beneficiano di un migliore controllo della placca, soprattutto quando la seduta è accompagnata da abitudini quotidiane costanti.",
         "L’igiene non sostituisce le cure di carie o malattie parodontali già presenti. È invece una parte del percorso di prevenzione e mantenimento, da coordinare con le altre prestazioni quando necessario."
       ],
-      "image": "/images/trattamenti/odontoiatria/igiene-orale-professionale-napoli-3.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/igiene-orale-professionale-napoli-3.jpg"
     },
     "faq": [
       {
@@ -796,11 +796,11 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
     "categoryName": "Cura e riabilitazione",
     "tagline": "Curare un dente preservandone la struttura naturale. L’odontoiatria conservativa interviene su carie e danni localizzati attraverso otturazioni e ricostruzioni, per recuperare forma, funzione e continuità del sorriso.",
     "description": "L’odontoiatria conservativa si occupa di recuperare i denti che hanno perso una parte della propria struttura, per esempio a causa di una carie o di una piccola frattura. Il principio è trattare la zona interessata conservando quanto più possibile il tessuto dentale sano.\n\nL’otturazione ricostruisce la parte mancante con un materiale adatto alla sede e all’estensione del danno. I restauri in composito, del colore del dente, permettono di lavorare anche sull’integrazione estetica della ricostruzione.\n\nLa scelta non dipende soltanto dalla dimensione della cavità. Il dentista considera profondità della lesione, struttura residua, contatti con gli altri denti e carichi masticatori, per individuare una soluzione coerente con la funzione del dente.",
-    "heroImage": "/images/trattamenti/odontoiatria/conservativa-napoli-1.jpg",
+    "heroImage": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/conservativa-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/odontoiatria/conservativa-napoli-1.jpg",
-      "/images/trattamenti/odontoiatria/conservativa-napoli-2.jpg",
-      "/images/trattamenti/odontoiatria/conservativa-napoli-3.jpg"
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/conservativa-napoli-1.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/conservativa-napoli-2.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/conservativa-napoli-3.jpg"
     ],
     "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
@@ -817,7 +817,7 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
         "L’otturazione ricostruisce la parte mancante con un materiale adatto alla sede e all’estensione del danno. I restauri in composito, del colore del dente, permettono di lavorare anche sull’integrazione estetica della ricostruzione.",
         "La scelta non dipende soltanto dalla dimensione della cavità. Il dentista considera profondità della lesione, struttura residua, contatti con gli altri denti e carichi masticatori, per individuare una soluzione coerente con la funzione del dente."
       ],
-      "image": "/images/trattamenti/odontoiatria/conservativa-napoli-2.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/conservativa-napoli-2.jpg"
     },
     "problemsTitle": "A cosa serve la conservativa?",
     "problemsSubtitle": "Il trattamento risponde a esigenze diverse, accomunate dall’obiettivo di conservare il dente naturale e restituirgli una forma funzionale.",
@@ -883,7 +883,7 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
         "Il trattamento mira a recuperare la struttura mancante e la funzione del dente, con una ricostruzione integrata nel sorriso. L’attenzione estetica accompagna quella clinica: forma, colore e contatti vengono considerati insieme.",
         "La durata del restauro dipende dall'estensione, dalla posizione, dalle abitudini e dall'igiene orale. I controlli permettono di verificarne nel tempo l’integrità. Quando il danno coinvolge anche i tessuti interni del dente, il percorso può comprendere l’endodonzia prima della ricostruzione definitiva."
       ],
-      "image": "/images/trattamenti/odontoiatria/conservativa-napoli-3.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/conservativa-napoli-3.jpg"
     },
     "faq": [
       {
@@ -925,11 +925,11 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
     "categoryName": "Cura e riabilitazione",
     "tagline": "La cura canalare tratta la parte interna del dente per conservarlo e recuperarlo alla sua funzione. Un percorso che unisce diagnosi, trattamento e ricostruzione, con attenzione al valore del dente naturale.",
     "description": "L’endodonzia si occupa della polpa dentaria e dei tessuti intorno alle radici. La polpa è la parte interna del dente che contiene nervi e vasi sanguigni. Quando è compromessa da un’infiammazione non recuperabile o da un’infezione, può essere necessario un trattamento canalare.\n\nLa procedura, spesso chiamata devitalizzazione, prevede la pulizia, la disinfezione e la chiusura dello spazio interno dei canali radicolari. Il dente viene poi ricostruito per tornare a svolgere la propria funzione nella bocca.\n\nDa Cocoora la conservazione del dente viene valutata all’interno del quadro clinico complessivo. La scelta considera sia la possibilità di trattare i canali sia la quantità di struttura disponibile per una ricostruzione adeguata.",
-    "heroImage": "/images/trattamenti/odontoiatria/endodonzia-napoli-1.jpg",
+    "heroImage": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/endodonzia-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/odontoiatria/endodonzia-napoli-1.jpg",
-      "/images/trattamenti/odontoiatria/endodonzia-napoli-2.jpg",
-      "/images/trattamenti/odontoiatria/endodonzia-napoli-3.jpg"
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/endodonzia-napoli-1.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/endodonzia-napoli-2.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/endodonzia-napoli-3.jpg"
     ],
     "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
@@ -946,7 +946,7 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
         "La procedura, spesso chiamata devitalizzazione, prevede la pulizia, la disinfezione e la chiusura dello spazio interno dei canali radicolari. Il dente viene poi ricostruito per tornare a svolgere la propria funzione nella bocca.",
         "Da Cocoora la conservazione del dente viene valutata all’interno del quadro clinico complessivo. La scelta considera sia la possibilità di trattare i canali sia la quantità di struttura disponibile per una ricostruzione adeguata."
       ],
-      "image": "/images/trattamenti/odontoiatria/endodonzia-napoli-2.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/endodonzia-napoli-2.jpg"
     },
     "problemsTitle": "Quando può servire un trattamento endodontico?",
     "problemsSubtitle": "La cura canalare non è necessaria per ogni carie o fastidio dentale. Serve una diagnosi che chiarisca se il problema interessa anche i tessuti interni del dente.",
@@ -1012,7 +1012,7 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
         "L’obiettivo è trattare il problema interno e mantenere il dente nella bocca, recuperandone la funzione attraverso una ricostruzione adeguata. Cura canalare e restauro finale sono due parti dello stesso progetto.",
         "Il risultato viene seguito con controlli clinici ed eventuali verifiche radiografiche. La qualità della ricostruzione e la pulizia quotidiana contribuiscono al mantenimento del dente, insieme al programma di prevenzione concordato."
       ],
-      "image": "/images/trattamenti/odontoiatria/endodonzia-napoli-3.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/endodonzia-napoli-3.jpg"
     },
     "faq": [
       {
@@ -1056,11 +1056,11 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
     "categoryName": "Cura e riabilitazione",
     "tagline": "La salute dei denti dipende anche dai tessuti che li sostengono. La parodontologia si prende cura delle gengive e del supporto dentale attraverso diagnosi, trattamenti mirati e programmi di mantenimento costruiti nel tempo.",
     "description": "La parodontologia si occupa dei tessuti che circondano e sostengono i denti: gengive, osso e strutture di collegamento tra radice e osso. La valutazione permette di distinguere un’infiammazione gengivale da condizioni che coinvolgono anche il supporto del dente.\n\nLa gengivite interessa le gengive; nella parodontite il problema coinvolge i tessuti di sostegno. Comprendere questa differenza è importante per scegliere tra prevenzione, igiene professionale e un percorso terapeutico dedicato.\n\nDa Cocoora l’attenzione alle gengive fa parte della visione complessiva della bocca. Il programma unisce cura professionale e indicazioni quotidiane, con controlli utili a verificare come rispondono i tessuti e a mantenere i miglioramenti.",
-    "heroImage": "/images/trattamenti/odontoiatria/paradontologia-napoli-1.jpg",
+    "heroImage": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/paradontologia-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/odontoiatria/paradontologia-napoli-1.jpg",
-      "/images/trattamenti/odontoiatria/paradontologia-napoli-2.jpg",
-      "/images/trattamenti/odontoiatria/paradontologia-napoli-3.jpg"
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/paradontologia-napoli-1.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/paradontologia-napoli-2.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/paradontologia-napoli-3.jpg"
     ],
     "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
@@ -1077,7 +1077,7 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
         "La gengivite interessa le gengive; nella parodontite il problema coinvolge i tessuti di sostegno. Comprendere questa differenza è importante per scegliere tra prevenzione, igiene professionale e un percorso terapeutico dedicato.",
         "Da Cocoora l’attenzione alle gengive fa parte della visione complessiva della bocca. Il programma unisce cura professionale e indicazioni quotidiane, con controlli utili a verificare come rispondono i tessuti e a mantenere i miglioramenti."
       ],
-      "image": "/images/trattamenti/odontoiatria/paradontologia-napoli-2.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/paradontologia-napoli-2.jpg"
     },
     "problemsTitle": "A cosa serve la valutazione parodontale?",
     "problemsSubtitle": "Il percorso parte dalle caratteristiche delle gengive e dai tessuti di supporto, non soltanto da ciò che è visibile nel sorriso.",
@@ -1143,7 +1143,7 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
         "L’obiettivo è ridurre l’infiammazione, migliorare il controllo della placca e favorire la stabilità dei tessuti di supporto. Il risultato non si valuta soltanto dall’aspetto delle gengive: contano anche i parametri rilevati durante i controlli.",
         "Nella parodontite il mantenimento è parte della cura. Igiene quotidiana e richiami personalizzati aiutano a sostenere i risultati raggiunti. Il percorso viene adattato alla risposta clinica, senza ridursi a una singola pulizia dei denti."
       ],
-      "image": "/images/trattamenti/odontoiatria/paradontologia-napoli-3.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/paradontologia-napoli-3.jpg"
     },
     "faq": [
       {
@@ -1187,11 +1187,11 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
     "categoryName": "Cura e riabilitazione",
     "tagline": "Soluzioni su misura per ricostruire denti danneggiati o sostituire quelli mancanti. Le protesi dentali fisse e rimovibili vengono progettate considerando masticazione, estetica e possibilità di mantenimento nella vita quotidiana.",
     "description": "Le protesi dentali permettono di recuperare la forma e la funzione dei denti attraverso dispositivi realizzati per la singola bocca. Possono ricoprire un dente naturale, come una corona, oppure sostituire uno o più denti assenti.\n\nUna protesi fissa rimane in posizione e non viene rimossa dal paziente. Una protesi rimovibile può essere tolta per la pulizia e gestita secondo le indicazioni ricevute. Il supporto può essere costituito da denti naturali, tessuti della bocca o impianti, a seconda del progetto.\n\nLa scelta parte dalle condizioni orali e dalle esigenze della persona. Da Cocoora il percorso protesico viene valutato insieme alla salute delle gengive, ai denti presenti e ai rapporti tra le arcate, per coordinare estetica e funzione.",
-    "heroImage": "/images/trattamenti/odontoiatria/protesi-napoli-1.jpg",
+    "heroImage": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/protesi-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/odontoiatria/protesi-napoli-1.jpg",
-      "/images/trattamenti/odontoiatria/protesi-napoli-2.jpg",
-      "/images/trattamenti/odontoiatria/protesi-napoli-3.jpg"
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/protesi-napoli-1.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/protesi-napoli-2.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/protesi-napoli-3.jpg"
     ],
     "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
@@ -1208,7 +1208,7 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
         "Una protesi fissa rimane in posizione e non viene rimossa dal paziente. Una protesi rimovibile può essere tolta per la pulizia e gestita secondo le indicazioni ricevute. Il supporto può essere costituito da denti naturali, tessuti della bocca o impianti, a seconda del progetto.",
         "La scelta parte dalle condizioni orali e dalle esigenze della persona. Da Cocoora il percorso protesico viene valutato insieme alla salute delle gengive, ai denti presenti e ai rapporti tra le arcate, per coordinare estetica e funzione."
       ],
-      "image": "/images/trattamenti/odontoiatria/protesi-napoli-2.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/protesi-napoli-2.jpg"
     },
     "problemsTitle": "A cosa servono le protesi dentali?",
     "problemsSubtitle": "Non tutte le riabilitazioni richiedono la stessa soluzione. Il piano cambia in base a ciò che occorre ricostruire e ai supporti disponibili.",
@@ -1274,7 +1274,7 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
         "La riabilitazione mira a recuperare la masticazione e la continuità del sorriso, con denti progettati per inserirsi nell’insieme della bocca. Il lavoro estetico considera forma, proporzioni e colore, mentre quello funzionale riguarda i contatti e la gestione quotidiana.",
         "La protesi richiede cura anche dopo la consegna. Pulizia e controlli aiutano a mantenerne la funzione e a verificare nel tempo denti, gengive o impianti che la sostengono."
       ],
-      "image": "/images/trattamenti/odontoiatria/protesi-napoli-3.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/protesi-napoli-3.jpg"
     },
     "faq": [
       {
@@ -1316,11 +1316,11 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
     "categoryName": "Cura e riabilitazione",
     "tagline": "Un percorso per sostituire i denti mancanti e recuperare la masticazione attraverso una riabilitazione su impianti. Il progetto parte dalla salute della bocca e collega valutazione, fase chirurgica, protesi e mantenimento.",
     "description": "L’implantologia permette di sostituire denti assenti utilizzando supporti inseriti nell’osso della mascella o della mandibola. L’impianto svolge il ruolo di una radice artificiale; la corona o la protesi collegata costituisce invece la parte visibile, che partecipa alla masticazione.\n\nDopo l’inserimento, il rapporto tra impianto e osso si consolida attraverso un processo chiamato osteointegrazione. Le modalità e i tempi della riabilitazione vengono scelti in base alla situazione clinica e al progetto protesico.\n\nLa valutazione comprende la salute delle gengive, l'osso disponibile, i denti presenti e le condizioni generali. Da Cocoora l’impianto è considerato all’interno di un percorso odontoiatrico completo: prima di sostituire un dente ancora presente, si valuta la possibilità di conservarlo.",
-    "heroImage": "/images/trattamenti/odontoiatria/implantologia-napoli-1.jpg",
+    "heroImage": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/implantologia-napoli-1.jpg",
     "galleryImages": [
-      "/images/trattamenti/odontoiatria/implantologia-napoli-1.jpg",
-      "/images/trattamenti/odontoiatria/implantologia-napoli-2.jpg",
-      "/images/trattamenti/odontoiatria/implantologia-napoli-3.jpg"
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/implantologia-napoli-1.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/implantologia-napoli-2.jpg",
+      "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/implantologia-napoli-3.jpg"
     ],
     "heroCta": "Iscriviti gratuitamente al Cocoora Club",
     "seo": {
@@ -1337,7 +1337,7 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
         "Dopo l’inserimento, il rapporto tra impianto e osso si consolida attraverso un processo chiamato osteointegrazione. Le modalità e i tempi della riabilitazione vengono scelti in base alla situazione clinica e al progetto protesico.",
         "La valutazione comprende la salute delle gengive, l'osso disponibile, i denti presenti e le condizioni generali. Da Cocoora l’impianto è considerato all’interno di un percorso odontoiatrico completo: prima di sostituire un dente ancora presente, si valuta la possibilità di conservarlo."
       ],
-      "image": "/images/trattamenti/odontoiatria/implantologia-napoli-2.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/implantologia-napoli-2.jpg"
     },
     "problemsTitle": "A cosa serve l’implantologia?",
     "problemsSubtitle": "Il numero e la posizione degli impianti dipendono dai denti da sostituire e dalla protesi da sostenere. Le possibilità vengono confrontate con le alternative disponibili per la singola bocca.",
@@ -1403,7 +1403,7 @@ export const ODONTOIATRIA_TREATMENTS: Treatment[] = [
         "Il percorso mira a sostituire i denti mancanti con una riabilitazione che recuperi la funzione masticatoria e l'integrazione nel sorriso. Il risultato riguarda l’insieme di impianti, protesi e tessuti, non soltanto il singolo supporto inserito nell’osso.",
         "La soluzione definitiva e i suoi tempi dipendono dal punto di partenza. Anche dopo il completamento del lavoro, l'igiene quotidiana e i controlli professionali restano parte della cura, per mantenere la riabilitazione nel tempo."
       ],
-      "image": "/images/trattamenti/odontoiatria/implantologia-napoli-3.jpg"
+      "image": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/implantologia-napoli-3.jpg"
     },
     "faq": [
       {

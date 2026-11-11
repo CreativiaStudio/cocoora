@@ -21,7 +21,7 @@ const areas: MedicalArea[] = [
     number: "01",
     title: "Medicina Estetica & Rigenerativa",
     href: "/servizi/medicina-estetica",
-    image: "/images/aesthetic-skin.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/aesthetic-skin.jpg",
     tag: "Viso · Pelle · Corpo",
     description:
       "Protocolli medici per viso, pelle e corpo: biostimolazione, filler, tossina botulinica, criolipolisi, ultrasuoni focalizzati CFU e piattaforme laser medicali.",
@@ -35,7 +35,7 @@ const areas: MedicalArea[] = [
     number: "02",
     title: "Odontoiatria & Ortodonzia",
     href: "/servizi/odontoiatria",
-    image: "/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-1.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-1.jpg",
     tag: "Sorriso · Prevenzione",
     description:
       "Allineatori Trasparenti, Ortodonzia Specialistica, Estetica del Sorriso, Implantologia e Igiene professionale con tecnologie digitali.",
@@ -49,7 +49,7 @@ const areas: MedicalArea[] = [
     number: "03",
     title: "Visite Specialistiche",
     href: "/visite",
-    image: "/images/diagnostics-lab.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/diagnostics-lab.jpg",
     tag: "Équipe Universitaria",
     description:
       "Cardiologia, Ginecologia, Senologia, Ecografia, Oculistica, Pediatria, Psicologia e Medicina dello Sport con docenti universitari a Napoli.",

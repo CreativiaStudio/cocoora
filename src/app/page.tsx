@@ -276,7 +276,7 @@ export default function HomePage() {
                 <Reveal delay={0.12}>
                   <div className="relative aspect-[4/5] w-full max-w-[500px] overflow-hidden rounded-[2rem] border border-white/15 shadow-[0_40px_90px_-30px_rgba(0,0,0,0.6)] sm:aspect-[5/4] lg:ml-auto lg:aspect-[4/5]">
                     <Image
-                      src="/images/dna-genomics.jpg"
+                      src="https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/dna-genomics.jpg"
                       alt="Diagnostica predittiva e radiologia clinica avanzata nel centro Cocoora"
                       fill
                       sizes="(min-width: 1024px) 500px, 92vw"
@@ -347,9 +347,9 @@ export default function HomePage() {
           <div className="relative isolate overflow-hidden rounded-[2rem] bg-[#002231] px-6 py-20 text-center text-white shadow-[0_36px_90px_-36px_rgba(0,34,49,0.65)] sm:rounded-[2.5rem] sm:py-24">
             {/* Foto reale studio (FOTO-2.jpg) con sfocatura morbida moderna */}
             <picture className="pointer-events-none absolute inset-0 -z-30 h-full w-full">
-              <source srcSet="/images/centro/foto-2.webp" type="image/webp" />
+              <source srcSet="https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-2.webp" type="image/webp" />
               <img
-                src="/images/centro/foto-2.jpg"
+                src="https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-2.jpg"
                 alt="Studio e accoglienza Cocoora Centro Medico"
                 className="h-full w-full object-cover object-center scale-105 blur-[3px] brightness-[0.95]"
               />

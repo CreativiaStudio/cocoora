@@ -22,11 +22,11 @@ import { cn, formatPrice } from "@/lib/utils";
 import { Badge, Button, ButtonLink, Container, SectionLabel } from "@/components/ui";
 
 const TIER_IMAGES: Record<string, string> = {
-  discover: "/images/centro/foto-3.webp",
-  access: "/images/centro/foto-14.webp",
-  care: "/images/centro/foto-8.webp",
-  experience: "/images/centro/foto-5.webp",
-  signature: "/images/centro/foto-20.webp",
+  discover: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-3.webp",
+  access: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-14.webp",
+  care: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-8.webp",
+  experience: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-5.webp",
+  signature: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-20.webp",
 };
 
 // Feature flag: oscura il Calcolatore del Risparmio sul sito pubblico.
@@ -183,16 +183,17 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
               )}
             </div>
 
-            <div className="relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden rounded-[2.5rem] shadow-[0_30px_70px_-28px_rgba(3,53,75,0.4)] lg:mx-0">
+            <div className="relative mx-auto aspect-[3/2] w-full max-w-xl overflow-hidden rounded-[2rem] shadow-[0_30px_70px_-28px_rgba(3,53,75,0.4)] lg:mx-0">
               <Image
-                src={TIER_IMAGES[tier.id] ?? "/images/hero-clinic.jpg"}
+                src={TIER_IMAGES[tier.id] ?? "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/hero-clinic.jpg"}
                 alt={tier.name}
                 fill
                 priority
-                sizes="(min-width: 1024px) 480px, 90vw"
+                quality={95}
+                sizes="(min-width: 1024px) 640px, 95vw"
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-dark-navy/70 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-dark-navy/25 via-transparent to-transparent" />
             </div>
           </div>
         </Container>

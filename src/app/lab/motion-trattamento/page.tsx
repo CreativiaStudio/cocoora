@@ -173,7 +173,7 @@ function HeroSection({ treatment }: { treatment: Treatment }) {
   const intro = treatment.tagline || treatment.description;
   const ctaLabel = treatment.heroCta || "Richiedi una valutazione";
   const heroImage =
-    treatment.heroImage ?? "/images/trattamenti/medicina-estetica/filler-viso-napoli-1.jpg";
+    treatment.heroImage ?? "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/filler-viso-napoli-1.jpg";
 
   return (
     <section
@@ -310,7 +310,7 @@ function WhatIsSection({ treatment }: { treatment: Treatment }) {
     whatIs?.callout ??
     "Le formulazioni, le concentrazioni e le modalità di applicazione vengono sempre personalizzate dal medico in base al tipo di pelle, alla storia clinica e agli obiettivi definiti durante la valutazione.";
 
-  const image = whatIs?.image ?? "/images/trattamenti/medicina-estetica/filler-viso-napoli-2.jpg";
+  const image = whatIs?.image ?? "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/filler-viso-napoli-2.jpg";
 
   return (
     <section
@@ -610,7 +610,7 @@ function ResultsSection({ treatment }: { treatment: Treatment }) {
         ];
 
   const image =
-    results?.image ?? "/images/trattamenti/medicina-estetica/filler-viso-napoli-3.jpg";
+    results?.image ?? "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/filler-viso-napoli-3.jpg";
 
   return (
     <section
@@ -1028,7 +1028,7 @@ function LocalSeoSection({ treatment }: { treatment: Treatment }) {
             {/* Foto Architettonica Sede (5 col) */}
             <div className="relative min-h-[350px] lg:col-span-5">
               <Image
-                src="/images/centro/foto-2.webp"
+                src="https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-2.webp"
                 alt="Cocoora Centro Medico - Napoli"
                 fill
                 sizes="(min-width: 1024px) 40vw, 100vw"

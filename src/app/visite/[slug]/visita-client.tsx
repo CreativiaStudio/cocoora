@@ -129,12 +129,13 @@ function HeroSection({
           </div>
 
           {/* Colonna immagine: su mobile in cima ("Image-First"), su desktop colonna destra */}
-          <div className="order-first lg:order-last relative mx-auto aspect-[4/3] w-full max-w-xl overflow-hidden rounded-[2.5rem] shadow-xl sm:aspect-[4/5] lg:mx-0 lg:max-w-none">
+          <div className="order-first lg:order-last relative mx-auto aspect-square w-full max-w-lg overflow-hidden rounded-[2.5rem] shadow-xl lg:mx-0 lg:ml-auto">
             <Image
               src={visita.heroImage}
               alt={visita.title}
               fill
               priority
+              quality={95}
               sizes="(min-width: 1024px) 50vw, 90vw"
               className="object-cover"
             />
@@ -736,7 +737,7 @@ function LocalSeoSection({
             {/* Sinistra — foto centro */}
             <div className="relative min-h-[260px] w-full lg:min-h-full">
               <Image
-                src="/images/centro/foto-2.webp"
+                src="https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-2.webp"
                 alt={`${localSeo.title} — Il Centro Cocoora`}
                 fill
                 sizes="(min-width: 1024px) 50vw, 90vw"

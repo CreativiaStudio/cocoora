@@ -7,7 +7,7 @@ export const SPECIALTIES: Specialty[] = [
     description:
       "Monitoraggio preventivo dell'apparato cardiovascolare con tecnologia ecocardiografica ed eco-color-Doppler ad alta risoluzione.",
     icon: "Heart",
-    image: "/images/diagnostics-lab.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/diagnostics-lab.jpg",
     exams: [
       "Visita cardiologica con anamnesi del rischio",
       "Elettrocardiogramma (ECG) a riposo",
@@ -22,7 +22,7 @@ export const SPECIALTIES: Specialty[] = [
     description:
       "Percorsi dedicati alla salute della ghiandola mammaria, con ecografia ad alta definizione e approccio multidisciplinare empatico.",
     icon: "ShieldCheck",
-    image: "/images/visite/senologia-napoli-1.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/visite/senologia-napoli-1.jpg",
     exams: [
       "Visita senologica clinica",
       "Ecografia mammaria bilaterale ad alta risoluzione",
@@ -36,7 +36,7 @@ export const SPECIALTIES: Specialty[] = [
     description:
       "Diagnostica ecografica completa per organi interni, tiroide, apparato urinario e muscolo-scheletrico.",
     icon: "Activity",
-    image: "/images/visite/radiologia-napoli-1.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/visite/radiologia-napoli-1.jpg",
     exams: [
       "Ecografia addome completo",
       "Ecografia tiroidea e paratiroidea",
@@ -51,7 +51,7 @@ export const SPECIALTIES: Specialty[] = [
     description:
       "Screening visivo avanzato, misurazione del tono oculare e valutazione del fondo oculare per tutte le età.",
     icon: "Eye",
-    image: "/images/clinic-lounge.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/clinic-lounge.jpg",
     exams: [
       "Visita oculistica completa",
       "Esame del visus e refrazione",
@@ -65,7 +65,7 @@ export const SPECIALTIES: Specialty[] = [
     description:
       "Assistenza specialistica per neonati, bambini e adolescenti in un ambiente rilassante e rassicurante.",
     icon: "Baby",
-    image: "/images/pediatric-family.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/pediatric-family.jpg",
     exams: [
       "Visite di controllo della crescita (bilanci di salute)",
       "Certificazioni per idoneità sportiva non agonistica",
@@ -79,7 +79,7 @@ export const SPECIALTIES: Specialty[] = [
     description:
       "Dalla prevenzione di routine alla valutazione dell'equilibrio ormonale e del microbiota intimo.",
     icon: "Heart",
-    image: "/images/aesthetic-skin.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/aesthetic-skin.jpg",
     exams: [
       "Visita ginecologica di controllo",
       "Ecografia pelvica transvaginale / sovrapubica",

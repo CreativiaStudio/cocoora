@@ -15,8 +15,8 @@ interface StudioWalkInProps {
 }
 
 export function StudioWalkIn({
-  imageSrc = "/images/centro/foto-1.jpg",
-  imageWebp = "/images/centro/foto-1.webp",
+  imageSrc = "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-1.jpg",
+  imageWebp = "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-1.webp",
 }: StudioWalkInProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const prefersReducedMotion = useReducedMotion();

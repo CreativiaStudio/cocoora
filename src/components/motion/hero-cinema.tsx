@@ -23,28 +23,28 @@ const CHAPTERS: readonly Chapter[] = [
     id: "estetica",
     code: "01",
     label: "Medicina Estetica",
-    src: "/images/trattamenti/medicina-estetica/filler-viso-napoli-1.jpg",
+    src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/filler-viso-napoli-1.jpg",
     position: "object-[68%_24%]",
   },
   {
     id: "odontoiatria",
     code: "02",
     label: "Odontoiatria & Ortodonzia",
-    src: "/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-1.jpg",
+    src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-1.jpg",
     position: "object-[62%_50%]",
   },
   {
     id: "diagnostica",
     code: "03",
     label: "Diagnostica Specialistica",
-    src: "/images/visite/oculistica-napoli-1.jpg",
+    src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/visite/oculistica-napoli-1.jpg",
     position: "object-[58%_42%]",
   },
   {
     id: "radiologia",
     code: "04",
     label: "Prevenzione & Imaging",
-    src: "/images/visite/radiologia-napoli-1.jpg",
+    src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/visite/radiologia-napoli-1.jpg",
     position: "object-[60%_46%]",
   },
 ];
@@ -220,12 +220,12 @@ export function HeroCinema({ h1, videoSrc, openDiscover }: HeroCinemaProps) {
               ) : (
                 <>
                   <source
-                    src="/videos/hero-desktop.mp4"
+                    src="https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/videos/hero-desktop.mp4"
                     media="(min-width: 768px)"
                     type="video/mp4"
                   />
                   <source
-                    src="/videos/hero-mobile.mp4"
+                    src="https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/videos/hero-mobile.mp4"
                     media="(max-width: 767px)"
                     type="video/mp4"
                   />

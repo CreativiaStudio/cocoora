@@ -69,24 +69,24 @@ const FILTERS: { id: Filter; label: string }[] = [
 ];
 
 const PHOTOS: Photo[] = [
-  { src: "/images/centro/foto-1.webp", title: "L'ingresso", caption: "La parete d'ingresso con il logo Cocoora: il primo sguardo sul centro.", category: "accoglienza", span: "md:col-span-2 md:row-span-2" },
-  { src: "/images/centro/foto-20.webp", title: "Reception", caption: "Il desk di accoglienza, dove la segreteria segue ogni paziente dall'arrivo alla visita.", category: "accoglienza", span: "md:col-span-2" },
-  { src: "/images/centro/foto-3.webp", title: "Sala d'attesa", caption: "La sala d'attesa del centro.", category: "accoglienza", span: "" },
-  { src: "/images/centro/foto-18.webp", title: "Accoglienza", caption: "La segreteria accoglie i pazienti e organizza appuntamenti e percorsi.", category: "accoglienza", span: "" },
-  { src: "/images/centro/foto-9.webp", title: "Studio 1", caption: "Studio 1 — Odontoiatria e Ortodonzia.", category: "studi", span: "md:row-span-2" },
-  { src: "/images/centro/foto-6.webp", title: "Studio 2", caption: "Studio 2 — Medicina Estetica.", category: "studi", span: "" },
-  { src: "/images/centro/foto-10.webp", title: "Studio 3", caption: "Studio 3 — Medicina Estetica e tecnologie laser.", category: "studi", span: "" },
-  { src: "/images/centro/foto-11.webp", title: "Studio 4", caption: "Studio 4 — Visite Specialistiche.", category: "studi", span: "md:col-span-2" },
-  { src: "/images/centro/foto-12.webp", title: "Studio di consulto", caption: "Uno spazio riservato al colloquio con lo specialista.", category: "studi", span: "" },
-  { src: "/images/centro/foto-13.webp", title: "Studio di consulto", caption: "Lo studio di consulto, in una vista d'insieme.", category: "studi", span: "" },
-  { src: "/images/centro/foto-14.webp", title: "Studio di consulto", caption: "Lo studio di consulto, in una vista frontale.", category: "studi", span: "md:col-span-2" },
-  { src: "/images/centro/foto-5.webp", title: "Area diagnostica", caption: "Il corridoio clinico che conduce alla Sala RX / OPT / TAC.", category: "clinica", span: "md:col-span-2" },
-  { src: "/images/centro/foto-8.webp", title: "Riunito odontoiatrico", caption: "La postazione odontoiatrica dello Studio 1.", category: "clinica", span: "md:row-span-2" },
-  { src: "/images/centro/foto-7.webp", title: "Strumentazione", caption: "Un dettaglio della strumentazione clinica.", category: "clinica", span: "" },
-  { src: "/images/centro/foto-4.webp", title: "Accoglienza", caption: "Uno scorcio dell'area di accoglienza.", category: "accoglienza", span: "" },
-  { src: "/images/centro/foto-2.webp", title: "Dettagli", caption: "Un dettaglio degli spazi comuni.", category: "accoglienza", span: "" },
-  { src: "/images/centro/foto-19.webp", title: "Reception", caption: "Il desk di reception, in una prospettiva laterale.", category: "accoglienza", span: "" },
-  { src: "/images/centro/foto-21.webp", title: "Reception", caption: "La reception con il logo Cocoora.", category: "accoglienza", span: "" },
+  { src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-1.webp", title: "L'ingresso", caption: "La parete d'ingresso con il logo Cocoora: il primo sguardo sul centro.", category: "accoglienza", span: "md:col-span-2 md:row-span-2" },
+  { src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-20.webp", title: "Reception", caption: "Il desk di accoglienza, dove la segreteria segue ogni paziente dall'arrivo alla visita.", category: "accoglienza", span: "md:col-span-2" },
+  { src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-3.webp", title: "Sala d'attesa", caption: "La sala d'attesa del centro.", category: "accoglienza", span: "" },
+  { src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-18.webp", title: "Accoglienza", caption: "La segreteria accoglie i pazienti e organizza appuntamenti e percorsi.", category: "accoglienza", span: "" },
+  { src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-9.webp", title: "Studio 1", caption: "Studio 1 — Odontoiatria e Ortodonzia.", category: "studi", span: "md:row-span-2" },
+  { src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-6.webp", title: "Studio 2", caption: "Studio 2 — Medicina Estetica.", category: "studi", span: "" },
+  { src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-10.webp", title: "Studio 3", caption: "Studio 3 — Medicina Estetica e tecnologie laser.", category: "studi", span: "" },
+  { src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-11.webp", title: "Studio 4", caption: "Studio 4 — Visite Specialistiche.", category: "studi", span: "md:col-span-2" },
+  { src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-12.webp", title: "Studio di consulto", caption: "Uno spazio riservato al colloquio con lo specialista.", category: "studi", span: "" },
+  { src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-13.webp", title: "Studio di consulto", caption: "Lo studio di consulto, in una vista d'insieme.", category: "studi", span: "" },
+  { src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-14.webp", title: "Studio di consulto", caption: "Lo studio di consulto, in una vista frontale.", category: "studi", span: "md:col-span-2" },
+  { src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-5.webp", title: "Area diagnostica", caption: "Il corridoio clinico che conduce alla Sala RX / OPT / TAC.", category: "clinica", span: "md:col-span-2" },
+  { src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-8.webp", title: "Riunito odontoiatrico", caption: "La postazione odontoiatrica dello Studio 1.", category: "clinica", span: "md:row-span-2" },
+  { src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-7.webp", title: "Strumentazione", caption: "Un dettaglio della strumentazione clinica.", category: "clinica", span: "" },
+  { src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-4.webp", title: "Accoglienza", caption: "Uno scorcio dell'area di accoglienza.", category: "accoglienza", span: "" },
+  { src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-2.webp", title: "Dettagli", caption: "Un dettaglio degli spazi comuni.", category: "accoglienza", span: "" },
+  { src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-19.webp", title: "Reception", caption: "Il desk di reception, in una prospettiva laterale.", category: "accoglienza", span: "" },
+  { src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-21.webp", title: "Reception", caption: "La reception con il logo Cocoora.", category: "accoglienza", span: "" },
 ];
 
 const STATS = [
@@ -123,25 +123,25 @@ const STUDI = [
   {
     n: "Studio 1",
     title: "Odontoiatria e Ortodonzia",
-    img: "/images/centro/foto-9.webp",
+    img: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-9.webp",
     text: "La postazione odontoiatrica fissa del centro, dedicata alla salute della bocca: dalla visita con OPT all'igiene orale, dall'ortodonzia con allineatori trasparenti alle cure conservative e implantari.",
   },
   {
     n: "Studio 2",
     title: "Medicina Estetica",
-    img: "/images/centro/foto-6.webp",
+    img: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-6.webp",
     text: "Lo studio dedicato ai trattamenti per il corpo e la silhouette, tra cui la criolipolisi, gli ultrasuoni focalizzati e la carbossiterapia.",
   },
   {
     n: "Studio 3",
     title: "Medicina Estetica e Laser",
-    img: "/images/centro/foto-10.webp",
+    img: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-10.webp",
     text: "Lo studio che ospita la piattaforma laser per i trattamenti di viso e pelle, oltre ai trattamenti di medicina estetica e rigenerativa.",
   },
   {
     n: "Studio 4",
     title: "Visite Specialistiche",
-    img: "/images/centro/foto-11.webp",
+    img: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-11.webp",
     text: "Lo studio dedicato alle visite specialistiche e agli esami ecografici: oculistica, cardiologia, ginecologia ed ecografia.",
   },
 ];
@@ -190,7 +190,7 @@ export default function ChiSiamoPage() {
       {/* 1. HERO */}
       <section className="relative isolate flex min-h-[92vh] items-end overflow-hidden bg-dark-navy">
         <Image
-          src="/images/centro/foto-1.webp"
+          src="https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-1.webp"
           alt="L'ingresso di Cocoora Centro Medico a Napoli"
           fill
           priority
@@ -485,7 +485,7 @@ export default function ChiSiamoPage() {
             </div>
             <div className="relative aspect-[4/5] overflow-hidden rounded-3xl lg:aspect-[4/5]">
               <Image
-                src="/images/centro/foto-12.webp"
+                src="https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-12.webp"
                 alt="Studio di consulto di Cocoora Centro Medico"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
@@ -502,7 +502,7 @@ export default function ChiSiamoPage() {
           <div className="overflow-hidden rounded-[2rem] border bg-white md:grid md:grid-cols-2" style={{ borderColor: `${SLATE}40` }}>
             <div className="relative min-h-[280px]">
               <Image
-                src="/images/centro/foto-20.webp"
+                src="https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-20.webp"
                 alt="La reception di Cocoora Centro Medico"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"

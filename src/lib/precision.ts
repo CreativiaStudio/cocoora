@@ -7,7 +7,7 @@ export const PRECISION_PROGRAMS: PrecisionProgram[] = [
     tagline: "Beauty & Skin Quality Program",
     description:
       "Il percorso medico dedicato alla qualità biologica della pelle. Superiamo il concetto di singolo trattamento isolato per creare un protocollo rigenerativo personalizzato basato su microbioma cutaneo, collagene e texture profonda.",
-    image: "/images/aesthetic-skin.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/aesthetic-skin.jpg",
     options: [
       {
         id: "skin-base",
@@ -54,7 +54,7 @@ export const PRECISION_PROGRAMS: PrecisionProgram[] = [
     tagline: "Metabolic & Microbiota Program",
     description:
       "Nutrizione scientifica e metabolismo su misura. Nessuna dieta generica o promesse di intolleranze indifferenziate: analizziamo la tua risposta biologica individuale, il microbioma e il profilo genetico.",
-    image: "/images/body-wellness.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/body-wellness.jpg",
     options: [
       {
         id: "nutri-microbiota",
@@ -101,7 +101,7 @@ export const PRECISION_PROGRAMS: PrecisionProgram[] = [
     tagline: "Women's Health & Longevity Program",
     description:
       "Prevenzione e benessere femminile integrato a 360°. Unisce diagnostica senologica, ecografia pelvica, salute cutanea, equilibrio del microbioma e profilo ormonale per ogni fase della vita.",
-    image: "/images/visite/ginecologia-napoli-1.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/visite/ginecologia-napoli-1.jpg",
     options: [
       {
         id: "donna-base",

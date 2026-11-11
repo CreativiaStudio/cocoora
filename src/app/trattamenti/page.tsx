@@ -41,7 +41,7 @@ export default function TrattamentiIndexPage() {
       <section className="relative flex min-h-[46vh] items-end overflow-hidden bg-emerald-950 pb-16 pt-36">
         <div className="absolute inset-0">
           <Image
-            src="/images/laser-technology.jpg"
+            src="https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/laser-technology.jpg"
             alt="Percorsi Clinici e Trattamenti Cocoora Centro Medico"
             fill
             priority

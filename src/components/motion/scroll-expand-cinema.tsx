@@ -40,7 +40,7 @@ export function ScrollExpandCinema({
   subtitle = "Uno sguardo autentico dentro gli ambienti, le tecnologie cliniche e l'équipe multidisciplinare di Cocoora Centro Medico a Napoli.",
   badge = "Napoli · Ambienti & Tecnologie d'Eccellenza",
   videoSrc,
-  posterSrc = "/images/hero-clinic.jpg",
+  posterSrc = "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/hero-clinic.jpg",
   className,
   metrics = DEFAULT_METRICS,
 }: ScrollExpandCinemaProps) {

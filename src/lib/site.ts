@@ -38,7 +38,7 @@ export const NAV_NODES: NavNode[] = [
         href: "/servizi/medicina-estetica#viso",
         description:
           "Filler acido ialuronico, Tossina botulinica, Biorivitalizzazione, Acido Polilattico e Peeling chimico.",
-        image: "/images/trattamenti/medicina-estetica/filler-viso-napoli-1.jpg",
+        image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/filler-viso-napoli-1.jpg",
       },
       {
         label: "Corpo & Silhouette",
@@ -69,69 +69,69 @@ export const NAV_NODES: NavNode[] = [
         href: "/trattamenti/allineatori-trasparenti",
         description:
           "Ortodonzia specialistica · Bambini, adolescenti e adulti.",
-        image: "/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-1.jpg",
+        image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-1.jpg",
       },
       {
         label: "Apparecchio fisso",
         href: "/trattamenti/apparecchio-fisso",
         description:
           "Ortodonzia specialistica · Adulti e adolescenti.",
-        image: "/images/trattamenti/odontoiatria/apparecchio-fisso-napoli-1.jpg",
+        image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/apparecchio-fisso-napoli-1.jpg",
       },
       {
         label: "Ortodonzia intercettiva",
         href: "/trattamenti/ortodonzia-intercettiva",
         description: "Ortodonzia specialistica · Bambini e adolescenti.",
-        image: "/images/trattamenti/odontoiatria/ortodonzia-intercettiva-napoli-1.jpg",
+        image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/ortodonzia-intercettiva-napoli-1.jpg",
       },
       {
         label: "Contenzione",
         href: "/trattamenti/contenzione",
         description:
           "Ortodonzia specialistica · Mantenimento del risultato.",
-        image: "/images/trattamenti/odontoiatria/contenzione-napoli-1.jpg",
+        image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/contenzione-napoli-1.jpg",
       },
       {
         label: "Visita odontoiatrica",
         href: "/trattamenti/visita-odontoiatrica",
         description: "Salute e prevenzione · Valutazione e piano di cura.",
-        image: "/images/trattamenti/odontoiatria/visita-odontoiatrica-napoli-1.jpg",
+        image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/visita-odontoiatrica-napoli-1.jpg",
       },
       {
         label: "Igiene orale professionale",
         href: "/trattamenti/igiene",
         description: "Salute e prevenzione · Prevenzione e salute delle gengive.",
-        image: "/images/trattamenti/odontoiatria/igiene-orale-professionale-napoli-1.jpg",
+        image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/igiene-orale-professionale-napoli-1.jpg",
       },
       {
         label: "Conservativa",
         href: "/trattamenti/conservativa",
         description: "Cura e riabilitazione · Otturazioni e trattamenti.",
-        image: "/images/trattamenti/odontoiatria/conservativa-napoli-1.jpg",
+        image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/conservativa-napoli-1.jpg",
       },
       {
         label: "Endodonzia",
         href: "/trattamenti/endodonzia",
         description: "Cura e riabilitazione · Cura canalare.",
-        image: "/images/trattamenti/odontoiatria/endodonzia-napoli-1.jpg",
+        image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/endodonzia-napoli-1.jpg",
       },
       {
         label: "Parodontologia",
         href: "/trattamenti/parodontologia",
         description: "Cura e riabilitazione · Salute delle gengive.",
-        image: "/images/trattamenti/odontoiatria/paradontologia-napoli-1.jpg",
+        image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/paradontologia-napoli-1.jpg",
       },
       {
         label: "Protesi",
         href: "/trattamenti/protesi",
         description: "Cura e riabilitazione · Protesi fisse e rimovibili.",
-        image: "/images/trattamenti/odontoiatria/protesi-napoli-1.jpg",
+        image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/protesi-napoli-1.jpg",
       },
       {
         label: "Implantologia",
         href: "/trattamenti/implantologia",
         description: "Cura e riabilitazione · Impianti dentali.",
-        image: "/images/trattamenti/odontoiatria/implantologia-napoli-1.jpg",
+        image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/implantologia-napoli-1.jpg",
       },
     ],
   },
@@ -148,7 +148,7 @@ export const NAV_NODES: NavNode[] = [
         label: "Nutrizione",
         href: "/visite/nutrizione",
         description: "Benessere e cura di sé · Piano nutrizionale personalizzato.",
-        image: "/images/visite/nutrizione-napoli-1.jpg",
+        image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/visite/nutrizione-napoli-1.jpg",
       },
       {
         label: "Medicina estetica",
@@ -159,77 +159,77 @@ export const NAV_NODES: NavNode[] = [
         label: "Dermatologia",
         href: "/visite/dermatologia",
         description: "Benessere e cura di sé · Mappatura nei e salute cutanea.",
-        image: "/images/visite/dermatologia-napoli-1.jpg",
+        image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/visite/dermatologia-napoli-1.jpg",
       },
       {
         label: "Chirurgia plastica",
         href: "/visite/chirurgia-plastica",
         description: "Benessere e cura di sé · Consulenza e chirurgia ambulatoriale.",
-        image: "/images/visite/chiururgia-plastica-napoli-1.jpg",
+        image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/visite/chiururgia-plastica-napoli-1.jpg",
       },
       {
         label: "Radiologia",
         href: "/visite/radiologia",
         description: "Diagnostica e prevenzione · Diagnostica ecografica e per immagini.",
-        image: "/images/visite/radiologia-napoli-1.jpg",
+        image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/visite/radiologia-napoli-1.jpg",
       },
       {
         label: "Cardiologia",
         href: "/visite/cardiologia",
         description: "Diagnostica e prevenzione · ECG ed ecocardiografia avanzata.",
-        image: "/images/visite/cardiologia-napoli-1.jpg",
+        image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/visite/cardiologia-napoli-1.jpg",
       },
       {
         label: "Ginecologia",
         href: "/visite/ginecologia",
         description: "Diagnostica e prevenzione · Visita ed ecografia ginecologica.",
-        image: "/images/visite/ginecologia-napoli-1.jpg",
+        image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/visite/ginecologia-napoli-1.jpg",
       },
       {
         label: "Senologia",
         href: "/visite/senologia",
         description: "Diagnostica e prevenzione · Prevenzione senologica ed ecografia mammaria.",
-        image: "/images/visite/senologia-napoli-1.jpg",
+        image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/visite/senologia-napoli-1.jpg",
       },
       {
         label: "Oncologia",
         href: "/visite/oncologia",
         description:
           "Diagnostica e prevenzione · Prevenzione oncologica e percorsi multidisciplinari.",
-        image: "/images/visite/oncologia-napoli-1.jpg",
+        image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/visite/oncologia-napoli-1.jpg",
       },
       {
         label: "Pediatria",
         href: "/visite/pediatria",
         description: "Specialistiche per la famiglia · Salute e bilanci di crescita.",
-        image: "/images/visite/pediatria-napoli-1.jpg",
+        image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/visite/pediatria-napoli-1.jpg",
       },
       {
         label: "Oculistica",
         href: "/visite/oculistica",
         description: "Specialistiche per la famiglia · Screening della vista e fondo oculare.",
-        image: "/images/visite/oculistica-napoli-1.jpg",
+        image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/visite/oculistica-napoli-1.jpg",
       },
       {
         label: "Psicologia",
         href: "/visite/psicologia",
         description:
           "Specialistiche per la famiglia · Sostegno psicologico e benessere emotivo.",
-        image: "/images/visite/psicologia-napoli-1.jpg",
+        image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/visite/psicologia-napoli-1.jpg",
       },
       {
         label: "Medicina dello sport",
         href: "/visite/medicina-dello-sport",
         description:
           "Specialistiche per la famiglia · Idoneità sportiva e monitoraggio atletico.",
-        image: "/images/visite/medicina-dello-sport-napoli-1.jpg",
+        image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/visite/medicina-dello-sport-napoli-1.jpg",
       },
       {
         label: "Cocoora Precision (Genomica & Longevità)",
         href: "/precision",
         description:
           "Medicina predittiva e preventiva: test DNA 5, Kit Microbiota e longevità attiva.",
-        image: "/images/dna-genomics.jpg",
+        image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/dna-genomics.jpg",
       },
     ],
   },
@@ -250,7 +250,7 @@ export const NAV_NODES: NavNode[] = [
         href: "/club",
         description:
           "I percorsi annuali dedicati alla prevenzione continua per singoli e famiglie.",
-        image: "/images/visite/cardiologia-napoli-2.jpg",
+        image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/visite/cardiologia-napoli-2.jpg",
       },
       {
         label: "Discover",
@@ -349,7 +349,7 @@ export const DEFAULT_VIDEOS: VideoItem[] = [
     id: "video_1",
     type: "mp4",
     url: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
-    poster: "/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-1.jpg",
+    poster: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-1.jpg",
     title: "Il tuo sorriso, in digitale",
     caption: "Percorsi con allineatori trasparenti, dalla diagnosi alla simulazione 3D.",
     ctaLabel: "Scopri l'Odontoiatria",
@@ -360,7 +360,7 @@ export const DEFAULT_VIDEOS: VideoItem[] = [
     id: "video_2",
     type: "mp4",
     url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-    poster: "/images/trattamenti/medicina-estetica/biorigenerazione-napoli-1.jpg",
+    poster: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biorigenerazione-napoli-1.jpg",
     title: "Medicina estetica naturale",
     caption: "Tecnologie medicali e protocolli personalizzati per valorizzare viso e corpo.",
     ctaLabel: "Scopri la Medicina Estetica",
@@ -371,7 +371,7 @@ export const DEFAULT_VIDEOS: VideoItem[] = [
     id: "video_3",
     type: "mp4",
     url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
-    poster: "/images/visite/cardiologia-napoli-2.jpg",
+    poster: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/visite/cardiologia-napoli-2.jpg",
     title: "La prevenzione è il tuo stile",
     caption: "Cocoora Club: check-up dedicati e vantaggi per tutta la famiglia.",
     ctaLabel: "Entra nel Club",
@@ -383,7 +383,7 @@ export const DEFAULT_VIDEOS: VideoItem[] = [
 export const INSTAGRAM_POSTS: InstagramPost[] = [
   {
     id: "DfJyVyAD8C1",
-    image: "/images/instagram/post-1-DfJyVyAD8C1.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/instagram/post-1-DfJyVyAD8C1.jpg",
     caption:
       "A Posillipo un hub unico che unisce medicina, estetica, nutrizione e odontoiatria sotto una sola regia clinica. Meno attrito, zero logistica, massimo valore per il tuo tempo. #Cocoora #Napoli",
     likes: 17,
@@ -393,7 +393,7 @@ export const INSTAGRAM_POSTS: InstagramPost[] = [
   },
   {
     id: "DfEoxqKiSti",
-    image: "/images/instagram/post-2-DfEoxqKiSti.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/instagram/post-2-DfEoxqKiSti.jpg",
     caption:
       "La logistica familiare non dovrebbe essere un secondo lavoro. Competenze pediatriche, adulte e geriatriche nello stesso spazio con percorsi su misura. #Cocoora #Napoli",
     likes: 10,
@@ -403,7 +403,7 @@ export const INSTAGRAM_POSTS: InstagramPost[] = [
   },
   {
     id: "De_fFLUCeeZ",
-    image: "/images/instagram/post-3-De_fFLUCeeZ.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/instagram/post-3-De_fFLUCeeZ.jpg",
     caption:
       "Un punto fermo dove ritrovare continuità, efficienza e la migliore cura di sé. Via Generale De Bonis, 81 — Napoli (Posillipo). #Cocoora #Napoli",
     likes: 24,
@@ -413,7 +413,7 @@ export const INSTAGRAM_POSTS: InstagramPost[] = [
   },
   {
     id: "De1FIzJCHN1",
-    image: "/images/instagram/post-4-De1FIzJCHN1.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/instagram/post-4-De1FIzJCHN1.jpg",
     caption:
       "C'è una grande differenza tra accumulare visite mediche e seguire un percorso clinico coordinato. Quattro macro-aree cliniche che dialogano in tempo reale. #Cocoora #Napoli",
     likes: 21,
@@ -423,7 +423,7 @@ export const INSTAGRAM_POSTS: InstagramPost[] = [
   },
   {
     id: "Dev7gnbEhsx",
-    image: "/images/instagram/post-5-Dev7gnbEhsx.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/instagram/post-5-Dev7gnbEhsx.jpg",
     caption:
       "Scegliere un centro medico significa scegliere un metodo. L'appropriatezza clinica parte da qui: dare una ragione alle scelte con specialisti dedicati. #Cocoora #Napoli",
     likes: 30,
@@ -433,7 +433,7 @@ export const INSTAGRAM_POSTS: InstagramPost[] = [
   },
   {
     id: "Deqx3eqEXEF",
-    image: "/images/instagram/post-6-Deqx3eqEXEF.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/instagram/post-6-Deqx3eqEXEF.jpg",
     caption:
       "Condividiamo cos'è Cocoora: uno spazio pensato per dare risposte chiare, coordinate e continuative alla tua salute a Napoli. #Cocoora #Napoli",
     likes: 32,

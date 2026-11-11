@@ -28,7 +28,7 @@ export default function PrecisionPage() {
       {/* ── Banner Hero ──────────────────────────────────────────────── */}
       <div className="relative z-10 h-72 w-full overflow-hidden rounded-b-[2.5rem] border-b border-slate-200/80 shadow-xl shadow-dark-navy/10 sm:h-80 md:h-96">
         <Image
-          src="/images/dna-genomics.jpg"
+          src="https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/dna-genomics.jpg"
           alt="Genomica predittiva DNA 5 e sequenziamento del microbiota Cocoora Precision"
           fill
           priority
