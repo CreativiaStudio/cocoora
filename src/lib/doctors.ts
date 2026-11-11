@@ -7,7 +7,7 @@ import type { Doctor } from "./types";
 // ─────────────────────────────────────────────────────────────────────────
 
 export const DOCTORS: Doctor[] = [
-  // ── Specialisti con foto ritratto ufficiale (7) ────────────────────────
+  // ── Specialisti con foto ritratto ufficiale (9) ────────────────────────
   {
     slug: "elisa-russo",
     name: "Elisa Russo",
@@ -187,8 +187,56 @@ export const DOCTORS: Doctor[] = [
     clubTierIds: ["access", "care", "experience", "signature"],
     tariffaVisita: 0,
   },
+  {
+    slug: "patty-scorzelli",
+    name: "Patrizia Scorzelli",
+    title: "Operatrice Estetica",
+    branca: "Medicina Estetica Avanzata",
+    affiliation: "Operatrice Estetica",
+    image: "/images/doctors/patty-scorzelli.jpg",
+    bio: "Patrizia Scorzelli è operatrice estetica specializzata in trattamenti corpo, silhouette e tecnologie estetiche avanzate per il benessere dei tessuti.",
+    approach:
+      "Protocolli estetici personalizzati per la cura della persona, con approccio dedicato e massima attenzione al benessere dei tessuti.",
+    curriculum: [
+      "Operatrice Estetica qualificata",
+      "Specializzazione in trattamenti estetici corpo e tecnologie avanzate",
+      "Perfezionamento in protocolli silhouette e benessere cutaneo",
+    ],
+    servizi: [
+      "Trattamenti estetici corpo e silhouette",
+      "Protocolli di benessere cutaneo e rigenerazione",
+      "Assistenza e cura personalizzata della persona",
+    ],
+    specialtyId: "carbossiterapia",
+    clubTierIds: ["access", "care", "experience", "signature"],
+    tariffaVisita: 0,
+  },
+  {
+    slug: "filippo-iaccarino",
+    name: "Filippo Iaccarino",
+    title: "Medico Chirurgo Specialista in Pediatria e Neonatologia",
+    branca: "Pediatria & Cura della Crescita",
+    affiliation: "Medico Chirurgo Specialista in Pediatria e Neonatologia",
+    image: "/images/doctors/filippo-iaccarino.jpg",
+    bio: "Filippo Iaccarino accoglie le famiglie e i piccoli pazienti con disponibilità ed empatia, seguendo i bilanci di salute e le tappe fondamentali dello sviluppo pediatrico.",
+    approach:
+      "Ogni bambino merita un ambiente rilassante e rassicurante: la visita pediatrica deve essere un'esperienza positiva sia per il bambino sia per i genitori.",
+    curriculum: [
+      "Laurea in Medicina e Chirurgia",
+      "Specializzazione in Pediatria",
+      "Esperienza in bilanci di crescita e prevenzione infantile",
+    ],
+    servizi: [
+      "Visita pediatrica specialistica e bilanci di salute",
+      "Monitoraggio dell'accrescimento e sviluppo",
+      "Consulenza per l'alimentazione del bambino",
+    ],
+    specialtyId: "pediatria",
+    clubTierIds: ["access", "care", "experience", "signature"],
+    tariffaVisita: 0,
+  },
 
-  // ── Specialisti con avatar placeholder (10) ────────────────────────────
+  // ── Specialisti con avatar placeholder (8) ────────────────────────────
   {
     slug: "raffaele-dalessio",
     name: "Raffaele D'Alessio",
@@ -239,30 +287,6 @@ export const DOCTORS: Doctor[] = [
       "laser-ringiovanimento",
     ],
     specialtyId: "medicina-estetica",
-    clubTierIds: ["access", "care", "experience", "signature"],
-    tariffaVisita: 0,
-  },
-  {
-    slug: "patty-scorzelli",
-    name: "Patrizia Scorzelli",
-    title: "Operatrice Estetica",
-    branca: "Medicina Estetica Avanzata",
-    affiliation: "Operatrice Estetica",
-    image: "/images/doctors/patty-scorzelli.jpg",
-    bio: "Patrizia Scorzelli è operatrice estetica specializzata in trattamenti corpo, silhouette e tecnologie estetiche avanzate per il benessere dei tessuti.",
-    approach:
-      "Protocolli estetici personalizzati per la cura della persona, con approccio dedicato e massima attenzione al benessere dei tessuti.",
-    curriculum: [
-      "Operatrice Estetica qualificata",
-      "Specializzazione in trattamenti estetici corpo e tecnologie avanzate",
-      "Perfezionamento in protocolli silhouette e benessere cutaneo",
-    ],
-    servizi: [
-      "Trattamenti estetici corpo e silhouette",
-      "Protocolli di benessere cutaneo e rigenerazione",
-      "Assistenza e cura personalizzata della persona",
-    ],
-    specialtyId: "carbossiterapia",
     clubTierIds: ["access", "care", "experience", "signature"],
     tariffaVisita: 0,
   },
@@ -360,30 +384,6 @@ export const DOCTORS: Doctor[] = [
       "Consulenza per l'idoneità fisica e l'allenamento sicuro",
     ],
     specialtyId: "medicina-sport",
-    clubTierIds: ["access", "care", "experience", "signature"],
-    tariffaVisita: 0,
-  },
-  {
-    slug: "filippo-iaccarino",
-    name: "Filippo Iaccarino",
-    title: "Medico Chirurgo Specialista in Pediatria e Neonatologia",
-    branca: "Pediatria & Cura della Crescita",
-    affiliation: "Medico Chirurgo Specialista in Pediatria e Neonatologia",
-    image: "/images/doctors/filippo-iaccarino.jpg",
-    bio: "Filippo Iaccarino accoglie le famiglie e i piccoli pazienti con disponibilità ed empatia, seguendo i bilanci di salute e le tappe fondamentali dello sviluppo pediatrico.",
-    approach:
-      "Ogni bambino merita un ambiente rilassante e rassicurante: la visita pediatrica deve essere un'esperienza positiva sia per il bambino sia per i genitori.",
-    curriculum: [
-      "Laurea in Medicina e Chirurgia",
-      "Specializzazione in Pediatria",
-      "Esperienza in bilanci di crescita e prevenzione infantile",
-    ],
-    servizi: [
-      "Visita pediatrica specialistica e bilanci di salute",
-      "Monitoraggio dell'accrescimento e sviluppo",
-      "Consulenza per l'alimentazione del bambino",
-    ],
-    specialtyId: "pediatria",
     clubTierIds: ["access", "care", "experience", "signature"],
     tariffaVisita: 0,
   },

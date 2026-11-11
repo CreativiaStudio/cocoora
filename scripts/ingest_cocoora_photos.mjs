@@ -73,7 +73,7 @@ const DOCTORS_ROSTER = [
   { slug: 'alessandra-riccardi', gender: 'F', name: 'Dott.ssa Alessandra Riccardi', hasPhoto: true },
   { slug: 'francesco-dandrea', gender: 'M', name: "Prof. Dr. Francesco D'Andrea", hasPhoto: false },
   { slug: 'titti-errico', gender: 'F', name: 'Dott.ssa Titti Errico', hasPhoto: true },
-  { slug: 'patty-scorzelli', gender: 'F', name: 'Dott.ssa Patty Scorzelli', hasPhoto: false },
+  { slug: 'patty-scorzelli', gender: 'F', name: 'Dott.ssa Patty Scorzelli', hasPhoto: true },
   { slug: 'anna-maria-stillo', gender: 'F', name: 'Dott.ssa Anna Maria Stillo', hasPhoto: true },
   { slug: 'giuseppe-buono', gender: 'M', name: 'Dr. Giuseppe Buono', hasPhoto: true },
   { slug: 'mario-toro', gender: 'M', name: 'Dr. Mario Toro', hasPhoto: false },
@@ -83,7 +83,7 @@ const DOCTORS_ROSTER = [
   { slug: 'martina-pontillo', gender: 'F', name: 'Dott.ssa Martina Pontillo', hasPhoto: false },
   { slug: 'vittorio-riccio', gender: 'M', name: 'Dr. Vittorio Riccio', hasPhoto: false },
   { slug: 'rocco-spera', gender: 'M', name: 'Dr. Rocco Spera', hasPhoto: false },
-  { slug: 'filippo-iaccarino', gender: 'M', name: 'Dr. Filippo Iaccarino', hasPhoto: false },
+  { slug: 'filippo-iaccarino', gender: 'M', name: 'Dr. Filippo Iaccarino', hasPhoto: true },
 ];
 
 async function uploadBufferToR2(buffer, key, contentType = 'image/jpeg') {
