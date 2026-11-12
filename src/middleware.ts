@@ -48,17 +48,8 @@ export async function middleware(request: NextRequest) {
 
   // Se è una route pagina protetta e non c'è utente
   if (!user) {
-    let targetLogin = "/login";
-    if (isAdminRoute) {
-      targetLogin = "/accesso-direzione";
-    } else if (isSegreteriaRoute) {
-      targetLogin = "/accesso-reception";
-    } else if (isMedicoRoute) {
-      targetLogin = "/accesso-medici";
-    }
-
-    const loginUrl = new URL(targetLogin, request.url);
-    loginUrl.searchParams.set("from", pathname);
+    const loginUrl = new URL("/login", request.url);
+    loginUrl.searchParams.set("from", `${pathname}${request.nextUrl.search}`);
     return NextResponse.redirect(loginUrl);
   }
 
@@ -75,12 +66,22 @@ export async function middleware(request: NextRequest) {
   }
 
   if (isSegreteriaRoute && user.role !== "admin" && user.role !== "segreteria") {
-    const dest = user.role === "medico" ? "/medico" : "/area-paziente";
+    const dest =
+      user.role === "agenzia"
+        ? "/admin"
+        : user.role === "medico"
+        ? "/medico"
+        : "/area-paziente";
     return NextResponse.redirect(new URL(dest, request.url));
   }
 
   if (isMedicoRoute && user.role !== "admin" && user.role !== "medico") {
-    const dest = user.role === "segreteria" ? "/segreteria" : "/area-paziente";
+    const dest =
+      user.role === "agenzia"
+        ? "/admin"
+        : user.role === "segreteria"
+        ? "/segreteria"
+        : "/area-paziente";
     return NextResponse.redirect(new URL(dest, request.url));
   }
 

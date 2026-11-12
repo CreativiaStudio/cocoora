@@ -156,6 +156,12 @@ export type Treatment = {
   localSeo?: { overline?: string; title?: string; description?: string; image?: string; cta?: string };
 };
 
+export type CheckupPanelId =
+  | "salute_17"
+  | "completo_48"
+  | "avanzato_uomo_59"
+  | "avanzato_donna_57";
+
 export type ClubTier = {
   id: string;
   name: string;
@@ -175,6 +181,9 @@ export type ClubTier = {
   family?: boolean;
   discountClub?: string;
   checkupName?: string;
+  checkupPanel?: CheckupPanelId;
+  checkupPanelDonna?: CheckupPanelId;
+  noteDonna?: string;
 };
 
 export type PrecisionPath = {
@@ -285,7 +294,12 @@ export type Doctor = {
   tariffaVisita: number;
 };
 
-export type ClubExamItem = { label: string; value: number };
+export type ClubExamItem = {
+  label: string;
+  value: number;
+  tooltip?: string;
+  checkupPanel?: CheckupPanelId;
+};
 
 export type ClubTierDetail = {
   tierId: string;

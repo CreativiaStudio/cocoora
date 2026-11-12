@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Check, Minus, ArrowRight } from "lucide-react";
+import { Check, Minus, ArrowRight, Info } from "lucide-react";
 import { CLUB_BENEFITS } from "@/lib/club";
 import { Container, SectionLabel } from "@/components/ui";
 import { ParametriEmatochimiciModal } from "@/components/club/parametri-ematochimici-modal";
@@ -19,8 +19,35 @@ export const COMPARISON_TIERS: ComparisonTierCol[] = [
   { key: "access", label: "Access", price: "€149 / anno", subtitle: "Prevenzione Base" },
   { key: "care", label: "Care Plus", price: "€299 / anno", subtitle: "Prevenzione Completa", badge: "Più Scelto" },
   { key: "experience", label: "Experience", price: "€599 U / €649 D", subtitle: "Diagnostica & Clinica" },
-  { key: "signature", label: "Signature", price: "€940 U / €990 D", subtitle: "Genomica DNA 5 & Équipe" },
+  { key: "signature", label: "Signature", price: "€890 U / €990 D", subtitle: "Genomica DNA 5 & Équipe" },
 ];
+
+function InfoTooltip({ text }: { text: string }) {
+  return (
+    <span className="group relative inline-flex shrink-0">
+      <button
+        type="button"
+        aria-label="Specifiche della prestazione"
+        className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-teal-100 bg-teal-50 text-teal-700 transition-colors hover:bg-teal-100 hover:text-dark-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/40"
+      >
+        <Info className="h-3 w-3" />
+      </button>
+      <span
+        role="tooltip"
+        className="pointer-events-none invisible absolute left-0 top-full z-20 mt-2 w-64 rounded-xl border border-teal-100 bg-white p-3 text-left text-[11px] font-normal leading-relaxed text-charcoal/80 opacity-0 shadow-lg transition-all group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100"
+      >
+        {text}
+      </span>
+    </span>
+  );
+}
+
+const CHECKUP_PANEL_BY_TIER: Record<ComparisonTierCol["key"], "salute_17" | "completo_48" | "avanzato_uomo_59"> = {
+  access: "salute_17",
+  care: "salute_17",
+  experience: "completo_48",
+  signature: "avanzato_uomo_59",
+};
 
 interface ClubComparisonTableProps {
   activeTierId?: string;
@@ -133,12 +160,18 @@ export function ClubComparisonTable({
                   }
                 >
                   <td className="p-4 sm:p-5">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5">
+                    <div className="flex items-start gap-2">
                       <span className="font-medium text-teal-950 block">{b.label}</span>
-                      {b.label.includes("ematochimico") && (
-                        <ParametriEmatochimiciModal triggerText="Dettaglio 17 parametri" />
-                      )}
+                      {b.tooltip && <InfoTooltip text={b.tooltip} />}
                     </div>
+                    {i === 0 && (
+                      <div className="mt-2">
+                        <ParametriEmatochimiciModal
+                          triggerText="Esplora tutti i pannelli (17 / 48 / 59 / 57)"
+                          initialPanel="salute_17"
+                        />
+                      </div>
+                    )}
                     {b.note && (
                       <span className="text-[11px] text-charcoal/55 block mt-0.5 italic">
                         * {b.note}
@@ -156,7 +189,18 @@ export function ClubComparisonTable({
                           isActive && "bg-teal-50/70 border-x border-teal-200/80"
                         )}
                       >
-                        {typeof val === "boolean" ? (
+                        {i === 0 && typeof val === "string" ? (
+                          <ParametriEmatochimiciModal
+                            triggerText={val}
+                            initialPanel={CHECKUP_PANEL_BY_TIER[t.key]}
+                            className={cn(
+                              "text-xs font-semibold px-2.5 py-1",
+                              isActive
+                                ? "bg-primary-teal text-white shadow-xs font-bold hover:bg-primary-teal hover:text-white"
+                                : "border border-teal-100"
+                            )}
+                          />
+                        ) : typeof val === "boolean" ? (
                           val ? (
                             <span
                               className={cn(
@@ -198,9 +242,12 @@ export function ClubComparisonTable({
             <strong className="text-teal-900">Note cliniche e informative:</strong>
           </p>
           <p>• <strong>U/D:</strong> versione calibrata sui parametri clinici specifici Uomo / Donna.</p>
-          <p>• <strong>Senologia Donna:</strong> include visita senologica ed ecografia mammaria bilaterale sia in Experience Donna che in Signature Donna.</p>
-          <p>• <strong>Mammografia:</strong> prestazione non inclusa nella quota e non effettuata in sede (Cocoora non dispone di macchinario mammografico); se prescritta dal senologo, è effettuabile presso centro convenzionato esterno.</p>
-          <p>• <strong>Visita medicina estetica:</strong> consultazione clinica e inquadramento viso/corpo personalizzato, senza trattamenti inclusi.</p>
+          <p>• Le membership sono nominali e non trasferibili.</p>
+          <p>• La membership ha validità di 12 mesi dalla data di sottoscrizione.</p>
+          <p>• Ogni prestazione inclusa è erogabile una sola volta durante il periodo di validità della membership.</p>
+          <p>• Nei percorsi Signature Uomo e Signature Donna è sempre incluso il test FIT (ricerca immunochimica del sangue occulto nelle feci).</p>
+          <p>• <strong>Versioni Donna (Experience e Signature):</strong> la visita senologica comprende l&apos;ecografia mammaria bilaterale; in Signature Donna è inclusa anche la visita ginecologica con ecografia e Pap-test. La mammografia non è inclusa nella membership e può essere effettuata presso un centro convenzionato.</p>
+          <p>• <strong>Visita di medicina estetica:</strong> valutazione clinica viso e corpo, senza trattamenti inclusi.</p>
         </div>
       </Container>
     </section>

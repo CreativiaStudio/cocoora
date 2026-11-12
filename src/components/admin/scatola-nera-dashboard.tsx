@@ -644,7 +644,7 @@ export function ScatolaNeraDashboard() {
                     </span>
                   </div>
                   <p className="mt-2 text-slate-600 text-[11px] leading-relaxed">
-                    Tutti i Percorsi Salute Cocoora Club (Access €149, Care Plus €299, Experience €599/€649, Signature €940/€990)
+                    Tutti i Percorsi Salute Cocoora Club (Access €149, Care Plus €299, Experience €599/€649, Signature €890/€990)
                     e le membership annuali vengono fatturati ed incassati su Primecare SRL (IBAN IT08L0321103400052879916620).
                   </p>
                 </div>

@@ -1221,7 +1221,7 @@ function MegamenuPercorsiSalute({ onClose }: { onClose: () => void }) {
       badge: "Essenziale",
       discount: "Sconto 5%",
       description:
-        "Prima valutazione dello stato di salute: Check-up Salute (17 voci), Medicina Interna con ECG, OPT e visita estetica.",
+        "Prima valutazione dello stato di salute: Check-up Salute (17 parametri), visita medica completa con ECG, OPT e visita estetica.",
     },
     {
       id: "care",
@@ -1233,7 +1233,7 @@ function MegamenuPercorsiSalute({ onClose }: { onClose: () => void }) {
       discount: "Sconto 10%",
       featured: true,
       description:
-        "Prevenzione e continuità: tutte le prestazioni Access, igiene orale in sede e visita nutrizionale con piano scritto.",
+        "Prevenzione e continuità: tutte le prestazioni Access, igiene orale professionale e visita nutrizionale con piano personalizzato.",
     },
     {
       id: "experience",
@@ -1244,18 +1244,18 @@ function MegamenuPercorsiSalute({ onClose }: { onClose: () => void }) {
       badge: "Avanzato",
       discount: "Sconto 15%",
       description:
-        "Approfondimento con Check-up Completo U/D, cardiologia + ecocardiogramma Color Doppler, oculistica e senologia.",
+        "Approfondimento con Check-up Completo U/D (48 parametri), cardiologia + ecocardiogramma Color Doppler, oculistica e senologia.",
     },
     {
       id: "signature",
       label: "Signature",
       href: "/club/signature",
-      price: "da €940",
+      price: "da €890",
       pricePeriod: "/ anno",
       badge: "Top Longevity",
       discount: "Sconto 20%",
       description:
-        "Massima prevenzione e longevità: Check-up Avanzato + FIT, ecografia addome, dermatoscopia e test genomico DNA 5.",
+        "Massima prevenzione e longevità: Check-up Avanzato (59/57 parametri) + FIT, ecografia addome, dermatoscopia, ginecologia/senologia e DNA 5.",
     },
   ];
 

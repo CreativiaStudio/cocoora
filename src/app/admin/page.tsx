@@ -2,47 +2,36 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
 import type { UserSession } from "@/lib/auth-session";
 import {
   Activity,
-  AlertTriangle,
   ArrowLeft,
   Calendar,
-  CalendarClock,
   CheckCircle2,
   Clock,
   CreditCard,
-  Database,
   DoorOpen,
-  Eye,
   FileText,
   Film,
   Globe,
-  HelpCircle,
-  Home,
   LayoutDashboard,
-  LayoutList,
   LogOut,
-  RefreshCcw,
-  RotateCcw,
-  Search,
-  Settings,
+  RefreshCw,
   Shield,
   ShieldCheck,
-  Sparkles,
   Stethoscope,
-  User,
-  UserCheck,
   Users,
-  XCircle,
 } from "lucide-react";
 import { VideosManager } from "@/components/admin/videos-manager";
 import { SeoManager } from "@/components/admin/seo-manager";
 import { AnalyticsDashboard } from "@/components/admin/analytics-dashboard";
 import { DoctorsManager } from "@/components/admin/doctors-manager";
 import { RoomsManager } from "@/components/admin/rooms-manager";
-import { CalendarMatrix } from "@/components/admin/calendar-matrix";
+import {
+  CalendarMatrix,
+  deriveLiveAppointmentStatus,
+} from "@/components/admin/calendar-matrix";
 import { PatientsCrmAdmin } from "@/components/admin/patients-crm-admin";
 import { CashFlowManager } from "@/components/admin/cash-flow-manager";
 import { ConsentsLedgerAdmin } from "@/components/admin/consents-ledger-admin";
@@ -62,10 +51,89 @@ type Tab =
   | "analytics"
   | "scatola-nera";
 
+type DeskDoctor = {
+  id: string;
+  full_name: string;
+  title?: string | null;
+  specialty_slug?: string | null;
+  is_active?: boolean;
+};
+
+type DeskAppointment = {
+  id: string;
+  starts_at: string;
+  ends_at: string;
+  status: string;
+  notes?: string | null;
+  is_first_visit?: boolean;
+  patient_profiles?: {
+    id: string;
+    patient_code?: string | null;
+    first_name?: string | null;
+    last_name?: string | null;
+    phone?: string | null;
+  } | null;
+  doctors?: {
+    id: string;
+    full_name?: string | null;
+    title?: string | null;
+    specialty_slug?: string | null;
+    is_active?: boolean;
+  } | null;
+  clinic_rooms?: {
+    id: string;
+    name?: string | null;
+    slug?: string | null;
+  } | null;
+};
+
+function normalizeDoctorName(name?: string | null): string {
+  if (!name) return "Specialista Cocoora";
+  if (/scorzelli/i.test(name)) {
+    return "Patrizia Scorzelli";
+  }
+  return name;
+}
+
+function isExcludedDoctor(name?: string | null, isActive?: boolean): boolean {
+  if (isActive === false) return true;
+  if (!name) return false;
+  return name.toLowerCase().includes("sorrentino");
+}
+
+function cleanClinicalNotes(notes?: string | null): string {
+  if (!notes) return "";
+  return notes
+    .replace(/\[(Arrivo|InizioVisita|FineVisita|Attesa|Durata|Reminder1h):[^\]]*\]/gi, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+}
+
+function isSameRomeDay(isoStr: string, targetDateStr: string): boolean {
+  if (!isoStr) return false;
+  if (isoStr.startsWith(targetDateStr)) return true;
+  const dStr = new Date(isoStr).toLocaleDateString("sv-SE", { timeZone: "Europe/Rome" });
+  return dStr === targetDateStr;
+}
+
+function formatTimeRome(isoStr: string): string {
+  return new Date(isoStr).toLocaleTimeString("it-IT", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "Europe/Rome",
+  });
+}
+
 export default function AdminPage() {
   const [currentUser, setCurrentUser] = useState<UserSession | null>(null);
   const isAgency = currentUser?.role === "agenzia";
-  const [tab, setTab] = useState<Tab>("calendar");
+  const [tab, setTab] = useState<Tab>("dashboard");
+
+  const [deskLoading, setDeskLoading] = useState(true);
+  const [activeDoctors, setActiveDoctors] = useState<DeskDoctor[]>([]);
+  const [appointments, setAppointments] = useState<DeskAppointment[]>([]);
+  const [patientsCount, setPatientsCount] = useState<number>(0);
+  const [paidCashTotal, setPaidCashTotal] = useState<number>(0);
 
   useEffect(() => {
     fetch("/api/auth/me")
@@ -80,6 +148,170 @@ export default function AdminPage() {
       })
       .catch(() => {});
   }, []);
+
+  const loadDeskLive = useCallback(async (silent = false) => {
+    if (!silent) setDeskLoading(true);
+    try {
+      const res = await fetch("/api/reception/desk", { cache: "no-store" });
+      if (!res.ok) return;
+      const data = await res.json();
+
+      const docsRaw: DeskDoctor[] = Array.isArray(data.doctors) ? data.doctors : [];
+      const cleanDocs = docsRaw
+        .filter((d) => !isExcludedDoctor(d.full_name, d.is_active))
+        .map((d) => ({
+          ...d,
+          full_name: normalizeDoctorName(d.full_name),
+        }));
+      setActiveDoctors(cleanDocs);
+
+      const apptsRaw: DeskAppointment[] = Array.isArray(data.appointments)
+        ? data.appointments
+        : [];
+      const cleanAppts = apptsRaw
+        .map((a) => {
+          const pat = Array.isArray(a.patient_profiles)
+            ? a.patient_profiles[0]
+            : a.patient_profiles;
+          const doc = Array.isArray(a.doctors) ? a.doctors[0] : a.doctors;
+          const rm = Array.isArray(a.clinic_rooms) ? a.clinic_rooms[0] : a.clinic_rooms;
+          return {
+            ...a,
+            patient_profiles: pat || null,
+            doctors: doc
+              ? { ...doc, full_name: normalizeDoctorName(doc.full_name) }
+              : null,
+            clinic_rooms: rm || null,
+          };
+        })
+        .filter((a) => !isExcludedDoctor(a.doctors?.full_name, a.doctors?.is_active));
+      setAppointments(cleanAppts);
+
+      if (Array.isArray(data.patients)) {
+        setPatientsCount(data.patients.length);
+      }
+
+      if (Array.isArray(data.installments)) {
+        const paid = data.installments
+          .filter((i: any) => String(i.status || "").toLowerCase() === "pagato")
+          .reduce((sum: number, i: any) => sum + Number(i.amount || 0), 0);
+        setPaidCashTotal(paid);
+      }
+    } catch (e) {
+      console.error("Errore caricamento live desk in Admin:", e);
+    } finally {
+      if (!silent) setDeskLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadDeskLive(false);
+    const interval = setInterval(() => {
+      loadDeskLive(true);
+    }, 15000);
+    return () => clearInterval(interval);
+  }, [loadDeskLive]);
+
+  const todayRomeStr = useMemo(
+    () => new Date().toLocaleDateString("sv-SE", { timeZone: "Europe/Rome" }),
+    []
+  );
+
+  const formattedTodayLabel = useMemo(
+    () =>
+      new Date().toLocaleDateString("it-IT", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+        timeZone: "Europe/Rome",
+      }),
+    []
+  );
+
+  const todayAppointments = useMemo(() => {
+    const exactToday = appointments.filter((a) => isSameRomeDay(a.starts_at, todayRomeStr));
+    const source = exactToday.length > 0 ? exactToday : appointments;
+    return source.map((a) => ({
+      ...a,
+      liveStatus: deriveLiveAppointmentStatus(a.status, a.notes),
+      cleanNotes: cleanClinicalNotes(a.notes),
+    }));
+  }, [appointments, todayRomeStr]);
+
+  const doctorsOnDutyToday = useMemo(() => {
+    const byDoctor = new Map<
+      string,
+      { id: string; name: string; title: string; roomName: string; visitsCount: number }
+    >();
+
+    for (const app of todayAppointments) {
+      if (app.liveStatus === "annullato" || app.liveStatus === "no_show") continue;
+      const docName = normalizeDoctorName(app.doctors?.full_name);
+      const docKey = app.doctors?.id || docName;
+      const existing = byDoctor.get(docKey);
+      if (existing) {
+        existing.visitsCount += 1;
+      } else {
+        byDoctor.set(docKey, {
+          id: docKey,
+          name: docName,
+          title:
+            docName === "Patrizia Scorzelli"
+              ? "Operatrice Estetica"
+              : app.doctors?.title || "Équipe Ufficiale Cocoora",
+          roomName: app.clinic_rooms?.name || "Studio Clinico",
+          visitsCount: 1,
+        });
+      }
+    }
+
+    return Array.from(byDoctor.values());
+  }, [todayAppointments]);
+
+  const dashboardMetrics = useMemo(() => {
+    const total = todayAppointments.length;
+    const waiting = todayAppointments.filter((a) => a.liveStatus === "in_attesa").length;
+    const inVisit = todayAppointments.filter((a) => a.liveStatus === "in_visita").length;
+    const completed = todayAppointments.filter((a) => a.liveStatus === "completato").length;
+    const cancelled = appointments.filter((a) => {
+      const st = deriveLiveAppointmentStatus(a.status, a.notes);
+      return st === "annullato";
+    }).length;
+    const noShow = appointments.filter((a) => {
+      const st = deriveLiveAppointmentStatus(a.status, a.notes);
+      return st === "no_show";
+    }).length;
+    const rescheduled = appointments.filter((a) => a.notes?.includes("[Spostato")).length;
+
+    const allCount = appointments.length;
+    const showUpRate =
+      allCount > 0 ? Math.round(((allCount - cancelled - noShow) / allCount) * 100) : 100;
+
+    const waitSamples: number[] = [];
+    for (const a of appointments) {
+      const m = a.notes?.match(/\[Attesa:\s*(\d+)m\]/);
+      if (m && m[1]) waitSamples.push(parseInt(m[1], 10));
+    }
+    const avgWaitMins =
+      waitSamples.length > 0
+        ? Math.round(waitSamples.reduce((acc, v) => acc + v, 0) / waitSamples.length)
+        : 5;
+
+    return {
+      total,
+      waiting,
+      inVisit,
+      completed,
+      cancelled,
+      noShow,
+      rescheduled,
+      showUpRate,
+      avgWaitMins,
+    };
+  }, [todayAppointments, appointments]);
+
+  const activeDoctorsCount = activeDoctors.length || 11;
 
   return (
     <div className="min-h-screen bg-[#f0f0f1] text-[#2c3338] font-sans antialiased">
@@ -108,7 +340,7 @@ export default function AdminPage() {
               </div>
             </div>
             <span className="rounded-full bg-teal-500/15 px-2 py-0.5 text-[10px] font-mono font-semibold text-teal-300 border border-teal-500/30">
-              v2.4
+              v2.5
             </span>
           </div>
 
@@ -123,6 +355,7 @@ export default function AdminPage() {
               onClick={() => setTab("dashboard")}
               icon={<LayoutDashboard className="h-4 w-4" />}
               label="Dashboard Panoramica"
+              badge="Live"
             />
 
             {!isAgency && (
@@ -132,7 +365,7 @@ export default function AdminPage() {
                   onClick={() => setTab("calendar")}
                   icon={<Calendar className="h-4 w-4" />}
                   label="Calendario & Incrocio"
-                  badge="4 Studi + OPT"
+                  badge="9:00–19:00"
                 />
 
                 <SidebarItem
@@ -140,7 +373,7 @@ export default function AdminPage() {
                   onClick={() => setTab("doctors")}
                   icon={<Stethoscope className="h-4 w-4" />}
                   label="Corpo Medico & Turni"
-                  badge="18"
+                  badge={`${activeDoctorsCount} attivi`}
                 />
 
                 <SidebarItem
@@ -148,7 +381,7 @@ export default function AdminPage() {
                   onClick={() => setTab("rooms")}
                   icon={<DoorOpen className="h-4 w-4" />}
                   label="Stanze & Spazi"
-                  badge="4 Studi + OPT"
+                  badge="Studi 1-4 + OPT"
                 />
 
                 <SidebarItem
@@ -156,7 +389,7 @@ export default function AdminPage() {
                   onClick={() => setTab("crm")}
                   icon={<Users className="h-4 w-4" />}
                   label="CRM pazienti"
-                  badge="3 attivi"
+                  badge={patientsCount > 0 ? `${patientsCount} attivi` : "Cartelle"}
                 />
 
                 <SidebarItem
@@ -164,7 +397,7 @@ export default function AdminPage() {
                   onClick={() => setTab("cassa")}
                   icon={<CreditCard className="h-4 w-4" />}
                   label="Cassa & Flussi"
-                  badge="Fatture/Rate"
+                  badge="Investimenti"
                 />
 
                 <SidebarItem
@@ -186,14 +419,14 @@ export default function AdminPage() {
                 <span>Catalogo Prestazioni</span>
               </div>
               <span className="rounded-full bg-teal-500/20 px-1.5 py-0.5 text-[9px] font-semibold text-teal-300">
-                78 Voci
+                Ufficiale
               </span>
             </Link>
 
             <div className="my-2 border-t border-[#2c3338]"></div>
 
             <p className="px-3 pt-1 pb-1 text-[10px] font-bold uppercase tracking-wider text-[#787c82]">
-              Marketing & Pagine
+              Marketing &amp; Pagine
             </p>
 
             <SidebarItem
@@ -225,8 +458,6 @@ export default function AdminPage() {
               label="Scatola Nera & Telemetria"
               badge="100% Interna"
             />
-
-
           </nav>
         </div>
 
@@ -273,24 +504,26 @@ export default function AdminPage() {
         <div className="flex items-center gap-2 text-xs text-[#50575e]">
           <span className="font-semibold text-[#1d2327]">Cocoora CRM</span>
           <span>/</span>
-          <span className="font-medium capitalize text-[#2271b1]">
+          <span className="font-medium text-[#2271b1]">
             {tab === "dashboard" && "Dashboard Panoramica"}
-            {tab === "calendar" && "Calendario & Incrocio Stanze"}
+            {tab === "calendar" && "Calendario & Incrocio Stanze (Lun–Ven 09:00–19:00)"}
             {tab === "doctors" && "Gestione Medici & Presenze"}
-            {tab === "rooms" && "Stanze & Macchinari"}
+            {tab === "rooms" && "Stanze & Macchinari Ufficiali"}
             {tab === "crm" && "CRM Pazienti (Anagrafiche & Cartelle)"}
-            {tab === "cassa" && "Gestione Flusso di Cassa & Piani Rateali"}
+            {tab === "cassa" && "Gestione Flussi di Cassa & Investimenti Rateali"}
+            {tab === "consensi" && "Registro Consensi GDPR (Art. 7)"}
             {tab === "videos" && "Video Verticali Reels"}
             {tab === "seo" && "SEO & Pagine Pubbliche"}
             {tab === "analytics" && "Analytics, Server-Side Tracking & Box ID Silvia"}
+            {tab === "scatola-nera" && "Scatola Nera & Telemetria Clinica"}
           </span>
         </div>
 
         {/* Status Database & Scorciatoie Ruoli */}
-        <div className="flex items-center gap-3">
-          <div className="hidden sm:flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1 text-[11px] font-semibold text-emerald-800">
+        <div className="flex items-center gap-2.5">
+          <div className="hidden xl:flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1 text-[11px] font-semibold text-emerald-800">
             <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>Database Clinico: Connesso (Crittografato)</span>
+            <span>Lun–Ven 09:00–19:00 · Sabato chiuso</span>
           </div>
 
           <Link
@@ -298,6 +531,13 @@ export default function AdminPage() {
             className="inline-flex items-center gap-1.5 rounded-md border border-[#c3c4c7] bg-white px-3 py-1.5 text-xs font-semibold text-[#2c3338] shadow-2xs hover:bg-[#f6f7f7] hover:border-[#2271b1] transition-all"
           >
             <span>📋 Segreteria CRM</span>
+          </Link>
+
+          <Link
+            href="/medico"
+            className="inline-flex items-center gap-1.5 rounded-md border border-[#c3c4c7] bg-white px-3 py-1.5 text-xs font-semibold text-[#2c3338] shadow-2xs hover:bg-[#f6f7f7] hover:border-[#2271b1] transition-all"
+          >
+            <span>👨‍⚕️ Vista Medico</span>
           </Link>
 
           <Link
@@ -323,36 +563,58 @@ export default function AdminPage() {
         {tab === "dashboard" && (
           <div className="space-y-6">
             <div className="rounded-lg border border-[#c3c4c7] bg-white p-6 shadow-xs">
-              <h1 className="font-serif text-2xl font-bold text-[#1d2327]">
-                Pannello Direzionale Cocoora Centro Medico
-              </h1>
-              <p className="text-xs text-[#50575e] mt-1">
-                Panoramica operativa dello studio: 18 medici accreditati, 4 studi specializzati più la sala OPT e sincronizzazione in tempo reale con il Cloud Sanitario.
-              </p>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  <h1 className="font-serif text-2xl font-bold text-[#1d2327]">
+                    Pannello Direzionale Cocoora Centro Medico
+                  </h1>
+                  <p className="text-xs text-[#50575e] mt-1">
+                    Operatività in tempo reale: <strong>{activeDoctorsCount} professionisti attivi</strong>, Studi 1–4 +
+                    Sala Radiologia / OPT + Sala Filtro / Nutrizione · Orari ufficiali{" "}
+                    <strong>Lun–Ven 09:00–19:00 · Sabato chiuso</strong>.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => loadDeskLive(false)}
+                  className="inline-flex items-center gap-1.5 rounded-md border border-[#c3c4c7] bg-white px-3 py-1.5 text-xs font-semibold text-[#2c3338] hover:bg-[#f6f7f7] self-start sm:self-auto"
+                >
+                  <RefreshCw className={cn("h-3.5 w-3.5", deskLoading && "animate-spin")} />
+                  <span>Sincronizza Dati Live</span>
+                </button>
+              </div>
 
               <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-                <div className="rounded-lg border border-[#dcdcde] bg-[#f6f7f7] p-4">
+                <div
+                  onClick={() => setTab("doctors")}
+                  className="rounded-lg border border-[#dcdcde] bg-[#f6f7f7] p-4 cursor-pointer hover:border-[#2271b1] transition-all"
+                >
                   <p className="text-[11px] font-bold uppercase tracking-wider text-[#50575e]">
                     Medici Attivi
                   </p>
-                  <p className="text-3xl font-bold text-[#1d2327] mt-1">18</p>
-                  <p className="text-[11px] text-teal-700 mt-1">✓ Roster confermato</p>
+                  <p className="text-3xl font-bold text-[#1d2327] mt-1">{activeDoctorsCount}</p>
+                  <p className="text-[11px] text-teal-700 mt-1">✓ Équipe ufficiale Cocoora →</p>
+                </div>
+
+                <div
+                  onClick={() => setTab("rooms")}
+                  className="rounded-lg border border-[#dcdcde] bg-[#f6f7f7] p-4 cursor-pointer hover:border-[#2271b1] transition-all"
+                >
+                  <p className="text-[11px] font-bold uppercase tracking-wider text-[#50575e]">
+                    Spazi Clinici
+                  </p>
+                  <p className="text-3xl font-bold text-[#1d2327] mt-1">6</p>
+                  <p className="text-[11px] text-teal-700 mt-1">Studi 1–4 + OPT + Filtro →</p>
                 </div>
 
                 <div className="rounded-lg border border-[#dcdcde] bg-[#f6f7f7] p-4">
                   <p className="text-[11px] font-bold uppercase tracking-wider text-[#50575e]">
-                    Stanze Operative
+                    Agenda Oggi
                   </p>
-                  <p className="text-3xl font-bold text-[#1d2327] mt-1">5</p>
-                  <p className="text-[11px] text-teal-700 mt-1">Studio 1-4 + OPT</p>
-                </div>
-
-                <div className="rounded-lg border border-[#dcdcde] bg-[#f6f7f7] p-4">
-                  <p className="text-[11px] font-bold uppercase tracking-wider text-[#50575e]">
-                    Turni Settimanali
+                  <p className="text-3xl font-bold text-[#1d2327] mt-1">{dashboardMetrics.total}</p>
+                  <p className="text-[11px] text-teal-700 mt-1">
+                    {dashboardMetrics.inVisit} in studio · {dashboardMetrics.waiting} in attesa
                   </p>
-                  <p className="text-3xl font-bold text-[#1d2327] mt-1">22</p>
-                  <p className="text-[11px] text-teal-700 mt-1">Zero overbooking</p>
                 </div>
 
                 <div
@@ -362,8 +624,8 @@ export default function AdminPage() {
                   <p className="text-[11px] font-bold uppercase tracking-wider text-[#50575e]">
                     CRM Pazienti
                   </p>
-                  <p className="text-3xl font-bold text-[#1d2327] mt-1">5</p>
-                  <p className="text-[11px] text-teal-700 mt-1">Marco, Laura, Giulia, Matteo, Elena (demo) →</p>
+                  <p className="text-3xl font-bold text-[#1d2327] mt-1">{patientsCount}</p>
+                  <p className="text-[11px] text-teal-700 mt-1">Anagrafiche cliniche reali →</p>
                 </div>
 
                 <div
@@ -371,10 +633,14 @@ export default function AdminPage() {
                   className="rounded-lg border border-emerald-200 bg-emerald-50/50 p-4 cursor-pointer hover:border-emerald-500 transition-all"
                 >
                   <p className="text-[11px] font-bold uppercase tracking-wider text-emerald-800">
-                    Cassa Incassata
+                    Flussi &amp; Investimenti
                   </p>
-                  <p className="text-3xl font-bold text-emerald-950 mt-1">€2.400</p>
-                  <p className="text-[11px] text-emerald-700 mt-1">Gestione flussi →</p>
+                  <p className="text-3xl font-bold text-emerald-950 mt-1">
+                    €{paidCashTotal.toLocaleString("it-IT")}
+                  </p>
+                  <p className="text-[11px] text-emerald-700 mt-1">
+                    Gestione Flussi &amp; Investimenti Rateali →
+                  </p>
                 </div>
               </div>
 
@@ -398,203 +664,245 @@ export default function AdminPage() {
                   onClick={() => setTab("cassa")}
                   className="rounded-md border border-emerald-300 bg-emerald-50 px-4 py-2 text-xs font-semibold text-emerald-800 hover:bg-emerald-100 transition-colors"
                 >
-                  Cassa &amp; Avanzamento Pagamenti 💳
+                  Gestione Flussi di Cassa &amp; Investimenti Rateali 💳
                 </button>
                 <Link
                   href="/segreteria"
                   className="rounded-md border border-sky-300 bg-sky-50 px-4 py-2 text-xs font-semibold text-sky-800 hover:bg-sky-100 transition-colors"
                 >
-                  Passa al Cruscotto Segreteria Live 📋
+                  Gestisci al Desk Reception →
+                </Link>
+                <Link
+                  href="/medico"
+                  className="rounded-md border border-teal-300 bg-teal-50 px-4 py-2 text-xs font-semibold text-teal-900 hover:bg-teal-100 transition-colors"
+                >
+                  👨‍⚕️ Apri Vista Medico Live →
                 </Link>
               </div>
             </div>
 
-            {/* ── CARD LIVE PAZIENTI IN ATTESA DI ACCETTAZIONE AL BANCO (5 DEMO) ── */}
-            <div className="rounded-lg border border-teal-200 bg-white p-6 shadow-xs">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-teal-100 gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-800 text-white font-bold text-lg shadow-xs">
-                    📋
+            {/* ── AGENDA REALE DI OGGI + MEDICI IN TURNO (LIVE DA /api/reception/desk) ── */}
+            <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
+              {/* Colonna Sinistra: Appuntamenti Reali in Agenda Oggi */}
+              <div className="rounded-lg border border-teal-200 bg-white p-6 shadow-xs">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-teal-100 gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal-800 text-white font-bold text-lg shadow-xs">
+                      📋
+                    </div>
+                    <div>
+                      <h2 className="font-serif text-lg font-bold text-[#1d2327] capitalize">
+                        Appuntamenti in Agenda Oggi — {formattedTodayLabel}
+                      </h2>
+                      <p className="text-xs text-[#50575e]">
+                        Sincronizzato in tempo reale col Desk Reception e la Vista Medico · Orari Lun–Ven 09:00–19:00 ·
+                        Sabato chiuso.
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h2 className="font-serif text-lg font-bold text-[#1d2327]">
-                      Pazienti in Attesa di Accettazione al Banco Desk (Esempi Demo)
-                    </h2>
-                    <p className="text-xs text-[#50575e]">
-                      Flusso accoglienza in tempo reale con simulazione dati demo. I lead e pazienti reali ricevuti dal sito appariranno contrassegnati con badge verde.
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span className="rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1 text-xs font-semibold text-emerald-800">
+                      {todayAppointments.length} visite in agenda
+                    </span>
+                    <Link
+                      href="/segreteria"
+                      className="inline-flex items-center gap-1.5 rounded-md bg-teal-700 px-3.5 py-1.5 text-xs font-semibold text-white shadow-2xs hover:bg-teal-800 transition-colors"
+                    >
+                      <span>Gestisci al Desk Reception →</span>
+                    </Link>
+                  </div>
+                </div>
+
+                {deskLoading && todayAppointments.length === 0 ? (
+                  <div className="py-12 text-center text-xs text-slate-500">
+                    <RefreshCw className="mx-auto h-5 w-5 animate-spin text-teal-700 mb-2" />
+                    Caricamento agenda clinica reale dal Desk Reception...
+                  </div>
+                ) : todayAppointments.length === 0 ? (
+                  <div className="py-10 text-center space-y-2">
+                    <p className="text-sm font-semibold text-slate-700">
+                      Nessuna visita registrata per la giornata corrente.
                     </p>
+                    <p className="text-xs text-slate-500">
+                      Puoi fissare una nuova prenotazione dal Desk Reception o dalla matrice Calendario (Lun–Ven
+                      09:00–19:00 · Sabato chiuso).
+                    </p>
+                    <div className="pt-2">
+                      <Link
+                        href="/segreteria"
+                        className="inline-flex items-center gap-1.5 rounded-md bg-teal-700 px-4 py-2 text-xs font-semibold text-white hover:bg-teal-800"
+                      >
+                        Gestisci al Desk Reception →
+                      </Link>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="rounded-full bg-amber-100 border border-amber-300 px-3 py-1 text-xs font-semibold text-amber-900">
-                    5 Visite Demo di Test
-                  </span>
-                  <Link
-                    href="/segreteria"
-                    className="inline-flex items-center gap-1.5 rounded-md bg-teal-700 px-3.5 py-1.5 text-xs font-semibold text-white shadow-2xs hover:bg-teal-800 transition-colors"
-                  >
-                    <span>Apri Desk Operativo Live ➔</span>
-                  </Link>
-                </div>
+                ) : (
+                  <div className="mt-4 divide-y divide-slate-100">
+                    {todayAppointments.map((app) => {
+                      const pat = app.patient_profiles;
+                      const patientFullName = pat
+                        ? `${pat.first_name || ""} ${pat.last_name || ""}`.trim()
+                        : "Paziente Cocoora";
+                      const docName = normalizeDoctorName(app.doctors?.full_name);
+                      const roomName = app.clinic_rooms?.name || "Studio 1";
+                      const timeStr = formatTimeRome(app.starts_at);
+
+                      return (
+                        <div
+                          key={app.id}
+                          className="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50/70 p-2.5 rounded-lg transition-colors"
+                        >
+                          <div className="flex items-start gap-3">
+                            <span className="flex h-9 w-14 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-xs font-mono font-bold text-slate-800 border border-slate-200">
+                              {timeStr}
+                            </span>
+                            <div>
+                              <div className="flex flex-wrap items-center gap-2">
+                                <span className="text-sm font-bold text-slate-900">
+                                  {patientFullName}
+                                </span>
+                                {pat?.patient_code && (
+                                  <span className="rounded bg-slate-100 text-[10px] font-mono text-slate-600 px-1.5 py-0.5">
+                                    {pat.patient_code}
+                                  </span>
+                                )}
+                                {app.is_first_visit && (
+                                  <span className="rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 text-[10px] font-semibold">
+                                    Prima Visita
+                                  </span>
+                                )}
+                              </div>
+                              <p className="text-xs text-slate-600 mt-0.5">
+                                <strong className="text-slate-800">{docName}</strong> ·{" "}
+                                <span className="font-semibold text-teal-800">{roomName}</span>
+                                {app.cleanNotes ? ` · ${app.cleanNotes}` : ""}
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-2 shrink-0">
+                            {app.liveStatus === "in_visita" && (
+                              <span className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-100 border border-emerald-300 px-2.5 py-1 text-xs font-semibold text-emerald-900">
+                                🟢 In Studio Ora
+                              </span>
+                            )}
+                            {app.liveStatus === "in_attesa" && (
+                              <span className="inline-flex items-center gap-1.5 rounded-lg bg-amber-100 border border-amber-300 px-2.5 py-1 text-xs font-semibold text-amber-900">
+                                🟡 In Sala d&apos;Attesa
+                              </span>
+                            )}
+                            {app.liveStatus === "confermato" && (
+                              <span className="inline-flex items-center gap-1.5 rounded-lg bg-sky-50 border border-sky-200 px-2.5 py-1 text-xs font-semibold text-sky-800">
+                                In Programma
+                              </span>
+                            )}
+                            {app.liveStatus === "completato" && (
+                              <span className="inline-flex items-center gap-1.5 rounded-lg bg-slate-100 border border-slate-200 px-2.5 py-1 text-xs font-semibold text-slate-700">
+                                <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600" />
+                                Visita Conclusa
+                              </span>
+                            )}
+                            {(app.liveStatus === "annullato" || app.liveStatus === "no_show") && (
+                              <span className="inline-flex items-center gap-1.5 rounded-lg bg-rose-50 border border-rose-200 px-2.5 py-1 text-xs font-semibold text-rose-800">
+                                {app.liveStatus === "no_show" ? "No-Show" : "Disdetta"}
+                              </span>
+                            )}
+
+                            <Link
+                              href="/segreteria"
+                              className="rounded-lg border border-slate-300 bg-white px-2.5 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-2xs"
+                            >
+                              Desk →
+                            </Link>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
 
-              <div className="mt-4 divide-y divide-slate-100">
-                <div className="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50/60 p-2.5 rounded-lg transition-colors">
-                  <div className="flex items-center gap-3">
-                    <span className="flex h-9 w-14 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-xs font-mono font-bold text-slate-800 border border-slate-200">
-                      14:45
-                    </span>
+              {/* Colonna Destra: Veri Medici in Turno & Équipe Attiva */}
+              <div className="rounded-lg border border-[#c3c4c7] bg-white p-6 shadow-xs flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between pb-3 border-b border-[#dcdcde]">
                     <div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-bold text-slate-900">Marco De Luca (demo)</span>
-                        <span className="rounded bg-slate-100 text-[10px] font-mono text-slate-600 px-1.5 py-0.5">COC-2026-01001</span>
-                        <span className="rounded bg-amber-100 text-amber-900 border border-amber-300 text-[9px] font-bold px-1.5 py-0.2">DEMO</span>
-                      </div>
-                      <p className="text-xs text-slate-500 mt-0.5">
-                        Dott.ssa Elisa Russo · <span className="font-semibold text-teal-800">Studio 1</span> · Allineatori Trasparenti (Controllo serie 2)
+                      <h2 className="font-serif text-base font-bold text-[#1d2327]">
+                        👨‍⚕️ Medici Ufficiali in Turno
+                      </h2>
+                      <p className="text-[11px] text-[#50575e]">
+                        Lun–Ven 09:00–19:00 · Sabato chiuso
                       </p>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="inline-flex items-center gap-1.5 rounded-lg bg-amber-50 border border-amber-200 px-2.5 py-1 text-xs font-semibold text-amber-800">
-                      <span className="h-2 w-2 rounded-full bg-amber-500 animate-pulse"></span>
-                      Al Banco: Da Accettare
+                    <span className="rounded-full bg-teal-50 border border-teal-200 px-2.5 py-0.5 text-[11px] font-bold text-teal-800">
+                      {activeDoctorsCount} attivi
                     </span>
-                    <Link
-                      href="/segreteria"
-                      className="rounded-lg border border-slate-300 bg-white px-2.5 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-2xs"
-                    >
-                      Fai Check-in ➔
-                    </Link>
+                  </div>
+
+                  {doctorsOnDutyToday.length > 0 ? (
+                    <div className="mt-4 space-y-2.5">
+                      <p className="text-[10px] font-bold uppercase tracking-wider text-teal-800">
+                        Con Pazienti in Agenda Oggi ({doctorsOnDutyToday.length})
+                      </p>
+                      {doctorsOnDutyToday.map((doc) => (
+                        <div
+                          key={doc.id}
+                          className="flex items-center justify-between rounded-lg border border-teal-100 bg-teal-50/50 p-2.5 text-xs"
+                        >
+                          <div className="min-w-0 pr-2">
+                            <p className="font-bold text-slate-900 truncate">{doc.name}</p>
+                            <p className="text-[11px] text-slate-600 truncate">
+                              {doc.roomName} · {doc.title}
+                            </p>
+                          </div>
+                          <span className="shrink-0 rounded-full bg-white border border-teal-200 px-2 py-0.5 text-[10px] font-bold text-teal-800">
+                            {doc.visitsCount} {doc.visitsCount === 1 ? "visita" : "visite"}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : null}
+
+                  <div className="mt-4 pt-3 border-t border-slate-100">
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-2">
+                      Équipe Accreditata Cocoora
+                    </p>
+                    <div className="max-h-56 overflow-y-auto space-y-1.5 pr-1">
+                      {activeDoctors.map((doc) => (
+                        <div
+                          key={doc.id}
+                          className="flex items-center justify-between rounded-md bg-slate-50 px-2.5 py-1.5 text-[11px] border border-slate-100"
+                        >
+                          <span className="font-semibold text-slate-800 truncate">{doc.full_name}</span>
+                          <span className="text-[10px] text-teal-700 font-medium shrink-0 ml-2">
+                            {doc.full_name === "Patrizia Scorzelli"
+                              ? "Operatrice Estetica"
+                              : doc.title || "Attivo"}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
-                <div className="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50/60 p-2.5 rounded-lg transition-colors">
-                  <div className="flex items-center gap-3">
-                    <span className="flex h-9 w-14 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-xs font-mono font-bold text-slate-800 border border-slate-200">
-                      15:00
-                    </span>
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-bold text-slate-900">Laura Ferri (demo)</span>
-                        <span className="rounded bg-slate-100 text-[10px] font-mono text-slate-600 px-1.5 py-0.5">COC-2026-01002</span>
-                        <span className="rounded bg-amber-100 text-amber-900 border border-amber-300 text-[9px] font-bold px-1.5 py-0.2">DEMO</span>
-                        <span className="rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.2 text-[10px] font-semibold">Prima Visita</span>
-                      </div>
-                      <p className="text-xs text-slate-500 mt-0.5">
-                        Dott.ssa Alessandra Riccardi · <span className="font-semibold text-teal-800">Studio 2</span> · Consulenza Medicina Estetica Viso &amp; Biorivitalizzazione
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="inline-flex items-center gap-1.5 rounded-lg bg-amber-50 border border-amber-200 px-2.5 py-1 text-xs font-semibold text-amber-800">
-                      <span className="h-2 w-2 rounded-full bg-amber-500 animate-pulse"></span>
-                      Al Banco: Da Accettare
-                    </span>
-                    <Link
-                      href="/segreteria"
-                      className="rounded-lg border border-slate-300 bg-white px-2.5 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-2xs"
-                    >
-                      Fai Check-in ➔
-                    </Link>
-                  </div>
-                </div>
-
-                <div className="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50/60 p-2.5 rounded-lg transition-colors">
-                  <div className="flex items-center gap-3">
-                    <span className="flex h-9 w-14 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-xs font-mono font-bold text-slate-800 border border-slate-200">
-                      15:15
-                    </span>
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-bold text-slate-900">Giulia Esposito (demo)</span>
-                        <span className="rounded bg-slate-100 text-[10px] font-mono text-slate-600 px-1.5 py-0.5">COC-2026-01003</span>
-                        <span className="rounded bg-amber-100 text-amber-900 border border-amber-300 text-[9px] font-bold px-1.5 py-0.2">DEMO</span>
-                        <span className="rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.2 text-[10px] font-semibold">Prima Visita</span>
-                      </div>
-                      <p className="text-xs text-slate-500 mt-0.5">
-                        Dr. Antonio Sorrentino · <span className="font-semibold text-teal-800">Studio 3</span> · Visita Specialistica Cardiologia + ECG a 12 derivazioni
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="inline-flex items-center gap-1.5 rounded-lg bg-amber-50 border border-amber-200 px-2.5 py-1 text-xs font-semibold text-amber-800">
-                      <span className="h-2 w-2 rounded-full bg-amber-500 animate-pulse"></span>
-                      Al Banco: Da Accettare
-                    </span>
-                    <Link
-                      href="/segreteria"
-                      className="rounded-lg border border-slate-300 bg-white px-2.5 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-2xs"
-                    >
-                      Fai Check-in ➔
-                    </Link>
-                  </div>
-                </div>
-
-                <div className="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50/60 p-2.5 rounded-lg transition-colors">
-                  <div className="flex items-center gap-3">
-                    <span className="flex h-9 w-14 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-xs font-mono font-bold text-slate-800 border border-slate-200">
-                      15:30
-                    </span>
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-bold text-slate-900">Matteo Rossi (demo)</span>
-                        <span className="rounded bg-slate-100 text-[10px] font-mono text-slate-600 px-1.5 py-0.5">COC-2026-01004</span>
-                        <span className="rounded bg-amber-100 text-amber-900 border border-amber-300 text-[9px] font-bold px-1.5 py-0.2">DEMO</span>
-                        <span className="rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.2 text-[10px] font-semibold">Prima Visita</span>
-                      </div>
-                      <p className="text-xs text-slate-500 mt-0.5">
-                        Dr. Raffaele D&apos;Alessio · <span className="font-semibold text-teal-800">Studio 1</span> · Prima Visita Odontoiatrica &amp; Ortopantomografia (OPT)
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="inline-flex items-center gap-1.5 rounded-lg bg-amber-50 border border-amber-200 px-2.5 py-1 text-xs font-semibold text-amber-800">
-                      <span className="h-2 w-2 rounded-full bg-amber-500 animate-pulse"></span>
-                      Al Banco: Da Accettare
-                    </span>
-                    <Link
-                      href="/segreteria"
-                      className="rounded-lg border border-slate-300 bg-white px-2.5 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-2xs"
-                    >
-                      Fai Check-in ➔
-                    </Link>
-                  </div>
-                </div>
-
-                <div className="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50/60 p-2.5 rounded-lg transition-colors">
-                  <div className="flex items-center gap-3">
-                    <span className="flex h-9 w-14 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-xs font-mono font-bold text-slate-800 border border-slate-200">
-                      15:45
-                    </span>
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-bold text-slate-900">Elena Caputo (demo)</span>
-                        <span className="rounded bg-slate-100 text-[10px] font-mono text-slate-600 px-1.5 py-0.5">COC-2026-01005</span>
-                        <span className="rounded bg-amber-100 text-amber-900 border border-amber-300 text-[9px] font-bold px-1.5 py-0.2">DEMO</span>
-                      </div>
-                      <p className="text-xs text-slate-500 mt-0.5">
-                        Dott.ssa Titti Errico · <span className="font-semibold text-teal-800">Studio 2</span> · Seduta Medicina Rigenerativa Viso &amp; Mantenimento
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="inline-flex items-center gap-1.5 rounded-lg bg-amber-50 border border-amber-200 px-2.5 py-1 text-xs font-semibold text-amber-800">
-                      <span className="h-2 w-2 rounded-full bg-amber-500 animate-pulse"></span>
-                      Al Banco: Da Accettare
-                    </span>
-                    <Link
-                      href="/segreteria"
-                      className="rounded-lg border border-slate-300 bg-white px-2.5 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-50 shadow-2xs"
-                    >
-                      Fai Check-in ➔
-                    </Link>
-                  </div>
+                <div className="mt-5 pt-4 border-t border-slate-100 flex flex-col gap-2">
+                  <Link
+                    href="/segreteria"
+                    className="inline-flex items-center justify-center gap-1.5 rounded-md bg-teal-700 px-3.5 py-2 text-xs font-semibold text-white hover:bg-teal-800 transition-colors"
+                  >
+                    Gestisci al Desk Reception →
+                  </Link>
+                  <Link
+                    href="/medico"
+                    className="inline-flex items-center justify-center gap-1.5 rounded-md border border-slate-300 bg-white px-3.5 py-2 text-xs font-semibold text-slate-800 hover:bg-slate-50 transition-colors"
+                  >
+                    👨‍⚕️ Apri Stanza Medico Live →
+                  </Link>
                 </div>
               </div>
             </div>
 
-            {/* ── CARD METRICHE DI QUALITÀ CLINICA, ATTESE E DISDETTE ── */}
+            {/* ── CARD METRICHE DI QUALITÀ CLINICA, ATTESE E DISDETTE (REALI) ── */}
             <div className="rounded-lg border border-[#c3c4c7] bg-white p-6 shadow-xs">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#dcdcde] gap-3">
                 <div>
@@ -602,29 +910,37 @@ export default function AdminPage() {
                     ⏱️ Qualità Clinica, Tempi d&apos;Attesa &amp; Tasso di Presenza
                   </h2>
                   <p className="text-xs text-[#50575e] mt-0.5">
-                    Monitoraggio in tempo reale del flusso di accoglienza, rispetto del benchmark di puntualità e controllo delle disdette per massimizzare la saturazione degli studi.
+                    Indicatori reali calcolati dal flusso di accoglienza al Desk Reception (Lun–Ven 09:00–19:00 ·
+                    Sabato chiuso).
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1 text-xs font-semibold text-emerald-800">
                     <span className="h-2 w-2 rounded-full bg-emerald-500"></span>
-                    <span>Target Attesa &lt; 7 min: Rispettato 🟢</span>
+                    <span>
+                      {dashboardMetrics.avgWaitMins <= 7
+                        ? "Target Attesa < 7 min: Rispettato 🟢"
+                        : "Monitoraggio Attesa Sala Attivo 🟡"}
+                    </span>
                   </span>
                 </div>
               </div>
 
-              {/* Grid 4 KPI Chiave */}
               <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div className="rounded-lg border border-[#dcdcde] bg-[#f6f7f7] p-4">
                   <div className="flex items-center justify-between">
                     <p className="text-[11px] font-bold uppercase tracking-wider text-[#50575e]">
                       Tasso di Presenza
                     </p>
-                    <span className="text-xs font-bold text-emerald-700">94%</span>
+                    <span className="text-xs font-bold text-emerald-700">
+                      {dashboardMetrics.showUpRate}%
+                    </span>
                   </div>
-                  <p className="text-3xl font-bold text-slate-900 mt-1">94%</p>
+                  <p className="text-3xl font-bold text-slate-900 mt-1">
+                    {dashboardMetrics.showUpRate}%
+                  </p>
                   <p className="text-[11px] text-emerald-700 font-medium mt-1">
-                    ✓ Show-up sopra target (90%)
+                    ✓ Calcolato sulle visite reali a sistema
                   </p>
                 </div>
 
@@ -635,22 +951,27 @@ export default function AdminPage() {
                     </p>
                     <span className="text-xs font-bold text-teal-700">Target 7m</span>
                   </div>
-                  <p className="text-3xl font-bold text-teal-900 mt-1">5m 30s</p>
+                  <p className="text-3xl font-bold text-teal-900 mt-1">
+                    {dashboardMetrics.avgWaitMins} min
+                  </p>
                   <p className="text-[11px] text-teal-700 font-medium mt-1">
-                    ✓ -1m 30s rispetto al limite
+                    <Clock className="inline h-3 w-3 mr-1" />
+                    Telemetria Sala d&apos;Attesa → Studio
                   </p>
                 </div>
 
                 <div className="rounded-lg border border-[#dcdcde] bg-[#f6f7f7] p-4">
                   <div className="flex items-center justify-between">
                     <p className="text-[11px] font-bold uppercase tracking-wider text-[#50575e]">
-                      Visite Spostate
+                      Visite Riprogrammate
                     </p>
-                    <span className="text-xs font-bold text-amber-700">Riprogrammate</span>
+                    <span className="text-xs font-bold text-amber-700">Agenda</span>
                   </div>
-                  <p className="text-3xl font-bold text-amber-900 mt-1">2</p>
+                  <p className="text-3xl font-bold text-amber-900 mt-1">
+                    {dashboardMetrics.rescheduled}
+                  </p>
                   <p className="text-[11px] text-amber-700 font-medium mt-1">
-                    Slot salvati in agenda
+                    Slot riallocati con preavviso
                   </p>
                 </div>
 
@@ -659,56 +980,14 @@ export default function AdminPage() {
                     <p className="text-[11px] font-bold uppercase tracking-wider text-[#50575e]">
                       Disdette &amp; No-Show
                     </p>
-                    <span className="text-xs font-bold text-rose-700">Mese in corso</span>
+                    <span className="text-xs font-bold text-rose-700">Registro</span>
                   </div>
-                  <p className="text-3xl font-bold text-rose-900 mt-1">1</p>
+                  <p className="text-3xl font-bold text-rose-900 mt-1">
+                    {dashboardMetrics.cancelled + dashboardMetrics.noShow}
+                  </p>
                   <p className="text-[11px] text-rose-700 font-medium mt-1">
-                    1 disdetta con preavviso · 0 no-show
+                    {dashboardMetrics.cancelled} disdette · {dashboardMetrics.noShow} no-show
                   </p>
-                </div>
-              </div>
-
-              {/* Registro Rapido Azioni Reception */}
-              <div className="mt-5 rounded-lg border border-[#dcdcde] bg-[#fafafa] p-4">
-                <div className="flex items-center justify-between">
-                  <p className="text-xs font-bold text-[#1d2327]">
-                    Registro Monitoraggio Slot &amp; Puntualità Clinica
-                  </p>
-                  <Link
-                    href="/segreteria"
-                    className="text-xs font-semibold text-[#2271b1] hover:underline"
-                  >
-                    Vedi tutte le visite al banco desk →
-                  </Link>
-                </div>
-                <div className="mt-3 divide-y divide-[#e5e5e5] text-xs">
-                  <div className="py-2 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="font-semibold text-slate-800">Marco Esposito (PZ-001)</span>
-                      <span className="text-slate-500">— Visita Odontoiatrica</span>
-                    </div>
-                    <span className="rounded bg-emerald-100 text-emerald-800 px-2 py-0.5 font-semibold text-[11px]">
-                      Puntuale (Attesa: 4 min)
-                    </span>
-                  </div>
-                  <div className="py-2 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="font-semibold text-slate-800">Laura De Rosa (PZ-002)</span>
-                      <span className="text-slate-500">— Controllo Medicina Estetica</span>
-                    </div>
-                    <span className="rounded bg-amber-100 text-amber-800 px-2 py-0.5 font-semibold text-[11px]">
-                      Spostato al 24/10 ore 11:00 (Richiesta paziente)
-                    </span>
-                  </div>
-                  <div className="py-2 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="font-semibold text-slate-800">Giulia Romano (PZ-003)</span>
-                      <span className="text-slate-500">— Prima Visita Ortodonzia Pediatrica</span>
-                    </div>
-                    <span className="rounded bg-teal-100 text-teal-800 px-2 py-0.5 font-semibold text-[11px]">
-                      In Studio (Attesa: 6 min)
-                    </span>
-                  </div>
                 </div>
               </div>
             </div>

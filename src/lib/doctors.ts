@@ -3,8 +3,13 @@ import type { Doctor } from "./types";
 // ─────────────────────────────────────────────────────────────────────────
 // Database Specialisti Cocoora Centro Medico.
 // Organico ufficiale desunto dal calendario clinico (Novembre 2026).
-// Nomenclatura ufficiale: nomi senza prefissi Dr./Dott.ssa e titoli per esteso.
+// Orari ufficiali centro: Lun–Ven 9:00–19:00 (Orario continuato), Sabato chiuso.
+// Nomenclatura ufficiale: nomi senza prefissi Dr./Dott.ssa e titoli per esteso
+// (Patrizia Scorzelli: Operatrice Estetica).
 // ─────────────────────────────────────────────────────────────────────────
+
+export const CLINIC_OPENING_HOURS =
+  "Lun–Ven 9:00–19:00 (Orario continuato), Sabato chiuso";
 
 export const DOCTORS: Doctor[] = [
   // ── Specialisti con foto ritratto ufficiale (9) ────────────────────────
@@ -43,10 +48,10 @@ export const DOCTORS: Doctor[] = [
   },
   {
     slug: "titti-errico",
-    name: "Concetta Errico",
-    title: "Medico Chirurgo e Specialista in Chirurgia Plastica e Ricostruttiva",
+    name: "Concetta (Titti) Errico",
+    title: "Medico Chirurgo – Chirurgia Plastica e Ricostruttiva",
     branca: "Medicina Estetica Avanzata",
-    affiliation: "Medico Chirurgo e Specialista in Chirurgia Plastica e Ricostruttiva",
+    affiliation: "Medico Chirurgo – Chirurgia Plastica e Ricostruttiva",
     image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/doctors/titti-errico.jpg",
     bio: "Concetta Errico si dedica alla medicina estetica avanzata, alla chirurgia ambulatoriale mininvasiva e al ringiovanimento cutaneo profondo con approccio sartoriale.",
     approach:
@@ -236,7 +241,7 @@ export const DOCTORS: Doctor[] = [
     tariffaVisita: 0,
   },
 
-  // ── Specialisti con avatar placeholder (8) ────────────────────────────
+  // ── Altri Specialisti dell'Équipe (6) ──────────────────────────────────
   {
     slug: "raffaele-dalessio",
     name: "Raffaele D'Alessio",

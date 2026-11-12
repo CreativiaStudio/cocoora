@@ -58,8 +58,8 @@ export interface SendSMSResult {
 }
 
 /**
- * Invia un SMS di promemoria visita con mittente ufficiale "COCOORA"
- * e link diretto al WhatsApp della clinica per comunicazioni con la segreteria.
+ * Invia un SMS di promemoria appuntamento con mittente ufficiale "COCOORA".
+ * Conforme GDPR Art. 9: nessuna diagnosi, branca o prestazione clinica in chiaro nell'SMS.
  */
 export async function sendAppointmentReminderSMS(
   params: SendAppointmentReminderParams
@@ -69,14 +69,10 @@ export async function sendAppointmentReminderSMS(
     const formattedPhone = normalizeItalianPhoneNumber(params.to);
     const sender = process.env.TWILIO_SENDER_ID || "COCOORA";
 
-    const doctorPart = params.doctorName ? ` con ${params.doctorName}` : "";
-    const servicePart = params.serviceName ? ` (${params.serviceName})` : "";
-
     const body =
-      `Gentile ${params.patientName}, le ricordiamo la visita${servicePart}${doctorPart} ` +
-      `presso Cocoora Centro Medico per ${params.appointmentDate} alle ore ${params.appointmentTime}. ` +
-      `Sede: Via G. De Bonis 81, Napoli. ` +
-      `Per info o modifiche risponda al nostro WhatsApp: wa.me/3908118182091`;
+      `Gentile ${params.patientName}, Le ricordiamo il Suo appuntamento ` +
+      `per ${params.appointmentDate} alle ore ${params.appointmentTime}. ` +
+      `Cocoora Centro Medico - Via Generale Giovanni De Bonis 81, Napoli - Tel. 081 1818 2091`;
 
     const message = await client.messages.create({
       body,

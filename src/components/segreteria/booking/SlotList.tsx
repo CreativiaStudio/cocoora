@@ -58,7 +58,7 @@ export function SlotList({
   error = null,
   onRefresh,
   coverageOverride,
-  emptyMessage = "Nessuno slot libero per la data selezionata. Prova un altro giorno.",
+  emptyMessage = "Nessuno slot libero per la data selezionata. Il Centro è aperto Lun–Ven 9:00–19:00 (Sabato chiuso).",
 }: SlotListProps) {
   const groups = useMemo(() => {
     const map = new Map<string, SlotCandidate[]>();
@@ -248,7 +248,7 @@ export function SlotList({
 
       <p className="flex items-center gap-1.5 text-[10px] text-[#3D3D3C]/55">
         <Clock className="h-3 w-3" />
-        Orari ufficiali: Lun–Ven 8:00–20:00 (orario continuato), Sab 9:00–14:00.
+        Orari ufficiali: Lun–Ven 9:00–19:00 (orario continuato), Sabato chiuso.
       </p>
     </div>
   );

@@ -3,24 +3,16 @@
 import React, { useState, useEffect } from "react";
 import {
   ArrowDownRight,
-  ArrowUpRight,
-  Calendar,
   CheckCircle2,
   Clock,
-  CreditCard,
   Download,
-  Filter,
   Plus,
   Receipt,
   RefreshCw,
   Search,
-  Shield,
-  Sparkles,
   TrendingUp,
-  User,
-  Users,
-  Wallet,
   X,
+  AlertCircle,
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
@@ -28,53 +20,134 @@ interface CashFlowManagerProps {
   onOpenPatient?: (patientId: string) => void;
 }
 
+type CashMethod = "pos" | "contanti" | "klarna" | "stripe" | "paypal" | "bonifico";
+type FilterMethod = "tutti" | "pos" | "contanti" | "klarna" | "stripe" | "bonifico";
+
+const CASH_METHODS: { id: CashMethod; label: string }[] = [
+  { id: "pos", label: "POS / Carta" },
+  { id: "contanti", label: "Contanti" },
+  { id: "klarna", label: "Klarna" },
+  { id: "stripe", label: "Stripe" },
+  { id: "paypal", label: "PayPal" },
+  { id: "bonifico", label: "Bonifico" },
+];
+
 export function CashFlowManager({ onOpenPatient }: CashFlowManagerProps) {
   const [loading, setLoading] = useState(true);
   const [plans, setPlans] = useState<any[]>([]);
   const [installments, setInstallments] = useState<any[]>([]);
   const [patients, setPatients] = useState<any[]>([]);
-  const [methodFilter, setMethodFilter] = useState<"tutti" | "pos" | "bonifico" | "contanti">("tutti");
+  const [methodFilter, setMethodFilter] = useState<FilterMethod>("tutti");
   const [search, setSearch] = useState("");
 
   // Modal Nuovo Incasso
   const [showAddModal, setShowAddModal] = useState(false);
   const [selectedPatientId, setSelectedPatientId] = useState("");
   const [selectedPlanId, setSelectedPlanId] = useState("");
+  const [singleVisitTitle, setSingleVisitTitle] = useState(
+    "Prestazione Specialistica in Sede"
+  );
   const [amount, setAmount] = useState("");
-  const [method, setMethod] = useState<"pos" | "bonifico" | "contanti">("pos");
-  const [invoiceType, setInvoiceType] = useState<"immediata" | "saldo_assicurazione">("immediata");
+  const [method, setMethod] = useState<CashMethod>("pos");
+  const [invoiceType, setInvoiceType] = useState<
+    "immediata" | "saldo_assicurazione"
+  >("immediata");
   const [notes, setNotes] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [feedbackBanner, setFeedbackBanner] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
 
   const fetchData = async () => {
     try {
       setLoading(true);
 
-      // Query piani terapeutici con paziente
-      const { data: plansData } = await supabase
-        .from("patient_treatment_plans")
-        .select("*, patient_profiles(id, patient_code, first_name, last_name, phone, email)")
-        .order("created_at", { ascending: false });
+      const [deskSettled, sbPlansSettled, sbInstSettled, sbPtsSettled] =
+        await Promise.allSettled([
+          fetch("/api/reception/desk", { cache: "no-store" }).then((r) =>
+            r.ok ? r.json() : null
+          ),
+          supabase
+            .from("patient_treatment_plans")
+            .select(
+              "*, patient_profiles(id, patient_code, first_name, last_name, phone, email)"
+            )
+            .order("created_at", { ascending: false }),
+          supabase
+            .from("treatment_installments")
+            .select("*, patient_profiles(id, patient_code, first_name, last_name)")
+            .order("created_at", { ascending: false }),
+          supabase
+            .from("patient_profiles")
+            .select("id, patient_code, first_name, last_name, phone, email")
+            .order("last_name"),
+        ]);
 
-      // Query rate e movimenti di cassa
-      const { data: instData } = await supabase
-        .from("treatment_installments")
-        .select("*, patient_profiles(id, patient_code, first_name, last_name)")
-        .order("created_at", { ascending: false });
+      const deskData = deskSettled.status === "fulfilled" ? deskSettled.value : null;
+      const sbPlans =
+        sbPlansSettled.status === "fulfilled" ? sbPlansSettled.value.data || [] : [];
+      const sbInst =
+        sbInstSettled.status === "fulfilled" ? sbInstSettled.value.data || [] : [];
+      const sbPts =
+        sbPtsSettled.status === "fulfilled" ? sbPtsSettled.value.data || [] : [];
 
-      // Query anagrafiche pazienti
-      const { data: ptsData } = await supabase
-        .from("patient_profiles")
-        .select("id, patient_code, first_name, last_name, phone, email")
-        .order("last_name");
+      const ptsList: any[] =
+        Array.isArray(deskData?.patients) && deskData.patients.length > 0
+          ? deskData.patients
+          : sbPts;
 
-      if (plansData) setPlans(plansData);
-      if (instData) setInstallments(instData);
-      if (ptsData) {
-        setPatients(ptsData);
-        if (ptsData.length > 0 && !selectedPatientId) {
-          setSelectedPatientId(ptsData[0].id);
+      const ptsMap = new Map<string, any>();
+      for (const p of ptsList) {
+        if (p?.id) ptsMap.set(p.id, p);
+      }
+
+      const mergeById = (primary: any[], secondary: any[]) => {
+        const map = new Map<string, any>();
+        for (const item of secondary) {
+          if (item?.id) map.set(item.id, item);
         }
+        for (const item of primary) {
+          if (item?.id) map.set(item.id, { ...map.get(item.id), ...item });
+        }
+        return Array.from(map.values());
+      };
+
+      const rawPlans = mergeById(
+        Array.isArray(deskData?.plans) ? deskData.plans : [],
+        sbPlans
+      );
+      const enrichedPlans = rawPlans
+        .map((pl) => ({
+          ...pl,
+          patient_profiles: pl.patient_profiles || ptsMap.get(pl.patient_id) || null,
+        }))
+        .sort(
+          (a, b) =>
+            new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime()
+        );
+
+      const rawInst = mergeById(
+        Array.isArray(deskData?.installments) ? deskData.installments : [],
+        sbInst
+      );
+      const enrichedInst = rawInst
+        .map((i) => ({
+          ...i,
+          patient_profiles: i.patient_profiles || ptsMap.get(i.patient_id) || null,
+        }))
+        .sort(
+          (a, b) =>
+            new Date(b.paid_at || b.created_at || b.due_date || 0).getTime() -
+            new Date(a.paid_at || a.created_at || a.due_date || 0).getTime()
+        );
+
+      setPlans(enrichedPlans);
+      setInstallments(enrichedInst);
+      setPatients(ptsList);
+
+      if (ptsList.length > 0 && !selectedPatientId) {
+        setSelectedPatientId(ptsList[0].id);
       }
     } catch (e) {
       console.error("Errore fetch cassa:", e);
@@ -87,19 +160,25 @@ export function CashFlowManager({ onOpenPatient }: CashFlowManagerProps) {
     fetchData();
   }, []);
 
-  // Aggiorna piano selezionato quando cambia il paziente nel modal
+  // Aggiorna percorso selezionato quando cambia il paziente nel modal
   useEffect(() => {
     if (selectedPatientId) {
-      const patientPlans = plans.filter((p) => p.patient_id === selectedPatientId);
+      const patientPlans = plans.filter(
+        (p) => p.patient_id === selectedPatientId && p.status !== "annullato"
+      );
       if (patientPlans.length > 0) {
-        setSelectedPlanId(patientPlans[0].id);
+        setSelectedPlanId((prev) =>
+          prev === "__single_visit__" || patientPlans.some((p) => p.id === prev)
+            ? prev || patientPlans[0].id
+            : patientPlans[0].id
+        );
       } else {
-        setSelectedPlanId("");
+        setSelectedPlanId("__single_visit__");
       }
     }
   }, [selectedPatientId, plans]);
 
-  // Registrazione Nuovo Incasso
+  // Registrazione Nuovo Incasso tramite POST /api/reception/desk
   const handleRecordPayment = async (e: React.FormEvent) => {
     e.preventDefault();
     const amountNum = parseFloat(amount);
@@ -110,58 +189,81 @@ export function CashFlowManager({ onOpenPatient }: CashFlowManagerProps) {
 
     try {
       setIsSubmitting(true);
-      const nowIso = new Date().toISOString();
-      const targetPlan = plans.find((p) => p.id === selectedPlanId);
+      setFeedbackBanner(null);
 
-      // 1. Inserisci rata incassata
-      const { error: instErr } = await supabase.from("treatment_installments").insert({
-        plan_id: targetPlan ? targetPlan.id : null,
-        patient_id: selectedPatientId,
-        installment_number: installments.length + 1,
-        installment_type: "rata",
-        amount: amountNum,
-        due_date: nowIso.split("T")[0],
-        status: "pagato",
-        payment_method: method,
-        paid_at: nowIso,
-        notes: notes || `Incasso registrato (${method.toUpperCase()}) — ${invoiceType === "immediata" ? "Fattura emessa" : "In attesa saldo per rimborso assicurazione"}`,
+      const isSingle = !selectedPlanId || selectedPlanId === "__single_visit__";
+      const targetPlan = !isSingle ? plans.find((p) => p.id === selectedPlanId) : null;
+      const targetBalance = targetPlan
+        ? Math.max(
+            0,
+            Number(targetPlan.net_total || targetPlan.total_amount || 0) -
+              Number(targetPlan.paid_total || 0)
+          )
+        : 0;
+      const computedInstallmentType = isSingle
+        ? "saldo"
+        : targetBalance > 0 && amountNum >= targetBalance
+        ? "saldo"
+        : "acconto";
+
+      const res = await fetch("/api/reception/desk", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "record_payment",
+          patientId: selectedPatientId,
+          planId: isSingle ? null : selectedPlanId,
+          singleVisitTitle: isSingle
+            ? singleVisitTitle.trim() || "Prestazione Specialistica in Sede"
+            : undefined,
+          amount: amountNum,
+          paymentMethod: method,
+          installmentType: computedInstallmentType,
+          invoiceMode: invoiceType,
+          notes: notes.trim() || undefined,
+        }),
       });
 
-      if (instErr) throw instErr;
-
-      // 2. Se c'è un piano associato, aggiorna paid_total e balance_due
-      if (targetPlan) {
-        const newPaid = Number(targetPlan.paid_total || 0) + amountNum;
-        const newBalance = Math.max(0, Number(targetPlan.net_total || targetPlan.total_amount) - newPaid);
-        const newStatus = newBalance <= 0 ? "saldato" : "parzialmente_pagato";
-
-        await supabase
-          .from("patient_treatment_plans")
-          .update({
-            paid_total: newPaid,
-            balance_due: newBalance,
-            payment_status: newStatus,
-            updated_at: nowIso,
-          })
-          .eq("id", targetPlan.id);
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data.error) {
+        throw new Error(data.error || "Errore durante la registrazione contabile");
       }
+
+      const receiptNum =
+        data.receiptNumber ||
+        data.receipt_number ||
+        data.installment?.receipt_number ||
+        "";
 
       setAmount("");
       setNotes("");
       setShowAddModal(false);
+      setFeedbackBanner({
+        type: "success",
+        text: `✓ Incasso di €${amountNum.toLocaleString("it-IT", { minimumFractionDigits: 2 })} (${method.toUpperCase()}) registrato correttamente${receiptNum ? ` — Ricevuta ${receiptNum}` : ""}.`,
+      });
       await fetchData();
     } catch (err: any) {
       console.error("Errore registrazione incasso:", err);
-      alert("Errore registrazione: " + (err.message || "Riprova"));
+      setFeedbackBanner({
+        type: "error",
+        text: "Errore registrazione: " + (err.message || "Riprova"),
+      });
     } finally {
       setIsSubmitting(false);
     }
   };
 
   // Calcoli metriche finanziarie
-  const totalContracted = plans.reduce((acc, p) => acc + Number(p.net_total || p.total_amount || 0), 0);
+  const totalContracted = plans.reduce(
+    (acc, p) => acc + Number(p.net_total || p.total_amount || 0),
+    0
+  );
   const paidTransactions = installments.filter((i) => i.status === "pagato");
-  const totalCollected = paidTransactions.reduce((acc, i) => acc + Number(i.amount || 0), 0);
+  const totalCollected = paidTransactions.reduce(
+    (acc, i) => acc + Number(i.amount || 0),
+    0
+  );
   const totalReceivables = Math.max(0, totalContracted - totalCollected);
 
   // Filtro movimenti per metodo
@@ -170,7 +272,7 @@ export function CashFlowManager({ onOpenPatient }: CashFlowManagerProps) {
     return t.payment_method?.toLowerCase() === methodFilter;
   });
 
-  // Filtro piani per ricerca paziente
+  // Filtro percorsi per ricerca paziente
   const filteredPlans = plans.filter((p) => {
     const q = search.toLowerCase();
     const name = `${p.patient_profiles?.first_name || ""} ${p.patient_profiles?.last_name || ""}`.toLowerCase();
@@ -191,18 +293,53 @@ export function CashFlowManager({ onOpenPatient }: CashFlowManagerProps) {
       `"${(t.notes || "").replace(/"/g, '""')}"`,
     ]);
 
-    const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
+    const csvContent =
+      "data:text/csv;charset=utf-8," +
+      [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `flusso_cassa_cocoora_${new Date().toISOString().split("T")[0]}.csv`);
+    link.setAttribute(
+      "download",
+      `flusso_cassa_cocoora_${new Date().toISOString().split("T")[0]}.csv`
+    );
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
+  const patientPlansForModal = plans.filter(
+    (p) => p.patient_id === selectedPatientId && p.status !== "annullato"
+  );
+
   return (
     <div className="space-y-6">
+      {feedbackBanner && (
+        <div
+          className={`rounded-xl border p-3.5 flex items-center justify-between text-xs ${
+            feedbackBanner.type === "success"
+              ? "border-emerald-300 bg-emerald-50 text-emerald-950"
+              : "border-red-300 bg-red-50 text-red-900"
+          }`}
+        >
+          <div className="flex items-center gap-2 font-semibold">
+            {feedbackBanner.type === "success" ? (
+              <CheckCircle2 className="h-4 w-4 text-emerald-700 shrink-0" />
+            ) : (
+              <AlertCircle className="h-4 w-4 text-red-600 shrink-0" />
+            )}
+            <span>{feedbackBanner.text}</span>
+          </div>
+          <button
+            type="button"
+            onClick={() => setFeedbackBanner(null)}
+            className="text-slate-400 hover:text-slate-700"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+      )}
+
       {/* ── HEADER MODULO CASSA ── */}
       <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-xs">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-4">
@@ -216,7 +353,7 @@ export function CashFlowManager({ onOpenPatient }: CashFlowManagerProps) {
               </h1>
             </div>
             <p className="text-xs text-slate-500 mt-1">
-              Monitoraggio incassi, rateizzazioni pluriennali e avanzamento pagamenti per singolo paziente.
+              Monitoraggio incassi, investimenti pluriennali, rateizzazioni e avanzamento saldi per singolo paziente.
             </p>
           </div>
 
@@ -245,7 +382,7 @@ export function CashFlowManager({ onOpenPatient }: CashFlowManagerProps) {
               className="inline-flex items-center gap-1.5 rounded-lg bg-teal-700 px-4 py-2 text-xs font-semibold text-white shadow-xs hover:bg-teal-800 transition-colors"
             >
               <Plus className="h-4 w-4" />
-              <span>Registra Incasso Quota</span>
+              <span>Registra Incasso / Acconto</span>
             </button>
           </div>
         </div>
@@ -285,7 +422,7 @@ export function CashFlowManager({ onOpenPatient }: CashFlowManagerProps) {
           <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-bold uppercase tracking-wider text-slate-600">
-                Volume Piani Contrattualizzati
+                Volume Investimenti Concordati
               </span>
               <TrendingUp className="h-4 w-4 text-slate-500" />
             </div>
@@ -293,7 +430,7 @@ export function CashFlowManager({ onOpenPatient }: CashFlowManagerProps) {
               €{totalContracted.toLocaleString("it-IT", { minimumFractionDigits: 2 })}
             </p>
             <p className="text-[11px] text-slate-500 mt-0.5">
-              {plans.length} percorsi attivi a tariffario netto
+              {plans.length} investimenti e percorsi a tariffario netto
             </p>
           </div>
 
@@ -319,10 +456,10 @@ export function CashFlowManager({ onOpenPatient }: CashFlowManagerProps) {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
           <div>
             <h2 className="font-serif text-lg font-bold text-slate-900">
-              Avanzamento Pagamenti per Singolo Paziente
+              Avanzamento Investimenti &amp; Percorsi per Singolo Paziente
             </h2>
             <p className="text-xs text-slate-500">
-              Barra visiva di progressione saldi per monitorare gli acconti e le rate residue di ogni cura.
+              Barra visiva di progressione saldi per monitorare gli acconti e le rate residue di ogni percorso.
             </p>
           </div>
 
@@ -330,7 +467,7 @@ export function CashFlowManager({ onOpenPatient }: CashFlowManagerProps) {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
             <input
               type="text"
-              placeholder="Cerca paziente o trattamento..."
+              placeholder="Cerca paziente o percorso..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="rounded-full border border-slate-300 pl-8 pr-3 py-1.5 text-xs text-slate-800 focus:outline-hidden w-64"
@@ -339,16 +476,21 @@ export function CashFlowManager({ onOpenPatient }: CashFlowManagerProps) {
         </div>
 
         <div className="mt-4 divide-y divide-slate-100">
-          {filteredPlans.length === 0 ? (
+          {loading ? (
+            <p className="py-8 text-center text-xs text-slate-500">
+              Caricamento posizioni finanziarie...
+            </p>
+          ) : filteredPlans.length === 0 ? (
             <p className="py-8 text-center text-sm text-slate-500">
-              Nessun piano o paziente trovato con i criteri inseriti.
+              Nessun investimento o paziente trovato con i criteri inseriti.
             </p>
           ) : (
             filteredPlans.map((p) => {
               const pTotal = Number(p.net_total || p.total_amount || 0);
               const pPaid = Number(p.paid_total || 0);
               const pBalance = Math.max(0, pTotal - pPaid);
-              const pct = pTotal > 0 ? Math.min(100, Math.round((pPaid / pTotal) * 100)) : 0;
+              const pct =
+                pTotal > 0 ? Math.min(100, Math.round((pPaid / pTotal) * 100)) : 0;
               const patientName = `${p.patient_profiles?.first_name || ""} ${p.patient_profiles?.last_name || ""}`;
 
               return (
@@ -384,7 +526,8 @@ export function CashFlowManager({ onOpenPatient }: CashFlowManagerProps) {
                         {p.title}
                       </p>
                       <p className="text-[11px] text-slate-500">
-                        {p.description || "Odontoiatria / Medicina Estetica"} · Tel: {p.patient_profiles?.phone || "N/A"}
+                        {p.description || "Odontoiatria / Medicina Estetica"} · Tel:{" "}
+                        {p.patient_profiles?.phone || "N/A"}
                       </p>
                     </div>
                   </div>
@@ -392,9 +535,12 @@ export function CashFlowManager({ onOpenPatient }: CashFlowManagerProps) {
                   {/* ── BARRA DI AVANZAMENTO PAGAMENTO ── */}
                   <div className="flex-1 max-w-md px-2">
                     <div className="flex items-center justify-between text-xs mb-1">
-                      <span className="text-slate-600 font-medium">Progressione Pagamento:</span>
+                      <span className="text-slate-600 font-medium">
+                        Progressione Saldo:
+                      </span>
                       <span className="font-mono font-bold text-slate-900">
-                        €{pPaid.toLocaleString("it-IT")} / €{pTotal.toLocaleString("it-IT")} ({pct}%)
+                        €{pPaid.toLocaleString("it-IT")} / €{pTotal.toLocaleString("it-IT")}{" "}
+                        ({pct}%)
                       </span>
                     </div>
                     <div className="h-3 w-full rounded-full bg-slate-100 overflow-hidden p-0.5 border border-slate-200">
@@ -410,8 +556,18 @@ export function CashFlowManager({ onOpenPatient }: CashFlowManagerProps) {
                       ></div>
                     </div>
                     <div className="flex items-center justify-between text-[10px] text-slate-400 mt-1">
-                      <span>Versato: <strong className="text-emerald-700 font-mono">€{pPaid.toLocaleString("it-IT")}</strong></span>
-                      <span>Residuo: <strong className="text-amber-700 font-mono">€{pBalance.toLocaleString("it-IT")}</strong></span>
+                      <span>
+                        Versato:{" "}
+                        <strong className="text-emerald-700 font-mono">
+                          €{pPaid.toLocaleString("it-IT")}
+                        </strong>
+                      </span>
+                      <span>
+                        Residuo:{" "}
+                        <strong className="text-amber-700 font-mono">
+                          €{pBalance.toLocaleString("it-IT")}
+                        </strong>
+                      </span>
                     </div>
                   </div>
 
@@ -454,12 +610,14 @@ export function CashFlowManager({ onOpenPatient }: CashFlowManagerProps) {
               Registro Cronologico Movimenti di Cassa
             </h2>
             <p className="text-xs text-slate-500">
-              Elenco analitico di tutti gli incassi eseguiti al banco reception o tramite bonifico.
+              Elenco analitico di tutti gli incassi eseguiti con POS, Contanti, Klarna, Stripe o Bonifico.
             </p>
           </div>
 
-          <div className="flex items-center gap-1.5 rounded-lg border border-slate-200 p-1 bg-slate-50 text-xs">
-            {(["tutti", "pos", "bonifico", "contanti"] as const).map((m) => (
+          <div className="flex flex-wrap items-center gap-1 rounded-lg border border-slate-200 p-1 bg-slate-50 text-xs">
+            {(
+              ["tutti", "pos", "contanti", "klarna", "stripe", "bonifico"] as const
+            ).map((m) => (
               <button
                 key={m}
                 type="button"
@@ -526,19 +684,21 @@ export function CashFlowManager({ onOpenPatient }: CashFlowManagerProps) {
                     </td>
                     <td className="py-3 px-3">
                       <span
-                        className={`rounded-md px-2 py-0.5 text-[10px] font-bold uppercase ${
+                        className={`rounded-md px-2 py-0.5 text-[10px] font-bold uppercase border ${
                           t.payment_method === "pos"
-                            ? "bg-sky-50 text-sky-800 border border-sky-200"
+                            ? "bg-sky-50 text-sky-800 border-sky-200"
                             : t.payment_method === "bonifico"
-                            ? "bg-purple-50 text-purple-800 border border-purple-200"
-                            : "bg-emerald-50 text-emerald-800 border border-emerald-200"
+                            ? "bg-purple-50 text-purple-800 border-purple-200"
+                            : t.payment_method === "klarna" || t.payment_method === "stripe"
+                            ? "bg-pink-50 text-pink-800 border-pink-200"
+                            : "bg-emerald-50 text-emerald-800 border-emerald-200"
                         }`}
                       >
                         {t.payment_method || "POS"}
                       </span>
                     </td>
                     <td className="py-3 px-3 text-slate-600 text-xs max-w-xs">
-                      {t.notes || "Incasso prestazione clinica"}
+                      {t.notes || t.label || "Incasso prestazione clinica"}
                     </td>
                     <td className="py-3 px-3">
                       <span className="inline-flex items-center gap-1 text-[11px] font-medium text-slate-600">
@@ -548,7 +708,10 @@ export function CashFlowManager({ onOpenPatient }: CashFlowManagerProps) {
                     </td>
                     <td className="py-3 px-3 text-right">
                       <span className="font-mono font-bold text-sm text-emerald-700">
-                        +€{Number(t.amount).toLocaleString("it-IT", { minimumFractionDigits: 2 })}
+                        +€
+                        {Number(t.amount).toLocaleString("it-IT", {
+                          minimumFractionDigits: 2,
+                        })}
                       </span>
                     </td>
                   </tr>
@@ -561,8 +724,8 @@ export function CashFlowManager({ onOpenPatient }: CashFlowManagerProps) {
 
       {/* ── MODAL REGISTRA INCASSO / QUOTA ── */}
       {showAddModal && (
-        <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/70 p-4">
-          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl border border-slate-200">
+        <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/70 p-4 overflow-y-auto">
+          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-2xl border border-slate-200 my-6">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div className="flex items-center gap-2">
                 <Receipt className="h-5 w-5 text-teal-800" />
@@ -599,25 +762,45 @@ export function CashFlowManager({ onOpenPatient }: CashFlowManagerProps) {
 
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Piano Terapeutico Associato
+                  Investimento / Percorso Associato
                 </label>
                 <select
                   value={selectedPlanId}
                   onChange={(e) => setSelectedPlanId(e.target.value)}
                   className="w-full rounded-lg border border-slate-300 p-2 text-xs text-slate-800"
                 >
-                  {plans
-                    .filter((p) => p.patient_id === selectedPatientId)
-                    .map((p) => (
-                      <option key={p.id} value={p.id}>
-                        {p.title} (Residuo: €{(p.net_total - (p.paid_total || 0)).toFixed(0)})
-                      </option>
-                    ))}
-                  {plans.filter((p) => p.patient_id === selectedPatientId).length === 0 && (
-                    <option value="">Nessun piano (Acconto o Visita Singola)</option>
-                  )}
+                  {patientPlansForModal.map((p) => (
+                    <option key={p.id} value={p.id}>
+                      {p.title} (Residuo: €
+                      {Math.max(
+                        0,
+                        Number(p.net_total || p.total_amount || 0) -
+                          Number(p.paid_total || 0)
+                      ).toFixed(0)}
+                      )
+                    </option>
+                  ))}
+                  <option value="__single_visit__">
+                    Prestazione Singola in Sede (senza percorso pluriennale)
+                  </option>
                 </select>
               </div>
+
+              {selectedPlanId === "__single_visit__" && (
+                <div>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Descrizione Prestazione Singola
+                  </label>
+                  <input
+                    type="text"
+                    value={singleVisitTitle}
+                    onChange={(e) => setSingleVisitTitle(e.target.value)}
+                    placeholder="es. Visita Specialistica in Sede"
+                    required
+                    className="w-full rounded-lg border border-slate-300 p-2 text-xs text-slate-800"
+                  />
+                </div>
+              )}
 
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1">
@@ -639,7 +822,7 @@ export function CashFlowManager({ onOpenPatient }: CashFlowManagerProps) {
                   />
                 </div>
                 <p className="text-[11px] text-slate-500 mt-1">
-                  Acconti liberi e rate flessibili (secondo accordi con Simone Papagno).
+                  Acconti liberi e rate flessibili su investimenti pluriennali o sedute singole.
                 </p>
               </div>
 
@@ -648,18 +831,18 @@ export function CashFlowManager({ onOpenPatient }: CashFlowManagerProps) {
                   Metodo di Pagamento
                 </label>
                 <div className="grid grid-cols-3 gap-2">
-                  {(["pos", "bonifico", "contanti"] as const).map((m) => (
+                  {CASH_METHODS.map((m) => (
                     <button
-                      key={m}
+                      key={m.id}
                       type="button"
-                      onClick={() => setMethod(m)}
-                      className={`rounded-lg border py-2 text-xs font-bold uppercase transition-all ${
-                        method === m
+                      onClick={() => setMethod(m.id)}
+                      className={`rounded-lg border py-2 px-2 text-xs font-bold transition-all ${
+                        method === m.id
                           ? "border-teal-700 bg-teal-50 text-teal-900 shadow-2xs"
                           : "border-slate-200 text-slate-600 hover:bg-slate-50"
                       }`}
                     >
-                      {m}
+                      {m.label}
                     </button>
                   ))}
                 </div>
@@ -708,7 +891,7 @@ export function CashFlowManager({ onOpenPatient }: CashFlowManagerProps) {
                 </label>
                 <input
                   type="text"
-                  placeholder="es. Quota mensile allineatori — POS cassa 1"
+                  placeholder="es. Quota mensile Allineatori Trasparenti — POS cassa 1"
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
                   className="w-full rounded-lg border border-slate-300 p-2 text-xs text-slate-800"

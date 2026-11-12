@@ -83,7 +83,7 @@ export function PaidTierCard({
   // Testo narrativo principale dal brief del 21 ottobre
   const narrativeIntro =
     tier.id === "access"
-      ? "La porta d’ingresso nel mondo Cocoora: una prima valutazione dello stato di salute che unisce esami, medicina interna, salute del sorriso e medicina estetica."
+      ? "La porta d’ingresso nel mondo Cocoora: una prima valutazione dello stato di salute che unisce esami, visita medica ed ECG, salute del sorriso e medicina estetica."
       : tier.id === "care"
       ? "Un percorso dedicato a prevenzione, salute orale e nutrizione, con prestazioni concrete e maggiore continuità clinica tutto l’anno."
       : tier.id === "experience"
@@ -91,22 +91,22 @@ export function PaidTierCard({
         ? "Un percorso completo con approfondimenti specialistici avanzati e attenzione primaria alla salute del seno e dell’apparato cardiologico."
         : "Un approfondimento della salute con analisi più complete, diagnostica per immagini e valutazioni specialistiche integrate multidisciplinari."
       : cardGender === "donna"
-      ? "Il percorso più approfondito dedicato alla salute femminile: massima prevenzione con genomica DNA 5, senologia ed ecografia addominale."
+      ? "Il percorso più approfondito dedicato alla salute femminile: prevenzione completa con Check-up 57 parametri, ginecologia con Pap-test, senologia e DNA 5."
       : "Il percorso più approfondito di Cocoora Club, con diagnostica avanzata per immagini, test FIT e test genomico DNA 5 con consulenza specialistica.";
 
   // Box descrittivo "Comprende" in prosa compatta
   const comprendeText =
     tier.id === "access"
-      ? "Check-up Salute (17 parametri), Visita medica (anamnesi, esame obiettivo, diagnosi e prescrizione), Medicina Interna con ECG a 12 derivazioni, visita odontoiatrica con OPT, visita medicina estetica viso/corpo e booklet personale."
+      ? "Check-up Salute (17 parametri), visita medica completa, ECG a 12 derivazioni con referto, visita odontoiatrica con OPT, visita medicina estetica viso/corpo e Dossier “Il tuo Percorso Salute”."
       : tier.id === "care"
-      ? "Tutte le prestazioni Access, igiene orale professionale in sede, visita nutrizionale con piano alimentare personalizzato e 1° controllo di monitoraggio."
+      ? "Tutte le prestazioni Access (Check-up 17 parametri, visita medica, ECG, odontoiatria con OPT, medicina estetica), igiene orale professionale, visita nutrizionale con piano personalizzato, 1° controllo e Dossier."
       : tier.id === "experience"
       ? cardGender === "donna"
-        ? "Tutte le prestazioni Care Plus con Check-up Completo Donna, visita senologica con ecografia mammaria bilaterale, cardiologia + ecocardiogramma Color Doppler, visita oculistica e skin check-up."
-        : "Tutte le prestazioni Care Plus con Check-up Completo Uomo, cardiologia con ecocardiogramma Color Doppler, visita oculistica specialistica, skin check-up e 2° controllo nutrizionale."
+        ? "Check-up Completo Donna (48 parametri), visita medica, cardiologia + ECG + Ecocardiogramma Color Doppler, senologia con eco mammaria bilaterale, oculistica, odontoiatria con OPT, igiene orale, nutrizione con 2 controlli e Dossier."
+        : "Check-up Completo Uomo (48 parametri), visita medica, cardiologia + ECG + Ecocardiogramma Color Doppler, oculistica, odontoiatria con OPT, igiene orale, medicina estetica, nutrizione con 2 controlli e Dossier."
       : cardGender === "donna"
-      ? "Tutte le prestazioni Experience Donna con Check-up Avanzato Donna + FIT, senologia con eco mammaria bilaterale, ecografia addominale e DNA 5 con consulenza genetica."
-      : "Tutte le prestazioni Experience Uomo con Check-up Avanzato Uomo + FIT, ecografia addominale completa, dermatologia con dermatoscopia e test DNA 5 con consulenza genetica.";
+      ? "Check-up Avanzato Donna (57 parametri) + FIT, visita ginecologica con ecografia e Pap-test, senologia con eco mammaria, ecografia addominale, dermatologia con dermatoscopia, Test DNA 5, 2 controlli nutrizionali e Dossier."
+      : "Check-up Avanzato Uomo (59 parametri) + FIT, cardiologia + Ecocardiogramma, ecografia addominale, dermatologia con dermatoscopia, Test DNA 5 con consulenza genetica, odontoiatria, nutrizione con 2 controlli e Dossier.";
 
   return (
     <div

@@ -2,13 +2,11 @@
 
 import { useEffect, useState } from "react";
 import {
-  Activity,
+  AlertCircle,
   Check,
   Clock,
   DoorOpen,
   Edit2,
-  Layers,
-  MapPin,
   RefreshCw,
   Sparkles,
   Stethoscope,
@@ -21,10 +19,12 @@ type DoctorAvailability = {
   weekday: number;
   start_time: string;
   end_time: string;
+  is_active?: boolean;
   doctors?: {
     id: string;
     full_name: string;
     title: string | null;
+    is_active?: boolean;
   };
 };
 
@@ -35,6 +35,7 @@ type Room = {
   floor: string | null;
   description: string | null;
   doctor_availability?: DoctorAvailability[];
+  isFallback?: boolean;
 };
 
 const WEEKDAY_NAMES: Record<number, string> = {
@@ -43,41 +44,181 @@ const WEEKDAY_NAMES: Record<number, string> = {
   3: "Mercoledì",
   4: "Giovedì",
   5: "Venerdì",
-  6: "Sabato",
 };
 
-const ROOM_EQUIPMENT: Record<string, string[]> = {
+export const ROOM_EQUIPMENT: Record<string, string[]> = {
   "studio-1": [
-    "Ecografo HD Multidisciplinare",
-    "Elettrocardiografo Digitale",
-    "Postazione Visite Specialistiche",
-    "Refertazione Digitale h24",
+    "Riunito Odontoiatrico Digitale",
+    "Scanner Intraorale 3D",
+    "Radiologia Endorale Digitale",
   ],
   "studio-2": [
-    "Riunito Odontoiatrico Digitale",
-    "Scanner Ottico 3D",
-    "Aspirazione Chirurgica",
-    "Kit Allineatori & Implantologia",
+    "Carbossiterapia Medicale",
+    "Criolipolisi Medicale",
+    "Ultrasuoni Focalizzati CFU",
   ],
   "studio-3": [
-    "Piattaforma Laser Medicale Quadri-Manipolo",
-    "Cryoliposculpt Medicale",
-    "Ultrasuoni Focalizzati CFU",
-    "Carbossiterapia CO2 Medicale",
+    "Piattaforma Laser Medicale",
+    "Laser CO₂ Frazionato",
+    "Poltrona Operativa Medicale",
   ],
   "studio-4": [
-    "Ecografo HD Multidisciplinare",
-    "Lampada a fessura Oculistica",
-    "Visite Senologiche",
-    "Refertazione Digitale HD",
+    "Ecografo Multidisciplinare Condiviso",
+    "ECG 12 Derivazioni",
+    "Unità Diagnostica Oftalmologica",
   ],
   "sala-opt": [
-    "Ortopantomografo 3D CBCT",
-    "Teleradiografia Digitale",
-    "Sensoristica a bassa dose",
-    "Acquisizione Panoramica",
+    "Ortopantomografo Digitale 3D CBCT",
+    "Teleradiografia Cranio",
+  ],
+  "sala-filtro": [
+    "Postazione Consulenza Nutrizionale",
+    "Bioimpedenziometria Clinica",
   ],
 };
+
+type OfficialRoomSpec = {
+  slug: string;
+  shortBadge: string;
+  officialTitle: string;
+  defaultFloor: string;
+  defaultDescription: string;
+  sharedConstraint?: string;
+};
+
+const OFFICIAL_ROOM_SPECS: OfficialRoomSpec[] = [
+  {
+    slug: "studio-1",
+    shortBadge: "Studio 1",
+    officialTitle: "Studio 1 — Odontoiatria & Ortodonzia",
+    defaultFloor: "Piano 1",
+    defaultDescription:
+      "Ambiente odontoiatrico dedicato a prime visite, conservativa, implantologia, igiene orale e ortodonzia con allineatori trasparenti.",
+  },
+  {
+    slug: "studio-2",
+    shortBadge: "Studio 2",
+    officialTitle: "Studio 2 — Medicina Estetica Corpo & Carbossiterapia",
+    defaultFloor: "Piano 1",
+    defaultDescription:
+      "Studio dedicato ai protocolli medicali corpo, carbossiterapia medicale, criolipolisi medicale e rimodellamento con ultrasuoni focalizzati CFU.",
+  },
+  {
+    slug: "studio-3",
+    shortBadge: "Studio 3",
+    officialTitle: "Studio 3 — Chirurgia Plastica, Laser & Medicina Estetica",
+    defaultFloor: "Piano 1",
+    defaultDescription:
+      "Studio operativo per chirurgia plastica, medicina estetica viso e trattamenti avanzati con piattaforma laser medicale e Laser CO₂ frazionato.",
+  },
+  {
+    slug: "studio-4",
+    shortBadge: "Studio 4",
+    officialTitle: "Studio 4 — Diagnostica, Cardiologia, Ginecologia & Oculistica",
+    defaultFloor: "Piano 1",
+    defaultDescription:
+      "Studio multidisciplinare per diagnostica ecografica, cardiologia con ECG a 12 derivazioni, ginecologia, senologia e unità diagnostica oftalmologica.",
+    sharedConstraint:
+      "Vincolo Ecografo Condiviso: risorsa unica condivisa tra Cardiologia, Ginecologia, Radiodiagnostica/Ecografia e Senologia senza sovrapposizioni orarie.",
+  },
+  {
+    slug: "sala-opt",
+    shortBadge: "Sala Radiologia / OPT",
+    officialTitle: "Sala Radiologia / OPT",
+    defaultFloor: "Piano 1",
+    defaultDescription:
+      "Sala schermata per diagnostica radiologica digitale a bassa dose con Ortopantomografo Digitale 3D CBCT e Teleradiografia Cranio.",
+  },
+  {
+    slug: "sala-filtro",
+    shortBadge: "Sala Filtro / Nutrizione",
+    officialTitle: "Sala Filtro / Nutrizione",
+    defaultFloor: "Piano 1",
+    defaultDescription:
+      "Spazio dedicato a consulenze nutrizionali, bioimpedenziometria clinica e accoglienza dedicata ai Percorsi Salute Cocoora.",
+  },
+];
+
+function normalizeDoctorDisplayName(rawName: string | undefined | null): string {
+  if (!rawName) return "Specialista";
+  if (/scorzelli/i.test(rawName)) {
+    return "Patrizia Scorzelli";
+  }
+  return rawName;
+}
+
+function isExcludedOrInactiveDoctor(doc?: {
+  full_name?: string | null;
+  is_active?: boolean;
+}): boolean {
+  if (!doc) return false;
+  if (doc.is_active === false) return true;
+  const n = (doc.full_name || "").toLowerCase();
+  if (n.includes("sorrentino")) return true;
+  return false;
+}
+
+function clampShiftTime(timeStr: string, isEnd: boolean): string {
+  const clean = (timeStr || "").slice(0, 5);
+  if (!/^\d{2}:\d{2}$/.test(clean)) return isEnd ? "19:00" : "09:00";
+  if (!isEnd && clean < "09:00") return "09:00";
+  if (isEnd && clean > "19:00") return "19:00";
+  return clean;
+}
+
+function resolveCleanDescription(room: Room, spec?: OfficialRoomSpec): string {
+  const raw = (room.description || "").trim();
+  if (!spec) {
+    return raw || "Studio clinico dedicato a visite specialistiche e trattamenti.";
+  }
+  if (!raw) return spec.defaultDescription;
+
+  const lower = raw.toLowerCase();
+  // Scarta vecchie descrizioni seed invertite tra Studio 1 e Studio 2
+  const hasStaleInversion =
+    (room.slug === "studio-1" && (lower.includes("ecograf") || lower.includes("elettrocardio"))) ||
+    (room.slug === "studio-2" && (lower.includes("riunito") || lower.includes("odontoiatr") || lower.includes("implantolog"))) ||
+    (room.slug === "studio-3" && lower.includes("carbossiterapia co2"));
+
+  return hasStaleInversion ? spec.defaultDescription : raw;
+}
+
+function mergeWithOfficialRooms(dbRooms: Room[]): Room[] {
+  const result: Room[] = OFFICIAL_ROOM_SPECS.map((spec) => {
+    const match = dbRooms.find(
+      (r) =>
+        r.slug === spec.slug ||
+        (spec.slug === "sala-opt" && r.name.toLowerCase().includes("opt")) ||
+        (spec.slug === "sala-filtro" && r.name.toLowerCase().includes("filtro"))
+    );
+
+    if (match) {
+      return {
+        ...match,
+        slug: spec.slug,
+      };
+    }
+
+    return {
+      id: `fallback-${spec.slug}`,
+      slug: spec.slug,
+      name: spec.officialTitle,
+      floor: spec.defaultFloor,
+      description: spec.defaultDescription,
+      doctor_availability: [],
+      isFallback: true,
+    };
+  });
+
+  const matchedIds = new Set(result.map((r) => r.id));
+  for (const extra of dbRooms) {
+    if (!matchedIds.has(extra.id) && !OFFICIAL_ROOM_SPECS.some((s) => s.slug === extra.slug)) {
+      result.push(extra);
+    }
+  }
+
+  return result;
+}
 
 export function RoomsManager() {
   const [rooms, setRooms] = useState<Room[]>([]);
@@ -91,9 +232,10 @@ export function RoomsManager() {
       setLoading(true);
       const res = await fetch("/api/admin/rooms");
       const data = await res.json();
-      if (data.rooms) setRooms(data.rooms);
+      setRooms(mergeWithOfficialRooms(Array.isArray(data.rooms) ? data.rooms : []));
     } catch (e) {
       console.error("Errore caricamento stanze", e);
+      setRooms(mergeWithOfficialRooms([]));
     } finally {
       setLoading(false);
     }
@@ -105,7 +247,7 @@ export function RoomsManager() {
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!editingRoom) return;
+    if (!editingRoom || editingRoom.isFallback) return;
 
     try {
       setSaving(true);
@@ -129,7 +271,7 @@ export function RoomsManager() {
       } else {
         alert("Errore salvataggio: " + (json.error || "Sconosciuto"));
       }
-    } catch (err: unknown) {
+    } catch {
       alert("Errore di rete durante il salvataggio.");
     } finally {
       setSaving(false);
@@ -147,8 +289,8 @@ export function RoomsManager() {
           <h2 className="font-serif text-2xl font-semibold text-dark-navy mt-0.5">
             Sale Cliniche &amp; Macchinari Diagnostici
           </h2>
-          <p className="text-xs text-charcoal/60 mt-0.5">
-            Gestisci la destinazione d&apos;uso e i turni medici assegnati a ciascun ambiente.
+          <p className="text-xs text-charcoal/65 mt-0.5">
+            Mappa ufficiale degli Studi 1–4, Sala Radiologia / OPT e Sala Filtro / Nutrizione con dotazioni dedicate.
           </p>
         </div>
         <button
@@ -161,19 +303,59 @@ export function RoomsManager() {
         </button>
       </div>
 
+      {/* Banner Orari Ufficiali & Vincolo Condiviso Ecografo */}
+      <div className="grid gap-4 lg:grid-cols-2">
+        <div className="rounded-2xl border border-teal-200/80 bg-teal-50/60 p-4 flex items-start gap-3">
+          <Clock className="h-4 w-4 text-teal-800 shrink-0 mt-0.5" />
+          <div className="text-xs text-charcoal/80">
+            <p className="font-semibold text-dark-navy">
+              Orari Operativi Ufficiali delle Sale
+            </p>
+            <p className="mt-0.5">
+              <strong>Lun–Ven 09:00–19:00</strong> (Mattina <strong>09:00–14:00</strong> · Pomeriggio{" "}
+              <strong>14:00–19:00</strong>), <strong>Sabato chiuso</strong>.
+            </p>
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-amber-200/90 bg-amber-50/70 p-4 flex items-start gap-3">
+          <AlertCircle className="h-4 w-4 text-amber-800 shrink-0 mt-0.5" />
+          <div className="text-xs text-amber-950/85">
+            <p className="font-semibold text-amber-950">
+              Vincolo Condiviso Ecografo Multidisciplinare (Studio 4)
+            </p>
+            <p className="mt-0.5">
+              L&apos;<strong>Ecografo Multidisciplinare Condiviso</strong> è ripartito senza sovrapposizioni orarie tra{" "}
+              <strong>Cardiologia, Ginecologia, Radiodiagnostica/Ecografia e Senologia</strong>.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {loading ? (
         <div className="p-12 text-center text-sm text-charcoal/60">
           <RefreshCw className="mx-auto h-6 w-6 animate-spin text-teal-700 mb-2" />
           Caricamento stanze dal database clinico...
         </div>
       ) : (
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {rooms.map((room) => {
+            const spec = OFFICIAL_ROOM_SPECS.find((s) => s.slug === room.slug);
             const equipment = ROOM_EQUIPMENT[room.slug] || [
               "Postazione Medica Digitale",
               "Accesso Cartella Clinica",
             ];
-            const activeDoctors = room.doctor_availability || [];
+            const displayTitle = spec ? spec.officialTitle : room.name;
+            const badgeLabel = spec ? spec.shortBadge : room.name;
+            const description = resolveCleanDescription(room, spec);
+
+            const activeShifts = (room.doctor_availability || []).filter(
+              (av) =>
+                av.weekday >= 1 &&
+                av.weekday <= 5 &&
+                av.is_active !== false &&
+                !isExcludedOrInactiveDoctor(av.doctors)
+            );
 
             return (
               <div
@@ -181,24 +363,34 @@ export function RoomsManager() {
                 className="flex flex-col justify-between rounded-3xl border border-slate-200/90 bg-white p-6 shadow-sm hover:shadow-md transition-all hover:border-teal-400"
               >
                 <div>
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between gap-2">
                     <span className="inline-flex items-center gap-1.5 rounded-full bg-dark-navy px-3 py-1 text-xs font-semibold text-white">
                       <DoorOpen className="h-3.5 w-3.5 text-teal-300" />
-                      {room.name}
+                      {badgeLabel}
                     </span>
                     <span className="text-[11px] font-medium text-charcoal/60 bg-slate-100 rounded-full px-2.5 py-0.5">
-                      {room.floor || "Piano 1"}
+                      {room.floor || spec?.defaultFloor || "Piano 1"}
                     </span>
                   </div>
 
-                  <p className="mt-3.5 text-xs text-charcoal/75 leading-relaxed">
-                    {room.description || "Ambulatorio clinico dedicato alle visite e trattamenti."}
+                  <h3 className="mt-3 font-serif text-base font-semibold text-dark-navy leading-snug">
+                    {displayTitle}
+                  </h3>
+
+                  <p className="mt-2 text-xs text-charcoal/75 leading-relaxed">
+                    {description}
                   </p>
+
+                  {spec?.sharedConstraint && (
+                    <div className="mt-3 rounded-xl border border-amber-200 bg-amber-50/80 px-3 py-2 text-[11px] font-medium text-amber-950">
+                      {spec.sharedConstraint}
+                    </div>
+                  )}
 
                   {/* Dotazione tecnologica */}
                   <div className="mt-5 border-t border-slate-100 pt-4">
                     <p className="text-[10px] font-bold uppercase tracking-wider text-slate-accent mb-2 flex items-center gap-1">
-                      <Sparkles className="h-3 w-3 text-teal-700" /> Macchinari &amp; Dotazioni
+                      <Sparkles className="h-3 w-3 text-teal-700" /> Macchinari &amp; Dotazioni Ufficiali
                     </p>
                     <div className="flex flex-wrap gap-1.5">
                       {equipment.map((eq, i) => (
@@ -212,44 +404,64 @@ export function RoomsManager() {
                     </div>
                   </div>
 
-                  {/* Medici con Turni in questa Stanza */}
+                  {/* Medici con Turni in questa Stanza (Lun–Ven 09:00–19:00) */}
                   <div className="mt-5 border-t border-slate-100 pt-4">
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-slate-accent mb-2 flex items-center gap-1">
-                      <Stethoscope className="h-3 w-3 text-teal-700" /> Medici Assegnati ({activeDoctors.length} turni)
-                    </p>
-                    {activeDoctors.length > 0 ? (
+                    <div className="flex items-center justify-between mb-2">
+                      <p className="text-[10px] font-bold uppercase tracking-wider text-slate-accent flex items-center gap-1">
+                        <Stethoscope className="h-3 w-3 text-teal-700" /> Turni Attivi ({activeShifts.length})
+                      </p>
+                      <span className="text-[10px] font-semibold text-teal-800">
+                        Lun–Ven 09:00–19:00
+                      </span>
+                    </div>
+                    {activeShifts.length > 0 ? (
                       <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
-                        {activeDoctors.map((av, idx) => (
+                        {activeShifts.map((av, idx) => (
                           <div
                             key={idx}
                             className="flex items-center justify-between text-[11px] bg-slate-50 rounded-lg p-2 border border-slate-100"
                           >
-                            <span className="font-semibold text-dark-navy truncate max-w-[130px]">
-                              {av.doctors?.full_name || "Medico"}
+                            <span className="font-semibold text-dark-navy truncate max-w-[145px]">
+                              {normalizeDoctorDisplayName(av.doctors?.full_name)}
                             </span>
-                            <span className="text-charcoal/60 whitespace-nowrap">
-                              {WEEKDAY_NAMES[av.weekday]?.slice(0, 3)} {av.start_time.slice(0, 5)}–{av.end_time.slice(0, 5)}
+                            <span className="text-charcoal/65 font-mono text-[10.5px] whitespace-nowrap">
+                              {WEEKDAY_NAMES[av.weekday]?.slice(0, 3)}{" "}
+                              {clampShiftTime(av.start_time, false)}–{clampShiftTime(av.end_time, true)}
                             </span>
                           </div>
                         ))}
                       </div>
                     ) : (
-                      <p className="text-xs text-charcoal/50 italic">Nessun medico programmato</p>
+                      <p className="text-xs text-charcoal/50 italic">
+                        Allocazione su agenda clinica (Lun–Ven 09:00–19:00 · Sabato chiuso)
+                      </p>
                     )}
                   </div>
                 </div>
 
-                <div className="mt-6 pt-3 border-t border-slate-100 flex justify-end">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setEditingRoom(room);
-                      setSaveSuccess(false);
-                    }}
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-teal-800 hover:text-dark-navy transition-colors"
-                  >
-                    <Edit2 className="h-3.5 w-3.5" /> Modifica Stanza
-                  </button>
+                <div className="mt-6 pt-3 border-t border-slate-100 flex items-center justify-between">
+                  <span className="text-[10.5px] text-charcoal/55 font-medium">
+                    Sabato chiuso
+                  </span>
+                  {!room.isFallback ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEditingRoom({
+                          ...room,
+                          description,
+                        });
+                        setSaveSuccess(false);
+                      }}
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-teal-800 hover:text-dark-navy transition-colors"
+                    >
+                      <Edit2 className="h-3.5 w-3.5" /> Modifica Stanza
+                    </button>
+                  ) : (
+                    <span className="text-[11px] font-semibold text-teal-700">
+                      Mappa Ufficiale Attiva
+                    </span>
+                  )}
                 </div>
               </div>
             );
@@ -273,7 +485,7 @@ export function RoomsManager() {
               Modifica: {editingRoom.name}
             </h3>
             <p className="mt-1 text-xs text-charcoal/60">
-              Aggiorna nome, piano e descrizione operativa della stanza.
+              Aggiorna nome, piano e descrizione operativa della stanza (Lun–Ven 09:00–19:00, Sabato chiuso).
             </p>
 
             <form onSubmit={handleSave} className="mt-6 space-y-4">

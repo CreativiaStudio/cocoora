@@ -262,25 +262,25 @@ export const NAV_NODES: NavNode[] = [
         label: "Access",
         href: "/club/access",
         description:
-          "Valutazione iniziale con Check-up Salute 17 parametri, Visita medica, Medicina Interna, OPT ed ECG (149 €/anno).",
+          "Valutazione iniziale con Check-up Salute 17 parametri, visita medica completa, ECG a 12 derivazioni, OPT e medicina estetica (149 €/anno).",
       },
       {
         label: "Care Plus",
         href: "/club/care",
         description:
-          "Prevenzione continua con igiene orale, piano nutrizionale personalizzato e primo controllo (299 €/anno).",
+          "Prevenzione continua con Check-up 17 parametri, igiene orale professionale, piano nutrizionale personalizzato e primo controllo (299 €/anno).",
       },
       {
         label: "Experience",
         href: "/club/experience",
         description:
-          "Approfondimento completo con Color Doppler, visita oculistica, skin check-up e senologia (da 599 €/anno).",
+          "Approfondimento completo con Check-up 48 parametri, cardiologia ed ecocardiogramma Color Doppler, visita oculistica e senologia (da 599 €/anno).",
       },
       {
         label: "Signature",
         href: "/club/signature",
         description:
-          "Massima prevenzione e longevità: Check-up Avanzato + FIT, ecografia addome e DNA 5 (da 940 €/anno).",
+          "Massima prevenzione e longevità: Check-up Avanzato (59/57 parametri) + FIT, ecografia addome, dermatoscopia e DNA 5 (da 890 €/anno).",
       },
     ],
   },

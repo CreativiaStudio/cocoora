@@ -7,6 +7,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import Link from "next/link";
 import {
   AlertTriangle,
   CalendarDays,
@@ -327,10 +328,17 @@ export function BookingDrawer({
         patientId: patient.id,
         serviceId: service.id,
         doctorId: selectedSlot.doctorId,
+        roomId: selectedSlot.roomId,
         start: selectedSlot.start,
         channel: "reception",
         coveredByMembershipId:
           isCovered && patient.membershipId ? patient.membershipId : undefined,
+        patientData: {
+          firstName: patient.firstName,
+          lastName: patient.lastName,
+          phone: patient.phone,
+          email: patient.email,
+        },
       });
 
       if (result.success && result.appointmentId) {
@@ -517,7 +525,7 @@ export function BookingDrawer({
             </span>
             <span className="inline-flex items-center gap-1 rounded-full border border-white/15 bg-white/5 px-2 py-0.5">
               <Clock className="h-3 w-3 text-[#9FC2CF]" />
-              Lun–Ven 8:00–20:00 · Sab 9:00–14:00
+              Lun–Ven 9:00–19:00 (orario continuato), Sabato chiuso
             </span>
             <span className="inline-flex items-center gap-1 rounded-full border border-white/15 bg-white/5 px-2 py-0.5">
               <UserRound className="h-3 w-3 text-[#9FC2CF]" />
@@ -653,12 +661,10 @@ export function BookingDrawer({
                 />
               </div>
 
-              <div className="mt-3 flex items-start gap-2 rounded-xl border border-[#80A1B2]/35 bg-[#F4F8FA] px-3 py-2.5">
-                <MessageCircle className="mt-0.5 h-4 w-4 shrink-0 text-[#1C4A5C]" />
-                <p className="text-[11px] text-[#3D3D3C]/80">
-                  {success.whatsapp
-                    ? "Conferma WhatsApp programmata al paziente, con promemoria il giorno prima dell'appuntamento."
-                    : "Conferma WhatsApp non inviata: il paziente è stato informato verbalmente in reception."}
+              <div className="mt-3 flex items-start gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2.5">
+                <MessageCircle className="mt-0.5 h-4 w-4 shrink-0 text-emerald-700" />
+                <p className="text-[11px] font-medium text-emerald-950">
+                  Appuntamento salvato sul Gestionale Clinico. Dal Desk Visite di Oggi puoi inviare il Reminder WhatsApp (-1h) precompilato con 1 click.
                 </p>
               </div>
 
@@ -674,7 +680,14 @@ export function BookingDrawer({
                 </div>
               )}
 
-              <div className="mt-5 flex flex-col gap-2 sm:flex-row">
+              <Link
+                href="/segreteria"
+                className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-700 px-4 py-3 text-xs font-bold text-white shadow-sm transition hover:bg-emerald-800"
+              >
+                <span>📋 Vai al Desk Visite di Oggi →</span>
+              </Link>
+
+              <div className="mt-2.5 flex flex-col gap-2 sm:flex-row">
                 <button
                   type="button"
                   onClick={handleAnotherBooking}
@@ -857,6 +870,11 @@ export function BookingDrawer({
                     error={slotError}
                     onRefresh={() => void loadSlots(true)}
                     coverageOverride={isCovered}
+                    emptyMessage={
+                      [0, 6].includes(new Date(`${dateStr}T12:00:00Z`).getUTCDay())
+                        ? "Sabato e Domenica il Centro è chiuso. Seleziona un giorno dal Lunedì al Venerdì (9:00–19:00, orario continuato)."
+                        : "Nessuno slot libero per la data selezionata. Prova un altro giorno feriale (Lun–Ven 9:00–19:00)."
+                    }
                   />
 
                   {slotTaken && (

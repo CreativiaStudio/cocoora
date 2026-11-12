@@ -3,10 +3,12 @@ import {
   authenticateUser,
   authenticateDoctorByPin,
   createSessionToken,
+  isAccessRole,
   SESSION_COOKIE_NAME,
   checkRateLimit,
   recordFailedAttempt,
   resetRateLimit,
+  type AccessRole,
 } from "@/lib/auth-session";
 
 export async function POST(request: Request) {
@@ -18,6 +20,18 @@ export async function POST(request: Request) {
         { ok: false, error: "Dati richiesta mancanti." },
         { status: 400 }
       );
+    }
+
+    // Ruolo richiesto dal selettore di accesso (opzionale per i vecchi portali).
+    let requestedRole: AccessRole | undefined;
+    if (body.role !== undefined) {
+      if (!isAccessRole(body.role)) {
+        return NextResponse.json(
+          { ok: false, error: "Tipo di accesso non valido." },
+          { status: 400 }
+        );
+      }
+      requestedRole = body.role;
     }
 
     // Identificatore per il Rate Limiting (IP + Target)
@@ -59,7 +73,7 @@ export async function POST(request: Request) {
         );
       }
     } else if (typeof body.email === "string" && typeof body.password === "string") {
-      user = authenticateUser(body.email, body.password);
+      user = await authenticateUser(body.email, body.password, requestedRole);
       if (!user) {
         const failure = recordFailedAttempt(rateLimitKey);
         return NextResponse.json(
@@ -83,8 +97,8 @@ export async function POST(request: Request) {
     // Successo: resetta i tentativi falliti per questo IP/account
     resetRateLimit(rateLimitKey);
 
-    // Durata differenziata: 12 ore per i medici (fine turno sanitario), 7 giorni per altri ruoli
-    const validityDays = user.role === "medico" ? 0.5 : 7;
+    // Sessione unica di 7 giorni per tutti i profili (requisito di sicurezza).
+    const validityDays = 7;
     const token = await createSessionToken(user, validityDays);
 
     const isProduction = process.env.NODE_ENV === "production";
@@ -100,6 +114,8 @@ export async function POST(request: Request) {
           ? "/medico"
           : "/area-paziente",
     });
+
+    response.headers.set("Cache-Control", "no-store");
 
     response.cookies.set({
       name: SESSION_COOKIE_NAME,

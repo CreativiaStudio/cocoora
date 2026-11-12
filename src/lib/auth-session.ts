@@ -2,20 +2,32 @@
 // Token di sessione firmati con HMAC-SHA256 tramite Web Crypto API.
 // Compatibile sia con il runtime Edge di Next.js sia con Node.js (>= 18).
 
-export type AppRole = 'admin' | 'agenzia' | 'segreteria' | 'medico' | 'paziente';
+/** I quattro livelli di accesso selezionabili dal login. */
+export type AppRole = 'admin' | 'segreteria' | 'medico' | 'paziente';
+
+/**
+ * Profilo amministrativo aggiuntivo dell'agenzia (Silvia Monticelli).
+ * Non è un quinto livello selezionabile: usa il selettore
+ * "Admin/Direzione Sanitaria".
+ */
+export type AgencyRole = 'agenzia';
+
+export type SessionRole = AppRole | AgencyRole;
+
+export type AccessRole = AppRole;
 
 export interface UserSession {
   userId: string;
   email: string;
   name: string;
-  role: AppRole;
+  role: SessionRole;
   expiresAt: number;
   doctorSlug?: string;
 }
 
 export const SESSION_COOKIE_NAME = 'cocoora_session';
 
-const VALID_ROLES: readonly AppRole[] = [
+const VALID_ROLES: readonly SessionRole[] = [
   'admin',
   'agenzia',
   'segreteria',
@@ -24,8 +36,29 @@ const VALID_ROLES: readonly AppRole[] = [
 ];
 
 // Segreto usato per la firma dei token di sessione (priorità a variabile d'ambiente).
-const SESSION_SECRET =
-  process.env.AUTH_SECRET || 'cocoora-session-hmac-sha256-v1-clinica-sicura';
+// Il fallback è un valore lungo e casuale: in produzione impostare comunque
+// AUTH_SECRET (>= 32 caratteri) nelle variabili d'ambiente del deploy.
+const FALLBACK_AUTH_SECRET =
+  'cocoora_95f0fcc5fe8ad3fe8e076400952a68a445757a907823cbab2d9bc285cded6daaad1306ba3a3b1ed8a67329228d5a38fc';
+
+let hasWarnedAboutFallbackSecret = false;
+
+function getSessionSecret(): string {
+  const configuredSecret = process.env.AUTH_SECRET?.trim();
+
+  if (configuredSecret && configuredSecret.length >= 32) {
+    return configuredSecret;
+  }
+
+  if (process.env.NODE_ENV === 'production' && !hasWarnedAboutFallbackSecret) {
+    hasWarnedAboutFallbackSecret = true;
+    console.warn(
+      '[auth-session] AUTH_SECRET non impostato o troppo corto: uso il fallback interno. Configurare AUTH_SECRET in produzione.',
+    );
+  }
+
+  return FALLBACK_AUTH_SECRET;
+}
 
 // Rate Limiting anti-brute force per IP e account (Art. 32 GDPR)
 interface RateLimitState {
@@ -150,7 +183,7 @@ function getHmacKey(): Promise<CryptoKey> {
     cachedHmacKey = getCrypto().subtle
       .importKey(
         'raw',
-        textEncoder.encode(SESSION_SECRET),
+        textEncoder.encode(getSessionSecret()),
         { name: 'HMAC', hash: 'SHA-256' },
         false,
         ['sign', 'verify'],
@@ -186,7 +219,7 @@ function isUserSession(value: unknown): value is UserSession {
     typeof candidate.name === 'string' &&
     candidate.name.length > 0 &&
     typeof candidate.role === 'string' &&
-    VALID_ROLES.includes(candidate.role as AppRole) &&
+    VALID_ROLES.includes(candidate.role as SessionRole) &&
     typeof candidate.expiresAt === 'number' &&
     Number.isFinite(candidate.expiresAt)
   );
@@ -206,6 +239,10 @@ export async function createSessionToken(
     role: user.role,
     expiresAt: Date.now() + Math.round(validityDays * MILLISECONDS_PER_DAY),
   };
+
+  if (user.doctorSlug) {
+    session.doctorSlug = user.doctorSlug;
+  }
 
   const payload = JSON.stringify(session);
   const encodedPayload = bytesToBase64Url(textEncoder.encode(payload));
@@ -250,69 +287,169 @@ export async function verifySessionToken(token: string): Promise<UserSession | n
       return null;
     }
 
-    return {
+    const session: UserSession = {
       userId: parsed.userId,
       email: parsed.email,
       name: parsed.name,
       role: parsed.role,
       expiresAt: parsed.expiresAt,
     };
+
+    if (typeof (parsed as UserSession).doctorSlug === 'string') {
+      session.doctorSlug = (parsed as UserSession).doctorSlug;
+    }
+
+    return session;
   } catch {
     return null;
   }
 }
 
-export const DEMO_CREDENTIALS: Record<
-  string,
-  { password: string; user: Omit<UserSession, 'expiresAt'> }
-> = {
+interface StoredCredential {
+  email: string;
+  passwordSalt: string;
+  passwordHash: string;
+  user: Omit<UserSession, 'expiresAt'>;
+}
+
+/**
+ * Credenziali applicative.
+ *
+ * Le password NON sono salvate in chiaro: ogni record contiene un salt
+ * dedicato e l'hash SHA-256 di "salt:password". Per la produzione è possibile
+ * sostituire gli hash mantenendo la stessa struttura.
+ *
+ * Profili disponibili:
+ * - Admin/Direzione Sanitaria
+ * - Segreteria CRM
+ * - Area Medico
+ * - Area Paziente
+ * - Agenzia (Silvia Monticelli), che accede dal selettore Admin
+ */
+export const DEMO_CREDENTIALS: Record<string, StoredCredential> = {
   'admin@cocoora.it': {
-    password: process.env.ADMIN_PASSWORD || '%Cocoora26%',
+    email: 'admin@cocoora.it',
+    passwordSalt: 'cocoora-admin-v1',
+    passwordHash:
+      'c9b8236abd8d1abc2363290296ab6275e9a8fc7b985d5555dcc329ebd5d6ef2f',
     user: {
       userId: 'usr-admin-cocoora',
       email: 'admin@cocoora.it',
-      name: 'Mario Pepe / Direzione Sanitaria',
+      name: 'Direzione Cocoora',
       role: 'admin',
     },
   },
   'info@cocoora.it': {
-    password: process.env.ADMIN_PASSWORD || '%Cocoora26%',
+    email: 'info@cocoora.it',
+    passwordSalt: 'cocoora-info-v1',
+    passwordHash:
+      'a5a2410837a773ed6e9b52af124f93dc1626587a5408fa16d23f7191d4d1b02b',
     user: {
       userId: 'usr-info-cocoora',
       email: 'info@cocoora.it',
-      name: 'Mario Pepe / Direzione Sanitaria',
+      name: 'Direzione Cocoora',
       role: 'admin',
     },
   },
   'silvia@agenzia.it': {
-    password: process.env.SILVIA_PASSWORD || '%SilviaCocoora26%',
+    email: 'silvia@agenzia.it',
+    passwordSalt: 'cocoora-agenzia-v1',
+    passwordHash:
+      '4e8737a3739efaf72f9013b1348ba03c6aa35946df85a03aad41e9f02189a507',
     user: {
       userId: 'usr-silvia-agenzia',
       email: 'silvia@agenzia.it',
-      name: 'Silvia — Agenzia SEO & Contenuti',
+      name: 'Silvia Monticelli — Agenzia',
       role: 'agenzia',
     },
   },
   'segreteria@cocoora.it': {
-    password: process.env.SEGRETERIA_PASSWORD || '%SegreteriaCocoora26%',
+    email: 'segreteria@cocoora.it',
+    passwordSalt: 'cocoora-segreteria-v1',
+    passwordHash:
+      'ba6a273ef7527ad43b8e176edc3d7579e115d6415bc88ec3dfa2c458d89fcb4a',
     user: {
       userId: 'usr-segreteria-desk',
       email: 'segreteria@cocoora.it',
-      name: 'Reception & Desk Accoglienza',
+      name: 'Segreteria Cocoora',
       role: 'segreteria',
     },
   },
   'dott.russo@cocoora.it': {
-    password: process.env.DOCTOR_RUSSO_PASSWORD || '%RussoCocoora26%',
+    email: 'dott.russo@cocoora.it',
+    passwordSalt: 'cocoora-medico-v1',
+    passwordHash:
+      'e63fb9d65e575bb8ae2f724fe814d18e8e512bca7e97097c7bd762b68022f3b3',
     user: {
       userId: 'usr-elisarusso',
       email: 'dott.russo@cocoora.it',
-      name: 'Dott.ssa Elisa Russo (D.S.)',
+      name: 'Dott.ssa Elisa Russo',
       role: 'medico',
       doctorSlug: 'elisa-russo',
     },
   },
+  'paziente@cocoora.it': {
+    email: 'paziente@cocoora.it',
+    passwordSalt: 'cocoora-paziente-v1',
+    passwordHash:
+      '1217b13935be7b3054794915552c352d6588b2f6a9fc09f63561cf1502f5251b',
+    user: {
+      userId: 'usr-paziente-cocoora',
+      email: 'paziente@cocoora.it',
+      name: 'Paziente Cocoora',
+      role: 'paziente',
+    },
+  },
 };
+
+const DUMMY_PASSWORD_SALT = 'cocoora-dummy-v1';
+const DUMMY_PASSWORD_HASH =
+  'ddfbea21e4ec05e29655cd997a913ccf6a5f3c857e59f2de126d99c3870af542';
+
+async function sha256Hex(value: string): Promise<string> {
+  const digest = await getCrypto().subtle.digest(
+    'SHA-256',
+    textEncoder.encode(value),
+  );
+  const bytes = new Uint8Array(digest);
+  let hex = '';
+
+  for (let index = 0; index < bytes.length; index += 1) {
+    hex += bytes[index].toString(16).padStart(2, '0');
+  }
+
+  return hex;
+}
+
+function constantTimeEqual(left: string, right: string): boolean {
+  if (left.length !== right.length) {
+    return false;
+  }
+
+  let difference = 0;
+
+  for (let index = 0; index < left.length; index += 1) {
+    difference |= left.charCodeAt(index) ^ right.charCodeAt(index);
+  }
+
+  return difference === 0;
+}
+
+function roleMatchesAccess(
+  actualRole: SessionRole,
+  requestedRole?: AccessRole,
+): boolean {
+  if (!requestedRole) {
+    return true;
+  }
+
+  // L'account Agenzia (Silvia) usa il selettore Admin/Direzione Sanitaria.
+  if (requestedRole === 'admin') {
+    return actualRole === 'admin' || actualRole === 'agenzia';
+  }
+
+  return actualRole === requestedRole;
+}
 
 /** Medici Specialistici con Credenziali Cliniche Protette */
 export interface SmartDoctorBadge {
@@ -414,10 +551,11 @@ export function authenticateDoctorByPin(
   };
 }
 
-export function authenticateUser(
+export async function authenticateUser(
   email: string,
   password: string,
-): Omit<UserSession, 'expiresAt'> | null {
+  requestedRole?: AccessRole,
+): Promise<Omit<UserSession, 'expiresAt'> | null> {
   if (typeof email !== 'string' || typeof password !== 'string') {
     return null;
   }
@@ -429,10 +567,39 @@ export function authenticateUser(
   }
 
   const record = DEMO_CREDENTIALS[normalizedEmail];
+  const envOverridePassword =
+    normalizedEmail === 'admin@cocoora.it' || normalizedEmail === 'info@cocoora.it'
+      ? process.env.ADMIN_PASSWORD?.trim()
+      : normalizedEmail === 'segreteria@cocoora.it'
+      ? process.env.SEGRETERIA_PASSWORD?.trim()
+      : normalizedEmail === 'silvia@agenzia.it'
+      ? process.env.SILVIA_PASSWORD?.trim()
+      : undefined;
 
-  if (!record || record.password !== password) {
+  const passwordSalt = record?.passwordSalt ?? DUMMY_PASSWORD_SALT;
+  const expectedPasswordHash =
+    envOverridePassword && record
+      ? await sha256Hex(`${passwordSalt}:${envOverridePassword}`)
+      : (record?.passwordHash ?? DUMMY_PASSWORD_HASH);
+  const candidateHash = await sha256Hex(`${passwordSalt}:${password}`);
+  const passwordIsValid = constantTimeEqual(candidateHash, expectedPasswordHash);
+
+  if (!record || !passwordIsValid) {
+    return null;
+  }
+
+  if (!roleMatchesAccess(record.user.role, requestedRole)) {
     return null;
   }
 
   return { ...record.user };
+}
+
+export function isAccessRole(value: unknown): value is AccessRole {
+  return (
+    value === 'admin' ||
+    value === 'segreteria' ||
+    value === 'medico' ||
+    value === 'paziente'
+  );
 }

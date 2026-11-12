@@ -28,16 +28,23 @@ import {
   Wallet,
 } from "lucide-react";
 import { CalendarMatrix } from "@/components/admin/calendar-matrix";
-import { PatientsCrmAdmin } from "@/components/admin/patients-crm-admin";
+import { PatientsCrmAdmin as BasePatientsCrmAdmin } from "@/components/admin/patients-crm-admin";
 import { ReceptionDeskLive } from "@/components/reception/reception-desk-live";
 import { ReceptionCashDesk } from "@/components/reception/reception-cash-desk";
 import { ReceptionDocumentsDesk } from "@/components/reception/reception-documents-desk";
 import { cn } from "@/lib/utils";
 
+const PatientsCrmAdmin = BasePatientsCrmAdmin as React.ComponentType<
+  React.ComponentProps<typeof BasePatientsCrmAdmin> & {
+    initialPatientId?: string | null;
+  }
+>;
+
 type ReceptionTab = "desk" | "calendar" | "crm" | "cassa" | "referti";
 
 export default function SegreteriaPage() {
   const [tab, setTab] = useState<ReceptionTab>("desk");
+  const [selectedCrmPatientId, setSelectedCrmPatientId] = useState<string | null>(null);
 
   return (
     <div className="min-h-screen bg-[#f0f0f1] text-[#2c3338] font-sans antialiased">
@@ -102,7 +109,7 @@ export default function SegreteriaPage() {
               onClick={() => setTab("calendar")}
               icon={<Calendar className="h-4 w-4" />}
               label="Calendario & Prenotazioni"
-              badge="4 Studi + OPT"
+              badge="4 Studi + Filtro"
             />
 
             <SidebarItem
@@ -176,10 +183,15 @@ export default function SegreteriaPage() {
         </div>
 
         {/* Status Database & Scorciatoie */}
-        <div className="flex items-center gap-3">
-          <div className="hidden sm:flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1 text-[11px] font-semibold text-emerald-800">
+        <div className="flex items-center gap-2.5">
+          <div className="hidden xl:flex items-center gap-1.5 rounded-full bg-slate-100 border border-slate-200 px-3 py-1 text-[11px] font-semibold text-slate-700">
+            <Clock className="h-3 w-3 text-teal-700" />
+            <span>Lun–Ven 09:00–19:00</span>
+          </div>
+
+          <div className="hidden lg:flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1 text-[11px] font-semibold text-emerald-800">
             <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>Database Clinico: Connesso (Crittografato)</span>
+            <span>Database Clinico: Connesso</span>
           </div>
 
           <Link
@@ -187,6 +199,13 @@ export default function SegreteriaPage() {
             className="inline-flex items-center gap-1.5 rounded-md border border-[#c3c4c7] bg-white px-3 py-1.5 text-xs font-semibold text-[#2c3338] shadow-2xs hover:bg-[#f6f7f7] hover:border-[#2271b1] transition-all"
           >
             <span>🏛️ Pannello Direzione (Admin)</span>
+          </Link>
+
+          <Link
+            href="/medico"
+            className="inline-flex items-center gap-1.5 rounded-md border border-sky-300 bg-sky-50 px-3 py-1.5 text-xs font-semibold text-sky-900 shadow-2xs hover:bg-sky-100 transition-all"
+          >
+            <span>👨‍⚕️ Vista Medico</span>
           </Link>
 
           <Link
@@ -211,7 +230,10 @@ export default function SegreteriaPage() {
         {/* TAB 1: DESK VISITE DI OGGI */}
         {tab === "desk" && (
           <ReceptionDeskLive
-            onOpenPatient={(id) => setTab("crm")}
+            onOpenPatient={(id) => {
+              setSelectedCrmPatientId(id);
+              setTab("crm");
+            }}
             onOpenCassa={() => setTab("cassa")}
           />
         )}
@@ -220,10 +242,22 @@ export default function SegreteriaPage() {
         {tab === "calendar" && <CalendarMatrix />}
 
         {/* TAB 3: CRM PAZIENTI */}
-        {tab === "crm" && <PatientsCrmAdmin onOpenCassa={() => setTab("cassa")} />}
+        {tab === "crm" && (
+          <PatientsCrmAdmin
+            initialPatientId={selectedCrmPatientId}
+            onOpenCassa={() => setTab("cassa")}
+          />
+        )}
 
         {/* TAB 4: CASSA & CHIUSURA DESK */}
-        {tab === "cassa" && <ReceptionCashDesk onOpenPatient={(id) => setTab("crm")} />}
+        {tab === "cassa" && (
+          <ReceptionCashDesk
+            onOpenPatient={(id) => {
+              setSelectedCrmPatientId(id);
+              setTab("crm");
+            }}
+          />
+        )}
 
         {/* TAB 5: FASCICOLO REFERTI PDF */}
         {tab === "referti" && <ReceptionDocumentsDesk />}

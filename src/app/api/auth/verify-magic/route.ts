@@ -26,8 +26,8 @@ export async function GET(request: Request) {
     return NextResponse.redirect(errorUrl);
   }
 
-  // Sessione clinica del medico limitata a 12 ore (0.5 giorni) a tutela dei dati sanitari
-  const sessionToken = await createSessionToken(user, 0.5);
+  // Sessione medica allineata alla durata unica di 7 giorni.
+  const sessionToken = await createSessionToken(user, 7);
 
   const response = NextResponse.redirect(new URL("/medico", request.url));
   response.cookies.set({
@@ -37,7 +37,7 @@ export async function GET(request: Request) {
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
     path: "/",
-    maxAge: 12 * 60 * 60, // 12 ore
+    maxAge: 7 * 24 * 60 * 60, // 7 giorni
   });
 
   return response;

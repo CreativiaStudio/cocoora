@@ -2,12 +2,59 @@ import type { ClubExamItem, ClubTierDetail } from "./types";
 
 // ─────────────────────────────────────────────────────────────────────────
 // Layer 3 — Prestazioni cliniche incluse nei Percorsi Salute Cocoora Club.
-// Fonte Unica e Ufficiale: Tabella Comparativa Prestazioni (26/10/2026).
+// Fonte Unica e Ufficiale: documento definitivo di Simone Papagno (10/11/2026).
 // ─────────────────────────────────────────────────────────────────────────
 
 const CORE_DOCTORS = ["elisa-russo", "alessandra-riccardi", "anna-maria-stillo", "jessica-de-ceglie"];
 const CARE_DOCTORS = [...CORE_DOCTORS, "mario-toro", "martina-pontillo"];
 const EXPERIENCE_DOCTORS = [...CARE_DOCTORS, "giuseppe-buono", "titti-errico", "patty-scorzelli", "mirella-dandrea"];
+
+const DOSSIER_TOOLTIP =
+  "Documento personale che riunisce risultati, referti e indicazioni dei professionisti per comprendere il tuo stato salute ed i prossimi passi.";
+const MAMMOGRAFIA_NOTE =
+  "Nota: La mammografia non è inclusa nella membership e può essere effettuata presso un centro convenzionato.";
+const VISITA_MEDICA_TOOLTIP =
+  "Anamnesi, esame medico, valutazione diagnostica ed eventuale prescrizione di esami o terapie.";
+const DNA5_TOOLTIP =
+  "È un test genetico predittivo che individua la presenza di varianti genetiche che possono essere associate ad una predisposizione a sviluppare una determinata patologia, problematica, carenza.";
+
+const EXPERIENCE_UOMO_EXAMS: ClubExamItem[] = [
+  { label: "Analisi del sangue con prelievo e analisi delle urine: Check-up Completo Uomo (48 parametri)", value: 0, checkupPanel: "completo_48" },
+  { label: "Visita medica completa", value: 0, tooltip: VISITA_MEDICA_TOOLTIP },
+  { label: "Visita cardiologica", value: 0 },
+  { label: "Elettrocardiogramma (ECG) a 12 derivazioni", value: 0 },
+  { label: "Ecocardiogramma Color Doppler", value: 0 },
+  { label: "Visita oculistica", value: 0 },
+  { label: "Visita odontoiatrica con ortopantomografia (OPT – Panoramica)", value: 0 },
+  { label: "Seduta di igiene orale professionale", value: 0 },
+  { label: "Visita di medicina estetica viso e corpo (valutazione clinica)", value: 0 },
+  { label: "Visita nutrizionale specialistica con piano alimentare personalizzato", value: 0 },
+  { label: "Primo controllo nutrizionale di monitoraggio", value: 0 },
+  { label: "Secondo controllo nutrizionale di monitoraggio", value: 0 },
+  { label: "Dossier “Il tuo Percorso Salute”", value: 0, tooltip: DOSSIER_TOOLTIP },
+  { label: "Sconto Club 15% sulle prestazioni aggiuntive", value: 0 },
+];
+
+const SIGNATURE_UOMO_EXAMS: ClubExamItem[] = [
+  { label: "Analisi del sangue con prelievo e analisi delle urine: Check-up Avanzato Uomo (59 parametri)", value: 0, checkupPanel: "avanzato_uomo_59" },
+  { label: "Test FIT (ricerca immunochimica del sangue occulto nelle feci)", value: 0 },
+  { label: "Visita medica completa", value: 0, tooltip: VISITA_MEDICA_TOOLTIP },
+  { label: "Visita cardiologica", value: 0 },
+  { label: "Elettrocardiogramma (ECG) a 12 derivazioni", value: 0 },
+  { label: "Ecocardiogramma Color Doppler", value: 0 },
+  { label: "Ecografia addominale", value: 0 },
+  { label: "Visita dermatologica con dermatoscopia", value: 0 },
+  { label: "Visita oculistica", value: 0 },
+  { label: "Visita odontoiatrica con ortopantomografia (OPT – Panoramica)", value: 0 },
+  { label: "Seduta di igiene orale professionale", value: 0 },
+  { label: "Visita di medicina estetica viso e corpo (valutazione clinica)", value: 0 },
+  { label: "Visita nutrizionale specialistica con piano alimentare personalizzato", value: 0 },
+  { label: "Primo controllo nutrizionale di monitoraggio", value: 0 },
+  { label: "Secondo controllo nutrizionale di monitoraggio", value: 0 },
+  { label: "Test Cocoora DNA 5 con consulenza genetica", value: 0, tooltip: DNA5_TOOLTIP },
+  { label: "Dossier “Il tuo Percorso Salute”", value: 0, tooltip: DOSSIER_TOOLTIP },
+  { label: "Sconto Club 20% sulle prestazioni aggiuntive", value: 0 },
+];
 
 export const CLUB_TIER_DETAILS: ClubTierDetail[] = [
   {
@@ -25,13 +72,13 @@ export const CLUB_TIER_DETAILS: ClubTierDetail[] = [
     installmentCount: 3,
     installmentProviders: ["Klarna", "Scalapay", "PayPal"],
     commonExams: [
-      { label: "Check-up laboratorio ematochimico Salute (17 parametri)", value: 0 },
-      { label: "Visita medica: anamnesi, esame obiettivo, diagnosi e prescrizione", value: 0 },
-      { label: "Medicina interna + ECG a 12 derivazioni a riposo con referto", value: 0 },
-      { label: "Visita odontoiatrica specialistica + OPT digitale (panoramica)", value: 0 },
-      { label: "Visita di medicina estetica viso/corpo (valutazione clinica)", value: 0 },
-      { label: "Booklet personale «Il tuo Percorso di Salute» — Documento personale che riunisce risultati, referti e indicazioni dei professionisti Cocoora per comprendere la tua salute e i prossimi passi", value: 0 },
-      { label: "Sconto Club 5% su tutte le prestazioni extra non incluse", value: 0 },
+      { label: "Analisi del sangue con prelievo e analisi delle urine: Check-up Salute (17 parametri)", value: 0, checkupPanel: "salute_17" },
+      { label: "Visita medica completa", value: 0, tooltip: VISITA_MEDICA_TOOLTIP },
+      { label: "Elettrocardiogramma (ECG) a 12 derivazioni con referto", value: 0 },
+      { label: "Visita odontoiatrica con ortopantomografia (OPT – Panoramica)", value: 0 },
+      { label: "Visita di medicina estetica viso e corpo (valutazione clinica)", value: 0 },
+      { label: "Dossier “Il tuo Percorso Salute”", value: 0, tooltip: DOSSIER_TOOLTIP },
+      { label: "Sconto Club 5% sulle prestazioni aggiuntive", value: 0 },
     ],
     doctorSlugs: CORE_DOCTORS,
     perks: ["Accesso prioritario alla clinica", "Condizioni dedicate riservate agli iscritti", "Referti digitali h24"],
@@ -41,16 +88,16 @@ export const CLUB_TIER_DETAILS: ClubTierDetail[] = [
     installmentCount: 3,
     installmentProviders: ["Klarna", "Scalapay", "PayPal"],
     commonExams: [
-      { label: "Tutte le prestazioni incluse nel percorso Access", value: 0 },
-      { label: "Check-up laboratorio ematochimico Salute (17 parametri)", value: 0 },
-      { label: "Medicina interna + ECG a 12 derivazioni con referto", value: 0 },
-      { label: "Seduta di igiene orale professionale in sede", value: 0 },
-      { label: "Visita odontoiatrica specialistica + OPT digitale", value: 0 },
-      { label: "Visita nutrizionale specialistica + piano alimentare personalizzato", value: 0 },
-      { label: "1° controllo nutrizionale di monitoraggio", value: 0 },
-      { label: "Visita di medicina estetica viso/corpo (valutazione clinica)", value: 0 },
-      { label: "Booklet personale «Il tuo Percorso di Salute» — Documento personale che riunisce risultati, referti e indicazioni dei professionisti Cocoora per comprendere la tua salute e i prossimi passi", value: 0 },
-      { label: "Sconto Club 10% su tutte le prestazioni extra non incluse", value: 0 },
+      { label: "Analisi del sangue con prelievo e analisi delle urine: Check-up Salute (17 parametri)", value: 0, checkupPanel: "salute_17" },
+      { label: "Visita medica completa", value: 0, tooltip: VISITA_MEDICA_TOOLTIP },
+      { label: "Elettrocardiogramma (ECG) a 12 derivazioni con referto", value: 0 },
+      { label: "Visita odontoiatrica con ortopantomografia (OPT – Panoramica)", value: 0 },
+      { label: "Seduta di igiene orale professionale", value: 0 },
+      { label: "Visita di medicina estetica viso e corpo (valutazione clinica)", value: 0 },
+      { label: "Visita nutrizionale specialistica con piano alimentare personalizzato", value: 0 },
+      { label: "Primo controllo nutrizionale di monitoraggio", value: 0 },
+      { label: "Dossier “Il tuo Percorso Salute”", value: 0, tooltip: DOSSIER_TOOLTIP },
+      { label: "Sconto Club 10% sulle prestazioni aggiuntive", value: 0 },
     ],
     doctorSlugs: CARE_DOCTORS,
     perks: ["Priorità di prenotazione", "Percorsi Uomo / Donna dedicati", "Continuità assistenziale coordinata"],
@@ -59,22 +106,25 @@ export const CLUB_TIER_DETAILS: ClubTierDetail[] = [
     tierId: "experience",
     installmentCount: 3,
     installmentProviders: ["Klarna", "Scalapay", "PayPal"],
-    commonExams: [
-      { label: "Tutte le prestazioni incluse nel percorso Care Plus", value: 0 },
-      { label: "Visita cardiologica specialistica + ecocardiogramma Color Doppler", value: 0 },
-      { label: "Visita oculistica specialistica", value: 0 },
-      { label: "Skin check-up", value: 0 },
-      { label: "2° controllo nutrizionale di monitoraggio", value: 0 },
-      { label: "Booklet personale «Il tuo Percorso di Salute» — Documento personale che riunisce risultati, referti e indicazioni dei professionisti Cocoora per comprendere la tua salute e i prossimi passi", value: 0 },
-      { label: "Sconto Club 15% su tutte le prestazioni extra non incluse", value: 0 },
-    ],
+    commonExams: EXPERIENCE_UOMO_EXAMS,
     genderExams: {
-      uomo: [
-        { label: "Check-up laboratorio ematochimico Completo Uomo", value: 0 },
-      ],
+      uomo: EXPERIENCE_UOMO_EXAMS,
       donna: [
-        { label: "Check-up laboratorio ematochimico Completo Donna", value: 0 },
-        { label: "Visita senologica specialistica + ecografia mammaria bilaterale (l'eventuale mammografia non si effettua in sede ed è prenotabile presso centro convenzionato)", value: 0 },
+        { label: "Analisi del sangue con prelievo e analisi delle urine: Check-up Completo Donna (48 parametri)", value: 0, checkupPanel: "completo_48" },
+        { label: "Visita medica completa", value: 0, tooltip: VISITA_MEDICA_TOOLTIP },
+        { label: "Visita cardiologica", value: 0 },
+        { label: "Elettrocardiogramma (ECG) a 12 derivazioni", value: 0 },
+        { label: "Ecocardiogramma Color Doppler", value: 0 },
+        { label: "Visita senologica con ecografia mammaria bilaterale", value: 0, tooltip: MAMMOGRAFIA_NOTE },
+        { label: "Visita oculistica", value: 0 },
+        { label: "Visita odontoiatrica con ortopantomografia (OPT – Panoramica)", value: 0 },
+        { label: "Seduta di igiene orale professionale", value: 0 },
+        { label: "Visita di medicina estetica viso e corpo (valutazione clinica)", value: 0 },
+        { label: "Visita nutrizionale specialistica con piano alimentare personalizzato", value: 0 },
+        { label: "Primo controllo nutrizionale di monitoraggio", value: 0 },
+        { label: "Secondo controllo nutrizionale di monitoraggio", value: 0 },
+        { label: "Dossier “Il tuo Percorso Salute”", value: 0, tooltip: DOSSIER_TOOLTIP },
+        { label: "Sconto Club 15% sulle prestazioni aggiuntive", value: 0 },
       ],
     },
     doctorSlugs: EXPERIENCE_DOCTORS,
@@ -84,21 +134,30 @@ export const CLUB_TIER_DETAILS: ClubTierDetail[] = [
     tierId: "signature",
     installmentCount: 3,
     installmentProviders: ["Klarna", "Scalapay", "PayPal"],
-    commonExams: [
-      { label: "Tutte le prestazioni incluse nel percorso Experience", value: 0 },
-      { label: "Ecografia addome completo ad alta risoluzione", value: 0 },
-      { label: "Visita dermatologica specialistica + dermatoscopia (mappatura nei)", value: 0 },
-      { label: "Test genomico Cocoora DNA 5 + consulenza genetica specialistica", value: 0 },
-      { label: "Booklet personale «Il tuo Percorso di Salute» — Documento personale che riunisce risultati, referti e indicazioni dei professionisti Cocoora per comprendere la tua salute e i prossimi passi", value: 0 },
-      { label: "Sconto Club 20% su tutte le prestazioni extra non incluse", value: 0 },
-    ],
+    commonExams: SIGNATURE_UOMO_EXAMS,
     genderExams: {
-      uomo: [
-        { label: "Check-up laboratorio ematochimico Avanzato Uomo + test FIT (sangue occulto)", value: 0 },
-      ],
+      uomo: SIGNATURE_UOMO_EXAMS,
       donna: [
-        { label: "Check-up laboratorio ematochimico Avanzato Donna + test FIT (sangue occulto)", value: 0 },
-        { label: "Visita senologica specialistica + ecografia mammaria bilaterale (l'eventuale mammografia non si effettua in sede ed è prenotabile presso centro convenzionato)", value: 0 },
+        { label: "Analisi del sangue con prelievo e analisi delle urine: Check-up Avanzato Donna (57 parametri)", value: 0, checkupPanel: "avanzato_donna_57" },
+        { label: "Test FIT (ricerca immunochimica del sangue occulto nelle feci)", value: 0 },
+        { label: "Visita medica completa", value: 0, tooltip: VISITA_MEDICA_TOOLTIP },
+        { label: "Visita cardiologica", value: 0 },
+        { label: "Elettrocardiogramma (ECG) a 12 derivazioni", value: 0 },
+        { label: "Ecocardiogramma Color Doppler", value: 0 },
+        { label: "Visita ginecologica con ecografia e Pap-test", value: 0 },
+        { label: "Visita senologica con ecografia mammaria bilaterale", value: 0, tooltip: MAMMOGRAFIA_NOTE },
+        { label: "Ecografia addominale", value: 0 },
+        { label: "Visita dermatologica con dermatoscopia", value: 0 },
+        { label: "Visita oculistica", value: 0 },
+        { label: "Visita odontoiatrica con ortopantomografia (OPT – Panoramica)", value: 0 },
+        { label: "Seduta di igiene orale professionale", value: 0 },
+        { label: "Visita di medicina estetica viso e corpo (valutazione clinica)", value: 0 },
+        { label: "Visita nutrizionale specialistica con piano alimentare personalizzato", value: 0 },
+        { label: "Primo controllo nutrizionale di monitoraggio", value: 0 },
+        { label: "Secondo controllo nutrizionale di monitoraggio", value: 0 },
+        { label: "Test Cocoora DNA 5 con consulenza genetica", value: 0, tooltip: DNA5_TOOLTIP },
+        { label: "Dossier “Il tuo Percorso Salute”", value: 0, tooltip: DOSSIER_TOOLTIP },
+        { label: "Sconto Club 20% sulle prestazioni aggiuntive", value: 0 },
       ],
     },
     doctorSlugs: EXPERIENCE_DOCTORS,
@@ -114,8 +173,10 @@ export function computeTierValue(
   detail: ClubTierDetail,
   gender?: "uomo" | "donna"
 ): { items: ClubExamItem[]; total: number } {
-  const genderItems = gender && detail.genderExams ? detail.genderExams[gender] : [];
-  const items = [...detail.commonExams, ...genderItems];
+  const items =
+    gender && detail.genderExams && detail.genderExams[gender]?.length
+      ? detail.genderExams[gender]
+      : detail.commonExams;
   const total = items.reduce((sum, item) => sum + item.value, 0);
   return { items, total };
 }

@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowLeft,
+  Ban,
   CalendarDays,
   CalendarPlus,
   CheckCircle2,
@@ -13,6 +14,7 @@ import {
   Clock,
   DoorOpen,
   Plus,
+  RefreshCw,
   Sparkles,
   Stethoscope,
   UserRound,
@@ -23,124 +25,61 @@ import {
   BookingDrawer,
   type BookingDrawerBookedPayload,
 } from "@/components/segreteria/booking/BookingDrawer";
+import {
+  getLiveAgendaForDateAction,
+  type LiveAgendaItem,
+  type LiveAgendaStatus,
+} from "@/app/segreteria/prenota/actions";
 import { cn } from "@/lib/utils";
 
-type AgendaStatus = "confermato" | "arrivato" | "in_visita";
-
-type AgendaItem = {
-  id: string;
-  time: string;
-  patient: string;
-  service: string;
-  doctor: string;
-  status: AgendaStatus;
-  roomId: string;
-  covered: boolean;
-};
-
 const STUDIOS = [
-  { id: "studio-1", name: "Studio 1", focus: "Odontoiatria" },
-  { id: "studio-2", name: "Studio 2", focus: "Medicina Estetica · Jolly" },
-  { id: "studio-3", name: "Studio 3", focus: "Medicina Estetica · Laser" },
-  { id: "studio-4", name: "Studio 4", focus: "Oculistica" },
-  { id: "sala-opt", name: "Sala OPT", focus: "Ortopantomografia" },
+  {
+    id: "studio-1",
+    name: "Studio 1",
+    focus: "Odontoiatria & Ortognatodonzia",
+    specialists: "Dott.ssa Elisa Russo · Dr. Raffaele D'Alessio",
+  },
+  {
+    id: "studio-2",
+    name: "Studio 2",
+    focus: "Carbossiterapia & Dermatologia",
+    specialists: "Patrizia Scorzelli · Dott.ssa Mirella D'Andrea",
+  },
+  {
+    id: "studio-3",
+    name: "Studio 3",
+    focus: "Chirurgia Plastica, Estetica & Psicologia",
+    specialists: "Errico · F. D'Andrea · Riccardi · Totaro",
+  },
+  {
+    id: "studio-4",
+    name: "Studio 4",
+    focus: "Ginecologia, Cardio, Eco, Seno & Oculistica",
+    specialists: "Poppiti · Stillo · Buono · Pontillo · Toro",
+  },
+  {
+    id: "sala-filtro",
+    name: "Sala Filtro",
+    focus: "Nutrizione Clinica",
+    specialists: "Dott.ssa Jessica De Ceglie",
+  },
 ];
 
-const INITIAL_AGENDA: AgendaItem[] = [
-  {
-    id: "appt-001",
-    time: "08:30",
-    patient: "Maria Esposito",
-    service: "Visita Odontoiatrica",
-    doctor: "Dr. Antonio Sorrentino",
-    status: "in_visita",
-    roomId: "studio-1",
-    covered: true,
-  },
-  {
-    id: "appt-002",
-    time: "10:00",
-    patient: "Salvatore Ferraro",
-    service: "Igiene Orale Professionale",
-    doctor: "Dr.ssa Elisa Russo",
-    status: "confermato",
-    roomId: "studio-1",
-    covered: false,
-  },
-  {
-    id: "appt-003",
-    time: "11:30",
-    patient: "Luca Vitale",
-    service: "Allineatori Trasparenti - Prima Visita",
-    doctor: "Dr.ssa Elisa Russo",
-    status: "confermato",
-    roomId: "studio-1",
-    covered: true,
-  },
-  {
-    id: "appt-004",
-    time: "09:00",
-    patient: "Giovanni Russo",
-    service: "Visita Cardiologica",
-    doctor: "Dr. Marco Esposito",
-    status: "arrivato",
-    roomId: "studio-2",
-    covered: true,
-  },
-  {
-    id: "appt-005",
-    time: "10:30",
-    patient: "Francesca Greco",
-    service: "Visita Dermatologica",
-    doctor: "Dr.ssa Giulia Ferraro",
-    status: "confermato",
-    roomId: "studio-2",
-    covered: true,
-  },
-  {
-    id: "appt-006",
-    time: "12:00",
-    patient: "Anna De Luca",
-    service: "Visita Pediatrica",
-    doctor: "Dr.ssa Anna Romano",
-    status: "confermato",
-    roomId: "studio-2",
-    covered: true,
-  },
-  {
-    id: "appt-007",
-    time: "09:30",
-    patient: "Giulia Romano",
-    service: "Laser CO2 Frazionato",
-    doctor: "Dr.ssa Paola Ruggiero",
-    status: "in_visita",
-    roomId: "studio-3",
-    covered: false,
-  },
-  {
-    id: "appt-008",
-    time: "11:00",
-    patient: "Antonio Marino",
-    service: "Criolipolisi",
-    doctor: "Dr.ssa Chiara Del Prete",
-    status: "confermato",
-    roomId: "studio-3",
-    covered: false,
-  },
-  {
-    id: "appt-009",
-    time: "10:00",
-    patient: "Rosa Bianchi",
-    service: "Visita Oculistica",
-    doctor: "Dr. Luca Costa",
-    status: "confermato",
-    roomId: "studio-4",
-    covered: true,
-  },
+const HOURLY_GRID = [
+  "09:00",
+  "10:00",
+  "11:00",
+  "12:00",
+  "13:00",
+  "14:00",
+  "15:00",
+  "16:00",
+  "17:00",
+  "18:00",
 ];
 
 const STATUS_META: Record<
-  AgendaStatus,
+  LiveAgendaStatus,
   { label: string; badge: string; border: string; dot: string }
 > = {
   confermato: {
@@ -149,7 +88,7 @@ const STATUS_META: Record<
     border: "border-l-[#80A1B2]",
     dot: "bg-[#80A1B2]",
   },
-  arrivato: {
+  in_attesa: {
     label: "In attesa",
     badge: "border-amber-200 bg-amber-50 text-amber-800",
     border: "border-l-amber-400",
@@ -161,6 +100,12 @@ const STATUS_META: Record<
     border: "border-l-emerald-500",
     dot: "bg-emerald-500",
   },
+  completato: {
+    label: "Conclusa",
+    badge: "border-slate-200 bg-slate-100 text-slate-700",
+    border: "border-l-slate-400",
+    dot: "bg-slate-400",
+  },
 };
 
 const timeFormatter = new Intl.DateTimeFormat("it-IT", {
@@ -170,247 +115,147 @@ const timeFormatter = new Intl.DateTimeFormat("it-IT", {
 });
 
 function getTodayIso(): string {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0");
-  const day = String(now.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/Rome",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date());
 }
 
 function shiftIsoDate(iso: string, deltaDays: number): string {
   const [y, m, d] = iso.split("-").map(Number);
-  const date = new Date(y, m - 1, d, 12, 0, 0);
-  date.setDate(date.getDate() + deltaDays);
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
+  const date = new Date(Date.UTC(y, m - 1, d, 12, 0, 0));
+  date.setUTCDate(date.getUTCDate() + deltaDays);
+  return date.toISOString().slice(0, 10);
+}
+
+function isWeekendIso(iso: string): boolean {
+  const [y, m, d] = iso.split("-").map(Number);
+  const jsDay = new Date(Date.UTC(y, m - 1, d, 12, 0, 0)).getUTCDay();
+  return jsDay === 0 || jsDay === 6;
+}
+
+function nextMondayIso(iso: string): string {
+  let cursor = iso;
+  while (isWeekendIso(cursor)) {
+    cursor = shiftIsoDate(cursor, 1);
+  }
+  return cursor;
 }
 
 function formatItalianDate(iso: string): string {
   const [y, m, d] = iso.split("-").map(Number);
-  const date = new Date(y, m - 1, d, 12, 0, 0);
+  const date = new Date(Date.UTC(y, m - 1, d, 12, 0, 0));
   return new Intl.DateTimeFormat("it-IT", {
     weekday: "long",
     day: "2-digit",
     month: "long",
     year: "numeric",
+    timeZone: "Europe/Rome",
   }).format(date);
-}
-
-const POOL_OF_VISITS = [
-  {
-    patient: "Marco Ferri",
-    service: "Visita Odontoiatrica di Controllo",
-    doctor: "Dr. Antonio Sorrentino",
-    roomId: "studio-1",
-    covered: true,
-  },
-  {
-    patient: "Elena Moretti",
-    service: "Ablazione Tartaro & Smacchiamento Airflow",
-    doctor: "Dr.ssa Elisa Russo",
-    roomId: "studio-1",
-    covered: false,
-  },
-  {
-    patient: "Claudio De Angelis",
-    service: "Allineatori Trasparenti Check-up",
-    doctor: "Dr.ssa Elisa Russo",
-    roomId: "studio-1",
-    covered: true,
-  },
-  {
-    patient: "Valentina Romano",
-    service: "Consulenza Nutrizionale & Bioimpedenziometria",
-    doctor: "Dr.ssa Anna Romano",
-    roomId: "studio-2",
-    covered: true,
-  },
-  {
-    patient: "Roberto Galli",
-    service: "Elettrocardiogramma & Visita Cardiologica",
-    doctor: "Dr. Marco Esposito",
-    roomId: "studio-2",
-    covered: false,
-  },
-  {
-    patient: "Chiara Marchetti",
-    service: "Mappatura Nevi in Epiluminescenza",
-    doctor: "Dr.ssa Giulia Ferraro",
-    roomId: "studio-2",
-    covered: true,
-  },
-  {
-    patient: "Stefania Leone",
-    service: "Biorivitalizzazione Viso con Acido Ialuronico",
-    doctor: "Dr.ssa Paola Ruggiero",
-    roomId: "studio-3",
-    covered: true,
-  },
-  {
-    patient: "Matteo Riva",
-    service: "Trattamento Laser Vascolare Couperose",
-    doctor: "Dr.ssa Chiara Del Prete",
-    roomId: "studio-3",
-    covered: false,
-  },
-  {
-    patient: "Simona Rinaldi",
-    service: "Criolipolisi Silhouette Addome",
-    doctor: "Dr.ssa Chiara Del Prete",
-    roomId: "studio-3",
-    covered: false,
-  },
-  {
-    patient: "Carlo Colombo",
-    service: "Visita Oculistica Completa & Fondo Oculare",
-    doctor: "Dr. Luca Costa",
-    roomId: "studio-4",
-    covered: true,
-  },
-  {
-    patient: "Beatrice Villa",
-    service: "Pachimetria Corneale & Tonometria",
-    doctor: "Dr. Luca Costa",
-    roomId: "studio-4",
-    covered: false,
-  },
-  {
-    patient: "Pietro Neri",
-    service: "Ortopantomografia Arcate Dentarie (OPT)",
-    doctor: "Dr. Antonio Sorrentino",
-    roomId: "sala-opt",
-    covered: false,
-  },
-];
-
-function generateSeedAgendaForDate(dateStr: string): AgendaItem[] {
-  const [y, m, d] = dateStr.split("-").map(Number);
-  const dateObj = new Date(y, m - 1, d, 12, 0, 0);
-  const dayOfWeek = dateObj.getDay(); // 0 = Sunday, 6 = Saturday
-
-  if (dayOfWeek === 0) {
-    return [];
-  }
-
-  const seed = (y * 372 + m * 31 + d) % 100;
-  const count = dayOfWeek === 6 ? 4 : 5 + (seed % 4);
-
-  const times = [
-    "08:30",
-    "09:15",
-    "10:00",
-    "10:45",
-    "11:30",
-    "12:15",
-    "15:00",
-    "16:00",
-    "17:00",
-    "18:00",
-  ];
-
-  const items: AgendaItem[] = [];
-  for (let i = 0; i < count; i++) {
-    const poolIndex = (seed + i * 3) % POOL_OF_VISITS.length;
-    const template = POOL_OF_VISITS[poolIndex];
-    const time = times[i % times.length];
-
-    let status: AgendaStatus = "confermato";
-    if (i === 0) status = "in_visita";
-    else if (i === 1) status = "arrivato";
-
-    items.push({
-      id: `gen-${dateStr}-${i}`,
-      time,
-      patient: template.patient,
-      service: template.service,
-      doctor: template.doctor,
-      status,
-      roomId: template.roomId,
-      covered: template.covered,
-    });
-  }
-
-  return items.sort((a, b) => a.time.localeCompare(b.time));
 }
 
 export default function PrenotaPage() {
   const [open, setOpen] = useState(false);
   const todayIso = useMemo(() => getTodayIso(), []);
   const [selectedDate, setSelectedDate] = useState<string>(todayIso);
-  const [agendasByDate, setAgendasByDate] = useState<Record<string, AgendaItem[]>>({
-    [todayIso]: INITIAL_AGENDA,
-  });
-  const [lastBooked, setLastBooked] = useState<AgendaItem | null>(null);
+  const [agendaItems, setAgendaItems] = useState<LiveAgendaItem[]>([]);
+  const [loadingAgenda, setLoadingAgenda] = useState<boolean>(true);
+  const [lastBooked, setLastBooked] = useState<LiveAgendaItem | null>(null);
 
   const isToday = selectedDate === todayIso;
+  const isClosedWeekend = useMemo(
+    () => isWeekendIso(selectedDate),
+    [selectedDate]
+  );
 
   const selectedDateLabel = useMemo(
     () => formatItalianDate(selectedDate),
     [selectedDate]
   );
 
-  const currentAgenda = useMemo(() => {
-    if (agendasByDate[selectedDate]) {
-      return agendasByDate[selectedDate];
+  const fetchLiveAgenda = useCallback(async (dateToLoad: string) => {
+    setLoadingAgenda(true);
+    try {
+      const liveRows = await getLiveAgendaForDateAction(dateToLoad);
+      setAgendaItems(liveRows);
+    } catch {
+      setAgendaItems([]);
+    } finally {
+      setLoadingAgenda(false);
     }
-    return generateSeedAgendaForDate(selectedDate);
-  }, [agendasByDate, selectedDate]);
+  }, []);
+
+  useEffect(() => {
+    void fetchLiveAgenda(selectedDate);
+  }, [selectedDate, fetchLiveAgenda]);
 
   const counts = useMemo(() => {
-    const inProgress = currentAgenda.filter(
-      (item) => item.status === "in_visita" || item.status === "arrivato"
+    const inProgress = agendaItems.filter(
+      (item) => item.status === "in_visita" || item.status === "in_attesa"
     ).length;
-    const confirmed = currentAgenda.filter(
+    const confirmed = agendaItems.filter(
       (item) => item.status === "confermato"
     ).length;
-    const extra = currentAgenda.filter((item) => !item.covered).length;
+    const extra = agendaItems.filter((item) => !item.covered).length;
 
     return {
-      total: currentAgenda.length,
+      total: agendaItems.length,
       inProgress,
       confirmed,
       extra,
     };
-  }, [currentAgenda]);
+  }, [agendaItems]);
 
   function handleBooked(payload: BookingDrawerBookedPayload) {
-    const roomId = STUDIOS.some((studio) => studio.id === payload.slot.roomId)
-      ? (payload.slot.roomId as string)
-      : "studio-2";
+    const rawRoom = payload.slot.roomId ?? "studio-1";
+    const roomId = STUDIOS.some((studio) => studio.id === rawRoom)
+      ? rawRoom
+      : "studio-1";
 
-    const time = timeFormatter.format(new Date(payload.slot.start));
-    const targetDate = payload.slot.start
-      ? new Date(payload.slot.start).toISOString().slice(0, 10)
-      : selectedDate;
+    const startObj = new Date(payload.slot.start);
+    const endObj = new Date(payload.slot.end);
+    const time = timeFormatter.format(startObj);
+    const endTime = timeFormatter.format(endObj);
 
-    const item: AgendaItem = {
+    const targetDate = new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Europe/Rome",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }).format(startObj);
+
+    const item: LiveAgendaItem = {
       id: payload.appointmentId,
       time,
+      endTime,
       patient: `${payload.patient.lastName} ${payload.patient.firstName}`,
+      patientId: payload.patient.id,
       service: payload.service.name,
       doctor: payload.slot.doctorName ?? "Specialista Cocoora",
       status: "confermato",
       roomId,
+      roomName:
+        STUDIOS.find((studio) => studio.id === roomId)?.name ?? "Studio 1",
       covered: Boolean(
         payload.service.isCoveredByMembership &&
           (payload.patient.membershipId || payload.patient.pathName)
       ),
     };
 
-    setAgendasByDate((previous) => {
-      const existing = previous[targetDate] || generateSeedAgendaForDate(targetDate);
-      const updated = [...existing, item].sort((left, right) =>
-        left.time.localeCompare(right.time)
-      );
-      return {
-        ...previous,
-        [targetDate]: updated,
-      };
-    });
-
     setLastBooked(item);
+
+    if (targetDate !== selectedDate) {
+      setSelectedDate(targetDate);
+    } else {
+      setAgendaItems((previous) =>
+        [...previous.filter((p) => p.id !== item.id), item].sort((l, r) =>
+          l.time.localeCompare(r.time)
+        )
+      );
+      void fetchLiveAgenda(targetDate);
+    }
   }
 
   return (
@@ -424,7 +269,7 @@ export default function PrenotaPage() {
               className="inline-flex items-center gap-1.5 rounded-lg border border-[#80A1B2]/45 bg-white px-2.5 py-1.5 text-[11px] font-bold text-[#1C4A5C] transition hover:border-[#1C4A5C] hover:bg-[#EAF1F5]"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
-              Segreteria
+              Desk Visite di Oggi
             </Link>
 
             <div className="hidden h-6 w-px bg-[#80A1B2]/30 sm:block" />
@@ -444,7 +289,7 @@ export default function PrenotaPage() {
                   Cocoora Desk
                 </p>
                 <p className="text-[9px] font-semibold uppercase tracking-[0.16em] text-[#80A1B2]">
-                  Prenotazione rapida
+                  Prenotazione rapida · Sincronizzata con Supabase
                 </p>
               </div>
             </div>
@@ -453,11 +298,30 @@ export default function PrenotaPage() {
           <div className="flex items-center gap-2">
             <span className="hidden items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-[10px] font-semibold text-emerald-800 md:inline-flex">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
-              Desk attivo
+              Agenda Live
             </span>
+
             <button
               type="button"
-              onClick={() => setOpen(true)}
+              onClick={() => void fetchLiveAgenda(selectedDate)}
+              disabled={loadingAgenda}
+              className="inline-flex items-center gap-1.5 rounded-xl border border-[#80A1B2]/45 bg-white px-2.5 py-2 text-xs font-bold text-[#1C4A5C] transition hover:bg-[#EAF1F5] disabled:opacity-50"
+              title="Ricarica appuntamenti reali da Supabase"
+            >
+              <RefreshCw
+                className={cn("h-3.5 w-3.5", loadingAgenda && "animate-spin")}
+              />
+              <span className="hidden sm:inline">Aggiorna</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                if (isClosedWeekend) {
+                  setSelectedDate(nextMondayIso(selectedDate));
+                }
+                setOpen(true);
+              }}
               className="inline-flex items-center gap-1.5 rounded-xl bg-[#1C4A5C] px-3 py-2 text-xs font-bold text-white shadow-[0_10px_24px_-12px_rgba(28,74,92,0.8)] transition hover:bg-[#03354B]"
             >
               <CalendarPlus className="h-4 w-4" />
@@ -474,11 +338,16 @@ export default function PrenotaPage() {
             <div className="flex items-center gap-2">
               <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-[#80A1B2]">
                 <Zap className="h-3 w-3 text-[#1C4A5C]" />
-                Flusso a 3 click
+                Flusso a 3 click · Slot da 1 ora
               </p>
               {isToday && (
-                <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-800 border border-emerald-200">
+                <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-800">
                   Oggi
+                </span>
+              )}
+              {isClosedWeekend && (
+                <span className="rounded-full border border-amber-300 bg-amber-50 px-2 py-0.5 text-[10px] font-bold text-amber-900">
+                  Centro Chiuso
                 </span>
               )}
             </div>
@@ -507,7 +376,7 @@ export default function PrenotaPage() {
                 type="button"
                 onClick={() => setSelectedDate(todayIso)}
                 className={cn(
-                  "px-3 py-1 text-xs font-bold rounded-lg transition",
+                  "rounded-lg px-3 py-1 text-xs font-bold transition",
                   isToday
                     ? "bg-[#1C4A5C] text-white shadow-xs"
                     : "text-[#1C4A5C] hover:bg-white"
@@ -535,52 +404,120 @@ export default function PrenotaPage() {
                 onChange={(e) => {
                   if (e.target.value) setSelectedDate(e.target.value);
                 }}
-                className="text-xs font-semibold text-[#03354B] bg-transparent outline-hidden cursor-pointer"
+                className="cursor-pointer bg-transparent text-xs font-semibold text-[#03354B] outline-hidden"
               />
             </div>
 
-            <div className="hidden sm:flex flex-wrap items-center gap-1.5 text-[10px] text-[#3D3D3C]/65 ml-1">
-              <span className="inline-flex items-center gap-1 rounded-full border border-[#80A1B2]/35 bg-white px-2 py-1">
+            <div className="ml-1 hidden flex-wrap items-center gap-1.5 text-[10px] text-[#3D3D3C]/70 sm:flex">
+              <span className="inline-flex items-center gap-1 rounded-full border border-[#80A1B2]/35 bg-white px-2.5 py-1 font-semibold text-[#1C4A5C]">
                 <Clock className="h-3 w-3 text-[#80A1B2]" />
-                8:00–20:00 · Sab 9:00–14:00
+                Lun–Ven 9:00–19:00 (Orario continuato) · Sabato chiuso
               </span>
-              <span className="inline-flex items-center gap-1 rounded-full border border-[#80A1B2]/35 bg-white px-2 py-1">
+              <span className="inline-flex items-center gap-1 rounded-full border border-[#80A1B2]/35 bg-white px-2.5 py-1">
                 <Users className="h-3 w-3 text-[#80A1B2]" />
-                4 studi + OPT
+                4 Studi + Sala Filtro
               </span>
             </div>
           </div>
         </div>
 
+        {/* BANNER CONFERMA PRENOTAZIONE CON CTA DIRETTA AL DESK */}
         {lastBooked && (
-          <div className="mt-4 flex items-start gap-2.5 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3">
-            <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-emerald-700" />
-            <div className="min-w-0 flex-1">
-              <p className="text-xs font-bold text-emerald-900">
-                Prenotazione registrata: {lastBooked.patient}
-              </p>
-              <p className="mt-0.5 text-[11px] text-emerald-800">
-                {lastBooked.time} · {lastBooked.service} ·{" "}
-                {lastBooked.doctor} ·{" "}
-                {STUDIOS.find((studio) => studio.id === lastBooked.roomId)?.name}
-              </p>
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-emerald-300 bg-emerald-50 px-4 py-3.5 shadow-xs">
+            <div className="flex items-start gap-2.5">
+              <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-700" />
+              <div>
+                <p className="text-xs font-bold text-emerald-950">
+                  Appuntamento salvato su Supabase: {lastBooked.patient}
+                </p>
+                <p className="mt-0.5 text-[11px] font-medium text-emerald-800">
+                  {lastBooked.time}–{lastBooked.endTime} · {lastBooked.service} ·{" "}
+                  {lastBooked.doctor} · {lastBooked.roomName}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2">
+              <Link
+                href="/segreteria"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-700 px-3.5 py-2 text-xs font-bold text-white shadow-xs transition hover:bg-emerald-800"
+              >
+                <span>📋 Vai subito al Desk Visite di Oggi →</span>
+              </Link>
+              <button
+                type="button"
+                onClick={() => setLastBooked(null)}
+                className="rounded-lg px-2.5 py-1.5 text-[11px] font-bold text-emerald-900 transition hover:bg-emerald-100"
+              >
+                Chiudi
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* BLOCCO SABATO E DOMENICA CENTRO CHIUSO */}
+        {isClosedWeekend && (
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-amber-300 bg-amber-50 px-4 py-3.5">
+            <div className="flex items-start gap-2.5">
+              <Ban className="mt-0.5 h-5 w-5 shrink-0 text-amber-700" />
+              <div>
+                <p className="text-xs font-bold text-amber-950">
+                  Sabato e Domenica Centro Chiuso
+                </p>
+                <p className="mt-0.5 text-[11px] text-amber-900">
+                  Gli orari ufficiali di apertura sono Lun–Ven 9:00–19:00
+                  (mattina 09:00–14:00, pomeriggio 14:00–19:00). Non sono
+                  previsti slot prenotabili nel fine settimana.
+                </p>
+              </div>
             </div>
             <button
               type="button"
-              onClick={() => setLastBooked(null)}
-              className="rounded-md px-2 py-1 text-[10px] font-bold text-emerald-800 transition hover:bg-emerald-100"
+              onClick={() => setSelectedDate(nextMondayIso(selectedDate))}
+              className="inline-flex items-center gap-1.5 rounded-xl bg-[#1C4A5C] px-3.5 py-2 text-xs font-bold text-white transition hover:bg-[#03354B]"
             >
-              Chiudi
+              Vai a Lunedì →
             </button>
           </div>
         )}
+
+        {/* GRIGLIA FASCE ORARIE UFFICIALI 09:00–19:00 */}
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-[#80A1B2]/25 bg-white px-3.5 py-2.5 text-[10px]">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="font-bold uppercase tracking-wider text-[#03354B]">
+              Griglia Oraria Ufficiale (60 min):
+            </span>
+            <span className="rounded-md bg-[#EEF6FA] px-2 py-0.5 font-semibold text-[#1C4A5C]">
+              Mattina 09:00–14:00
+            </span>
+            <span className="rounded-md bg-[#EEF6FA] px-2 py-0.5 font-semibold text-[#1C4A5C]">
+              Pomeriggio 14:00–19:00
+            </span>
+          </div>
+          <div className="flex flex-wrap items-center gap-1">
+            {HOURLY_GRID.map((slotHour) => (
+              <span
+                key={slotHour}
+                className="rounded border border-[#80A1B2]/30 bg-[#F4F8FA] px-1.5 py-0.5 font-mono text-[9px] font-semibold text-[#1C4A5C]"
+              >
+                {slotHour}
+              </span>
+            ))}
+          </div>
+        </div>
 
         {/* KPI AGENDA */}
         <div className="mt-4 grid grid-cols-2 gap-2.5 lg:grid-cols-4">
           <StatCard
             label={isToday ? "Appuntamenti oggi" : "Appuntamenti del giorno"}
             value={counts.total}
-            hint={isToday ? "Agenda aggregata" : `Totale per ${selectedDateLabel}`}
+            hint={
+              isClosedWeekend
+                ? "Centro chiuso (Sab–Dom)"
+                : isToday
+                  ? "Agenda live da Supabase"
+                  : `Totale per ${selectedDateLabel}`
+            }
             icon={<CalendarDays className="h-4 w-4" />}
           />
           <StatCard
@@ -606,35 +543,41 @@ export default function PrenotaPage() {
           />
         </div>
 
-        {/* AGENDA 4 STUDI + SALA OPT */}
+        {/* AGENDA 4 STUDI + SALA FILTRO */}
         <section className="mt-5 rounded-2xl border border-[#80A1B2]/30 bg-white p-3 shadow-[0_18px_50px_-30px_rgba(3,53,75,0.35)] sm:p-4">
           <div className="mb-3 flex flex-wrap items-center justify-between gap-2 px-1">
             <div>
               <h2 className="text-sm font-bold text-[#03354B]">
-                Agenda del giorno per studio · <span className="capitalize text-[#1C4A5C] font-semibold">{selectedDateLabel}</span>
+                Agenda reale per studio ·{" "}
+                <span className="font-semibold capitalize text-[#1C4A5C]">
+                  {selectedDateLabel}
+                </span>
               </h2>
               <p className="text-[10px] text-[#3D3D3C]/60">
-                Incrocio sale, specialisti e prestazioni in tempo reale.
+                Sincronizzazione diretta con il Desk Visite di Oggi · Lun–Ven
+                9:00–19:00 (Orario continuato) · Sabato chiuso
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2 text-[9px] font-medium text-[#3D3D3C]/65">
-              {(Object.keys(STATUS_META) as AgendaStatus[]).map((status) => (
-                <span key={status} className="inline-flex items-center gap-1">
-                  <span
-                    className={cn(
-                      "h-1.5 w-1.5 rounded-full",
-                      STATUS_META[status].dot
-                    )}
-                  />
-                  {STATUS_META[status].label}
-                </span>
-              ))}
+              {(Object.keys(STATUS_META) as LiveAgendaStatus[]).map(
+                (status) => (
+                  <span key={status} className="inline-flex items-center gap-1">
+                    <span
+                      className={cn(
+                        "h-1.5 w-1.5 rounded-full",
+                        STATUS_META[status].dot
+                      )}
+                    />
+                    {STATUS_META[status].label}
+                  </span>
+                )
+              )}
             </div>
           </div>
 
           <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-5">
             {STUDIOS.map((studio) => {
-              const studioItems = currentAgenda.filter(
+              const studioItems = agendaItems.filter(
                 (item) => item.roomId === studio.id
               );
 
@@ -653,16 +596,31 @@ export default function PrenotaPage() {
                         {studioItems.length}
                       </span>
                     </div>
-                    <p className="mt-0.5 text-[9px] font-medium uppercase tracking-wide text-[#80A1B2]">
+                    <p className="mt-0.5 text-[9px] font-bold uppercase tracking-wide text-[#80A1B2]">
                       {studio.focus}
+                    </p>
+                    <p className="mt-0.5 truncate text-[9px] text-[#3D3D3C]/65">
+                      {studio.specialists}
                     </p>
                   </div>
 
                   <div className="flex-1 space-y-2 p-2.5">
-                    {studioItems.length === 0 ? (
-                      <div className="flex h-full min-h-[120px] items-center justify-center rounded-lg border border-dashed border-[#80A1B2]/40 bg-white/60 px-3 text-center">
+                    {isClosedWeekend ? (
+                      <div className="flex h-full min-h-[120px] items-center justify-center rounded-lg border border-dashed border-amber-300 bg-amber-50/50 px-3 text-center">
+                        <p className="text-[10px] font-semibold text-amber-900">
+                          Sabato e Domenica Centro Chiuso
+                        </p>
+                      </div>
+                    ) : loadingAgenda ? (
+                      <div className="flex h-full min-h-[120px] items-center justify-center rounded-lg border border-dashed border-[#80A1B2]/30 bg-white/60 px-3 text-center">
                         <p className="text-[10px] text-[#3D3D3C]/55">
-                          Nessun appuntamento in agenda
+                          Caricamento agenda live…
+                        </p>
+                      </div>
+                    ) : studioItems.length === 0 ? (
+                      <div className="flex h-full min-h-[120px] items-center justify-center rounded-lg border border-dashed border-[#80A1B2]/40 bg-white/60 px-3 text-center">
+                        <p className="text-[10px] text-[#3D3D3C]/60">
+                          Tutti gli slot 09:00–19:00 disponibili
                         </p>
                       </div>
                     ) : (
@@ -681,6 +639,9 @@ export default function PrenotaPage() {
                               <span className="inline-flex items-center gap-1 text-xs font-bold text-[#03354B]">
                                 <Clock className="h-3 w-3 text-[#80A1B2]" />
                                 {item.time}
+                                <span className="text-[9px] font-normal text-[#3D3D3C]/55">
+                                  –{item.endTime}
+                                </span>
                               </span>
                               <span
                                 className={cn(
@@ -699,7 +660,7 @@ export default function PrenotaPage() {
                               {item.service}
                             </p>
                             <div className="mt-1 flex items-center justify-between gap-1">
-                              <p className="truncate text-[9px] text-[#3D3D3C]/55">
+                              <p className="truncate text-[9px] font-medium text-[#1C4A5C]">
                                 {item.doctor}
                               </p>
                               <span
@@ -721,11 +682,14 @@ export default function PrenotaPage() {
 
                   <button
                     type="button"
+                    disabled={isClosedWeekend}
                     onClick={() => setOpen(true)}
-                    className="m-2.5 mt-0 inline-flex items-center justify-center gap-1 rounded-lg border border-dashed border-[#80A1B2]/50 bg-white/70 px-2 py-1.5 text-[10px] font-bold text-[#1C4A5C] transition hover:border-[#1C4A5C] hover:bg-white"
+                    className="m-2.5 mt-0 inline-flex items-center justify-center gap-1 rounded-lg border border-dashed border-[#80A1B2]/50 bg-white/70 px-2 py-1.5 text-[10px] font-bold text-[#1C4A5C] transition hover:border-[#1C4A5C] hover:bg-white disabled:cursor-not-allowed disabled:opacity-45"
                   >
                     <Plus className="h-3 w-3" />
-                    Prenota in {studio.name}
+                    {isClosedWeekend
+                      ? "Chiuso"
+                      : `Prenota in ${studio.name}`}
                   </button>
                 </div>
               );
@@ -741,11 +705,12 @@ export default function PrenotaPage() {
             </div>
             <div>
               <p className="text-sm font-bold">
-                Prenota in 3 click, senza interrompere l&apos;accoglienza
+                Prenota in 3 click, salvataggio diretto nel Desk Visite di Oggi
               </p>
               <p className="mt-0.5 text-[11px] text-[#CFE0E8]">
-                Paziente → Prestazione → Slot libero. Il doppio consenso per i
-                minori è richiesto automaticamente.
+                Paziente → Prestazione → Slot libero da 1 ora (Lun–Ven 9:00–19:00,
+                Sabato chiuso). Il doppio consenso per i minori è richiesto
+                automaticamente.
               </p>
             </div>
           </div>
@@ -772,7 +737,12 @@ export default function PrenotaPage() {
 
             <button
               type="button"
-              onClick={() => setOpen(true)}
+              onClick={() => {
+                if (isClosedWeekend) {
+                  setSelectedDate(nextMondayIso(selectedDate));
+                }
+                setOpen(true);
+              }}
               className="inline-flex items-center gap-1.5 rounded-xl bg-white px-3.5 py-2.5 text-xs font-bold text-[#03354B] transition hover:bg-[#EAF1F5]"
             >
               <CalendarPlus className="h-4 w-4" />
@@ -792,7 +762,7 @@ export default function PrenotaPage() {
         open={open}
         onClose={() => setOpen(false)}
         onBooked={handleBooked}
-        initialDate={selectedDate}
+        initialDate={isClosedWeekend ? nextMondayIso(selectedDate) : selectedDate}
       />
     </div>
   );

@@ -1,229 +1,430 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import {
+  AlertCircle,
   ArrowLeft,
   ArrowRight,
-  Download,
-  FileText,
-  Globe,
-  Lock,
-  Shield,
+  Eye,
+  EyeOff,
+  Loader2,
+  LockKeyhole,
+  ShieldCheck,
   Stethoscope,
+  UserRound,
   Users,
+  type LucideIcon,
 } from "lucide-react";
+import { Logo } from "@/components/logo";
 
-interface PortalItem {
-  id: string;
-  title: string;
-  subtitle: string;
-  badge: string;
-  badgeColor: string;
-  href: string;
-  pdfHref: string;
-  pdfName: string;
-  icon: typeof Shield;
-  colorClasses: {
-    bg: string;
-    border: string;
-    iconBg: string;
-    iconColor: string;
-    btn: string;
-  };
+type AccessRole = "admin" | "segreteria" | "medico" | "paziente";
+
+interface AccessOption {
+  id: AccessRole;
+  label: string;
+  description: string;
+  icon: LucideIcon;
 }
 
-const PORTALS: PortalItem[] = [
+interface LoginResponse {
+  ok?: boolean;
+  error?: string;
+  redirectUrl?: string;
+  locked?: boolean;
+  waitMinutes?: number;
+  remainingAttempts?: number;
+}
+
+const ACCESS_OPTIONS: AccessOption[] = [
   {
-    id: "direzione",
-    title: "Direzione Sanitaria & STP",
-    subtitle: "Controllo di gestione, cassa Stripe, Scatola Nera e CRM pazienti.",
-    badge: "LIVELLO 1 · CONFIDENZIALE",
-    badgeColor: "bg-amber-100 text-amber-900 border-amber-300",
-    href: "/accesso-direzione",
-    pdfHref: "/guide-accesso/Guida-Accesso-Direzione-Sanitaria.pdf",
-    pdfName: "PDF Direzione",
-    icon: Shield,
-    colorClasses: {
-      bg: "bg-[#06282E] text-white",
-      border: "border-amber-400/30",
-      iconBg: "bg-amber-400/20 text-amber-300",
-      iconColor: "text-amber-400",
-      btn: "bg-amber-500 hover:bg-amber-400 text-slate-950 font-semibold",
-    },
+    id: "admin",
+    label: "Admin / Direzione Sanitaria",
+    description: "Controllo completo, CRM e gestione del centro",
+    icon: ShieldCheck,
   },
   {
-    id: "reception",
-    title: "Desk & Accoglienza Pazienti",
-    subtitle: "Check-in banco, flussi sala d'attesa, cassa e ricevute in sede.",
-    badge: "LIVELLO 3 · CLINICA",
-    badgeColor: "bg-emerald-100 text-emerald-900 border-emerald-300",
-    href: "/accesso-reception",
-    pdfHref: "/guide-accesso/Guida-Accesso-Reception-Desk.pdf",
-    pdfName: "PDF Desk",
+    id: "segreteria",
+    label: "Segreteria CRM",
+    description: "Accoglienza, agenda, cassa e referti",
     icon: Users,
-    colorClasses: {
-      bg: "bg-white text-slate-900",
-      border: "border-slate-200 hover:border-emerald-300",
-      iconBg: "bg-emerald-50 text-emerald-700",
-      iconColor: "text-emerald-700",
-      btn: "bg-[#0F4C5C] hover:bg-[#0A373E] text-white font-medium",
-    },
   },
   {
-    id: "marketing",
-    title: "Content Studio & Partner Silvia",
-    subtitle: "Pannello SEO, telemetria visitatori unici reali, audit log e video reels.",
-    badge: "LIVELLO 2 · MARKETING",
-    badgeColor: "bg-indigo-100 text-indigo-900 border-indigo-300",
-    href: "/accesso-marketing",
-    pdfHref: "/guide-accesso/Guida-Accesso-Marketing-Silvia.pdf",
-    pdfName: "PDF Silvia",
-    icon: Globe,
-    colorClasses: {
-      bg: "bg-[#0B0F19] text-white",
-      border: "border-indigo-500/30 hover:border-indigo-400/60",
-      iconBg: "bg-indigo-500/20 text-indigo-300",
-      iconColor: "text-indigo-400",
-      btn: "bg-indigo-600 hover:bg-indigo-500 text-white font-medium",
-    },
-  },
-  {
-    id: "medici",
-    title: "Specialisti & Medici Ambulatorio",
-    subtitle: "Smart PIN rapido su tablet studio touch, cartella clinica e visite di oggi.",
-    badge: "LIVELLO 4 · AMBULATORIO",
-    badgeColor: "bg-teal-100 text-teal-900 border-teal-300",
-    href: "/accesso-medici",
-    pdfHref: "/guide-accesso/Guida-Accesso-Medici-Ambulatorio.pdf",
-    pdfName: "PDF Medici",
+    id: "medico",
+    label: "Area Medico",
+    description: "Agenda giornaliera e pazienti assegnati",
     icon: Stethoscope,
-    colorClasses: {
-      bg: "bg-white text-slate-900",
-      border: "border-slate-200 hover:border-teal-300",
-      iconBg: "bg-teal-50 text-teal-700",
-      iconColor: "text-teal-700",
-      btn: "bg-[#0F4C5C] hover:bg-[#0A373E] text-white font-medium",
-    },
+  },
+  {
+    id: "paziente",
+    label: "Area Paziente",
+    description: "Percorso personale, referti e appuntamenti",
+    icon: UserRound,
   },
 ];
 
-function LoginGatewayContent() {
+const ROLE_HOME: Record<AccessRole, string> = {
+  admin: "/admin",
+  segreteria: "/segreteria",
+  medico: "/medico",
+  paziente: "/area-paziente",
+};
+
+function inferRoleFromPath(path: string | null): AccessRole {
+  if (!path) return "admin";
+  if (path.startsWith("/segreteria")) return "segreteria";
+  if (path.startsWith("/medico")) return "medico";
+  if (path.startsWith("/area-paziente")) return "paziente";
+  return "admin";
+}
+
+function isSafeInternalPath(path: string | null | undefined): path is string {
+  if (!path) return false;
+  if (!path.startsWith("/") || path.startsWith("//")) return false;
+  if (path.includes("\\") || path.includes("\n") || path.includes("\r")) return false;
+  return true;
+}
+
+function resolveRedirect(
+  from: string | null,
+  role: AccessRole,
+  apiRedirect?: string,
+): string {
+  const fallback = isSafeInternalPath(apiRedirect) ? apiRedirect : ROLE_HOME[role];
+
+  if (!isSafeInternalPath(from)) {
+    return fallback;
+  }
+
+  const path = from.split("?")[0];
+  const allowedPrefixes =
+    role === "admin"
+      ? ["/admin", "/segreteria", "/medico", "/area-paziente"]
+      : [ROLE_HOME[role]];
+
+  const isAllowed = allowedPrefixes.some(
+    (prefix) => path === prefix || path.startsWith(`${prefix}/`),
+  );
+
+  return isAllowed ? from : fallback;
+}
+
+function LoginForm() {
   const searchParams = useSearchParams();
   const fromParam = searchParams.get("from");
 
+  const [role, setRole] = useState<AccessRole>(() => inferRoleFromPath(fromParam));
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (loading) return;
+
+    setError(null);
+    setLoading(true);
+
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password, role }),
+      });
+
+      const data = (await response.json().catch(() => null)) as LoginResponse | null;
+
+      if (response.ok && data?.ok) {
+        const target = resolveRedirect(fromParam, role, data.redirectUrl);
+        window.location.assign(target);
+        return;
+      }
+
+      if (response.status === 429 || data?.locked) {
+        setError(
+          data?.error ||
+            `Accesso temporaneamente sospeso. Riprova tra ${data?.waitMinutes ?? 15} minuti.`,
+        );
+      } else if (response.status === 401) {
+        setError(
+          data?.error ||
+            "Credenziali non valide o profilo non abilitato per l'area selezionata.",
+        );
+      } else {
+        setError(
+          data?.error ||
+            "Impossibile completare l'accesso in questo momento. Riprova.",
+        );
+      }
+    } catch {
+      setError(
+        "Errore di rete durante l'accesso. Controlla la connessione e riprova.",
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
-    <div className="h-screen max-h-screen w-screen bg-[#FAF8F5] text-[#1F2421] flex flex-col justify-between p-2 sm:p-4 overflow-hidden">
-      {/* Header bar */}
-      <header className="w-full max-w-5xl mx-auto flex items-center justify-between shrink-0 py-1 px-1">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-slate-600 hover:text-slate-900 transition-colors font-medium"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" />
-          <span>Torna al sito Cocoora</span>
-        </Link>
-        <div className="flex items-center gap-2">
-          <a
-            href="/guide-accesso/COCOORA-MASTER-ACCESSI-CREDENZIALI.pdf"
-            download
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-950 text-[11px] font-semibold transition-all shadow-xs"
-            title="Scarica il Dossier Master completo con tutti gli accessi e credenziali per la Direzione"
+    <div className="fixed inset-0 z-[70] overflow-y-auto bg-[#f4f8fa] text-[#3d3d3c]">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(70% 60% at 0% 0%, rgba(28,74,92,0.10) 0%, transparent 65%), radial-gradient(55% 45% at 100% 100%, rgba(128,161,178,0.18) 0%, transparent 70%), linear-gradient(180deg, #f7fafb 0%, #eef5f8 100%)",
+        }}
+      />
+
+      <div className="relative mx-auto flex min-h-screen w-full max-w-6xl flex-col px-5 py-6 sm:px-8 lg:px-10">
+        <header className="flex items-center justify-between gap-4">
+          <Link href="/" aria-label="Torna alla home di Cocoora">
+            <Logo className="h-8 w-auto sm:h-10" />
+          </Link>
+          <Link
+            href="/"
+            className="inline-flex items-center gap-1.5 rounded-full border border-[#80a1b2]/40 bg-white/70 px-3.5 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#1c4a5c] transition-colors hover:border-[#1c4a5c] hover:bg-white"
           >
-            <FileText className="w-3 h-3 text-amber-700" />
-            <span>Dossier Master Direzione (PDF)</span>
-            <Download className="w-3 h-3 text-amber-700" />
-          </a>
-          <div className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-[11px] font-medium">
-            <Lock className="w-3 h-3 text-slate-500" />
-            <span>Gateway SSL</span>
-          </div>
-        </div>
-      </header>
+            <ArrowLeft className="h-3.5 w-3.5" />
+            Torna al sito
+          </Link>
+        </header>
 
-      {/* Main Container */}
-      <main className="flex-1 max-w-5xl w-full mx-auto flex flex-col justify-center min-h-0 my-auto py-1">
-        <div className="text-center max-w-xl mx-auto mb-3 sm:mb-5">
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#0F4C5C]/10 border border-[#0F4C5C]/20 text-[#0F4C5C] text-[10px] font-bold tracking-wider uppercase mb-1.5">
-            <Shield className="w-3 h-3" />
-            SISTEMA DI CONTROLLO ACCESSI SEPARATI
-          </div>
-          <h1 className="text-xl sm:text-2xl font-serif text-[#0F4C5C] font-bold tracking-tight">
-            Gateway di Accesso Riservato
-          </h1>
-          <p className="text-xs text-slate-600 mt-1">
-            Ciascun ruolo dispone di un <strong>URL indipendente</strong>, credenziali distinte e manuale PDF dedicato.
-          </p>
-        </div>
+        <div className="my-auto grid w-full gap-6 py-8 lg:grid-cols-[0.95fr_1.05fr] lg:gap-10 lg:py-12">
+          <section className="relative overflow-hidden rounded-[2rem] bg-[#03354b] p-7 text-white shadow-[0_30px_80px_-40px_rgba(3,53,75,0.8)] sm:p-10">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background:
+                  "radial-gradient(80% 70% at 0% 0%, rgba(128,161,178,0.30) 0%, transparent 62%), radial-gradient(60% 60% at 100% 100%, rgba(28,74,92,0.85) 0%, transparent 75%)",
+              }}
+            />
+            <div className="noise pointer-events-none absolute inset-0 opacity-60" />
+            <div className="pointer-events-none absolute -right-16 -top-20 h-64 w-64 rounded-full border border-white/10" />
+            <div className="pointer-events-none absolute -bottom-24 -left-16 h-72 w-72 rounded-full border border-[#80a1b2]/20" />
 
-        {/* Griglia 4 Portali Compatta */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 sm:gap-3.5">
-          {PORTALS.map((portal) => {
-            const Icon = portal.icon;
-            const targetHref = fromParam
-              ? `${portal.href}?from=${encodeURIComponent(fromParam)}`
-              : portal.href;
+            <div className="relative">
+              <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/[0.07] px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#c5dbe3]">
+                <LockKeyhole className="h-3.5 w-3.5" />
+                Accesso riservato
+              </span>
 
-            return (
-              <div
-                key={portal.id}
-                className={`rounded-2xl p-3.5 sm:p-4 border shadow-sm transition-all duration-150 flex flex-col justify-between ${portal.colorClasses.bg} ${portal.colorClasses.border}`}
-              >
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-2">
-                    <div className="flex items-center gap-2">
-                      <div
-                        className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${portal.colorClasses.iconBg}`}
-                      >
-                        <Icon className="w-4 h-4" />
-                      </div>
-                      <h3 className="text-sm font-bold font-serif tracking-tight">
-                        {portal.title}
-                      </h3>
-                    </div>
-                    <span
-                      className={`px-2 py-0.5 rounded-full text-[9px] font-bold tracking-wider uppercase border shrink-0 ${portal.badgeColor}`}
-                    >
-                      {portal.badge}
+              <h1 className="mt-7 max-w-md font-serif text-3xl font-semibold leading-[1.08] tracking-tight text-white sm:text-4xl lg:text-[2.8rem]">
+                Connessi alla tua salute.
+              </h1>
+              <p className="mt-4 max-w-md text-sm leading-relaxed text-[#d8e7ec]/85">
+                Un unico punto di accesso per direzione, segreteria, medici e
+                pazienti Cocoora. Ogni profilo vede esclusivamente i dati e gli
+                strumenti della propria area.
+              </p>
+
+              <div className="mt-8 space-y-3.5">
+                {[
+                  "Sessioni firmate HMAC-SHA256 e cookie HttpOnly",
+                  "Accesso differenziato per ruolo e area protetta",
+                  "Sessione attiva per 7 giorni, con logout immediato",
+                ].map((item) => (
+                  <div key={item} className="flex items-start gap-2.5">
+                    <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border border-[#80a1b2]/40 bg-[#80a1b2]/15">
+                      <ShieldCheck className="h-3 w-3 text-[#c5dbe3]" />
                     </span>
+                    <p className="text-[13px] leading-relaxed text-[#d8e7ec]/85">
+                      {item}
+                    </p>
                   </div>
+                ))}
+              </div>
 
-                  <p className="text-xs opacity-75 leading-relaxed line-clamp-2 mb-2.5">
-                    {portal.subtitle}
+              <div className="mt-9 border-t border-white/15 pt-5">
+                <p className="text-[11px] leading-relaxed text-[#a8c4cf]">
+                  Per assistenza sull&apos;accesso scrivi a{" "}
+                  <a
+                    href="mailto:info@cocoora.it"
+                    className="font-semibold text-white underline decoration-[#80a1b2]/60 underline-offset-4 transition-colors hover:decoration-white"
+                  >
+                    info@cocoora.it
+                  </a>
+                  .
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section className="flex items-center">
+            <div className="w-full rounded-[2rem] border border-[#dce8ed] bg-white p-6 shadow-[0_28px_70px_-40px_rgba(3,53,75,0.45)] sm:p-8 lg:p-10">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#80a1b2]">
+                    Cocoora Centro Medico
+                  </p>
+                  <h2 className="mt-2 font-serif text-2xl font-semibold tracking-tight text-[#03354b] sm:text-3xl">
+                    Accedi alla tua area
+                  </h2>
+                  <p className="mt-2 text-sm leading-relaxed text-[#3d3d3c]/75">
+                    Seleziona il tipo di accesso e inserisci le credenziali
+                    assegnate.
                   </p>
                 </div>
-
-                <div className="pt-2 border-t border-current/10 flex items-center justify-between gap-2">
-                  <Link
-                    href={targetHref}
-                    className={`flex-1 py-1.5 px-3 rounded-lg text-center text-xs transition-all flex items-center justify-center gap-1.5 shadow-xs ${portal.colorClasses.btn}`}
-                  >
-                    <span>Entra nel Portale</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </Link>
-
-                  <a
-                    href={portal.pdfHref}
-                    download
-                    className="px-2.5 py-1.5 rounded-lg border border-current/20 hover:bg-black/5 text-[11px] font-medium flex items-center gap-1 shrink-0 transition-colors"
-                    title={`Scarica ${portal.pdfName}`}
-                  >
-                    <FileText className="w-3 h-3" />
-                    <span>{portal.pdfName}</span>
-                    <Download className="w-2.5 h-2.5 opacity-60" />
-                  </a>
-                </div>
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#1c4a5c] text-white shadow-[0_12px_28px_-14px_rgba(28,74,92,0.8)]">
+                  <LockKeyhole className="h-5 w-5" />
+                </span>
               </div>
-            );
-          })}
-        </div>
-      </main>
 
-      {/* Footer */}
-      <footer className="w-full border-t border-slate-200 py-1.5 px-2 text-center text-[10px] text-slate-500 shrink-0">
-        Cocoora Centro Medico Autorizzato · Presidio Sanitario Cifrato · GDPR Art. 32
-      </footer>
+              <form onSubmit={handleSubmit} className="mt-7 space-y-5">
+                <fieldset>
+                  <legend className="mb-2.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#1c4a5c]">
+                    Tipo di accesso
+                  </legend>
+                  <div className="grid gap-2.5 sm:grid-cols-2">
+                    {ACCESS_OPTIONS.map((option) => {
+                      const Icon = option.icon;
+                      const isSelected = role === option.id;
+
+                      return (
+                        <button
+                          key={option.id}
+                          type="button"
+                          aria-pressed={isSelected}
+                          onClick={() => {
+                            setRole(option.id);
+                            setError(null);
+                          }}
+                          className={`flex items-start gap-3 rounded-2xl border p-3.5 text-left transition-all duration-200 ${
+                            isSelected
+                              ? "border-[#1c4a5c] bg-[#1c4a5c] text-white shadow-[0_14px_30px_-18px_rgba(28,74,92,0.9)]"
+                              : "border-[#dce8ed] bg-[#f9fcfd] text-[#03354b] hover:border-[#80a1b2] hover:bg-white"
+                          }`}
+                        >
+                          <span
+                            className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl ${
+                              isSelected
+                                ? "bg-white/15 text-white"
+                                : "bg-[#e8f1f4] text-[#1c4a5c]"
+                            }`}
+                          >
+                            <Icon className="h-4 w-4" />
+                          </span>
+                          <span className="min-w-0">
+                            <span className="block text-[12px] font-semibold leading-snug">
+                              {option.label}
+                            </span>
+                            <span
+                              className={`mt-1 block text-[10.5px] leading-relaxed ${
+                                isSelected ? "text-white/70" : "text-[#3d3d3c]/60"
+                              }`}
+                            >
+                              {option.description}
+                            </span>
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </fieldset>
+
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-[#1c4a5c]"
+                  >
+                    Email
+                  </label>
+                  <div className="relative">
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      autoComplete="email"
+                      required
+                      value={email}
+                      onChange={(event) => setEmail(event.target.value)}
+                      placeholder="nome@cocoora.it"
+                      className="w-full rounded-xl border border-[#d5e3e8] bg-[#fbfdfe] px-4 py-3 text-sm text-[#03354b] outline-none transition-all placeholder:text-[#80a1b2]/70 focus:border-[#1c4a5c] focus:bg-white focus:ring-4 focus:ring-[#1c4a5c]/10"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="password"
+                    className="mb-1.5 block text-[11px] font-semibold uppercase tracking-[0.14em] text-[#1c4a5c]"
+                  >
+                    Password
+                  </label>
+                  <div className="relative">
+                    <input
+                      id="password"
+                      name="password"
+                      type={showPassword ? "text" : "password"}
+                      autoComplete="current-password"
+                      required
+                      value={password}
+                      onChange={(event) => setPassword(event.target.value)}
+                      placeholder="Inserisci la password"
+                      className="w-full rounded-xl border border-[#d5e3e8] bg-[#fbfdfe] px-4 py-3 pr-12 text-sm text-[#03354b] outline-none transition-all placeholder:text-[#80a1b2]/70 focus:border-[#1c4a5c] focus:bg-white focus:ring-4 focus:ring-[#1c4a5c]/10"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword((current) => !current)}
+                      aria-label={showPassword ? "Nascondi password" : "Mostra password"}
+                      className="absolute right-2 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-lg text-[#80a1b2] transition-colors hover:bg-[#eef5f8] hover:text-[#1c4a5c]"
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-4 w-4" />
+                      ) : (
+                        <Eye className="h-4 w-4" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                {error ? (
+                  <div
+                    role="alert"
+                    aria-live="polite"
+                    className="flex items-start gap-2.5 rounded-xl border border-rose-200 bg-rose-50 px-3.5 py-3 text-[12px] leading-relaxed text-rose-800"
+                  >
+                    <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                    <span>{error}</span>
+                  </div>
+                ) : null}
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#1c4a5c] px-6 py-3.5 text-sm font-semibold text-white shadow-[0_16px_34px_-18px_rgba(28,74,92,0.9)] transition-all duration-300 hover:bg-[#03354b] hover:shadow-[0_20px_44px_-18px_rgba(3,53,75,0.9)] disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {loading ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      Accesso in corso...
+                    </>
+                  ) : (
+                    <>
+                      Accedi
+                      <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+                    </>
+                  )}
+                </button>
+              </form>
+
+              <div className="mt-6 flex items-center justify-center gap-2 border-t border-[#eef3f5] pt-5 text-[10.5px] text-[#3d3d3c]/55">
+                <ShieldCheck className="h-3.5 w-3.5 text-[#80a1b2]" />
+                <span>Connessione protetta · Cookie HttpOnly · SameSite Lax</span>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <footer className="pb-2 text-center text-[10px] leading-relaxed text-[#3d3d3c]/50">
+          Cocoora Centro Medico — accesso riservato a personale autorizzato e
+          pazienti registrati.
+        </footer>
+      </div>
     </div>
   );
 }
@@ -232,12 +433,12 @@ export default function LoginPage() {
   return (
     <Suspense
       fallback={
-        <div className="h-screen w-screen bg-[#FAF8F5] flex items-center justify-center">
-          <div className="w-7 h-7 rounded-full border-2 border-[#0F4C5C] border-t-transparent animate-spin" />
+        <div className="fixed inset-0 z-[70] flex items-center justify-center bg-[#f4f8fa]">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#1c4a5c] border-t-transparent" />
         </div>
       }
     >
-      <LoginGatewayContent />
+      <LoginForm />
     </Suspense>
   );
 }

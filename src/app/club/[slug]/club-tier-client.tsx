@@ -8,15 +8,17 @@ import {
   ArrowRight,
   Check,
   GraduationCap,
+  Info,
   ShieldCheck,
   TrendingDown,
 } from "lucide-react";
 import { useShop } from "@/components/providers";
 import { getDoctorBySlug } from "@/lib/doctors";
 import { computeSavings, getTierDetail } from "@/lib/club-details";
+import { MEMBERSHIP_NOTES } from "@/lib/club";
 import { redirectToStripeCheckout } from "@/lib/checkout-client";
 import { ClubComparisonTable } from "@/components/sections/club-comparison-table";
-import { ParametriEmatochimiciModal } from "@/components/club/parametri-ematochimici-modal";
+import { ParametriEmatochimiciModal, type CheckupPanelKey } from "@/components/club/parametri-ematochimici-modal";
 import type { ClubTier } from "@/lib/types";
 import { cn, formatPrice } from "@/lib/utils";
 import { Badge, Button, ButtonLink, Container, SectionLabel } from "@/components/ui";
@@ -27,6 +29,13 @@ const TIER_IMAGES: Record<string, string> = {
   care: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-8.webp",
   experience: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-5.webp",
   signature: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-20.webp",
+};
+
+const PANEL_PARAMETRI_COUNT: Record<CheckupPanelKey, number> = {
+  salute_17: 17,
+  completo_48: 48,
+  avanzato_uomo_59: 59,
+  avanzato_donna_57: 57,
 };
 
 // Feature flag: oscura il Calcolatore del Risparmio sul sito pubblico.
@@ -214,27 +223,58 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
             </div>
 
             <div className="mt-12 grid gap-3 sm:grid-cols-2">
-              {items.map((item) => (
-                <div
-                  key={item.label}
-                  className="flex items-center justify-between gap-4 rounded-2xl border border-teal-100 bg-white px-5 py-4"
-                >
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                    <span className="flex items-start gap-2.5 text-sm text-charcoal/80">
-                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-teal-600" />
-                      {item.label}
+              {items.map((item) => {
+                const panel: CheckupPanelKey =
+                  item.checkupPanel ??
+                  (tier.id === "signature"
+                    ? gender === "donna"
+                      ? "avanzato_donna_57"
+                      : "avanzato_uomo_59"
+                    : tier.id === "experience"
+                    ? "completo_48"
+                    : "salute_17");
+                const isParametri =
+                  item.checkupPanel !== undefined || item.label.toLowerCase().includes("parametri");
+                const panelCount = PANEL_PARAMETRI_COUNT[panel];
+
+                return (
+                  <div
+                    key={item.label}
+                    className="flex items-center justify-between gap-4 rounded-2xl border border-teal-100 bg-white px-5 py-4"
+                  >
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                      <span className="flex items-start gap-2.5 text-sm text-charcoal/80">
+                        <Check className="mt-0.5 h-4 w-4 shrink-0 text-teal-600" />
+                        {item.label}
+                      </span>
+                      {item.tooltip && <InfoTooltip text={item.tooltip} />}
+                      {isParametri && (
+                        <ParametriEmatochimiciModal
+                          triggerText={`Vedi i ${panelCount} parametri`}
+                          initialPanel={panel}
+                          className="ml-6 sm:ml-0 self-start sm:self-center"
+                        />
+                      )}
+                    </div>
+                    <span className="shrink-0 rounded-full bg-teal-50 px-2.5 py-1 text-xs font-semibold text-teal-800">
+                      Incluso
                     </span>
-                    {item.label.toLowerCase().includes("17 parametri") && (
-                      <ParametriEmatochimiciModal
-                        triggerText="Dettaglio 17 parametri"
-                        className="ml-6 sm:ml-0 self-start sm:self-center"
-                      />
-                    )}
                   </div>
-                  <span className="shrink-0 rounded-full bg-teal-50 px-2.5 py-1 text-xs font-semibold text-teal-800">
-                    Incluso
-                  </span>
-                </div>
+                );
+              })}
+            </div>
+
+            <div className="mt-8 rounded-2xl border border-teal-100 bg-white/80 p-5 text-xs leading-relaxed text-charcoal/70 space-y-2">
+              {gender === "donna" && (tier.id === "experience" || tier.id === "signature") && (
+                <p className="rounded-xl border border-teal-200 bg-teal-50/70 px-3 py-2 text-teal-900">
+                  <strong>Nota:</strong> La mammografia non è inclusa nella membership e può essere effettuata presso un centro convenzionato.
+                </p>
+              )}
+              <p>
+                <strong className="text-teal-900">Note sulle Membership:</strong>
+              </p>
+              {MEMBERSHIP_NOTES.map((nota) => (
+                <p key={nota}>• {nota}</p>
               ))}
             </div>
           </Container>
@@ -390,5 +430,25 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
         </Container>
       </div>
     </>
+  );
+}
+
+function InfoTooltip({ text }: { text: string }) {
+  return (
+    <span className="group relative inline-flex shrink-0 self-start sm:self-center">
+      <button
+        type="button"
+        aria-label="Specifiche della prestazione"
+        className="inline-flex h-5 w-5 items-center justify-center rounded-full border border-teal-100 bg-teal-50 text-teal-700 transition-colors hover:bg-teal-100 hover:text-dark-navy focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/40"
+      >
+        <Info className="h-3 w-3" />
+      </button>
+      <span
+        role="tooltip"
+        className="pointer-events-none invisible absolute left-0 top-full z-20 mt-2 w-64 rounded-xl border border-teal-100 bg-white p-3 text-left text-[11px] font-normal leading-relaxed text-charcoal/80 opacity-0 shadow-lg transition-all group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100"
+      >
+        {text}
+      </span>
+    </span>
   );
 }
