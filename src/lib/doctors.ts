@@ -272,7 +272,7 @@ export const DOCTORS: Doctor[] = [
     title: "Medico Chirurgo – Medicina Estetica",
     branca: "Medicina Estetica Avanzata",
     affiliation: "Medico Chirurgo – Medicina Estetica",
-    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/doctors/alessandra-riccardi.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/doctors/alessandra-riccardi.jpg?v=2",
     bio: "Alessandra Riccardi unisce la medicina estetica alla biostimolazione rigenerativa, focalizzandosi su trattamenti viso e corpo che esaltano l'armonia naturale senza alterare l'espressività.",
     approach:
       "La medicina estetica d'eccellenza non stravolge: rigenera la qualità biologica dei tessuti con tecnologie laser all'avanguardia e protocolli su misura.",
