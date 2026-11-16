@@ -129,11 +129,35 @@ export const INITIAL_MEDIA_CATALOG: MediaItem[] = [
     "category": "Medici e Specialisti"
   },
   {
+    "id": "media_doctors_martina_pontillo_jpg",
+    "title": "martina pontillo",
+    "filename": "martina-pontillo.jpg",
+    "url": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/doctors/martina-pontillo.jpg",
+    "sizeKb": 108,
+    "category": "Medici e Specialisti"
+  },
+  {
+    "id": "media_doctors_rocco_spera_jpg",
+    "title": "rocco spera",
+    "filename": "rocco-spera.jpg",
+    "url": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/doctors/rocco-spera.jpg",
+    "sizeKb": 75,
+    "category": "Medici e Specialisti"
+  },
+  {
     "id": "media_doctors_teresa_amato_jpg",
     "title": "teresa amato",
     "filename": "teresa-amato.jpg",
     "url": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/doctors/teresa-amato.jpg",
     "sizeKb": 59,
+    "category": "Medici e Specialisti"
+  },
+  {
+    "id": "media_doctors_vittorio_riccio_jpg",
+    "title": "vittorio riccio",
+    "filename": "vittorio-riccio.jpg",
+    "url": "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/doctors/vittorio-riccio.jpg",
+    "sizeKb": 74,
     "category": "Medici e Specialisti"
   },
   {
