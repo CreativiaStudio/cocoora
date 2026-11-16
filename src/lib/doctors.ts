@@ -301,7 +301,7 @@ export const DOCTORS: Doctor[] = [
     title: "Medico Chirurgo – Senologia e Chirurgia Senologica",
     branca: "Senologia & Prevenzione Donna",
     affiliation: "Medico Chirurgo – Senologia e Chirurgia Senologica",
-    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/doctors/martina-pontillo.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/doctors/martina-pontillo.jpg?v=2",
     bio: "Martina Pontillo si dedica alla prevenzione senologica con visita clinica accurata ed ecografia mammaria ad alta risoluzione (si ricorda che la mammografia non è eseguita in sede).",
     approach:
       "La prevenzione senologica regolare è il dono più prezioso che ogni donna possa fare a se stessa, affrontata con serenità e competenza specialistica.",
@@ -350,7 +350,7 @@ export const DOCTORS: Doctor[] = [
     title: "Medico Chirurgo – Oncologia Medica",
     branca: "Oncologia & Prevenzione Clinica",
     affiliation: "Medico Chirurgo – Oncologia Medica",
-    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/doctors/vittorio-riccio.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/doctors/vittorio-riccio.jpg?v=2",
     bio: "Vittorio Riccio si occupa di prevenzione oncologica primaria, consulenze specialistiche per la valutazione dei fattori di rischio e percorsi di follow-up.",
     approach:
       "Prevenire significa conoscere i propri fattori biologici e intervenire tempestivamente con percorsi diagnostici appropriati.",
@@ -374,7 +374,7 @@ export const DOCTORS: Doctor[] = [
     title: "Medico Chirurgo Specialista in Medicina dello Sport",
     branca: "Medicina dello Sport & Valutazione Funzionale",
     affiliation: "Medico Chirurgo Specialista in Medicina dello Sport",
-    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/doctors/rocco-spera.jpg",
+    image: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/doctors/rocco-spera.jpg?v=2",
     bio: "Rocco Spera effettua valutazioni clinico-funzionali per sportivi agonisti e amatori, promuovendo l'attività fisica come strumento insostituibile di prevenzione e longevità.",
     approach:
       "Lo sport praticato in sicurezza è la prima terapia per il sistema cardiovascolare e metabolico: valutiamo con rigore l'idoneità fisica.",
