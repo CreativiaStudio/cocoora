@@ -473,7 +473,7 @@ export default function AdminPage() {
               active={tab === "analytics"}
               onClick={() => setTab("analytics")}
               icon={<Activity className="h-4 w-4" />}
-              label="Analytics & SEO Silvia"
+              label="Analytics & SEO"
               badge="Live"
             />
 
@@ -540,7 +540,7 @@ export default function AdminPage() {
             {tab === "consensi" && "Registro Consensi GDPR (Art. 7)"}
             {tab === "videos" && "Video Verticali Reels"}
             {tab === "seo" && "SEO & Pagine Pubbliche"}
-            {tab === "analytics" && "Analytics, Server-Side Tracking & Box ID Silvia"}
+            {tab === "analytics" && "Analytics, Server-Side Tracking & Tag"}
             {tab === "scatola-nera" && "Scatola Nera & Telemetria Clinica"}
           </span>
         </div>
