@@ -4,7 +4,12 @@ import { Cormorant_Garamond, Inter } from "next/font/google";
 import { CmsProvider, ShopProvider } from "@/components/providers";
 import { SiteChrome } from "@/components/site-chrome";
 import { getServerSeoPage } from "@/lib/cms-server";
-import { getTrackingConfig } from "@/lib/tracking-config";
+import {
+  getTrackingConfig,
+  normalizeAdsId,
+  normalizeGaId,
+  normalizeGtmId,
+} from "@/lib/tracking-config";
 import { SITE_URL } from "@/lib/reels-utils";
 import "./globals.css";
 
@@ -144,32 +149,57 @@ const CONSENT_DEFAULT_SCRIPT = `(function(){
   if (typeof window.gtag !== 'function') {
     window.gtag = function gtag(){ window.dataLayer.push(arguments); };
   }
-  var stored = null;
-  try {
-    var raw = window.localStorage.getItem('cocoora_consent_v1');
-    if (raw) stored = JSON.parse(raw);
-  } catch (e) {}
-  var def = {
-    ad_storage: (stored && stored.ad_storage === 'granted') ? 'granted' : 'denied',
-    analytics_storage: (stored && stored.analytics_storage === 'granted') ? 'granted' : 'denied',
-    ad_user_data: (stored && (stored.ad_user_data || stored.ad_storage) === 'granted') ? 'granted' : 'denied',
-    ad_personalization: (stored && (stored.ad_personalization || stored.ad_storage) === 'granted') ? 'granted' : 'denied',
-    functionality_storage: (stored && stored.functionality_storage === 'granted') ? 'granted' : 'denied',
-    personalization_storage: (stored && stored.personalization_storage === 'granted') ? 'granted' : 'denied',
+  window.gtag('consent', 'default', {
+    ad_storage: 'denied',
+    analytics_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    functionality_storage: 'denied',
+    personalization_storage: 'denied',
     security_storage: 'granted',
     wait_for_update: 500
-  };
-  window.gtag('consent', 'default', def);
+  });
   window.gtag('set', 'url_passthrough', true);
   window.gtag('set', 'ads_data_redaction', true);
+  try {
+    var raw = window.localStorage.getItem('cocoora_consent_v1');
+    if (raw) {
+      var stored = JSON.parse(raw);
+      if (stored && (stored.analytics_storage || stored.ad_storage)) {
+        var adGranted = stored.ad_storage === 'granted' ? 'granted' : 'denied';
+        window.gtag('consent', 'update', {
+          ad_storage: adGranted,
+          analytics_storage: stored.analytics_storage === 'granted' ? 'granted' : 'denied',
+          ad_user_data: (stored.ad_user_data || adGranted) === 'granted' ? 'granted' : 'denied',
+          ad_personalization: (stored.ad_personalization || adGranted) === 'granted' ? 'granted' : 'denied',
+          functionality_storage: stored.functionality_storage === 'granted' ? 'granted' : 'denied',
+          personalization_storage: stored.personalization_storage === 'granted' ? 'granted' : 'denied',
+          security_storage: 'granted'
+        });
+        window.__cocooraConsentUpdatedFromStorage = true;
+      }
+    }
+  } catch (e) {}
   window.__cocooraConsentInitialized = true;
 })();`;
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: ReactNode;
 }) {
+  const tracking = await getTrackingConfig().catch(() => null);
+  const rawGtm = normalizeGtmId(
+    tracking?.gtmContainerId || process.env.NEXT_PUBLIC_GTM_ID || ""
+  );
+  const gtmId = /^GTM-[A-Z0-9]+$/i.test(rawGtm) ? rawGtm : "";
+
+  const rawGa = normalizeGaId(tracking?.gaMeasurementId || "");
+  const gaId = !gtmId && /^G-[A-Z0-9]+$/i.test(rawGa) ? rawGa : "";
+  const rawAds = normalizeAdsId(tracking?.googleAdsId || "");
+  const adsId = !gtmId && /^AW-[0-9]+$/i.test(rawAds) ? rawAds : "";
+  const gtagSrcId = gaId || adsId;
+
   return (
     <html lang="it" className={`${cormorant.variable} ${inter.variable}`}>
       <head>
@@ -177,8 +207,35 @@ export default function RootLayout({
           id="cocoora-consent-default"
           dangerouslySetInnerHTML={{ __html: CONSENT_DEFAULT_SCRIPT }}
         />
+        {gtmId && (
+          <script
+            id="cocoora-gtm-head"
+            dangerouslySetInnerHTML={{
+              __html: `(function(w,d,s,l,i){if(/^\\/(admin|segreteria|medico|accesso-|login|lab)(\\/|$)/.test(w.location.pathname))return;if(w.__cocooraGtmLoaded===i)return;w.__cocooraGtmLoaded=i;w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer',${JSON.stringify(gtmId)});`,
+            }}
+          />
+        )}
+        {gtagSrcId && (
+          <script
+            id="cocoora-gtag-head"
+            dangerouslySetInnerHTML={{
+              __html: `(function(w,d,id){if(/^\\/(admin|segreteria|medico|accesso-|login|lab)(\\/|$)/.test(w.location.pathname))return;if(w.__cocooraGtagLoaded===id)return;w.__cocooraGtagLoaded=id;w.dataLayer=w.dataLayer||[];if(typeof w.gtag!=='function'){w.gtag=function(){w.dataLayer.push(arguments);};}var s=d.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+encodeURIComponent(id);d.head.appendChild(s);w.gtag('js',new Date());${gaId ? `w.gtag('config',${JSON.stringify(gaId)},{anonymize_ip:true,cookie_flags:'SameSite=Lax;Secure'});` : ""}${adsId ? `w.gtag('config',${JSON.stringify(adsId)});` : ""}})(window,document,${JSON.stringify(gtagSrcId)});`,
+            }}
+          />
+        )}
       </head>
       <body>
+        {gtmId && (
+          <noscript>
+            <iframe
+              src={`https://www.googletagmanager.com/ns.html?id=${encodeURIComponent(gtmId)}`}
+              height="0"
+              width="0"
+              style={{ display: "none", visibility: "hidden" }}
+              title="gtm-noscript"
+            />
+          </noscript>
+        )}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(CLINIC_JSON_LD) }}

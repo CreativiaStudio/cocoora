@@ -25,6 +25,8 @@ declare global {
     gtag?: (...args: unknown[]) => void;
     fbq?: (...args: unknown[]) => void;
     __cocooraConsentInitialized?: boolean;
+    __cocooraConsentUpdatedFromStorage?: boolean;
+    __cocooraMetaPixelLoaded?: string;
   }
 }
 
@@ -134,6 +136,15 @@ export function sendMetaCapiEvent(params: {
 }) {
   if (typeof window === "undefined" || !hasMarketingConsentStored()) return;
   try {
+    if (window.__cocooraMetaPixelLoaded && typeof window.fbq === "function") {
+      const fbCustom: Record<string, unknown> = {
+        currency: params.currency || "EUR",
+        ...(typeof params.value === "number" ? { value: params.value } : {}),
+        ...(params.contentName ? { content_name: params.contentName } : {}),
+        ...(params.contentIds?.length ? { content_ids: params.contentIds } : {}),
+      };
+      window.fbq("track", params.eventName, fbCustom, { eventID: params.eventId });
+    }
     const payload = {
       ...params,
       eventSourceUrl: window.location.href,

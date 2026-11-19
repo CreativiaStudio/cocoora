@@ -28,6 +28,36 @@ const DEFAULT_CONFIG: TrackingConfig = {
 
 const TRACKING_CONFIG_KEY = "tracking_config";
 
+export function normalizeGtmId(raw?: string): string {
+  const trimmed = (raw || "").trim();
+  if (!trimmed) return "";
+  const match = trimmed.match(/GTM-[A-Z0-9]+/i);
+  return match ? match[0].toUpperCase() : trimmed;
+}
+
+export function normalizeGaId(raw?: string): string {
+  const trimmed = (raw || "").trim();
+  if (!trimmed) return "";
+  const match = trimmed.match(/G-[A-Z0-9]+/i);
+  return match ? match[0].toUpperCase() : trimmed;
+}
+
+export function normalizeAdsId(raw?: string): string {
+  const trimmed = (raw || "").trim();
+  if (!trimmed) return "";
+  const match = trimmed.match(/AW-[0-9]+/i);
+  return match ? match[0].toUpperCase() : trimmed;
+}
+
+export function normalizePixelId(raw?: string): string {
+  const trimmed = (raw || "").trim();
+  if (!trimmed) return "";
+  if (/^[0-9\s]+$/.test(trimmed)) {
+    return trimmed.replace(/\s+/g, "");
+  }
+  return trimmed;
+}
+
 export async function getTrackingConfig(options?: {
   fresh?: boolean;
 }): Promise<TrackingConfig> {
@@ -35,19 +65,30 @@ export async function getTrackingConfig(options?: {
     TRACKING_CONFIG_KEY,
     options
   );
-  if (!stored) {
-    return { ...DEFAULT_CONFIG };
-  }
   return {
     ...DEFAULT_CONFIG,
-    ...stored,
-    gaMeasurementId: (stored.gaMeasurementId || "").trim(),
-    gtmContainerId: (stored.gtmContainerId || "").trim(),
-    gscVerificationTag: (stored.gscVerificationTag || "").trim(),
-    metaPixelId: (stored.metaPixelId || "").trim(),
-    googleAdsId: (stored.googleAdsId || "").trim(),
-    metaCapiAccessToken: (stored.metaCapiAccessToken || "").trim(),
-    metaCapiTestEventCode: (stored.metaCapiTestEventCode || "").trim(),
+    ...(stored || {}),
+    gaMeasurementId: normalizeGaId(
+      stored?.gaMeasurementId ||
+        process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID ||
+        process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID
+    ),
+    gtmContainerId: normalizeGtmId(
+      stored?.gtmContainerId || process.env.NEXT_PUBLIC_GTM_ID
+    ),
+    gscVerificationTag: (
+      stored?.gscVerificationTag ||
+      process.env.NEXT_PUBLIC_GSC_VERIFICATION ||
+      ""
+    ).trim(),
+    metaPixelId: normalizePixelId(
+      stored?.metaPixelId || process.env.NEXT_PUBLIC_META_PIXEL_ID
+    ),
+    googleAdsId: normalizeAdsId(
+      stored?.googleAdsId || process.env.NEXT_PUBLIC_GOOGLE_ADS_ID
+    ),
+    metaCapiAccessToken: (stored?.metaCapiAccessToken || "").trim(),
+    metaCapiTestEventCode: (stored?.metaCapiTestEventCode || "").trim(),
   };
 }
 
@@ -64,17 +105,17 @@ export async function saveTrackingConfig(
   const updated: TrackingConfig = {
     ...current,
     ...newConfig,
-    gaMeasurementId: (
+    gaMeasurementId: normalizeGaId(
       newConfig.gaMeasurementId ?? current.gaMeasurementId
-    ).trim(),
-    gtmContainerId: (
+    ),
+    gtmContainerId: normalizeGtmId(
       newConfig.gtmContainerId ?? current.gtmContainerId
-    ).trim(),
+    ),
     gscVerificationTag: (
       newConfig.gscVerificationTag ?? current.gscVerificationTag
     ).trim(),
-    metaPixelId: (newConfig.metaPixelId ?? current.metaPixelId).trim(),
-    googleAdsId: (newConfig.googleAdsId ?? current.googleAdsId).trim(),
+    metaPixelId: normalizePixelId(newConfig.metaPixelId ?? current.metaPixelId),
+    googleAdsId: normalizeAdsId(newConfig.googleAdsId ?? current.googleAdsId),
     metaCapiAccessToken: (
       newConfig.metaCapiAccessToken ??
       current.metaCapiAccessToken ??

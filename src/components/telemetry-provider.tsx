@@ -106,6 +106,16 @@ export function TelemetryProvider() {
       }
 
       if (ctaId) {
+        if (typeof window !== "undefined") {
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            event: "cta_click",
+            cta_id: ctaId,
+            cta_label: ctaLabel?.slice(0, 80) || "",
+            cta_href: href,
+            page_path: window.location.pathname,
+          });
+        }
         fetch("/api/analytics/track", {
           method: "POST",
           headers: { "Content-Type": "application/json" },

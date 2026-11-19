@@ -2,10 +2,19 @@
 
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import Script from "next/script";
 import type { TrackingConfig } from "@/lib/tracking-config";
 import { initConsentDefault, pushConsentUpdate } from "@/lib/tracking";
 import type { ConsentState } from "@/lib/types";
+
+declare global {
+  interface Window {
+    __cocooraGtmLoaded?: string;
+    __cocooraGtagLoaded?: string;
+    __cocooraMetaPixelLoaded?: string;
+    __cocooraConsentUpdatedFromStorage?: boolean;
+    _fbq?: unknown;
+  }
+}
 
 type PublicTrackingConfig = Pick<
   TrackingConfig,
@@ -16,6 +25,29 @@ type PublicTrackingConfig = Pick<
   | "googleAdsId"
   | "serverTelemetryEnabled"
 >;
+
+function extractGtmId(raw?: string): string {
+  const trimmed = (raw || "").trim();
+  const match = trimmed.match(/GTM-[A-Z0-9]+/i);
+  return match ? match[0].toUpperCase() : "";
+}
+
+function extractGaId(raw?: string): string {
+  const trimmed = (raw || "").trim();
+  const match = trimmed.match(/G-[A-Z0-9]+/i);
+  return match ? match[0].toUpperCase() : "";
+}
+
+function extractAdsId(raw?: string): string {
+  const trimmed = (raw || "").trim();
+  const match = trimmed.match(/AW-[0-9]+/i);
+  return match ? match[0].toUpperCase() : "";
+}
+
+function extractPixelId(raw?: string): string {
+  const cleaned = (raw || "").replace(/\s+/g, "").trim();
+  return /^[0-9]{5,25}$/.test(cleaned) ? cleaned : "";
+}
 
 export function AnalyticsTracker() {
   const pathname = usePathname();
@@ -36,7 +68,12 @@ export function AnalyticsTracker() {
 
     // Fallback nel caso <head> non sia ancora inizializzato
     initConsentDefault(initialConsent);
-    if (initialConsent && initialConsent.analytics_storage && initialConsent.ad_storage) {
+    if (
+      initialConsent &&
+      initialConsent.analytics_storage &&
+      initialConsent.ad_storage &&
+      !window.__cocooraConsentUpdatedFromStorage
+    ) {
       pushConsentUpdate(initialConsent as ConsentState);
     }
 
@@ -89,6 +126,127 @@ export function AnalyticsTracker() {
     meta.setAttribute("content", verificationContent);
   }, [config?.gscVerificationTag]);
 
+  // Iniezione DOM nativa di Google Tag Manager / GA4 / Google Ads in <head>
+  useEffect(() => {
+    if (!config || typeof window === "undefined" || typeof document === "undefined") return;
+
+    const gtmId = extractGtmId(config.gtmContainerId);
+    const gaId = extractGaId(config.gaMeasurementId);
+    const adsId = extractAdsId(config.googleAdsId);
+
+    if (gtmId) {
+      const scriptUrl = `https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(gtmId)}`;
+      const alreadyInDom = Boolean(
+        document.querySelector(`script[src*="googletagmanager.com/gtm.js?id=${gtmId}"]`)
+      );
+      if (window.__cocooraGtmLoaded !== gtmId && !alreadyInDom) {
+        window.__cocooraGtmLoaded = gtmId;
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({ "gtm.start": Date.now(), event: "gtm.js" });
+
+        const s = document.createElement("script");
+        s.async = true;
+        s.src = scriptUrl;
+        s.dataset.cocooraGtm = gtmId;
+        document.head.appendChild(s);
+      }
+      return;
+    }
+
+    const activeGaId = gaId || "";
+    const activeAdsId = adsId || "";
+    const gtagSrcId = activeGaId || activeAdsId;
+
+    if (gtagSrcId && window.__cocooraGtagLoaded !== gtagSrcId) {
+      window.__cocooraGtagLoaded = gtagSrcId;
+      window.dataLayer = window.dataLayer || [];
+      if (typeof window.gtag !== "function") {
+        window.gtag = function gtag() {
+          // eslint-disable-next-line prefer-rest-params
+          window.dataLayer!.push(arguments);
+        };
+      }
+
+      const alreadyInDom = Boolean(
+        document.querySelector(`script[src*="googletagmanager.com/gtag/js?id=${gtagSrcId}"]`)
+      );
+      if (!alreadyInDom) {
+        const s = document.createElement("script");
+        s.async = true;
+        s.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(gtagSrcId)}`;
+        s.dataset.cocooraGtag = gtagSrcId;
+        document.head.appendChild(s);
+      }
+
+      window.gtag("js", new Date());
+      if (activeGaId) {
+        window.gtag("config", activeGaId, {
+          anonymize_ip: true,
+          cookie_flags: "SameSite=Lax;Secure",
+        });
+      }
+      if (activeAdsId) {
+        window.gtag("config", activeAdsId);
+      }
+    }
+  }, [config]);
+
+  // Meta Pixel (attivato esclusivamente con consenso Marketing ad_storage = granted)
+  useEffect(() => {
+    if (
+      !config ||
+      !hasMarketingConsent ||
+      typeof window === "undefined" ||
+      typeof document === "undefined"
+    ) {
+      return;
+    }
+
+    const pixelId = extractPixelId(config.metaPixelId);
+    if (!pixelId || window.__cocooraMetaPixelLoaded === pixelId) return;
+
+    window.__cocooraMetaPixelLoaded = pixelId;
+
+    if (typeof window.fbq !== "function") {
+      type FbqQueueFn = ((...args: unknown[]) => void) & {
+        callMethod?: (...args: unknown[]) => void;
+        push?: (...args: unknown[]) => void;
+        loaded?: boolean;
+        version?: string;
+        queue?: unknown[];
+      };
+      const fbqStub: FbqQueueFn = function fbqStubImpl() {
+        if (fbqStub.callMethod) {
+          // eslint-disable-next-line prefer-rest-params
+          fbqStub.callMethod.apply(fbqStub, arguments as unknown as unknown[]);
+        } else {
+          // eslint-disable-next-line prefer-rest-params
+          fbqStub.queue?.push(arguments);
+        }
+      };
+      fbqStub.push = fbqStub;
+      fbqStub.loaded = true;
+      fbqStub.version = "2.0";
+      fbqStub.queue = [];
+      window.fbq = fbqStub;
+      if (!window._fbq) {
+        window._fbq = fbqStub;
+      }
+    }
+
+    if (!document.querySelector('script[src*="connect.facebook.net/en_US/fbevents.js"]')) {
+      const s = document.createElement("script");
+      s.async = true;
+      s.src = "https://connect.facebook.net/en_US/fbevents.js";
+      s.dataset.cocooraMetaPixel = pixelId;
+      document.head.appendChild(s);
+    }
+
+    window.fbq("consent", "grant");
+    window.fbq("init", pixelId);
+    window.fbq("track", "PageView");
+  }, [config, hasMarketingConsent]);
+
   // SPA Route-Change tracking (Google Consent Mode v2 gestisce redaction/cookie automaticamente)
   useEffect(() => {
     if (!config) return;
@@ -99,107 +257,29 @@ export function AnalyticsTracker() {
     if (prevPathRef.current === pathname) return;
     prevPathRef.current = pathname;
 
-    if (!config.gtmContainerId && config.gaMeasurementId) {
+    const gtmId = extractGtmId(config.gtmContainerId);
+    const gaId = extractGaId(config.gaMeasurementId);
+    const pixelId = extractPixelId(config.metaPixelId);
+
+    if (gtmId && typeof window !== "undefined") {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "virtual_page_view",
+        page_path: pathname,
+        page_location: window.location.href,
+        page_title: typeof document !== "undefined" ? document.title : "",
+      });
+    } else if (!gtmId && gaId) {
       window.gtag?.("event", "page_view", {
         page_path: pathname,
         page_location: typeof window !== "undefined" ? window.location.href : pathname,
       });
     }
 
-    if (config.metaPixelId && hasMarketingConsent) {
+    if (pixelId && hasMarketingConsent) {
       window.fbq?.("track", "PageView");
     }
   }, [pathname, config, hasMarketingConsent]);
 
-  if (!config) return null;
-
-  const gtmId = config.gtmContainerId?.trim();
-  const gaId = config.gaMeasurementId?.trim();
-  const adsId = config.googleAdsId?.trim();
-  const pixelId = config.metaPixelId?.trim();
-
-  // Google Consent Mode v2 Avanzato: se GTM non è configurato, gtag.js carica subito rispettando `consent default: denied`
-  const activeGaId = !gtmId && gaId ? gaId : "";
-  const activeAdsId = !gtmId && adsId ? adsId : "";
-  const gtagSrcId = activeGaId || activeAdsId;
-
-  return (
-    <>
-      {/* Google Tag Manager (Consent Mode v2 default già impostato sincrono in <head>) */}
-      {gtmId && (
-        <>
-          <Script
-            id="cocoora-gtm-script"
-            strategy="afterInteractive"
-            dangerouslySetInnerHTML={{
-              __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','${gtmId}');`,
-            }}
-          />
-          <noscript>
-            <iframe
-              src={`https://www.googletagmanager.com/ns.html?id=${encodeURIComponent(gtmId)}`}
-              height="0"
-              width="0"
-              style={{ display: "none", visibility: "hidden" }}
-              title="gtm-noscript"
-            />
-          </noscript>
-        </>
-      )}
-
-      {/* GA4 & Google Ads Standalone con Consent Mode v2 Avanzato (quando GTM è vuoto) */}
-      {gtagSrcId && (
-        <>
-          <Script
-            src={`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(gtagSrcId)}`}
-            strategy="afterInteractive"
-          />
-          <Script
-            id="cocoora-gtag-config"
-            strategy="afterInteractive"
-            dangerouslySetInnerHTML={{
-              __html: `
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){window.dataLayer.push(arguments);}
-                gtag('js', new Date());
-                ${
-                  activeGaId
-                    ? `gtag('config', '${activeGaId}', { anonymize_ip: true, cookie_flags: 'SameSite=Lax;Secure' });`
-                    : ""
-                }
-                ${activeAdsId ? `gtag('config', '${activeAdsId}');` : ""}
-              `,
-            }}
-          />
-        </>
-      )}
-
-      {/* Meta Pixel (attivato esclusivamente con consenso Marketing ad_storage = granted) */}
-      {pixelId && hasMarketingConsent && (
-        <Script
-          id="cocoora-meta-pixel"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              !function(f,b,e,v,n,t,s)
-              {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-              n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-              if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-              n.queue=[];t=b.createElement(e);t.async=!0;
-              t.src=v;s=b.getElementsByTagName(e)[0];
-              s.parentNode.insertBefore(t,s)}(window, document,'script',
-              'https://connect.facebook.net/en_US/fbevents.js');
-              fbq('consent', 'grant');
-              fbq('init', '${pixelId}');
-              fbq('track', 'PageView');
-            `,
-          }}
-        />
-      )}
-    </>
-  );
+  return null;
 }
