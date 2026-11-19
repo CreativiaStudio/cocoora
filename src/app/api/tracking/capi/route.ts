@@ -1,6 +1,28 @@
 import { NextResponse } from "next/server";
 import { getTrackingConfig } from "@/lib/tracking-config";
 
+const ALLOWED_CAPI_EVENTS = new Set([
+  "ViewContent",
+  "AddToCart",
+  "InitiateCheckout",
+  "Purchase",
+  "Lead",
+  "PageView",
+]);
+
+function normalizePhoneForMeta(raw?: string): string | undefined {
+  if (!raw) return undefined;
+  let digits = raw.replace(/[^\d]/g, "");
+  if (!digits) return undefined;
+  if (digits.startsWith("00")) {
+    digits = digits.slice(2);
+  }
+  if (!digits.startsWith("39") && digits.length >= 9 && digits.length <= 10) {
+    digits = `39${digits}`;
+  }
+  return digits;
+}
+
 async function sha256Normalized(value?: string): Promise<string | undefined> {
   if (!value) return undefined;
   const clean = value.trim().toLowerCase();
@@ -37,6 +59,13 @@ export async function POST(request: Request) {
       );
     }
 
+    if (!ALLOWED_CAPI_EVENTS.has(body.eventName)) {
+      return NextResponse.json(
+        { ok: false, error: `Evento CAPI non consentito: ${body.eventName}` },
+        { status: 400 }
+      );
+    }
+
     const config = await getTrackingConfig({ fresh: true });
     const pixelId = config.metaPixelId?.trim();
     const accessToken = (
@@ -58,12 +87,14 @@ export async function POST(request: Request) {
     const clientIp = realIp || (forwardedFor ? forwardedFor.split(",")[0].trim() : undefined);
     const userAgent = request.headers.get("user-agent") || undefined;
 
-    const cleanPhone = body.phone ? body.phone.replace(/[^\d]/g, "") : undefined;
+    const cleanPhone = normalizePhoneForMeta(body.phone);
+    const cleanFirst = body.firstName?.replace(/\s+/g, "").trim();
+    const cleanLast = body.lastName?.replace(/\s+/g, "").trim();
     const [emHash, phHash, fnHash, lnHash] = await Promise.all([
       sha256Normalized(body.email),
       sha256Normalized(cleanPhone),
-      sha256Normalized(body.firstName),
-      sha256Normalized(body.lastName),
+      sha256Normalized(cleanFirst),
+      sha256Normalized(cleanLast),
     ]);
 
     const userData: Record<string, unknown> = {

@@ -198,10 +198,11 @@ export default async function RootLayout({
   const gtmId = /^GTM-[A-Z0-9]+$/i.test(rawGtm) ? rawGtm : "";
 
   const rawGa = normalizeGaId(tracking?.gaMeasurementId || "");
-  const gaId = !gtmId && /^G-[A-Z0-9]+$/i.test(rawGa) ? rawGa : "";
+  const gaId = /^G-[A-Z0-9]+$/i.test(rawGa) ? rawGa : "";
   const rawAds = normalizeAdsId(tracking?.googleAdsId || "");
-  const adsId = !gtmId && /^AW-[0-9]+$/i.test(rawAds) ? rawAds : "";
+  const adsId = /^AW-[0-9]+$/i.test(rawAds) ? rawAds : "";
   const gtagSrcId = gaId || adsId;
+  const gtagKey = [gaId, adsId].filter(Boolean).join("|");
 
   return (
     <html lang="it" className={`${cormorant.variable} ${inter.variable}`}>
@@ -222,7 +223,7 @@ export default async function RootLayout({
           <script
             id="cocoora-gtag-head"
             dangerouslySetInnerHTML={{
-              __html: `(function(w,d,id){if(/^\\/(admin|segreteria|medico|accesso-|login|lab)(\\/|$)/.test(w.location.pathname))return;if(w.__cocooraGtagLoaded===id)return;w.__cocooraGtagLoaded=id;w.dataLayer=w.dataLayer||[];if(typeof w.gtag!=='function'){w.gtag=function(){w.dataLayer.push(arguments);};}var s=d.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+encodeURIComponent(id);d.head.appendChild(s);w.gtag('js',new Date());${gaId ? `w.gtag('config',${JSON.stringify(gaId)},{anonymize_ip:true,cookie_flags:'SameSite=Lax;Secure'});` : ""}${adsId ? `w.gtag('config',${JSON.stringify(adsId)});` : ""}})(window,document,${JSON.stringify(gtagSrcId)});`,
+              __html: `(function(w,d,id,key){if(/^\\/(admin|segreteria|medico|accesso-|login|lab)(\\/|$)/.test(w.location.pathname))return;if(w.__cocooraGtagLoaded===key)return;w.__cocooraGtagLoaded=key;w.dataLayer=w.dataLayer||[];if(typeof w.gtag!=='function'){w.gtag=function(){w.dataLayer.push(arguments);};}if(!d.querySelector('script[src*="googletagmanager.com/gtag/js"]')){var s=d.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+encodeURIComponent(id);d.head.appendChild(s);}w.gtag('js',new Date());${gaId ? `w.gtag('config',${JSON.stringify(gaId)},{anonymize_ip:true,cookie_flags:'SameSite=Lax;Secure'});` : ""}${adsId ? `w.gtag('config',${JSON.stringify(adsId)});` : ""}})(window,document,${JSON.stringify(gtagSrcId)},${JSON.stringify(gtagKey)});`,
             }}
           />
         )}

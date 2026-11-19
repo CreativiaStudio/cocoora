@@ -391,8 +391,17 @@ export function TrackingConfigManager({
 
         {/* Consent Mode Info */}
         <div className="rounded-xl border border-sky-200 bg-sky-50/60 p-3.5 text-[11px] leading-relaxed text-sky-950">
-          <strong>Nota Consent Mode v2 &amp; GTM:</strong> se inserisci sia GTM che GA4/Ads, GTM prende la regia di <code>gtag</code> evitando doppi conteggi, mentre il Meta Pixel può restare gestito direttamente qui (o dentro GTM lasciando vuoto questo campo).
+          <strong>Nota Consent Mode v2 &amp; GTM:</strong> puoi gestire GA4/Google Ads dentro GTM (lasciando vuoti i campi qui sopra) oppure inserirli direttamente qui. Se li compili entrambi, verranno caricati sia GTM sia <code className="font-mono">gtag</code>: evita di duplicare gli stessi tag dentro GTM.
         </div>
+
+        {config.gtmContainerId && (config.gaMeasurementId || config.googleAdsId) && (
+          <div className="flex items-center gap-2 rounded-xl border border-amber-200 bg-amber-50 px-3.5 py-2.5 text-[11px] font-medium text-amber-900">
+            <AlertTriangle className="h-4 w-4 shrink-0 text-amber-600" />
+            <span>
+              Attenzione: hai inserito GA4 / Google Ads insieme a GTM — assicurati che gli stessi tag non siano già pubblicati dentro <code className="font-mono">{config.gtmContainerId}</code> per evitare doppi conteggi.
+            </span>
+          </div>
+        )}
 
         {/* Action Button */}
         <div className="flex flex-wrap items-center justify-between gap-3 border-t border-teal-100 pt-4">

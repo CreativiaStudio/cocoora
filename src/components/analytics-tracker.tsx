@@ -152,15 +152,15 @@ export function AnalyticsTracker() {
         s.dataset.cocooraGtm = gtmId;
         document.head.appendChild(s);
       }
-      return;
     }
 
     const activeGaId = gaId || "";
     const activeAdsId = adsId || "";
     const gtagSrcId = activeGaId || activeAdsId;
+    const gtagKey = [activeGaId, activeAdsId].filter(Boolean).join("|");
 
-    if (gtagSrcId && window.__cocooraGtagLoaded !== gtagSrcId) {
-      window.__cocooraGtagLoaded = gtagSrcId;
+    if (gtagSrcId && window.__cocooraGtagLoaded !== gtagKey) {
+      window.__cocooraGtagLoaded = gtagKey;
       window.dataLayer = window.dataLayer || [];
       if (typeof window.gtag !== "function") {
         window.gtag = function gtag() {
@@ -170,7 +170,7 @@ export function AnalyticsTracker() {
       }
 
       const alreadyInDom = Boolean(
-        document.querySelector(`script[src*="googletagmanager.com/gtag/js?id=${gtagSrcId}"]`)
+        document.querySelector('script[src*="googletagmanager.com/gtag/js"]')
       );
       if (!alreadyInDom) {
         const s = document.createElement("script");
@@ -271,7 +271,9 @@ export function AnalyticsTracker() {
         page_location: window.location.href,
         page_title: typeof document !== "undefined" ? document.title : "",
       });
-    } else if (!gtmId && gaId) {
+    }
+
+    if (gaId) {
       window.gtag?.("event", "page_view", {
         page_path: pathname,
         page_location: typeof window !== "undefined" ? window.location.href : pathname,

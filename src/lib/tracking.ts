@@ -27,6 +27,7 @@ declare global {
     __cocooraConsentInitialized?: boolean;
     __cocooraConsentUpdatedFromStorage?: boolean;
     __cocooraMetaPixelLoaded?: string;
+    __cocooraGtagLoaded?: string;
   }
 }
 
@@ -122,6 +123,19 @@ export function sendInternalTelemetry(type: string, metadata: Record<string, unk
 
 type CapiEventName = "ViewContent" | "AddToCart" | "InitiateCheckout" | "Purchase" | "Lead";
 
+function sendDirectGtagEvent(
+  eventName: string,
+  params: Record<string, unknown>
+) {
+  if (
+    typeof window !== "undefined" &&
+    Boolean(window.__cocooraGtagLoaded) &&
+    typeof window.gtag === "function"
+  ) {
+    window.gtag("event", eventName, params);
+  }
+}
+
 export function sendMetaCapiEvent(params: {
   eventName: CapiEventName;
   eventId: string;
@@ -136,15 +150,26 @@ export function sendMetaCapiEvent(params: {
 }) {
   if (typeof window === "undefined" || !hasMarketingConsentStored()) return;
   try {
-    if (window.__cocooraMetaPixelLoaded && typeof window.fbq === "function") {
-      const fbCustom: Record<string, unknown> = {
-        currency: params.currency || "EUR",
-        ...(typeof params.value === "number" ? { value: params.value } : {}),
-        ...(params.contentName ? { content_name: params.contentName } : {}),
-        ...(params.contentIds?.length ? { content_ids: params.contentIds } : {}),
-      };
-      window.fbq("track", params.eventName, fbCustom, { eventID: params.eventId });
+    const fireBrowserPixel = (): boolean => {
+      if (window.__cocooraMetaPixelLoaded && typeof window.fbq === "function") {
+        const fbCustom: Record<string, unknown> = {
+          currency: params.currency || "EUR",
+          ...(typeof params.value === "number" ? { value: params.value } : {}),
+          ...(params.contentName ? { content_name: params.contentName } : {}),
+          ...(params.contentIds?.length ? { content_ids: params.contentIds } : {}),
+        };
+        window.fbq("track", params.eventName, fbCustom, { eventID: params.eventId });
+        return true;
+      }
+      return false;
+    };
+
+    if (!fireBrowserPixel()) {
+      window.setTimeout(() => {
+        fireBrowserPixel();
+      }, 600);
     }
+
     const payload = {
       ...params,
       eventSourceUrl: window.location.href,
@@ -190,19 +215,25 @@ export function trackViewItem(item: {
     itemName: item.item_name,
     price: item.price,
   });
+  const ecommerceItems = [
+    {
+      item_id: item.item_id,
+      item_name: item.item_name,
+      price: item.price,
+      item_category: item.item_category ?? "Cocoora Club",
+    },
+  ];
   const eventId = pushToDataLayer("view_item", {
     ecommerce: {
       currency: item.currency ?? "EUR",
       value: item.price,
-      items: [
-        {
-          item_id: item.item_id,
-          item_name: item.item_name,
-          price: item.price,
-          item_category: item.item_category ?? "Cocoora Club",
-        },
-      ],
+      items: ecommerceItems,
     },
+  });
+  sendDirectGtagEvent("view_item", {
+    currency: item.currency ?? "EUR",
+    value: item.price,
+    items: ecommerceItems,
   });
   sendMetaCapiEvent({
     eventName: "ViewContent",
@@ -226,18 +257,24 @@ export function trackAddToCart(item: {
     itemName: item.item_name,
     price: item.price,
   });
+  const ecommerceItems = [
+    {
+      item_id: item.item_id,
+      item_name: item.item_name,
+      price: item.price,
+    },
+  ];
   const eventId = pushToDataLayer("add_to_cart", {
     ecommerce: {
       currency: item.currency ?? "EUR",
       value: item.price,
-      items: [
-        {
-          item_id: item.item_id,
-          item_name: item.item_name,
-          price: item.price,
-        },
-      ],
+      items: ecommerceItems,
     },
+  });
+  sendDirectGtagEvent("add_to_cart", {
+    currency: item.currency ?? "EUR",
+    value: item.price,
+    items: ecommerceItems,
   });
   sendMetaCapiEvent({
     eventName: "AddToCart",
@@ -273,6 +310,11 @@ export function trackBeginCheckout(
       items,
     },
   });
+  sendDirectGtagEvent("begin_checkout", {
+    currency: "EUR",
+    value,
+    items,
+  });
   sendMetaCapiEvent({
     eventName: "InitiateCheckout",
     eventId,
@@ -302,6 +344,12 @@ export function trackPurchase(order: {
       items: order.items,
     },
   });
+  sendDirectGtagEvent("purchase", {
+    currency: "EUR",
+    transaction_id: order.transaction_id,
+    value: order.value,
+    items: order.items,
+  });
   sendMetaCapiEvent({
     eventName: "Purchase",
     eventId,
@@ -324,6 +372,10 @@ export function trackLead(data: {
 }): string {
   sendInternalTelemetry("lead_submit", { email: data.email, name: data.name });
   const eventId = pushToDataLayer("lead", { lead: data });
+  sendDirectGtagEvent("generate_lead", {
+    content_name: data.contentName || "Cocoora Lead",
+    lead_source: "cocoora_web",
+  });
   const nameParts = (data.name || "").trim().split(/\s+/);
   sendMetaCapiEvent({
     eventName: "Lead",
