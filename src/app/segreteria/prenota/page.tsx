@@ -289,7 +289,7 @@ export default function PrenotaPage() {
                   Cocoora Desk
                 </p>
                 <p className="text-[9px] font-semibold uppercase tracking-[0.16em] text-[#80A1B2]">
-                  Prenotazione rapida · Sincronizzata con Supabase
+                  Prenotazione rapida · Sincronizzata in Cloud
                 </p>
               </div>
             </div>
@@ -306,7 +306,7 @@ export default function PrenotaPage() {
               onClick={() => void fetchLiveAgenda(selectedDate)}
               disabled={loadingAgenda}
               className="inline-flex items-center gap-1.5 rounded-xl border border-[#80A1B2]/45 bg-white px-2.5 py-2 text-xs font-bold text-[#1C4A5C] transition hover:bg-[#EAF1F5] disabled:opacity-50"
-              title="Ricarica appuntamenti reali da Supabase"
+              title="Ricarica appuntamenti live dal Cloud"
             >
               <RefreshCw
                 className={cn("h-3.5 w-3.5", loadingAgenda && "animate-spin")}
@@ -428,7 +428,7 @@ export default function PrenotaPage() {
               <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-700" />
               <div>
                 <p className="text-xs font-bold text-emerald-950">
-                  Appuntamento salvato su Supabase: {lastBooked.patient}
+                  Appuntamento salvato in Cloud: {lastBooked.patient}
                 </p>
                 <p className="mt-0.5 text-[11px] font-medium text-emerald-800">
                   {lastBooked.time}–{lastBooked.endTime} · {lastBooked.service} ·{" "}
@@ -515,7 +515,7 @@ export default function PrenotaPage() {
               isClosedWeekend
                 ? "Centro chiuso (Sab–Dom)"
                 : isToday
-                  ? "Agenda live da Supabase"
+                  ? "Agenda live sincronizzata"
                   : `Totale per ${selectedDateLabel}`
             }
             icon={<CalendarDays className="h-4 w-4" />}

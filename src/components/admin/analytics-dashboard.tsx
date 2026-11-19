@@ -106,13 +106,13 @@ export function AnalyticsDashboard() {
           ok: false,
           message:
             data?.error ||
-            `Errore HTTP ${res.status} durante la scrittura su Supabase.`,
+            `Errore HTTP ${res.status} durante la registrazione dell'evento.`,
         });
       } else {
         setPingResult({
           ok: true,
           message:
-            "Evento di test registrato su Supabase (crm_audit_log)! I KPI qui sotto sono aggiornati.",
+            "Evento di test registrato nel Cloud! I KPI qui sotto sono aggiornati.",
         });
         fetchStats();
       }
@@ -146,7 +146,7 @@ export function AnalyticsDashboard() {
               </h3>
             </div>
             <p className="mt-1 text-xs text-charcoal/70">
-              Verifica in diretta che Supabase, l&apos;endpoint pubblico dei tag, Consent Mode v2 e la Sitemap funzionino senza blocchi.
+              Verifica in diretta che il Database Cloud, l&apos;endpoint pubblico dei tag, Consent Mode v2 e la Sitemap funzionino senza blocchi.
             </p>
           </div>
 
@@ -181,12 +181,12 @@ export function AnalyticsDashboard() {
         )}
 
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {/* 1. Database Supabase */}
+          {/* 1. Database Cloud */}
           <div className="rounded-xl border border-teal-100 bg-teal-50/30 p-3.5 text-xs">
             <div className="flex items-center justify-between">
               <span className="font-bold text-teal-950 flex items-center gap-1.5">
                 <Database className="h-3.5 w-3.5 text-teal-700" />
-                Database Supabase
+                Database Cloud
               </span>
               {diagnostics?.hasServiceRoleKey && !diagnostics?.dbError ? (
                 <span className="rounded-full bg-emerald-50 border border-emerald-200 px-2 py-0.5 text-[10px] font-bold text-emerald-700">

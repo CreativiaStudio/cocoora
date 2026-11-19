@@ -53,7 +53,7 @@ export async function POST(request: Request) {
           ok: false,
           error:
             result.error ||
-            "Errore salvataggio configurazione su Supabase. Verifica SUPABASE_SERVICE_ROLE_KEY.",
+            "Errore salvataggio configurazione sul Cloud. Riprova o verifica la configurazione server.",
         },
         { status: 500 }
       );

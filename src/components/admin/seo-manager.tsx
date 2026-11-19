@@ -142,7 +142,7 @@ export function SeoManager() {
               </span>
             ) : (
               <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-800">
-                <Cloud className="h-3.5 w-3.5" /> Salvato su Supabase
+                <Cloud className="h-3.5 w-3.5" /> Salvato su Cloud
               </span>
             )}
           </div>
@@ -1003,7 +1003,7 @@ function PageEditor({
                   Google Ads Policy Shield (Modalità Canvas No-Menu)
                 </h4>
                 <p className="mt-1 text-xs leading-relaxed text-amber-900/80">
-                  Nasconde la barra di navigazione globale e il footer su questa rotta: ideale per campagne Google Ads sanitarie così i crawler restano confinati nella sola landing conforme. Salvato su Supabase.
+                  Nasconde la barra di navigazione globale e il footer su questa rotta: ideale per campagne Google Ads sanitarie così i crawler restano confinati nella sola landing conforme. Salvato su Cloud.
                 </p>
               </div>
               <input
@@ -1016,7 +1016,7 @@ function PageEditor({
 
             <div className="border-t border-amber-200/60 pt-3 flex items-center justify-between">
               <span className="text-[11px] text-amber-900/70">
-                Stato salvataggio: persistente su Supabase &amp; locale
+                Stato salvataggio: persistente su Cloud &amp; locale
               </span>
               <button
                 type="button"

@@ -64,7 +64,7 @@ export function ScatolaNeraDashboard() {
       <div className="rounded-2xl border border-slate-200 bg-white p-12 text-center shadow-xs">
         <span className="inline-block h-8 w-8 animate-spin rounded-full border-3 border-teal-800 border-t-transparent mb-3"></span>
         <p className="text-sm font-semibold text-slate-800">Interrogazione Scatola Nera &amp; Telemetria Clinica...</p>
-        <p className="text-xs text-slate-500 mt-1">Recupero flussi in tempo reale da database Supabase PostgreSQL.</p>
+        <p className="text-xs text-slate-500 mt-1">Recupero flussi in tempo reale dal Database Cloud.</p>
       </div>
     );
   }
@@ -126,7 +126,7 @@ export function ScatolaNeraDashboard() {
           <div className="flex items-center gap-3">
             <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-800 border border-emerald-200">
               <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
-              100% Dati Reali Supabase · Zero Mock
+              100% Dati Reali Cloud · Zero Mock
             </span>
             <Button size="sm" variant="outline" onClick={fetchData} className="gap-1.5 text-xs">
               <RefreshCw className={`h-3 w-3 ${loading ? "animate-spin" : ""}`} />
@@ -147,12 +147,12 @@ export function ScatolaNeraDashboard() {
             </span>
             <span className="text-teal-800">
               {webStats.totalPageViews === 0
-                ? `Ledger collegato a ${rawLogs.length} eventi operativi su PostgreSQL. In attesa di traffico web reale (Zero dati simulati).`
+                ? `Ledger collegato a ${rawLogs.length} eventi operativi sul Cloud. In attesa di traffico web reale (Zero dati simulati).`
                 : `${webStats.uniqueVisitors} visitatori unici reali · ${webStats.totalPageViews} pagine viste registrate.`}
             </span>
           </div>
           <span className="text-[10px] font-mono bg-white/90 border border-teal-200 px-2 py-0.5 rounded text-teal-800 self-start sm:self-auto">
-            Fonte: crm_audit_log
+            Fonte: Registro Audit
           </span>
         </div>
 
@@ -675,7 +675,7 @@ export function ScatolaNeraDashboard() {
               <div>
                 <h3 className="font-serif text-lg font-bold text-slate-900 flex items-center gap-2">
                   <Database className="h-4 w-4 text-teal-800" />
-                  Feed della Scatola Nera Immutabile (PostgreSQL crm_audit_log)
+                  Feed della Scatola Nera Immutabile (Registro Audit Cloud)
                 </h3>
                 <p className="text-xs text-slate-500 mt-0.5">
                   Tutti i movimenti, clickstream, transizioni cliniche e verifiche Stripe vengono salvati in modalità append-only.

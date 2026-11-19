@@ -188,7 +188,7 @@ export function VideosManager() {
           {sync.status === "saving" ? (
             <span className="inline-flex items-center gap-1.5 rounded-full border border-sky-200 bg-sky-50 px-3 py-1 text-xs font-semibold text-sky-800">
               <Loader2 className="h-3.5 w-3.5 animate-spin" />
-              Salvataggio su Supabase...
+              Salvataggio su Cloud...
             </span>
           ) : sync.status === "error" ? (
             <span className="inline-flex items-center gap-1.5 rounded-full border border-rose-200 bg-rose-50 px-3 py-1 text-xs font-semibold text-rose-800">

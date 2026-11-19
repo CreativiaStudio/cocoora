@@ -66,7 +66,7 @@ export function TrackingConfigManager({
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [savedSuccess, setSavedSuccess] = useState(false);
-  const [storageLabel, setStorageLabel] = useState("Supabase Cloud");
+  const [storageLabel, setStorageLabel] = useState("Cloud Cocoora");
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -108,11 +108,7 @@ export function TrackingConfigManager({
         setError(data?.error || "Errore nel salvataggio della configurazione.");
       } else {
         setConfig((prev) => ({ ...prev, ...data.config }));
-        setStorageLabel(
-          data.storage === "site_cms_config"
-            ? "Supabase (site_cms_config)"
-            : "Supabase Cloud"
-        );
+        setStorageLabel("Cloud Cocoora");
         setSavedSuccess(true);
         onSaved?.();
         setTimeout(() => setSavedSuccess(false), 4500);
@@ -127,7 +123,7 @@ export function TrackingConfigManager({
   if (loading) {
     return (
       <div className="rounded-2xl border border-teal-100 bg-white p-6 shadow-xs text-xs text-charcoal/60">
-        Caricamento impostazioni tracciamento da Supabase...
+        Caricamento impostazioni tracciamento dal Cloud...
       </div>
     );
   }
@@ -171,7 +167,7 @@ export function TrackingConfigManager({
         <div className="mt-4 flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-xs font-semibold text-emerald-800">
           <CheckCircle2 className="h-4 w-4 text-emerald-600" />
           <span>
-            Configurazione salvata su Supabase e propagata istantaneamente sul sito pubblico!
+            Configurazione salvata sul Cloud e propagata istantaneamente sul sito pubblico!
           </span>
         </div>
       )}
@@ -410,7 +406,7 @@ export function TrackingConfigManager({
             className="flex items-center gap-2 rounded-xl bg-teal-700 px-5 py-2.5 text-xs font-semibold text-white shadow-sm transition hover:bg-teal-800 disabled:opacity-50 cursor-pointer"
           >
             <Save className="h-4 w-4" />
-            <span>{saving ? "Salvataggio su Supabase..." : "Salva Configurazione"}</span>
+            <span>{saving ? "Salvataggio in corso..." : "Salva Configurazione"}</span>
           </button>
         </div>
       </form>
