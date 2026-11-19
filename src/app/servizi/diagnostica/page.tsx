@@ -67,8 +67,9 @@ export default function DiagnosticaPage() {
               {page?.h1 ?? "Diagnostica rapida, refertazione digitale e specialisti dedicati."}
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-charcoal/75">
-              Sei specialità cliniche integrate su appuntamento dedicato, con
-              referti digitali disponibili h24 nella tua area riservata.
+              {page?.h2 && page.h2 !== "Visite Specialistiche e Diagnostica"
+                ? page.h2
+                : "Sei specialità cliniche integrate su appuntamento dedicato, con referti digitali disponibili h24 nella tua area riservata."}
             </p>
             <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
               <ButtonLink href="/contatti" size="lg">

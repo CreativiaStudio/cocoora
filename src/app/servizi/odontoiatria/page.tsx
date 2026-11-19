@@ -81,10 +81,10 @@ export default function OdontoiatriaPage() {
                 Odontoiatria · Ortodonzia Specialistica · Estetica del Sorriso
               </p>
               <h1 className="mt-4 font-serif text-5xl font-semibold leading-[1.05] tracking-tight text-dark-navy sm:text-6xl">
-                Il tuo sorriso, la nostra visione.
+                {page?.h1 ?? "Il tuo sorriso, la nostra visione."}
               </h1>
               <p className="mx-auto mt-4 max-w-xl font-serif text-xl font-medium leading-snug text-dark-navy/90 lg:mx-0">
-                La bellezza si riconosce. La competenza si sente. La salute si costruisce nel tempo.
+                {page?.h2 ?? "La bellezza si riconosce. La competenza si sente. La salute si costruisce nel tempo."}
               </p>
               <p className="mx-auto mt-4 max-w-xl text-lg italic leading-relaxed text-charcoal/80 lg:mx-0">
                 Un sorriso che ti rappresenta. Un percorso di cura pensato per te.

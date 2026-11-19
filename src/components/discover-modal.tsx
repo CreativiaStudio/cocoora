@@ -3,7 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { X } from "lucide-react";
 import { useShop } from "./providers";
-import { trackLead } from "@/lib/tracking";
+import { trackEmailTrackingConsent, trackLead } from "@/lib/tracking";
 import { Button } from "./ui";
 
 export function DiscoverModal() {
@@ -24,15 +24,40 @@ export function DiscoverModal() {
       setError("Compila tutti i campi per generare il tuo profilo.");
       return;
     }
-    if (!privacyAccepted || !trackingAccepted) {
-      setError("Accetta entrambe le informative per procedere con l'iscrizione.");
+    if (!privacyAccepted) {
+      setError("Accetta l'informativa sulla privacy per procedere con l'iscrizione.");
       return;
     }
     setError("");
     setLoading(true);
 
     try {
-      trackLead({ email: form.email, name: form.nome });
+      trackLead({
+        email: form.email.trim(),
+        name: form.nome.trim(),
+        phone: form.telefono.trim(),
+        contentName: "Cocoora Club Discover",
+      });
+      trackEmailTrackingConsent(trackingAccepted, "discover_modal");
+
+      fetch("/api/consent/record", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          channel: "checkout_club",
+          userIdentifier: form.email.trim().toLowerCase(),
+          preferences: {
+            technical: true,
+            analytics: true,
+            marketing: false,
+            newsletter: true,
+            emailTracking: trackingAccepted,
+          },
+          notes: trackingAccepted
+            ? "Iscrizione Discover Free con consenso tracking apertura/click email"
+            : "Iscrizione Discover Free senza tracking email (facoltativo negato)",
+        }),
+      }).catch(() => {});
 
       const res = await fetch("/api/checkout", {
         method: "POST",
@@ -142,7 +167,7 @@ export function DiscoverModal() {
                     className="mt-0.5 h-4 w-4 rounded border-teal-300 text-teal-700 focus:ring-teal-600"
                   />
                   <span>
-                    Ho letto e accetto la Privacy Policy e il trattamento dei dati personali.
+                    Ho letto e accetto la Privacy Policy e il trattamento dei dati personali. *
                   </span>
                 </label>
                 <label className="flex items-start gap-2.5 cursor-pointer">
@@ -153,7 +178,7 @@ export function DiscoverModal() {
                     className="mt-0.5 h-4 w-4 rounded border-teal-300 text-teal-700 focus:ring-teal-600"
                   />
                   <span>
-                    Acconsento alla misurazione dell&apos;apertura delle comunicazioni e al monitoraggio dei click nelle email informative e promozionali.
+                    (Facoltativo) Acconsento alla misurazione dell&apos;apertura delle comunicazioni e al monitoraggio dei click nelle email informative e promozionali.
                   </span>
                 </label>
               </div>

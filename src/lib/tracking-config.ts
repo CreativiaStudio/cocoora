@@ -1,12 +1,13 @@
-import { promises as fs } from "fs";
-import path from "path";
-import os from "os";
+import { readCmsKey, writeCmsKey } from "./cms-server";
 
 export interface TrackingConfig {
   gaMeasurementId: string;
   gtmContainerId: string;
   gscVerificationTag: string;
   metaPixelId: string;
+  googleAdsId: string;
+  metaCapiAccessToken?: string;
+  metaCapiTestEventCode?: string;
   serverTelemetryEnabled: boolean;
   updatedAt: string;
   updatedBy?: string;
@@ -17,54 +18,82 @@ const DEFAULT_CONFIG: TrackingConfig = {
   gtmContainerId: "",
   gscVerificationTag: "",
   metaPixelId: "",
+  googleAdsId: "",
+  metaCapiAccessToken: "",
+  metaCapiTestEventCode: "",
   serverTelemetryEnabled: true,
   updatedAt: new Date().toISOString(),
   updatedBy: "Sistema",
 };
 
-// In-memory cache per performance elevate lato server
-let cachedConfig: TrackingConfig | null = null;
+const TRACKING_CONFIG_KEY = "tracking_config";
 
-const CONFIG_FILE_PATH =
-  process.env.VERCEL || process.env.NODE_ENV === "production"
-    ? path.join(os.tmpdir(), "cocoora-tracking-config.json")
-    : path.join(process.cwd(), "scratch", "tracking-config.json");
-
-export async function getTrackingConfig(): Promise<TrackingConfig> {
-  if (cachedConfig) {
-    return cachedConfig;
+export async function getTrackingConfig(options?: {
+  fresh?: boolean;
+}): Promise<TrackingConfig> {
+  const stored = await readCmsKey<Partial<TrackingConfig>>(
+    TRACKING_CONFIG_KEY,
+    options
+  );
+  if (!stored) {
+    return { ...DEFAULT_CONFIG };
   }
-
-  try {
-    const raw = await fs.readFile(CONFIG_FILE_PATH, "utf-8");
-    cachedConfig = { ...DEFAULT_CONFIG, ...JSON.parse(raw) };
-    return cachedConfig!;
-  } catch {
-    cachedConfig = { ...DEFAULT_CONFIG };
-    return cachedConfig;
-  }
+  return {
+    ...DEFAULT_CONFIG,
+    ...stored,
+    gaMeasurementId: (stored.gaMeasurementId || "").trim(),
+    gtmContainerId: (stored.gtmContainerId || "").trim(),
+    gscVerificationTag: (stored.gscVerificationTag || "").trim(),
+    metaPixelId: (stored.metaPixelId || "").trim(),
+    googleAdsId: (stored.googleAdsId || "").trim(),
+    metaCapiAccessToken: (stored.metaCapiAccessToken || "").trim(),
+    metaCapiTestEventCode: (stored.metaCapiTestEventCode || "").trim(),
+  };
 }
 
 export async function saveTrackingConfig(
   newConfig: Partial<TrackingConfig>,
   user?: string
-): Promise<TrackingConfig> {
-  const current = await getTrackingConfig();
+): Promise<{
+  config: TrackingConfig;
+  ok: boolean;
+  storage: string;
+  error?: string;
+}> {
+  const current = await getTrackingConfig({ fresh: true });
   const updated: TrackingConfig = {
     ...current,
     ...newConfig,
+    gaMeasurementId: (
+      newConfig.gaMeasurementId ?? current.gaMeasurementId
+    ).trim(),
+    gtmContainerId: (
+      newConfig.gtmContainerId ?? current.gtmContainerId
+    ).trim(),
+    gscVerificationTag: (
+      newConfig.gscVerificationTag ?? current.gscVerificationTag
+    ).trim(),
+    metaPixelId: (newConfig.metaPixelId ?? current.metaPixelId).trim(),
+    googleAdsId: (newConfig.googleAdsId ?? current.googleAdsId).trim(),
+    metaCapiAccessToken: (
+      newConfig.metaCapiAccessToken ??
+      current.metaCapiAccessToken ??
+      ""
+    ).trim(),
+    metaCapiTestEventCode: (
+      newConfig.metaCapiTestEventCode ??
+      current.metaCapiTestEventCode ??
+      ""
+    ).trim(),
     updatedAt: new Date().toISOString(),
     updatedBy: user || "Operatore",
   };
 
-  try {
-    const dir = path.dirname(CONFIG_FILE_PATH);
-    await fs.mkdir(dir, { recursive: true });
-    await fs.writeFile(CONFIG_FILE_PATH, JSON.stringify(updated, null, 2), "utf-8");
-  } catch (err) {
-    console.error("Impossibile salvare tracking-config su file:", err);
-  }
-
-  cachedConfig = updated;
-  return updated;
+  const res = await writeCmsKey(TRACKING_CONFIG_KEY, updated, updated.updatedBy);
+  return {
+    config: updated,
+    ok: res.ok,
+    storage: res.storage,
+    error: res.error,
+  };
 }

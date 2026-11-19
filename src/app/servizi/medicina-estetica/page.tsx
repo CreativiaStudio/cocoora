@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { useCms } from "@/components/providers";
 import { Container, SectionLabel } from "@/components/ui";
 import {
   MATRIX_DATA,
@@ -18,6 +19,8 @@ const AREA_LABELS: Record<MatrixArea, string> = {
 };
 
 export default function MedicinaEsteticaPage() {
+  const { pages } = useCms();
+  const page = pages.find((p) => p.path === "/servizi/medicina-estetica");
   const [selectedArea, setSelectedArea] = useState<MatrixArea>("VISO");
   const [selectedGoalIdx, setSelectedGoalIdx] = useState<number>(0);
 
@@ -47,10 +50,10 @@ export default function MedicinaEsteticaPage() {
         <div className="mx-auto max-w-3xl text-center">
           <SectionLabel>MEDICINA ESTETICA</SectionLabel>
           <h1 className="mt-4 font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-dark-navy">
-            Da dove vuoi iniziare?
+            {page?.h1 ?? "Da dove vuoi iniziare?"}
           </h1>
           <p className="mt-5 text-base sm:text-lg leading-relaxed text-charcoal/75 max-w-2xl mx-auto">
-            Ogni persona ha esigenze diverse. Esplora i trattamenti Cocoora partendo da ciò che vorresti migliorare.
+            {page?.h2 ?? "Ogni persona ha esigenze diverse. Esplora i trattamenti Cocoora partendo da ciò che vorresti migliorare."}
           </p>
         </div>
 

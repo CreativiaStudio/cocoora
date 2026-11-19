@@ -136,12 +136,38 @@ export default function AdminPage() {
   const [paidCashTotal, setPaidCashTotal] = useState<number>(0);
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const requestedTab = (params.get("tab") || "").toLowerCase();
+    const resolveRequestedTab = (role: string): Tab | null => {
+      if (requestedTab === "silvia" || requestedTab === "analytics") return "analytics";
+      if (requestedTab === "seo") return "seo";
+      if (requestedTab === "videos" || requestedTab === "reels") return "videos";
+      if (requestedTab === "scatola-nera") return "scatola-nera";
+      if (role !== "agenzia") {
+        if (
+          requestedTab === "dashboard" ||
+          requestedTab === "calendar" ||
+          requestedTab === "doctors" ||
+          requestedTab === "rooms" ||
+          requestedTab === "crm" ||
+          requestedTab === "cassa" ||
+          requestedTab === "consensi"
+        ) {
+          return requestedTab as Tab;
+        }
+      }
+      return null;
+    };
+
     fetch("/api/auth/me")
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => {
         if (d?.user) {
           setCurrentUser(d.user);
-          if (d.user.role === "agenzia") {
+          const urlTab = resolveRequestedTab(d.user.role);
+          if (urlTab) {
+            setTab(urlTab);
+          } else if (d.user.role === "agenzia") {
             setTab("analytics");
           }
         }

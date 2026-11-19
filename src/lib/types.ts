@@ -213,6 +213,7 @@ export type InstagramPost = {
 
 export type VideoItem = {
   id: string;
+  slug?: string;
   type: "instagram" | "mp4";
   url: string;
   poster?: string;
@@ -220,8 +221,17 @@ export type VideoItem = {
   caption: string;
   ctaLabel?: string;
   ctaLink?: string;
+  durationSeconds?: number;
+  createdAt?: string;
   visible: boolean;
 };
+
+export type SeoSchemaType =
+  | "MedicalClinic"
+  | "MedicalProcedure"
+  | "MedicalSpecialty"
+  | "Physician"
+  | "WebPage";
 
 export type SeoPage = {
   id: string;
@@ -234,6 +244,14 @@ export type SeoPage = {
   faq: Faq[];
   canvasMode: boolean;
   keywords?: string;
+  focusKeyword?: string;
+  canonicalUrl?: string;
+  noindex?: boolean;
+  nofollow?: boolean;
+  ogTitle?: string;
+  ogDescription?: string;
+  ogImage?: string;
+  schemaType?: SeoSchemaType;
   heroImage?: string;
   galleryImages?: string[];
   heroCta?: string;
@@ -271,9 +289,20 @@ export type SeoPage = {
   localSeoCta?: string;
 };
 
+export type SeoRedirect = {
+  id: string;
+  source: string;
+  destination: string;
+  permanent: boolean;
+  enabled: boolean;
+  notes?: string;
+  createdAt: string;
+};
+
 export type CmsState = {
   videos: VideoItem[];
   pages: SeoPage[];
+  redirects?: SeoRedirect[];
 };
 
 export type Doctor = {

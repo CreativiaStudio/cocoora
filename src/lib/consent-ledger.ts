@@ -1,7 +1,5 @@
-import { promises as fs } from "fs";
-import path from "path";
-import os from "os";
 import crypto from "crypto";
+import { getServiceSupabase } from "./supabase";
 
 export type ConsentStatus = "granted" | "denied" | "partially_granted" | "revoked";
 
@@ -20,19 +18,20 @@ export interface ConsentPreferences {
   sanitaryDataArt9?: boolean;
   directMarketingWhatsapp?: boolean;
   newsletter?: boolean;
+  emailTracking?: boolean;
 }
 
 export interface ConsentRecord {
-  id: string; // Es: "cst_20261109_a1b2c3"
-  timestamp: string; // ISO 8601 con fuso orario
-  anonymizedIp: string; // IP anonimizzato (es: "151.48.210.xxx" o IPv6 troncato)
-  userIdentifier: string; // Hash anonimizzato visitatore o ID utente pseudonimizzato
+  id: string;
+  timestamp: string;
+  anonymizedIp: string;
+  userIdentifier: string;
   channel: ConsentChannel;
-  policyVersion: string; // Es: "v1.2 - Novembre 2026"
+  policyVersion: string;
   status: ConsentStatus;
   preferences: ConsentPreferences;
   userAgent: string;
-  proofSignature: string; // Hash crittografico HMAC-SHA256 di non ripudio
+  proofSignature: string;
   notes?: string;
 }
 
@@ -45,41 +44,28 @@ export interface ConsentLedgerStats {
   lastUpdated: string;
 }
 
-const LEDGER_FILE_PATH =
-  process.env.VERCEL || process.env.NODE_ENV === "production"
-    ? path.join(os.tmpdir(), "cocoora-consent-ledger.json")
-    : path.join(process.cwd(), "scratch", "cocoora-consent-ledger.json");
-
 const AUDIT_SALT = "cocoora_gdpr_audit_salt_2026_secur_v2";
+const LEDGER_TABLE_KEY = "gdpr_consent_ledger";
 
-/**
- * Anonimizza l'indirizzo IP secondo le raccomandazioni del Garante Privacy e del WP29:
- * - IPv4: maschera l'ultimo ottetto (/24 subnetting: "151.48.210.45" -> "151.48.210.xxx")
- * - IPv6: conserva solo i primi 48 bit mascherando gli ultimi 80 bit
- */
 export function anonymizeIp(rawIp: string | null | undefined): string {
   if (!rawIp || typeof rawIp !== "string") {
     return "0.0.0.xxx";
   }
 
-  // Pulizia da eventuali prefissi IPv6-mapped IPv4 (es. "::ffff:192.168.1.1")
   let cleanIp = rawIp.trim().split(",")[0].trim();
   if (cleanIp.startsWith("::ffff:")) {
     cleanIp = cleanIp.substring(7);
   }
 
-  // Localhost
   if (cleanIp === "::1" || cleanIp === "127.0.0.1" || cleanIp === "localhost") {
     return "127.0.0.xxx";
   }
 
-  // IPv4 standard: 4 blocchi separati da punto
   const ipv4Parts = cleanIp.split(".");
   if (ipv4Parts.length === 4) {
     return `${ipv4Parts[0]}.${ipv4Parts[1]}.${ipv4Parts[2]}.xxx`;
   }
 
-  // IPv6: maschera la seconda metà dell'indirizzo
   const ipv6Parts = cleanIp.split(":");
   if (ipv6Parts.length > 2) {
     return `${ipv6Parts.slice(0, 3).join(":")}:xxxx:xxxx:xxxx:xxxx`;
@@ -88,10 +74,6 @@ export function anonymizeIp(rawIp: string | null | undefined): string {
   return "anonymized.xxx";
 }
 
-/**
- * Calcola l'hash crittografico di non ripudio per garantire al Garante
- * che il record non sia stato manomesso a posteriori.
- */
 function generateProofSignature(
   id: string,
   timestamp: string,
@@ -103,130 +85,32 @@ function generateProofSignature(
   return crypto.createHash("sha256").update(payload).digest("hex").substring(0, 32);
 }
 
-// In-memory cache per performance elevate lato server
-let cachedRecords: ConsentRecord[] | null = null;
-
-// Seed iniziale conforme di record per test e consultazione immediata
-const SEED_CONSENTS: ConsentRecord[] = [
-  {
-    id: "cst_20261109_98f12a",
-    timestamp: "2026-11-09T08:15:22+01:00",
-    anonymizedIp: "151.48.210.xxx",
-    userIdentifier: "anon_usr_7f8a9b",
-    channel: "cookie_banner",
-    policyVersion: "v1.2 - Novembre 2026",
-    status: "granted",
-    preferences: {
-      technical: true,
-      analytics: true,
-      marketing: true,
-    },
-    userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 18_1 like Mac OS X) AppleWebKit/605.1.15",
-    proofSignature: "7f4c9b8e1a2d3c4f5e6a7b8c9d0e1f2a",
-    notes: "Accettazione integrale tramite banner cookie (Accetta tutti)",
-  },
-  {
-    id: "cst_20261109_82c41d",
-    timestamp: "2026-11-09T08:24:10+01:00",
-    anonymizedIp: "93.42.112.xxx",
-    userIdentifier: "anon_usr_3e2a1c",
-    channel: "cookie_banner",
-    policyVersion: "v1.2 - Novembre 2026",
-    status: "denied",
-    preferences: {
-      technical: true,
-      analytics: false,
-      marketing: false,
-    },
-    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0",
-    proofSignature: "3d2e1f0a9b8c7d6e5f4a3b2c1d0e9f8a",
-    notes: "Rifiuto facoltativi tramite banner cookie (Solo necessari)",
-  },
-  {
-    id: "cst_20261109_71a09e",
-    timestamp: "2026-11-09T08:35:48+01:00",
-    anonymizedIp: "79.25.184.xxx",
-    userIdentifier: "anon_usr_6d5c4b",
-    channel: "cookie_banner",
-    policyVersion: "v1.2 - Novembre 2026",
-    status: "partially_granted",
-    preferences: {
-      technical: true,
-      analytics: true,
-      marketing: false,
-    },
-    userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15",
-    proofSignature: "5b6a7c8d9e0f1a2b3c4d5e6f7a8b9c0d",
-    notes: "Personalizzazione granulare: attivi solo Analytics (IP anonimo), marketing negato",
-  },
-  {
-    id: "cst_20261109_63b82c",
-    timestamp: "2026-11-09T08:52:19+01:00",
-    anonymizedIp: "185.199.108.xxx",
-    userIdentifier: "lead_m***@gmail.com",
-    channel: "form_contatti",
-    policyVersion: "v1.2 - Novembre 2026",
-    status: "granted",
-    preferences: {
-      technical: true,
-      analytics: true,
-      marketing: false,
-      sanitaryDataArt9: true,
-      directMarketingWhatsapp: true,
-    },
-    userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 18_1 like Mac OS X)",
-    proofSignature: "1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d",
-    notes: "Consenso invio richiesta contatto e presa in carico dati sanitari preliminari Art. 9 GDPR",
-  },
-  {
-    id: "cst_20261109_54f31d",
-    timestamp: "2026-11-09T09:10:44+01:00",
-    anonymizedIp: "2.38.140.xxx",
-    userIdentifier: "pat_c***@icloud.com",
-    channel: "checkout_club",
-    policyVersion: "v1.2 - Novembre 2026",
-    status: "granted",
-    preferences: {
-      technical: true,
-      analytics: true,
-      marketing: true,
-      sanitaryDataArt9: true,
-      newsletter: true,
-    },
-    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Edge/131.0.0.0",
-    proofSignature: "9f8e7d6c5b4a3f2e1d0c9b8a7f6e5d4c",
-    notes: "Sottoscrizione Percorso Salute Cocoora Club Access - Consenso sanitario completo e concierge",
-  },
-];
-
-async function loadLedger(): Promise<ConsentRecord[]> {
-  if (cachedRecords) return cachedRecords;
-
+async function loadLedgerFromSupabase(): Promise<ConsentRecord[]> {
   try {
-    const raw = await fs.readFile(LEDGER_FILE_PATH, "utf-8");
-    cachedRecords = JSON.parse(raw);
-    return cachedRecords!;
-  } catch {
-    cachedRecords = [...SEED_CONSENTS];
-    // Salva seed iniziale in asincrono
-    persistLedger().catch(() => {});
-    return cachedRecords;
-  }
-}
+    const supabase = getServiceSupabase();
+    const { data, error } = await supabase
+      .from("crm_audit_log")
+      .select("diff, created_at")
+      .eq("table_name", LEDGER_TABLE_KEY)
+      .eq("action", "CONSENT_RECORD")
+      .order("created_at", { ascending: false })
+      .limit(2000);
 
-async function persistLedger() {
-  if (!cachedRecords) return;
-  try {
-    const dir = path.dirname(LEDGER_FILE_PATH);
-    await fs.mkdir(dir, { recursive: true });
-    await fs.writeFile(LEDGER_FILE_PATH, JSON.stringify(cachedRecords, null, 2), "utf-8");
+    if (error || !data) {
+      return [];
+    }
+
+    return data
+      .map((row) => row.diff as ConsentRecord | null)
+      .filter((r): r is ConsentRecord => Boolean(r && r.id));
   } catch (err) {
-    console.error("Errore salvataggio consent ledger su disco:", err);
+    console.error("Errore lettura consent ledger da Supabase:", err);
+    return [];
   }
 }
 
 /**
- * Registra una nuova prova di consenso conforme all'Art. 7.1 GDPR
+ * Registra una nuova prova di consenso conforme all'Art. 7.1 GDPR su Supabase (crm_audit_log).
  */
 export async function recordConsent(params: {
   channel: ConsentChannel;
@@ -237,15 +121,12 @@ export async function recordConsent(params: {
   policyVersion?: string;
   notes?: string;
 }): Promise<ConsentRecord> {
-  const records = await loadLedger();
-
   const id = `cst_${new Date().toISOString().slice(0, 10).replace(/-/g, "")}_${crypto.randomBytes(4).toString("hex")}`;
   const timestamp = new Date().toISOString();
   const anonymizedIp = anonymizeIp(params.rawIp);
   const policyVersion = params.policyVersion || "v1.2 - Novembre 2026";
   const userAgent = params.userAgent || "Unknown Device";
 
-  // Calcolo dello status
   let status: ConsentStatus = "granted";
   if (!params.preferences.analytics && !params.preferences.marketing) {
     status = "denied";
@@ -253,12 +134,22 @@ export async function recordConsent(params: {
     status = "partially_granted";
   }
 
+  const normalizedPreferences: ConsentPreferences = {
+    technical: true,
+    analytics: Boolean(params.preferences.analytics),
+    marketing: Boolean(params.preferences.marketing),
+    sanitaryDataArt9: params.preferences.sanitaryDataArt9,
+    directMarketingWhatsapp: params.preferences.directMarketingWhatsapp,
+    newsletter: params.preferences.newsletter,
+    emailTracking: params.preferences.emailTracking,
+  };
+
   const proofSignature = generateProofSignature(
     id,
     timestamp,
     anonymizedIp,
     status,
-    params.preferences
+    normalizedPreferences
   );
 
   const newRecord: ConsentRecord = {
@@ -269,36 +160,31 @@ export async function recordConsent(params: {
     channel: params.channel,
     policyVersion,
     status,
-    preferences: {
-      technical: true,
-      analytics: Boolean(params.preferences.analytics),
-      marketing: Boolean(params.preferences.marketing),
-      sanitaryDataArt9: params.preferences.sanitaryDataArt9,
-      directMarketingWhatsapp: params.preferences.directMarketingWhatsapp,
-      newsletter: params.preferences.newsletter,
-    },
+    preferences: normalizedPreferences,
     userAgent,
     proofSignature,
     notes: params.notes,
   };
 
-  // Inserisci in cima (cronologia decrescente)
-  records.unshift(newRecord);
-
-  // Mantieni fino a 10.000 log storici
-  if (records.length > 10000) {
-    records.pop();
+  try {
+    const supabase = getServiceSupabase();
+    const { error } = await supabase.from("crm_audit_log").insert({
+      actor_role: null,
+      table_name: LEDGER_TABLE_KEY,
+      record_id: id,
+      action: "CONSENT_RECORD",
+      diff: newRecord,
+    });
+    if (error) {
+      console.error("Errore salvataggio prova consenso su Supabase:", error.message);
+    }
+  } catch (err) {
+    console.error("Errore salvataggio prova consenso su Supabase:", err);
   }
-
-  cachedRecords = records;
-  persistLedger().catch(() => {});
 
   return newRecord;
 }
 
-/**
- * Recupera l'elenco dei consensi con filtri opzionali
- */
 export async function getConsents(filters?: {
   channel?: string;
   status?: string;
@@ -306,7 +192,7 @@ export async function getConsents(filters?: {
   startDate?: string;
   endDate?: string;
 }): Promise<ConsentRecord[]> {
-  const all = await loadLedger();
+  const all = await loadLedgerFromSupabase();
 
   return all.filter((r) => {
     if (filters?.channel && filters.channel !== "all" && r.channel !== filters.channel) {
@@ -334,11 +220,8 @@ export async function getConsents(filters?: {
   });
 }
 
-/**
- * Calcola le statistiche generali del registro consensi
- */
 export async function getConsentStats(): Promise<ConsentLedgerStats> {
-  const all = await loadLedger();
+  const all = await loadLedgerFromSupabase();
 
   let allGranted = 0;
   let onlyNecessary = 0;
@@ -363,10 +246,6 @@ export async function getConsentStats(): Promise<ConsentLedgerStats> {
   };
 }
 
-/**
- * Esporta il registro consensi in formato CSV ufficiale per il Garante Privacy
- * Conforme ai requisiti di accountability ex Art. 7.1 GDPR e Linee Guida Cookie 2021
- */
 export async function exportConsentsCsv(filters?: {
   channel?: string;
   status?: string;
@@ -387,6 +266,7 @@ export async function exportConsentsCsv(filters?: {
     "Cookie_Marketing_Pixel",
     "Consenso_Dati_Sanitari_Art9",
     "Consenso_WhatsApp_Contatto",
+    "Consenso_Tracking_Email",
     "User_Agent_Dispositivo",
     "Firma_Integrita_SHA256",
     "Note_Audit",
@@ -405,6 +285,7 @@ export async function exportConsentsCsv(filters?: {
     `"${r.preferences.marketing ? "SI" : "NO"}"`,
     `"${r.preferences.sanitaryDataArt9 ? "SI" : "N/A"}"`,
     `"${r.preferences.directMarketingWhatsapp ? "SI" : "NO"}"`,
+    `"${r.preferences.emailTracking ? "SI" : "NO"}"`,
     `"${(r.userAgent || "").replace(/"/g, '""')}"`,
     `"${r.proofSignature}"`,
     `"${(r.notes || "").replace(/"/g, '""')}"`,

@@ -1,9 +1,22 @@
 import { NextResponse } from "next/server";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { getTrackingConfig, saveTrackingConfig } from "@/lib/tracking-config";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
-  const config = await getTrackingConfig();
-  return NextResponse.json({ ok: true, config });
+  const config = await getTrackingConfig({ fresh: true });
+  return NextResponse.json({
+    ok: true,
+    config,
+    diagnostics: {
+      hasServiceRoleKey: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
+      metaCapiConfigured: Boolean(
+        config.metaCapiAccessToken || process.env.META_CAPI_ACCESS_TOKEN
+      ),
+      storage: "supabase",
+    },
+  });
 }
 
 export async function POST(request: Request) {
@@ -14,18 +27,44 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: false, error: "Dati mancanti" }, { status: 400 });
     }
 
-    const updated = await saveTrackingConfig(
+    const result = await saveTrackingConfig(
       {
-        gaMeasurementId: (body.gaMeasurementId || "").trim(),
-        gtmContainerId: (body.gtmContainerId || "").trim(),
-        gscVerificationTag: (body.gscVerificationTag || "").trim(),
-        metaPixelId: (body.metaPixelId || "").trim(),
+        gaMeasurementId: String(body.gaMeasurementId || "").trim(),
+        gtmContainerId: String(body.gtmContainerId || "").trim(),
+        gscVerificationTag: String(body.gscVerificationTag || "").trim(),
+        metaPixelId: String(body.metaPixelId || "").trim(),
+        googleAdsId: String(body.googleAdsId || "").trim(),
+        ...(body.metaCapiAccessToken !== undefined
+          ? { metaCapiAccessToken: String(body.metaCapiAccessToken || "").trim() }
+          : {}),
+        ...(body.metaCapiTestEventCode !== undefined
+          ? { metaCapiTestEventCode: String(body.metaCapiTestEventCode || "").trim() }
+          : {}),
         serverTelemetryEnabled: body.serverTelemetryEnabled !== false,
       },
-      body.updatedBy || "Silvia / Agenzia SEO"
+      body.updatedBy || "Marco & Silvia / Agenzia SEO"
     );
 
-    return NextResponse.json({ ok: true, config: updated });
+    if (!result.ok) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error:
+            result.error ||
+            "Errore salvataggio configurazione su Supabase. Verifica SUPABASE_SERVICE_ROLE_KEY.",
+        },
+        { status: 500 }
+      );
+    }
+
+    revalidateTag("cms");
+    revalidatePath("/", "layout");
+
+    return NextResponse.json({
+      ok: true,
+      config: result.config,
+      storage: result.storage,
+    });
   } catch (err) {
     console.error("Errore salvataggio tracking config:", err);
     return NextResponse.json(

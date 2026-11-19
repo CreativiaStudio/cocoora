@@ -14,7 +14,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { Badge, Button, ButtonLink, Container, SectionLabel } from "@/components/ui";
-import { useShop } from "@/components/providers";
+import { useCms, useShop } from "@/components/providers";
 import { PRECISION_PROGRAMS, DNA_COMBOS, MICROBIOTA_KITS } from "@/lib/precision";
 import { formatPrice } from "@/lib/utils";
 
@@ -22,6 +22,8 @@ const PROGRAM_ICONS: LucideIcon[] = [Dna, Activity, HeartHandshake];
 
 export default function PrecisionPage() {
   const { openDiscover } = useShop();
+  const { pages } = useCms();
+  const page = pages.find((p) => p.path === "/precision");
 
   return (
     <>
@@ -46,8 +48,14 @@ export default function PrecisionPage() {
           <div className="mx-auto max-w-4xl text-center">
             <SectionLabel>Cocoora Precision</SectionLabel>
             <h1 className="font-serif text-5xl font-semibold leading-[1.05] tracking-tight text-dark-navy sm:text-6xl md:text-7xl">
-              La biologia individuale,
-              <span className="block italic text-primary-teal">letta con precisione.</span>
+              {page?.h1 && page.h1 !== "La biologia individuale, letta con precisione." ? (
+                page.h1
+              ) : (
+                <>
+                  La biologia individuale,
+                  <span className="block italic text-primary-teal">letta con precisione.</span>
+                </>
+              )}
             </h1>
             <p className="mx-auto mt-7 max-w-2xl text-lg leading-relaxed text-charcoal/75">
               Genomica predittiva DNA 5 e sequenziamento del microbiota NGS: due dataset che,
@@ -84,8 +92,14 @@ export default function PrecisionPage() {
             <div>
               <SectionLabel>Il Metodo</SectionLabel>
               <h2 className="font-serif text-4xl font-semibold leading-tight text-dark-navy sm:text-5xl">
-                Due mappe, un unico
-                <span className="italic text-primary-teal"> disegno biologico.</span>
+                {page?.h2 && page.h2 !== "Due mappe, un unico disegno biologico." ? (
+                  page.h2
+                ) : (
+                  <>
+                    Due mappe, un unico
+                    <span className="italic text-primary-teal"> disegno biologico.</span>
+                  </>
+                )}
               </h2>
               <p className="mt-6 text-base leading-[1.8] text-charcoal/75">
                 Il pannello DNA 5 analizza cinque assi predittivi — nutrizione, fitness, skin

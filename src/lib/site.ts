@@ -347,6 +347,7 @@ export const SERVICE_AREAS: ServiceArea[] = [
 export const DEFAULT_VIDEOS: VideoItem[] = [
   {
     id: "video_1",
+    slug: "il-tuo-sorriso-in-digitale",
     type: "mp4",
     url: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
     poster: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/odontoiatria/allineatori-trasparenti-napoli-1.jpg",
@@ -358,6 +359,7 @@ export const DEFAULT_VIDEOS: VideoItem[] = [
   },
   {
     id: "video_2",
+    slug: "medicina-estetica-naturale",
     type: "mp4",
     url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
     poster: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/trattamenti/medicina-estetica/biorigenerazione-napoli-1.jpg",
@@ -369,6 +371,7 @@ export const DEFAULT_VIDEOS: VideoItem[] = [
   },
   {
     id: "video_3",
+    slug: "la-prevenzione-e-il-tuo-stile",
     type: "mp4",
     url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
     poster: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/visite/cardiologia-napoli-2.jpg",

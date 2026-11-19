@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -17,6 +17,7 @@ import { getDoctorBySlug } from "@/lib/doctors";
 import { computeSavings, getTierDetail } from "@/lib/club-details";
 import { MEMBERSHIP_NOTES } from "@/lib/club";
 import { redirectToStripeCheckout } from "@/lib/checkout-client";
+import { trackViewItem } from "@/lib/tracking";
 import { ClubComparisonTable } from "@/components/sections/club-comparison-table";
 import { ParametriEmatochimiciModal, type CheckupPanelKey } from "@/components/club/parametri-ematochimici-modal";
 import type { ClubTier } from "@/lib/types";
@@ -66,6 +67,18 @@ export function ClubTierClient({ tier }: { tier: ClubTier }) {
 
   const [activating, setActivating] = useState(false);
   const [checkoutError, setCheckoutError] = useState("");
+  const viewedTierRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (viewedTierRef.current === tier.id) return;
+    viewedTierRef.current = tier.id;
+    trackViewItem({
+      item_id: tier.id,
+      item_name: tier.name,
+      price: activePrice,
+      item_category: "Cocoora Club",
+    });
+  }, [tier.id, tier.name, activePrice]);
 
   const doctors = (detail?.doctorSlugs ?? [])
     .map((slug) => getDoctorBySlug(slug))

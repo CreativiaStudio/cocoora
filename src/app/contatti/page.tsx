@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import { useCms } from "@/components/providers";
 import { SITE } from "@/lib/site";
-import { trackLead } from "@/lib/tracking";
+import { trackEmailTrackingConsent, trackLead } from "@/lib/tracking";
 import { Badge, Button, Container, SectionLabel } from "@/components/ui";
 
 const SERVICES = [
@@ -33,6 +33,8 @@ type FormState = {
   servizio: string;
   messaggio: string;
   consenso: boolean;
+  consensoWhatsapp: boolean;
+  consensoEmailTracking: boolean;
 };
 
 const INITIAL_FORM: FormState = {
@@ -43,6 +45,8 @@ const INITIAL_FORM: FormState = {
   servizio: SERVICES[0],
   messaggio: "",
   consenso: false,
+  consensoWhatsapp: false,
+  consensoEmailTracking: false,
 };
 
 export default function ContattiPage() {
@@ -71,12 +75,23 @@ export default function ContattiPage() {
     setSending(true);
 
     try {
-      trackLead({ email: form.email, name: `${form.nome} ${form.cognome}`.trim() });
+      trackLead({
+        email: form.email.trim(),
+        name: `${form.nome} ${form.cognome}`.trim(),
+        firstName: form.nome.trim(),
+        lastName: form.cognome.trim(),
+        phone: form.telefono.trim(),
+        contentName: form.servizio,
+      });
+      trackEmailTrackingConsent(form.consensoEmailTracking, "form_contatti");
 
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          ...form,
+          consensoMarketing: form.consensoWhatsapp,
+        }),
       });
 
       const data = await response.json();
@@ -84,6 +99,23 @@ export default function ContattiPage() {
       if (!response.ok || !data.success) {
         throw new Error(data.error || "Errore durante l'invio della richiesta. Riprova più tardi.");
       }
+
+      fetch("/api/consent/record", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          channel: "form_contatti",
+          userIdentifier: form.email.trim().toLowerCase(),
+          preferences: {
+            technical: true,
+            analytics: true,
+            marketing: form.consensoWhatsapp,
+            directMarketingWhatsapp: form.consensoWhatsapp,
+            emailTracking: form.consensoEmailTracking,
+          },
+          notes: `Richiesta contatti: ${form.servizio}`,
+        }),
+      }).catch(() => {});
 
       setSent(true);
     } catch (err: unknown) {
@@ -112,9 +144,9 @@ export default function ContattiPage() {
               {page?.h1 ?? "Prenota la tua visita in meno di 2 minuti."}
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-charcoal/75">
-              Scrivici, chiamaci o compila il form: il nostro team ti risponde
-              rapidamente per organizzare il tuo percorso di salute, senza attese
-              e senza burocrazia.
+              {page?.h2 && page.h2 !== "Contatti & Prenotazioni"
+                ? page.h2
+                : "Scrivici, chiamaci o compila il form: il nostro team ti risponde rapidamente per organizzare il tuo percorso di salute, senza attese e senza burocrazia."}
             </p>
           </div>
         </Container>
@@ -300,6 +332,30 @@ export default function ContattiPage() {
                         Ho letto l&apos;informativa privacy e acconsento al
                         trattamento dei miei dati per essere ricontattato da
                         Cocoora Centro Medico. *
+                      </span>
+                    </label>
+
+                    <label className="flex items-start gap-3 text-sm text-charcoal/70">
+                      <input
+                        type="checkbox"
+                        checked={form.consensoWhatsapp}
+                        onChange={(e) => update("consensoWhatsapp", e.target.checked)}
+                        className="mt-0.5 h-4 w-4 shrink-0 rounded border-teal-300 text-teal-600 focus:ring-teal-500"
+                      />
+                      <span>
+                        (Facoltativo) Desidero ricevere comunicazioni e aggiornamenti personalizzati su WhatsApp da Cocoora.
+                      </span>
+                    </label>
+
+                    <label className="flex items-start gap-3 text-sm text-charcoal/70">
+                      <input
+                        type="checkbox"
+                        checked={form.consensoEmailTracking}
+                        onChange={(e) => update("consensoEmailTracking", e.target.checked)}
+                        className="mt-0.5 h-4 w-4 shrink-0 rounded border-teal-300 text-teal-600 focus:ring-teal-500"
+                      />
+                      <span>
+                        (Facoltativo) Acconsento alla misurazione dell&apos;apertura e dei click nelle email informative.
                       </span>
                     </label>
 

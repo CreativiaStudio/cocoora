@@ -27,7 +27,7 @@ import { getDoctorsByTreatment } from "@/lib/doctors";
 import { CLUB_TIERS } from "@/lib/club";
 import { SITE } from "@/lib/site";
 import type { Treatment, SeoPage } from "@/lib/types";
-import { trackLead } from "@/lib/tracking";
+import { trackEmailTrackingConsent, trackLead } from "@/lib/tracking";
 import { cn } from "@/lib/utils";
 import { Button, Container } from "@/components/ui";
 import { Logo } from "@/components/logo";
@@ -411,7 +411,7 @@ function HeroSection({
                 onClick={openDiscover}
                 className="inline-flex items-center gap-2 rounded-full bg-dark-navy px-8 py-3.5 text-sm font-medium text-white shadow-[0_16px_40px_-16px_rgba(3,53,75,0.55)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-teal-900"
               >
-                Iscriviti gratuitamente al Cocoora Club <ArrowRight className="h-4 w-4" />
+                {heroCta || "Iscriviti gratuitamente al Cocoora Club"} <ArrowRight className="h-4 w-4" />
               </button>
             </div>
           </div>
@@ -581,9 +581,9 @@ function WhatIsSection({ treatment, page }: { treatment: Treatment; page?: SeoPa
               {title}
             </h2>
             <ExpandableParagraphs paragraphs={paragraphs} />
-            {whatIs?.callout && (
+            {(page?.whatIsCallout ?? whatIs?.callout) && (
               <p className="border-l-2 border-teal-300 pl-4 text-sm italic text-charcoal/70 mt-4">
-                {whatIs.callout}
+                {page?.whatIsCallout ?? whatIs?.callout}
               </p>
             )}
           </div>
@@ -606,13 +606,13 @@ function ProblemsSection({ treatment, page }: { treatment: Treatment; page?: Seo
         : getTreatmentProblems(treatment);
 
   const title =
-    treatment.problemsTitle ||
     page?.problemsTitle ||
+    treatment.problemsTitle ||
     `A cosa serve ${withArticle(treatment.title)}?`;
 
   const subtitle =
-    treatment.problemsSubtitle ||
     page?.problemsSubtitle ||
+    treatment.problemsSubtitle ||
     (treatment.category === "odontoiatria"
       ? "Il medico valuta se il percorso è indicato per queste condizioni, definendo obiettivi realistici e personalizzati durante la visita."
       : "Il medico valuta se il trattamento è indicato per queste condizioni, definendo obiettivi realistici e personalizzati durante la valutazione.");
@@ -754,9 +754,12 @@ function TimelineSection({ treatment, page }: { treatment: Treatment; page?: Seo
       : getTimelineSteps(treatment).slice(0, 3);
 
   const title =
-    treatment.timelineTitle ||
     page?.timelineTitle ||
+    treatment.timelineTitle ||
     `Come si svolge una seduta di ${withArticle(treatment.title)}?`;
+
+  const noteTitle = page?.timelineNoteTitle || treatment.timelineNote?.title;
+  const noteText = page?.timelineNoteText || treatment.timelineNote?.text;
 
   return (
     <section className="bg-white py-16 sm:py-20 border-t border-teal-100/40">
@@ -780,6 +783,17 @@ function TimelineSection({ treatment, page }: { treatment: Treatment; page?: Seo
             <TimelineStepCard key={step.stepNumber || i} step={step} index={i} />
           ))}
         </div>
+
+        {noteText && (
+          <div className="mx-auto mt-8 max-w-3xl rounded-2xl border border-teal-100 bg-teal-50/40 px-6 py-4 text-center">
+            {noteTitle && (
+              <p className="font-serif text-base font-semibold text-dark-navy">
+                {noteTitle}
+              </p>
+            )}
+            <p className="mt-1 text-sm leading-relaxed text-charcoal/75">{noteText}</p>
+          </div>
+        )}
       </Container>
     </section>
   );
@@ -869,6 +883,7 @@ const CONTACT_OPTIONS: { value: ContactPreference; icon: LucideIcon }[] = [
 
 function LeadSection({ treatment, page }: { treatment: Treatment; page?: SeoPage }) {
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
   const [form, setForm] = useState({
     nome: "",
@@ -878,6 +893,7 @@ function LeadSection({ treatment, page }: { treatment: Treatment; page?: SeoPage
     contatto: "WhatsApp" as ContactPreference,
     privacy: false,
     whatsappConsent: false,
+    emailTrackingConsent: false,
   });
 
   const overline = treatment.leadForm?.overline ?? "CONTATTO DIRETTO";
@@ -894,7 +910,7 @@ function LeadSection({ treatment, page }: { treatment: Treatment; page?: SeoPage
   const inputClass =
     "w-full rounded-xl border border-teal-200 bg-white px-4 py-3 text-sm text-charcoal outline-none transition-colors placeholder:text-charcoal/40 focus:border-teal-600";
 
-  const submit = (e: FormEvent) => {
+  const submit = async (e: FormEvent) => {
     e.preventDefault();
     if (
       !form.nome.trim() ||
@@ -907,11 +923,69 @@ function LeadSection({ treatment, page }: { treatment: Treatment; page?: SeoPage
       return;
     }
     setError("");
-    trackLead({
-      email: form.email,
-      name: `${form.nome} ${form.cognome}`.trim(),
-    });
-    setSent(true);
+    setSending(true);
+    try {
+      trackLead({
+        email: form.email.trim(),
+        name: `${form.nome} ${form.cognome}`.trim(),
+        firstName: form.nome.trim(),
+        lastName: form.cognome.trim(),
+        phone: form.telefono.trim(),
+        contentName: treatment.title,
+      });
+      trackEmailTrackingConsent(
+        form.emailTrackingConsent,
+        `treatment_${treatment.slug}`
+      );
+
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nome: form.nome.trim(),
+          cognome: form.cognome.trim(),
+          telefono: form.telefono.trim(),
+          email: form.email.trim(),
+          servizio: treatment.title,
+          messaggio: `Preferenza contatto: ${form.contatto}`,
+          consenso: form.privacy,
+          consensoMarketing: form.whatsappConsent,
+        }),
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok || !data?.success) {
+        throw new Error(
+          data?.error || "Errore durante l'invio della richiesta. Riprova."
+        );
+      }
+
+      fetch("/api/consent/record", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          channel: "form_contatti",
+          userIdentifier: form.email.trim().toLowerCase(),
+          preferences: {
+            technical: true,
+            analytics: true,
+            marketing: form.whatsappConsent,
+            directMarketingWhatsapp: form.whatsappConsent,
+            emailTracking: form.emailTrackingConsent,
+          },
+          notes: `Lead trattamento ${treatment.title} (${form.contatto})`,
+        }),
+      }).catch(() => {});
+
+      setSent(true);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Errore di connessione durante l'invio. Riprova."
+      );
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -1082,13 +1156,29 @@ function LeadSection({ treatment, page }: { treatment: Treatment; page?: SeoPage
                     </span>
                   </label>
 
+                  <label className="mt-3 flex items-start gap-3 text-sm text-charcoal/70">
+                    <input
+                      type="checkbox"
+                      checked={form.emailTrackingConsent}
+                      onChange={(e) =>
+                        setForm({ ...form, emailTrackingConsent: e.target.checked })
+                      }
+                      className="mt-0.5 h-4 w-4 shrink-0 rounded border-teal-300 text-teal-600 focus:ring-teal-500"
+                    />
+                    <span>
+                      (Facoltativo) Acconsento alla misurazione dell&apos;apertura e dei click
+                      nelle email informative inviate da Cocoora
+                    </span>
+                  </label>
+
                   {error && <p className="mt-3 text-sm text-red-500">{error}</p>}
 
                   <button
                     type="submit"
-                    className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-dark-navy px-8 py-3.5 text-sm font-medium text-white shadow-[0_16px_40px_-16px_rgba(3,53,75,0.55)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-teal-900"
+                    disabled={sending}
+                    className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-dark-navy px-8 py-3.5 text-sm font-medium text-white shadow-[0_16px_40px_-16px_rgba(3,53,75,0.55)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-teal-900 disabled:opacity-60"
                   >
-                    {ctaText} <ArrowRight className="h-4 w-4" />
+                    {sending ? "Invio in corso..." : ctaText} <ArrowRight className="h-4 w-4" />
                   </button>
                 </form>
               )}

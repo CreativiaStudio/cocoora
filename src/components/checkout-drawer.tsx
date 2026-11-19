@@ -16,7 +16,6 @@ import { formatPrice, cn } from "@/lib/utils";
 import {
   trackBeginCheckout,
   trackLead,
-  trackPurchase,
   trackAddToCart,
 } from "@/lib/tracking";
 import { Button } from "./ui";
@@ -68,7 +67,12 @@ export function CheckoutDrawer() {
 
       if (lead.email || lead.nome) {
         persistLead(lead);
-        trackLead({ email: lead.email, name: `${lead.nome} ${lead.cognome}`.trim() });
+        trackLead({
+          email: lead.email,
+          name: `${lead.nome} ${lead.cognome}`.trim(),
+          phone: lead.telefono,
+          contentName: tier.name,
+        });
       }
       trackAddToCart({ item_id: tier.id, item_name: tier.name, price: activePrice });
       trackBeginCheckout([

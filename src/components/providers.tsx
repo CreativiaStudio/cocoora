@@ -9,14 +9,24 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { cmsStore } from "@/lib/cms-store";
+import { cmsStore, type CmsSyncMeta } from "@/lib/cms-store";
 import type { ClubTier, CmsState } from "@/lib/types";
+
+const SERVER_SYNC_META: CmsSyncMeta = { status: "idle" };
 
 function useCmsState(): CmsState {
   return useSyncExternalStore(
     (cb) => cmsStore.subscribe(cb),
     () => cmsStore.getState(),
     () => cmsStore.getServerSnapshot()
+  );
+}
+
+export function useCmsSync(): CmsSyncMeta {
+  return useSyncExternalStore(
+    (cb) => cmsStore.subscribeSync(cb),
+    () => cmsStore.getSyncMeta(),
+    () => SERVER_SYNC_META
   );
 }
 

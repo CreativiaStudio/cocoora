@@ -77,8 +77,8 @@ export function CookieBanner() {
   const apply = useCallback((consent: ConsentState) => {
     if (typeof window !== "undefined") {
       window.localStorage.setItem(STORAGE_KEY, JSON.stringify(consent));
-      // Salva anche cookie leggero per compatibilità server
-      document.cookie = `${STORAGE_KEY}=${consent.analytics_storage === "granted" ? "analytics" : "denied"}; path=/; max-age=31536000; SameSite=Lax`;
+      // Salva anche cookie leggero per compatibilità server/GTM
+      document.cookie = `${STORAGE_KEY}=a:${consent.analytics_storage === "granted" ? 1 : 0}_m:${consent.ad_storage === "granted" ? 1 : 0}; path=/; max-age=31536000; SameSite=Lax`;
       window.dispatchEvent(new CustomEvent("cocoora_consent_changed", { detail: consent }));
 
       // Registrazione della prova del consenso ex Art. 7.1 GDPR con IP anonimizzato server-side

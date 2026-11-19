@@ -34,7 +34,7 @@ import {
   Maximize2,
 } from "lucide-react";
 import { Container, Badge } from "@/components/ui";
-import { useShop } from "@/components/providers";
+import { useCms, useShop } from "@/components/providers";
 
 const NAVY = "#03354B";
 const TEAL = "#1C4A5C";
@@ -139,6 +139,8 @@ const STUDI = [
 
 export default function ChiSiamoPage() {
   const shop = useShop() as unknown as { openDiscover?: () => void; openBooking?: () => void };
+  const { pages } = useCms();
+  const page = pages.find((p) => p.path === "/chi-siamo");
   const [filter, setFilter] = useState<Filter>("tutti");
   const [active, setActive] = useState<number | null>(null);
 
@@ -201,10 +203,16 @@ export default function ChiSiamoPage() {
             Il Centro Medico · Napoli
           </Badge>
           <h1 className="max-w-4xl font-serif text-4xl leading-[1.05] text-white sm:text-5xl md:text-7xl">
-            Connessi alla tua salute.
-            <span className="block italic" style={{ color: "#C9DAE3" }}>
-              Seguita con cura, nel tempo.
-            </span>
+            {page?.h1 && page.h1 !== "Connessi alla tua salute." ? (
+              page.h1
+            ) : (
+              <>
+                Connessi alla tua salute.
+                <span className="block italic" style={{ color: "#C9DAE3" }}>
+                  Seguita con cura, nel tempo.
+                </span>
+              </>
+            )}
           </h1>
           <p className="mt-6 max-w-2xl text-base leading-relaxed text-white/85 md:text-lg">
             Cocoora è un Centro Medico Autorizzato nel cuore di Napoli: specialisti e docenti
@@ -230,7 +238,7 @@ export default function ChiSiamoPage() {
               La nostra filosofia
             </p>
             <h2 className="mt-4 font-serif text-3xl md:text-5xl" style={{ color: TEAL }}>
-              La salute ritrova il suo tempo
+              {page?.h2 ?? "La salute ritrova il suo tempo"}
             </h2>
             <p className="mt-5 text-lg leading-relaxed">
               Il Centro fa da garante della tua salute: un unico luogo, un&apos;unica Direzione

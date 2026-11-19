@@ -18,10 +18,10 @@ import {
 import type { VisitaSpecialistica } from "@/lib/visite-specialistiche";
 import type { Faq } from "@/lib/types";
 import { SITE } from "@/lib/site";
-import { trackLead } from "@/lib/tracking";
+import { trackEmailTrackingConsent, trackLead } from "@/lib/tracking";
 import { cn } from "@/lib/utils";
 import { Button, Container } from "@/components/ui";
-import { useShop } from "@/components/providers";
+import { useCms, useShop } from "@/components/providers";
 
 type ContactPreference = "WhatsApp" | "Telefono" | "Email";
 
@@ -33,40 +33,90 @@ const CONTACT_OPTIONS: { value: ContactPreference; icon: LucideIcon }[] = [
 
 export function VisitaClient({ visita }: { visita: VisitaSpecialistica }) {
   const { openDiscover } = useShop();
+  const { pages } = useCms();
+  const page = pages.find((p) => p.path === `/visite/${visita.slug}`);
+  const merged: VisitaSpecialistica = page
+    ? {
+        ...visita,
+        title:
+          page.h1 && page.h1 !== `${visita.title} a Napoli` ? page.h1 : visita.title,
+        tagline: page.h2 || visita.tagline,
+        heroImage: page.heroImage || visita.heroImage,
+        heroCta: page.heroCta || visita.heroCta,
+        whatIs: {
+          ...visita.whatIs,
+          title: page.whatIsTitle || visita.whatIs.title,
+          description: page.whatIsDescription || visita.whatIs.description,
+          paragraphs: page.whatIsDescription
+            ? page.whatIsDescription.split(/\n\s*\n/).map((s) => s.trim()).filter(Boolean)
+            : visita.whatIs.paragraphs,
+          image: page.whatIsImage || visita.whatIs.image,
+        },
+        problemsTitle: page.problemsTitle || visita.problemsTitle,
+        problemsSubtitle: page.problemsSubtitle || visita.problemsSubtitle,
+        problemsGrid: page.problemsGrid?.length ? page.problemsGrid : visita.problemsGrid,
+        timelineTitle: page.timelineTitle || visita.timelineTitle,
+        timelineSteps: page.timelineSteps?.length
+          ? page.timelineSteps.map((s, i) => ({
+              stepNumber: s.stepNumber || String(i + 1).padStart(2, "0"),
+              title: s.title,
+              description: s.description,
+            }))
+          : visita.timelineSteps,
+        results: {
+          ...visita.results,
+          title: page.resultsTitle || visita.results.title,
+          description: page.resultsDescription || visita.results.description,
+          paragraphs: page.resultsDescription
+            ? page.resultsDescription.split(/\n\s*\n/).map((s) => s.trim()).filter(Boolean)
+            : visita.results.paragraphs,
+          image: page.resultsImage || visita.results.image,
+        },
+        faq: page.faq?.length ? page.faq : visita.faq,
+        localSeo: {
+          ...visita.localSeo,
+          title: page.localSeoTitle || visita.localSeo.title,
+          description: page.localSeoDescription || visita.localSeo.description,
+          cta: page.localSeoCta || visita.localSeo.cta,
+        },
+      }
+    : visita;
 
   return (
     <>
       <main className="pb-20 md:pb-0 bg-canvas text-charcoal">
         {/* 1 — Hero Section (Image-First su mobile / Split 50/50 desktop) */}
-        <HeroSection visita={visita} onOpenDiscover={openDiscover} />
+        <HeroSection visita={merged} onOpenDiscover={openDiscover} />
 
         {/* 2 — Che cos'è e come funziona? */}
-        {visita.whatIs && <WhatIsSection visita={visita} />}
+        {merged.whatIs && <WhatIsSection visita={merged} />}
 
         {/* 3 — A cosa serve / Esigenze & Sintomi (Griglia 2x2 simmetrica) */}
-        {visita.problemsGrid && visita.problemsGrid.length > 0 && (
-          <ProblemsSection visita={visita} />
+        {merged.problemsGrid && merged.problemsGrid.length > 0 && (
+          <ProblemsSection visita={merged} />
         )}
 
         {/* 4 — Come si svolge la visita? (Timeline 3 colonne pareggiate senza icone) */}
-        {visita.timelineSteps && visita.timelineSteps.length > 0 && (
-          <TimelineSection visita={visita} />
+        {merged.timelineSteps && merged.timelineSteps.length > 0 && (
+          <TimelineSection visita={merged} />
         )}
 
         {/* 5 — Risultati e Refertazione (Immagine a sinistra, Testo a destra) */}
-        {visita.results && (visita.results.description || (visita.results.paragraphs && visita.results.paragraphs.length > 0)) && (
-          <ResultsSection visita={visita} />
-        )}
+        {merged.results &&
+          (merged.results.description ||
+            (merged.results.paragraphs && merged.results.paragraphs.length > 0)) && (
+            <ResultsSection visita={merged} />
+          )}
 
         {/* 6 — Form Lead dedicato */}
-        <LeadSection visita={visita} />
+        <LeadSection visita={merged} />
 
         {/* 7 — Domande Frequenti (FAQ a 2 colonne) */}
-        {visita.faq && visita.faq.length > 0 && <FaqSection faq={visita.faq} />}
+        {merged.faq && merged.faq.length > 0 && <FaqSection faq={merged.faq} />}
 
         {/* 8 — Geo-Local SEO Napoli */}
-        {visita.localSeo && (
-          <LocalSeoSection visita={visita} onOpenDiscover={openDiscover} />
+        {merged.localSeo && (
+          <LocalSeoSection visita={merged} onOpenDiscover={openDiscover} />
         )}
 
         {/* Link di ritorno */}
@@ -110,7 +160,13 @@ function HeroSection({
             </p>
 
             <h1 className="mt-4 font-serif text-4xl font-semibold tracking-tight text-dark-navy sm:text-5xl lg:text-6xl">
-              {visita.title} <span className="italic font-normal text-teal-700">a Napoli</span>
+              {visita.title.toLowerCase().includes("napoli") ? (
+                visita.title
+              ) : (
+                <>
+                  {visita.title} <span className="italic font-normal text-teal-700">a Napoli</span>
+                </>
+              )}
             </h1>
 
             <p className="mt-4 text-lg leading-relaxed text-charcoal/80">
@@ -451,6 +507,7 @@ function ResultsSection({ visita }: { visita: VisitaSpecialistica }) {
 
 function LeadSection({ visita }: { visita: VisitaSpecialistica }) {
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
   const leadForm = (
     visita as VisitaSpecialistica & {
@@ -465,23 +522,77 @@ function LeadSection({ visita }: { visita: VisitaSpecialistica }) {
     contatto: "WhatsApp" as ContactPreference,
     privacy: false,
     whatsappConsent: false,
+    emailTrackingConsent: false,
   });
 
   const inputClass =
     "w-full rounded-xl border border-teal-200 bg-white px-4 py-3 text-sm text-charcoal outline-none transition-colors placeholder:text-charcoal/40 focus:border-teal-600";
 
-  const submit = (e: FormEvent) => {
+  const submit = async (e: FormEvent) => {
     e.preventDefault();
     if (!form.nome.trim() || !form.cognome.trim() || !form.telefono.trim() || !form.email.trim() || !form.privacy) {
       setError("Compila tutti i campi obbligatori e accetta l'informativa sulla privacy.");
       return;
     }
     setError("");
-    trackLead({
-      email: form.email,
-      name: `${form.nome} ${form.cognome}`.trim(),
-    });
-    setSent(true);
+    setSending(true);
+    try {
+      trackLead({
+        email: form.email.trim(),
+        name: `${form.nome} ${form.cognome}`.trim(),
+        firstName: form.nome.trim(),
+        lastName: form.cognome.trim(),
+        phone: form.telefono.trim(),
+        contentName: visita.title,
+      });
+      trackEmailTrackingConsent(form.emailTrackingConsent, `visita_${visita.slug}`);
+
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nome: form.nome.trim(),
+          cognome: form.cognome.trim(),
+          telefono: form.telefono.trim(),
+          email: form.email.trim(),
+          servizio: visita.title,
+          messaggio: `Preferenza contatto: ${form.contatto}`,
+          consenso: form.privacy,
+          consensoMarketing: form.whatsappConsent,
+        }),
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok || !data?.success) {
+        throw new Error(data?.error || "Errore durante l'invio della richiesta. Riprova.");
+      }
+
+      fetch("/api/consent/record", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          channel: "form_contatti",
+          userIdentifier: form.email.trim().toLowerCase(),
+          preferences: {
+            technical: true,
+            analytics: true,
+            marketing: form.whatsappConsent,
+            directMarketingWhatsapp: form.whatsappConsent,
+            emailTracking: form.emailTrackingConsent,
+          },
+          notes: `Lead visita specialistica ${visita.title} (${form.contatto})`,
+        }),
+      }).catch(() => {});
+
+      setSent(true);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Errore di connessione durante l'invio. Riprova."
+      );
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -653,13 +764,29 @@ function LeadSection({ visita }: { visita: VisitaSpecialistica }) {
                     </span>
                   </label>
 
+                  <label className="mt-3 flex items-start gap-3 text-sm text-charcoal/70">
+                    <input
+                      type="checkbox"
+                      checked={form.emailTrackingConsent}
+                      onChange={(e) =>
+                        setForm({ ...form, emailTrackingConsent: e.target.checked })
+                      }
+                      className="mt-0.5 h-4 w-4 shrink-0 rounded border-teal-300 text-teal-600 focus:ring-teal-500"
+                    />
+                    <span>
+                      (Facoltativo) Acconsento alla misurazione dell&apos;apertura e dei click
+                      nelle email informative inviate da Cocoora
+                    </span>
+                  </label>
+
                   {error && <p className="mt-3 text-sm text-red-500">{error}</p>}
 
                   <button
                     type="submit"
-                    className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-dark-navy px-8 py-3.5 text-sm font-medium text-white shadow-[0_16px_40px_-16px_rgba(3,53,75,0.55)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-teal-900"
+                    disabled={sending}
+                    className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-dark-navy px-8 py-3.5 text-sm font-medium text-white shadow-[0_16px_40px_-16px_rgba(3,53,75,0.55)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-teal-900 disabled:opacity-60"
                   >
-                    {leadForm?.cta || "Richiedi ora"} <ArrowRight className="h-4 w-4" />
+                    {sending ? "Invio in corso..." : leadForm?.cta || "Richiedi ora"} <ArrowRight className="h-4 w-4" />
                   </button>
                 </form>
               )}

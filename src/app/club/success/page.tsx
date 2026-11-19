@@ -1,9 +1,11 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { CheckCircle2, ArrowRight, ShieldCheck, User, Sparkles, Loader2 } from "lucide-react";
+import { CLUB_TIERS } from "@/lib/club";
+import { trackPurchase } from "@/lib/tracking";
 import { Button } from "@/components/ui";
 
 function SuccessContent() {
@@ -17,6 +19,25 @@ function SuccessContent() {
   const [patientName, setPatientName] = useState<string>(initialName);
   const [reconciling, setReconciling] = useState<boolean>(Boolean(sessionId && !initialCode));
   const [verified, setVerified] = useState<boolean>(Boolean(initialCode));
+  const trackedRef = useRef(false);
+
+  useEffect(() => {
+    if (!verified || trackedRef.current) return;
+    trackedRef.current = true;
+    const matchedTier = CLUB_TIERS.find((t) => t.id === tier);
+    const price = matchedTier?.price ?? 0;
+    trackPurchase({
+      transaction_id: sessionId || patientCode || `club_${tier}_${Date.now()}`,
+      value: price,
+      items: [
+        {
+          item_id: matchedTier?.id || tier,
+          item_name: matchedTier?.name || `Cocoora Club ${tier}`,
+          price,
+        },
+      ],
+    });
+  }, [verified, tier, sessionId, patientCode]);
 
   useEffect(() => {
     if (!sessionId) return;
