@@ -32,6 +32,8 @@ export async function POST(request: Request) {
         gaMeasurementId: String(body.gaMeasurementId || "").trim(),
         gtmContainerId: String(body.gtmContainerId || "").trim(),
         gscVerificationTag: String(body.gscVerificationTag || "").trim(),
+        gscVerificationMethod:
+          body.gscVerificationMethod === "dns_txt" ? "dns_txt" : "meta",
         metaPixelId: String(body.metaPixelId || "").trim(),
         googleAdsId: String(body.googleAdsId || "").trim(),
         ...(body.metaCapiAccessToken !== undefined

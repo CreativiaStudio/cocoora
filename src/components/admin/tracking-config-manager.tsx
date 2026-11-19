@@ -53,6 +53,7 @@ export function TrackingConfigManager({
     gaMeasurementId: "",
     gtmContainerId: "",
     gscVerificationTag: "",
+    gscVerificationMethod: "meta",
     metaPixelId: "",
     googleAdsId: "",
     metaCapiAccessToken: "",
@@ -98,9 +99,13 @@ export function TrackingConfigManager({
         }),
       });
 
-      const data = await res.json();
-      if (!res.ok || !data.ok) {
-        setError(data.error || "Errore nel salvataggio della configurazione.");
+      const data = await res.json().catch(() => null);
+      if (res.status === 401) {
+        setError(
+          "Sessione scaduta o non valida (401): fai Esci e riaccedi una volta su /login per salvare."
+        );
+      } else if (!res.ok || !data?.ok) {
+        setError(data?.error || "Errore nel salvataggio della configurazione.");
       } else {
         setConfig((prev) => ({ ...prev, ...data.config }));
         setStorageLabel(
@@ -127,7 +132,10 @@ export function TrackingConfigManager({
     );
   }
 
-  const gscStatus = validateTagFormat("gsc", config.gscVerificationTag);
+  const gscStatus =
+    config.gscVerificationMethod === "dns_txt"
+      ? { state: "valid" as const, message: "Connesso via DNS (TXT)" }
+      : validateTagFormat("gsc", config.gscVerificationTag);
   const gaStatus = validateTagFormat("ga", config.gaMeasurementId);
   const gtmStatus = validateTagFormat("gtm", config.gtmContainerId);
   const adsStatus = validateTagFormat("ads", config.googleAdsId);
@@ -169,8 +177,16 @@ export function TrackingConfigManager({
       )}
 
       {error && (
-        <div className="mt-4 rounded-xl border border-rose-200 bg-rose-50 p-3 text-xs text-rose-700">
-          {error}
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-rose-200 bg-rose-50 p-3 text-xs text-rose-700">
+          <span>{error}</span>
+          {error.includes("401") && (
+            <a
+              href="/login"
+              className="rounded-lg bg-rose-700 px-3 py-1 font-semibold text-white hover:bg-rose-800"
+            >
+              Vai al Login
+            </a>
+          )}
         </div>
       )}
 
@@ -196,18 +212,48 @@ export function TrackingConfigManager({
                 </a>
               </div>
             </div>
-            <p className="mt-1 text-[11px] text-charcoal/70 leading-relaxed">
-              Incolla il token o l&apos;intero tag{" "}
-              <code>&lt;meta name=&quot;google-site-verification&quot; content=&quot;...&quot; /&gt;</code>.
-              Viene iniettato <strong>direttamente lato server (SSR)</strong> nell&apos;HTML di tutte le pagine.
-            </p>
-            <input
-              type="text"
-              value={config.gscVerificationTag}
-              onChange={(e) => setConfig({ ...config, gscVerificationTag: e.target.value })}
-              placeholder="es. a1b2c3d4e5f6g7h8..."
-              className="mt-2.5 w-full rounded-xl border border-teal-200 bg-white px-3.5 py-2 text-xs font-mono text-teal-950 placeholder-charcoal/35 focus:border-teal-600 focus:outline-none"
-            />
+
+            <label className="mt-3 flex items-center gap-2.5 cursor-pointer text-xs font-medium text-teal-950 select-none">
+              <input
+                type="checkbox"
+                checked={config.gscVerificationMethod === "dns_txt"}
+                onChange={(e) =>
+                  setConfig({
+                    ...config,
+                    gscVerificationMethod: e.target.checked ? "dns_txt" : "meta",
+                  })
+                }
+                className="h-4 w-4 rounded accent-teal-700 cursor-pointer"
+              />
+              <span>Proprietà verificata tramite record TXT del DNS (connesso)</span>
+            </label>
+
+            {config.gscVerificationMethod === "dns_txt" ? (
+              <div className="mt-2.5 flex items-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50/80 px-3.5 py-2.5 text-[11px] font-medium text-emerald-900">
+                <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-600" />
+                <span>
+                  Proprietà verificata a livello di dominio tramite record TXT nei DNS di{" "}
+                  <strong>cocoora.it</strong> — nessun meta tag HTML richiesto.
+                </span>
+              </div>
+            ) : (
+              <>
+                <p className="mt-2 text-[11px] text-charcoal/70 leading-relaxed">
+                  Incolla il token o l&apos;intero tag{" "}
+                  <code>&lt;meta name=&quot;google-site-verification&quot; content=&quot;...&quot; /&gt;</code>.
+                  Viene iniettato <strong>direttamente lato server (SSR)</strong> nell&apos;HTML di tutte le pagine.
+                </p>
+                <input
+                  type="text"
+                  value={config.gscVerificationTag}
+                  onChange={(e) =>
+                    setConfig({ ...config, gscVerificationTag: e.target.value })
+                  }
+                  placeholder="es. a1b2c3d4e5f6g7h8..."
+                  className="mt-2.5 w-full rounded-xl border border-teal-200 bg-white px-3.5 py-2 text-xs font-mono text-teal-950 placeholder-charcoal/35 focus:border-teal-600 focus:outline-none"
+                />
+              </>
+            )}
           </div>
 
           {/* Google Analytics 4 */}

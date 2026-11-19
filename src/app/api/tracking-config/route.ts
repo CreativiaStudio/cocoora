@@ -12,6 +12,7 @@ export async function GET() {
         gaMeasurementId: config.gaMeasurementId || "",
         gtmContainerId: config.gtmContainerId || "",
         gscVerificationTag: config.gscVerificationTag || "",
+        gscVerificationMethod: config.gscVerificationMethod || "meta",
         metaPixelId: config.metaPixelId || "",
         googleAdsId: config.googleAdsId || "",
         serverTelemetryEnabled: config.serverTelemetryEnabled !== false,

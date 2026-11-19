@@ -4,6 +4,7 @@ export interface TrackingConfig {
   gaMeasurementId: string;
   gtmContainerId: string;
   gscVerificationTag: string;
+  gscVerificationMethod?: "meta" | "dns_txt";
   metaPixelId: string;
   googleAdsId: string;
   metaCapiAccessToken?: string;
@@ -17,6 +18,7 @@ const DEFAULT_CONFIG: TrackingConfig = {
   gaMeasurementId: "",
   gtmContainerId: "",
   gscVerificationTag: "",
+  gscVerificationMethod: "meta",
   metaPixelId: "",
   googleAdsId: "",
   metaCapiAccessToken: "",
@@ -81,6 +83,8 @@ export async function getTrackingConfig(options?: {
       process.env.NEXT_PUBLIC_GSC_VERIFICATION ||
       ""
     ).trim(),
+    gscVerificationMethod:
+      stored?.gscVerificationMethod === "dns_txt" ? "dns_txt" : "meta",
     metaPixelId: normalizePixelId(
       stored?.metaPixelId || process.env.NEXT_PUBLIC_META_PIXEL_ID
     ),
@@ -114,6 +118,10 @@ export async function saveTrackingConfig(
     gscVerificationTag: (
       newConfig.gscVerificationTag ?? current.gscVerificationTag
     ).trim(),
+    gscVerificationMethod:
+      (newConfig.gscVerificationMethod ?? current.gscVerificationMethod) === "dns_txt"
+        ? "dns_txt"
+        : "meta",
     metaPixelId: normalizePixelId(newConfig.metaPixelId ?? current.metaPixelId),
     googleAdsId: normalizeAdsId(newConfig.googleAdsId ?? current.googleAdsId),
     metaCapiAccessToken: (

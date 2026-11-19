@@ -33,6 +33,7 @@ export function AnalyticsDashboard() {
   const [diagnostics, setDiagnostics] = useState<TelemetryDiagnostics | null>(null);
   const [publicEndpointOk, setPublicEndpointOk] = useState<boolean | null>(null);
   const [metaCapiConfigured, setMetaCapiConfigured] = useState<boolean>(false);
+  const [gscStatusLabel, setGscStatusLabel] = useState<string>("Verifica...");
   const [consentModeOk, setConsentModeOk] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(true);
   const [testingPing, setTestingPing] = useState(false);
@@ -47,6 +48,14 @@ export function AnalyticsDashboard() {
       .then((data) => {
         setPublicEndpointOk(Boolean(data?.ok));
         setMetaCapiConfigured(Boolean(data?.config?.metaCapiConfigured));
+        const cfg = data?.config;
+        if (cfg?.gscVerificationMethod === "dns_txt") {
+          setGscStatusLabel("Connesso (DNS TXT)");
+        } else if (cfg?.gscVerificationTag) {
+          setGscStatusLabel("Connesso (Meta SSR)");
+        } else {
+          setGscStatusLabel("Non configurato");
+        }
       })
       .catch(() => setPublicEndpointOk(false));
 
@@ -251,18 +260,21 @@ export function AnalyticsDashboard() {
             </p>
           </div>
 
-          {/* 4. Sitemap & Robots */}
+          {/* 4. Sitemap, Robots & Search Console */}
           <div className="rounded-xl border border-teal-100 bg-teal-50/30 p-3.5 text-xs">
             <div className="flex items-center justify-between">
               <span className="font-bold text-teal-950 flex items-center gap-1.5">
                 <FileCode2 className="h-3.5 w-3.5 text-teal-700" />
-                Sitemap &amp; Robots
+                Sitemap, Robots &amp; GSC
               </span>
               <span className="rounded-full bg-emerald-50 border border-emerald-200 px-2 py-0.5 text-[10px] font-bold text-emerald-700">
                 Online
               </span>
             </div>
-            <div className="mt-2 flex items-center gap-3 text-[11px] font-semibold text-teal-800">
+            <p className="mt-1.5 text-[11px] text-charcoal/70">
+              Search Console: <strong>{gscStatusLabel}</strong>
+            </p>
+            <div className="mt-1.5 flex items-center gap-3 text-[11px] font-semibold text-teal-800">
               <Link
                 href="/sitemap.xml"
                 target="_blank"

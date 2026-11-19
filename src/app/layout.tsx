@@ -53,7 +53,10 @@ export async function generateMetadata(): Promise<Metadata> {
     homeSeo?.metaDescription ||
     "Cocoora è il centro medico a Napoli che azzera attese, burocrazia e complessità. Prenota in meno di 2 minuti, consulta referti 24/7 e vivi un percorso di salute fluido.";
   const ogImage = homeSeo?.ogImage || homeSeo?.heroImage || DEFAULT_OG_IMAGE;
-  const gscCode = parseGscToken(tracking?.gscVerificationTag);
+  const gscCode =
+    tracking?.gscVerificationMethod === "dns_txt"
+      ? undefined
+      : parseGscToken(tracking?.gscVerificationTag);
 
   return {
     metadataBase: new URL(SITE_URL),

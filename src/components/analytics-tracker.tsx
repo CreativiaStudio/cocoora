@@ -21,6 +21,7 @@ type PublicTrackingConfig = Pick<
   | "gaMeasurementId"
   | "gtmContainerId"
   | "gscVerificationTag"
+  | "gscVerificationMethod"
   | "metaPixelId"
   | "googleAdsId"
   | "serverTelemetryEnabled"
@@ -105,6 +106,7 @@ export function AnalyticsTracker() {
 
   // Fallback client-side per Google Search Console (affiancato a quello SSR in layout.tsx)
   useEffect(() => {
+    if (config?.gscVerificationMethod === "dns_txt") return;
     if (!config?.gscVerificationTag) return;
 
     let verificationContent = config.gscVerificationTag.trim();
