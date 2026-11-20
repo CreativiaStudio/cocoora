@@ -249,8 +249,8 @@ function buildDefaultPages(): SeoPage[] {
       title: "Il Centro — La Filosofia Cocoora | Centro Medico Napoli",
       metaDescription:
         "La visione clinica di Cocoora: ascolto empatico, zero burocrazia, sinergia multidisciplinare e medicina rigenerativa. Scopri gli spazi e la direzione sanitaria.",
-      h1: "Connessi alla tua salute.",
-      h2: "La salute ritrova il suo tempo",
+      h1: "Connessi alla tua salute",
+      h2: "La tua salute, la nostra Attenzione",
       faq: [
         {
           q: "Cos'è la filosofia del Centro Cocoora?",

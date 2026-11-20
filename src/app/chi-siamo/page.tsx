@@ -13,20 +13,17 @@
  * - I testi vanno sottoposti alla revisione di Silvia Monticelli prima della pubblicazione.
  */
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
   Clock,
-  GraduationCap,
   HeartHandshake,
   MapPin,
   Phone,
-  ScanLine,
   ShieldCheck,
   Sparkles,
-  Stethoscope,
   Users,
   X,
   ChevronLeft,
@@ -45,7 +42,6 @@ const NOISE =
   "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.5'/></svg>\")";
 
 type Category = "accoglienza" | "studi" | "clinica";
-type Filter = "tutti" | Category;
 
 interface Photo {
   src: string;
@@ -61,30 +57,16 @@ const CATEGORY_LABEL: Record<Category, string> = {
   clinica: "Aree Cliniche & Tecnologia",
 };
 
-const FILTERS: { id: Filter; label: string }[] = [
-  { id: "tutti", label: "Tutti gli Spazi" },
-  { id: "accoglienza", label: "Accoglienza & Lounge" },
-  { id: "studi", label: "Studi Medici & Consulti" },
-  { id: "clinica", label: "Aree Cliniche & Tecnologia" },
-];
-
 const PHOTOS: Photo[] = [
   { src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-20.webp", title: "Reception", caption: "Il desk di accoglienza, dove la segreteria segue ogni paziente dall'arrivo alla visita.", category: "accoglienza", span: "md:col-span-2" },
   { src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-3.webp", title: "Sala d'attesa", caption: "La sala d'attesa del centro.", category: "accoglienza", span: "" },
   { src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-18.webp", title: "Accoglienza", caption: "La segreteria accoglie i pazienti e organizza appuntamenti e percorsi.", category: "accoglienza", span: "" },
   { src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-14.webp", title: "Studio di consulto", caption: "Lo studio di consulto, in una vista frontale.", category: "studi", span: "md:col-span-2" },
-  { src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-5.webp", title: "Area diagnostica", caption: "Il corridoio clinico che conduce alla Sala RX / OPT / TAC.", category: "clinica", span: "md:col-span-2" },
+  { src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-5.webp", title: "Corridoio clinico", caption: "Il corridoio che collega gli ambienti clinici del centro.", category: "clinica", span: "md:col-span-2" },
   { src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-8.webp", title: "Riunito odontoiatrico", caption: "La postazione odontoiatrica dello Studio 1.", category: "clinica", span: "md:row-span-2" },
   { src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-7.webp", title: "Strumentazione", caption: "Un dettaglio della strumentazione clinica.", category: "clinica", span: "" },
   { src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-4.webp", title: "Accoglienza", caption: "Uno scorcio dell'area di accoglienza.", category: "accoglienza", span: "" },
   { src: "https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-2.webp", title: "Dettagli", caption: "Un dettaglio degli spazi comuni.", category: "accoglienza", span: "" },
-];
-
-const STATS = [
-  { value: "4", label: "Studi Clinici" },
-  { value: "+1", label: "Sala RX / OPT / TAC" },
-  { value: "3", label: "Aree Mediche integrate" },
-  { value: "2", label: "Atenei: Federico II & Vanvitelli" },
 ];
 
 const FILOSOFIA = [
@@ -92,11 +74,6 @@ const FILOSOFIA = [
     icon: HeartHandshake,
     title: "Il tempo giusto per l'ascolto",
     text: "Ogni visita parte da un colloquio. Comprendere la persona, la sua storia e le sue esigenze è il primo atto di cura.",
-  },
-  {
-    icon: ScanLine,
-    title: "Diagnostica in sede",
-    text: "La Sala RX / OPT / TAC del centro permette di affiancare alla visita gli approfondimenti per immagini, senza spostamenti.",
   },
   {
     icon: Users,
@@ -141,19 +118,13 @@ export default function ChiSiamoPage() {
   const shop = useShop() as unknown as { openDiscover?: () => void; openBooking?: () => void };
   const { pages } = useCms();
   const page = pages.find((p) => p.path === "/chi-siamo");
-  const [filter, setFilter] = useState<Filter>("tutti");
   const [active, setActive] = useState<number | null>(null);
-
-  const visible = useMemo(
-    () => (filter === "tutti" ? PHOTOS : PHOTOS.filter((p) => p.category === filter)),
-    [filter]
-  );
 
   const close = useCallback(() => setActive(null), []);
   const step = useCallback(
     (dir: 1 | -1) =>
-      setActive((i) => (i === null ? i : (i + dir + visible.length) % visible.length)),
-    [visible.length]
+      setActive((i) => (i === null ? i : (i + dir + PHOTOS.length) % PHOTOS.length)),
+    []
   );
 
   useEffect(() => {
@@ -176,12 +147,22 @@ export default function ChiSiamoPage() {
     else if (shop?.openBooking) shop.openBooking();
   };
 
-  const current = active !== null ? visible[active] : null;
+  const current = active !== null ? PHOTOS[active] : null;
+  const heroTitle =
+    page?.h1 &&
+    page.h1 !== "Connessi alla tua salute." &&
+    page.h1 !== "Connessi alla tua salute"
+      ? page.h1
+      : "Connessi alla tua salute";
+  const filosofiaTitle =
+    page?.h2 && page.h2 !== "La salute ritrova il suo tempo"
+      ? page.h2
+      : "La tua salute, la nostra Attenzione";
 
   return (
     <main className="bg-white" style={{ color: BODY }}>
       {/* 1. HERO */}
-      <section className="relative isolate flex min-h-[92vh] items-end overflow-hidden bg-dark-navy">
+      <section className="relative isolate flex min-h-[85vh] items-end overflow-hidden bg-dark-navy">
         <Image
           src="https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-1.webp"
           alt="L'ingresso di Cocoora Centro Medico a Napoli"
@@ -203,30 +184,25 @@ export default function ChiSiamoPage() {
             Il Centro Medico · Napoli
           </Badge>
           <h1 className="max-w-4xl font-serif text-4xl leading-[1.05] text-white sm:text-5xl md:text-7xl">
-            {page?.h1 && page.h1 !== "Connessi alla tua salute." ? (
-              page.h1
-            ) : (
-              <>
-                Connessi alla tua salute.
-                <span className="block italic" style={{ color: "#C9DAE3" }}>
-                  Seguita con cura, nel tempo.
-                </span>
-              </>
-            )}
+            {heroTitle}
           </h1>
-          <p className="mt-6 max-w-2xl text-base leading-relaxed text-white/85 md:text-lg">
-            Cocoora è un Centro Medico Autorizzato nel cuore di Napoli: specialisti e docenti
-            universitari che lavorano insieme, sotto la Direzione Sanitaria della Dott.ssa Elisa
-            Russo, perché prendersi cura di sé non sia un&apos;emergenza, ma un percorso consapevole.
-          </p>
-          <dl className="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-white/15 bg-white/10 backdrop-blur-md md:grid-cols-4">
-            {STATS.map((s) => (
-              <div key={s.label} className="bg-white/5 px-5 py-6">
-                <dt className="font-serif text-3xl text-white md:text-4xl">{s.value}</dt>
-                <dd className="mt-1 text-xs uppercase tracking-wider text-white/70">{s.label}</dd>
-              </div>
-            ))}
-          </dl>
+          <div className="mt-6 max-w-2xl space-y-4 text-base leading-relaxed text-white/85 md:text-lg">
+            <p>
+              Cocoora è un centro medico che riunisce competenze, tecnologia e servizi dedicati alla
+              salute e al benessere, in un ambiente accogliente e curato.
+            </p>
+            <p>
+              Ascoltiamo le tue esigenze, ti aiutiamo a orientarti tra le prestazioni e curiamo
+              l&apos;organizzazione degli appuntamenti. Selezioniamo i professionisti e favoriamo la
+              collaborazione tra specialisti quando il tuo percorso richiede competenze diverse.
+            </p>
+            <p>
+              L&apos;organizzazione e gli strumenti del centro sostengono il lavoro dei medici e
+              facilitano l&apos;accesso alle cure. Dalla prenotazione alla visita, Cocoora è il tuo
+              punto di riferimento, con informazioni chiare, attenzione alla tua riservatezza e
+              rispetto per il tuo tempo.
+            </p>
+          </div>
         </Container>
       </section>
 
@@ -238,14 +214,15 @@ export default function ChiSiamoPage() {
               La nostra filosofia
             </p>
             <h2 className="mt-4 font-serif text-3xl md:text-5xl" style={{ color: TEAL }}>
-              {page?.h2 ?? "La salute ritrova il suo tempo"}
+              {filosofiaTitle}
             </h2>
             <p className="mt-5 text-lg leading-relaxed">
-              Il Centro fa da garante della tua salute: un unico luogo, un&apos;unica Direzione
-              Sanitaria, specialisti che si confrontano tra loro.
+              Ascoltiamo le tue esigenze, ti aiutiamo a orientarti tra le prestazioni e curiamo
+              l&apos;organizzazione degli appuntamenti. Selezioniamo i professionisti e favoriamo la
+              collaborazione tra specialisti quando il tuo percorso richiede competenze diverse.
             </p>
           </div>
-          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-14 grid gap-6 md:grid-cols-3">
             {FILOSOFIA.map(({ icon: Icon, title, text }) => (
               <article
                 key={title}
@@ -271,44 +248,18 @@ export default function ChiSiamoPage() {
       {/* 3. GALLERIA */}
       <section className="py-20 md:py-28" style={{ backgroundColor: "#F5F8FA" }}>
         <Container>
-          <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ color: SLATE }}>
-                Gli Spazi del Centro
-              </p>
-              <h2 className="mt-4 font-serif text-3xl md:text-5xl" style={{ color: TEAL }}>
-                Esplora il nostro centro
-              </h2>
-            </div>
-            <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 md:mx-0 md:flex-wrap md:px-0">
-              {FILTERS.map((f) => {
-                const on = filter === f.id;
-                return (
-                  <button
-                    key={f.id}
-                    type="button"
-                    onClick={() => {
-                      setFilter(f.id);
-                      setActive(null);
-                    }}
-                    aria-pressed={on}
-                    className="whitespace-nowrap rounded-full border px-4 py-2 text-sm transition-colors"
-                    style={{
-                      backgroundColor: on ? TEAL : "#FFFFFF",
-                      color: on ? "#FFFFFF" : TEAL,
-                      borderColor: on ? TEAL : `${SLATE}66`,
-                    }}
-                  >
-                    {f.label}
-                  </button>
-                );
-              })}
-            </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ color: SLATE }}>
+              Gli Spazi del Centro
+            </p>
+            <h2 className="mt-4 font-serif text-3xl md:text-5xl" style={{ color: TEAL }}>
+              Esplora il nostro centro
+            </h2>
           </div>
 
           {/* Griglia simmetrica a 3 colonne, senza scritte sulla foto, con overlay di ingrandimento su hover */}
           <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {visible.map((p, i) => (
+            {PHOTOS.map((p, i) => (
               <button
                 key={p.src}
                 type="button"
@@ -405,8 +356,7 @@ export default function ChiSiamoPage() {
               Quattro studi, una sola regia clinica
             </h2>
             <p className="mt-5 text-lg leading-relaxed">
-              Nel nostro centro ogni studio ha una destinazione precisa. A questi si aggiunge la
-              Sala RX / OPT / TAC, condivisa tra le diverse aree mediche.
+              Nel nostro centro ogni studio ha una destinazione precisa.
             </p>
           </div>
           <div className="mt-14 grid gap-8 md:grid-cols-2">
@@ -452,50 +402,7 @@ export default function ChiSiamoPage() {
         </Container>
       </section>
 
-      {/* 5. RIGORE SCIENTIFICO */}
-      <section className="relative isolate overflow-hidden py-20 md:py-28" style={{ backgroundColor: NAVY }}>
-        <div className="pointer-events-none absolute inset-0 -z-10 opacity-[0.08] mix-blend-overlay" style={{ backgroundImage: NOISE }} />
-        <Container>
-          <div className="grid items-center gap-12 lg:grid-cols-2">
-            <div className="text-white">
-              <p className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ color: "#C9DAE3" }}>
-                Il rigore scientifico
-              </p>
-              <h2 className="mt-4 font-serif text-3xl md:text-5xl">
-                Docenti Università Federico II &amp; Vanvitelli a Napoli
-              </h2>
-              <p className="mt-6 text-lg leading-relaxed text-white/80">
-                Nel nostro centro operano specialisti che insegnano nelle due grandi università
-                napoletane. La pratica clinica quotidiana si fonda sulla formazione accademica e
-                sull&apos;aggiornamento continuo.
-              </p>
-              <ul className="mt-8 space-y-4">
-                {[
-                  { icon: GraduationCap, t: "Specialisti con esperienza accademica e clinica" },
-                  { icon: Stethoscope, t: "Direzione Sanitaria della Dott.ssa Elisa Russo" },
-                  { icon: Users, t: "Confronto tra specialità diverse sullo stesso paziente" },
-                ].map(({ icon: Icon, t }) => (
-                  <li key={t} className="flex items-start gap-3 text-white/90">
-                    <Icon className="mt-0.5 h-5 w-5 shrink-0" style={{ color: "#C9DAE3" }} strokeWidth={1.5} />
-                    <span>{t}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div className="relative aspect-[4/5] overflow-hidden rounded-3xl lg:aspect-[4/5]">
-              <Image
-                src="https://pub-173fdd79a4fa47c0a2201f7ea94ed1b2.r2.dev/images/centro/foto-12.webp"
-                alt="Studio di consulto di Cocoora Centro Medico"
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
-              />
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      {/* 6. CTA FINALE */}
+      {/* 5. CTA FINALE */}
       <section className="py-20 md:py-28">
         <Container>
           <div className="overflow-hidden rounded-[2rem] border bg-white md:grid md:grid-cols-2" style={{ borderColor: `${SLATE}40` }}>
