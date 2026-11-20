@@ -49,7 +49,7 @@ const STUDIOS = [
     id: "studio-3",
     name: "Studio 3",
     focus: "Chirurgia Plastica, Estetica & Psicologia",
-    specialists: "Errico · F. D'Andrea · Riccardi · Totaro",
+    specialists: "Errico · Riccardi · Totaro",
   },
   {
     id: "studio-4",

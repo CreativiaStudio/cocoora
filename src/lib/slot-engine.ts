@@ -139,9 +139,9 @@ export function getDefaultRoomSlugForDoctor(input: {
   const text = normalizeText(`${input.fullName ?? ""} ${input.specialtySlug ?? ""}`);
 
   if (text.includes("scorzelli") || text.includes("carbossi") || text.includes("spera")) return "studio-2";
-  if (text.includes("d'andrea") || text.includes("dandrea") || text.includes("errico") || text.includes("riccardi")) return "studio-3";
+  if (text.includes("errico") || text.includes("riccardi")) return "studio-3";
   if (text.includes("russo") || text.includes("d'alessio") || text.includes("dalessio") || /(odonto|dental|dentist|ortodon|igien)/.test(text)) return "studio-1";
-  if (text.includes("polverino") || text.includes("ceglie") || /(nutrizion)/.test(text)) return "sala-filtro";
+  if (text.includes("ceglie") || /(nutrizion)/.test(text)) return "sala-filtro";
   if (/(toro|totaro|stillo|buono|pontillo|iaccarino|ecograf|oculist|radiolog|senolog|cardio|gineco|psico|pediatr)/.test(text)) return "studio-4";
   if (/(laser|estetic|dermat|criolipo|chirurg)/.test(text)) return "studio-3";
 

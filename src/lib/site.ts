@@ -304,10 +304,17 @@ export const TRUST_METRICS = [
 export const MANIFESTO = {
   h2: "Il tuo benessere senza ostacoli",
   paragraphs: [
-    "Il nostro centro supera l'idea tradizionale di visita medica. Qui l'efficienza non è solo organizzazione, è la cornice che permette alla medicina di esprimersi al meglio.",
-    "Abbiamo azzerato attese, burocrazia e complessità per permetterti di vivere un percorso di salute fluido e immediato. Dedichiamo ogni risorsa, ogni spazio e ogni tecnologia alla qualità del rapporto tra te e il tuo specialista.",
-    "La tua salute merita attenzione, dedizione e, soprattutto, nessun ostacolo.",
+    "Il nostro centro supera l’idea tradizionale di visita medica.",
+    "Per noi, prendersi cura di te comincia dall’ascolto, dall’attenzione alle tue esigenze e dalla tranquillità di sapere a chi affidarti.",
+    "Ti accogliamo, ti orientiamo e coordiniamo le competenze dei nostri professionisti, con chiarezza e rispetto per il tuo tempo.",
+    "Un luogo in cui professionalità, tecnologia e organizzazione si incontrano per offrire un’esperienza di cura attenta, serena e personalizzata.",
+    "«Il trattamento di una malattia può essere impersonale; prendersi cura di un paziente deve essere profondamente personale.»",
   ],
+  quoteLines: [
+    "«Il trattamento di una malattia può essere impersonale;",
+    "prendersi cura di un paziente deve essere profondamente personale.»",
+  ],
+  quoteAuthor: "Francis W. Peabody, 1927",
 };
 
 export const SERVICE_AREAS: ServiceArea[] = [

@@ -65,8 +65,8 @@ export const SPECIALTIES: Specialty[] = [
   {
     id: "chirurgia-plastica",
     label: "Chirurgia Plastica ed Estetica",
-    doctor: "Prof. D'Andrea · Dott.ssa Errico",
-    doctorSlug: "francesco-dandrea",
+    doctor: "Dott.ssa Concetta (Titti) Errico",
+    doctorSlug: "titti-errico",
     presenceDays: [1, 4], // Lun (mattina), Gio (tutto il giorno)
     morning: true,
     afternoon: true,
@@ -75,7 +75,7 @@ export const SPECIALTIES: Specialty[] = [
   {
     id: "carbossiterapia",
     label: "Carbossiterapia & Rigenerativa",
-    doctor: "Dott.ssa Patty Scorzelli",
+    doctor: "Patrizia Scorzelli",
     doctorSlug: "patty-scorzelli",
     presenceDays: [1, 4, 5], // Lun mattina, Gio mattina, Ven tutto il giorno
     morning: true,
@@ -125,9 +125,9 @@ export const SPECIALTIES: Specialty[] = [
   {
     id: "nutrizione",
     label: "Nutrizione & Alimentazione",
-    doctor: "Dott.ssa M.G. Polverino / J. De Ceglie",
-    doctorSlug: "maria-grazia-polverino",
-    presenceDays: [3, 4], // Mer pom, Gio pom
+    doctor: "Dott.ssa Jessica De Ceglie",
+    doctorSlug: "jessica-de-ceglie",
+    presenceDays: [4], // Gio (pomeriggio)
     morning: false,
     afternoon: true,
     roomName: "Sala Filtro",
@@ -281,11 +281,11 @@ function BookingDialog({
     if (specialty.doctorSlug === "elisa-russo" && isFri) {
       hasAfternoon = false;
     }
-    // D'Andrea + Errico lunedì mattina (09:00 - 13:00)
-    if (specialty.doctorSlug === "francesco-dandrea" && day.weekdayNum === 1) {
+    // Titti Errico lunedì mattina (09:00 - 13:00)
+    if (specialty.doctorSlug === "titti-errico" && day.weekdayNum === 1) {
       hasAfternoon = false;
     }
-    // Patty Scorzelli lunedì e giovedì mattina (09:00 - 13:00)
+    // Patrizia Scorzelli lunedì e giovedì mattina (09:00 - 13:00)
     if (specialty.doctorSlug === "patty-scorzelli" && isMonOrThu) {
       hasAfternoon = false;
     }

@@ -88,10 +88,14 @@ function PhilosophySection({
   title,
   bodyParagraphs,
   closing,
+  quoteLines,
+  quoteAuthor,
 }: {
   title: string;
   bodyParagraphs: string[];
   closing: string | null;
+  quoteLines: string[];
+  quoteAuthor: string;
 }) {
   const sectionRef = useRef<HTMLElement | null>(null);
   const reducedMotion = useReducedMotion();
@@ -139,22 +143,19 @@ function PhilosophySection({
             </h2>
           </motion.div>
 
-          {/* Paragrafi con tipografia editoriale prestigiosa (3 righe e 3 righe simmetriche) */}
+          {/* Paragrafi con tipografia editoriale prestigiosa */}
           <motion.div
             style={{ y: bodyY, opacity: bodyOpacity }}
-            className="mt-10 space-y-7 text-center"
+            className="mt-10 space-y-5 text-center"
           >
-            <p className="mx-auto max-w-2xl text-lg sm:text-[21px] leading-[1.75] text-charcoal/80 font-light">
-              <span className="sm:block">Il nostro centro supera l&apos;idea tradizionale di visita medica.</span>
-              <span className="sm:block">Qui l&apos;efficienza non è solo organizzazione, è la cornice</span>
-              <span className="sm:block">che permette alla medicina di esprimersi al meglio.</span>
-            </p>
-
-            <p className="mx-auto max-w-3xl text-lg sm:text-[21px] leading-[1.75] text-charcoal/80 font-light">
-              <span className="sm:block">Abbiamo azzerato attese, burocrazia e complessità per permetterti di vivere</span>
-              <span className="sm:block">un percorso di salute fluido e immediato. Dedichiamo ogni risorsa, ogni spazio</span>
-              <span className="sm:block">e ogni tecnologia alla qualità del rapporto tra te e il tuo specialista.</span>
-            </p>
+            {bodyParagraphs.map((paragraph, idx) => (
+              <p
+                key={idx}
+                className="mx-auto max-w-2xl text-lg sm:text-[20px] leading-[1.75] text-charcoal/80 font-light"
+              >
+                {paragraph}
+              </p>
+            ))}
           </motion.div>
 
           {/* Closing quote: centerpiece editoriale frosted glass (2 righe simmetriche) */}
@@ -179,14 +180,17 @@ function PhilosophySection({
                 />
 
                 <blockquote className="relative z-10 mx-auto max-w-2xl font-serif text-2xl sm:text-3xl lg:text-[32px] italic text-[#00344b] leading-snug">
-                  <span className="sm:block">La tua salute merita attenzione, dedizione</span>
-                  <span className="sm:block">e, soprattutto, nessun ostacolo.</span>
+                  {quoteLines.map((line, idx) => (
+                    <span key={idx} className="sm:block">
+                      {line}
+                    </span>
+                  ))}
                 </blockquote>
 
                 <div className="relative z-10 mt-6 flex items-center justify-center gap-3">
                   <span className="h-px w-8 bg-[#80a1b2]/40" />
                   <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.24em] text-[#5d8497]">
-                    Visione Clinica Cocoora
+                    {quoteAuthor}
                   </span>
                   <span className="h-px w-8 bg-[#80a1b2]/40" />
                 </div>
@@ -226,6 +230,8 @@ export default function HomePage() {
         title={home?.h2 ?? MANIFESTO.h2}
         bodyParagraphs={bodyParagraphs}
         closing={closing}
+        quoteLines={MANIFESTO.quoteLines}
+        quoteAuthor={MANIFESTO.quoteAuthor}
       />
 
       {/* 3 · Walk-in Studio Experience (Full Width Scroll Dolly Zoom) */}

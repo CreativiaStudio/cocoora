@@ -146,16 +146,6 @@ const OFFICIAL_SPECIALISTS: OfficialSpecialist[] = [
     roomName: "Studio 3 (Chirurgia Plastica & Medicina Estetica)",
   },
   {
-    id: "a33ac8ec-64e2-4c54-be98-78b083184928",
-    slug: "francesco-dandrea",
-    name: "Prof. Dr. Francesco D'Andrea",
-    title: "Professore Ordinario di Chirurgia Plastica",
-    specialtySlug: "chirurgia-plastica",
-    area: "medicina_estetica",
-    roomId: "studio-3",
-    roomName: "Studio 3 (Chirurgia Plastica)",
-  },
-  {
     id: "b85be9a4-683d-496d-8160-60d8d8b74ae2",
     slug: "alessandra-riccardi",
     name: "Dott.ssa Alessandra Riccardi",
@@ -780,9 +770,7 @@ function specialistsForService(
     haystack.includes("medicazion") ||
     haystack.includes("rimozione punti")
   ) {
-    return OFFICIAL_SPECIALISTS.filter(
-      (d) => d.slug === "francesco-dandrea" || d.slug === "titti-errico"
-    );
+    return OFFICIAL_SPECIALISTS.filter((d) => d.slug === "titti-errico");
   }
 
   // Studio 3: Medicina Estetica / Laser
@@ -802,8 +790,7 @@ function specialistsForService(
     return OFFICIAL_SPECIALISTS.filter(
       (d) =>
         d.slug === "titti-errico" ||
-        d.slug === "alessandra-riccardi" ||
-        d.slug === "francesco-dandrea"
+        d.slug === "alessandra-riccardi"
     );
   }
 
